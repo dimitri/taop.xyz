@@ -1,0 +1,36 @@
+body {
+    background-image: url("TAOP_Keynote_2018_Cover.gif");
+    background-color: #382a49;
+    background-repeat: no-repeat;
+    background-position: center;
+
+    color: white;
+}
+
+h1 {
+    text-align: center;
+    padding: 3em;
+    font-size: 42pt;
+    /* font-family: "Times New Roman", Times, serif; */
+    font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+    font-style: italic;
+}
+
+h2 {
+    text-align: center;
+    font-size: 24pt;
+    font-family: Verdana, Geneva, sans-serif;
+    font-weight: lighter;
+    text-transform: uppercase;
+    letter-spacing: 0.8em;
+}
+
+h3 {
+    text-align: center;
+    font-size: 18pt;
+    font-family: Tahoma, Geneva, sans-serif;
+    /* font-style: italic; */
+    font-weight: lighter;
+    width: 50%;
+    margin: auto;
+}
