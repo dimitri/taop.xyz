@@ -1,0 +1,70 @@
+/**
+ * @license
+ * MyFonts Webfont Build ID 3646001, 2018-09-24T17:59:31-0400
+ * 
+ * The fonts listed in this notice are subject to the End User License
+ * Agreement(s) entered into by the website owner. All other parties are 
+ * explicitly restricted from using the Licensed Webfonts(s).
+ * 
+ * You may obtain a valid license at the URLs below.
+ * 
+ * Webfont: Bookman-Demi by ITC
+ * URL: https://www.myfonts.com/fonts/itc/bookman/demi/
+ * 
+ * Webfont: Bookman-LightItalic by ITC
+ * URL: https://www.myfonts.com/fonts/itc/bookman/light-italic/
+ * 
+ * Webfont: Bookman-Light by ITC
+ * URL: https://www.myfonts.com/fonts/itc/bookman/light/
+ * 
+ * Webfont: Bookman-DemiItalic by ITC
+ * URL: https://www.myfonts.com/fonts/itc/bookman/demi-italic/
+ * 
+ * Webfont: Bookman-Bold by ITC
+ * URL: https://www.myfonts.com/fonts/itc/bookman/md-bold/
+ * 
+ * Webfont: Bookman-MediumItalic by ITC
+ * URL: https://www.myfonts.com/fonts/itc/bookman/md-italic/
+ * 
+ * Webfont: Bookman-Medium by ITC
+ * URL: https://www.myfonts.com/fonts/itc/bookman/md/
+ * 
+ * Webfont: Bookman-BoldItalic by ITC
+ * URL: https://www.myfonts.com/fonts/itc/bookman/md-bold-italic/
+ * 
+ * 
+ * License: https://www.myfonts.com/viewlicense?type=web&buildid=3646001
+ * Licensed pageviews: 250,000
+ * Webfonts copyright: Copyright 1985, 1987, 1989, 1992, 1997, 1998, 1999 Adobe Systems Incorporated. All Rights Reserved
+ * 
+ * © 2018 MyFonts Inc
+*/
+
+
+/* @import must be at top of file, otherwise CSS will not work */
+@import url("//hello.myfonts.net/count/37a231");
+
+  
+@font-face {font-family: 'Bookman-Demi';src: url('webfonts/37A231_0_0.eot');src: url('webfonts/37A231_0_0.eot?#iefix') format('embedded-opentype'),url('webfonts/37A231_0_0.woff2') format('woff2'),url('webfonts/37A231_0_0.woff') format('woff'),url('webfonts/37A231_0_0.ttf') format('truetype');}
+ 
+  
+@font-face {font-family: 'Bookman-LightItalic';src: url('webfonts/37A231_1_0.eot');src: url('webfonts/37A231_1_0.eot?#iefix') format('embedded-opentype'),url('webfonts/37A231_1_0.woff2') format('woff2'),url('webfonts/37A231_1_0.woff') format('woff'),url('webfonts/37A231_1_0.ttf') format('truetype');}
+ 
+  
+@font-face {font-family: 'Bookman-Light';src: url('webfonts/37A231_2_0.eot');src: url('webfonts/37A231_2_0.eot?#iefix') format('embedded-opentype'),url('webfonts/37A231_2_0.woff2') format('woff2'),url('webfonts/37A231_2_0.woff') format('woff'),url('webfonts/37A231_2_0.ttf') format('truetype');}
+ 
+  
+@font-face {font-family: 'Bookman-DemiItalic';src: url('webfonts/37A231_3_0.eot');src: url('webfonts/37A231_3_0.eot?#iefix') format('embedded-opentype'),url('webfonts/37A231_3_0.woff2') format('woff2'),url('webfonts/37A231_3_0.woff') format('woff'),url('webfonts/37A231_3_0.ttf') format('truetype');}
+ 
+  
+@font-face {font-family: 'Bookman-Bold';src: url('webfonts/37A231_4_0.eot');src: url('webfonts/37A231_4_0.eot?#iefix') format('embedded-opentype'),url('webfonts/37A231_4_0.woff2') format('woff2'),url('webfonts/37A231_4_0.woff') format('woff'),url('webfonts/37A231_4_0.ttf') format('truetype');}
+ 
+  
+@font-face {font-family: 'Bookman-MediumItalic';src: url('webfonts/37A231_5_0.eot');src: url('webfonts/37A231_5_0.eot?#iefix') format('embedded-opentype'),url('webfonts/37A231_5_0.woff2') format('woff2'),url('webfonts/37A231_5_0.woff') format('woff'),url('webfonts/37A231_5_0.ttf') format('truetype');}
+ 
+  
+@font-face {font-family: 'Bookman-Medium';src: url('webfonts/37A231_6_0.eot');src: url('webfonts/37A231_6_0.eot?#iefix') format('embedded-opentype'),url('webfonts/37A231_6_0.woff2') format('woff2'),url('webfonts/37A231_6_0.woff') format('woff'),url('webfonts/37A231_6_0.ttf') format('truetype');}
+ 
+  
+@font-face {font-family: 'Bookman-BoldItalic';src: url('webfonts/37A231_7_0.eot');src: url('webfonts/37A231_7_0.eot?#iefix') format('embedded-opentype'),url('webfonts/37A231_7_0.woff2') format('woff2'),url('webfonts/37A231_7_0.woff') format('woff'),url('webfonts/37A231_7_0.ttf') format('truetype');}
+ 
