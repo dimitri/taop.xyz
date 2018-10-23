@@ -1,0 +1,175 @@
+@font-face {
+  font-family: 'Bookman';
+  src: url("font/Bookman-Medium.woff2") format("woff2"), url("font/Bookman-Medium.woff") format("woff");
+  font-weight: 500;
+  font-style: normal; }
+
+html, body {
+  height: 100%; }
+
+html {
+  line-height: 1.4;
+  -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  color: #fff;
+  font-family: "Arima Madurai";
+  text-align: center; }
+
+* {
+  box-sizing: border-box; }
+
+::-webkit-input-placeholder {
+  opacity: 1;
+  color: #a99eb3; }
+
+::-moz-placeholder {
+  opacity: 1;
+  color: #a99eb3; }
+
+:-ms-input-placeholder {
+  opacity: 1;
+  color: #a99eb3; }
+
+:-moz-placeholder {
+  opacity: 1;
+  color: #a99eb3; }
+
+ul, li {
+  display: block;
+  margin: 0;
+  padding: 0; }
+
+a {
+  background-color: transparent;
+  text-decoration: none; }
+
+b,
+strong {
+  font-weight: bolder; }
+
+input {
+  font-family: inherit;
+  font-size: 100%;
+  line-height: 1.15;
+  margin: 0;
+  overflow: visible; }
+
+.hide {
+  display: none; }
+
+.outdated {
+  background: #fff;
+  color: #624c79;
+  padding: 1px;
+  position: absolute;
+  width: 100%;
+  top: 0;
+  left: 0;
+  opacity: .7; }
+
+.outdated p {
+  margin: 5px; }
+
+#ny-wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  align-items: center;
+  justify-content: center;
+  padding: 10.45% 0.9375em 3%;
+  padding: 15vh 0.9375em 4vh;
+  background: #291b39 url("cs-bg.png") no-repeat center;
+  background-size: cover; }
+
+.ny-title {
+  text-transform: uppercase;
+  font-size: 1.5em;
+  letter-spacing: 0.75em;
+  margin: 0; }
+
+.ny-body {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  font-size: 3.75em;
+  font-family: "Bookman"; }
+
+.ny-desc {
+  margin: 2vh 0; }
+
+.ny-form {
+  font-size: 1em; }
+
+.ny-form__errors {
+  margin: 1em 0; }
+
+.ny-form__errors + p {
+  display: none; }
+
+.ny-form__errors:empty {
+  display: none; }
+
+.ny-form__errors:empty + p {
+  display: block; }
+
+.ny-form__errors li:not(:last-child) {
+  display: none; }
+
+.ny-form [type=text],
+.ny-form [type=email] {
+  background: rgba(255, 255, 255, 0.9);
+  border: none;
+  outline: none;
+  padding: 0.85em 1em 0.75em 1em;
+  border-radius: 2em;
+  width: 17.5em;
+  text-align: center;
+  color: #67527A; }
+
+.ny-input__email {
+  position: relative; }
+
+.ny-input__info {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: 1.5em;
+  white-space: nowrap;
+  font-size: 0.75em;
+  color: #624c79; }
+
+.entered + .ny-input__info {
+  display: block; }
+
+.ny-copyright {
+  margin-top: 10vh; }
+
+.ny-design-by {
+  font-size: 0.875em;
+  color: #624c79; }
+
+.ny-design-by a {
+  color: inherit; }
+
+.ny-footer p {
+  font-size: 0.75em;
+  line-height: 0.75em;
+  letter-spacing: 0.05em; }
+
+@media (max-height: 660px) {
+  #ny-wrapper {
+    padding-top: 12vh;
+    font-size: 2.4vmin; }
+  .ny-form {
+    font-size: 1.4em; } }
+
+@media (max-width: 940px) {
+  #ny-wrapper {
+    font-size: 1.7vmin; }
+  .ny-form {
+    font-size: 1.4em; } }

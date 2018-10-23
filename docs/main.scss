@@ -1,0 +1,288 @@
+/* Css */
+
+$font-size: 16;
+
+@function em( $px, $size: null ) {
+
+  @if $size == null {
+    $size: $font-size;
+  }
+  @return $px/$size * 1em;
+}
+
+@font-face {
+  font-family: 'Bookman';
+  src: url('font/Bookman-Medium.woff2') format('woff2'),
+  url('font/Bookman-Medium.woff') format('woff');
+  font-weight: 500;
+  font-style: normal;
+}
+
+html, body {
+  height: 100%;
+}
+
+html {
+  line-height: 1.4;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  color: #fff;
+  font-family: "Arima Madurai";
+  text-align: center;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+@mixin placeholder {
+  opacity: 1;
+  color: #a99eb3;
+}
+
+::-webkit-input-placeholder {
+  @include placeholder();
+}
+
+::-moz-placeholder {
+  @include placeholder();
+}
+
+:-ms-input-placeholder {
+  @include placeholder();
+}
+
+:-moz-placeholder {
+  @include placeholder();
+}
+
+ul, li {
+  display: block;
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  background-color: transparent;
+  text-decoration: none;
+}
+
+b,
+strong {
+  font-weight: bolder;
+}
+
+input {
+  font-family: inherit;
+  font-size: 100%;
+  line-height: 1.15;
+  margin: 0;
+  overflow: visible;
+
+}
+
+.hide {
+  display: none;
+}
+
+.outdated {
+  background: #fff;
+  color: #624c79;
+  padding: 1px;
+  position: absolute;
+  width: 100%;
+  top: 0;
+  left: 0;
+  opacity: .7;
+
+  p {
+    margin: 5px;
+  }
+}
+
+#ny-wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  align-items: center;
+  justify-content: center;
+  padding: 10.45% em(15) 3%;
+  padding: 15vh em(15) 4vh;
+  background: #291b39 url("cs-bg.png") no-repeat center;
+  background-size: cover;
+}
+
+.ny {
+
+  &-title {
+    text-transform: uppercase;
+    font-size: em(28);
+    letter-spacing: em(6, 28);
+    margin: 0;
+  }
+
+  &-body {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    font-size: em(60);
+    font-size: 7vh;
+    font-family: "Bookman";
+  }
+
+  &-desc {
+    margin: 2vh 0;
+  }
+
+  &-form {
+    font-size: .925em;
+
+    &__errors {
+      margin: 1em 0;
+
+      + p {
+        display: none;
+      }
+
+      &:empty {
+        display: none;
+
+        + p {
+          display: block;
+        }
+      }
+
+      li:not(:last-child) {
+        display: none;
+      }
+    }
+
+    [type=text],
+    [type=email] {
+      background: rgba(#fff, .9);
+      border: none;
+      outline: none;
+      padding: em(12, 20) 1em;
+      border-radius: 1em;
+      width: em(340, 20);
+      text-align: center;
+      color: #67527A;
+    }
+  }
+
+  &-input {
+    &__email {
+      position: relative;
+    }
+    &__info {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      margin-top: 1em;
+      white-space: nowrap;
+      font-size: em(10);
+      color: #624c79;
+
+      .entered + & {
+        display: block;
+      }
+    }
+  }
+
+  &-copyright {
+    margin-top: 9vh;
+  }
+
+  &-design-by {
+    font-size: em(14);
+    color: #624c79;
+
+    a {
+      color: inherit;
+    }
+  }
+
+  &-footer {
+    p {
+      font-size: em(10);
+    }
+  }
+
+}
+
+/*1250*/
+@media (max-width: em(1250, 16)) {
+
+  .ny-title {
+    font-size: 3vw;
+  }
+
+  .ny-body {
+    font-size: 5vw;
+  }
+
+}
+
+@media (max-width: em(1000, 16)) {
+
+  #ny-wrapper {
+    padding-top: 15vw;
+  }
+
+  .ny-title {
+    font-size: em(26);
+    letter-spacing: em(5);
+  }
+
+  .ny-body {
+    font-size: em(44);
+
+  }
+
+}
+
+@media (max-width: em(700, 16)) {
+
+  .ny-title {
+    font-size: em(22);
+  }
+
+  .ny-body {
+
+    font-size: em(36);
+
+    br {
+      display: none;
+    }
+  }
+}
+
+@media (max-height: 640px) {
+  #ny-wrapper {
+    padding-top: 12vh;
+  }
+}
+
+@media (max-height: 500px) {
+  #ny-wrapper {
+    padding-top: 8vh;
+  }
+  .ny-title {
+    font-size: em(24);
+  }
+  .ny-body {
+    font-size: em(32);
+    max-width: em(660, 32);
+
+    br {
+      display: none;
+    }
+  }
+}
+
