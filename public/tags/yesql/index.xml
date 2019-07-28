@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Yesql on The Art of PostgreSQL</title>
+    <link>https://theartofpostgresql.com/tags/yesql/</link>
+    <description>Recent content in Yesql on The Art of PostgreSQL</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 10 Nov 2018 15:40:01 +0100</lastBuildDate>
+    
+	<atom:link href="https://theartofpostgresql.com/tags/yesql/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Preventing SQL Injections</title>
+      <link>https://theartofpostgresql.com/blog/foo/</link>
+      <pubDate>Sat, 10 Nov 2018 15:40:01 +0100</pubDate>
+      
+      <guid>https://theartofpostgresql.com/blog/foo/</guid>
+      <description>&lt;p&gt;An &lt;em&gt;SQL Injection&lt;/em&gt; is a security breach, one made famous by the &lt;a href=&#34;https://xkcd.com/327/&#34;&gt;Exploits of
+a Mom&lt;/a&gt; &lt;code&gt;xkcd&lt;/code&gt; comic episode in which we read about
+&lt;em&gt;little Bobby Tables&lt;/em&gt;:&lt;/p&gt;
+
+&lt;figure class=&#34;center&#34;&gt;&lt;a href=&#34;https://xkcd.com/327/&#34;&gt;
+    &lt;img src=&#34;https://theartofpostgresql.com/img/exploits_of_a_mom.png&#34;/&gt; &lt;/a&gt;
+&lt;/figure&gt;
+
+
+&lt;p&gt;PostgreSQL implements a protocol level facility to send the static SQL query
+text separately from its dynamic arguments. An SQL injection happens when
+the database server is mistakenly led to consider a dynamic argument of a
+query as part of the query text. Sending those parts as separate entities
+over the protocol means that SQL injection is no longer possible.&lt;/p&gt;
+
+&lt;!--toc--&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,4 @@
+baseURL = "https://theartofpostgresql.com/"
+languageCode = "en-us"
+title = "The Art of PostgreSQL"
+theme = "taop"

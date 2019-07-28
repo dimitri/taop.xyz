@@ -1,0 +1,22 @@
+{{ partial "head.html" . }}
+{{ partial "header.html" . }}
+
+<div class="welcome_slider">
+ <ul>
+  <li>
+   <img class="cover" src="{{ .Params.coverimage }}" alt="" />
+  </li>
+  <li  data-cover=".cover"w>
+   <img class="cover" src="/images/demo/slide3.jpg" alt="" />
+  </li>
+ </ul>
+</div>
+
+<div class="wrapper">
+
+{{ .Content | safeHTML }}
+
+</div>
+
+{{ partial "subscribe.html" . }}
+{{ partial "footer.html" . }}

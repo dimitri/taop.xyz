@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tags on The Art of PostgreSQL</title>
+    <link>https://theartofpostgresql.com/tags/</link>
+    <description>Recent content in Tags on The Art of PostgreSQL</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 10 Nov 2018 15:40:01 +0100</lastBuildDate>
+    
+	<atom:link href="https://theartofpostgresql.com/tags/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Postgresql</title>
+      <link>https://theartofpostgresql.com/tags/postgresql/</link>
+      <pubDate>Sat, 10 Nov 2018 15:40:01 +0100</pubDate>
+      
+      <guid>https://theartofpostgresql.com/tags/postgresql/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Security</title>
+      <link>https://theartofpostgresql.com/tags/security/</link>
+      <pubDate>Sat, 10 Nov 2018 15:40:01 +0100</pubDate>
+      
+      <guid>https://theartofpostgresql.com/tags/security/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Sql Injection</title>
+      <link>https://theartofpostgresql.com/tags/sql-injection/</link>
+      <pubDate>Sat, 10 Nov 2018 15:40:01 +0100</pubDate>
+      
+      <guid>https://theartofpostgresql.com/tags/sql-injection/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Yesql</title>
+      <link>https://theartofpostgresql.com/tags/yesql/</link>
+      <pubDate>Sat, 10 Nov 2018 15:40:01 +0100</pubDate>
+      
+      <guid>https://theartofpostgresql.com/tags/yesql/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

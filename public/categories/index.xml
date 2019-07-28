@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Categories on The Art of PostgreSQL</title>
+    <link>https://theartofpostgresql.com/categories/</link>
+    <description>Recent content in Categories on The Art of PostgreSQL</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    
+	<atom:link href="https://theartofpostgresql.com/categories/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Postgresql</title>
+      <link>https://theartofpostgresql.com/categories/postgresql/</link>
+      <pubDate>Sat, 10 Nov 2018 15:40:01 +0100</pubDate>
+      
+      <guid>https://theartofpostgresql.com/categories/postgresql/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Yesql</title>
+      <link>https://theartofpostgresql.com/categories/yesql/</link>
+      <pubDate>Sat, 10 Nov 2018 15:40:01 +0100</pubDate>
+      
+      <guid>https://theartofpostgresql.com/categories/yesql/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>
