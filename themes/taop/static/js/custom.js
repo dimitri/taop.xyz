@@ -2,23 +2,23 @@ $(function() {
 
 
     // Data background cover
-			$('*[data-cover]').each(function(){
-				var coverTarget = $(this).attr('data-cover');
-				var coverimage = $(this).find(coverTarget).attr('src');
-				$(this).css('background-image','url('+ coverimage +')');
-			});
+            $('*[data-cover]').each(function(){
+                var coverTarget = $(this).attr('data-cover');
+                var coverimage = $(this).find(coverTarget).attr('src');
+                $(this).css('background-image','url('+ coverimage +')');
+            });
 
 
 
 
     // Data slide
-			$('*[data-slide]').on('click', function(){
-				var slideTarget = $(this).attr('data-slide');
-			    $('html, body').animate({
-			        scrollTop: $(slideTarget).offset().top
-			    }, 1000);
-				return false;
-			});
+            $('*[data-slide]').on('click', function(){
+                var slideTarget = $(this).attr('data-slide');
+                $('html, body').animate({
+                    scrollTop: $(slideTarget).offset().top
+                }, 1000);
+                return false;
+            });
 
 
 
@@ -62,13 +62,27 @@ $(function() {
             
             
             
+    // SQL list
+            $(".sql_list > ul > li").hover(function(){
+                $(this).addClass('active');
+            },function() {
+                $(this).removeClass('active');
+            });
+            $(".sql_list > ul > li").on('click', function(){
+                $(".sql_list > ul > li").removeClass('active');
+                $(this).addClass('active');
+            });
+
+            
+            
+            
     // Show/hide input value
-			$('input[type="text"], input[type="password"], input[type="email"]').each(function(){
-				var valtxt = $(this).attr('value');
-				$(this).focus(function() { if ($(this).val() == valtxt) {$(this).val('');} });
-				$(this).blur(function() { if ($(this).val() == '') {$(this).val(valtxt);} });
-			});
-			$("textarea").focus(function() {if (this.value === this.defaultValue) {this.value = '';}}).blur(function() {if (this.value === '') {this.value = this.defaultValue;}});
+            $('input[type="text"], input[type="password"], input[type="email"]').each(function(){
+                var valtxt = $(this).attr('value');
+                $(this).focus(function() { if ($(this).val() == valtxt) {$(this).val('');} });
+                $(this).blur(function() { if ($(this).val() == '') {$(this).val(valtxt);} });
+            });
+            $("textarea").focus(function() {if (this.value === this.defaultValue) {this.value = '';}}).blur(function() {if (this.value === '') {this.value = this.defaultValue;}});
 
 
-}); 
+});

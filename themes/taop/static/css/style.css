@@ -1,13 +1,13 @@
 /* CSS Document
-	Reset browser default styles
-	All 
-	Header
-		Top menu
-	Welcome slider
-	Container
-	Footer 
-	Copyright
-	Media Queries
+    Reset browser default styles
+    All 
+    Header
+        Top menu
+    Welcome slider
+    Container
+    Footer 
+    Copyright
+    Media Queries
 */
 
 
@@ -107,9 +107,9 @@ input[type="text"]::placeholder, input[type="email"]::placeholder {text-transfor
 .sql_list > ul > li {flex:1 0 33.33%;position:relative;display:flex;justify-content:center;align-items:center;min-height:370px;overflow:hidden;text-align:center;box-sizing:border-box;background:rgba(55,38,73,.3);}
 .sql_list > ul > li:nth-child(2n) {background:rgba(103,82,122,.2);}
 .sql_list > ul > li h2 {color:#fff;opacity:1;transition:opacity linear .2s;padding:0 5px;}
-.sql_list > ul > li:hover h2 {opacity:0;}
+.sql_list > ul > li.active h2 {opacity:0;}
 .sql_list > ul > li div {opacity:0;width:100%;height:100%;padding:7%;box-sizing:border-box;display:flex;justify-content:center;align-items:center;position:absolute;top:0;left:0;color:#fff;font:200 22px/35px 'Lato';background:rgba(103,82,122,.7);transition:opacity linear .2s;}
-.sql_list > ul > li:hover div {opacity:1;}
+.sql_list > ul > li.active div {opacity:1;}
 .sql_list > ul > li div p {padding:90px 0 0 0;background:url(../images/logo.png) center top no-repeat;background-size:46px auto;}
     /* Packages block */
 .packages_block {background:url(../images/demo/packages_bg.png) left top no-repeat, url(../images/demo/packages_bg2.png) right bottom no-repeat;background-color:#dfdde1;padding:75px 0 45px 0;}
@@ -211,7 +211,7 @@ input[type="text"]::placeholder, input[type="email"]::placeholder {text-transfor
 
 
 /* Media Queries */
-	/* Desktop */
+    /* Desktop */
 @media only screen and (min-width: 960px) and (max-width: 1179px) {
 .wrapper {max-width:960px;}
 /* Welcome slider */
@@ -236,7 +236,7 @@ input[type="text"]::placeholder, input[type="email"]::placeholder {text-transfor
 }
 
 
-	/* Tablets and mobiles */
+    /* Tablets and mobiles */
 @media only screen and (max-width: 959px) {
 h4 {font-size:21px;line-height:27px;padding:0 0;}
 .wrapper {padding:0 10px;box-sizing:border-box;}
@@ -304,7 +304,7 @@ h4 {font-size:21px;line-height:27px;padding:0 0;}
 }
 
 
-	/* Mobile portrait and landscape modes */
+    /* Mobile portrait and landscape modes */
 @media only screen and (max-width: 767px) {
 h1 {font-size:28px;}
 h2 {font-size:28px;}
@@ -381,7 +381,7 @@ input[type="email"] {padding:0px 15px;text-align:center;font-size:14px;}
 .copyright {padding:7%;}
 }
 */
-	/* Mobile landscape mode */
+    /* Mobile landscape mode */
 @media only screen and (min-width: 480px) and (max-width: 767px) {
     /* SQL list */
 .sql_list > ul > li {flex-basis:50%;}
