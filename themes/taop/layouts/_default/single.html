@@ -1,22 +1,28 @@
-{{ partial "head.html" . }}
-{{ partial "header.html" . }}
+{{ partial "post/head.html" . }}
+{{ partial "post/header.html" . }}
 
-<div class="welcome_slider">
- <ul>
-  <li>
-   <img class="cover" src="{{ .Params.coverimage }}" alt="" />
-  </li>
-  <li  data-cover=".cover"w>
-   <img class="cover" src="/images/demo/slide3.jpg" alt="" />
-  </li>
- </ul>
-</div>
+<div class="single_block">
+    <div class="wrapper">
+        
+        <div class="single_content">
 
-<div class="wrapper">
+         <p><img src="{{ .Params.coverimage }}" alt="" /></p>
+         
+         {{ .Content | safeHTML }}
 
-{{ .Content | safeHTML }}
+            <footer>
+                <p><strong>TAGS:</strong> <a href="#">PostgreSQL</a>, <a href="#">YeSQL</a>, <a href="#">Security</a>, <a href="#">SQL Injection</a></p>
+            </footer>
 
-</div>
+            <div class="single_subscribe">
+                <p>Subscribe to receive a FREE chapter of the second edition of my book, <b><i>“The Art of PostgreSQL”</i></b> including the full Table of Contents!</p>
+                 <script async data-uid="c1452ad801" src="https://f.convertkit.com/c1452ad801/ad53e74e51.js"></script>
+            </div>
+        </div>
 
-{{ partial "subscribe.html" . }}
+        {{ partial "post/single-sidebar.html" . }}
+
+    </div>
+</div>            
+         
 {{ partial "footer.html" . }}

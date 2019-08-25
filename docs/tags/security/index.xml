@@ -13,10 +13,10 @@
     
     <item>
       <title>Preventing SQL Injections</title>
-      <link>https://theartofpostgresql.com/blog/foo/</link>
+      <link>https://theartofpostgresql.com/blog/2018-11-sql-injection/</link>
       <pubDate>Sat, 10 Nov 2018 15:40:01 +0100</pubDate>
       
-      <guid>https://theartofpostgresql.com/blog/foo/</guid>
+      <guid>https://theartofpostgresql.com/blog/2018-11-sql-injection/</guid>
       <description>&lt;p&gt;An &lt;em&gt;SQL Injection&lt;/em&gt; is a security breach, one made famous by the &lt;a href=&#34;https://xkcd.com/327/&#34;&gt;Exploits of
 a Mom&lt;/a&gt; &lt;code&gt;xkcd&lt;/code&gt; comic episode in which we read about
 &lt;em&gt;little Bobby Tables&lt;/em&gt;:&lt;/p&gt;

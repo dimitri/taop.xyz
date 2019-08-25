@@ -13,10 +13,10 @@
     
     <item>
       <title>Preventing SQL Injections</title>
-      <link>https://theartofpostgresql.com/blog/foo/</link>
+      <link>https://theartofpostgresql.com/blog/2018-11-sql-injection/</link>
       <pubDate>Sat, 10 Nov 2018 15:40:01 +0100</pubDate>
       
-      <guid>https://theartofpostgresql.com/blog/foo/</guid>
+      <guid>https://theartofpostgresql.com/blog/2018-11-sql-injection/</guid>
       <description>&lt;p&gt;An &lt;em&gt;SQL Injection&lt;/em&gt; is a security breach, one made famous by the &lt;a href=&#34;https://xkcd.com/327/&#34;&gt;Exploits of
 a Mom&lt;/a&gt; &lt;code&gt;xkcd&lt;/code&gt; comic episode in which we read about
 &lt;em&gt;little Bobby Tables&lt;/em&gt;:&lt;/p&gt;
@@ -33,6 +33,44 @@ query as part of the query text. Sending those parts as separate entities
 over the protocol means that SQL injection is no longer possible.&lt;/p&gt;
 
 &lt;!--toc--&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Geolocation with PostgreSQL</title>
+      <link>https://theartofpostgresql.com/blog/2018-08-geolocation-ip4r/</link>
+      <pubDate>Fri, 24 Aug 2018 12:11:33 +0200</pubDate>
+      
+      <guid>https://theartofpostgresql.com/blog/2018-08-geolocation-ip4r/</guid>
+      <description>&lt;p&gt;We have loaded Open Street Map points of interests in the article &lt;a href=&#34;https://theartofpostgresql.com/blog/2013/08/the-most-popular-pub-names/&#34;&gt;The Most
+Popular Pub Names&lt;/a&gt; — which
+compares PostgreSQL with MongoDB for simple geographical queries, and is
+part of our &lt;a href=&#34;https://theartofpostgresql.com/tags/extensions/&#34;&gt;PostgreSQL Extensions&lt;/a&gt; article series. In
+today&amp;rsquo;s article, look at how to geolocalize an IP address and locate the
+nearest pub, all within a single SQL query!&lt;/p&gt;
+
+&lt;p&gt;For that, we are going to use the awesome
+&lt;a href=&#34;https://github.com/RhodiumToad/ip4r&#34;&gt;ip4r&lt;/a&gt; extension from
+&lt;a href=&#34;http://blog.rhodiumtoad.org.uk/&#34;&gt;RhodiumToad&lt;/a&gt;.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>PostgreSQL Concurrency: an Article Series</title>
+      <link>https://theartofpostgresql.com/blog/2018-08-postgresql-concurrency/</link>
+      <pubDate>Tue, 14 Aug 2018 11:49:02 +0300</pubDate>
+      
+      <guid>https://theartofpostgresql.com/blog/2018-08-postgresql-concurrency/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://www.postgresql.org&#34;&gt;PostgreSQL&lt;/a&gt; is a relational database management
+system. It&amp;rsquo;s even the world&amp;rsquo;s most advanced open source one of them. As
+such, as its core, Postgres solves concurrent access to a set of data and
+maintains consistency while allowing concurrent operations.&lt;/p&gt;
+
+&lt;p&gt;In the &lt;a href=&#34;https://theartofpostgresql.com/tags/concurrency/&#34;&gt;PostgreSQL Concurrency&lt;/a&gt; series of articles here
+we did see several aspects of how to handle concurrent use cases of your
+application design with PostgreSQL. The main thing to remember is that a
+Database Management System first task is to handle concurrency access to the
+data for you.&lt;/p&gt;
 
 &lt;p&gt;&lt;/p&gt;</description>
     </item>

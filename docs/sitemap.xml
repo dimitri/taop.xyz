@@ -3,8 +3,23 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://theartofpostgresql.com/blog/foo/</loc>
+    <loc>https://theartofpostgresql.com/blog/2018-11-sql-injection/</loc>
     <lastmod>2018-11-10T15:40:01+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://theartofpostgresql.com/blog/2018-08-geolocation-ip4r/</loc>
+    <lastmod>2018-08-24T12:11:33+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://theartofpostgresql.com/blog/2018-08-postgresql-concurrency/</loc>
+    <lastmod>2018-08-14T11:49:02+03:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://theartofpostgresql.com/archives/</loc>
+    <priority>0</priority>
   </url>
   
   <url>
@@ -19,13 +34,73 @@
   </url>
   
   <url>
-    <loc>https://theartofpostgresql.com/tags/postgresql/</loc>
-    <lastmod>2018-11-10T15:40:01+01:00</lastmod>
+    <loc>https://theartofpostgresql.com/tags/concurrency/</loc>
+    <lastmod>2018-08-14T11:49:02+03:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://theartofpostgresql.com/tags/dml/</loc>
+    <lastmod>2018-08-14T11:49:02+03:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://theartofpostgresql.com/tags/extensions/</loc>
+    <lastmod>2018-08-24T12:11:33+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://theartofpostgresql.com/tags/geolocation/</loc>
+    <lastmod>2018-08-24T12:11:33+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://theartofpostgresql.com/tags/golang/</loc>
+    <lastmod>2018-08-14T11:49:02+03:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://theartofpostgresql.com/tags/ip4r/</loc>
+    <lastmod>2018-08-24T12:11:33+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://theartofpostgresql.com/tags/json/</loc>
+    <lastmod>2018-08-14T11:49:02+03:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://theartofpostgresql.com/tags/listen/</loc>
+    <lastmod>2018-08-14T11:49:02+03:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://theartofpostgresql.com/tags/notify/</loc>
+    <lastmod>2018-08-14T11:49:02+03:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://theartofpostgresql.com/tags/point/</loc>
+    <lastmod>2018-08-24T12:11:33+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://theartofpostgresql.com/categories/postgresql/</loc>
+    <lastmod>2018-11-10T15:40:01+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://theartofpostgresql.com/tags/postgresql/</loc>
     <lastmod>2018-11-10T15:40:01+01:00</lastmod>
     <priority>0</priority>
   </url>
@@ -44,7 +119,7 @@
   
   <url>
     <loc>https://theartofpostgresql.com/tags/</loc>
-    <lastmod>2018-11-10T15:40:01+01:00</lastmod>
+    <lastmod>2018-08-14T11:49:02+03:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -55,13 +130,13 @@
   </url>
   
   <url>
-    <loc>https://theartofpostgresql.com/tags/yesql/</loc>
+    <loc>https://theartofpostgresql.com/categories/yesql/</loc>
     <lastmod>2018-11-10T15:40:01+01:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://theartofpostgresql.com/categories/yesql/</loc>
+    <loc>https://theartofpostgresql.com/tags/yesql/</loc>
     <lastmod>2018-11-10T15:40:01+01:00</lastmod>
     <priority>0</priority>
   </url>

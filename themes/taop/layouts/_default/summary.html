@@ -1,0 +1,8 @@
+            <div class="post">
+                <a data-cover=".cover" href="{{ .Permalink }}"><img class="cover" src="{{ .Params.coverimage }}" alt="" /></a>
+                <header>
+                    <p>{{ .Date.Format "2006-01-02" }}</p>
+                    <h4><a href="#">{{ .Title }}</a></h4>
+                </header>
+                {{ .Summary }}
+            </div>

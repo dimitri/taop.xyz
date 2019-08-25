@@ -6,10 +6,100 @@
     <description>Recent content in Tags on The Art of PostgreSQL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 10 Nov 2018 15:40:01 +0100</lastBuildDate>
+    <lastBuildDate>Tue, 14 Aug 2018 11:49:02 +0300</lastBuildDate>
     
 	<atom:link href="https://theartofpostgresql.com/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Concurrency</title>
+      <link>https://theartofpostgresql.com/tags/concurrency/</link>
+      <pubDate>Tue, 14 Aug 2018 11:49:02 +0300</pubDate>
+      
+      <guid>https://theartofpostgresql.com/tags/concurrency/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Dml</title>
+      <link>https://theartofpostgresql.com/tags/dml/</link>
+      <pubDate>Tue, 14 Aug 2018 11:49:02 +0300</pubDate>
+      
+      <guid>https://theartofpostgresql.com/tags/dml/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Extensions</title>
+      <link>https://theartofpostgresql.com/tags/extensions/</link>
+      <pubDate>Fri, 24 Aug 2018 12:11:33 +0200</pubDate>
+      
+      <guid>https://theartofpostgresql.com/tags/extensions/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Geolocation</title>
+      <link>https://theartofpostgresql.com/tags/geolocation/</link>
+      <pubDate>Fri, 24 Aug 2018 12:11:33 +0200</pubDate>
+      
+      <guid>https://theartofpostgresql.com/tags/geolocation/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Golang</title>
+      <link>https://theartofpostgresql.com/tags/golang/</link>
+      <pubDate>Tue, 14 Aug 2018 11:49:02 +0300</pubDate>
+      
+      <guid>https://theartofpostgresql.com/tags/golang/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Ip4r</title>
+      <link>https://theartofpostgresql.com/tags/ip4r/</link>
+      <pubDate>Fri, 24 Aug 2018 12:11:33 +0200</pubDate>
+      
+      <guid>https://theartofpostgresql.com/tags/ip4r/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Json</title>
+      <link>https://theartofpostgresql.com/tags/json/</link>
+      <pubDate>Tue, 14 Aug 2018 11:49:02 +0300</pubDate>
+      
+      <guid>https://theartofpostgresql.com/tags/json/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Listen</title>
+      <link>https://theartofpostgresql.com/tags/listen/</link>
+      <pubDate>Tue, 14 Aug 2018 11:49:02 +0300</pubDate>
+      
+      <guid>https://theartofpostgresql.com/tags/listen/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Notify</title>
+      <link>https://theartofpostgresql.com/tags/notify/</link>
+      <pubDate>Tue, 14 Aug 2018 11:49:02 +0300</pubDate>
+      
+      <guid>https://theartofpostgresql.com/tags/notify/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Point</title>
+      <link>https://theartofpostgresql.com/tags/point/</link>
+      <pubDate>Fri, 24 Aug 2018 12:11:33 +0200</pubDate>
+      
+      <guid>https://theartofpostgresql.com/tags/point/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>Postgresql</title>

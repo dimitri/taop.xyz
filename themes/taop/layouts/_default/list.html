@@ -1,0 +1,41 @@
+{{ partial "post/head.html" . }}
+{{ partial "post/header.html" . }}
+
+<div class="blog_block">
+    <div class="top_blogs">
+        <ul>
+         {{ $paginator := .Paginate (where .Data.Pages "Type" "blog") }}
+         {{ range $paginator.Pages }}
+            <li>
+                <a class="link" href="{{ .Permalink }}">&nbsp;</a>
+                <div class="bg"></div>
+                <div data-cover=".cover"><img class="cover" src="{{ .Params.coverimage }}" alt="" /></div>
+                <div>
+                    <p>{{ .Date.Format "2006-01-02" }}</p>
+                    <p>{{ .Title }}</p>
+                </div>
+            </li>
+         {{ end }}         
+        </ul>
+    </div>
+
+    <header>
+        <h3>Fresh PostgreSQL Topics</h3>
+        <p>This is a short introduction about the blog. Proin gravida neibh vel velit auctor aliquet. Aenean sollicitudin, lorem quis bibendum auctor, nisi elit consequat ipsum, nec sagittis sem nibh id eelit. auctor a ornare odio.</p>
+    </header>
+    
+    <div class="wrapper">        
+        <div class="posts_wrap">
+          {{ $paginator := .Paginate (where .Data.Pages "Type" "blog") }}
+          {{ range $paginator.Pages }}
+            {{ .Render "summary" }}
+          {{ end }}
+        </div>
+    </div>
+
+    {{ partial "post/sidebar.html" . }}
+
+    </div>
+</div>
+        
+{{ partial "footer.html" . }}

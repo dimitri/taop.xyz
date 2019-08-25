@@ -24,10 +24,21 @@ $(function() {
 
 
     // Welcome slider
-            $('.welcome_slider > ul').bxSlider({
-                mode: 'fade',
-                auto: true,
-                stopAutoOnClick: true
+            $(window).on('resize load', function () {
+                if ($(window).width() < 768) {
+                    $('.welcome_slider > ul').bxSlider({
+                        mode: 'fade',
+                        auto: true,
+                        stopAutoOnClick: true
+                    });
+                } else {
+                    $('.welcome_slider > ul').bxSlider({
+                        mode: 'fade',
+                        auto: true,
+                        stopAutoOnClick: true,
+                        touchEnabled: false
+                    });
+                }
             });
 
 
@@ -70,6 +81,20 @@ $(function() {
             });
             $(".sql_list > ul > li").on('click', function(){
                 $(".sql_list > ul > li").removeClass('active');
+                $(this).addClass('active');
+            });
+
+            
+            
+            
+    // Blog top list
+            $(".top_blogs ul li").hover(function(){
+                $(this).addClass('active');
+            },function() {
+                $(this).removeClass('active');
+            });
+            $(".top_blogs ul li").on('click', function(){
+                $(".top_blogs ul li").removeClass('active');
                 $(this).addClass('active');
             });
 

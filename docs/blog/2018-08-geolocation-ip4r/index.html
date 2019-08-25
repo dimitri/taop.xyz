@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="generator" content="Hugo 0.50" />
+    <meta charset="utf-8">
+    <title>The Art of PostgreSQL</title>
+    <meta name="description" content="">
+    
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    
+    
+    <link href="/images/favicon.ico" rel="icon" type="image/x-icon">
+    
+    
+    <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900" rel="stylesheet"> 
+    <link rel="stylesheet" href="/css/style.css">
+    
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> 
+    <script src="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
+    <script src="/js/custom.js"></script>
+
+</head>
+<body class="blog">
+
+<header class="header">
+    <div class="wrapper">
+        <a class="logo" href="#">The Art of PostgreSQL</a>
+        
+        <nav>
+            <ul>
+                <li><a data-slide=".subscribe_block" href="/">The Book</a></li>
+                <li><a data-slide=".packages_block" href="/">PACKAGES</a></li>
+                <li><a data-slide=".about_block" href="#">AUTHOR</a></li>
+                <li><a data-slide=".quote_slider" href="/blog/">BLOG</a></li>
+            </ul>
+        </nav>
+        
+    </div>
+    <a data-slide=".price_list" class="button button_transparent" href="#">PURCHASE</a>
+</header>
+
+
+<div class="single_block">
+    <div class="wrapper">
+        
+        <div class="single_content">
+
+         <p><img src="/img/earth.jpg" alt="" /></p>
+         
+         <p>We have loaded Open Street Map points of interests in the article <a href="/blog/2013/08/the-most-popular-pub-names/">The Most
+Popular Pub Names</a> — which
+compares PostgreSQL with MongoDB for simple geographical queries, and is
+part of our <a href="/tags/extensions/">PostgreSQL Extensions</a> article series. In
+today&rsquo;s article, look at how to geolocalize an IP address and locate the
+nearest pub, all within a single SQL query!</p>
+
+<p>For that, we are going to use the awesome
+<a href="https://github.com/RhodiumToad/ip4r">ip4r</a> extension from
+<a href="http://blog.rhodiumtoad.org.uk/">RhodiumToad</a>.</p>
+
+<p>
+<!--toc--></p>
+
+<h2 id="geolocation-data-loading">Geolocation Data Loading</h2>
+
+<p>The first step is to find an <em>geolocation</em> database, and several providers
+are offering that. The one I did choose for that example is the
+<a href="http://www.maxmind.com">http://www.maxmind.com</a> free database available at
+<a href="http://dev.maxmind.com/geoip/legacy/geolite/">GeoLite Free Downloadable
+Databases</a>.</p>
+
+<p>After having had a look at the files in there, we define the table schema we
+want and load the archive, using pgloader. So, first, the target schema is
+created using the following script:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#00a">create</span> extension <span style="color:#00a">if</span> <span style="color:#00a">not</span> <span style="color:#00a">exists</span> ip4r;
+<span style="color:#00a">create</span> <span style="color:#00a">schema</span> <span style="color:#00a">if</span> <span style="color:#00a">not</span> <span style="color:#00a">exists</span> geolite;
+
+<span style="color:#00a">create</span> <span style="color:#00a">table</span> <span style="color:#00a">if</span> <span style="color:#00a">not</span> <span style="color:#00a">exists</span> geolite.<span style="color:#00a">location</span>
+(
+   locid      <span style="color:#0aa">integer</span> <span style="color:#00a">primary</span> <span style="color:#00a">key</span>,
+   country    <span style="color:#0aa">text</span>,
+   region     <span style="color:#0aa">text</span>,
+   city       <span style="color:#0aa">text</span>,
+   postalcode <span style="color:#0aa">text</span>,
+   <span style="color:#00a">location</span>   point,
+   metrocode  <span style="color:#0aa">text</span>,
+   areacode   <span style="color:#0aa">text</span>
+);
+       
+<span style="color:#00a">create</span> <span style="color:#00a">table</span> <span style="color:#00a">if</span> <span style="color:#00a">not</span> <span style="color:#00a">exists</span> geolite.blocks
+(
+   iprange    ip4r,
+   locid      <span style="color:#0aa">integer</span>
+);
+
+<span style="color:#00a">create</span> <span style="color:#00a">index</span> blocks_ip4r_idx <span style="color:#00a">on</span> geolite.blocks <span style="color:#00a">using</span> gist(iprange);</code></pre></div>
+<p>And the data can now be imported to those target tables thanks to the
+following pgloader command, quite involved:</p>
+
+<pre><code>/*
+ * Loading from a ZIP archive containing CSV files.
+ */
+
+LOAD ARCHIVE
+   FROM http://geolite.maxmind.com/download/geoip/database/GeoLiteCity_CSV/GeoLiteCity-latest.zip
+   INTO postgresql://appdev@/appdev
+
+   BEFORE LOAD EXECUTE 'geolite.sql'
+
+   LOAD CSV
+        FROM FILENAME MATCHING ~/GeoLiteCity-Location.csv/
+             WITH ENCODING iso-8859-1
+             (
+                locId,
+                country,
+                region     [ null if blanks ],
+                city       [ null if blanks ],
+                postalCode [ null if blanks ],
+                latitude,
+                longitude,
+                metroCode  [ null if blanks ],
+                areaCode   [ null if blanks ]
+             )
+        INTO postgresql://appdev@/appdev
+        TARGET TABLE geolite.location
+             (
+                locid,country,region,city,postalCode,
+                location point using (format nil &quot;(~a,~a)&quot; longitude latitude),
+                metroCode,areaCode
+             )
+        WITH skip header = 2,
+             drop indexes,
+             fields optionally enclosed by '&quot;',
+             fields escaped by double-quote,
+             fields terminated by ','
+
+  AND LOAD CSV
+        FROM FILENAME MATCHING ~/GeoLiteCity-Blocks.csv/
+             WITH ENCODING iso-8859-1
+             (
+                startIpNum, endIpNum, locId
+             )
+        INTO postgresql://appdev@/appdev
+        TARGET TABLE geolite.blocks
+             (
+                iprange ip4r using (ip-range startIpNum endIpNum),
+                locId
+             )
+        WITH skip header = 2,
+             drop indexes,
+             fields optionally enclosed by '&quot;',
+             fields escaped by double-quote,
+             fields terminated by ',';
+</code></pre>
+
+<p>The pgloader command describe the file format so that pgloader can parse the
+data from the CSV file and transform it in memory to the format we expect in
+PostgreSQL. The location in the CSV file is given as two separate fields
+<code>latitude</code> and <code>longitude</code>, which we use to form a single <code>point</code> column.</p>
+
+<p>In the same vein, in the pgloader command we also describe how to transform
+a IP address range from a couple of integers to a more classic
+representation of the same data:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-lisp" data-lang="lisp"><span style="color:#a00">CL-USER&gt;</span> (<span style="color:#a00">pgloader.transforms::ip-range</span> <span style="color:#a50">&#34;16777216&#34;</span> <span style="color:#a50">&#34;16777471&#34;</span>)
+<span style="color:#a50">&#34;1.0.0.0-1.0.0.255&#34;</span></code></pre></div>
+<p>The pgloader command also finds the files we want to load independantly of
+the real name of the directory, here <code>GeoLiteCity_20180327</code>. So when there&rsquo;s
+a new release of the <em>Geolite</em> files, you can run the pgloader all over
+again and expect it to load the new data.</p>
+
+<p>&ndash;&gt;</p>
+
+<p>And here&rsquo;s what the output of the pgloader command looks like. Note that I
+have stripped the timestamps from the logs output, in order for the line to
+make sense when printed in those pages:</p>
+
+<pre><code>$ pgloader --verbose geolite.load
+NOTICE Starting pgloader, log system is ready.
+LOG Data errors in '/private/tmp/pgloader/'
+LOG Parsing commands from file #P&quot;/Users/dim/dev/yesql/src/1-application-development/data/geolite/geolite.load&quot;
+LOG Fetching 'http://geolite.maxmind.com/download/geoip/database/GeoLiteCity_CSV/GeoLiteCity-latest.zip'
+LOG Extracting files from archive '/var/folders/bh/t1wcr6cx37v4h87yj3qj009r0000gn/T/GeoLiteCity-latest.zip'
+NOTICE unzip -o &quot;/var/folders/bh/t1wcr6cx37v4h87yj3qj009r0000gn/T/GeoLiteCity-latest.zip&quot; -d &quot;/var/folders/bh/t1wcr6cx37v4h87yj3qj009r0000gn/T/GeoLiteCity-latest/&quot;
+NOTICE Executing SQL block for before load
+NOTICE ALTER TABLE &quot;geolite&quot;.&quot;location&quot; DROP CONSTRAINT IF EXISTS &quot;location_pkey&quot;;
+NOTICE COPY &quot;geolite&quot;.&quot;location&quot;
+NOTICE Opening #P&quot;/private/var/folders/bh/t1wcr6cx37v4h87yj3qj009r0000gn/T/GeoLiteCity-latest/GeoLiteCity_20180327/GeoLiteCity-Location.csv&quot;
+NOTICE copy &quot;geolite&quot;.&quot;location&quot;: 234105 rows done,  11.5 MB,   2.1 MBps
+NOTICE copy &quot;geolite&quot;.&quot;location&quot;: 495453 rows done,  24.3 MB,   2.2 MBps
+NOTICE copy &quot;geolite&quot;.&quot;location&quot;: 747550 rows done,  37.1 MB,   2.2 MBps
+NOTICE CREATE UNIQUE INDEX location_pkey ON geolite.location USING btree (locid)
+NOTICE ALTER TABLE &quot;geolite&quot;.&quot;location&quot; ADD PRIMARY KEY USING INDEX &quot;location_pkey&quot;;
+NOTICE DROP INDEX IF EXISTS &quot;geolite&quot;.&quot;blocks_ip4r_idx&quot;;
+NOTICE COPY &quot;geolite&quot;.&quot;blocks&quot;
+NOTICE Opening #P&quot;/private/var/folders/bh/t1wcr6cx37v4h87yj3qj009r0000gn/T/GeoLiteCity-latest/GeoLiteCity_20180327/GeoLiteCity-Blocks.csv&quot;
+NOTICE copy &quot;geolite&quot;.&quot;blocks&quot;: 227502 rows done,   7.0 MB,   1.8 MBps
+NOTICE copy &quot;geolite&quot;.&quot;blocks&quot;: 492894 rows done,  15.2 MB,   1.9 MBps
+NOTICE copy &quot;geolite&quot;.&quot;blocks&quot;: 738483 rows done,  22.9 MB,   2.0 MBps
+NOTICE copy &quot;geolite&quot;.&quot;blocks&quot;: 986719 rows done,  30.7 MB,   2.1 MBps
+NOTICE copy &quot;geolite&quot;.&quot;blocks&quot;: 1246450 rows done,  38.9 MB,   2.2 MBps
+NOTICE copy &quot;geolite&quot;.&quot;blocks&quot;: 1489726 rows done,  47.1 MB,   2.2 MBps
+NOTICE copy &quot;geolite&quot;.&quot;blocks&quot;: 1733633 rows done,  55.1 MB,   2.2 MBps
+NOTICE copy &quot;geolite&quot;.&quot;blocks&quot;: 1985222 rows done,  63.3 MB,   2.2 MBps
+NOTICE CREATE INDEX blocks_ip4r_idx ON geolite.blocks USING gist (iprange)
+LOG report summary reset
+             table name     errors       read   imported      bytes      total time
+-----------------------  ---------  ---------  ---------  ---------  --------------
+               download          0          0          0                     0.793s
+                extract          0          0          0                     0.855s
+            before load          0          5          5                     0.033s
+                  fetch          0          0          0                     0.005s
+-----------------------  ---------  ---------  ---------  ---------  --------------
+   &quot;geolite&quot;.&quot;location&quot;          0     928138     928138    46.4 MB         20.983s
+     &quot;geolite&quot;.&quot;blocks&quot;          0    2108310    2108310    67.4 MB         30.695s
+-----------------------  ---------  ---------  ---------  ---------  --------------
+        Files Processed          0          2          2                     0.024s
+COPY Threads Completion          0          4          4                    51.690s
+ Index Build Completion          0          0          0                    49.363s
+         Create Indexes          0          2          2                    49.265s
+            Constraints          0          1          1                     0.002s
+-----------------------  ---------  ---------  ---------  ---------  --------------
+      Total import time          ✓    3036448    3036448   113.8 MB       2m30.344s
+</code></pre>
+
+<p>We can see that pgloader has dropped the indexes before loading the data,
+and created them again once the data is loaded, in parallel to loading data
+from the next table. This parallel processing can be a huge benefit on beefy
+servers.</p>
+
+<p>So we now have the following tables to play with:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-psql" data-lang="psql">                     List of relations
+ Schema  │   Name   │ Type  │ Owner  │ Size  │ Description 
+═════════╪══════════╪═══════╪════════╪═══════╪═════════════
+ geolite │ blocks   │ table │ appdev │ 89 MB │ 
+ geolite │ location │ table │ appdev │ 64 MB │ 
+(2 rows)</code></pre></div>
+<h2 id="finding-an-ip-address-in-our-ranges">Finding an IP Address in our Ranges</h2>
+
+<p>Here&rsquo;s what the main data look like:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#00a">table</span> geolite.blocks <span style="color:#00a">limit</span> <span style="color:#099">10</span>;</code></pre></div>
+<p>The TABLE command is per SQL standard, so we might as well use it:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-psql" data-lang="psql">       iprange       │ locid  
+═════════════════════╪════════
+ 1.0.0.0/24          │ 617943
+ 1.0.1.0-1.0.3.255   │ 104084
+ 1.0.4.0/22          │     17
+ 1.0.8.0/21          │  47667
+ 1.0.16.0/20         │ 879228
+ 1.0.32.0/19         │  47667
+ 1.0.64.0-1.0.81.255 │ 885221
+ 1.0.82.0/24         │ 902132
+ 1.0.83.0-1.0.86.255 │ 885221
+ 1.0.87.0/24         │ 873145
+(10 rows)</code></pre></div>
+<p>What we have here is a classic <em>ip range</em> column where we can see that the
+datatype output function is smart enough to display ranges either in their
+<a href="http://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing">CIDR notation</a>
+or in the more general <em>start-end</em> notation when no CIDR applies.</p>
+
+<p>The <em>ip4r</em> extension provides several operators to work with the dataset we
+have, some of those operators are supported by the index we just created.
+And just for the fun of it here&rsquo;s a catalog query to inquire about them:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#00a">select</span> amopopr::regoperator
+  <span style="color:#00a">from</span> pg_opclass <span style="color:#00a">c</span>
+       <span style="color:#00a">join</span> pg_am am <span style="color:#00a">on</span> am.oid = <span style="color:#00a">c</span>.opcmethod
+       <span style="color:#00a">join</span> pg_amop amop <span style="color:#00a">on</span> amop.amopfamily = <span style="color:#00a">c</span>.opcfamily
+ <span style="color:#00a">where</span> opcintype = <span style="color:#a50">&#39;ip4r&#39;</span>::regtype <span style="color:#00a">and</span> am.amname = <span style="color:#a50">&#39;gist&#39;</span>;</code></pre></div>
+<p>The catalog query above joins the PostgreSQL catalogs for operator classes,
+index access methods on the notion of an operator family in order to
+retrieve the list of operators associated with the <code>ip4r</code> data type and the
+GiST access method:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-psql" data-lang="psql">    amopopr     
+════════════════
+ &gt;&gt;=(ip4r,ip4r)
+ &lt;&lt;=(ip4r,ip4r)
+ &gt;&gt;(ip4r,ip4r)
+ &lt;&lt;(ip4r,ip4r)
+ &amp;&amp;(ip4r,ip4r)
+ =(ip4r,ip4r)
+(6 rows)</code></pre></div>
+<p>Note that we could have been using the psql <code>\dx+ ip4r</code> command instead of
+course, but that query directly list operators that the <em>GiST</em> index knows
+how to solve. The operator <code>&gt;&gt;=</code> reads as <em>contains</em> and is the one we&rsquo;re
+going to use here.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#00a">select</span> iprange, locid
+  <span style="color:#00a">from</span> geolite.blocks
+ <span style="color:#00a">where</span> iprange &gt;&gt;= <span style="color:#a50">&#39;91.121.37.122&#39;</span>;</code></pre></div>
+<p>And here&rsquo;s the range in which we find the IP address 91.121.37.122, and the
+location it&rsquo;s associated with:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-psql" data-lang="psql">         iprange          │ locid 
+══════════════════════════╪═══════
+ 91.121.0.0-91.121.71.255 │    75</code></pre></div>
+<p>This lookup is fast, thanks to our specialized GiST index, its timing is
+under a millisecond.</p>
+
+<h2 id="geolocation-meta-data">Geolocation meta-data</h2>
+
+<p>Now with the <em>MaxMind</em> schema that we are using in that example, the
+interesting data actually is to be found in the other table, the
+<code>geolite.location</code> one. Let&rsquo;s use another IP address now, I&rsquo;m told by the
+unix command <code>host</code> that <code>google.us has address 74.125.195.147</code> and we can
+inquire where is that IP from:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#00a">select</span> *
+ <span style="color:#00a">from</span>      geolite.blocks
+      <span style="color:#00a">join</span> geolite.<span style="color:#00a">location</span> <span style="color:#00a">using</span>(locid)
+<span style="color:#00a">where</span> iprange &gt;&gt;= <span style="color:#a50">&#39;74.125.195.147&#39;</span>;</code></pre></div>
+<p>Our data locates the Google IP address in Mountain View, which is credible:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-psql" data-lang="psql">─[ RECORD 1 ]───────────────────────────
+locid      │ 2703
+iprange    │ 74.125.191.0-74.125.223.255
+country    │ US
+region     │ CA
+city       │ Mountain View
+postalcode │ 94043
+location   │ (-122.0574,37.4192)
+metrocode  │ 807
+areacode   │ 650</code></pre></div>
+<p>Now you can actually draw that on a map as you have the location information
+as a <em>point</em> datatype containing both the <em>longitude</em> and <em>latitude</em>.</p>
+
+<h2 id="emergency-pub">Emergency Pub</h2>
+
+<p>What if you want to make an application to help lost souls find the nearest
+pub from where they are currently? Now that you know their location from the
+<em>IP address</em> they are using in their browser, it should be easy enough
+right?</p>
+
+<p>As we downloaded a list of pubs from the UK, we are going to use an IP
+address that should be in the UK too.</p>
+
+<div class="alert info ">
+  <p>See my project <a href="https://github.com/dimitri/pubnames">https://github.com/dimitri/pubnames</a> for loading the same
+set of data on your local database, or read the article <a href="/blog/2013/08/the-most-popular-pub-names/">The Most Popular
+Pub Names</a> for more about this
+OpenStreetMap data loading.</p>
+</div>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ host www.ox.ac.uk
+www.ox.ac.uk has address <span style="color:#099">129</span>.67.242.154
+www.ox.ac.uk has address <span style="color:#099">129</span>.67.242.155</code></pre></div>
+<p>Knowing that, we can search the geolocation of this IP address:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#00a">select</span> *
+  <span style="color:#00a">from</span>      geolite.<span style="color:#00a">location</span> l
+       <span style="color:#00a">join</span> geolite.blocks <span style="color:#00a">using</span>(locid)
+ <span style="color:#00a">where</span> iprange &gt;&gt;= <span style="color:#a50">&#39;129.67.242.154&#39;</span>;</code></pre></div>
+<p>And the Oxford University is actually hosted in Oxford, it seems:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-psql" data-lang="psql">─[ RECORD 1 ]─────────────
+locid      │ 375290
+country    │ GB
+region     │ K2
+city       │ Oxford
+postalcode │ OX1
+location   │ (-1.25,51.75)
+metrocode  │ ¤
+areacode   │ ¤
+iprange    │ 129.67.0.0/16</code></pre></div>
+<p>What are the ten nearest pubs around if you&rsquo;re just out of the Oxford
+University? Well, let&rsquo;s figure that out before we get thirsty!</p>
+
+<!-- 
+
+    set parallel_setup_cost to 10000;
+
+ -->
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql">   <span style="color:#00a">select</span> pubs.name,
+          round((pubs.pos &lt;@&gt; l.<span style="color:#00a">location</span>)::<span style="color:#0aa">numeric</span>, <span style="color:#099">3</span>) <span style="color:#00a">as</span> miles,
+          ceil(<span style="color:#099">1609</span>.<span style="color:#099">34</span> * (pubs.pos &lt;@&gt; l.<span style="color:#00a">location</span>)::<span style="color:#0aa">numeric</span>) <span style="color:#00a">as</span> meters
+   
+     <span style="color:#00a">from</span> geolite.<span style="color:#00a">location</span> l
+          <span style="color:#00a">join</span> geolite.blocks <span style="color:#00a">using</span>(locid)
+          <span style="color:#00a">left</span> <span style="color:#00a">join</span> <span style="color:#00a">lateral</span>
+          (
+              <span style="color:#00a">select</span> name, pos
+                <span style="color:#00a">from</span> pubnames
+            <span style="color:#00a">order</span> <span style="color:#00a">by</span> pos &lt;-&gt; l.<span style="color:#00a">location</span>
+               <span style="color:#00a">limit</span> <span style="color:#099">10</span>
+          ) <span style="color:#00a">as</span> pubs <span style="color:#00a">on</span> <span style="color:#00a">true</span>
+          
+    <span style="color:#00a">where</span> blocks.iprange &gt;&gt;= <span style="color:#a50">&#39;129.67.242.154&#39;</span>
+ <span style="color:#00a">order</span> <span style="color:#00a">by</span> meters;</code></pre></div>
+<p>And here&rsquo;s the list, obtained in around about a millisecond on my laptop:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-psql" data-lang="psql">        name        │ miles │ meters 
+════════════════════╪═══════╪════════
+ The Bear           │ 0.268 │    431
+ The Half Moon      │ 0.280 │    451
+ The Wheatsheaf     │ 0.295 │    475
+ The Chequers       │ 0.314 │    506
+ The Old Tom        │ 0.315 │    507
+ Turl Bar           │ 0.321 │    518
+ St Aldate&#39;s Tavern │ 0.329 │    530
+ The Mad Hatter     │ 0.337 │    542
+ King&#39;s Arms        │ 0.397 │    639
+ White Horse        │ 0.402 │    647
+(10 rows)</code></pre></div>
+<div class="alert warning ">
+  <p><p>The first run of this query wasn&rsquo;t very fast, until we realized with friends
+on the IRC channel for PostgreSQL help that the plan was using parallel
+processing. The size of the dataset means that the parallel setup cost is
+going to ruin our performance here, so I&rsquo;ve been doing the following to get
+the query to run in 1ms rather than 15ms:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#00a">set</span> parallel_setup_cost <span style="color:#00a">to</span> <span style="color:#099">10000</span>;</code></pre></div></p>
+</div>
+
+<p>So with PostgreSQL and some easily available extensionsm, we are actually
+capable of performing advanced geolocation lookups in a single SQL query.
+The timing of this query makes it possible to use it in production and serve
+users requests directly from it, too!</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>While some <em>geolocation</em> data provider are giving you some libs and code to
+do quite fast lookups, any interesting thing you want to do with the
+<em>geolocation</em> data is about the <strong><em>meta data</em></strong>. And that&rsquo;s where yet again
+<a href="http://www.postgresql.org/">PostgreSQL</a> shines: you can actually use
+specialized data types and operators, <em>JOINs</em> and <em>kNN</em> searches, all from
+within a single query. You get back only those results you are interested
+into, and the application is then responsible for adding value to that,
+rather than processing the data itself.</p>
+
+<p>Typically what the application here would be doing is drawing a map and
+locating the pubs on it, adding maybe descriptions and votes and notes on
+each address, maybe even the draft menu. An ideal application might even be
+able to join the draft menu of each nearby pub against your own preferences
+and offer you a nice short list ordered by what you&rsquo;re most likely to want
+to drink at this hour.</p>
+
+<p>Living in the future is both exciting and frightening!</p>
+
+            <footer>
+                <p><strong>TAGS:</strong> <a href="#">PostgreSQL</a>, <a href="#">YeSQL</a>, <a href="#">Security</a>, <a href="#">SQL Injection</a></p>
+            </footer>
+
+            <div class="single_subscribe">
+                <p>Subscribe to receive a FREE chapter of the second edition of my book, <b><i>“The Art of PostgreSQL”</i></b> including the full Table of Contents!</p>
+                 <script async data-uid="c1452ad801" src="https://f.convertkit.com/c1452ad801/ad53e74e51.js"></script>
+            </div>
+        </div>
+
+                <aside class="single_sidebar">
+            <h6>RECENT POSTS</h6>
+            <ul>
+                <li><a href="#">Geolocation with PostgreSQL</a></li>
+                <li><a href="#">PostgreSQL Concurrency: <br />an Article Series</a></li>
+                <li><a href="#">Scheduled Data Processing: <br />How to use cron?</a></li>
+                <li><a href="#">Batch Updates and Concurrency</a></li>
+            </ul>
+            <h6>CATEGORIES</h6>
+            <ul>
+                <li><a href="#">Concurrency</a></li>
+                <li><a href="#">Batch</a></li>
+                <li><a href="#">Update</a></li>
+                <li><a href="#">Data Types</a></li>
+            </ul>
+            <h6>TAGS</h6>
+            <div class="tag_list">
+                <a href="#">PostgreSQL</a>, <a href="#">YeSQL</a>, <a href="#">Security</a>, <a href="#">SQL Injection</a>, <a href="#">Concurrency</a>, <a href="#">Batch</a>, <a href="#">Update</a>, <a href="#">Data Types</a>, <a href="#">Point</a>, <a href="#">Geolocation</a>,  <a href="#">Extensions</a>, <a href="#">Listen</a>, <a href="#">Notify</a>, <a href="#">GoLang</a>, <a href="#">Cron</a>, <a href="#">Opinion</a>, <a href="#">MOMA</a>
+            </div>
+        </aside>
+
+
+    </div>
+</div>            
+         
+ 
+
+<footer class="footer">
+	<div class="wrapper">
+	    <div class="about_block">
+	        <h6>about the author</h6>
+	        <p>Hi! My name is Dimitri Fontaine and I have been using and contributing to Open Source Software for the best of the last 20 years. I am a PostgreSQL Major Contributor after having contributed Extensions and Event Triggers, among other things.</p>
+	        <p>I have been writing code almost daily for a very long time now, both in a professional capacity and on my leisure time. I&rsquo;ve also been a database architect and a DBA on-call. As a developer I enjoy using SQL. As a database architect, I like teaching advanced SQL techniques to my colleagues.</p>
+	        <ul>
+	            <li><a target="_blank" href="mailto:dim@tapoueh.org">email</a></li>
+	            <li><a target="_blank" href="https://twitter.com/tapoueh">twitter</a></li>
+	            <li><a target="_blank" href="https://github.com/dimitri/tapoueh.org">github</a></li>
+	            <li><a target="_blank" href="https://www.reddit.com/user/theartofpostgresql">reddit</a></li>
+	        </ul>
+    	</div>
+	    <div class="faq_block">
+            <h6>FAQ</h6>
+	        <dl>
+	           <dt>What if the book isn&rsquo;t what I expected it would be?</dt>
+	           <dd>The Art of PostgreSQL is a book that teaches SQL to application developers. If it's not of any value to you, then just say so and I'll refund you, no questions asked.</dd>
+	           <dt>I bought the book, and I'm confused. What now?</dt>
+	           <dd>The content of the book is available as a PDF, ePub and MOBI file, and you can also download the SQL queries. The content is available over at <a href="https://postgresql.thinkific.com/enrollments" target="_">https://postgresql.thinkific.com/</a> from your student dashboard.</dd>
+	           <dt>Is there any DRM?</dt>
+	           <dd>No. There isn't even watermarking on the PDF. You own what you buy. The sources of data selected for the book are all available with Open Data types of licenses, and the book itself is copyright Dimitri Fontaine. All rights reserved.</dd>
+	           <dt>Any other questions?</dt>
+	           <dd>Contact me by <a href="mailto:dim@tapoueh.org">email</a> and just ask! I will do my best to answer you.</dd>
+	        </dl>
+    	</div>
+	</div>
+</footer>
+
+
+
+
+
+
+<div class="copyright">
+    <div class="wrapper">
+        Copyright 2019 &copy; Dimitri Fontaine. All rights reserved. Design by <a style="color: white; font-weight: bold;" target="_blank" href="https://www.terrilowry.com">TerriLowry.com.</a>
+    </div>
+</div>
+
+
+ 
+</body>
+ 
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-47059482-5"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-47059482-5');
+</script>
+
+
+<script>
+!function(e,t,n,s,u,a){e.twq||(s=e.twq=function(){s.exe?s.exe.apply(s,arguments):s.queue.push(arguments);
+},s.version='1.1',s.queue=[],u=t.createElement(n),u.async=!0,u.src='//static.ads-twitter.com/uwt.js',
+a=t.getElementsByTagName(n)[0],a.parentNode.insertBefore(u,a))}(window,document,'script');
+
+twq('init','o0ial');
+twq('track','PageView');
+</script>
+
+
+</html> 
+

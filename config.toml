@@ -3,3 +3,33 @@ languageCode = "en-us"
 title = "The Art of PostgreSQL"
 theme = "taop"
 publishDir = "docs"
+
+PygmentsCodeFences = true
+pygmentsstyle = "autumn"
+
+[permalinks]
+  post = "/blog/:year/:month/:slug/"
+  page = "/:filename/"
+  conf = "/conf/:slug/"
+
+[taxonomies]
+  tag = "tags"
+  category = "categories"
+  archive = "archives"
+
+[author]
+  name = "Dimitri Fontaine"
+  bio = "PostgreSQL Major Contributor"
+  job = "Open Source Software Engineer"
+  location = "France"
+  gravatarEmail = "dim@tapoueh.org"
+  twitter = "tapoueh"
+  googlePlus = "+DimitriFontaine"
+
+
+[params]
+  dateFormat = "Monday 02 Jan 2006"
+  clearReading = false
+  hierarchicalCategories = true
+  favicon = "/favicon.ico"
+  syntaxHighlighter = "highlight.js"
