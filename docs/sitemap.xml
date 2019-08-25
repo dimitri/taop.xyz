@@ -94,13 +94,13 @@
   </url>
   
   <url>
-    <loc>https://theartofpostgresql.com/categories/postgresql/</loc>
+    <loc>https://theartofpostgresql.com/tags/postgresql/</loc>
     <lastmod>2018-11-10T15:40:01+01:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://theartofpostgresql.com/tags/postgresql/</loc>
+    <loc>https://theartofpostgresql.com/categories/postgresql/</loc>
     <lastmod>2018-11-10T15:40:01+01:00</lastmod>
     <priority>0</priority>
   </url>
@@ -130,13 +130,13 @@
   </url>
   
   <url>
-    <loc>https://theartofpostgresql.com/categories/yesql/</loc>
+    <loc>https://theartofpostgresql.com/tags/yesql/</loc>
     <lastmod>2018-11-10T15:40:01+01:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://theartofpostgresql.com/tags/yesql/</loc>
+    <loc>https://theartofpostgresql.com/categories/yesql/</loc>
     <lastmod>2018-11-10T15:40:01+01:00</lastmod>
     <priority>0</priority>
   </url>
