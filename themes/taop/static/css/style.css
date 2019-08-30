@@ -139,7 +139,7 @@ input[type="text"]::placeholder, input[type="email"]::placeholder, textarea::pla
 .packages_table > li > ul > li:nth-child(5) {background:#ccc9d0;}
 .packages_table > li > ul > li:nth-child(3) {background:#b5d6e3;}
 .packages_table > li > ul > li .dot {display:inline-block;vertical-align:middle;width:9px;height:9px;background:#372649;border-radius:50%;}
-.packages_table > li > ul > li .option {font-weight:700;font-size:16px;color: black;}
+.packages_table > li > ul > li .option {font-weight:700;font-size:16px;color:#888;}
 .packages_table > li:first-child > ul > li {color:#67527a;font-size:16px;font-weight:700;text-transform:uppercase;letter-spacing:2px;}
 .packages_table > li:first-child > ul > li, .packages_table > li:nth-child(2) > ul > li, .packages_table > li:last-child > ul > li {border-top-width:2px;}
 .packages_table > li:last-child > ul > li {padding:0;}
