@@ -76,6 +76,16 @@
                     <p>PostgreSQL Concurrency: an Article Series</p>
                 </div>
             </li>
+         
+            <li>
+                <a class="link" href="https://theartofpostgresql.com/blog/2018-07-concurrent-batch-update/">&nbsp;</a>
+                <div class="bg"></div>
+                <div data-cover=".cover"><img class="cover" src="/img/batch-filling-bottles.jpg" alt="" /></div>
+                <div>
+                    <p>2018-07-23</p>
+                    <p>Batch Updates and Concurrency</p>
+                </div>
+            </li>
                   
         </ul>
     </div>
@@ -153,6 +163,38 @@ Database Management System first task is to handle concurrency access to the
 data for you.</p>
 
 <p></p>
+            </div>
+
+          
+                        <div class="post">
+                <a data-cover=".cover" href="https://theartofpostgresql.com/blog/2018-07-concurrent-batch-update/"><img class="cover" src="/img/batch-filling-bottles.jpg" alt="" /></a>
+                <header>
+                    <p>2018-07-23</p>
+                    <h4><a href="#">Batch Updates and Concurrency</a></h4>
+                </header>
+                <p>This article fits in the <a href="/tags/concurrency">PostgreSQL Concurrency</a> series,
+where we installed a tweeter like application schema and had all the
+characters from Shakespeare&rsquo;s <em>A Midsummer Night&rsquo;s Dream</em> tweet their own
+lines in our database in <a href="/blog/2018/06/PostgreSQL-DML.md">PostgreSQL Concurrency: Data Modification
+Language</a>.</p>
+
+<p>A previous article in the series covered how to manage concurrent retweets
+in an efficient way: <a href="/blog/2018/07/computing-and-caching/">Computing and
+Caching</a>, where we learn how to
+maintain a cache right in your PostgreSQL database, thanks for materialized
+views. We even went as far as maintaining an <em>external</em> cache in another
+application layer using PostgreSQL
+<a href="https://www.postgresql.org/docs/current/static/sql-listen.html">LISTEN</a> and
+<a href="https://www.postgresql.org/docs/current/static/sql-notify.html">NOTIFY</a>
+features and a Golang application.</p>
+
+<p>Today&rsquo;s article is going to address concurrency in the context of updating
+data in a batch. This activity is quite common, as soon as your system is
+connected to other systems either internally or with external providers.
+While it&rsquo;s pretty easy to ingest new data, and easy enough to update data
+from an external source when nothing happens in your database, doing the
+operation safely with concurrent activity is more complex. Once more though,
+PostgreSQL comes with all the tooling you need to handle that situation.</p>
             </div>
 
           

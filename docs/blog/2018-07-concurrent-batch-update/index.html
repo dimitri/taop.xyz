@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="generator" content="Hugo 0.50" />
+    <meta charset="utf-8">
+    <title>The Art of PostgreSQL</title>
+    <meta name="description" content="">
+    
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    
+    
+    <link href="/images/favicon.ico" rel="icon" type="image/x-icon">
+    
+    
+    <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900" rel="stylesheet"> 
+    <link rel="stylesheet" href="/css/style.css">
+    
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> 
+    <script src="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
+    <script src="/js/custom.js"></script>
+
+</head>
+<body class="blog">
+
+<header class="header">
+    <div class="wrapper">
+        <a class="logo" href="#">The Art of PostgreSQL</a>
+        
+        <nav>
+            <ul>
+                <li><a data-slide=".subscribe_block" href="/">The Book</a></li>
+                <li><a data-slide=".packages_block" href="/">PACKAGES</a></li>
+                <li><a data-slide=".about_block" href="#">AUTHOR</a></li>
+                <li><a data-slide=".quote_slider" href="/blog/">BLOG</a></li>
+            </ul>
+        </nav>
+        
+    </div>
+    <a data-slide=".price_list" class="button button_transparent" href="#">PURCHASE</a>
+</header>
+
+
+<div class="single_block">
+    <div class="wrapper">
+        
+        <div class="single_content">
+
+         <p><img src="/img/batch-filling-bottles.jpg" alt="" /></p>
+         
+         <p>This article fits in the <a href="/tags/concurrency">PostgreSQL Concurrency</a> series,
+where we installed a tweeter like application schema and had all the
+characters from Shakespeare&rsquo;s <em>A Midsummer Night&rsquo;s Dream</em> tweet their own
+lines in our database in <a href="/blog/2018/06/PostgreSQL-DML.md">PostgreSQL Concurrency: Data Modification
+Language</a>.</p>
+
+<p>A previous article in the series covered how to manage concurrent retweets
+in an efficient way: <a href="/blog/2018/07/computing-and-caching/">Computing and
+Caching</a>, where we learn how to
+maintain a cache right in your PostgreSQL database, thanks for materialized
+views. We even went as far as maintaining an <em>external</em> cache in another
+application layer using PostgreSQL
+<a href="https://www.postgresql.org/docs/current/static/sql-listen.html">LISTEN</a> and
+<a href="https://www.postgresql.org/docs/current/static/sql-notify.html">NOTIFY</a>
+features and a Golang application.</p>
+
+<p>Today&rsquo;s article is going to address concurrency in the context of updating
+data in a batch. This activity is quite common, as soon as your system is
+connected to other systems either internally or with external providers.
+While it&rsquo;s pretty easy to ingest new data, and easy enough to update data
+from an external source when nothing happens in your database, doing the
+operation safely with concurrent activity is more complex. Once more though,
+PostgreSQL comes with all the tooling you need to handle that situation.</p>
+
+<p>
+<!--toc--></p>
+
+<h2 id="batch-update-moma-collection">Batch Update, MoMA Collection</h2>
+
+<p><a href="https://github.com/MuseumofModernArt/collection">The Museum of Modern Art (MoMA) Collection</a>
+hosts a database of the museum&rsquo;s collection, with monthly updates. The
+project is best described in their own words:</p>
+
+<blockquote>
+<p>MoMA is committed to helping everyone understand, enjoy, and use our
+collection. The Museum’s website features 75,112 artworks from 21,218
+artists. This research dataset contains 131,585 records, representing all
+of the works that have been accessioned into MoMA’s collection and
+cataloged in our database. It includes basic metadata for each work,
+including title, artist, date made, medium, dimensions, and date acquired
+by the Museum. Some of these records have incomplete information and are
+noted as “not Curator Approved.”</p>
+</blockquote>
+
+<p>Using <em>git</em> and <em>git lfs</em> commands, it&rsquo;s possible to retrieve versions of
+the artist collection for the last months. From one month to the next, lots
+of the data remains unchanged, and some is updated.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#00a">begin</span>;
+
+<span style="color:#00a">create</span> <span style="color:#00a">schema</span> <span style="color:#00a">if</span> <span style="color:#00a">not</span> <span style="color:#00a">exists</span> moma;
+
+<span style="color:#00a">create</span> <span style="color:#00a">table</span> moma.artist
+ (
+   constituentid   <span style="color:#0aa">integer</span> <span style="color:#00a">not</span> <span style="color:#00a">null</span> <span style="color:#00a">primary</span> <span style="color:#00a">key</span>,
+   name            <span style="color:#0aa">text</span> <span style="color:#00a">not</span> <span style="color:#00a">null</span>,
+   bio             <span style="color:#0aa">text</span>,
+   nationality     <span style="color:#0aa">text</span>,
+   gender          <span style="color:#0aa">text</span>,
+   <span style="color:#00a">begin</span>           <span style="color:#0aa">integer</span>,
+   <span style="color:#a50">&#34;end&#34;</span>           <span style="color:#0aa">integer</span>,
+   wiki_qid        <span style="color:#0aa">text</span>,
+   ulan            <span style="color:#0aa">text</span>
+ );
+
+<span style="color:#f00;background-color:#faa">\</span><span style="color:#00a">copy</span> moma.artist <span style="color:#00a">from</span> <span style="color:#a50">&#39;artists/artists.2017-05-01.csv&#39;</span> <span style="color:#00a">with</span> csv header <span style="color:#00a">delimiter</span> <span style="color:#a50">&#39;,&#39;</span>
+
+<span style="color:#00a">commit</span>;</code></pre></div>
+<p>Now that we have loaded some data, let&rsquo;s have a look at what we have:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#00a">select</span> name, bio, nationality, gender
+  <span style="color:#00a">from</span> moma.artist
+ <span style="color:#00a">limit</span> <span style="color:#099">6</span>;</code></pre></div>
+<p>Here are some of the artists being presented at the MoMA:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-psql" data-lang="psql">      name       │         bio         │ nationality │ gender 
+═════════════════╪═════════════════════╪═════════════╪════════
+ Robert Arneson  │ American, 1930–1992 │ American    │ Male
+ Doroteo Arnaiz  │ Spanish, born 1936  │ Spanish     │ Male
+ Bill Arnold     │ American, born 1941 │ American    │ Male
+ Charles Arnoldi │ American, born 1946 │ American    │ Male
+ Per Arnoldi     │ Danish, born 1941   │ Danish      │ Male
+ Danilo Aroldi   │ Italian, born 1925  │ Italian     │ Male
+(6 rows)</code></pre></div>
+<h2 id="updating-the-data">Updating the Data</h2>
+
+<p>After having successfully loaded the data from May, let&rsquo;s say that we have
+received an update for June. As usual with updates of this kind, we don&rsquo;t
+have a <em>diff</em>, rather we have a whole new file with a new content.</p>
+
+<p>A <em>batch update</em> operation is typically implemented that way:</p>
+
+<ul>
+<li><p>Load the new version of the data from file to a PostgreSQL table or a
+<em>temporary</em> table.</p></li>
+
+<li><p>Use the <em>update</em> command ability to use <em>join</em> operations to update
+existing data with the new values.</p></li>
+
+<li><p>Use the <em>insert</em> command ability to use <em>join</em> operations to insert new
+data from the <em>batch</em> into our target table.</p></li>
+</ul>
+
+<p>Here&rsquo;s how to write that in SQL in our case:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#00a">begin</span>;
+
+<span style="color:#00a">create</span> temp <span style="color:#00a">table</span> batch
+ (
+        <span style="color:#00a">like</span> moma.artist
+   <span style="color:#00a">including</span> <span style="color:#00a">all</span>
+ )
+ <span style="color:#00a">on</span> <span style="color:#00a">commit</span> <span style="color:#00a">drop</span>;
+
+<span style="color:#f00;background-color:#faa">\</span><span style="color:#00a">copy</span> batch <span style="color:#00a">from</span> <span style="color:#a50">&#39;artists/artists.2017-06-01.csv&#39;</span> <span style="color:#00a">with</span> csv header <span style="color:#00a">delimiter</span> <span style="color:#a50">&#39;,&#39;</span>
+
+<span style="color:#00a">with</span> upd <span style="color:#00a">as</span>
+(
+     <span style="color:#00a">update</span> moma.artist
+        <span style="color:#00a">set</span> (name, bio, nationality, gender, <span style="color:#00a">begin</span>, <span style="color:#a50">&#34;end&#34;</span>, wiki_qid, ulan)
+        
+          = (batch.name, batch.bio, batch.nationality,
+             batch.gender, batch.<span style="color:#00a">begin</span>, batch.<span style="color:#a50">&#34;end&#34;</span>,
+             batch.wiki_qid, batch.ulan)
+
+       <span style="color:#00a">from</span> batch
+       
+      <span style="color:#00a">where</span> batch.constituentid = artist.constituentid
+
+        <span style="color:#00a">and</span> (artist.name, artist.bio, artist.nationality,
+             artist.gender, artist.<span style="color:#00a">begin</span>, artist.<span style="color:#a50">&#34;end&#34;</span>,
+             artist.wiki_qid, artist.ulan)
+         &lt;&gt; (batch.name, batch.bio, batch.nationality,
+             batch.gender, batch.<span style="color:#00a">begin</span>, batch.<span style="color:#a50">&#34;end&#34;</span>,
+             batch.wiki_qid, batch.ulan)
+
+  returning artist.constituentid
+),
+    ins <span style="color:#00a">as</span>
+(
+    <span style="color:#00a">insert</span> <span style="color:#00a">into</span> moma.artist
+         <span style="color:#00a">select</span> constituentid, name, bio, nationality,
+                gender, <span style="color:#00a">begin</span>, <span style="color:#a50">&#34;end&#34;</span>, wiki_qid, ulan
+           <span style="color:#00a">from</span> batch
+          <span style="color:#00a">where</span> <span style="color:#00a">not</span> <span style="color:#00a">exists</span>
+                (
+                     <span style="color:#00a">select</span> <span style="color:#099">1</span>
+                       <span style="color:#00a">from</span> moma.artist
+                      <span style="color:#00a">where</span> artist.constituentid = batch.constituentid
+                )
+      returning artist.constituentid
+)
+<span style="color:#00a">select</span> (<span style="color:#00a">select</span> <span style="color:#00a">count</span>(*) <span style="color:#00a">from</span> upd) <span style="color:#00a">as</span> updates,
+       (<span style="color:#00a">select</span> <span style="color:#00a">count</span>(*) <span style="color:#00a">from</span> ins) <span style="color:#00a">as</span> inserts;
+
+<span style="color:#00a">commit</span>;</code></pre></div>
+<p>Our <em>batch update</em> implementation follows the specifications very closely.
+The ability for the <em>update</em> and <em>insert</em> SQL commands to use <em>join</em>
+operations are put to good use, and the <em>returning</em> clause allows to display
+some statistics about what&rsquo;s been done.</p>
+
+<p>Also, the script is careful enough to only update those rows that actually
+have changed thanks to using a <em>row comparator</em> in the update part of the
+<em>CTE</em>.</p>
+
+<p>Finally, note the usage of an <em>anti-join</em> in the insert part of the <em>CTE</em> in
+order to only insert data we didn&rsquo;t have already.</p>
+
+<p>Here&rsquo;s the result of running this <em>batch update</em> script:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-psql" data-lang="psql">BEGIN
+CREATE TABLE
+COPY 15186
+ updates │ inserts 
+═════════╪═════════
+      35 │      21
+(1 row)
+
+COMMIT</code></pre></div>
+<p>An implicit assumption has been made in the creation of this script. Indeed,
+it considers the <em>constituentid</em> from MoMA to be a reliable primary key for
+our data set. This assumption should, of course, be checked before deploying
+such an update script to production.</p>
+
+<hr />
+
+<figure class="right"><a href="https://masteringpostgresql.com">
+    <img src="/img/MasteringPostgreSQLinAppDev-Cover-th.png"/> </a>
+</figure>
+
+
+<p>This article is extracted from my book <a href="https://masteringpostgresql.com">Mastering PostgreSQL in Application
+Development</a>, which teaches SQL to
+developers so that they may replace thousands of lines of code with very
+simple queries. The book has a full chapter about <em>Data Manipulation and
+Concurrency Control</em> in PostgreSQL, including caching with materialized
+views, check it out!</p>
+
+<hr />
+
+<h2 id="concurrency-patterns">Concurrency Patterns</h2>
+
+<p>While in this solution the update or insert happens in a single query, which
+means using a single <em>snapshot</em> of the database and a within a transaction,
+it is still not prevented from being used concurrently. The tricky case
+happens if your application were to run the query above twice at the same
+time.</p>
+
+<p>What happens is that as soon as the concurrent sources contain some data for
+the same <em>primary key</em>, you get a <em>duplicate key</em> error on the insert. As
+both the transactions are concurrent, they are seeing the same <em>target</em>
+table where the new data does not exists, and both will conclude that they
+need to <em>insert</em> the new data into the <em>target</em> table.</p>
+
+<p>There are two things that you can do to avoid the problem. The first thing
+is to make it so that you&rsquo;re doing only one <em>batch update</em> at any time, by
+building your application around that constraint.</p>
+
+<p>A good way to implement that idea is with a manual <em>lock</em> command as explain
+in the <a href="http://www.postgresql.org/docs/9.2/static/explicit-locking.html">explicit
+locking</a>
+documentation part of PostgreSQL:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#00a">LOCK</span> <span style="color:#00a">TABLE</span> target <span style="color:#00a">IN</span> <span style="color:#00a">SHARE</span> <span style="color:#00a">ROW</span> <span style="color:#00a">EXCLUSIVE</span> <span style="color:#00a">MODE</span>;</code></pre></div>
+<p>That <em>lock level</em> is not automatically acquired by any PostgreSQL command,
+so the only way it helps you is when you&rsquo;re doing that for every transaction
+you want to serialize. When you know you&rsquo;re not at risk (that is, when not
+playing the <em>insert or update</em> dance), you can omit that <em>lock</em>.</p>
+
+<p>Another solution is using the new in PostgreSQL 9.5 <em>on conflict</em> clause for
+the <em>insert</em> statement.</p>
+
+<h2 id="on-conflict-do-nothing">On Conflict Do Nothing</h2>
+
+<p>When using PostgreSQL version 9.5 and later, it is possible to use the <em>on
+conflict</em> clause of the <em>insert</em> statement to handle concurrency issues, as
+in the following variant of the script we already saw. Here&rsquo;s a <em>diff</em> of
+the first update script and the second one, that handles concurrency
+conflicts:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-diff" data-lang="diff"><span style="color:#a00">--- artists.update.sql	2017-09-07 23:54:07.000000000 +0200
+</span><span style="color:#a00"></span><span style="color:#0a0">+++ artists.update.conflict.sql	2017-09-08 12:49:44.000000000 +0200
+</span><span style="color:#0a0"></span><span style="color:#800080;font-weight:bold">@@ -5,11 +5,11 @@
+</span><span style="color:#800080;font-weight:bold"></span>         like moma.artist
+    including all
+  )
+  on commit drop;
+ 
+<span style="color:#a00">-\copy batch from &#39;artists/artists.2017-06-01.csv&#39; with csv header delimiter &#39;,&#39;
+</span><span style="color:#a00"></span><span style="color:#0a0">+\copy batch from &#39;artists/artists.2017-07-01.csv&#39; with csv header delimiter &#39;,&#39;
+</span><span style="color:#0a0"></span> 
+ with upd as
+ (
+      update moma.artist
+         set (name, bio, nationality, gender, begin, &#34;end&#34;, wiki_qid, ulan)
+<span style="color:#800080;font-weight:bold">@@ -41,10 +41,11 @@
+</span><span style="color:#800080;font-weight:bold"></span>                 (
+                      select 1
+                        from moma.artist
+                       where artist.constituentid = batch.constituentid
+                 )
+<span style="color:#0a0">+    on conflict (constituentid) do nothing
+</span><span style="color:#0a0"></span>       returning artist.constituentid
+ )
+ select (select count(*) from upd) as updates,
+        (select count(*) from ins) as inserts;
+ 
+</code></pre></div>
+<p>Notice the new line <em>on conflict (constituentid) do nothing</em>. It basically
+implements what it says: if inserting a new row causes a conflict, then the
+operation for this row is skipped.</p>
+
+<p>The conflict here is a <em>primary key</em> or a <em>unique</em> violation, which means
+that the row already exists in the target table. In our case, this may only
+happen because a concurrent query just inserted that row while our query is
+in flight, in between its lookup done in the <em>update</em> part of the query and
+the <em>insert</em> part of the query.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>PostgreSQL implements several facilities that we can rely on to maintain an
+application cache for data that changes often:</p>
+
+<ul>
+<li><p>In <a href="/blog/2018/07/computing-and-caching/">Computing and Caching</a>, we saw
+how to use a MATERIALIZED VIEW to get a fixed snapshot of the data, and
+then easily REFRESH it to implement our <strong>cache invalidation policy</strong>.</p>
+
+<p>This technique is well adapted to use cases where you want to rebuild
+your cache every once in a while, maybe every night, or several times a
+day, down to maybe every five minutes if the refreshing of the cache is
+really fast.</p></li>
+
+<li><p>In <a href="/blog/2018/07/postgresql-event-based-processing/">PostgreSQL Event Based
+Processing</a> we saw how
+to use TRIGGERs to maintain a transactionally correct cache, and the
+impact of such a choice on the scalability properties of your database
+backend.</p>
+
+<p>This solution is well suited to use case where the application only
+receives a small amount of UPDATE traffic, and quite far apart, and
+can&rsquo;t tolerate any lag when using the cache.</p></li>
+
+<li><p>In <a href="/blog/2018/07/postgresql-listen/notify/">PostgreSQL LISTEN/NOTIFY</a>
+we saw how to build an online cache maintenance service with
+PostgreSQL&rsquo;s advanced notification features.</p>
+
+<p>This solution is well suited to use cases where a small amount of lag
+can be tolerated, up to maybe some seconds, most typically measured in
+the hundreds of milliseconds.</p></li>
+</ul>
+
+<p>Adding to this cache management facilities, today&rsquo;s article shows how to
+manage <em>batch updates</em> to your data set in a cincurrency safe way, thanks to
+the <a href="https://www.postgresql.org/docs/current/static/sql-insert.html">INSERT … ON CONFLICT … DO
+UPDATE</a>,
+documented as part of the INSERT command.</p>
+
+<p>Again, we see that core PostgreSQL features allow application developers to
+build exactly the facility they need. PostgreSQL really is
+<a href="/tags/yesql/">YeSQL</a>!</p>
+
+            <footer>
+                <p><strong>TAGS:</strong> <a href="#">PostgreSQL</a>, <a href="#">YeSQL</a>, <a href="#">Security</a>, <a href="#">SQL Injection</a></p>
+            </footer>
+
+            <div class="single_subscribe">
+                <p>Subscribe to receive a FREE chapter of the second edition of my book, <b><i>“The Art of PostgreSQL”</i></b> including the full Table of Contents!</p>
+                 <script async data-uid="c1452ad801" src="https://f.convertkit.com/c1452ad801/ad53e74e51.js"></script>
+            </div>
+        </div>
+
+                <aside class="single_sidebar">
+            <h6>RECENT POSTS</h6>
+            <ul>
+                <li><a href="#">Geolocation with PostgreSQL</a></li>
+                <li><a href="#">PostgreSQL Concurrency: <br />an Article Series</a></li>
+                <li><a href="#">Scheduled Data Processing: <br />How to use cron?</a></li>
+                <li><a href="#">Batch Updates and Concurrency</a></li>
+            </ul>
+            <h6>CATEGORIES</h6>
+            <ul>
+                <li><a href="#">Concurrency</a></li>
+                <li><a href="#">Batch</a></li>
+                <li><a href="#">Update</a></li>
+                <li><a href="#">Data Types</a></li>
+            </ul>
+            <h6>TAGS</h6>
+            <div class="tag_list">
+                <a href="#">PostgreSQL</a>, <a href="#">YeSQL</a>, <a href="#">Security</a>, <a href="#">SQL Injection</a>, <a href="#">Concurrency</a>, <a href="#">Batch</a>, <a href="#">Update</a>, <a href="#">Data Types</a>, <a href="#">Point</a>, <a href="#">Geolocation</a>,  <a href="#">Extensions</a>, <a href="#">Listen</a>, <a href="#">Notify</a>, <a href="#">GoLang</a>, <a href="#">Cron</a>, <a href="#">Opinion</a>, <a href="#">MOMA</a>
+            </div>
+        </aside>
+
+
+    </div>
+</div>            
+         
+ 
+
+<footer class="footer">
+	<div class="wrapper">
+	    <div class="about_block">
+	        <h6>about the author</h6>
+	        <p>Hi! My name is Dimitri Fontaine and I have been using and contributing to Open Source Software for the best of the last 20 years. I am a PostgreSQL Major Contributor after having contributed Extensions and Event Triggers, among other things.</p>
+	        <p>I have been writing code almost daily for a very long time now, both in a professional capacity and on my leisure time. I&rsquo;ve also been a database architect and a DBA on-call. As a developer I enjoy using SQL. As a database architect, I like teaching advanced SQL techniques to my colleagues.</p>
+	        <ul>
+	            <li><a target="_blank" href="mailto:dim@tapoueh.org">email</a></li>
+	            <li><a target="_blank" href="https://twitter.com/tapoueh">twitter</a></li>
+	            <li><a target="_blank" href="https://github.com/dimitri/tapoueh.org">github</a></li>
+	            <li><a target="_blank" href="https://www.reddit.com/user/theartofpostgresql">reddit</a></li>
+	        </ul>
+    	</div>
+	    <div class="faq_block">
+            <h6>FAQ</h6>
+	        <dl>
+	           <dt>What if the book isn&rsquo;t what I expected it would be?</dt>
+	           <dd>The Art of PostgreSQL is a book that teaches SQL to application developers. If it's not of any value to you, then just say so and I'll refund you, no questions asked.</dd>
+	           <dt>I bought the book, and I'm confused. What now?</dt>
+	           <dd>The content of the book is available as a PDF, ePub and MOBI file, and you can also download the SQL queries. The content is available over at <a href="https://postgresql.thinkific.com/enrollments" target="_">https://postgresql.thinkific.com/</a> from your student dashboard.</dd>
+	           <dt>Is there any DRM?</dt>
+	           <dd>No. There isn't even watermarking on the PDF. You own what you buy. The sources of data selected for the book are all available with Open Data types of licenses, and the book itself is copyright Dimitri Fontaine. All rights reserved.</dd>
+	           <dt>Any other questions?</dt>
+	           <dd>Contact me by <a href="mailto:dim@tapoueh.org">email</a> and just ask! I will do my best to answer you.</dd>
+	        </dl>
+    	</div>
+	</div>
+</footer>
+
+
+
+
+
+
+<div class="copyright">
+    <div class="wrapper">
+        Copyright 2019 &copy; Dimitri Fontaine. All rights reserved. Design by <a style="color: white; font-weight: bold;" target="_blank" href="https://www.terrilowry.com">TerriLowry.com.</a>
+    </div>
+</div>
+
+
+ 
+</body>
+ 
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-47059482-5"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-47059482-5');
+</script>
+
+
+<script>
+!function(e,t,n,s,u,a){e.twq||(s=e.twq=function(){s.exe?s.exe.apply(s,arguments):s.queue.push(arguments);
+},s.version='1.1',s.queue=[],u=t.createElement(n),u.async=!0,u.src='//static.ads-twitter.com/uwt.js',
+a=t.getElementsByTagName(n)[0],a.parentNode.insertBefore(u,a))}(window,document,'script');
+
+twq('init','o0ial');
+twq('track','PageView');
+</script>
+
+
+</html> 
+

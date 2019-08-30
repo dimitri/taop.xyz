@@ -98,63 +98,60 @@ created using the following script:</p>
 <span style="color:#00a">create</span> <span style="color:#00a">index</span> blocks_ip4r_idx <span style="color:#00a">on</span> geolite.blocks <span style="color:#00a">using</span> gist(iprange);</code></pre></div>
 <p>And the data can now be imported to those target tables thanks to the
 following pgloader command, quite involved:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#aaa;font-style:italic">/*
+</span><span style="color:#aaa;font-style:italic"> * Loading from a ZIP archive containing CSV files.
+</span><span style="color:#aaa;font-style:italic"> */</span>
 
-<pre><code>/*
- * Loading from a ZIP archive containing CSV files.
- */
+<span style="color:#00a">LOAD</span> ARCHIVE
+   <span style="color:#00a">FROM</span> http://geolite.maxmind.com/download/geoip/<span style="color:#00a">database</span>/GeoLiteCity_CSV/GeoLiteCity-latest.zip
+   <span style="color:#00a">INTO</span> postgresql://appdev@/appdev
 
-LOAD ARCHIVE
-   FROM http://geolite.maxmind.com/download/geoip/database/GeoLiteCity_CSV/GeoLiteCity-latest.zip
-   INTO postgresql://appdev@/appdev
+   <span style="color:#00a">BEFORE</span> <span style="color:#00a">LOAD</span> <span style="color:#00a">EXECUTE</span> <span style="color:#a50">&#39;geolite.sql&#39;</span>
 
-   BEFORE LOAD EXECUTE 'geolite.sql'
-
-   LOAD CSV
-        FROM FILENAME MATCHING ~/GeoLiteCity-Location.csv/
-             WITH ENCODING iso-8859-1
+   <span style="color:#00a">LOAD</span> CSV
+        <span style="color:#00a">FROM</span> FILENAME MATCHING ~/GeoLiteCity-<span style="color:#00a">Location</span>.csv/
+             <span style="color:#00a">WITH</span> <span style="color:#00a">ENCODING</span> iso-<span style="color:#099">8859</span>-<span style="color:#099">1</span>
              (
                 locId,
                 country,
-                region     [ null if blanks ],
-                city       [ null if blanks ],
-                postalCode [ null if blanks ],
+                region     [ <span style="color:#00a">null</span> <span style="color:#00a">if</span> blanks ],
+                city       [ <span style="color:#00a">null</span> <span style="color:#00a">if</span> blanks ],
+                postalCode [ <span style="color:#00a">null</span> <span style="color:#00a">if</span> blanks ],
                 latitude,
                 longitude,
-                metroCode  [ null if blanks ],
-                areaCode   [ null if blanks ]
+                metroCode  [ <span style="color:#00a">null</span> <span style="color:#00a">if</span> blanks ],
+                areaCode   [ <span style="color:#00a">null</span> <span style="color:#00a">if</span> blanks ]
              )
-        INTO postgresql://appdev@/appdev
-        TARGET TABLE geolite.location
+        <span style="color:#00a">INTO</span> postgresql://appdev@/appdev
+        TARGET <span style="color:#00a">TABLE</span> geolite.<span style="color:#00a">location</span>
              (
                 locid,country,region,city,postalCode,
-                location point using (format nil &quot;(~a,~a)&quot; longitude latitude),
+                <span style="color:#00a">location</span> point <span style="color:#00a">using</span> (format nil <span style="color:#a50">&#34;(~a,~a)&#34;</span> longitude latitude),
                 metroCode,areaCode
              )
-        WITH skip header = 2,
-             drop indexes,
-             fields optionally enclosed by '&quot;',
-             fields escaped by double-quote,
-             fields terminated by ','
+        <span style="color:#00a">WITH</span> skip header = <span style="color:#099">2</span>,
+             <span style="color:#00a">drop</span> indexes,
+             fields optionally enclosed <span style="color:#00a">by</span> <span style="color:#a50">&#39;&#34;&#39;</span>,
+             fields escaped <span style="color:#00a">by</span> double-quote,
+             fields terminated <span style="color:#00a">by</span> <span style="color:#a50">&#39;,&#39;</span>
 
-  AND LOAD CSV
-        FROM FILENAME MATCHING ~/GeoLiteCity-Blocks.csv/
-             WITH ENCODING iso-8859-1
+  <span style="color:#00a">AND</span> <span style="color:#00a">LOAD</span> CSV
+        <span style="color:#00a">FROM</span> FILENAME MATCHING ~/GeoLiteCity-Blocks.csv/
+             <span style="color:#00a">WITH</span> <span style="color:#00a">ENCODING</span> iso-<span style="color:#099">8859</span>-<span style="color:#099">1</span>
              (
                 startIpNum, endIpNum, locId
              )
-        INTO postgresql://appdev@/appdev
-        TARGET TABLE geolite.blocks
+        <span style="color:#00a">INTO</span> postgresql://appdev@/appdev
+        TARGET <span style="color:#00a">TABLE</span> geolite.blocks
              (
-                iprange ip4r using (ip-range startIpNum endIpNum),
+                iprange ip4r <span style="color:#00a">using</span> (ip-range startIpNum endIpNum),
                 locId
              )
-        WITH skip header = 2,
-             drop indexes,
-             fields optionally enclosed by '&quot;',
-             fields escaped by double-quote,
-             fields terminated by ',';
-</code></pre>
-
+        <span style="color:#00a">WITH</span> skip header = <span style="color:#099">2</span>,
+             <span style="color:#00a">drop</span> indexes,
+             fields optionally enclosed <span style="color:#00a">by</span> <span style="color:#a50">&#39;&#34;&#39;</span>,
+             fields escaped <span style="color:#00a">by</span> double-quote,
+             fields terminated <span style="color:#00a">by</span> <span style="color:#a50">&#39;,&#39;</span>;</code></pre></div>
 <p>The pgloader command describe the file format so that pgloader can parse the
 data from the CSV file and transform it in memory to the format we expect in
 PostgreSQL. The location in the CSV file is given as two separate fields
@@ -170,60 +167,55 @@ the real name of the directory, here <code>GeoLiteCity_20180327</code>. So when 
 a new release of the <em>Geolite</em> files, you can run the pgloader all over
 again and expect it to load the new data.</p>
 
-<p>&ndash;&gt;</p>
-
 <p>And here&rsquo;s what the output of the pgloader command looks like. Note that I
 have stripped the timestamps from the logs output, in order for the line to
 make sense when printed in those pages:</p>
-
-<pre><code>$ pgloader --verbose geolite.load
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ pgloader --verbose geolite.load
 NOTICE Starting pgloader, log system is ready.
-LOG Data errors in '/private/tmp/pgloader/'
-LOG Parsing commands from file #P&quot;/Users/dim/dev/yesql/src/1-application-development/data/geolite/geolite.load&quot;
-LOG Fetching 'http://geolite.maxmind.com/download/geoip/database/GeoLiteCity_CSV/GeoLiteCity-latest.zip'
-LOG Extracting files from archive '/var/folders/bh/t1wcr6cx37v4h87yj3qj009r0000gn/T/GeoLiteCity-latest.zip'
-NOTICE unzip -o &quot;/var/folders/bh/t1wcr6cx37v4h87yj3qj009r0000gn/T/GeoLiteCity-latest.zip&quot; -d &quot;/var/folders/bh/t1wcr6cx37v4h87yj3qj009r0000gn/T/GeoLiteCity-latest/&quot;
-NOTICE Executing SQL block for before load
-NOTICE ALTER TABLE &quot;geolite&quot;.&quot;location&quot; DROP CONSTRAINT IF EXISTS &quot;location_pkey&quot;;
-NOTICE COPY &quot;geolite&quot;.&quot;location&quot;
-NOTICE Opening #P&quot;/private/var/folders/bh/t1wcr6cx37v4h87yj3qj009r0000gn/T/GeoLiteCity-latest/GeoLiteCity_20180327/GeoLiteCity-Location.csv&quot;
-NOTICE copy &quot;geolite&quot;.&quot;location&quot;: 234105 rows done,  11.5 MB,   2.1 MBps
-NOTICE copy &quot;geolite&quot;.&quot;location&quot;: 495453 rows done,  24.3 MB,   2.2 MBps
-NOTICE copy &quot;geolite&quot;.&quot;location&quot;: 747550 rows done,  37.1 MB,   2.2 MBps
+LOG Data errors in <span style="color:#a50">&#39;/private/tmp/pgloader/&#39;</span>
+LOG Parsing commands from file <span style="color:#aaa;font-style:italic">#P&#34;/Users/dim/dev/yesql/src/1-application-development/data/geolite/geolite.load&#34;
+</span><span style="color:#aaa;font-style:italic"></span>LOG Fetching <span style="color:#a50">&#39;http://geolite.maxmind.com/download/geoip/database/GeoLiteCity_CSV/GeoLiteCity-latest.zip&#39;</span>
+LOG Extracting files from archive <span style="color:#a50">&#39;/var/folders/bh/t1wcr6cx37v4h87yj3qj009r0000gn/T/GeoLiteCity-latest.zip&#39;</span>
+NOTICE unzip -o <span style="color:#a50">&#34;/var/folders/bh/t1wcr6cx37v4h87yj3qj009r0000gn/T/GeoLiteCity-latest.zip&#34;</span> -d <span style="color:#a50">&#34;/var/folders/bh/t1wcr6cx37v4h87yj3qj009r0000gn/T/GeoLiteCity-latest/&#34;</span>
+NOTICE Executing SQL block <span style="color:#00a">for</span> before load
+NOTICE ALTER TABLE <span style="color:#a50">&#34;geolite&#34;</span>.<span style="color:#a50">&#34;location&#34;</span> DROP CONSTRAINT IF EXISTS <span style="color:#a50">&#34;location_pkey&#34;</span>;
+NOTICE COPY <span style="color:#a50">&#34;geolite&#34;</span>.<span style="color:#a50">&#34;location&#34;</span>
+NOTICE Opening <span style="color:#aaa;font-style:italic">#P&#34;/private/var/folders/bh/t1wcr6cx37v4h87yj3qj009r0000gn/T/GeoLiteCity-latest/GeoLiteCity_20180327/GeoLiteCity-Location.csv&#34;
+</span><span style="color:#aaa;font-style:italic"></span>NOTICE copy <span style="color:#a50">&#34;geolite&#34;</span>.<span style="color:#a50">&#34;location&#34;</span>: <span style="color:#099">234105</span> rows <span style="color:#00a">done</span>,  <span style="color:#099">11</span>.5 MB,   <span style="color:#099">2</span>.1 MBps
+NOTICE copy <span style="color:#a50">&#34;geolite&#34;</span>.<span style="color:#a50">&#34;location&#34;</span>: <span style="color:#099">495453</span> rows <span style="color:#00a">done</span>,  <span style="color:#099">24</span>.3 MB,   <span style="color:#099">2</span>.2 MBps
+NOTICE copy <span style="color:#a50">&#34;geolite&#34;</span>.<span style="color:#a50">&#34;location&#34;</span>: <span style="color:#099">747550</span> rows <span style="color:#00a">done</span>,  <span style="color:#099">37</span>.1 MB,   <span style="color:#099">2</span>.2 MBps
 NOTICE CREATE UNIQUE INDEX location_pkey ON geolite.location USING btree (locid)
-NOTICE ALTER TABLE &quot;geolite&quot;.&quot;location&quot; ADD PRIMARY KEY USING INDEX &quot;location_pkey&quot;;
-NOTICE DROP INDEX IF EXISTS &quot;geolite&quot;.&quot;blocks_ip4r_idx&quot;;
-NOTICE COPY &quot;geolite&quot;.&quot;blocks&quot;
-NOTICE Opening #P&quot;/private/var/folders/bh/t1wcr6cx37v4h87yj3qj009r0000gn/T/GeoLiteCity-latest/GeoLiteCity_20180327/GeoLiteCity-Blocks.csv&quot;
-NOTICE copy &quot;geolite&quot;.&quot;blocks&quot;: 227502 rows done,   7.0 MB,   1.8 MBps
-NOTICE copy &quot;geolite&quot;.&quot;blocks&quot;: 492894 rows done,  15.2 MB,   1.9 MBps
-NOTICE copy &quot;geolite&quot;.&quot;blocks&quot;: 738483 rows done,  22.9 MB,   2.0 MBps
-NOTICE copy &quot;geolite&quot;.&quot;blocks&quot;: 986719 rows done,  30.7 MB,   2.1 MBps
-NOTICE copy &quot;geolite&quot;.&quot;blocks&quot;: 1246450 rows done,  38.9 MB,   2.2 MBps
-NOTICE copy &quot;geolite&quot;.&quot;blocks&quot;: 1489726 rows done,  47.1 MB,   2.2 MBps
-NOTICE copy &quot;geolite&quot;.&quot;blocks&quot;: 1733633 rows done,  55.1 MB,   2.2 MBps
-NOTICE copy &quot;geolite&quot;.&quot;blocks&quot;: 1985222 rows done,  63.3 MB,   2.2 MBps
+NOTICE ALTER TABLE <span style="color:#a50">&#34;geolite&#34;</span>.<span style="color:#a50">&#34;location&#34;</span> ADD PRIMARY KEY USING INDEX <span style="color:#a50">&#34;location_pkey&#34;</span>;
+NOTICE DROP INDEX IF EXISTS <span style="color:#a50">&#34;geolite&#34;</span>.<span style="color:#a50">&#34;blocks_ip4r_idx&#34;</span>;
+NOTICE COPY <span style="color:#a50">&#34;geolite&#34;</span>.<span style="color:#a50">&#34;blocks&#34;</span>
+NOTICE Opening <span style="color:#aaa;font-style:italic">#P&#34;/private/var/folders/bh/t1wcr6cx37v4h87yj3qj009r0000gn/T/GeoLiteCity-latest/GeoLiteCity_20180327/GeoLiteCity-Blocks.csv&#34;
+</span><span style="color:#aaa;font-style:italic"></span>NOTICE copy <span style="color:#a50">&#34;geolite&#34;</span>.<span style="color:#a50">&#34;blocks&#34;</span>: <span style="color:#099">227502</span> rows <span style="color:#00a">done</span>,   <span style="color:#099">7</span>.0 MB,   <span style="color:#099">1</span>.8 MBps
+NOTICE copy <span style="color:#a50">&#34;geolite&#34;</span>.<span style="color:#a50">&#34;blocks&#34;</span>: <span style="color:#099">492894</span> rows <span style="color:#00a">done</span>,  <span style="color:#099">15</span>.2 MB,   <span style="color:#099">1</span>.9 MBps
+NOTICE copy <span style="color:#a50">&#34;geolite&#34;</span>.<span style="color:#a50">&#34;blocks&#34;</span>: <span style="color:#099">738483</span> rows <span style="color:#00a">done</span>,  <span style="color:#099">22</span>.9 MB,   <span style="color:#099">2</span>.0 MBps
+NOTICE copy <span style="color:#a50">&#34;geolite&#34;</span>.<span style="color:#a50">&#34;blocks&#34;</span>: <span style="color:#099">986719</span> rows <span style="color:#00a">done</span>,  <span style="color:#099">30</span>.7 MB,   <span style="color:#099">2</span>.1 MBps
+NOTICE copy <span style="color:#a50">&#34;geolite&#34;</span>.<span style="color:#a50">&#34;blocks&#34;</span>: <span style="color:#099">1246450</span> rows <span style="color:#00a">done</span>,  <span style="color:#099">38</span>.9 MB,   <span style="color:#099">2</span>.2 MBps
+NOTICE copy <span style="color:#a50">&#34;geolite&#34;</span>.<span style="color:#a50">&#34;blocks&#34;</span>: <span style="color:#099">1489726</span> rows <span style="color:#00a">done</span>,  <span style="color:#099">47</span>.1 MB,   <span style="color:#099">2</span>.2 MBps
+NOTICE copy <span style="color:#a50">&#34;geolite&#34;</span>.<span style="color:#a50">&#34;blocks&#34;</span>: <span style="color:#099">1733633</span> rows <span style="color:#00a">done</span>,  <span style="color:#099">55</span>.1 MB,   <span style="color:#099">2</span>.2 MBps
+NOTICE copy <span style="color:#a50">&#34;geolite&#34;</span>.<span style="color:#a50">&#34;blocks&#34;</span>: <span style="color:#099">1985222</span> rows <span style="color:#00a">done</span>,  <span style="color:#099">63</span>.3 MB,   <span style="color:#099">2</span>.2 MBps
 NOTICE CREATE INDEX blocks_ip4r_idx ON geolite.blocks USING gist (iprange)
 LOG report summary reset
-             table name     errors       read   imported      bytes      total time
+             table name     errors       <span style="color:#0aa">read</span>   imported      bytes      total <span style="color:#0aa">time</span>
 -----------------------  ---------  ---------  ---------  ---------  --------------
-               download          0          0          0                     0.793s
-                extract          0          0          0                     0.855s
-            before load          0          5          5                     0.033s
-                  fetch          0          0          0                     0.005s
+               download          <span style="color:#099">0</span>          <span style="color:#099">0</span>          <span style="color:#099">0</span>                     <span style="color:#099">0</span>.793s
+                extract          <span style="color:#099">0</span>          <span style="color:#099">0</span>          <span style="color:#099">0</span>                     <span style="color:#099">0</span>.855s
+            before load          <span style="color:#099">0</span>          <span style="color:#099">5</span>          <span style="color:#099">5</span>                     <span style="color:#099">0</span>.033s
+                  fetch          <span style="color:#099">0</span>          <span style="color:#099">0</span>          <span style="color:#099">0</span>                     <span style="color:#099">0</span>.005s
 -----------------------  ---------  ---------  ---------  ---------  --------------
-   &quot;geolite&quot;.&quot;location&quot;          0     928138     928138    46.4 MB         20.983s
-     &quot;geolite&quot;.&quot;blocks&quot;          0    2108310    2108310    67.4 MB         30.695s
+   <span style="color:#a50">&#34;geolite&#34;</span>.<span style="color:#a50">&#34;location&#34;</span>          <span style="color:#099">0</span>     <span style="color:#099">928138</span>     <span style="color:#099">928138</span>    <span style="color:#099">46</span>.4 MB         <span style="color:#099">20</span>.983s
+     <span style="color:#a50">&#34;geolite&#34;</span>.<span style="color:#a50">&#34;blocks&#34;</span>          <span style="color:#099">0</span>    <span style="color:#099">2108310</span>    <span style="color:#099">2108310</span>    <span style="color:#099">67</span>.4 MB         <span style="color:#099">30</span>.695s
 -----------------------  ---------  ---------  ---------  ---------  --------------
-        Files Processed          0          2          2                     0.024s
-COPY Threads Completion          0          4          4                    51.690s
- Index Build Completion          0          0          0                    49.363s
-         Create Indexes          0          2          2                    49.265s
-            Constraints          0          1          1                     0.002s
+        Files Processed          <span style="color:#099">0</span>          <span style="color:#099">2</span>          <span style="color:#099">2</span>                     <span style="color:#099">0</span>.024s
+COPY Threads Completion          <span style="color:#099">0</span>          <span style="color:#099">4</span>          <span style="color:#099">4</span>                    <span style="color:#099">51</span>.690s
+ Index Build Completion          <span style="color:#099">0</span>          <span style="color:#099">0</span>          <span style="color:#099">0</span>                    <span style="color:#099">49</span>.363s
+         Create Indexes          <span style="color:#099">0</span>          <span style="color:#099">2</span>          <span style="color:#099">2</span>                    <span style="color:#099">49</span>.265s
+            Constraints          <span style="color:#099">0</span>          <span style="color:#099">1</span>          <span style="color:#099">1</span>                     <span style="color:#099">0</span>.002s
 -----------------------  ---------  ---------  ---------  ---------  --------------
-      Total import time          ✓    3036448    3036448   113.8 MB       2m30.344s
-</code></pre>
-
+      Total import <span style="color:#0aa">time</span>          ✓    <span style="color:#099">3036448</span>    <span style="color:#099">3036448</span>   <span style="color:#099">113</span>.8 MB       2m30.344s</code></pre></div>
 <p>We can see that pgloader has dropped the indexes before loading the data,
 and created them again once the data is loaded, in parallel to loading data
 from the next table. This parallel processing can be a huge benefit on beefy

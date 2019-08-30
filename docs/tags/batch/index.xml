@@ -1,35 +1,15 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Concurrency on The Art of PostgreSQL</title>
-    <link>https://theartofpostgresql.com/tags/concurrency/</link>
-    <description>Recent content in Concurrency on The Art of PostgreSQL</description>
+    <title>Batch on The Art of PostgreSQL</title>
+    <link>https://theartofpostgresql.com/tags/batch/</link>
+    <description>Recent content in Batch on The Art of PostgreSQL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 14 Aug 2018 11:49:02 +0300</lastBuildDate>
+    <lastBuildDate>Mon, 23 Jul 2018 22:45:43 +0200</lastBuildDate>
     
-	<atom:link href="https://theartofpostgresql.com/tags/concurrency/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://theartofpostgresql.com/tags/batch/index.xml" rel="self" type="application/rss+xml" />
     
-    
-    <item>
-      <title>PostgreSQL Concurrency: an Article Series</title>
-      <link>https://theartofpostgresql.com/blog/2018-08-postgresql-concurrency/</link>
-      <pubDate>Tue, 14 Aug 2018 11:49:02 +0300</pubDate>
-      
-      <guid>https://theartofpostgresql.com/blog/2018-08-postgresql-concurrency/</guid>
-      <description>&lt;p&gt;&lt;a href=&#34;https://www.postgresql.org&#34;&gt;PostgreSQL&lt;/a&gt; is a relational database management
-system. It&amp;rsquo;s even the world&amp;rsquo;s most advanced open source one of them. As
-such, as its core, Postgres solves concurrent access to a set of data and
-maintains consistency while allowing concurrent operations.&lt;/p&gt;
-
-&lt;p&gt;In the &lt;a href=&#34;https://theartofpostgresql.com/tags/concurrency/&#34;&gt;PostgreSQL Concurrency&lt;/a&gt; series of articles here
-we did see several aspects of how to handle concurrent use cases of your
-application design with PostgreSQL. The main thing to remember is that a
-Database Management System first task is to handle concurrency access to the
-data for you.&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
-    </item>
     
     <item>
       <title>Batch Updates and Concurrency</title>

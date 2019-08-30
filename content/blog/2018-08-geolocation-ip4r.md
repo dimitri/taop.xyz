@@ -64,7 +64,7 @@ create index blocks_ip4r_idx on geolite.blocks using gist(iprange);
 And the data can now be imported to those target tables thanks to the
 following pgloader command, quite involved:
 
-~~~
+~~~ sql
 /*
  * Loading from a ZIP archive containing CSV files.
  */
@@ -140,13 +140,11 @@ the real name of the directory, here `GeoLiteCity_20180327`. So when there's
 a new release of the _Geolite_ files, you can run the pgloader all over
 again and expect it to load the new data.
 
--->
-
 And here's what the output of the pgloader command looks like. Note that I
 have stripped the timestamps from the logs output, in order for the line to
 make sense when printed in those pages:
 
-~~~
+~~~ bash
 $ pgloader --verbose geolite.load
 NOTICE Starting pgloader, log system is ready.
 LOG Data errors in '/private/tmp/pgloader/'

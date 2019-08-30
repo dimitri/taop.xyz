@@ -48,36 +48,6 @@
          
          
             <li>
-                <a class="link" href="https://theartofpostgresql.com/blog/2018-11-sql-injection/">&nbsp;</a>
-                <div class="bg"></div>
-                <div data-cover=".cover"><img class="cover" src="/img/sql-injection.jpg" alt="" /></div>
-                <div>
-                    <p>2018-11-10</p>
-                    <p>Preventing SQL Injections</p>
-                </div>
-            </li>
-         
-            <li>
-                <a class="link" href="https://theartofpostgresql.com/blog/2018-08-geolocation-ip4r/">&nbsp;</a>
-                <div class="bg"></div>
-                <div data-cover=".cover"><img class="cover" src="/img/earth.jpg" alt="" /></div>
-                <div>
-                    <p>2018-08-24</p>
-                    <p>Geolocation with PostgreSQL</p>
-                </div>
-            </li>
-         
-            <li>
-                <a class="link" href="https://theartofpostgresql.com/blog/2018-08-postgresql-concurrency/">&nbsp;</a>
-                <div class="bg"></div>
-                <div data-cover=".cover"><img class="cover" src="/img/concurrency-dogs.jpg" alt="" /></div>
-                <div>
-                    <p>2018-08-14</p>
-                    <p>PostgreSQL Concurrency: an Article Series</p>
-                </div>
-            </li>
-         
-            <li>
                 <a class="link" href="https://theartofpostgresql.com/blog/2018-07-concurrent-batch-update/">&nbsp;</a>
                 <div class="bg"></div>
                 <div data-cover=".cover"><img class="cover" src="/img/batch-filling-bottles.jpg" alt="" /></div>
@@ -98,73 +68,6 @@
     <div class="wrapper">        
         <div class="posts_wrap">
           
-          
-                        <div class="post">
-                <a data-cover=".cover" href="https://theartofpostgresql.com/blog/2018-11-sql-injection/"><img class="cover" src="/img/sql-injection.jpg" alt="" /></a>
-                <header>
-                    <p>2018-11-10</p>
-                    <h4><a href="#">Preventing SQL Injections</a></h4>
-                </header>
-                <p>An <em>SQL Injection</em> is a security breach, one made famous by the <a href="https://xkcd.com/327/">Exploits of
-a Mom</a> <code>xkcd</code> comic episode in which we read about
-<em>little Bobby Tables</em>:</p>
-
-<figure class="center"><a href="https://xkcd.com/327/">
-    <img src="/img/exploits_of_a_mom.png"/> </a>
-</figure>
-
-
-<p>PostgreSQL implements a protocol level facility to send the static SQL query
-text separately from its dynamic arguments. An SQL injection happens when
-the database server is mistakenly led to consider a dynamic argument of a
-query as part of the query text. Sending those parts as separate entities
-over the protocol means that SQL injection is no longer possible.</p>
-
-<!--toc-->
-
-<p></p>
-            </div>
-
-          
-                        <div class="post">
-                <a data-cover=".cover" href="https://theartofpostgresql.com/blog/2018-08-geolocation-ip4r/"><img class="cover" src="/img/earth.jpg" alt="" /></a>
-                <header>
-                    <p>2018-08-24</p>
-                    <h4><a href="#">Geolocation with PostgreSQL</a></h4>
-                </header>
-                <p>We have loaded Open Street Map points of interests in the article <a href="/blog/2013/08/the-most-popular-pub-names/">The Most
-Popular Pub Names</a> — which
-compares PostgreSQL with MongoDB for simple geographical queries, and is
-part of our <a href="/tags/extensions/">PostgreSQL Extensions</a> article series. In
-today&rsquo;s article, look at how to geolocalize an IP address and locate the
-nearest pub, all within a single SQL query!</p>
-
-<p>For that, we are going to use the awesome
-<a href="https://github.com/RhodiumToad/ip4r">ip4r</a> extension from
-<a href="http://blog.rhodiumtoad.org.uk/">RhodiumToad</a>.</p>
-            </div>
-
-          
-                        <div class="post">
-                <a data-cover=".cover" href="https://theartofpostgresql.com/blog/2018-08-postgresql-concurrency/"><img class="cover" src="/img/concurrency-dogs.jpg" alt="" /></a>
-                <header>
-                    <p>2018-08-14</p>
-                    <h4><a href="#">PostgreSQL Concurrency: an Article Series</a></h4>
-                </header>
-                <p><a href="https://www.postgresql.org">PostgreSQL</a> is a relational database management
-system. It&rsquo;s even the world&rsquo;s most advanced open source one of them. As
-such, as its core, Postgres solves concurrent access to a set of data and
-maintains consistency while allowing concurrent operations.</p>
-
-<p>In the <a href="/tags/concurrency/">PostgreSQL Concurrency</a> series of articles here
-we did see several aspects of how to handle concurrent use cases of your
-application design with PostgreSQL. The main thing to remember is that a
-Database Management System first task is to handle concurrency access to the
-data for you.</p>
-
-<p></p>
-            </div>
-
           
                         <div class="post">
                 <a data-cover=".cover" href="https://theartofpostgresql.com/blog/2018-07-concurrent-batch-update/"><img class="cover" src="/img/batch-filling-bottles.jpg" alt="" /></a>

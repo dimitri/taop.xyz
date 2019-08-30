@@ -18,7 +18,18 @@
   </url>
   
   <url>
+    <loc>https://theartofpostgresql.com/blog/2018-07-concurrent-batch-update/</loc>
+    <lastmod>2018-07-23T22:45:43+02:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://theartofpostgresql.com/archives/</loc>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://theartofpostgresql.com/tags/batch/</loc>
+    <lastmod>2018-07-23T22:45:43+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -82,6 +93,12 @@
   </url>
   
   <url>
+    <loc>https://theartofpostgresql.com/tags/moma/</loc>
+    <lastmod>2018-07-23T22:45:43+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://theartofpostgresql.com/tags/notify/</loc>
     <lastmod>2018-08-14T11:49:02+03:00</lastmod>
     <priority>0</priority>
@@ -119,13 +136,19 @@
   
   <url>
     <loc>https://theartofpostgresql.com/tags/</loc>
-    <lastmod>2018-08-14T11:49:02+03:00</lastmod>
+    <lastmod>2018-07-23T22:45:43+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://theartofpostgresql.com/</loc>
     <lastmod>2018-11-10T15:40:01+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://theartofpostgresql.com/tags/update/</loc>
+    <lastmod>2018-07-23T22:45:43+02:00</lastmod>
     <priority>0</priority>
   </url>
   
