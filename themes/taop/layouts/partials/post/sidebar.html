@@ -1,55 +1,26 @@
-        <aside class="sidebar">
-            <div class="about_author">
-                <h6>ABOUT</h6>
-                <div data-cover=".cover"><img class="cover" src="/images/demo/author.jpg" alt="" /></div>
-                <p>Hi! My name is Dimitri Fontaine and I have been using and contributing to Open Source Software for the best of the last 20 years.</p>
-                <p><a data-slide=".about_block" href="#">READ MORE +</a></p>
-                <ul>
-                    <li><a target="_blank" href="mailto:dim@tapoueh.org">email</a></li>
-                    <li><a target="_blank" href="https://twitter.com/tapoueh">twitter</a></li>
-                    <li><a target="_blank" href="https://github.com/dimitri/tapoueh.org">github</a></li>
-                    <li><a target="_blank" href="https://www.reddit.com/user/theartofpostgresql">reddit</a></li>
-                </ul>
-            </div>
-            
-            <a href="#" class="banner"><span>What if you could turn thousands of lines of code into simple queries?</span></a>
-            
-            <div class="twitter_block">
-                <h6>TWITTER</h6>
-                <ul>
-                    <li>
-                        <p><strong>August 1, 2019</strong>: <i>Retweeted @thecaitcode </i></p>
-                        <p>Anyone out there a part of the Portland Tech scene that would be open to a junior dev shadowing them for half a day? Transitioning into the field, I’ve been focusing so much on on learning the stack, it would be great experience to put it in context. Thanks! #pdxtech #WomenWhoCode</p>
-                    </li>
-                    <li>
-                        <p><strong>August 1, 2019</strong>: <i>Retweeted @OpenAtMicrosoft</i></p>
-                        <p>pg_auto_failover is an #opensource extension for automated failover and high-availability in PostgreSQL. Learn more>> msft.social/Eo4wSu @LukasFittl @PostgreSQL</p>
-                    </li>
-                    <li>
-                        <p><strong>August 31, 2019</strong>: <i>Retweeted @pganalyze </i></p>
-                        <p>In this article on #Postgres12 highlights, @michaelpq demonstrates the basics of table access methods (more commonly known as ‘pluggable storage’): ed.gr/bqs5a #postgres #postgresql</p>
-                    </li>
-                </ul>
-            </div>
-
-            <div class="meta">
-                <h6>RECENT POSTS</h6>
-                <ul>
-                    <li><a href="#">Geolocation with PostgreSQL</a></li>
-                    <li><a href="#">PostgreSQL Concurrency: <br />an Article Series</a></li>
-                    <li><a href="#">Scheduled Data Processing: <br />How to use cron?</a></li>
-                    <li><a href="#">Batch Updates and Concurrency</a></li>
-                </ul>
-                <h6>CATEGORIES</h6>
-                <ul>
-                    <li><a href="#">Concurrency</a></li>
-                    <li><a href="#">Batch</a></li>
-                    <li><a href="#">Update</a></li>
-                    <li><a href="#">Data Types</a></li>
-                </ul>
-                <h6>TAGS</h6>
-                <div class="tag_list">
-                    <a href="#">PostgreSQL</a>, <a href="#">YeSQL</a>, <a href="#">Security</a>, <a href="#">SQL Injection</a>, <a href="#">Concurrency</a>, <a href="#">Batch</a>, <a href="#">Update</a>, <a href="#">Data Types</a>, <a href="#">Point</a>, <a href="#">Geolocation</a>,  <a href="#">Extensions</a>, <a href="#">Listen</a>, <a href="#">Notify</a>, <a href="#">GoLang</a>, <a href="#">Cron</a>, <a href="#">Opinion</a>, <a href="#">MOMA</a>
-                </div>
-            </div>
-        </aside>
+<aside class="sidebar">
+ <div class="about_author">
+  <h6>ABOUT</h6>
+  <div data-cover=".cover"><img class="cover" src="/images/demo/author.jpg" alt="" /></div>
+  <p>Hi! My name is Dimitri Fontaine and I have been using and contributing to Open Source Software for the best of the last 20 years.</p>
+  <p><a data-slide=".about_block" href="#">READ MORE +</a></p>
+  <ul>
+   <li><a target="_blank" href="mailto:dim@tapoueh.org">email</a></li>
+   <li><a target="_blank" href="https://twitter.com/tapoueh">twitter</a></li>
+   <li><a target="_blank" href="https://github.com/dimitri/tapoueh.org">github</a></li>
+   <li><a target="_blank" href="https://www.reddit.com/user/theartofpostgresql">reddit</a></li>
+  </ul>
+ </div>
+ 
+ <a href="/#packages" class="banner"><span>What if you could turn thousands of lines of code into simple queries?</span></a>
+ 
+ <div class="meta">
+  <h6>RECENT POSTS</h6>
+  <ul>
+   {{ $paginator := .Paginate (where .Data.Pages "Type" "blog") }}
+   {{ range first 5 $paginator.Pages }}
+   <li><a href="{{ .Permalink }}">{{ .Title }}</a></li>
+   {{ end }}
+  </ul>
+ </div>
+</aside>

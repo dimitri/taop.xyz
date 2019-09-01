@@ -15,6 +15,7 @@
     
     <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900" rel="stylesheet"> 
     <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/syntax.css">
     
     
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> 
@@ -24,9 +25,9 @@
 </head>
 <body class="blog">
 
-<header class="header">
+<header class="header"  style="background-color: #67527a; background: url('/images/demo/slide.jpg');">
     <div class="wrapper">
-        <a class="logo" href="#">The Art of PostgreSQL</a>
+        <a class="logo" href="/">The Art of PostgreSQL</a>
         
         <nav>
             <ul>
@@ -38,7 +39,7 @@
         </nav>
         
     </div>
-    <a data-slide=".price_list" class="button button_transparent" href="#">PURCHASE</a>
+    <a data-slide=".price_list" class="button" href="/">PURCHASE</a>
 </header>
 
 
@@ -106,19 +107,19 @@ PostgreSQL drivers still don&rsquo;t expose this facility.</p>
 
 <p>Server-side Prepared Statements can be used in SQL thanks to the PREPARE and
 EXECUTE commands syntax, as in the following example:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#00a">prepare</span> foo <span style="color:#00a">as</span>
- <span style="color:#00a">select</span> <span style="color:#0aa">date</span>, shares, trades, dollars
-   <span style="color:#00a">from</span> factbook
-  <span style="color:#00a">where</span> <span style="color:#0aa">date</span> &gt;= <span style="color:#f00;background-color:#faa">$</span><span style="color:#099">1</span>::<span style="color:#0aa">date</span>
-    <span style="color:#00a">and</span> <span style="color:#0aa">date</span>  &lt; <span style="color:#f00;background-color:#faa">$</span><span style="color:#099">1</span>::<span style="color:#0aa">date</span> + <span style="color:#0aa">interval</span> <span style="color:#a50">&#39;1 month&#39;</span>
-  <span style="color:#00a">order</span> <span style="color:#00a">by</span> <span style="color:#0aa">date</span>;
-<span style="color:#00a">PREPARE</span></code></pre></div>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#719e07">prepare</span> foo <span style="color:#719e07">as</span>
+ <span style="color:#719e07">select</span> <span style="color:#b58900">date</span>, shares, trades, dollars
+   <span style="color:#719e07">from</span> factbook
+  <span style="color:#719e07">where</span> <span style="color:#b58900">date</span> <span style="color:#719e07">&gt;=</span> $<span style="color:#2aa198">1</span>::<span style="color:#b58900">date</span>
+    <span style="color:#719e07">and</span> <span style="color:#b58900">date</span>  <span style="color:#719e07">&lt;</span> $<span style="color:#2aa198">1</span>::<span style="color:#b58900">date</span> <span style="color:#719e07">+</span> <span style="color:#b58900">interval</span> <span style="color:#2aa198">&#39;1 month&#39;</span>
+  <span style="color:#719e07">order</span> <span style="color:#719e07">by</span> <span style="color:#b58900">date</span>;
+<span style="color:#719e07">PREPARE</span></code></pre></div>
 <p>And then you can execute the prepared statement with a parameter that way,
 still at the <code>psql</code> console:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#00a">execute</span> foo(<span style="color:#a50">&#39;2010-02-01&#39;</span>);</code></pre></div>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#719e07">execute</span> foo(<span style="color:#2aa198">&#39;2010-02-01&#39;</span>);</code></pre></div>
 <p>If you&rsquo;re curious about it, here&rsquo;s the result we have when running this
 query:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-psql" data-lang="psql">    date    │   shares   │ trades  │   dollars   
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-psql" data-lang="psql">    date    │   shares   │ trades  │   dollars   
 ════════════╪════════════╪═════════╪═════════════
  2010-02-01 │ 1558526732 │ 5633190 │ 43290463362
  2010-02-02 │ 1768180556 │ 6148888 │ 48391414625
@@ -197,26 +198,26 @@ prepared statement protocol sends the query string and its arguments in
 separate protocol messages.</p>
 
 <p>Here&rsquo;s some client application code:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Python" data-lang="Python">async <span style="color:#00a">def</span> <span style="color:#0a0">fetch_month_data</span>(year, month):
-    <span style="color:#a50">&#34;Fetch a month of data from the database&#34;</span>
-    date = datetime.date(year, month, <span style="color:#099">1</span>)
-    sql = <span style="color:#a50">&#34;&#34;&#34;
-</span><span style="color:#a50">  select date, shares, trades, dollars
-</span><span style="color:#a50">    from factbook
-</span><span style="color:#a50">   where date &gt;= $1::date
-</span><span style="color:#a50">     and date  &lt; $1::date + interval &#39;1 month&#39;
-</span><span style="color:#a50">order by date;
-</span><span style="color:#a50">&#34;&#34;&#34;</span>
-    pgconn = await asyncpg.connect(CONNSTRING)
-    stmt = await pgconn.prepare(sql)
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Python" data-lang="Python">async <span style="color:#719e07">def</span> <span style="color:#268bd2">fetch_month_data</span>(year, month):
+    <span style="color:#2aa198">&#34;Fetch a month of data from the database&#34;</span>
+    date <span style="color:#719e07">=</span> datetime<span style="color:#719e07">.</span>date(year, month, <span style="color:#2aa198">1</span>)
+    sql <span style="color:#719e07">=</span> <span style="color:#2aa198">&#34;&#34;&#34;
+</span><span style="color:#2aa198">  select date, shares, trades, dollars
+</span><span style="color:#2aa198">    from factbook
+</span><span style="color:#2aa198">   where date &gt;= $1::date
+</span><span style="color:#2aa198">     and date  &lt; $1::date + interval &#39;1 month&#39;
+</span><span style="color:#2aa198">order by date;
+</span><span style="color:#2aa198">&#34;&#34;&#34;</span>
+    pgconn <span style="color:#719e07">=</span> await asyncpg<span style="color:#719e07">.</span>connect(CONNSTRING)
+    stmt <span style="color:#719e07">=</span> await pgconn<span style="color:#719e07">.</span>prepare(sql)
 
-    res = {}
-    <span style="color:#00a">for</span> (date, shares, trades, dollars) <span style="color:#00a">in</span> await stmt.fetch(date):
-        res[date] = (shares, trades, dollars)
+    res <span style="color:#719e07">=</span> {}
+    <span style="color:#719e07">for</span> (date, shares, trades, dollars) <span style="color:#719e07">in</span> await stmt<span style="color:#719e07">.</span>fetch(date):
+        res[date] <span style="color:#719e07">=</span> (shares, trades, dollars)
 
-    await pgconn.close()
+    await pgconn<span style="color:#719e07">.</span>close()
 
-    <span style="color:#00a">return</span> res</code></pre></div>
+    <span style="color:#719e07">return</span> res</code></pre></div>
 <p>When you&rsquo;re using a <a href="https://tapoueh.org/blog/2017/06/how-to-write-sql/">proper SQL integration
 mechanism</a> such as
 <a href="https://github.com/honza/anosql">anosql</a>, it becomes very easy to both work
@@ -238,31 +239,31 @@ our <code>factbook-month.py</code> program above makes use of the <code>%s</code
 query arguments. The interpolating of the query arguments is done on the
 client side by the psycopg code, and a full query string is then sent to the
 PostgreSQL server:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Python" data-lang="Python"><span style="color:#00a">def</span> <span style="color:#0a0">fetch_month_data</span>(year, month):
-    <span style="color:#a50">&#34;Fetch a month of data from the database&#34;</span>
-    date = <span style="color:#a50">&#34;</span><span style="color:#a50">%d</span><span style="color:#a50">-</span><span style="color:#a50">%02d</span><span style="color:#a50">-01&#34;</span> % (year, month)
-    sql = <span style="color:#a50">&#34;&#34;&#34;
-</span><span style="color:#a50">  select date, shares, trades, dollars
-</span><span style="color:#a50">    from factbook
-</span><span style="color:#a50">   where date &gt;= date </span><span style="color:#a50">%s</span><span style="color:#a50">
-</span><span style="color:#a50">     and date  &lt; date </span><span style="color:#a50">%s</span><span style="color:#a50"> + interval &#39;1 month&#39;
-</span><span style="color:#a50">order by date;
-</span><span style="color:#a50">&#34;&#34;&#34;</span>
-    pgconn = psycopg2.connect(CONNSTRING)
-    curs = pgconn.cursor()
-    curs.execute(sql, (date, date))
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Python" data-lang="Python"><span style="color:#719e07">def</span> <span style="color:#268bd2">fetch_month_data</span>(year, month):
+    <span style="color:#2aa198">&#34;Fetch a month of data from the database&#34;</span>
+    date <span style="color:#719e07">=</span> <span style="color:#2aa198">&#34;</span><span style="color:#2aa198">%d</span><span style="color:#2aa198">-</span><span style="color:#2aa198">%02d</span><span style="color:#2aa198">-01&#34;</span> <span style="color:#719e07">%</span> (year, month)
+    sql <span style="color:#719e07">=</span> <span style="color:#2aa198">&#34;&#34;&#34;
+</span><span style="color:#2aa198">  select date, shares, trades, dollars
+</span><span style="color:#2aa198">    from factbook
+</span><span style="color:#2aa198">   where date &gt;= date </span><span style="color:#2aa198">%s</span><span style="color:#2aa198">
+</span><span style="color:#2aa198">     and date  &lt; date </span><span style="color:#2aa198">%s</span><span style="color:#2aa198"> + interval &#39;1 month&#39;
+</span><span style="color:#2aa198">order by date;
+</span><span style="color:#2aa198">&#34;&#34;&#34;</span>
+    pgconn <span style="color:#719e07">=</span> psycopg2<span style="color:#719e07">.</span>connect(CONNSTRING)
+    curs <span style="color:#719e07">=</span> pgconn<span style="color:#719e07">.</span>cursor()
+    curs<span style="color:#719e07">.</span>execute(sql, (date, date))
 
-    res = {}
-    <span style="color:#00a">for</span> (date, shares, trades, dollars) <span style="color:#00a">in</span> curs.fetchall():
-        res[date] = (shares, trades, dollars)
+    res <span style="color:#719e07">=</span> {}
+    <span style="color:#719e07">for</span> (date, shares, trades, dollars) <span style="color:#719e07">in</span> curs<span style="color:#719e07">.</span>fetchall():
+        res[date] <span style="color:#719e07">=</span> (shares, trades, dollars)
 
-    <span style="color:#00a">return</span> res</code></pre></div>
+    <span style="color:#719e07">return</span> res</code></pre></div>
 <p>So while it looks like the code is doing the right thing by passing the
 arguments separately from the query string in the Python code, as seen in
 the following line, you still need to trust Psycopg2 to be free of any SQL
 injection faults.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Python" data-lang="Python">    <span style="color:#aaa;font-style:italic"># This looks fine. The interpolation still happens client side. Oops.</span>
-    curs.execute(sql, (date, date))</code></pre></div>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Python" data-lang="Python">    <span style="color:#586e75"># This looks fine. The interpolation still happens client side. Oops.</span>
+    curs<span style="color:#719e07">.</span>execute(sql, (date, date))</code></pre></div>
 <h2 id="conclusion">Conclusion</h2>
 
 <p>SQL Injection is still a pretty serious problem in modern software
@@ -292,26 +293,33 @@ week-end folks!</p>
             </div>
         </div>
 
-                <aside class="single_sidebar">
-            <h6>RECENT POSTS</h6>
-            <ul>
-                <li><a href="#">Geolocation with PostgreSQL</a></li>
-                <li><a href="#">PostgreSQL Concurrency: <br />an Article Series</a></li>
-                <li><a href="#">Scheduled Data Processing: <br />How to use cron?</a></li>
-                <li><a href="#">Batch Updates and Concurrency</a></li>
-            </ul>
-            <h6>CATEGORIES</h6>
-            <ul>
-                <li><a href="#">Concurrency</a></li>
-                <li><a href="#">Batch</a></li>
-                <li><a href="#">Update</a></li>
-                <li><a href="#">Data Types</a></li>
-            </ul>
-            <h6>TAGS</h6>
-            <div class="tag_list">
-                <a href="#">PostgreSQL</a>, <a href="#">YeSQL</a>, <a href="#">Security</a>, <a href="#">SQL Injection</a>, <a href="#">Concurrency</a>, <a href="#">Batch</a>, <a href="#">Update</a>, <a href="#">Data Types</a>, <a href="#">Point</a>, <a href="#">Geolocation</a>,  <a href="#">Extensions</a>, <a href="#">Listen</a>, <a href="#">Notify</a>, <a href="#">GoLang</a>, <a href="#">Cron</a>, <a href="#">Opinion</a>, <a href="#">MOMA</a>
-            </div>
-        </aside>
+        <aside class="single_sidebar">
+ <h6>RECENT POSTS</h6>
+ <ul>
+ 
+ <li><a class="previous" href="https://theartofpostgresql.com/blog/2018-08-geolocation-ip4r/"> Geolocation with PostgreSQL</a></li>
+ 
+ 
+ </ul>
+ 
+ <h6>TAGS</h6>
+ <div class="tag_list">
+  
+   
+     <a href="https://theartofpostgresql.com/tags/postgresql">PostgreSQL</a>
+   
+     <a href="https://theartofpostgresql.com/tags/yesql">YeSQL</a>
+   
+     <a href="https://theartofpostgresql.com/tags/security">Security</a>
+   
+     <a href="https://theartofpostgresql.com/tags/sql-injection">SQL Injection</a>
+   
+  
+ </div>
+
+ <a href="/#packages" class="banner"><span>What if you could turn thousands of lines of code into simple queries?</span></a>
+ 
+</aside>
 
 
     </div>

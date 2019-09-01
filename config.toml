@@ -4,8 +4,11 @@ title = "The Art of PostgreSQL"
 theme = "taop"
 publishDir = "docs"
 
-PygmentsCodeFences = true
-pygmentsstyle = "autumn"
+# PygmentsCodeFences = true
+# pygmentsstyle = "autumn"
+
+pygmentsCodefences=true
+pygmentsStyle="solarized-dark"
 
 [permalinks]
   post = "/blog/:year/:month/:slug/"
@@ -32,4 +35,3 @@ pygmentsstyle = "autumn"
   clearReading = false
   hierarchicalCategories = true
   favicon = "/favicon.ico"
-  syntaxHighlighter = "highlight.js"

@@ -5,23 +5,24 @@
     <div class="top_blogs">
         <ul>
          {{ $paginator := .Paginate (where .Data.Pages "Type" "blog") }}
-         {{ range $paginator.Pages }}
-            <li>
-                <a class="link" href="{{ .Permalink }}">&nbsp;</a>
-                <div class="bg"></div>
-                <div data-cover=".cover"><img class="cover" src="{{ .Params.coverimage }}" alt="" /></div>
-                <div>
-                    <p>{{ .Date.Format "2006-01-02" }}</p>
-                    <p>{{ .Title }}</p>
-                </div>
-            </li>
+         {{ range first 3 $paginator.Pages }}
+         {{ partial "list/top3articles.html" . }}
          {{ end }}         
         </ul>
     </div>
 
     <header>
-        <h3>Fresh PostgreSQL Topics</h3>
-        <p>This is a short introduction about the blog. Proin gravida neibh vel velit auctor aliquet. Aenean sollicitudin, lorem quis bibendum auctor, nisi elit consequat ipsum, nec sagittis sem nibh id eelit. auctor a ornare odio.</p>
+     <h3>The Art of PostgreSQL, one article at a time</h3>
+     <p>
+      The Art of PostgreSQL blog introduces PostgreSQL concepts that are
+      useful for application developers. The content of this blog is either
+      extracted from the published book, or written in preparation for book
+      material. Reading this blog, you can enjoy The Art of PostgreSQL
+      content one piece at a time!
+     </p>
+     <p>
+      Remember to practice what you learn here and elsewhere!
+     </p>
     </header>
     
     <div class="wrapper">        
@@ -31,10 +32,20 @@
             {{ .Render "summary" }}
           {{ end }}
         </div>
+
+        {{ partial "post/sidebar.html" . }}
+        
     </div>
 
-    {{ partial "post/sidebar.html" . }}
-
+    <!-- <div class="pager"> -->
+    <!--  <ul> -->
+    <!--   <li><a class="prev" href="#"><</a></li> -->
+    <!--                                 <li><span>1</span></li> -->
+    <!--   <li><a href="#">2</a></li> -->
+    <!--   <li><a class="next" href="#">></a></li> -->
+    <!--  </ul> -->
+    <!-- </div> -->
+        
     </div>
 </div>
         

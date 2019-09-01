@@ -15,6 +15,7 @@
     
     <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900" rel="stylesheet"> 
     <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/syntax.css">
     
     
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> 
@@ -24,9 +25,9 @@
 </head>
 <body class="blog">
 
-<header class="header">
+<header class="header"  style="background-color: #67527a; background: url('/images/demo/slide.jpg');">
     <div class="wrapper">
-        <a class="logo" href="#">The Art of PostgreSQL</a>
+        <a class="logo" href="/">The Art of PostgreSQL</a>
         
         <nav>
             <ul>
@@ -38,7 +39,7 @@
         </nav>
         
     </div>
-    <a data-slide=".price_list" class="button button_transparent" href="#">PURCHASE</a>
+    <a data-slide=".price_list" class="button" href="/">PURCHASE</a>
 </header>
 
 
@@ -96,32 +97,32 @@ noted as “not Curator Approved.”</p>
 <p>Using <em>git</em> and <em>git lfs</em> commands, it&rsquo;s possible to retrieve versions of
 the artist collection for the last months. From one month to the next, lots
 of the data remains unchanged, and some is updated.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#00a">begin</span>;
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#719e07">begin</span>;
 
-<span style="color:#00a">create</span> <span style="color:#00a">schema</span> <span style="color:#00a">if</span> <span style="color:#00a">not</span> <span style="color:#00a">exists</span> moma;
+<span style="color:#719e07">create</span> <span style="color:#719e07">schema</span> <span style="color:#719e07">if</span> <span style="color:#719e07">not</span> <span style="color:#719e07">exists</span> moma;
 
-<span style="color:#00a">create</span> <span style="color:#00a">table</span> moma.artist
+<span style="color:#719e07">create</span> <span style="color:#719e07">table</span> moma.artist
  (
-   constituentid   <span style="color:#0aa">integer</span> <span style="color:#00a">not</span> <span style="color:#00a">null</span> <span style="color:#00a">primary</span> <span style="color:#00a">key</span>,
-   name            <span style="color:#0aa">text</span> <span style="color:#00a">not</span> <span style="color:#00a">null</span>,
-   bio             <span style="color:#0aa">text</span>,
-   nationality     <span style="color:#0aa">text</span>,
-   gender          <span style="color:#0aa">text</span>,
-   <span style="color:#00a">begin</span>           <span style="color:#0aa">integer</span>,
-   <span style="color:#a50">&#34;end&#34;</span>           <span style="color:#0aa">integer</span>,
-   wiki_qid        <span style="color:#0aa">text</span>,
-   ulan            <span style="color:#0aa">text</span>
+   constituentid   <span style="color:#b58900">integer</span> <span style="color:#719e07">not</span> <span style="color:#719e07">null</span> <span style="color:#719e07">primary</span> <span style="color:#719e07">key</span>,
+   name            <span style="color:#b58900">text</span> <span style="color:#719e07">not</span> <span style="color:#719e07">null</span>,
+   bio             <span style="color:#b58900">text</span>,
+   nationality     <span style="color:#b58900">text</span>,
+   gender          <span style="color:#b58900">text</span>,
+   <span style="color:#719e07">begin</span>           <span style="color:#b58900">integer</span>,
+   <span style="color:#2aa198">&#34;end&#34;</span>           <span style="color:#b58900">integer</span>,
+   wiki_qid        <span style="color:#b58900">text</span>,
+   ulan            <span style="color:#b58900">text</span>
  );
 
-<span style="color:#f00;background-color:#faa">\</span><span style="color:#00a">copy</span> moma.artist <span style="color:#00a">from</span> <span style="color:#a50">&#39;artists/artists.2017-05-01.csv&#39;</span> <span style="color:#00a">with</span> csv header <span style="color:#00a">delimiter</span> <span style="color:#a50">&#39;,&#39;</span>
+\<span style="color:#719e07">copy</span> moma.artist <span style="color:#719e07">from</span> <span style="color:#2aa198">&#39;artists/artists.2017-05-01.csv&#39;</span> <span style="color:#719e07">with</span> csv header <span style="color:#719e07">delimiter</span> <span style="color:#2aa198">&#39;,&#39;</span>
 
-<span style="color:#00a">commit</span>;</code></pre></div>
+<span style="color:#719e07">commit</span>;</code></pre></div>
 <p>Now that we have loaded some data, let&rsquo;s have a look at what we have:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#00a">select</span> name, bio, nationality, gender
-  <span style="color:#00a">from</span> moma.artist
- <span style="color:#00a">limit</span> <span style="color:#099">6</span>;</code></pre></div>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#719e07">select</span> name, bio, nationality, gender
+  <span style="color:#719e07">from</span> moma.artist
+ <span style="color:#719e07">limit</span> <span style="color:#2aa198">6</span>;</code></pre></div>
 <p>Here are some of the artists being presented at the MoMA:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-psql" data-lang="psql">      name       │         bio         │ nationality │ gender 
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-psql" data-lang="psql">      name       │         bio         │ nationality │ gender 
 ═════════════════╪═════════════════════╪═════════════╪════════
  Robert Arneson  │ American, 1930–1992 │ American    │ Male
  Doroteo Arnaiz  │ Spanish, born 1936  │ Spanish     │ Male
@@ -150,57 +151,57 @@ data from the <em>batch</em> into our target table.</p></li>
 </ul>
 
 <p>Here&rsquo;s how to write that in SQL in our case:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#00a">begin</span>;
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#719e07">begin</span>;
 
-<span style="color:#00a">create</span> temp <span style="color:#00a">table</span> batch
+<span style="color:#719e07">create</span> temp <span style="color:#719e07">table</span> batch
  (
-        <span style="color:#00a">like</span> moma.artist
-   <span style="color:#00a">including</span> <span style="color:#00a">all</span>
+        <span style="color:#719e07">like</span> moma.artist
+   <span style="color:#719e07">including</span> <span style="color:#719e07">all</span>
  )
- <span style="color:#00a">on</span> <span style="color:#00a">commit</span> <span style="color:#00a">drop</span>;
+ <span style="color:#719e07">on</span> <span style="color:#719e07">commit</span> <span style="color:#719e07">drop</span>;
 
-<span style="color:#f00;background-color:#faa">\</span><span style="color:#00a">copy</span> batch <span style="color:#00a">from</span> <span style="color:#a50">&#39;artists/artists.2017-06-01.csv&#39;</span> <span style="color:#00a">with</span> csv header <span style="color:#00a">delimiter</span> <span style="color:#a50">&#39;,&#39;</span>
+\<span style="color:#719e07">copy</span> batch <span style="color:#719e07">from</span> <span style="color:#2aa198">&#39;artists/artists.2017-06-01.csv&#39;</span> <span style="color:#719e07">with</span> csv header <span style="color:#719e07">delimiter</span> <span style="color:#2aa198">&#39;,&#39;</span>
 
-<span style="color:#00a">with</span> upd <span style="color:#00a">as</span>
+<span style="color:#719e07">with</span> upd <span style="color:#719e07">as</span>
 (
-     <span style="color:#00a">update</span> moma.artist
-        <span style="color:#00a">set</span> (name, bio, nationality, gender, <span style="color:#00a">begin</span>, <span style="color:#a50">&#34;end&#34;</span>, wiki_qid, ulan)
+     <span style="color:#719e07">update</span> moma.artist
+        <span style="color:#719e07">set</span> (name, bio, nationality, gender, <span style="color:#719e07">begin</span>, <span style="color:#2aa198">&#34;end&#34;</span>, wiki_qid, ulan)
         
-          = (batch.name, batch.bio, batch.nationality,
-             batch.gender, batch.<span style="color:#00a">begin</span>, batch.<span style="color:#a50">&#34;end&#34;</span>,
+          <span style="color:#719e07">=</span> (batch.name, batch.bio, batch.nationality,
+             batch.gender, batch.<span style="color:#719e07">begin</span>, batch.<span style="color:#2aa198">&#34;end&#34;</span>,
              batch.wiki_qid, batch.ulan)
 
-       <span style="color:#00a">from</span> batch
+       <span style="color:#719e07">from</span> batch
        
-      <span style="color:#00a">where</span> batch.constituentid = artist.constituentid
+      <span style="color:#719e07">where</span> batch.constituentid <span style="color:#719e07">=</span> artist.constituentid
 
-        <span style="color:#00a">and</span> (artist.name, artist.bio, artist.nationality,
-             artist.gender, artist.<span style="color:#00a">begin</span>, artist.<span style="color:#a50">&#34;end&#34;</span>,
+        <span style="color:#719e07">and</span> (artist.name, artist.bio, artist.nationality,
+             artist.gender, artist.<span style="color:#719e07">begin</span>, artist.<span style="color:#2aa198">&#34;end&#34;</span>,
              artist.wiki_qid, artist.ulan)
-         &lt;&gt; (batch.name, batch.bio, batch.nationality,
-             batch.gender, batch.<span style="color:#00a">begin</span>, batch.<span style="color:#a50">&#34;end&#34;</span>,
+         <span style="color:#719e07">&lt;&gt;</span> (batch.name, batch.bio, batch.nationality,
+             batch.gender, batch.<span style="color:#719e07">begin</span>, batch.<span style="color:#2aa198">&#34;end&#34;</span>,
              batch.wiki_qid, batch.ulan)
 
   returning artist.constituentid
 ),
-    ins <span style="color:#00a">as</span>
+    ins <span style="color:#719e07">as</span>
 (
-    <span style="color:#00a">insert</span> <span style="color:#00a">into</span> moma.artist
-         <span style="color:#00a">select</span> constituentid, name, bio, nationality,
-                gender, <span style="color:#00a">begin</span>, <span style="color:#a50">&#34;end&#34;</span>, wiki_qid, ulan
-           <span style="color:#00a">from</span> batch
-          <span style="color:#00a">where</span> <span style="color:#00a">not</span> <span style="color:#00a">exists</span>
+    <span style="color:#719e07">insert</span> <span style="color:#719e07">into</span> moma.artist
+         <span style="color:#719e07">select</span> constituentid, name, bio, nationality,
+                gender, <span style="color:#719e07">begin</span>, <span style="color:#2aa198">&#34;end&#34;</span>, wiki_qid, ulan
+           <span style="color:#719e07">from</span> batch
+          <span style="color:#719e07">where</span> <span style="color:#719e07">not</span> <span style="color:#719e07">exists</span>
                 (
-                     <span style="color:#00a">select</span> <span style="color:#099">1</span>
-                       <span style="color:#00a">from</span> moma.artist
-                      <span style="color:#00a">where</span> artist.constituentid = batch.constituentid
+                     <span style="color:#719e07">select</span> <span style="color:#2aa198">1</span>
+                       <span style="color:#719e07">from</span> moma.artist
+                      <span style="color:#719e07">where</span> artist.constituentid <span style="color:#719e07">=</span> batch.constituentid
                 )
       returning artist.constituentid
 )
-<span style="color:#00a">select</span> (<span style="color:#00a">select</span> <span style="color:#00a">count</span>(*) <span style="color:#00a">from</span> upd) <span style="color:#00a">as</span> updates,
-       (<span style="color:#00a">select</span> <span style="color:#00a">count</span>(*) <span style="color:#00a">from</span> ins) <span style="color:#00a">as</span> inserts;
+<span style="color:#719e07">select</span> (<span style="color:#719e07">select</span> <span style="color:#719e07">count</span>(<span style="color:#719e07">*</span>) <span style="color:#719e07">from</span> upd) <span style="color:#719e07">as</span> updates,
+       (<span style="color:#719e07">select</span> <span style="color:#719e07">count</span>(<span style="color:#719e07">*</span>) <span style="color:#719e07">from</span> ins) <span style="color:#719e07">as</span> inserts;
 
-<span style="color:#00a">commit</span>;</code></pre></div>
+<span style="color:#719e07">commit</span>;</code></pre></div>
 <p>Our <em>batch update</em> implementation follows the specifications very closely.
 The ability for the <em>update</em> and <em>insert</em> SQL commands to use <em>join</em>
 operations are put to good use, and the <em>returning</em> clause allows to display
@@ -214,7 +215,7 @@ have changed thanks to using a <em>row comparator</em> in the update part of the
 order to only insert data we didn&rsquo;t have already.</p>
 
 <p>Here&rsquo;s the result of running this <em>batch update</em> script:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-psql" data-lang="psql">BEGIN
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-psql" data-lang="psql">BEGIN
 CREATE TABLE
 COPY 15186
  updates │ inserts 
@@ -266,7 +267,7 @@ building your application around that constraint.</p>
 in the <a href="http://www.postgresql.org/docs/9.2/static/explicit-locking.html">explicit
 locking</a>
 documentation part of PostgreSQL:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#00a">LOCK</span> <span style="color:#00a">TABLE</span> target <span style="color:#00a">IN</span> <span style="color:#00a">SHARE</span> <span style="color:#00a">ROW</span> <span style="color:#00a">EXCLUSIVE</span> <span style="color:#00a">MODE</span>;</code></pre></div>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#719e07">LOCK</span> <span style="color:#719e07">TABLE</span> target <span style="color:#719e07">IN</span> <span style="color:#719e07">SHARE</span> <span style="color:#719e07">ROW</span> <span style="color:#719e07">EXCLUSIVE</span> <span style="color:#719e07">MODE</span>;</code></pre></div>
 <p>That <em>lock level</em> is not automatically acquired by any PostgreSQL command,
 so the only way it helps you is when you&rsquo;re doing that for every transaction
 you want to serialize. When you know you&rsquo;re not at risk (that is, when not
@@ -282,29 +283,29 @@ conflict</em> clause of the <em>insert</em> statement to handle concurrency issu
 in the following variant of the script we already saw. Here&rsquo;s a <em>diff</em> of
 the first update script and the second one, that handles concurrency
 conflicts:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-diff" data-lang="diff"><span style="color:#a00">--- artists.update.sql	2017-09-07 23:54:07.000000000 +0200
-</span><span style="color:#a00"></span><span style="color:#0a0">+++ artists.update.conflict.sql	2017-09-08 12:49:44.000000000 +0200
-</span><span style="color:#0a0"></span><span style="color:#800080;font-weight:bold">@@ -5,11 +5,11 @@
-</span><span style="color:#800080;font-weight:bold"></span>         like moma.artist
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-diff" data-lang="diff"><span style="color:#dc322f">--- artists.update.sql	2017-09-07 23:54:07.000000000 +0200
+</span><span style="color:#dc322f"></span><span style="color:#719e07">+++ artists.update.conflict.sql	2017-09-08 12:49:44.000000000 +0200
+</span><span style="color:#719e07"></span><span style="color:#268bd2">@@ -5,11 +5,11 @@
+</span><span style="color:#268bd2"></span>         like moma.artist
     including all
   )
   on commit drop;
  
-<span style="color:#a00">-\copy batch from &#39;artists/artists.2017-06-01.csv&#39; with csv header delimiter &#39;,&#39;
-</span><span style="color:#a00"></span><span style="color:#0a0">+\copy batch from &#39;artists/artists.2017-07-01.csv&#39; with csv header delimiter &#39;,&#39;
-</span><span style="color:#0a0"></span> 
+<span style="color:#dc322f">-\copy batch from &#39;artists/artists.2017-06-01.csv&#39; with csv header delimiter &#39;,&#39;
+</span><span style="color:#dc322f"></span><span style="color:#719e07">+\copy batch from &#39;artists/artists.2017-07-01.csv&#39; with csv header delimiter &#39;,&#39;
+</span><span style="color:#719e07"></span> 
  with upd as
  (
       update moma.artist
          set (name, bio, nationality, gender, begin, &#34;end&#34;, wiki_qid, ulan)
-<span style="color:#800080;font-weight:bold">@@ -41,10 +41,11 @@
-</span><span style="color:#800080;font-weight:bold"></span>                 (
+<span style="color:#268bd2">@@ -41,10 +41,11 @@
+</span><span style="color:#268bd2"></span>                 (
                       select 1
                         from moma.artist
                        where artist.constituentid = batch.constituentid
                  )
-<span style="color:#0a0">+    on conflict (constituentid) do nothing
-</span><span style="color:#0a0"></span>       returning artist.constituentid
+<span style="color:#719e07">+    on conflict (constituentid) do nothing
+</span><span style="color:#719e07"></span>       returning artist.constituentid
  )
  select (select count(*) from upd) as updates,
         (select count(*) from ins) as inserts;
@@ -374,26 +375,37 @@ build exactly the facility they need. PostgreSQL really is
             </div>
         </div>
 
-                <aside class="single_sidebar">
-            <h6>RECENT POSTS</h6>
-            <ul>
-                <li><a href="#">Geolocation with PostgreSQL</a></li>
-                <li><a href="#">PostgreSQL Concurrency: <br />an Article Series</a></li>
-                <li><a href="#">Scheduled Data Processing: <br />How to use cron?</a></li>
-                <li><a href="#">Batch Updates and Concurrency</a></li>
-            </ul>
-            <h6>CATEGORIES</h6>
-            <ul>
-                <li><a href="#">Concurrency</a></li>
-                <li><a href="#">Batch</a></li>
-                <li><a href="#">Update</a></li>
-                <li><a href="#">Data Types</a></li>
-            </ul>
-            <h6>TAGS</h6>
-            <div class="tag_list">
-                <a href="#">PostgreSQL</a>, <a href="#">YeSQL</a>, <a href="#">Security</a>, <a href="#">SQL Injection</a>, <a href="#">Concurrency</a>, <a href="#">Batch</a>, <a href="#">Update</a>, <a href="#">Data Types</a>, <a href="#">Point</a>, <a href="#">Geolocation</a>,  <a href="#">Extensions</a>, <a href="#">Listen</a>, <a href="#">Notify</a>, <a href="#">GoLang</a>, <a href="#">Cron</a>, <a href="#">Opinion</a>, <a href="#">MOMA</a>
-            </div>
-        </aside>
+        <aside class="single_sidebar">
+ <h6>RECENT POSTS</h6>
+ <ul>
+ 
+ 
+ <li><a class="next" href="https://theartofpostgresql.com/blog/2018-08-postgresql-concurrency/"> PostgreSQL Concurrency: an Article Series</a></li>
+ 
+ </ul>
+ 
+ <h6>TAGS</h6>
+ <div class="tag_list">
+  
+   
+     <a href="https://theartofpostgresql.com/tags/postgresql">PostgreSQL</a>
+   
+     <a href="https://theartofpostgresql.com/tags/yesql">YeSQL</a>
+   
+     <a href="https://theartofpostgresql.com/tags/concurrency">Concurrency</a>
+   
+     <a href="https://theartofpostgresql.com/tags/moma">MOMA</a>
+   
+     <a href="https://theartofpostgresql.com/tags/batch">Batch</a>
+   
+     <a href="https://theartofpostgresql.com/tags/update">UPDATE</a>
+   
+  
+ </div>
+
+ <a href="/#packages" class="banner"><span>What if you could turn thousands of lines of code into simple queries?</span></a>
+ 
+</aside>
 
 
     </div>

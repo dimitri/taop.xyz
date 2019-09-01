@@ -146,34 +146,34 @@ make sense when printed in those pages:
 
 ~~~ bash
 $ pgloader --verbose geolite.load
-NOTICE Starting pgloader, log system is ready.
-LOG Data errors in '/private/tmp/pgloader/'
-LOG Parsing commands from file #P"/Users/dim/dev/yesql/src/1-application-development/data/geolite/geolite.load"
-LOG Fetching 'http://geolite.maxmind.com/download/geoip/database/GeoLiteCity_CSV/GeoLiteCity-latest.zip'
-LOG Extracting files from archive '/var/folders/bh/t1wcr6cx37v4h87yj3qj009r0000gn/T/GeoLiteCity-latest.zip'
-NOTICE unzip -o "/var/folders/bh/t1wcr6cx37v4h87yj3qj009r0000gn/T/GeoLiteCity-latest.zip" -d "/var/folders/bh/t1wcr6cx37v4h87yj3qj009r0000gn/T/GeoLiteCity-latest/"
-NOTICE Executing SQL block for before load
-NOTICE ALTER TABLE "geolite"."location" DROP CONSTRAINT IF EXISTS "location_pkey";
-NOTICE COPY "geolite"."location"
-NOTICE Opening #P"/private/var/folders/bh/t1wcr6cx37v4h87yj3qj009r0000gn/T/GeoLiteCity-latest/GeoLiteCity_20180327/GeoLiteCity-Location.csv"
-NOTICE copy "geolite"."location": 234105 rows done,  11.5 MB,   2.1 MBps
-NOTICE copy "geolite"."location": 495453 rows done,  24.3 MB,   2.2 MBps
-NOTICE copy "geolite"."location": 747550 rows done,  37.1 MB,   2.2 MBps
-NOTICE CREATE UNIQUE INDEX location_pkey ON geolite.location USING btree (locid)
-NOTICE ALTER TABLE "geolite"."location" ADD PRIMARY KEY USING INDEX "location_pkey";
-NOTICE DROP INDEX IF EXISTS "geolite"."blocks_ip4r_idx";
-NOTICE COPY "geolite"."blocks"
-NOTICE Opening #P"/private/var/folders/bh/t1wcr6cx37v4h87yj3qj009r0000gn/T/GeoLiteCity-latest/GeoLiteCity_20180327/GeoLiteCity-Blocks.csv"
-NOTICE copy "geolite"."blocks": 227502 rows done,   7.0 MB,   1.8 MBps
-NOTICE copy "geolite"."blocks": 492894 rows done,  15.2 MB,   1.9 MBps
-NOTICE copy "geolite"."blocks": 738483 rows done,  22.9 MB,   2.0 MBps
-NOTICE copy "geolite"."blocks": 986719 rows done,  30.7 MB,   2.1 MBps
-NOTICE copy "geolite"."blocks": 1246450 rows done,  38.9 MB,   2.2 MBps
-NOTICE copy "geolite"."blocks": 1489726 rows done,  47.1 MB,   2.2 MBps
-NOTICE copy "geolite"."blocks": 1733633 rows done,  55.1 MB,   2.2 MBps
-NOTICE copy "geolite"."blocks": 1985222 rows done,  63.3 MB,   2.2 MBps
-NOTICE CREATE INDEX blocks_ip4r_idx ON geolite.blocks USING gist (iprange)
-LOG report summary reset
+  NOTICE Starting pgloader, log system is ready.
+  LOG Data errors in '/private/tmp/pgloader/'
+  LOG Parsing commands from file #P"/Users/dim/dev/yesql/src/1-application-development/data/geolite/geolite.load"
+  LOG Fetching 'http://geolite.maxmind.com/download/geoip/database/GeoLiteCity_CSV/GeoLiteCity-latest.zip'
+  LOG Extracting files from archive '/var/folders/bh/t1wcr6cx37v4h87yj3qj009r0000gn/T/GeoLiteCity-latest.zip'
+  NOTICE unzip -o "/var/folders/bh/t1wcr6cx37v4h87yj3qj009r0000gn/T/GeoLiteCity-latest.zip" -d "/var/folders/bh/t1wcr6cx37v4h87yj3qj009r0000gn/T/GeoLiteCity-latest/"
+  NOTICE Executing SQL block for before load
+  NOTICE ALTER TABLE "geolite"."location" DROP CONSTRAINT IF EXISTS "location_pkey";
+  NOTICE COPY "geolite"."location"
+  NOTICE Opening #P"/private/var/folders/bh/t1wcr6cx37v4h87yj3qj009r0000gn/T/GeoLiteCity-latest/GeoLiteCity_20180327/GeoLiteCity-Location.csv"
+  NOTICE copy "geolite"."location": 234105 rows done,  11.5 MB,   2.1 MBps
+  NOTICE copy "geolite"."location": 495453 rows done,  24.3 MB,   2.2 MBps
+  NOTICE copy "geolite"."location": 747550 rows done,  37.1 MB,   2.2 MBps
+  NOTICE CREATE UNIQUE INDEX location_pkey ON geolite.location USING btree (locid)
+  NOTICE ALTER TABLE "geolite"."location" ADD PRIMARY KEY USING INDEX "location_pkey";
+  NOTICE DROP INDEX IF EXISTS "geolite"."blocks_ip4r_idx";
+  NOTICE COPY "geolite"."blocks"
+  NOTICE Opening #P"/private/var/folders/bh/t1wcr6cx37v4h87yj3qj009r0000gn/T/GeoLiteCity-latest/GeoLiteCity_20180327/GeoLiteCity-Blocks.csv"
+  NOTICE copy "geolite"."blocks": 227502 rows done,   7.0 MB,   1.8 MBps
+  NOTICE copy "geolite"."blocks": 492894 rows done,  15.2 MB,   1.9 MBps
+  NOTICE copy "geolite"."blocks": 738483 rows done,  22.9 MB,   2.0 MBps
+  NOTICE copy "geolite"."blocks": 986719 rows done,  30.7 MB,   2.1 MBps
+  NOTICE copy "geolite"."blocks": 1246450 rows done,  38.9 MB,   2.2 MBps
+  NOTICE copy "geolite"."blocks": 1489726 rows done,  47.1 MB,   2.2 MBps
+  NOTICE copy "geolite"."blocks": 1733633 rows done,  55.1 MB,   2.2 MBps
+  NOTICE copy "geolite"."blocks": 1985222 rows done,  63.3 MB,   2.2 MBps
+  NOTICE CREATE INDEX blocks_ip4r_idx ON geolite.blocks USING gist (iprange)
+  LOG report summary reset
              table name     errors       read   imported      bytes      total time
 -----------------------  ---------  ---------  ---------  ---------  --------------
                download          0          0          0                     0.793s

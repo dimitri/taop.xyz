@@ -1,0 +1,11 @@
+<li>
+ <a class="link" href="{{ .Permalink }}">&nbsp;</a>
+ <div class="bg"></div>
+ <div data-cover=".cover">
+  <img class="cover" src="{{ .Params.coverimage }}" alt="" />
+ </div>
+ <div>
+  <p>{{ .Date.Format "2006-01-02" }}</p>
+  <p>{{ .Title }}</p>
+ </div>
+</li>
