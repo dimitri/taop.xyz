@@ -1,25 +1,15 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Postgresql on The Art of PostgreSQL</title>
-    <link>https://theartofpostgresql.com/categories/postgresql/</link>
-    <description>Recent content in Postgresql on The Art of PostgreSQL</description>
+    <title>Composition on The Art of PostgreSQL</title>
+    <link>https://theartofpostgresql.com/tags/composition/</link>
+    <description>Recent content in Composition on The Art of PostgreSQL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 07 Sep 2019 22:00:00 +0200</lastBuildDate>
+    <lastBuildDate>Sat, 07 Sep 2019 21:30:00 +0200</lastBuildDate>
     
-	<atom:link href="https://theartofpostgresql.com/categories/postgresql/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://theartofpostgresql.com/tags/composition/index.xml" rel="self" type="application/rss+xml" />
     
-    
-    <item>
-      <title>What is an SQL Aggregate?</title>
-      <link>https://theartofpostgresql.com/blog/2019-09-sql-aggregates/</link>
-      <pubDate>Sat, 07 Sep 2019 22:00:00 +0200</pubDate>
-      
-      <guid>https://theartofpostgresql.com/blog/2019-09-sql-aggregates/</guid>
-      <description>In our previous articles we had a look at What is an SQL relation? and What is a SQL JOIN?. Today, I want to show you what is an aggregate in SQL.
-You might have heard about Map/Reduce when Google made it famous, or maybe some years before, or maybe some years later. The general processing functions map and reduce where invented a very long time ago. The novelty from the advertising giant was in using them in a heavily distributed programming context.</description>
-    </item>
     
     <item>
       <title>What is an SQL JOIN?</title>

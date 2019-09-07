@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="generator" content="Hugo 0.50" />
+    <meta charset="utf-8">
+    <title>The Art of PostgreSQL - What is an SQL JOIN?</title>
+    <meta name="description" content="">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    
+    
+    <link href="/images/favicon.ico" rel="icon" type="image/x-icon">
+    
+    
+    <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900" rel="stylesheet"> 
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/syntax.css">
+    
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> 
+    <script src="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
+    <script src="/js/custom.js"></script>
+
+</head>
+<body class="blog">
+
+<header class="header"  style="background-color: #67527a; background: url('/images/demo/slide.jpg');">
+    <div class="wrapper">
+        <a class="logo" href="/">The Art of PostgreSQL</a>
+        
+        <nav>
+            <ul>
+                <li><a data-slide=".subscribe_block" href="/">The Book</a></li>
+                <li><a data-slide=".packages_block" href="/">PACKAGES</a></li>
+                <li><a data-slide=".about_block" href="#">AUTHOR</a></li>
+                <li><a data-slide=".quote_slider" href="/blog/">BLOG</a></li>
+            </ul>
+        </nav>
+        
+    </div>
+    <a data-slide=".price_list" class="button" href="/">PURCHASE</a>
+</header>
+
+
+<div class="single_block">
+    <div class="wrapper">
+        
+        <div class="single_content">
+         <p><img src="/img/SQL-JOINS-Example-0.png" alt="" /></p>
+         <h1>What is an SQL JOIN?</h1>         
+
+         <p>It took me quite some time before I could reason efficiently about SQL
+JOINs. And I must admit, the set theory diagrams never helped me really
+understand JOINs in SQL. So today, I want to help you understand JOINs in a
+different way, hoping to make the concept click at once for you too!</p>
+
+<p>As we saw in the previous article <a href="/blog/2019-09-sql-relations/">What is an SQL
+relation?</a>, in SQL a relation is a collection
+of objects, all sharing the same definition. SQL introduces relations and
+operators to <em>compose</em> them.</p>
+
+<p>In mathematics, you can define a new function <code>H</code> as being the result of
+applying <code>F</code> to some object, and then <code>G</code> to the result of the previous
+operation. We then note that <code>H = F ∘ G</code> and it means that <code>H(x) = F(G(x))</code>.
+Functional programing languages all have a way to express this kind of
+composition. This allows to build a new function from simpler ones.</p>
+
+<p>In SQL we compose relations: we build a new relation from two existing ones.
+Remember, a relation is a collection of objects. How would you compose two
+collections of objects together to form a new collection of objects?</p>
+
+<p>There aren&rsquo;t that many ways to do it. Both input collections have objects of
+certain properties, or attributes. You typically want to build a new
+collection of objects that would have properties from the two collections,
+right?</p>
+
+<p>That&rsquo;s it. That&rsquo;s a SQL JOIN.</p>
+
+<p>Let&rsquo;s see an example, taken from my book <a href="https://theartofpostgresql.com">The Art of
+PostgreSQL</a>:</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#586e75">-- name: list-albums-by-artist
+</span><span style="color:#586e75">-- List the album titles and duration of a given artist
+</span><span style="color:#586e75"></span>  <span style="color:#719e07">select</span> album.title <span style="color:#719e07">as</span> album,
+         <span style="color:#719e07">sum</span>(milliseconds) <span style="color:#719e07">*</span> <span style="color:#b58900">interval</span> <span style="color:#2aa198">&#39;1 ms&#39;</span> <span style="color:#719e07">as</span> duration
+    <span style="color:#719e07">from</span> album
+         <span style="color:#719e07">join</span> artist <span style="color:#719e07">using</span>(artistid)
+         <span style="color:#719e07">left</span> <span style="color:#719e07">join</span> track <span style="color:#719e07">using</span>(albumid)
+   <span style="color:#719e07">where</span> artist.name <span style="color:#719e07">=</span> <span style="color:#2aa198">&#39;Red Hot Chili Peppers&#39;</span>
+<span style="color:#719e07">group</span> <span style="color:#719e07">by</span> album
+<span style="color:#719e07">order</span> <span style="color:#719e07">by</span> album;</code></pre></div>
+<p>In this query we build a new relation that is a composition of the objects
+found in the collection <code>ALBUM</code> with the objects found in the collection
+<code>ARTIST</code>. The result is a new collection of objects where we have both the
+properties of the album and the artist, and we enrich albums with the artist
+of the same <code>artistid</code>.</p>
+
+<p>This <code>JOIN</code> that you see in the query, that&rsquo;s all it means. For each album,
+we add the information from the artist that shares the same <code>artistid</code>. In
+that case, we expect a single artist per album, so that&rsquo;s even easier.</p>
+
+<p>Next, we have a <code>LEFT JOIN</code> that composes this new relation with the
+collection of track objects. We build a new collection of objects that have
+all the properties of the <code>ALBUM</code>, the <code>ARTIST</code> and the <code>TRACK</code>.</p>
+
+<p>I will dive in the other parts of the query in other articles! Here&rsquo;s the
+new relation we have defined with the SQL query above:</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql">┌───────────────────────┬──────────────────────────────┐
+│         album         │           duration           │
+├───────────────────────┼──────────────────────────────┤
+│ Blood Sugar Sex Magik │ <span style="color:#719e07">@</span> <span style="color:#2aa198">1</span> hour <span style="color:#2aa198">13</span> mins <span style="color:#2aa198">57</span>.<span style="color:#2aa198">073</span> secs │
+│ <span style="color:#719e07">By</span> The Way            │ <span style="color:#719e07">@</span> <span style="color:#2aa198">1</span> hour <span style="color:#2aa198">8</span> mins <span style="color:#2aa198">49</span>.<span style="color:#2aa198">951</span> secs  │
+│ Californication       │ <span style="color:#719e07">@</span> <span style="color:#2aa198">56</span> mins <span style="color:#2aa198">25</span>.<span style="color:#2aa198">461</span> secs        │
+└───────────────────────┴──────────────────────────────┘
+(<span style="color:#2aa198">3</span> <span style="color:#719e07">rows</span>)</code></pre></div>
+<p>Check out my book <a href="https://theartofpostgresql.com">The Art of PostgreSQL</a>
+where you can learn how to put SQL to good use when coding your application!</p>
+
+
+            <footer>
+                <p><strong>TAGS:</strong> <a href="#">PostgreSQL</a>, <a href="#">YeSQL</a>, <a href="#">Security</a>, <a href="#">SQL Injection</a></p>
+            </footer>
+
+            <div class="single_subscribe">
+                <p>Subscribe to receive a FREE chapter of the second edition of my book, <b><i>“The Art of PostgreSQL”</i></b> including the full Table of Contents!</p>
+                 <script async data-uid="c1452ad801" src="https://f.convertkit.com/c1452ad801/ad53e74e51.js"></script>
+            </div>
+        </div>
+
+        <aside class="single_sidebar">
+ <h6>RECENT POSTS</h6>
+ <ul>
+ 
+ <li><a class="previous" href="https://theartofpostgresql.com/blog/2019-09-sql-relations/"> What is an SQL relation?</a></li>
+ 
+ 
+ <li><a class="next" href="https://theartofpostgresql.com/blog/2019-09-sql-aggregates/"> What is an SQL Aggregate?</a></li>
+ 
+ </ul>
+ 
+ <h6>TAGS</h6>
+ <div class="tag_list">
+  
+   
+     <a href="https://theartofpostgresql.com/tags/sql">SQL</a>
+   
+     <a href="https://theartofpostgresql.com/tags/relation">Relation</a>
+   
+     <a href="https://theartofpostgresql.com/tags/theory">Theory</a>
+   
+     <a href="https://theartofpostgresql.com/tags/join">JOIN</a>
+   
+     <a href="https://theartofpostgresql.com/tags/composition">Composition</a>
+   
+  
+ </div>
+
+ <a href="/#packages" class="banner"><span>What if you could turn thousands of lines of code into simple queries?</span></a>
+ 
+</aside>
+
+
+    </div>
+</div>            
+         
+ 
+
+<footer class="footer">
+	<div class="wrapper">
+	    <div class="about_block">
+	        <h6>about the author</h6>
+	        <p>Hi! My name is Dimitri Fontaine and I have been using and contributing to Open Source Software for the best of the last 20 years. I am a PostgreSQL Major Contributor after having contributed Extensions and Event Triggers, among other things.</p>
+	        <p>I have been writing code almost daily for a very long time now, both in a professional capacity and on my leisure time. I&rsquo;ve also been a database architect and a DBA on-call. As a developer I enjoy using SQL. As a database architect, I like teaching advanced SQL techniques to my colleagues.</p>
+	        <ul>
+	            <li><a target="_blank" href="mailto:dim@tapoueh.org">email</a></li>
+	            <li><a target="_blank" href="https://twitter.com/tapoueh">twitter</a></li>
+	            <li><a target="_blank" href="https://github.com/dimitri/tapoueh.org">github</a></li>
+	            <li><a target="_blank" href="https://www.reddit.com/user/theartofpostgresql">reddit</a></li>
+	        </ul>
+    	</div>
+	    <div class="faq_block">
+            <h6>FAQ</h6>
+	        <dl>
+	           <dt>What if the book isn&rsquo;t what I expected it would be?</dt>
+	           <dd>The Art of PostgreSQL is a book that teaches SQL to application developers. If it's not of any value to you, then just say so and I'll refund you, no questions asked.</dd>
+	           <dt>I bought the book, and I'm confused. What now?</dt>
+	           <dd>The content of the book is available as a PDF, ePub and MOBI file, and you can also download the SQL queries. The content is available over at <a href="https://postgresql.thinkific.com/enrollments" target="_">https://postgresql.thinkific.com/</a> from your student dashboard.</dd>
+	           <dt>Is there any DRM?</dt>
+	           <dd>No. There isn't even watermarking on the PDF. You own what you buy. The sources of data selected for the book are all available with Open Data types of licenses, and the book itself is copyright Dimitri Fontaine. All rights reserved.</dd>
+	           <dt>Any other questions?</dt>
+	           <dd>Contact me by <a href="mailto:dim@tapoueh.org">email</a> and just ask! I will do my best to answer you.</dd>
+	        </dl>
+    	</div>
+	</div>
+</footer>
+
+
+
+
+
+
+<div class="copyright">
+    <div class="wrapper">
+        Copyright 2019 &copy; Dimitri Fontaine. All rights reserved. Design by <a style="color: white; font-weight: bold;" target="_blank" href="https://www.terrilowry.com">TerriLowry.com.</a>
+    </div>
+</div>
+
+
+ 
+</body>
+ 
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-47059482-5"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-47059482-5');
+</script>
+
+
+<script>
+!function(e,t,n,s,u,a){e.twq||(s=e.twq=function(){s.exe?s.exe.apply(s,arguments):s.queue.push(arguments);
+},s.version='1.1',s.queue=[],u=t.createElement(n),u.async=!0,u.src='//static.ads-twitter.com/uwt.js',
+a=t.getElementsByTagName(n)[0],a.parentNode.insertBefore(u,a))}(window,document,'script');
+
+twq('init','o0ial');
+twq('track','PageView');
+</script>
+
+
+</html> 
+

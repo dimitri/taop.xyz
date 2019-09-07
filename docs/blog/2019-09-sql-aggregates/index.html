@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="generator" content="Hugo 0.50" />
+    <meta charset="utf-8">
+    <title>The Art of PostgreSQL - What is an SQL Aggregate?</title>
+    <meta name="description" content="">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    
+    
+    <link href="/images/favicon.ico" rel="icon" type="image/x-icon">
+    
+    
+    <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900" rel="stylesheet"> 
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/syntax.css">
+    
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> 
+    <script src="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
+    <script src="/js/custom.js"></script>
+
+</head>
+<body class="blog">
+
+<header class="header"  style="background-color: #67527a; background: url('/images/demo/slide.jpg');">
+    <div class="wrapper">
+        <a class="logo" href="/">The Art of PostgreSQL</a>
+        
+        <nav>
+            <ul>
+                <li><a data-slide=".subscribe_block" href="/">The Book</a></li>
+                <li><a data-slide=".packages_block" href="/">PACKAGES</a></li>
+                <li><a data-slide=".about_block" href="#">AUTHOR</a></li>
+                <li><a data-slide=".quote_slider" href="/blog/">BLOG</a></li>
+            </ul>
+        </nav>
+        
+    </div>
+    <a data-slide=".price_list" class="button" href="/">PURCHASE</a>
+</header>
+
+
+<div class="single_block">
+    <div class="wrapper">
+        
+        <div class="single_content">
+         <p><img src="/img/min-max-sum.jpg" alt="" /></p>
+         <h1>What is an SQL Aggregate?</h1>         
+
+         <p>In our previous articles we had a look at <a href="/blog/2019-09-sql-relations/">What is an SQL
+relation?</a> and <a href="/blog/2019-09-sql-joins/">What is a SQL
+JOIN?</a>. Today, I want to show you what is an
+aggregate in SQL.</p>
+
+<p>You might have heard about Map/Reduce when Google made it famous, or maybe
+some years before, or maybe some years later. The general processing
+functions <code>map</code> and <code>reduce</code> where invented a very long time ago. The
+novelty from the advertising giant was in using them in a heavily
+distributed programming context.</p>
+
+<p>With <code>map</code> you apply the same processing to every object in a collection.
+With <code>reduce</code>, you compute a result per collection of object. In SQL we know
+how to do that too, and we call that an aggregate.</p>
+
+<p>Here is an example query that we used already:</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#586e75">-- name: list-albums-by-artist
+</span><span style="color:#586e75">-- List the album titles and duration of a given artist
+</span><span style="color:#586e75"></span>  <span style="color:#719e07">select</span> album.title <span style="color:#719e07">as</span> album,
+         <span style="color:#719e07">sum</span>(milliseconds) <span style="color:#719e07">*</span> <span style="color:#b58900">interval</span> <span style="color:#2aa198">&#39;1 ms&#39;</span> <span style="color:#719e07">as</span> duration
+    <span style="color:#719e07">from</span> album
+         <span style="color:#719e07">join</span> artist <span style="color:#719e07">using</span>(artistid)
+         <span style="color:#719e07">left</span> <span style="color:#719e07">join</span> track <span style="color:#719e07">using</span>(albumid)
+   <span style="color:#719e07">where</span> artist.name <span style="color:#719e07">=</span> <span style="color:#2aa198">&#39;Red Hot Chili Peppers&#39;</span>
+<span style="color:#719e07">group</span> <span style="color:#719e07">by</span> album
+<span style="color:#719e07">order</span> <span style="color:#719e07">by</span> album;</code></pre></div>
+<p>In this query we build a new relation that compose new objects from three
+existing collections: <code>ALBUM</code>, <code>ARTIST</code>, and <code>TRACK</code>. The resulting relation
+is a collection of <em>rich</em> objects with properties from the three input
+relations.</p>
+
+<p>From this new collection of objects, we want to compute the duration of the
+albums, and we have the duration of each track. So we want a <code>SUM</code> of each
+track duration, per album. Have a look at the query result:</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql">┌───────────────────────┬──────────────────────────────┐
+│         album         │           duration           │
+├───────────────────────┼──────────────────────────────┤
+│ Blood Sugar Sex Magik │ <span style="color:#719e07">@</span> <span style="color:#2aa198">1</span> hour <span style="color:#2aa198">13</span> mins <span style="color:#2aa198">57</span>.<span style="color:#2aa198">073</span> secs │
+│ <span style="color:#719e07">By</span> The Way            │ <span style="color:#719e07">@</span> <span style="color:#2aa198">1</span> hour <span style="color:#2aa198">8</span> mins <span style="color:#2aa198">49</span>.<span style="color:#2aa198">951</span> secs  │
+│ Californication       │ <span style="color:#719e07">@</span> <span style="color:#2aa198">56</span> mins <span style="color:#2aa198">25</span>.<span style="color:#2aa198">461</span> secs        │
+└───────────────────────┴──────────────────────────────┘
+(<span style="color:#2aa198">3</span> <span style="color:#719e07">rows</span>)</code></pre></div>
+<p>The result is pretty obvious. From the relation built from albums, artists,
+and tracks only the album name has been kept. For each album, the query adds
+a computed value, <code>DURATION</code>.</p>
+
+<p>The duration is defined as <code>sum(milliseconds) * interval '1 ms'</code>. The <code>SUM</code>
+aggregate is a function that operates on a collection of objects, and
+provides a single result per <em>group</em>. The <em>group</em> is defined with the SQL
+construct <code>GROUP BY</code> and here that&rsquo;s the album, so we get a <code>SUM</code> per album.
+The <code>milliseconds</code> property comes from the <code>TRACK</code> relation, so we get a sum
+of the milliseconds of all the tracks of each album.</p>
+
+<p>That&rsquo;s almost all there is to know about aggregates in SQL! When using them
+more, you will want to dive into more details, such as <code>COUNT(*)</code> and
+<code>COUNT(1)</code> and the initial value that depend on the specific aggregate
+you&rsquo;re using and their behavior when confronted to <code>NULL</code> values. That&rsquo;s for
+another article though!</p>
+
+<p>Check out my book <a href="https://theartofpostgresql.com">The Art of PostgreSQL</a>
+where you can learn how to put SQL to good use when coding your application!</p>
+
+
+            <footer>
+                <p><strong>TAGS:</strong> <a href="#">PostgreSQL</a>, <a href="#">YeSQL</a>, <a href="#">Security</a>, <a href="#">SQL Injection</a></p>
+            </footer>
+
+            <div class="single_subscribe">
+                <p>Subscribe to receive a FREE chapter of the second edition of my book, <b><i>“The Art of PostgreSQL”</i></b> including the full Table of Contents!</p>
+                 <script async data-uid="c1452ad801" src="https://f.convertkit.com/c1452ad801/ad53e74e51.js"></script>
+            </div>
+        </div>
+
+        <aside class="single_sidebar">
+ <h6>RECENT POSTS</h6>
+ <ul>
+ 
+ <li><a class="previous" href="https://theartofpostgresql.com/blog/2019-09-sql-joins/"> What is an SQL JOIN?</a></li>
+ 
+ 
+ </ul>
+ 
+ <h6>TAGS</h6>
+ <div class="tag_list">
+  
+   
+     <a href="https://theartofpostgresql.com/tags/sql">SQL</a>
+   
+     <a href="https://theartofpostgresql.com/tags/relation">Relation</a>
+   
+     <a href="https://theartofpostgresql.com/tags/aggregate">Aggregate</a>
+   
+  
+ </div>
+
+ <a href="/#packages" class="banner"><span>What if you could turn thousands of lines of code into simple queries?</span></a>
+ 
+</aside>
+
+
+    </div>
+</div>            
+         
+ 
+
+<footer class="footer">
+	<div class="wrapper">
+	    <div class="about_block">
+	        <h6>about the author</h6>
+	        <p>Hi! My name is Dimitri Fontaine and I have been using and contributing to Open Source Software for the best of the last 20 years. I am a PostgreSQL Major Contributor after having contributed Extensions and Event Triggers, among other things.</p>
+	        <p>I have been writing code almost daily for a very long time now, both in a professional capacity and on my leisure time. I&rsquo;ve also been a database architect and a DBA on-call. As a developer I enjoy using SQL. As a database architect, I like teaching advanced SQL techniques to my colleagues.</p>
+	        <ul>
+	            <li><a target="_blank" href="mailto:dim@tapoueh.org">email</a></li>
+	            <li><a target="_blank" href="https://twitter.com/tapoueh">twitter</a></li>
+	            <li><a target="_blank" href="https://github.com/dimitri/tapoueh.org">github</a></li>
+	            <li><a target="_blank" href="https://www.reddit.com/user/theartofpostgresql">reddit</a></li>
+	        </ul>
+    	</div>
+	    <div class="faq_block">
+            <h6>FAQ</h6>
+	        <dl>
+	           <dt>What if the book isn&rsquo;t what I expected it would be?</dt>
+	           <dd>The Art of PostgreSQL is a book that teaches SQL to application developers. If it's not of any value to you, then just say so and I'll refund you, no questions asked.</dd>
+	           <dt>I bought the book, and I'm confused. What now?</dt>
+	           <dd>The content of the book is available as a PDF, ePub and MOBI file, and you can also download the SQL queries. The content is available over at <a href="https://postgresql.thinkific.com/enrollments" target="_">https://postgresql.thinkific.com/</a> from your student dashboard.</dd>
+	           <dt>Is there any DRM?</dt>
+	           <dd>No. There isn't even watermarking on the PDF. You own what you buy. The sources of data selected for the book are all available with Open Data types of licenses, and the book itself is copyright Dimitri Fontaine. All rights reserved.</dd>
+	           <dt>Any other questions?</dt>
+	           <dd>Contact me by <a href="mailto:dim@tapoueh.org">email</a> and just ask! I will do my best to answer you.</dd>
+	        </dl>
+    	</div>
+	</div>
+</footer>
+
+
+
+
+
+
+<div class="copyright">
+    <div class="wrapper">
+        Copyright 2019 &copy; Dimitri Fontaine. All rights reserved. Design by <a style="color: white; font-weight: bold;" target="_blank" href="https://www.terrilowry.com">TerriLowry.com.</a>
+    </div>
+</div>
+
+
+ 
+</body>
+ 
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-47059482-5"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-47059482-5');
+</script>
+
+
+<script>
+!function(e,t,n,s,u,a){e.twq||(s=e.twq=function(){s.exe?s.exe.apply(s,arguments):s.queue.push(arguments);
+},s.version='1.1',s.queue=[],u=t.createElement(n),u.async=!0,u.src='//static.ads-twitter.com/uwt.js',
+a=t.getElementsByTagName(n)[0],a.parentNode.insertBefore(u,a))}(window,document,'script');
+
+twq('init','o0ial');
+twq('track','PageView');
+</script>
+
+
+</html> 
+

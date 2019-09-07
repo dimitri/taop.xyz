@@ -6,104 +6,39 @@
     <description>Recent content in Yesql on The Art of PostgreSQL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 10 Nov 2018 15:40:01 +0100</lastBuildDate>
+    <lastBuildDate>Sat, 07 Sep 2019 22:00:00 +0200</lastBuildDate>
     
 	<atom:link href="https://theartofpostgresql.com/categories/yesql/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>Preventing SQL Injections</title>
-      <link>https://theartofpostgresql.com/blog/2018-11-sql-injection/</link>
-      <pubDate>Sat, 10 Nov 2018 15:40:01 +0100</pubDate>
+      <title>What is an SQL Aggregate?</title>
+      <link>https://theartofpostgresql.com/blog/2019-09-sql-aggregates/</link>
+      <pubDate>Sat, 07 Sep 2019 22:00:00 +0200</pubDate>
       
-      <guid>https://theartofpostgresql.com/blog/2018-11-sql-injection/</guid>
-      <description>&lt;p&gt;An &lt;em&gt;SQL Injection&lt;/em&gt; is a security breach, one made famous by the &lt;a href=&#34;https://xkcd.com/327/&#34;&gt;Exploits of
-a Mom&lt;/a&gt; &lt;code&gt;xkcd&lt;/code&gt; comic episode in which we read about
-&lt;em&gt;little Bobby Tables&lt;/em&gt;:&lt;/p&gt;
-
-&lt;figure class=&#34;center&#34;&gt;&lt;a href=&#34;https://xkcd.com/327/&#34;&gt;
-    &lt;img src=&#34;https://theartofpostgresql.com/img/exploits_of_a_mom.png&#34;/&gt; &lt;/a&gt;
-&lt;/figure&gt;
-
-
-&lt;p&gt;PostgreSQL implements a protocol level facility to send the static SQL query
-text separately from its dynamic arguments. An SQL injection happens when
-the database server is mistakenly led to consider a dynamic argument of a
-query as part of the query text. Sending those parts as separate entities
-over the protocol means that SQL injection is no longer possible.&lt;/p&gt;
-
-&lt;!--toc--&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
+      <guid>https://theartofpostgresql.com/blog/2019-09-sql-aggregates/</guid>
+      <description>In our previous articles we had a look at What is an SQL relation? and What is a SQL JOIN?. Today, I want to show you what is an aggregate in SQL.
+You might have heard about Map/Reduce when Google made it famous, or maybe some years before, or maybe some years later. The general processing functions map and reduce where invented a very long time ago. The novelty from the advertising giant was in using them in a heavily distributed programming context.</description>
     </item>
     
     <item>
-      <title>Geolocation with PostgreSQL</title>
-      <link>https://theartofpostgresql.com/blog/2018-08-geolocation-ip4r/</link>
-      <pubDate>Fri, 24 Aug 2018 12:11:33 +0200</pubDate>
+      <title>What is an SQL JOIN?</title>
+      <link>https://theartofpostgresql.com/blog/2019-09-sql-joins/</link>
+      <pubDate>Sat, 07 Sep 2019 21:30:00 +0200</pubDate>
       
-      <guid>https://theartofpostgresql.com/blog/2018-08-geolocation-ip4r/</guid>
-      <description>&lt;p&gt;We have loaded Open Street Map points of interests in the article &lt;a href=&#34;https://theartofpostgresql.com/blog/2013/08/the-most-popular-pub-names/&#34;&gt;The Most
-Popular Pub Names&lt;/a&gt; — which
-compares PostgreSQL with MongoDB for simple geographical queries, and is
-part of our &lt;a href=&#34;https://theartofpostgresql.com/tags/extensions/&#34;&gt;PostgreSQL Extensions&lt;/a&gt; article series. In
-today&amp;rsquo;s article, look at how to geolocalize an IP address and locate the
-nearest pub, all within a single SQL query!&lt;/p&gt;
-
-&lt;p&gt;For that, we are going to use the awesome
-&lt;a href=&#34;https://github.com/RhodiumToad/ip4r&#34;&gt;ip4r&lt;/a&gt; extension from
-&lt;a href=&#34;http://blog.rhodiumtoad.org.uk/&#34;&gt;RhodiumToad&lt;/a&gt;.&lt;/p&gt;</description>
+      <guid>https://theartofpostgresql.com/blog/2019-09-sql-joins/</guid>
+      <description>It took me quite some time before I could reason efficiently about SQL JOINs. And I must admit, the set theory diagrams never helped me really understand JOINs in SQL. So today, I want to help you understand JOINs in a different way, hoping to make the concept click at once for you too!
+As we saw in the previous article What is an SQL relation?, in SQL a relation is a collection of objects, all sharing the same definition.</description>
     </item>
     
     <item>
-      <title>PostgreSQL Concurrency: an Article Series</title>
-      <link>https://theartofpostgresql.com/blog/2018-08-postgresql-concurrency/</link>
-      <pubDate>Tue, 14 Aug 2018 11:49:02 +0300</pubDate>
+      <title>What is an SQL relation?</title>
+      <link>https://theartofpostgresql.com/blog/2019-09-sql-relations/</link>
+      <pubDate>Sat, 07 Sep 2019 21:00:00 +0200</pubDate>
       
-      <guid>https://theartofpostgresql.com/blog/2018-08-postgresql-concurrency/</guid>
-      <description>&lt;p&gt;&lt;a href=&#34;https://www.postgresql.org&#34;&gt;PostgreSQL&lt;/a&gt; is a relational database management
-system. It&amp;rsquo;s even the world&amp;rsquo;s most advanced open source one of them. As
-such, as its core, Postgres solves concurrent access to a set of data and
-maintains consistency while allowing concurrent operations.&lt;/p&gt;
-
-&lt;p&gt;In the &lt;a href=&#34;https://theartofpostgresql.com/tags/concurrency/&#34;&gt;PostgreSQL Concurrency&lt;/a&gt; series of articles here
-we did see several aspects of how to handle concurrent use cases of your
-application design with PostgreSQL. The main thing to remember is that a
-Database Management System first task is to handle concurrency access to the
-data for you.&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>Batch Updates and Concurrency</title>
-      <link>https://theartofpostgresql.com/blog/2018-07-concurrent-batch-update/</link>
-      <pubDate>Mon, 23 Jul 2018 22:45:43 +0200</pubDate>
-      
-      <guid>https://theartofpostgresql.com/blog/2018-07-concurrent-batch-update/</guid>
-      <description>&lt;p&gt;This article fits in the &lt;a href=&#34;https://theartofpostgresql.com/tags/concurrency&#34;&gt;PostgreSQL Concurrency&lt;/a&gt; series,
-where we installed a tweeter like application schema and had all the
-characters from Shakespeare&amp;rsquo;s &lt;em&gt;A Midsummer Night&amp;rsquo;s Dream&lt;/em&gt; tweet their own
-lines in our database in &lt;a href=&#34;https://theartofpostgresql.com/blog/2018/06/PostgreSQL-DML.md&#34;&gt;PostgreSQL Concurrency: Data Modification
-Language&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;A previous article in the series covered how to manage concurrent retweets
-in an efficient way: &lt;a href=&#34;https://theartofpostgresql.com/blog/2018/07/computing-and-caching/&#34;&gt;Computing and
-Caching&lt;/a&gt;, where we learn how to
-maintain a cache right in your PostgreSQL database, thanks for materialized
-views. We even went as far as maintaining an &lt;em&gt;external&lt;/em&gt; cache in another
-application layer using PostgreSQL
-&lt;a href=&#34;https://www.postgresql.org/docs/current/static/sql-listen.html&#34;&gt;LISTEN&lt;/a&gt; and
-&lt;a href=&#34;https://www.postgresql.org/docs/current/static/sql-notify.html&#34;&gt;NOTIFY&lt;/a&gt;
-features and a Golang application.&lt;/p&gt;
-
-&lt;p&gt;Today&amp;rsquo;s article is going to address concurrency in the context of updating
-data in a batch. This activity is quite common, as soon as your system is
-connected to other systems either internally or with external providers.
-While it&amp;rsquo;s pretty easy to ingest new data, and easy enough to update data
-from an external source when nothing happens in your database, doing the
-operation safely with concurrent activity is more complex. Once more though,
-PostgreSQL comes with all the tooling you need to handle that situation.&lt;/p&gt;</description>
+      <guid>https://theartofpostgresql.com/blog/2019-09-sql-relations/</guid>
+      <description>If you&amp;rsquo;re like me, understanding SQL is taking you a long time. And some efforts. It took me years to get a good mental model of how SQL queries are implemented, and then up from the lower levels, to build a mental model of how to reason in SQL.
+Nowadays, in most case, I can think in terms of SQL and write queries that will give me the result set I need.</description>
     </item>
     
   </channel>

@@ -48,40 +48,40 @@
          
          
          <li>
- <a class="link" href="https://theartofpostgresql.com/blog/2018-11-sql-injection/">&nbsp;</a>
+ <a class="link" href="https://theartofpostgresql.com/blog/2019-09-sql-aggregates/">&nbsp;</a>
  <div class="bg"></div>
  <div data-cover=".cover">
-  <img class="cover" src="/img/sql-injection.jpg" alt="" />
+  <img class="cover" src="/img/min-max-sum.jpg" alt="" />
  </div>
  <div>
-  <p>2018-11-10</p>
-  <p>Preventing SQL Injections</p>
+  <p>2019-09-07</p>
+  <p>What is an SQL Aggregate?</p>
  </div>
 </li>
 
          
          <li>
- <a class="link" href="https://theartofpostgresql.com/blog/2018-08-geolocation-ip4r/">&nbsp;</a>
+ <a class="link" href="https://theartofpostgresql.com/blog/2019-09-sql-joins/">&nbsp;</a>
  <div class="bg"></div>
  <div data-cover=".cover">
-  <img class="cover" src="/img/earth.jpg" alt="" />
+  <img class="cover" src="/img/SQL-JOINS-Example-0.png" alt="" />
  </div>
  <div>
-  <p>2018-08-24</p>
-  <p>Geolocation with PostgreSQL</p>
+  <p>2019-09-07</p>
+  <p>What is an SQL JOIN?</p>
  </div>
 </li>
 
          
          <li>
- <a class="link" href="https://theartofpostgresql.com/blog/2018-08-postgresql-concurrency/">&nbsp;</a>
+ <a class="link" href="https://theartofpostgresql.com/blog/2019-09-sql-relations/">&nbsp;</a>
  <div class="bg"></div>
  <div data-cover=".cover">
-  <img class="cover" src="/img/concurrency-dogs.jpg" alt="" />
+  <img class="cover" src="/img/composition.jpg" alt="" />
  </div>
  <div>
-  <p>2018-08-14</p>
-  <p>PostgreSQL Concurrency: an Article Series</p>
+  <p>2019-09-07</p>
+  <p>What is an SQL relation?</p>
  </div>
 </li>
 
@@ -108,101 +108,35 @@
           
           
             <div class="post">
- <a data-cover=".cover" href="https://theartofpostgresql.com/blog/2018-11-sql-injection/"><img class="cover" src="/img/sql-injection.jpg" alt="" /></a>
+ <a data-cover=".cover" href="https://theartofpostgresql.com/blog/2019-09-sql-aggregates/"><img class="cover" src="/img/min-max-sum.jpg" alt="" /></a>
  <header>
-  <p>2018-11-10</p>
-  <h4><a href="#">Preventing SQL Injections</a></h4>
+  <p>2019-09-07</p>
+  <h4><a href="#">What is an SQL Aggregate?</a></h4>
  </header>
- <p>An <em>SQL Injection</em> is a security breach, one made famous by the <a href="https://xkcd.com/327/">Exploits of
-a Mom</a> <code>xkcd</code> comic episode in which we read about
-<em>little Bobby Tables</em>:</p>
-
-<figure class="center"><a href="https://xkcd.com/327/">
-    <img src="/img/exploits_of_a_mom.png"/> </a>
-</figure>
-
-
-<p>PostgreSQL implements a protocol level facility to send the static SQL query
-text separately from its dynamic arguments. An SQL injection happens when
-the database server is mistakenly led to consider a dynamic argument of a
-query as part of the query text. Sending those parts as separate entities
-over the protocol means that SQL injection is no longer possible.</p>
-
-<!--toc-->
-
-<p></p>
+ In our previous articles we had a look at What is an SQL relation? and What is a SQL JOIN?. Today, I want to show you what is an aggregate in SQL.
+You might have heard about Map/Reduce when Google made it famous, or maybe some years before, or maybe some years later. The general processing functions map and reduce where invented a very long time ago. The novelty from the advertising giant was in using them in a heavily distributed programming context.
 </div>
 
           
             <div class="post">
- <a data-cover=".cover" href="https://theartofpostgresql.com/blog/2018-08-geolocation-ip4r/"><img class="cover" src="/img/earth.jpg" alt="" /></a>
+ <a data-cover=".cover" href="https://theartofpostgresql.com/blog/2019-09-sql-joins/"><img class="cover" src="/img/SQL-JOINS-Example-0.png" alt="" /></a>
  <header>
-  <p>2018-08-24</p>
-  <h4><a href="#">Geolocation with PostgreSQL</a></h4>
+  <p>2019-09-07</p>
+  <h4><a href="#">What is an SQL JOIN?</a></h4>
  </header>
- <p>We have loaded Open Street Map points of interests in the article <a href="/blog/2013/08/the-most-popular-pub-names/">The Most
-Popular Pub Names</a> — which
-compares PostgreSQL with MongoDB for simple geographical queries, and is
-part of our <a href="/tags/extensions/">PostgreSQL Extensions</a> article series. In
-today&rsquo;s article, look at how to geolocalize an IP address and locate the
-nearest pub, all within a single SQL query!</p>
-
-<p>For that, we are going to use the awesome
-<a href="https://github.com/RhodiumToad/ip4r">ip4r</a> extension from
-<a href="http://blog.rhodiumtoad.org.uk/">RhodiumToad</a>.</p>
+ It took me quite some time before I could reason efficiently about SQL JOINs. And I must admit, the set theory diagrams never helped me really understand JOINs in SQL. So today, I want to help you understand JOINs in a different way, hoping to make the concept click at once for you too!
+As we saw in the previous article What is an SQL relation?, in SQL a relation is a collection of objects, all sharing the same definition.
 </div>
 
           
             <div class="post">
- <a data-cover=".cover" href="https://theartofpostgresql.com/blog/2018-08-postgresql-concurrency/"><img class="cover" src="/img/concurrency-dogs.jpg" alt="" /></a>
+ <a data-cover=".cover" href="https://theartofpostgresql.com/blog/2019-09-sql-relations/"><img class="cover" src="/img/composition.jpg" alt="" /></a>
  <header>
-  <p>2018-08-14</p>
-  <h4><a href="#">PostgreSQL Concurrency: an Article Series</a></h4>
+  <p>2019-09-07</p>
+  <h4><a href="#">What is an SQL relation?</a></h4>
  </header>
- <p><a href="https://www.postgresql.org">PostgreSQL</a> is a relational database management
-system. It&rsquo;s even the world&rsquo;s most advanced open source one of them. As
-such, as its core, Postgres solves concurrent access to a set of data and
-maintains consistency while allowing concurrent operations.</p>
-
-<p>In the <a href="/tags/concurrency/">PostgreSQL Concurrency</a> series of articles here
-we did see several aspects of how to handle concurrent use cases of your
-application design with PostgreSQL. The main thing to remember is that a
-Database Management System first task is to handle concurrency access to the
-data for you.</p>
-
-<p></p>
-</div>
-
-          
-            <div class="post">
- <a data-cover=".cover" href="https://theartofpostgresql.com/blog/2018-07-concurrent-batch-update/"><img class="cover" src="/img/batch-filling-bottles.jpg" alt="" /></a>
- <header>
-  <p>2018-07-23</p>
-  <h4><a href="#">Batch Updates and Concurrency</a></h4>
- </header>
- <p>This article fits in the <a href="/tags/concurrency">PostgreSQL Concurrency</a> series,
-where we installed a tweeter like application schema and had all the
-characters from Shakespeare&rsquo;s <em>A Midsummer Night&rsquo;s Dream</em> tweet their own
-lines in our database in <a href="/blog/2018/06/PostgreSQL-DML.md">PostgreSQL Concurrency: Data Modification
-Language</a>.</p>
-
-<p>A previous article in the series covered how to manage concurrent retweets
-in an efficient way: <a href="/blog/2018/07/computing-and-caching/">Computing and
-Caching</a>, where we learn how to
-maintain a cache right in your PostgreSQL database, thanks for materialized
-views. We even went as far as maintaining an <em>external</em> cache in another
-application layer using PostgreSQL
-<a href="https://www.postgresql.org/docs/current/static/sql-listen.html">LISTEN</a> and
-<a href="https://www.postgresql.org/docs/current/static/sql-notify.html">NOTIFY</a>
-features and a Golang application.</p>
-
-<p>Today&rsquo;s article is going to address concurrency in the context of updating
-data in a batch. This activity is quite common, as soon as your system is
-connected to other systems either internally or with external providers.
-While it&rsquo;s pretty easy to ingest new data, and easy enough to update data
-from an external source when nothing happens in your database, doing the
-operation safely with concurrent activity is more complex. Once more though,
-PostgreSQL comes with all the tooling you need to handle that situation.</p>
+ If you&rsquo;re like me, understanding SQL is taking you a long time. And some efforts. It took me years to get a good mental model of how SQL queries are implemented, and then up from the lower levels, to build a mental model of how to reason in SQL.
+Nowadays, in most case, I can think in terms of SQL and write queries that will give me the result set I need.
 </div>
 
           
@@ -229,13 +163,11 @@ PostgreSQL comes with all the tooling you need to handle that situation.</p>
   <ul>
    
    
-   <li><a href="https://theartofpostgresql.com/blog/2018-11-sql-injection/">Preventing SQL Injections</a></li>
+   <li><a href="https://theartofpostgresql.com/blog/2019-09-sql-aggregates/">What is an SQL Aggregate?</a></li>
    
-   <li><a href="https://theartofpostgresql.com/blog/2018-08-geolocation-ip4r/">Geolocation with PostgreSQL</a></li>
+   <li><a href="https://theartofpostgresql.com/blog/2019-09-sql-joins/">What is an SQL JOIN?</a></li>
    
-   <li><a href="https://theartofpostgresql.com/blog/2018-08-postgresql-concurrency/">PostgreSQL Concurrency: an Article Series</a></li>
-   
-   <li><a href="https://theartofpostgresql.com/blog/2018-07-concurrent-batch-update/">Batch Updates and Concurrency</a></li>
+   <li><a href="https://theartofpostgresql.com/blog/2019-09-sql-relations/">What is an SQL relation?</a></li>
    
   </ul>
  </div>

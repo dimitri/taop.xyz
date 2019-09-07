@@ -6,161 +6,62 @@
     <description>Recent content in Tags on The Art of PostgreSQL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 23 Jul 2018 22:45:43 +0200</lastBuildDate>
+    <lastBuildDate>Sat, 07 Sep 2019 22:00:00 +0200</lastBuildDate>
     
 	<atom:link href="https://theartofpostgresql.com/tags/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>Batch</title>
-      <link>https://theartofpostgresql.com/tags/batch/</link>
-      <pubDate>Mon, 23 Jul 2018 22:45:43 +0200</pubDate>
+      <title>Aggregate</title>
+      <link>https://theartofpostgresql.com/tags/aggregate/</link>
+      <pubDate>Sat, 07 Sep 2019 22:00:00 +0200</pubDate>
       
-      <guid>https://theartofpostgresql.com/tags/batch/</guid>
+      <guid>https://theartofpostgresql.com/tags/aggregate/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>Concurrency</title>
-      <link>https://theartofpostgresql.com/tags/concurrency/</link>
-      <pubDate>Tue, 14 Aug 2018 11:49:02 +0300</pubDate>
+      <title>Composition</title>
+      <link>https://theartofpostgresql.com/tags/composition/</link>
+      <pubDate>Sat, 07 Sep 2019 21:30:00 +0200</pubDate>
       
-      <guid>https://theartofpostgresql.com/tags/concurrency/</guid>
+      <guid>https://theartofpostgresql.com/tags/composition/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>Dml</title>
-      <link>https://theartofpostgresql.com/tags/dml/</link>
-      <pubDate>Tue, 14 Aug 2018 11:49:02 +0300</pubDate>
+      <title>Join</title>
+      <link>https://theartofpostgresql.com/tags/join/</link>
+      <pubDate>Sat, 07 Sep 2019 21:30:00 +0200</pubDate>
       
-      <guid>https://theartofpostgresql.com/tags/dml/</guid>
+      <guid>https://theartofpostgresql.com/tags/join/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>Extensions</title>
-      <link>https://theartofpostgresql.com/tags/extensions/</link>
-      <pubDate>Fri, 24 Aug 2018 12:11:33 +0200</pubDate>
+      <title>Relation</title>
+      <link>https://theartofpostgresql.com/tags/relation/</link>
+      <pubDate>Sat, 07 Sep 2019 22:00:00 +0200</pubDate>
       
-      <guid>https://theartofpostgresql.com/tags/extensions/</guid>
+      <guid>https://theartofpostgresql.com/tags/relation/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>Geolocation</title>
-      <link>https://theartofpostgresql.com/tags/geolocation/</link>
-      <pubDate>Fri, 24 Aug 2018 12:11:33 +0200</pubDate>
+      <title>Sql</title>
+      <link>https://theartofpostgresql.com/tags/sql/</link>
+      <pubDate>Sat, 07 Sep 2019 22:00:00 +0200</pubDate>
       
-      <guid>https://theartofpostgresql.com/tags/geolocation/</guid>
+      <guid>https://theartofpostgresql.com/tags/sql/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>Golang</title>
-      <link>https://theartofpostgresql.com/tags/golang/</link>
-      <pubDate>Tue, 14 Aug 2018 11:49:02 +0300</pubDate>
+      <title>Theory</title>
+      <link>https://theartofpostgresql.com/tags/theory/</link>
+      <pubDate>Sat, 07 Sep 2019 21:30:00 +0200</pubDate>
       
-      <guid>https://theartofpostgresql.com/tags/golang/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Ip4r</title>
-      <link>https://theartofpostgresql.com/tags/ip4r/</link>
-      <pubDate>Fri, 24 Aug 2018 12:11:33 +0200</pubDate>
-      
-      <guid>https://theartofpostgresql.com/tags/ip4r/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Json</title>
-      <link>https://theartofpostgresql.com/tags/json/</link>
-      <pubDate>Tue, 14 Aug 2018 11:49:02 +0300</pubDate>
-      
-      <guid>https://theartofpostgresql.com/tags/json/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Listen</title>
-      <link>https://theartofpostgresql.com/tags/listen/</link>
-      <pubDate>Tue, 14 Aug 2018 11:49:02 +0300</pubDate>
-      
-      <guid>https://theartofpostgresql.com/tags/listen/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Moma</title>
-      <link>https://theartofpostgresql.com/tags/moma/</link>
-      <pubDate>Mon, 23 Jul 2018 22:45:43 +0200</pubDate>
-      
-      <guid>https://theartofpostgresql.com/tags/moma/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Notify</title>
-      <link>https://theartofpostgresql.com/tags/notify/</link>
-      <pubDate>Tue, 14 Aug 2018 11:49:02 +0300</pubDate>
-      
-      <guid>https://theartofpostgresql.com/tags/notify/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Point</title>
-      <link>https://theartofpostgresql.com/tags/point/</link>
-      <pubDate>Fri, 24 Aug 2018 12:11:33 +0200</pubDate>
-      
-      <guid>https://theartofpostgresql.com/tags/point/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Postgresql</title>
-      <link>https://theartofpostgresql.com/tags/postgresql/</link>
-      <pubDate>Sat, 10 Nov 2018 15:40:01 +0100</pubDate>
-      
-      <guid>https://theartofpostgresql.com/tags/postgresql/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Security</title>
-      <link>https://theartofpostgresql.com/tags/security/</link>
-      <pubDate>Sat, 10 Nov 2018 15:40:01 +0100</pubDate>
-      
-      <guid>https://theartofpostgresql.com/tags/security/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Sql Injection</title>
-      <link>https://theartofpostgresql.com/tags/sql-injection/</link>
-      <pubDate>Sat, 10 Nov 2018 15:40:01 +0100</pubDate>
-      
-      <guid>https://theartofpostgresql.com/tags/sql-injection/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Update</title>
-      <link>https://theartofpostgresql.com/tags/update/</link>
-      <pubDate>Mon, 23 Jul 2018 22:45:43 +0200</pubDate>
-      
-      <guid>https://theartofpostgresql.com/tags/update/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Yesql</title>
-      <link>https://theartofpostgresql.com/tags/yesql/</link>
-      <pubDate>Sat, 10 Nov 2018 15:40:01 +0100</pubDate>
-      
-      <guid>https://theartofpostgresql.com/tags/yesql/</guid>
+      <guid>https://theartofpostgresql.com/tags/theory/</guid>
       <description></description>
     </item>
     

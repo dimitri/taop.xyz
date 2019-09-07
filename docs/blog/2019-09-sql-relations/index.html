@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="generator" content="Hugo 0.50" />
+    <meta charset="utf-8">
+    <title>The Art of PostgreSQL - What is an SQL relation?</title>
+    <meta name="description" content="">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    
+    
+    <link href="/images/favicon.ico" rel="icon" type="image/x-icon">
+    
+    
+    <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900" rel="stylesheet"> 
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/syntax.css">
+    
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> 
+    <script src="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
+    <script src="/js/custom.js"></script>
+
+</head>
+<body class="blog">
+
+<header class="header"  style="background-color: #67527a; background: url('/images/demo/slide.jpg');">
+    <div class="wrapper">
+        <a class="logo" href="/">The Art of PostgreSQL</a>
+        
+        <nav>
+            <ul>
+                <li><a data-slide=".subscribe_block" href="/">The Book</a></li>
+                <li><a data-slide=".packages_block" href="/">PACKAGES</a></li>
+                <li><a data-slide=".about_block" href="#">AUTHOR</a></li>
+                <li><a data-slide=".quote_slider" href="/blog/">BLOG</a></li>
+            </ul>
+        </nav>
+        
+    </div>
+    <a data-slide=".price_list" class="button" href="/">PURCHASE</a>
+</header>
+
+
+<div class="single_block">
+    <div class="wrapper">
+        
+        <div class="single_content">
+         <p><img src="/img/composition.jpg" alt="" /></p>
+         <h1>What is an SQL relation?</h1>         
+
+         <p>If you&rsquo;re like me, understanding SQL is taking you a long time. And some
+efforts. It took me years to get a good mental model of how SQL queries are
+implemented, and then up from the lower levels, to build a mental model of
+how to reason in SQL.</p>
+
+<p>Nowadays, in most case, I can think in terms of SQL and write queries that
+will give me the result set I need. In most cases, because some parts of SQL
+are still complex, and I don&rsquo;t practice as much as I used to. In particular,
+newer PostgreSQL features are areas I still need to work with more before I
+can integrate them in my daily workflow.</p>
+
+<p>Today, I want to introduce the central concept of the SQL language. What is
+an SQL relation?</p>
+
+<p>The term comes from mathematics and their relational theory. The wikipedia
+page <a href="https://simple.wikipedia.org/wiki/Relation_(mathematics)">Relation
+(Mathematics)</a>
+include an introduction about what is a relation&hellip; which uses a jargon that
+you might not be familiar with. At least I know I have a hard time
+understanding that page. So I&rsquo;ll simplify it for you now.</p>
+
+<p>In SQL, a relation is a <em>bag</em> of <em>objects</em> that all share the same
+<em>characteristics</em>: a list of attributes with a known given data type.</p>
+
+<p>We name those objects <em>tuples</em> in SQL. An object with three attributes can
+be named a <em>triple</em>, an object with four attributes a <em>quadruple</em>, with six
+attributes a <em>sextuple</em>, etc. The generic that applies to any number of
+attributes is built on the same mechanism. Let&rsquo;s say that we have the
+unknown number <code>t</code> of attributes. Then we&rsquo;ll name the object a <code>T-UPLE</code>, or
+a <em>tuple</em>.</p>
+
+<p>If you have ever worked with a collection of objects in Java, or Python, or
+Ruby, or PHP, or some other programming language, then you have already
+woked with a <em>relation</em>.</p>
+
+<p>The most common relation in SQL is a table, and that&rsquo;s why we have the
+<code>TABLE</code> command. The truth is that any SQL query defines a new relation. The
+result set of a SQL query is always a collection of tuples.</p>
+
+<p>SQL provides different ways to compose relations together: set operators and
+join operators are used for that. Our <a href="/blog/2019-09-sql-joins/">next article will dive in SQL
+JOINs</a>.</p>
+
+<p>Meanwhile, check out my book <a href="https://theartofpostgresql.com">The Art of
+PostgreSQL</a> where you can learn how to put
+SQL to good use when coding your application!</p>
+
+
+            <footer>
+                <p><strong>TAGS:</strong> <a href="#">PostgreSQL</a>, <a href="#">YeSQL</a>, <a href="#">Security</a>, <a href="#">SQL Injection</a></p>
+            </footer>
+
+            <div class="single_subscribe">
+                <p>Subscribe to receive a FREE chapter of the second edition of my book, <b><i>“The Art of PostgreSQL”</i></b> including the full Table of Contents!</p>
+                 <script async data-uid="c1452ad801" src="https://f.convertkit.com/c1452ad801/ad53e74e51.js"></script>
+            </div>
+        </div>
+
+        <aside class="single_sidebar">
+ <h6>RECENT POSTS</h6>
+ <ul>
+ 
+ 
+ <li><a class="next" href="https://theartofpostgresql.com/blog/2019-09-sql-joins/"> What is an SQL JOIN?</a></li>
+ 
+ </ul>
+ 
+ <h6>TAGS</h6>
+ <div class="tag_list">
+  
+   
+     <a href="https://theartofpostgresql.com/tags/sql">SQL</a>
+   
+     <a href="https://theartofpostgresql.com/tags/relation">Relation</a>
+   
+     <a href="https://theartofpostgresql.com/tags/theory">Theory</a>
+   
+     <a href="https://theartofpostgresql.com/tags/join">JOIN</a>
+   
+     <a href="https://theartofpostgresql.com/tags/composition">Composition</a>
+   
+  
+ </div>
+
+ <a href="/#packages" class="banner"><span>What if you could turn thousands of lines of code into simple queries?</span></a>
+ 
+</aside>
+
+
+    </div>
+</div>            
+         
+ 
+
+<footer class="footer">
+	<div class="wrapper">
+	    <div class="about_block">
+	        <h6>about the author</h6>
+	        <p>Hi! My name is Dimitri Fontaine and I have been using and contributing to Open Source Software for the best of the last 20 years. I am a PostgreSQL Major Contributor after having contributed Extensions and Event Triggers, among other things.</p>
+	        <p>I have been writing code almost daily for a very long time now, both in a professional capacity and on my leisure time. I&rsquo;ve also been a database architect and a DBA on-call. As a developer I enjoy using SQL. As a database architect, I like teaching advanced SQL techniques to my colleagues.</p>
+	        <ul>
+	            <li><a target="_blank" href="mailto:dim@tapoueh.org">email</a></li>
+	            <li><a target="_blank" href="https://twitter.com/tapoueh">twitter</a></li>
+	            <li><a target="_blank" href="https://github.com/dimitri/tapoueh.org">github</a></li>
+	            <li><a target="_blank" href="https://www.reddit.com/user/theartofpostgresql">reddit</a></li>
+	        </ul>
+    	</div>
+	    <div class="faq_block">
+            <h6>FAQ</h6>
+	        <dl>
+	           <dt>What if the book isn&rsquo;t what I expected it would be?</dt>
+	           <dd>The Art of PostgreSQL is a book that teaches SQL to application developers. If it's not of any value to you, then just say so and I'll refund you, no questions asked.</dd>
+	           <dt>I bought the book, and I'm confused. What now?</dt>
+	           <dd>The content of the book is available as a PDF, ePub and MOBI file, and you can also download the SQL queries. The content is available over at <a href="https://postgresql.thinkific.com/enrollments" target="_">https://postgresql.thinkific.com/</a> from your student dashboard.</dd>
+	           <dt>Is there any DRM?</dt>
+	           <dd>No. There isn't even watermarking on the PDF. You own what you buy. The sources of data selected for the book are all available with Open Data types of licenses, and the book itself is copyright Dimitri Fontaine. All rights reserved.</dd>
+	           <dt>Any other questions?</dt>
+	           <dd>Contact me by <a href="mailto:dim@tapoueh.org">email</a> and just ask! I will do my best to answer you.</dd>
+	        </dl>
+    	</div>
+	</div>
+</footer>
+
+
+
+
+
+
+<div class="copyright">
+    <div class="wrapper">
+        Copyright 2019 &copy; Dimitri Fontaine. All rights reserved. Design by <a style="color: white; font-weight: bold;" target="_blank" href="https://www.terrilowry.com">TerriLowry.com.</a>
+    </div>
+</div>
+
+
+ 
+</body>
+ 
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-47059482-5"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-47059482-5');
+</script>
+
+
+<script>
+!function(e,t,n,s,u,a){e.twq||(s=e.twq=function(){s.exe?s.exe.apply(s,arguments):s.queue.push(arguments);
+},s.version='1.1',s.queue=[],u=t.createElement(n),u.async=!0,u.src='//static.ads-twitter.com/uwt.js',
+a=t.getElementsByTagName(n)[0],a.parentNode.insertBefore(u,a))}(window,document,'script');
+
+twq('init','o0ial');
+twq('track','PageView');
+</script>
+
+
+</html> 
+
