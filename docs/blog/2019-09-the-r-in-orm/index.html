@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="generator" content="Hugo 0.50" />
+    <meta charset="utf-8">
+    <title>The Art of PostgreSQL - The R in ORM</title>
+    <meta name="description" content="">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    
+    
+    <link href="/images/favicon.ico" rel="icon" type="image/x-icon">
+    
+    
+    <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900" rel="stylesheet"> 
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/syntax.css">
+    
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> 
+    <script src="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
+    <script src="/js/custom.js"></script>
+
+</head>
+<body class="blog">
+
+<header class="header"  style="background-color: #67527a; background: url('/images/demo/slide.jpg');">
+    <div class="wrapper">
+        <a class="logo" href="/">The Art of PostgreSQL</a>
+        
+        <nav>
+            <ul>
+                <li><a data-slide=".subscribe_block" href="/">The Book</a></li>
+                <li><a data-slide=".packages_block" href="/">PACKAGES</a></li>
+                <li><a data-slide=".about_block" href="#">AUTHOR</a></li>
+                <li><a data-slide=".quote_slider" href="/blog/">BLOG</a></li>
+            </ul>
+        </nav>
+        
+    </div>
+    <a data-slide=".price_list" class="button" href="/">PURCHASE</a>
+</header>
+
+
+<div class="single_block">
+    <div class="wrapper">
+        
+        <div class="single_content">
+         <p><img src="/img/ORM.png" alt="" /></p>
+         <h1>The R in ORM</h1>         
+
+         
+
+<p>Ok, let&rsquo;s face it, I like SQL. A lot. I think it&rsquo;s a fine DSL given how
+powerful it is, and I respect its initial goal to attract non developers and
+try to build English sentences rather than code.</p>
+
+<p>Also, I understand that manually hydrating your collection of objects in
+your backend developement language is not the best use of your time. And
+that building SQL as strings makes your code ugly. I get it.</p>
+
+<p>What I do not understand is the fallacy behind most ORM tools. I am going to
+share my opinion on the topic, and it&rsquo;s not a popular one. You might not
+like it, though I would like that ORM writers and users understand more of
+SQL before giving up on it.</p>
+
+<h4 id="the-r-in-orm-stands-for-relation">The R in ORM stands for Relation.</h4>
+
+<h4 id="any-sql-query-defines-a-new-relation">Any SQL query defines a new Relation.</h4>
+
+<h4 id="a-relation-is-a-collection-of-objects-all-of-them-having-the-same-properties">A Relation is a collection of objects, all of them having the same properties.</h4>
+
+<p>Your ORM job is to map a collection of objects as given by your Relational
+Database Management System into a collection of objects in memory.
+Literally. There is NOTHING else to it.</p>
+
+<p>Yet here we are, with ORM technologies that are completely hiding SQL and
+having you, the application developer, learn something else on-top of SQL to
+express queries. And in lots of cases, this new syntax does not understand
+SQL, so that for instance you can&rsquo;t express sub-queries.</p>
+
+<p>Let me say it again: any SQL query defines a new relation, which is a
+collection of objects that all have the same properties. The FROM clause in
+SQL introduces a relation, that you then process with the other clauses. Of
+course, the FROM clause can introduces SQL relations that are specified as a
+SQL query. Because a SQL query IS a relation.</p>
+
+<p>If your ORM does not understand that, it does not understand relations. It
+does not understand SQL.</p>
+
+<p>Why would you use a tool that does not understand SQL as a way to make using
+SQL simpler in your code? I just don&rsquo;t get it.</p>
+
+<p>Again, ORM should be very simple. A relation in SQL is a collection of
+objects. The ORM job is to map this collection of objects as a&hellip;
+collection&hellip; of objects&hellip; in your programming language of choice.</p>
+
+<p>To do that though, ORM must understand SQL. And SQL relations. And
+understand that each and every single SQL query that you execute is defining
+a new relation.</p>
+
+<p>Of course the <code>TABLE</code> query defines a new relation. It is not the most
+interesting one, yet it seems that it is the only one that most ORM tools
+around there understand. And then try to build up from there. From what lots
+of them call <em>base tables</em> in your model. Hilarity ensues.</p>
+
+<p>You might like your ORM. Maybe you&rsquo;re lucky enough to work with an ORM that
+understands SQL and relations. Or maybe you think that SQL is a simple and
+limited tool anyway, and you would rather use your ORM rather than learn
+SQL.</p>
+
+<p>Well, I wrote a book to open your eyes on what you can do with SQL. It&rsquo;s
+named <a href="https://theartofpostgresql.com">The Art of PostgreSQL</a>, and once
+you&rsquo;ve read it, you might want to use SQL to its full power!</p>
+
+
+            <footer>
+                <p><strong>TAGS:</strong> <a href="#">PostgreSQL</a>, <a href="#">YeSQL</a>, <a href="#">Security</a>, <a href="#">SQL Injection</a></p>
+            </footer>
+
+            <div class="single_subscribe">
+                <p>Subscribe to receive a FREE chapter of the second edition of my book, <b><i>“The Art of PostgreSQL”</i></b> including the full Table of Contents!</p>
+                 <script async data-uid="c1452ad801" src="https://f.convertkit.com/c1452ad801/ad53e74e51.js"></script>
+            </div>
+        </div>
+
+        <aside class="single_sidebar">
+ <h6>RECENT POSTS</h6>
+ <ul>
+ 
+ <li><a class="previous" href="https://theartofpostgresql.com/blog/2019-09-sql-aggregates/"> What is an SQL Aggregate?</a></li>
+ 
+ 
+ </ul>
+ 
+ <h6>TAGS</h6>
+ <div class="tag_list">
+  
+   
+     <a href="https://theartofpostgresql.com/tags/sql">SQL</a>
+   
+     <a href="https://theartofpostgresql.com/tags/relation">Relation</a>
+   
+     <a href="https://theartofpostgresql.com/tags/theory">Theory</a>
+   
+     <a href="https://theartofpostgresql.com/tags/orm">ORM</a>
+   
+  
+ </div>
+
+ <a href="/#packages" class="banner"><span>What if you could turn thousands of lines of code into simple queries?</span></a>
+ 
+</aside>
+
+
+    </div>
+</div>            
+         
+ 
+
+<footer class="footer">
+	<div class="wrapper">
+	    <div class="about_block">
+	        <h6>about the author</h6>
+	        <p>Hi! My name is Dimitri Fontaine and I have been using and contributing to Open Source Software for the best of the last 20 years. I am a PostgreSQL Major Contributor after having contributed Extensions and Event Triggers, among other things.</p>
+	        <p>I have been writing code almost daily for a very long time now, both in a professional capacity and on my leisure time. I&rsquo;ve also been a database architect and a DBA on-call. As a developer I enjoy using SQL. As a database architect, I like teaching advanced SQL techniques to my colleagues.</p>
+	        <ul>
+	            <li><a target="_blank" href="mailto:dim@tapoueh.org">email</a></li>
+	            <li><a target="_blank" href="https://twitter.com/tapoueh">twitter</a></li>
+	            <li><a target="_blank" href="https://github.com/dimitri/tapoueh.org">github</a></li>
+	            <li><a target="_blank" href="https://www.reddit.com/user/theartofpostgresql">reddit</a></li>
+	        </ul>
+    	</div>
+	    <div class="faq_block">
+            <h6>FAQ</h6>
+	        <dl>
+	           <dt>What if the book isn&rsquo;t what I expected it would be?</dt>
+	           <dd>The Art of PostgreSQL is a book that teaches SQL to application developers. If it's not of any value to you, then just say so and I'll refund you, no questions asked.</dd>
+	           <dt>I bought the book, and I'm confused. What now?</dt>
+	           <dd>The content of the book is available as a PDF, ePub and MOBI file, and you can also download the SQL queries. The content is available over at <a href="https://postgresql.thinkific.com/enrollments" target="_">https://postgresql.thinkific.com/</a> from your student dashboard.</dd>
+	           <dt>Is there any DRM?</dt>
+	           <dd>No. There isn't even watermarking on the PDF. You own what you buy. The sources of data selected for the book are all available with Open Data types of licenses, and the book itself is copyright Dimitri Fontaine. All rights reserved.</dd>
+	           <dt>Any other questions?</dt>
+	           <dd>Contact me by <a href="mailto:dim@tapoueh.org">email</a> and just ask! I will do my best to answer you.</dd>
+	        </dl>
+    	</div>
+	</div>
+</footer>
+
+
+
+
+
+
+<div class="copyright">
+    <div class="wrapper">
+        Copyright 2019 &copy; Dimitri Fontaine. All rights reserved. Design by <a style="color: white; font-weight: bold;" target="_blank" href="https://www.terrilowry.com">TerriLowry.com.</a>
+    </div>
+</div>
+
+
+ 
+</body>
+ 
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-47059482-5"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-47059482-5');
+</script>
+
+
+<script>
+!function(e,t,n,s,u,a){e.twq||(s=e.twq=function(){s.exe?s.exe.apply(s,arguments):s.queue.push(arguments);
+},s.version='1.1',s.queue=[],u=t.createElement(n),u.async=!0,u.src='//static.ads-twitter.com/uwt.js',
+a=t.getElementsByTagName(n)[0],a.parentNode.insertBefore(u,a))}(window,document,'script');
+
+twq('init','o0ial');
+twq('track','PageView');
+</script>
+
+
+</html> 
+

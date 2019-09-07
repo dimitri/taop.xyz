@@ -6,10 +6,20 @@
     <description>Recent content in Theory on The Art of PostgreSQL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 07 Sep 2019 21:30:00 +0200</lastBuildDate>
+    <lastBuildDate>Sat, 07 Sep 2019 22:55:00 +0200</lastBuildDate>
     
 	<atom:link href="https://theartofpostgresql.com/tags/theory/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>The R in ORM</title>
+      <link>https://theartofpostgresql.com/blog/2019-09-the-r-in-orm/</link>
+      <pubDate>Sat, 07 Sep 2019 22:55:00 +0200</pubDate>
+      
+      <guid>https://theartofpostgresql.com/blog/2019-09-the-r-in-orm/</guid>
+      <description>Ok, let&amp;rsquo;s face it, I like SQL. A lot. I think it&amp;rsquo;s a fine DSL given how powerful it is, and I respect its initial goal to attract non developers and try to build English sentences rather than code.
+Also, I understand that manually hydrating your collection of objects in your backend developement language is not the best use of your time. And that building SQL as strings makes your code ugly.</description>
+    </item>
     
     <item>
       <title>What is an SQL JOIN?</title>
