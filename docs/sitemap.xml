@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://theartofpostgresql.com/blog/2019-09-how-to-learn-sql/</loc>
+    <lastmod>2019-09-17T00:15:00+02:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://theartofpostgresql.com/blog/2019-09-the-r-in-orm/</loc>
     <lastmod>2019-09-07T22:55:00+02:00</lastmod>
   </url>
@@ -35,7 +40,7 @@
   
   <url>
     <loc>https://theartofpostgresql.com/blog/</loc>
-    <lastmod>2019-09-07T22:55:00+02:00</lastmod>
+    <lastmod>2019-09-17T00:15:00+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -57,6 +62,18 @@
   </url>
   
   <url>
+    <loc>https://theartofpostgresql.com/tags/learn-postgresql/</loc>
+    <lastmod>2019-09-17T00:15:00+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://theartofpostgresql.com/tags/learn-sql/</loc>
+    <lastmod>2019-09-17T00:15:00+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://theartofpostgresql.com/tags/orm/</loc>
     <lastmod>2019-09-07T22:55:00+02:00</lastmod>
     <priority>0</priority>
@@ -64,19 +81,19 @@
   
   <url>
     <loc>https://theartofpostgresql.com/categories/postgresql/</loc>
-    <lastmod>2019-09-07T22:55:00+02:00</lastmod>
+    <lastmod>2019-09-17T00:15:00+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://theartofpostgresql.com/tags/relation/</loc>
-    <lastmod>2019-09-07T22:55:00+02:00</lastmod>
+    <lastmod>2019-09-17T00:15:00+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://theartofpostgresql.com/tags/sql/</loc>
-    <lastmod>2019-09-07T22:55:00+02:00</lastmod>
+    <lastmod>2019-09-17T00:15:00+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -88,7 +105,7 @@
   
   <url>
     <loc>https://theartofpostgresql.com/</loc>
-    <lastmod>2019-09-07T22:55:00+02:00</lastmod>
+    <lastmod>2019-09-17T00:15:00+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -100,7 +117,7 @@
   
   <url>
     <loc>https://theartofpostgresql.com/categories/yesql/</loc>
-    <lastmod>2019-09-07T22:55:00+02:00</lastmod>
+    <lastmod>2019-09-17T00:15:00+02:00</lastmod>
     <priority>0</priority>
   </url>
   

@@ -39,6 +39,24 @@
     </item>
     
     <item>
+      <title>Learn Postgresql</title>
+      <link>https://theartofpostgresql.com/tags/learn-postgresql/</link>
+      <pubDate>Tue, 17 Sep 2019 00:15:00 +0200</pubDate>
+      
+      <guid>https://theartofpostgresql.com/tags/learn-postgresql/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Learn Sql</title>
+      <link>https://theartofpostgresql.com/tags/learn-sql/</link>
+      <pubDate>Tue, 17 Sep 2019 00:15:00 +0200</pubDate>
+      
+      <guid>https://theartofpostgresql.com/tags/learn-sql/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Orm</title>
       <link>https://theartofpostgresql.com/tags/orm/</link>
       <pubDate>Sat, 07 Sep 2019 22:55:00 +0200</pubDate>
@@ -50,7 +68,7 @@
     <item>
       <title>Relation</title>
       <link>https://theartofpostgresql.com/tags/relation/</link>
-      <pubDate>Sat, 07 Sep 2019 22:55:00 +0200</pubDate>
+      <pubDate>Tue, 17 Sep 2019 00:15:00 +0200</pubDate>
       
       <guid>https://theartofpostgresql.com/tags/relation/</guid>
       <description></description>
@@ -59,7 +77,7 @@
     <item>
       <title>Sql</title>
       <link>https://theartofpostgresql.com/tags/sql/</link>
-      <pubDate>Sat, 07 Sep 2019 22:55:00 +0200</pubDate>
+      <pubDate>Tue, 17 Sep 2019 00:15:00 +0200</pubDate>
       
       <guid>https://theartofpostgresql.com/tags/sql/</guid>
       <description></description>

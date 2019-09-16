@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="generator" content="Hugo 0.50" />
+    <meta charset="utf-8">
+    <title>The Art of PostgreSQL - How to Learn SQL?</title>
+    <meta name="description" content="Here we are, another SQL query to write. You wish you knew how to write that
+mechanically, like you would a loop in your favorite programming language.
+Or at least have a pretty clear idea of a skeleton to tweak until it gives
+the result set you expect. So instead of working on your SQL query, you
+google How to write a SQL query? or maybe even How to learn SQL?
+Right. I feel you, I&rsquo;ve been there too, even if quite some time ago…
+
+So here my article where I teach you how to learn SQL.
+
+I want to share with you how I did it, and how I continue to do it. There&rsquo;s
+no magic secret sauce to it though, it&rsquo;s all basic work. Again, we have to
+learn the main concepts and how they play together, then practice simple
+steps, and then build from there.
+
+">
+
+    
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@tapoueh" />
+    <meta name="twitter:creator" content="@tapoueh" />
+    <meta property="og:url" content="/blog/2019-09-how-to-learn-sql/" />
+    <meta property="og:title" content="How to Learn SQL?" />
+    <meta property="og:description" content="The book that teaches SQL to developers: Learn to replace thousands of lines of code with simple queries!" />
+    <meta property="og:image" content="https://theartofpostgresql.com/images/hardcover-mockup.jpg" />
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    
+    
+    <link href="/favicon.ico" rel="icon" type="image/x-icon">
+    
+    
+    <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900" rel="stylesheet"> 
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/syntax.css">
+    
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> 
+    <script src="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
+    <script src="/js/custom.js"></script>
+
+</head>
+<body class="blog">
+
+<header class="header"  style="background-color: #67527a; background: url('/images/demo/slide.jpg');">
+    <div class="wrapper">
+        <a class="logo" href="/">The Art of PostgreSQL</a>
+        
+        <nav>
+            <ul>
+                <li><a data-slide=".subscribe_block" href="/">The Book</a></li>
+                <li><a data-slide=".packages_block" href="/">PACKAGES</a></li>
+                <li><a data-slide=".about_block" href="#">AUTHOR</a></li>
+                <li><a data-slide=".quote_slider" href="/blog/">BLOG</a></li>
+            </ul>
+        </nav>
+        
+    </div>
+    <a data-slide=".price_list" class="button" href="/">PURCHASE</a>
+</header>
+
+
+<div class="single_block">
+    <div class="wrapper">
+        
+        <div class="single_content">
+         <p><img src="/img/online-school.jpg" alt="" /></p>
+         <h1>How to Learn SQL?</h1>         
+
+         <p>Here we are, another SQL query to write. You wish you knew how to write that
+mechanically, like you would a loop in your favorite programming language.
+Or at least have a pretty clear idea of a skeleton to tweak until it gives
+the result set you expect. So instead of working on your SQL query, you
+google <a href="#">How to write a SQL query?</a> or maybe even <a href="#">How to learn SQL?</a>
+Right. I feel you, I&rsquo;ve been there too, even if quite some time ago…</p>
+
+<p>So here my article where I teach you how to learn SQL.</p>
+
+<p>I want to share with you how I did it, and how I continue to do it. There&rsquo;s
+no magic secret sauce to it though, it&rsquo;s all basic work. Again, we have to
+learn the main concepts and how they play together, then practice simple
+steps, and then build from there.</p>
+
+<p></p>
+
+<p>You did the same thing already, several times, I&rsquo;m sure. You know how to
+write code in one or several of Python, Java, Ruby, PHP, C, C++, Go,
+JavaScript, Rust, or even some other languages. You mastered just enough of
+spreadsheet formulas to know the difference of a relative and an absolute
+cell address, remember how to do the classic sums and simple formulaes.
+Maybe you even played with more esoteric languages such as J, or R. Or know
+how to render nice graphics with either MatPlotlib or maybe d3js.</p>
+
+<p>In short, you&rsquo;ve been learning advanced tricks in other environments before.
+So what makes SQL so special that you barely remember <code>SELECT * FROM table
+WHERE ...</code> and find <code>JOINs</code> and <code>GROUP BY</code> hard to remember about?</p>
+
+<p>In my case, what took some time to make sense for me where the bits the SQL
+language is built on, its foundations. What are the foundations of SQL?</p>
+
+<h4 id="1-at-the-heart-of-sql-there-s-the-notion-of-a-relation">1. At the heart of SQL there&rsquo;s the notion of a relation</h4>
+
+<h4 id="2-sql-is-a-declarative-programming-language">2. SQL is a declarative programming language</h4>
+
+<p>Those two statements have very practical consequences. Until you understand
+<a href="/blog/2019-09-sql-relations/">what a SQL relation is</a> everything is going
+to be complex. Until you understand that SQL is declarative, the time you
+spend writing queries is going to be a fight. Not a pretty one, mind you.</p>
+
+<p>So here I want to spend some time diving into both topics. Let&rsquo;s even begin
+with the declarative language parts. This is the fundamental you need to
+understand.</p>
+
+<h3 id="sql-is-a-declarative-programming-language">SQL is a declarative programming language</h3>
+
+<p>I have been taught imperative programming, and then teachers would go on
+with object oriented concepts. Arguing that it allows for a much better code
+organisation and re-use. Then I was introduced to functional programming,
+which avoids side effects and prone very small functions with very
+descriptive names. I liked that a lot!</p>
+
+<p>I found later that you can make a mess of your code base with any paradigm
+really.</p>
+
+<p>So what is declarative programming? It&rsquo;s a paradigm where you <strong>declare</strong>
+what you expect. In the case of SQL, your job is to declare the result set
+you expect, in terms that are relevant to the result of the query.</p>
+
+<h3 id="at-the-heart-of-sql-there-s-the-notion-of-a-relation">At the heart of SQL there&rsquo;s the notion of a relation</h3>
+
+<p>And the result of the query is going to be a relation. A relation is a
+collection of objects that all have the same list of attributes, each with
+its own domain. Or data type, as we say nowadays.</p>
+
+<p>A tuple is a t-uple. When <code>t = 2</code> that&rsquo;s a <em>couple</em>. When <code>t = 3</code> that&rsquo;s a
+<em>triple</em>. When <code>t = 4</code> that&rsquo;s a <em>quadruple</em>. When <code>t = 5</code> that&rsquo;s a
+<em>quintuple</em>. When you don&rsquo;t know the number of attributes the abstract
+relation you talk about in a teaching article that is broad and general,
+then you say <code>t</code>, and then it&rsquo;s a <em>tuple</em>.</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql">\<span style="color:#719e07">set</span> <span style="color:#719e07">start</span> <span style="color:#2aa198">&#39;2017-02-01&#39;</span>
+
+  <span style="color:#719e07">select</span> <span style="color:#b58900">date</span>,
+         to_char(shares, <span style="color:#2aa198">&#39;99G999G999G999&#39;</span>) <span style="color:#719e07">as</span> shares,
+         to_char(trades, <span style="color:#2aa198">&#39;99G999G999&#39;</span>) <span style="color:#719e07">as</span> trades,
+         to_char(dollars, <span style="color:#2aa198">&#39;L99G999G999G999&#39;</span>) <span style="color:#719e07">as</span> dollars
+    <span style="color:#719e07">from</span> factbook
+   <span style="color:#719e07">where</span> <span style="color:#b58900">date</span> <span style="color:#719e07">&gt;=</span> <span style="color:#b58900">date</span> :<span style="color:#2aa198">&#39;start&#39;</span>
+     <span style="color:#719e07">and</span> <span style="color:#b58900">date</span>  <span style="color:#719e07">&lt;</span> <span style="color:#b58900">date</span> :<span style="color:#2aa198">&#39;start&#39;</span> <span style="color:#719e07">+</span> <span style="color:#b58900">interval</span> <span style="color:#2aa198">&#39;1 month&#39;</span>
+<span style="color:#719e07">order</span> <span style="color:#719e07">by</span> <span style="color:#b58900">date</span>;</code></pre></div>
+<p>So this query builds a relation of <em>quadruples</em> <code>(date date, shares text,
+trades text, dollars text)</code>. Each row of the result set has 4 columns. The
+first one has the name <em>date</em> and is of type <em>date</em>, because that is the
+data type of the attribute in the base relation <code>factbook</code>. The second
+attribute is named <em>shares</em> and its attribute domain (data type) is <em>text</em>,
+because that&rsquo;s the return type of the function <code>to_char</code>. Etc. You got it,
+of course.</p>
+
+<h3 id="say-it-in-english">Say it in English</h3>
+
+<p>Now, we said that SQL is declarative, and that a SQL query is declaring the
+result set that is expected from executing it. In other words, a SQL query
+defines a relation: a collection of objects sharing the same properties, a
+collection of tuples.</p>
+
+<p>The previous query defines the relation that contains all the known activity
+from our books in a given month period starting at <code>start</code>, in date order,
+such as the activity is defined by its date, the pretty printed number of
+shares exchanged that day, the pretty printed number of trades exchanged
+that day, and the pretty printed number of dollars printed that day.</p>
+
+<p>The sentence you just read is the English version of the SQL query in the
+previous paragrah. Read it again. It defines the result set we expect from
+running the query. It does not say how to find the data, it declares the
+result.</p>
+
+<p>From this declaration, the SQL engine has to find the data and filter it and
+massage it in a way that returns exactly what you ask for.</p>
+
+<h3 id="a-model-of-sql-execution-engine">A model of SQL execution engine</h3>
+
+<p>When I used to be a PostgreSQL consultant, I have done quite a bit of
+training. There was this guy who didn&rsquo;t understand SQL. At all. It was all
+magic to him. Until I began our chapter about explain plans. Then he said <em>“I
+know that, that&rsquo;s like AS400 assembly! Now I understand everything!”</em></p>
+
+<p>Well, maybe you&rsquo;re like this trainee and will find it better to understand
+SQL from having a look at the query plan.</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#719e07">EXPLAIN</span> (costs <span style="color:#719e07">off</span>) <span style="color:#719e07">select</span> …
+
+ <span style="color:#719e07">Index</span> Scan <span style="color:#719e07">using</span> factbook_date_idx <span style="color:#719e07">on</span> factbook
+   <span style="color:#719e07">Index</span> Cond: ((<span style="color:#b58900">date</span> <span style="color:#719e07">&gt;=</span> <span style="color:#2aa198">&#39;2017-02-01&#39;</span>::<span style="color:#b58900">date</span>)
+            <span style="color:#719e07">AND</span> (<span style="color:#b58900">date</span> <span style="color:#719e07">&lt;</span> <span style="color:#2aa198">&#39;2017-03-01 00:00:00&#39;</span>::<span style="color:#719e07">timestamp</span> <span style="color:#719e07">without</span> time <span style="color:#719e07">zone</span>))</code></pre></div>
+<p>With this particular query, PostgreSQL chooses to use an index scan to find
+the data in our date range of interest. That&rsquo;s because the index also
+returns the data in the order we declared for the result set, so PostgreSQL
+does not even have to sort it! Smart.</p>
+
+<p>What if we want the result set relation to be sorted by number of dollars,
+with the greater numbers first?</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#719e07">explain</span> (costs <span style="color:#719e07">off</span>, <span style="color:#719e07">verbose</span>)
+
+  <span style="color:#719e07">select</span> <span style="color:#b58900">date</span>,
+         to_char(shares, <span style="color:#2aa198">&#39;99G999G999G999&#39;</span>) <span style="color:#719e07">as</span> shares,
+         to_char(trades, <span style="color:#2aa198">&#39;99G999G999&#39;</span>) <span style="color:#719e07">as</span> trades,
+         to_char(dollars, <span style="color:#2aa198">&#39;L99G999G999G999&#39;</span>) <span style="color:#719e07">as</span> dollars
+    <span style="color:#719e07">from</span> factbook
+   <span style="color:#719e07">where</span> <span style="color:#b58900">date</span> <span style="color:#719e07">&gt;=</span> <span style="color:#b58900">date</span> :<span style="color:#2aa198">&#39;start&#39;</span>
+     <span style="color:#719e07">and</span> <span style="color:#b58900">date</span>  <span style="color:#719e07">&lt;</span> <span style="color:#b58900">date</span> :<span style="color:#2aa198">&#39;start&#39;</span> <span style="color:#719e07">+</span> <span style="color:#b58900">interval</span> <span style="color:#2aa198">&#39;1 month&#39;</span>
+<span style="color:#719e07">order</span> <span style="color:#719e07">by</span> dollars <span style="color:#719e07">desc</span>;
+
+
+ Sort
+   <span style="color:#719e07">Output</span>: <span style="color:#b58900">date</span>,
+           (to_char(shares, <span style="color:#2aa198">&#39;99G999G999G999&#39;</span>::<span style="color:#b58900">text</span>)), 
+           (to_char(trades, <span style="color:#2aa198">&#39;99G999G999&#39;</span>::<span style="color:#b58900">text</span>)), 
+           (to_char(dollars, <span style="color:#2aa198">&#39;L99G999G999G999&#39;</span>::<span style="color:#b58900">text</span>))
+   Sort <span style="color:#719e07">Key</span>: (to_char(factbook.dollars, <span style="color:#2aa198">&#39;L99G999G999G999&#39;</span>::<span style="color:#b58900">text</span>)) <span style="color:#719e07">DESC</span>
+   <span style="color:#719e07">-&gt;</span>  <span style="color:#719e07">Index</span> Scan <span style="color:#719e07">using</span> factbook_date_idx <span style="color:#719e07">on</span> <span style="color:#719e07">public</span>.factbook
+         <span style="color:#719e07">Output</span>: <span style="color:#b58900">date</span>,
+                 to_char(shares, <span style="color:#2aa198">&#39;99G999G999G999&#39;</span>::<span style="color:#b58900">text</span>), 
+                 to_char(trades, <span style="color:#2aa198">&#39;99G999G999&#39;</span>::<span style="color:#b58900">text</span>), 
+                 to_char(dollars, <span style="color:#2aa198">&#39;L99G999G999G999&#39;</span>::<span style="color:#b58900">text</span>)
+         <span style="color:#719e07">Index</span> Cond: ((factbook.<span style="color:#b58900">date</span> <span style="color:#719e07">&gt;=</span> <span style="color:#2aa198">&#39;2017-02-01&#39;</span>::<span style="color:#b58900">date</span>)
+                  <span style="color:#719e07">AND</span> (factbook.<span style="color:#b58900">date</span> <span style="color:#719e07">&lt;</span> <span style="color:#2aa198">&#39;2017-03-01 00:00:00&#39;</span>::<span style="color:#719e07">timestamp</span> <span style="color:#719e07">without</span> time <span style="color:#719e07">zone</span>))
+(<span style="color:#2aa198">6</span> <span style="color:#719e07">rows</span>)</code></pre></div>
+<p>This time the execution plan is quite different. The index is still good for
+implement the <code>WHERE</code> clause filtering. As we want the rows in a different
+ordering though, PostgreSQL implements a sort node on-top of the relation
+obtained by scanning the index. This sort node output is another relation,
+which happens to match the definition we gave, so that&rsquo;s it.</p>
+
+<p>In this execution plan you can see that PostgreSQL first does an index scan
+on the <code>factbook</code> relation to implement the WHERE clause of our query. Then
+it implements a Sort node on that intermediate relation to implement the
+ORDER BY clause of our query.</p>
+
+<p>The SELECT clause, also named the projection, has been evaluated right from
+the begining this time, because it&rsquo;s such a simple query.</p>
+
+<p>It&rsquo;s relations all the way down. Internally PostgreSQL calls then <em>tuple
+store</em> when passing the result sets from bottom plan nodes to their upper
+nodes.</p>
+
+<h3 id="thinking-in-sql">Thinking in SQL</h3>
+
+<p>When you write a SQL query, you declare the result set you want to obtain. A
+result set is just another relation. SQL manipulates relations with
+different kinds of operators: append, sort, filter, project, group,
+aggregate, merge, etc.</p>
+
+<p>The projection applies some computations on top of the raw data that you
+have. The filtering keeps or rejects entries in the relation that the
+current node is building. The sorting, well sorts the current relation in a
+given order. Etc.</p>
+
+<p>All pretty simple really. The power of SQL lies in composing relations
+together until you obtain exactly the final relation that contains exactly
+what you need.</p>
+
+<p>A good exercise for being able to write a SQL query is to first describe the
+result set you expect from it using a single sentence in your own language.
+It&rsquo;s easier in your native language of course, so for complex queries I will
+switch from English to French. Don&rsquo;t worry, I will decipher it back to
+English as soon as I make sense of what I&rsquo;m trying to achieve!</p>
+
+<h3 id="sharpen-the-saw">Sharpen The Saw</h3>
+
+<p>You now have the basics to understand SQL. What&rsquo;s next? Well, same as
+always. How do you get comfortable at something new? Practicing is how you
+do it. You begin with simple things, and then add some more.</p>
+
+<p>Now that you master the very basics of SQL, it might be time to revisit <a href="/blog/2019-09-sql-aggregates/">SQL
+aggregates</a> and the GROUP BY clause. While
+there, you might want to have a look at GROUPING SETS. Very powerful
+construct.</p>
+
+<p>The next step might be the HAVING clause, this one is easy to understand and
+useful in many cases. It&rsquo;s a filter that applies to each group you are
+building with the GROUP BY clause, because your declaration is not always
+interested in every group found in your data set.</p>
+
+<p>Once you have played around with those concepts, a good next step is to get
+back to master JOINs. All of them, INNER JOIN, OUTER JOIN. CROSS JOIN and
+NATURAL JOIN. LATERAL JOIN too. That&rsquo;s more advanced, and it relieves a
+limitation found in the other joins. Make sure you understand the
+limitation, and LATERAL JOIN will have no secret for you. I&rsquo;ll write more
+about them here, in time, of course.</p>
+
+<p>A good step after that would be Common Table Expressions, or CTE. A very
+easy concept that allows to write SQL queries as pipelines. Beware of the
+more complex variant, the RECURSIVE CTE.</p>
+
+<p>Now you can have a look at WINDOW FUNCTIONS too. There&rsquo;s SQL before window
+functions, and SQL after window functions. That&rsquo;s how powerful those are.
+Few constructs in SQL are such a game changer, so you need to make sure you
+understand how to use them. Life changer.</p>
+
+<h3 id="practice-practice-practice">Practice, practice, practice</h3>
+
+<p>You get the idea now. SQL is hard to master, and even more so if you miss
+the first steps. I got you here. You need to make sure you understand the
+notion of a relation first. And that your job when writing a SQL query is to
+declare the final relation you want to retrieve the data from. Define the
+realtion, watch PostgreSQL do the rest for you.</p>
+
+<p>To define a relation, SQL provides you with a lots of tools (clauses) that
+you can compose in advanced ways. Begin with simple things, and build from
+there.</p>
+
+<p>I don&rsquo;t mean just in general. I mean for every single query you have to
+write, begin with a relation that you can refine until you get exactly the
+result set of your dreams. Or the one the Marketing department asked you to
+provide, anyways.</p>
+
+<p>Two queries a day keeps the doctor away, or something like that. Just find
+an occasion to write a couple queries a day. That will help you understand
+your database a lot better, and will do wonders to your SQL skills.</p>
+
+<p>Of course, some people need more that those abstract advice. They need
+examples that have been carefully curated to help learn SQL, and they need
+examples of result declarations in English and then in SQL, and to see the
+result, and then to copy/paste the query example and run it themselves and
+tweak it and read the EXPLAIN plan for it.</p>
+
+<p>You&rsquo;re covered. I wrote a book with exactly that content. You&rsquo;re on the
+website for the book. Either get the sample by giving me your email below,
+or just go buy <a href="https://theartofpostgresql.com">The Art of PostgreSQL</a> at
+the home page!</p>
+
+            <footer>
+             <p><strong>TAGS:</strong>
+              
+              
+              <a href="https://theartofpostgresql.com/tags/sql">SQL</a>
+              
+              <a href="https://theartofpostgresql.com/tags/relation">Relation</a>
+              
+              <a href="https://theartofpostgresql.com/tags/learn-sql">Learn SQL</a>
+              
+              <a href="https://theartofpostgresql.com/tags/learn-postgresql">Learn PostgreSQL</a>
+              
+              
+             </p>
+            </footer>
+
+            <div class="single_subscribe">
+                <p>Subscribe to receive a FREE chapter of the second edition of my book, <b><i>“The Art of PostgreSQL”</i></b> including the full Table of Contents!</p>
+                 <script async data-uid="c1452ad801" src="https://f.convertkit.com/c1452ad801/ad53e74e51.js"></script>
+            </div>
+        </div>
+
+        <aside class="single_sidebar">
+ <h6>RECENT POSTS</h6>
+ <ul>
+ 
+ <li><a class="previous" href="https://theartofpostgresql.com/blog/2019-09-the-r-in-orm/"> The R in ORM</a></li>
+ 
+ 
+ </ul>
+ 
+ <h6>TAGS</h6>
+ <div class="tag_list">
+  
+   
+     <a href="https://theartofpostgresql.com/tags/sql">SQL</a>
+   
+     <a href="https://theartofpostgresql.com/tags/relation">Relation</a>
+   
+     <a href="https://theartofpostgresql.com/tags/learn-sql">Learn SQL</a>
+   
+     <a href="https://theartofpostgresql.com/tags/learn-postgresql">Learn PostgreSQL</a>
+   
+  
+ </div>
+
+ <a href="/#packages" class="banner"><span>What if you could turn thousands of lines of code into simple queries?</span></a>
+ 
+</aside>
+
+
+    </div>
+</div>            
+         
+ 
+
+<footer class="footer">
+	<div class="wrapper">
+	    <div class="about_block">
+	        <h6>about the author</h6>
+	        <p>Hi! My name is Dimitri Fontaine and I have been using and contributing to Open Source Software for the best of the last 20 years. I am a PostgreSQL Major Contributor after having contributed Extensions and Event Triggers, among other things.</p>
+	        <p>I have been writing code almost daily for a very long time now, both in a professional capacity and on my leisure time. I&rsquo;ve also been a database architect and a DBA on-call. As a developer I enjoy using SQL. As a database architect, I like teaching advanced SQL techniques to my colleagues.</p>
+	        <ul>
+	            <li><a target="_blank" href="mailto:dim@tapoueh.org">email</a></li>
+	            <li><a target="_blank" href="https://twitter.com/tapoueh">twitter</a></li>
+	            <li><a target="_blank" href="https://github.com/dimitri/tapoueh.org">github</a></li>
+	            <li><a target="_blank" href="https://www.reddit.com/user/theartofpostgresql">reddit</a></li>
+	        </ul>
+    	</div>
+	    <div class="faq_block">
+            <h6>FAQ</h6>
+	        <dl>
+	           <dt>What if the book isn&rsquo;t what I expected it would be?</dt>
+	           <dd>The Art of PostgreSQL is a book that teaches SQL to application developers. If it's not of any value to you, then just say so and I'll refund you, no questions asked.</dd>
+	           <dt>I bought the book, and I'm confused. What now?</dt>
+	           <dd>The content of the book is available as a PDF, ePub and MOBI file, and you can also download the SQL queries. The content is available over at <a href="https://postgresql.thinkific.com/enrollments" target="_">https://postgresql.thinkific.com/</a> from your student dashboard.</dd>
+	           <dt>Is there any DRM?</dt>
+	           <dd>No. There isn't even watermarking on the PDF. You own what you buy. The sources of data selected for the book are all available with Open Data types of licenses, and the book itself is copyright Dimitri Fontaine. All rights reserved.</dd>
+	           <dt>Any other questions?</dt>
+	           <dd>Contact me by <a href="mailto:dim@tapoueh.org">email</a> and just ask! I will do my best to answer you.</dd>
+	        </dl>
+    	</div>
+	</div>
+</footer>
+
+
+
+
+
+
+<div class="copyright">
+    <div class="wrapper">
+        Copyright 2019 &copy; Dimitri Fontaine. All rights reserved. Design by <a style="color: white; font-weight: bold;" target="_blank" href="https://www.terrilowry.com">TerriLowry.com.</a>
+    </div>
+</div>
+
+
+</body>
+
+
+<script type="text/javascript">
+  var subscribersSiteId='1296f531-7ba0-406f-89e1-bdca40a36208';
+</script>
+<script type="text/javascript"
+        src="https://cdn.subscribers.com/assets/subscribers.js">
+</script>
+ 
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-47059482-5"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-47059482-5');
+</script>
+
+
+<script>
+!function(e,t,n,s,u,a){e.twq||(s=e.twq=function(){s.exe?s.exe.apply(s,arguments):s.queue.push(arguments);
+},s.version='1.1',s.queue=[],u=t.createElement(n),u.async=!0,u.src='//static.ads-twitter.com/uwt.js',
+a=t.getElementsByTagName(n)[0],a.parentNode.insertBefore(u,a))}(window,document,'script');
+
+twq('init','o0ial');
+twq('track','PageView');
+</script>
+
+
+</html> 
+

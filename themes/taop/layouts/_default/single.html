@@ -11,7 +11,13 @@
          {{ .Content | safeHTML }}
 
             <footer>
-                <p><strong>TAGS:</strong> <a href="#">PostgreSQL</a>, <a href="#">YeSQL</a>, <a href="#">Security</a>, <a href="#">SQL Injection</a></p>
+             <p><strong>TAGS:</strong>
+              {{ with .Params.tags }}
+              {{ range . }}
+              <a href="{{ "tags/" | absURL }}{{ . | urlize }}">{{ . }}</a>
+              {{ end }}
+              {{ end }}
+             </p>
             </footer>
 
             <div class="single_subscribe">
