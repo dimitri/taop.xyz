@@ -30,6 +30,15 @@
     </item>
     
     <item>
+      <title>Conference</title>
+      <link>https://theartofpostgresql.com/tags/conference/</link>
+      <pubDate>Fri, 20 Sep 2019 20:15:00 +0200</pubDate>
+      
+      <guid>https://theartofpostgresql.com/tags/conference/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Join</title>
       <link>https://theartofpostgresql.com/tags/join/</link>
       <pubDate>Sat, 07 Sep 2019 21:30:00 +0200</pubDate>
@@ -66,9 +75,18 @@
     </item>
     
     <item>
+      <title>Postgres Open</title>
+      <link>https://theartofpostgresql.com/tags/postgres-open/</link>
+      <pubDate>Fri, 20 Sep 2019 20:15:00 +0200</pubDate>
+      
+      <guid>https://theartofpostgresql.com/tags/postgres-open/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Relation</title>
       <link>https://theartofpostgresql.com/tags/relation/</link>
-      <pubDate>Tue, 17 Sep 2019 00:15:00 +0200</pubDate>
+      <pubDate>Fri, 20 Sep 2019 20:15:00 +0200</pubDate>
       
       <guid>https://theartofpostgresql.com/tags/relation/</guid>
       <description></description>
@@ -77,7 +95,7 @@
     <item>
       <title>Sql</title>
       <link>https://theartofpostgresql.com/tags/sql/</link>
-      <pubDate>Tue, 17 Sep 2019 00:15:00 +0200</pubDate>
+      <pubDate>Fri, 20 Sep 2019 20:15:00 +0200</pubDate>
       
       <guid>https://theartofpostgresql.com/tags/sql/</guid>
       <description></description>
