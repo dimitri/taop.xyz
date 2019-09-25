@@ -6,10 +6,38 @@
     <description>Recent content in Yesql on The Art of PostgreSQL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 23 Sep 2019 12:15:00 +0200</lastBuildDate>
+    <lastBuildDate>Wed, 25 Sep 2019 11:14:00 +0200</lastBuildDate>
     
 	<atom:link href="https://theartofpostgresql.com/categories/yesql/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>The Art of PostgreSQL: The Transcript, part III</title>
+      <link>https://theartofpostgresql.com/blog/2019-09-postgresopen-part-iii/</link>
+      <pubDate>Wed, 25 Sep 2019 11:14:00 +0200</pubDate>
+      
+      <guid>https://theartofpostgresql.com/blog/2019-09-postgresopen-part-iii/</guid>
+      <description>&lt;p&gt;This article is a transcript of the conference I gave at Postgres Open 2019,
+titled the same as the book: &lt;a href=&#34;https://theartofpostgresql.com&#34;&gt;The Art of
+PostgreSQL&lt;/a&gt;. It&amp;rsquo;s availble as a video online
+at Youtube if you want to watch the slides and listen to it, and it even has
+a subtext!&lt;/p&gt;
+
+&lt;p&gt;&lt;center&gt;
+&lt;iframe width=&#34;560&#34; height=&#34;315&#34; src=&#34;https://www.youtube.com/embed/q9IXCdy_mtY&#34; frameborder=&#34;0&#34; allow=&#34;accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture&#34; allowfullscreen&gt;&lt;/iframe&gt;
+&lt;/center&gt;&lt;/p&gt;
+
+&lt;p&gt;Some people still prefer to read the text, so here it is. This text is the
+third part of the transcript of the video.&lt;/p&gt;
+
+&lt;p&gt;The first part is available at &lt;a href=&#34;https://theartofpostgresql.com/blog/2019-09-postgresopen/&#34;&gt;The Art of PostgreSQL: The Transcript, part
+I&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;The second part is available at &lt;a href=&#34;https://theartofpostgresql.com/blog/2019-09-postgresopen-part-ii/&#34;&gt;The Art of PostgreSQL: The Transcript, part
+II&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>The Art of PostgreSQL: The Transcript, part II</title>

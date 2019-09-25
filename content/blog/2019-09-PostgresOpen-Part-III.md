@@ -1,5 +1,5 @@
 +++
-date = "2019-09-25T11:15:00+02:00"
+date = "2019-09-25T11:14:00+02:00"
 title = "The Art of PostgreSQL: The Transcript, part III"
 tags = ["SQL", "Relation", "Postgres Open", "Conference"]
 categories = ["PostgreSQL","YeSQL"]

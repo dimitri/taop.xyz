@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="generator" content="Hugo 0.50" />
+    <meta charset="utf-8">
+    <title>The Art of PostgreSQL - The Art of PostgreSQL: The Transcript, part III</title>
+    <meta name="description" content="This article is a transcript of the conference I gave at Postgres Open 2019,
+titled the same as the book: The Art of
+PostgreSQL. It&rsquo;s availble as a video online
+at Youtube if you want to watch the slides and listen to it, and it even has
+a subtext!
+
+
+
+
+
+Some people still prefer to read the text, so here it is. This text is the
+third part of the transcript of the video.
+
+The first part is available at The Art of PostgreSQL: The Transcript, part
+I.
+
+The second part is available at The Art of PostgreSQL: The Transcript, part
+II.
+
+">
+
+    
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@tapoueh" />
+    <meta name="twitter:creator" content="@tapoueh" />
+    <meta property="og:url" content="/blog/2019-09-postgresopen-part-iii/" />
+    <meta property="og:title" content="The Art of PostgreSQL: The Transcript, part III" />
+    <meta property="og:description" content="The book that teaches SQL to developers: Learn to replace thousands of lines of code with simple queries!" />
+    <meta property="og:image" content="https://theartofpostgresql.com/images/hardcover-mockup.jpg" />
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    
+    
+    <link href="/favicon.ico" rel="icon" type="image/x-icon">
+    
+    
+    <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900" rel="stylesheet"> 
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/syntax.css">
+    
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> 
+    <script src="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
+    <script src="/js/custom.js"></script>
+
+</head>
+<body class="blog">
+
+<header class="header"  style="background-color: #67527a; background: url('/images/demo/slide.jpg');">
+    <div class="wrapper">
+        <a class="logo" href="/">The Art of PostgreSQL</a>
+        
+        <nav>
+            <ul>
+                <li><a data-slide=".subscribe_block" href="/">The Book</a></li>
+                <li><a data-slide=".packages_block" href="/">PACKAGES</a></li>
+                <li><a data-slide=".about_block" href="#">AUTHOR</a></li>
+                <li><a data-slide=".quote_slider" href="/blog/">BLOG</a></li>
+            </ul>
+        </nav>
+        
+    </div>
+    <a data-slide=".price_list" class="button" href="/">PURCHASE</a>
+</header>
+
+
+<div class="single_block">
+    <div class="wrapper">
+        
+        <div class="single_content">
+         <p><img src="/img/PostgresOpen2019/video-caption.png" alt="" /></p>
+         <h1>The Art of PostgreSQL: The Transcript, part III</h1>         
+
+         <p>This article is a transcript of the conference I gave at Postgres Open 2019,
+titled the same as the book: <a href="https://theartofpostgresql.com">The Art of
+PostgreSQL</a>. It&rsquo;s availble as a video online
+at Youtube if you want to watch the slides and listen to it, and it even has
+a subtext!</p>
+
+<p><center>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/q9IXCdy_mtY" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</center></p>
+
+<p>Some people still prefer to read the text, so here it is. This text is the
+third part of the transcript of the video.</p>
+
+<p>The first part is available at <a href="/blog/2019-09-postgresopen/">The Art of PostgreSQL: The Transcript, part
+I</a>.</p>
+
+<p>The second part is available at <a href="/blog/2019-09-postgresopen-part-ii/">The Art of PostgreSQL: The Transcript, part
+II</a>.</p>
+
+<p></p>
+
+<hr />
+
+<p>So, how to think in SQL?</p>
+
+<figure>
+    <img src="/img/PostgresOpen2019/TAOP.045.png"/> 
+</figure>
+
+
+<p>Because, what I&rsquo;m trying to convey here is that SQL
+is poweful and maybe you should be doing more SQL and less application code.
+Or maybe you should condiser that part of your application code is actually
+going to be written in SQL. And the goal of this talk is so that we realize
+what is possible to do in SQL. And then there&rsquo;s the question of is it
+advisable that you would do it as much of the implementation in SQL as I&rsquo;m
+going to show you, but the answer to that is more complex and requires more
+understanding of the company dynamics and the skill levels of the developers
+and things like that. So I&rsquo;m not going to answer that. I&rsquo;m just going to try
+and show you how far you can go in SQL.</p>
+
+<p>So how to think in SQL?</p>
+
+<p>SQL is “Structured Query Language”. It&rsquo;s declarative. In most programming
+languages, it&rsquo;s imperative, or object-oriented but that&rsquo;s still imperative.
+Then what you do is, when you have a problem, you think hard about how to
+reach a solution, and then you write the code that is implementing what you
+think is going to be the solution. And usually when there&rsquo;s a bug it&rsquo;s
+because you&rsquo;re thinking was wrong and what you though would be the solution
+is actually not the solution.</p>
+
+<p>A declarative programming language is different. You explain to the computer
+the result that you want. So [you explain] the problem you have. Not so much
+the solution. So when you do SQL queries, you need to be able to think in
+terms of what is the problem I want to solve and you need to explain to
+Postgres the result set you are interested into. Not how to build it, but
+what it is. You need to define the result set. That&rsquo;s what you do in SQL.</p>
+
+<p>So that&rsquo;s why I think for SQL beginners it&rsquo;s a little weird and strange and
+not very easy to do, but as everything, the more you practice, the easier it
+gets.</p>
+
+<p>Another useful tip I think for thinking in SQL… Unix says everything is a
+file, so if you want to, you know, print something on the printer, you just
+<code>cat</code> your file to the printer device and then some pages are getting out.
+If you want to connect to a network, you just open a socket file and then
+you write to a file and it&rsquo;s actually a socket and it goes to the network.
+Everything is a file. Java says everything is an object and actually the
+first chapter is some other data types (Primitive types) and the second
+chapter is objects, so… like integers are not objects but everything is an
+object. In Python you have many things to think about and tools to work
+with. In SQL you have relations.</p>
+
+<figure>
+    <img src="/img/PostgresOpen2019/TAOP.046.png"/> 
+</figure>
+
+
+<p>So what is a SQL relation? It&rsquo;s basically a collection of data that all
+share the same query attributes, domains, which means a given number of
+columns and each column is of a known data type, and every row for this
+column will have the same data type implemented in it. That&rsquo;s a relation.</p>
+
+<p>And any SQL you are going to write is going to define a new relation, based
+on other relations. So when you&rsquo;re writing SQL you&rsquo;re composing relations to
+build another one. So the FROM clause for example introduces relations,
+which is why you could use a sub-query in a FROM clause: because a query is
+defining a relation and of course you can SELECT FROM any relation,
+including a sub-query.</p>
+
+<p>So thinking in SQL means understanding relations and to play with them and
+compose them. And to compose them you can use JOINs or set operators like
+UNION, EXCEPT, and INTERSECT. And in terms of JOINs we have INNER and OUTER
+JOINs, CROSS JOINs, NATURAL JOIN. Some of them have syntax differences and
+some of them are semantically very different.</p>
+
+<p>We even have LATERAL JOINs. Who&rsquo;s good with LATERAL JOINs? Again that&rsquo;s
+something quite new in SQL but it&rsquo;s part of the tool set that you have, so
+if you don&rsquo;t know what it is, maybe sometime you will need it and rather
+than writing a very efficient query that you can then just use the result
+of, you&rsquo;re going to have to implement it in your application code and
+retrieve so many data when you only needed that much.</p>
+
+<figure>
+    <img src="/img/PostgresOpen2019/TAOP.047.png"/> 
+</figure>
+
+
+<p>So here&rsquo;s an example with a LATERAL JOIN. And I tried to put in bold the
+keywords that are related to the <strong>relation</strong> concept. So <strong>WITH</strong> is a CTE, or
+Common Table Expression. It produces a new relation that you can reuse later
+in the query. <strong>SELECT</strong> is the projection operator.</p>
+
+<p>Oh, by the way, this query is based on a Formula One database with all the
+races and the drivers and the results, and it&rsquo;s going to give you the top-3
+pilots in number of points that they accumulated in a season, by decade.
+Let&rsquo;s see the result.</p>
+
+<figure>
+    <img src="/img/PostgresOpen2019/TAOP.048.png"/> 
+</figure>
+
+
+<p>So in the &lsquo;50s it was Fangio. So if someone told you that you&rsquo;re driving
+like a Fangio, which is a common French thing to say, some people take it as
+a compliment because he was number one, but he&rsquo;s also the guy who broke the
+most number of cars to get there. So… I don&rsquo;t know. And maybe you can see we
+have a French guy there (Alain Prost) and then Schumacher of course.</p>
+
+<p>So for each decade, the &lsquo;50s, the &lsquo;60s, the &lsquo;70s etc, you have the top-3
+drivers. And that&rsquo;s where you use a LATERAL JOIN because you can have a
+sub-query and you can inject things into the sub-query, thanks to it being
+on the LATERAL side of a JOIN. So you inject a WHERE clause that comes from
+the decade, and then you can GROUP BY and LIMIT to get the top-3 of them.</p>
+
+<p>It&rsquo;s [lateral] currently the best way to write a top-n query. When you don&rsquo;t
+have it it&rsquo;s very complex to write, when you know about it, it&rsquo;s like “oh, I
+know how to do it”. Any questions so far?</p>
+
+<figure>
+    <img src="/img/PostgresOpen2019/TAOP.050.png"/> 
+</figure>
+
+
+<p>What I&rsquo;m trying to say now is that SQL is code. So if it&rsquo;s code maybe you
+need some tooling that is going to look like what you have usually when you
+write code.</p>
+
+<p>I&rsquo;ve put the SQL query here again for perspective. My rule is that if a
+query fits on a slide, it&rsquo;s a simple query. Okay, in that case, I had to use
+a very small font that nobody can read… so maybe, maybe it&rsquo;s not simple
+enough. But it&rsquo;s the kind of query you&rsquo;re going to write, and oh… something
+I didn&rsquo;t say before… what is that?</p>
+
+<p>A comment. Because SQL is code so of course you have comments. Maybe your
+colleagues, they don&rsquo;t know <code>generate_series</code>, they&rsquo;ve never seen that. So
+if you use that and then of course you have a review process. You don&rsquo;t push
+code directly in production, right? So somebody is going to have to review
+your code. And they&rsquo;ve never seen a <code>generate_series</code> before, and they&rsquo;re
+going to say “no I don&rsquo;t want to accept this, it&rsquo;s foreign to me, I don&rsquo;t
+understand it. It&rsquo;s going to be impossible to maintain in the future. Please
+do it in Python or anything.” So you add a nice comment to your code. And
+you colleague is going to be like “oh that&rsquo;s very nice I didn&rsquo;t know that,
+thank you”. So, you know, comments, of course.</p>
+
+<p>And then what you can do with integrating SQL into your application code,
+the best way to do it that I&rsquo;ve found is that you actually use <code>.sql</code> files.
+Because then you have syntax highlighting, it&rsquo;s actually code. The day you
+have a problem in production with the queries, then you can just send a link
+to the DBA and he&rsquo;s going to copy/paste the query and play around with it
+and then send you a Pull Request that fixes the query. And because it&rsquo;s just
+a <code>.sql</code> file, that&rsquo;s what we do. If you&rsquo;re not doing it that way, maybe
+you&rsquo;re losing out on some of the process around SQL in your code.</p>
+
+<p>So how to do that? We are going to see about that.</p>
+
+<p>And maybe you also want to have regression testing around the queries, and
+let&rsquo;s see about that too.</p>
+
+<figure>
+    <img src="/img/PostgresOpen2019/TAOP.051.png"/> 
+</figure>
+
+
+<p>For you guys who are using an ORM in your code, I&rsquo;m running short on time so
+I will not explain more about it but, just don&rsquo;t do it. It&rsquo;s not worth it.
+Do that instead.</p>
+
+<figure>
+    <img src="/img/PostgresOpen2019/TAOP.052.png"/> 
+</figure>
+
+
+<p>So those projects like YeSQL began with a Clojure implementation from Kris
+Jenkins, and basically the integration looks like this:</p>
+
+<figure>
+    <img src="/img/PostgresOpen2019/TAOP.053.png"/> 
+</figure>
+
+
+<p>You write queries in a SQL file, with some comments, and it&rsquo;s going to
+expose the query here. You load the queries and then all the queries are
+going to be exposed a function calls. And the result is going to be a native
+object in your programming language.</p>
+
+<figure>
+    <img src="/img/PostgresOpen2019/TAOP.054.png"/> 
+</figure>
+
+
+<p>So the integration in the code is going to be so easy and also the query is
+just a SQL file that you are able to share very easily with your DBA
+friends. Because now they&rsquo;re friends because it&rsquo;s easy for you to work with
+them. And also the DBA will be able to review when you do code reviews.</p>
+
+<figure>
+    <img src="/img/PostgresOpen2019/TAOP.055.png"/> 
+</figure>
+
+
+<p>And then you can implement regression testing on top of it. So I wrote
+RegreSQL in Go because I wanted to see if I would like Go or not. And it
+took me less than a day, so if you want to have the same thing in Java,
+Python, Ruby, whatever you&rsquo;re using, my guess is it&rsquo;s going to take you
+maximum two days to get it so don&rsquo;t focus too much on this implementation.</p>
+
+<p>The idea is very simple. You have the SQL files, and those are files in your
+file system, right? in your code, as we saw just before. And so what you do
+is you create query plans. You associate for each query some parameters, and
+then you run the queries and you keep the result of them as an out file. You
+know, <code>COPY FROM</code> the query, that&rsquo;s a CSV file, you store that. That&rsquo;s the
+expected result. And then when you change the query, you run the tests again
+and you compare the output, the current output with what you expected.
+That&rsquo;s unit testing. it&rsquo;s very simple. You do a diff in between the two
+files and you know if there&rsquo;s something that changed.</p>
+
+<p>So when your DBA is providing you with an optimized version of a query, well
+you integrate it into your system and you run the regression tests and you
+know if it&rsquo;s still behaving the same as before, or maybe not. So it&rsquo;s easy
+to do.</p>
+
+<figure>
+    <img src="/img/PostgresOpen2019/TAOP.057.png"/> 
+</figure>
+
+
+<p>And so that&rsquo;s the main parts of the presentation about SQL and why I think
+that SQL is code and how to make it so that actually in your development
+process SQL is code. And then before we wrap up, I wanted to show you some
+powerful queries that you can with PostgreSQL extensions.</p>
+
+<p>Up to now it was… maybe not so much boring, but not very… I didn&rsquo;t see much
+sparkles, so maybe I can do that.</p>
+
+<figure>
+    <img src="/img/PostgresOpen2019/TAOP.058.png"/> 
+</figure>
+
+
+<p>First query is going to be about geolocation. Maybe you know about GeoLite.
+They provide you with a dataset of geolocation. It&rsquo;s easy you input an IP
+address and in output you have a location on Earth. And then you need
+someone to collect all those things. And MaxMind is the company behind
+GeoLite and they say that you can use it for free as long as you say where
+it comes from. I just did. So I can use it for free. That&rsquo;s the licence, so
+yeah, you know.</p>
+
+<p>So that&rsquo;s Geolite and you have a location ID and you have two tables with
+the things. And yeah we use an IP range. The datatype is <code>ip4r</code> is provided
+by an extension that you can find easily, and it provides you with IP ranges
+of addresses. And this operator <code>&gt;&gt;=</code> maybe you don&rsquo;t know how to read it
+yet, but think about it the first time you saw this equal operator <code>=</code> you
+didn&rsquo;t know how to read it either. So you need to learn about that. So this
+one <code>&gt;&gt;=</code> reads <em>contains</em>. So the IP range contains this address. That&rsquo;s
+easy.</p>
+
+<figure>
+    <img src="/img/PostgresOpen2019/TAOP.059.png"/> 
+</figure>
+
+
+<p>And also we can have, in PostgreSQL, exclusion constraints. So you can build
+you <em>blocks</em> table in a way that you guarantee that any range has no
+overlapping range anywhere else in the table. So when you give it one IP
+address in the lookup, you&rsquo;re going to lookup either zero or one answer.
+That&rsquo;s it. Because there&rsquo;s no overlapping. Okay? And PostgreSQL is going to
+guarantee that.</p>
+
+<figure>
+    <img src="/img/PostgresOpen2019/TAOP.060.png"/> 
+</figure>
+
+
+<p>Which means that know you can write this query, which normally wouldn&rsquo;t pass
+code review. And I didn&rsquo;t comment on it because I wanted the query to fit in
+the slide. So the problem is that we use a comma in the FROM clause, which
+means it&rsquo;s a CROSS JOIN. Don&rsquo;t do that. Never!</p>
+
+<p>But we have the guarantee that this geoloc relation, the result of this
+query is going to be zero or one row. It&rsquo;s a strong guarantee because we
+have the constraint. So the cross join is going to be against zero or one
+row, so maybe it&rsquo;s okay. And I was lazy so that&rsquo;s the way I did it.</p>
+
+<p>And then we have an ORDER BY … LIMIT 10. It&rsquo;s called a kNN. K here is 10,
+and then we&rsquo;re going to have the 10 closest rows. That&rsquo;s the IP address of a
+previous conference for PostgreSQL that happened to be in Dublin, and that
+was the 10 pubs nearby the conference center. Because you talk for an hour
+and then you&rsquo;re thirsty. You know, that&rsquo;s what happens, so…</p>
+
+<p>And it&rsquo;s a very simple query so if you want to implement geolocation in your
+application, maybe it&rsquo;s like a 10 lines query to implement it. It&rsquo;s like, I
+don&rsquo;t know, half an hour of work and then done. Well I don&rsquo;t do the visuals
+and the mappings so you do that, but here you have the query, that&rsquo;s easy.</p>
+
+<figure>
+    <img src="/img/PostgresOpen2019/TAOP.061.png"/> 
+</figure>
+
+
+<p>And I&rsquo;m running out of time so… this one was interesting, it was bashing on
+MongoDB but so anyway.</p>
+
+<figure>
+    <img src="/img/PostgresOpen2019/TAOP.062.png"/> 
+</figure>
+
+
+<p>You have the slides, go read over them.</p>
+
+<figure>
+    <img src="/img/PostgresOpen2019/TAOP.064.png"/> 
+</figure>
+
+
+<p>And this one is, I don&rsquo;t have time to explain it, but it&rsquo;s basically a Model
+View Controler in a single SQL query and the result of the query copy/pasted
+from the console is that:</p>
+
+<figure>
+    <img src="/img/PostgresOpen2019/TAOP.065.png"/> 
+</figure>
+
+
+<p>That&rsquo;s the kind of things you can do with SQL and Postgres.</p>
+
+<figure>
+    <img src="/img/PostgresOpen2019/TAOP.067.png"/> 
+</figure>
+
+
+<hr />
+
+<p>That&rsquo;s it for this presentation.</p>
+
+<p>Also, as the content comes from my book anyway, you could also subscribe
+below to get the free sample, or just go buy the book at the main home page
+of this website: <a href="https://theartofpostgresql.com">The Art of PostgreSQL</a>.</p>
+
+            <footer>
+             <p><strong>TAGS:</strong>
+              
+              
+              <a href="https://theartofpostgresql.com/tags/sql">SQL</a>
+              
+              <a href="https://theartofpostgresql.com/tags/relation">Relation</a>
+              
+              <a href="https://theartofpostgresql.com/tags/postgres-open">Postgres Open</a>
+              
+              <a href="https://theartofpostgresql.com/tags/conference">Conference</a>
+              
+              
+             </p>
+            </footer>
+
+            <div class="single_subscribe">
+                <p>Subscribe to receive a FREE chapter of the second edition of my book, <b><i>“The Art of PostgreSQL”</i></b> including the full Table of Contents!</p>
+                 <script async data-uid="c1452ad801" src="https://f.convertkit.com/c1452ad801/ad53e74e51.js"></script>
+            </div>
+        </div>
+
+        <aside class="single_sidebar">
+ <h6>RECENT POSTS</h6>
+ <ul>
+ 
+ <li><a class="previous" href="https://theartofpostgresql.com/blog/2019-09-postgresopen-part-ii/"> The Art of PostgreSQL: The Transcript, part II</a></li>
+ 
+ 
+ </ul>
+ 
+ <h6>TAGS</h6>
+ <div class="tag_list">
+  
+   
+     <a href="https://theartofpostgresql.com/tags/sql">SQL</a>
+   
+     <a href="https://theartofpostgresql.com/tags/relation">Relation</a>
+   
+     <a href="https://theartofpostgresql.com/tags/postgres-open">Postgres Open</a>
+   
+     <a href="https://theartofpostgresql.com/tags/conference">Conference</a>
+   
+  
+ </div>
+
+ <a href="/#packages" class="banner"><span>What if you could turn thousands of lines of code into simple queries?</span></a>
+ 
+</aside>
+
+
+    </div>
+</div>            
+         
+ 
+
+<footer class="footer">
+	<div class="wrapper">
+	    <div class="about_block">
+	        <h6>about the author</h6>
+	        <p>Hi! My name is Dimitri Fontaine and I have been using and contributing to Open Source Software for the best of the last 20 years. I am a PostgreSQL Major Contributor after having contributed Extensions and Event Triggers, among other things.</p>
+	        <p>I have been writing code almost daily for a very long time now, both in a professional capacity and on my leisure time. I&rsquo;ve also been a database architect and a DBA on-call. As a developer I enjoy using SQL. As a database architect, I like teaching advanced SQL techniques to my colleagues.</p>
+	        <ul>
+	            <li><a target="_blank" href="mailto:dim@tapoueh.org">email</a></li>
+	            <li><a target="_blank" href="https://twitter.com/tapoueh">twitter</a></li>
+	            <li><a target="_blank" href="https://github.com/dimitri/tapoueh.org">github</a></li>
+	            <li><a target="_blank" href="https://www.reddit.com/user/theartofpostgresql">reddit</a></li>
+	        </ul>
+    	</div>
+	    <div class="faq_block">
+            <h6>FAQ</h6>
+	        <dl>
+	           <dt>What if the book isn&rsquo;t what I expected it would be?</dt>
+	           <dd>The Art of PostgreSQL is a book that teaches SQL to application developers. If it's not of any value to you, then just say so and I'll refund you, no questions asked.</dd>
+	           <dt>I bought the book, and I'm confused. What now?</dt>
+	           <dd>The content of the book is available as a PDF, ePub and MOBI file, and you can also download the SQL queries. The content is available over at <a href="https://postgresql.thinkific.com/enrollments" target="_">https://postgresql.thinkific.com/</a> from your student dashboard.</dd>
+	           <dt>Is there any DRM?</dt>
+	           <dd>No. There isn't even watermarking on the PDF. You own what you buy. The sources of data selected for the book are all available with Open Data types of licenses, and the book itself is copyright Dimitri Fontaine. All rights reserved.</dd>
+	           <dt>Any other questions?</dt>
+	           <dd>Contact me by <a href="mailto:dim@tapoueh.org">email</a> and just ask! I will do my best to answer you.</dd>
+	        </dl>
+    	</div>
+	</div>
+</footer>
+
+
+
+
+
+
+<div class="copyright">
+    <div class="wrapper">
+        Copyright 2019 &copy; Dimitri Fontaine. All rights reserved. Design by <a style="color: white; font-weight: bold;" target="_blank" href="https://www.terrilowry.com">TerriLowry.com.</a>
+    </div>
+</div>
+
+
+</body>
+
+
+<script type="text/javascript">
+  var subscribersSiteId='1296f531-7ba0-406f-89e1-bdca40a36208';
+</script>
+<script type="text/javascript"
+        src="https://cdn.subscribers.com/assets/subscribers.js">
+</script>
+ 
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-47059482-5"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-47059482-5');
+</script>
+
+
+<script>
+!function(e,t,n,s,u,a){e.twq||(s=e.twq=function(){s.exe?s.exe.apply(s,arguments):s.queue.push(arguments);
+},s.version='1.1',s.queue=[],u=t.createElement(n),u.async=!0,u.src='//static.ads-twitter.com/uwt.js',
+a=t.getElementsByTagName(n)[0],a.parentNode.insertBefore(u,a))}(window,document,'script');
+
+twq('init','o0ial');
+twq('track','PageView');
+</script>
+
+
+</html> 
+
