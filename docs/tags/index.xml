@@ -95,7 +95,7 @@
     <item>
       <title>Sql</title>
       <link>https://theartofpostgresql.com/tags/sql/</link>
-      <pubDate>Wed, 25 Sep 2019 11:14:00 +0200</pubDate>
+      <pubDate>Fri, 27 Sep 2019 15:15:00 +0200</pubDate>
       
       <guid>https://theartofpostgresql.com/tags/sql/</guid>
       <description></description>
@@ -107,6 +107,15 @@
       <pubDate>Sat, 07 Sep 2019 22:55:00 +0200</pubDate>
       
       <guid>https://theartofpostgresql.com/tags/theory/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Why Postgresql</title>
+      <link>https://theartofpostgresql.com/tags/why-postgresql/</link>
+      <pubDate>Fri, 27 Sep 2019 15:15:00 +0200</pubDate>
+      
+      <guid>https://theartofpostgresql.com/tags/why-postgresql/</guid>
       <description></description>
     </item>
     
