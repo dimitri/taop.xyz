@@ -1,65 +1,103 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-	<meta charset="utf-8">
-	<title>The Art of PostgreSQL: a modern PostgreSQL book in 2019</title>
-	<meta name="description" content="The PostgreSQL book for developers that teaches you how to turn thousands of lines of code into simple queries.">
+  <head>
+    <meta charset="utf-8" />
+    <title>The Art of PostgreSQL: a modern PostgreSQL book in 2019</title>
+    <meta
+      name="description"
+      content="The PostgreSQL book for developers that teaches you how to turn thousands of lines of code into simple queries."
+    />
 
-        <!-- twitter card integration -->
-        <meta name="twitter:card" content="summary" />
-        <meta name="twitter:site" content="@tapoueh" />
-        <meta name="twitter:creator" content="@tapoueh" />
-        <meta property="og:url" content="https://theartofpostgresql.com" />
-        <meta property="og:title" content="The Art of PostgreSQL" />
-        <meta property="og:description" content="The book that teaches SQL to developers: Learn to replace thousands of lines of code with simple queries!" />
-        <meta property="og:image" content="https://theartofpostgresql.com/images/hardcover-mockup.jpg" />
-	
-	<!-- Mobile Specific Meta -->
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
-	
-	<!-- Favicon -->
-	<link href="/favicon.ico" rel="icon" type="image/x-icon">
-	
-	<!-- Stylesheets -->
-	<link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700" rel="stylesheet"> 
-	<link rel="stylesheet" href="/css/style.css">
-        <link href="/pggraph/css/main.css" rel="stylesheet" />
-	
-	<!-- JavaScript -->
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> 
-	<script src="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
-	<script src="/js/custom.js"></script>
+    <!-- twitter card integration -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@tapoueh" />
+    <meta name="twitter:creator" content="@tapoueh" />
+    <meta property="og:url" content="https://theartofpostgresql.com" />
+    <meta property="og:title" content="The Art of PostgreSQL" />
+    <meta
+      property="og:description"
+      content="The book that teaches SQL to developers: Learn to replace thousands of lines of code with simple queries!"
+    />
+    <meta
+      property="og:image"
+      content="https://theartofpostgresql.com/images/hardcover-mockup.jpg"
+    />
 
-        <!-- Start of Async Drift Code -->
-<script>
-"use strict";
+    <!-- Mobile Specific Meta -->
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, minimum-scale=1.0"
+    />
 
-!function() {
-  var t = window.driftt = window.drift = window.driftt || [];
-  if (!t.init) {
-    if (t.invoked) return void (window.console && console.error && console.error("Drift snippet included twice."));
-    t.invoked = !0, t.methods = [ "identify", "config", "track", "reset", "debug", "show", "ping", "page", "hide", "off", "on" ], 
-    t.factory = function(e) {
-      return function() {
-        var n = Array.prototype.slice.call(arguments);
-        return n.unshift(e), t.push(n), t;
-      };
-    }, t.methods.forEach(function(e) {
-      t[e] = t.factory(e);
-    }), t.load = function(t) {
-      var e = 3e5, n = Math.ceil(new Date() / e) * e, o = document.createElement("script");
-      o.type = "text/javascript", o.async = !0, o.crossorigin = "anonymous", o.src = "https://js.driftt.com/include/" + n + "/" + t + ".js";
-      var i = document.getElementsByTagName("script")[0];
-      i.parentNode.insertBefore(o, i);
-    };
-  }
-}();
-drift.SNIPPET_VERSION = '0.3.1';
-drift.load('w52ccuterdxe');
-</script>
-<!-- End of Async Drift Code -->
+    <!-- Favicon -->
+    <link href="/favicon.ico" rel="icon" type="image/x-icon" />
 
-</head>
-<body>
+    <!-- Stylesheets -->
+    <link
+      href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/css/style.css" />
 
+    <!-- JavaScript -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
+    <script src="/js/custom.js"></script>
 
+    <!-- Start of Async Drift Code -->
+    <script>
+      'use strict';
+
+      !(function() {
+        var t = (window.driftt = window.drift = window.driftt || []);
+        if (!t.init) {
+          if (t.invoked)
+            return void (
+              window.console &&
+              console.error &&
+              console.error('Drift snippet included twice.')
+            );
+          (t.invoked = !0),
+            (t.methods = [
+              'identify',
+              'config',
+              'track',
+              'reset',
+              'debug',
+              'show',
+              'ping',
+              'page',
+              'hide',
+              'off',
+              'on',
+            ]),
+            (t.factory = function(e) {
+              return function() {
+                var n = Array.prototype.slice.call(arguments);
+                return n.unshift(e), t.push(n), t;
+              };
+            }),
+            t.methods.forEach(function(e) {
+              t[e] = t.factory(e);
+            }),
+            (t.load = function(t) {
+              var e = 3e5,
+                n = Math.ceil(new Date() / e) * e,
+                o = document.createElement('script');
+              (o.type = 'text/javascript'),
+                (o.async = !0),
+                (o.crossorigin = 'anonymous'),
+                (o.src =
+                  'https://js.driftt.com/include/' + n + '/' + t + '.js');
+              var i = document.getElementsByTagName('script')[0];
+              i.parentNode.insertBefore(o, i);
+            });
+        }
+      })();
+      drift.SNIPPET_VERSION = '0.3.1';
+      drift.load('w52ccuterdxe');
+    </script>
+    <!-- End of Async Drift Code -->
+  </head>
+  <body></body>
+</html>
