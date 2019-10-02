@@ -176,5 +176,15 @@ As we saw in the previous article What is an SQL relation?, in SQL a relation is
 Nowadays, in most case, I can think in terms of SQL and write queries that will give me the result set I need.</description>
     </item>
     
+    <item>
+      <title>Compute database size</title>
+      <link>https://theartofpostgresql.com/compute-database-size/</link>
+      <pubDate>Mon, 02 Sep 2019 10:50:00 +0200</pubDate>
+      
+      <guid>https://theartofpostgresql.com/compute-database-size/</guid>
+      <description>Photo by unsplash-logoCharles 🇵🇭  It is well known that database design should be as simple as possible, and follow the normalization process. Except in some cases, sometimes, for scalability purposes. Partitioning might be used to help deal with large amount of data for instance.
+But what is a large amount of data? Do you need to pay attention to those scalability trade-offs now, or can you wait until later?</description>
+    </item>
+    
   </channel>
 </rss>

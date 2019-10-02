@@ -48,6 +48,11 @@
   </url>
   
   <url>
+    <loc>https://theartofpostgresql.com/compute-database-size/</loc>
+    <lastmod>2019-09-02T10:50:00+02:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://theartofpostgresql.com/tags/aggregate/</loc>
     <lastmod>2019-09-07T22:00:00+02:00</lastmod>
     <priority>0</priority>
@@ -55,6 +60,12 @@
   
   <url>
     <loc>https://theartofpostgresql.com/archives/</loc>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://theartofpostgresql.com/tags/archiving/</loc>
+    <lastmod>2019-09-02T10:50:00+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -82,6 +93,18 @@
   </url>
   
   <url>
+    <loc>https://theartofpostgresql.com/tags/database-size/</loc>
+    <lastmod>2019-09-02T10:50:00+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://theartofpostgresql.com/tags/denormalisation/</loc>
+    <lastmod>2019-09-02T10:50:00+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://theartofpostgresql.com/tags/join/</loc>
     <lastmod>2019-09-07T21:30:00+02:00</lastmod>
     <priority>0</priority>
@@ -100,8 +123,20 @@
   </url>
   
   <url>
+    <loc>https://theartofpostgresql.com/tags/normalisation/</loc>
+    <lastmod>2019-09-02T10:50:00+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://theartofpostgresql.com/tags/orm/</loc>
     <lastmod>2019-09-07T22:55:00+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://theartofpostgresql.com/page/</loc>
+    <lastmod>2019-09-02T10:50:00+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -114,6 +149,12 @@
   <url>
     <loc>https://theartofpostgresql.com/categories/postgresql/</loc>
     <lastmod>2019-09-27T15:15:00+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://theartofpostgresql.com/tags/postgresql/</loc>
+    <lastmod>2019-09-02T10:50:00+02:00</lastmod>
     <priority>0</priority>
   </url>
   

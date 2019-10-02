@@ -1,28 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta name="generator" content="Hugo 0.50" />
-    <meta charset="utf-8">
+    <meta charset="utf-8" />
     <title>The Art of PostgreSQL - Postgresql</title>
-    <meta name="description" content="">
+    <meta name="description" content="" />
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
     
-    
-    <link href="/images/favicon.ico" rel="icon" type="image/x-icon">
-    
-    
-    <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900" rel="stylesheet"> 
-    <link rel="stylesheet" href="/css/style.css">
-    <link rel="stylesheet" href="/syntax.css">
-    
-    
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> 
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@tapoueh" />
+    <meta name="twitter:creator" content="@tapoueh" />
+    <meta property="og:url" content="/tags/postgresql/" />
+    <meta
+      property="og:title"
+      content="Postgresql"
+    />
+    <meta
+      property="og:description"
+      content="The book that teaches SQL to developers: Learn to replace thousands of lines of code with simple queries!"
+    />
+    <meta
+      property="og:image"
+      content="https://theartofpostgresql.com/images/hardcover-mockup.jpg"
+    />
+
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, minimum-scale=1.0"
+    />
+
+    <link href="/favicon.ico" rel="icon" type="image/x-icon" />
+
+    <link
+      href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/syntax.css" />
+    <link href="/pggraph/static/css/main.736aaa9f.chunk.css" rel="stylesheet" />
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
     <script src="/js/custom.js"></script>
-
-</head>
-<body class="blog">
+  </head>
+  <body class="blog"></body>
+</html>
 
 <header class="header"  style="background-color: #67527a; background: url('/images/demo/slide.jpg');">
     <div class="wrapper">
@@ -46,45 +68,6 @@
     <div class="top_blogs">
         <ul>
          
-         
-         <li>
- <a class="link" href="https://theartofpostgresql.com/blog/2018-11-sql-injection/">&nbsp;</a>
- <div class="bg"></div>
- <div data-cover=".cover">
-  <img class="cover" src="/img/sql-injection.jpg" alt="" />
- </div>
- <div>
-  <p>2018-11-10</p>
-  <p>Preventing SQL Injections</p>
- </div>
-</li>
-
-         
-         <li>
- <a class="link" href="https://theartofpostgresql.com/blog/2018-08-geolocation-ip4r/">&nbsp;</a>
- <div class="bg"></div>
- <div data-cover=".cover">
-  <img class="cover" src="/img/earth.jpg" alt="" />
- </div>
- <div>
-  <p>2018-08-24</p>
-  <p>Geolocation with PostgreSQL</p>
- </div>
-</li>
-
-         
-         <li>
- <a class="link" href="https://theartofpostgresql.com/blog/2018-08-postgresql-concurrency/">&nbsp;</a>
- <div class="bg"></div>
- <div data-cover=".cover">
-  <img class="cover" src="/img/concurrency-dogs.jpg" alt="" />
- </div>
- <div>
-  <p>2018-08-14</p>
-  <p>PostgreSQL Concurrency: an Article Series</p>
- </div>
-</li>
-
                   
         </ul>
     </div>
@@ -106,105 +89,6 @@
     <div class="wrapper">        
         <div class="posts_wrap">
           
-          
-            <div class="post">
- <a data-cover=".cover" href="https://theartofpostgresql.com/blog/2018-11-sql-injection/"><img class="cover" src="/img/sql-injection.jpg" alt="" /></a>
- <header>
-  <p>2018-11-10</p>
-  <h4><a href="#">Preventing SQL Injections</a></h4>
- </header>
- <p>An <em>SQL Injection</em> is a security breach, one made famous by the <a href="https://xkcd.com/327/">Exploits of
-a Mom</a> <code>xkcd</code> comic episode in which we read about
-<em>little Bobby Tables</em>:</p>
-
-<figure class="center"><a href="https://xkcd.com/327/">
-    <img src="/img/exploits_of_a_mom.png"/> </a>
-</figure>
-
-
-<p>PostgreSQL implements a protocol level facility to send the static SQL query
-text separately from its dynamic arguments. An SQL injection happens when
-the database server is mistakenly led to consider a dynamic argument of a
-query as part of the query text. Sending those parts as separate entities
-over the protocol means that SQL injection is no longer possible.</p>
-
-<!--toc-->
-
-<p></p>
-</div>
-
-          
-            <div class="post">
- <a data-cover=".cover" href="https://theartofpostgresql.com/blog/2018-08-geolocation-ip4r/"><img class="cover" src="/img/earth.jpg" alt="" /></a>
- <header>
-  <p>2018-08-24</p>
-  <h4><a href="#">Geolocation with PostgreSQL</a></h4>
- </header>
- <p>We have loaded Open Street Map points of interests in the article <a href="/blog/2013/08/the-most-popular-pub-names/">The Most
-Popular Pub Names</a> — which
-compares PostgreSQL with MongoDB for simple geographical queries, and is
-part of our <a href="/tags/extensions/">PostgreSQL Extensions</a> article series. In
-today&rsquo;s article, look at how to geolocalize an IP address and locate the
-nearest pub, all within a single SQL query!</p>
-
-<p>For that, we are going to use the awesome
-<a href="https://github.com/RhodiumToad/ip4r">ip4r</a> extension from
-<a href="http://blog.rhodiumtoad.org.uk/">RhodiumToad</a>.</p>
-</div>
-
-          
-            <div class="post">
- <a data-cover=".cover" href="https://theartofpostgresql.com/blog/2018-08-postgresql-concurrency/"><img class="cover" src="/img/concurrency-dogs.jpg" alt="" /></a>
- <header>
-  <p>2018-08-14</p>
-  <h4><a href="#">PostgreSQL Concurrency: an Article Series</a></h4>
- </header>
- <p><a href="https://www.postgresql.org">PostgreSQL</a> is a relational database management
-system. It&rsquo;s even the world&rsquo;s most advanced open source one of them. As
-such, as its core, Postgres solves concurrent access to a set of data and
-maintains consistency while allowing concurrent operations.</p>
-
-<p>In the <a href="/tags/concurrency/">PostgreSQL Concurrency</a> series of articles here
-we did see several aspects of how to handle concurrent use cases of your
-application design with PostgreSQL. The main thing to remember is that a
-Database Management System first task is to handle concurrency access to the
-data for you.</p>
-
-<p></p>
-</div>
-
-          
-            <div class="post">
- <a data-cover=".cover" href="https://theartofpostgresql.com/blog/2018-07-concurrent-batch-update/"><img class="cover" src="/img/batch-filling-bottles.jpg" alt="" /></a>
- <header>
-  <p>2018-07-23</p>
-  <h4><a href="#">Batch Updates and Concurrency</a></h4>
- </header>
- <p>This article fits in the <a href="/tags/concurrency">PostgreSQL Concurrency</a> series,
-where we installed a tweeter like application schema and had all the
-characters from Shakespeare&rsquo;s <em>A Midsummer Night&rsquo;s Dream</em> tweet their own
-lines in our database in <a href="/blog/2018/06/PostgreSQL-DML.md">PostgreSQL Concurrency: Data Modification
-Language</a>.</p>
-
-<p>A previous article in the series covered how to manage concurrent retweets
-in an efficient way: <a href="/blog/2018/07/computing-and-caching/">Computing and
-Caching</a>, where we learn how to
-maintain a cache right in your PostgreSQL database, thanks for materialized
-views. We even went as far as maintaining an <em>external</em> cache in another
-application layer using PostgreSQL
-<a href="https://www.postgresql.org/docs/current/static/sql-listen.html">LISTEN</a> and
-<a href="https://www.postgresql.org/docs/current/static/sql-notify.html">NOTIFY</a>
-features and a Golang application.</p>
-
-<p>Today&rsquo;s article is going to address concurrency in the context of updating
-data in a batch. This activity is quite common, as soon as your system is
-connected to other systems either internally or with external providers.
-While it&rsquo;s pretty easy to ingest new data, and easy enough to update data
-from an external source when nothing happens in your database, doing the
-operation safely with concurrent activity is more complex. Once more though,
-PostgreSQL comes with all the tooling you need to handle that situation.</p>
-</div>
-
           
         </div>
 
@@ -228,14 +112,6 @@ PostgreSQL comes with all the tooling you need to handle that situation.</p>
   <h6>RECENT POSTS</h6>
   <ul>
    
-   
-   <li><a href="https://theartofpostgresql.com/blog/2018-11-sql-injection/">Preventing SQL Injections</a></li>
-   
-   <li><a href="https://theartofpostgresql.com/blog/2018-08-geolocation-ip4r/">Geolocation with PostgreSQL</a></li>
-   
-   <li><a href="https://theartofpostgresql.com/blog/2018-08-postgresql-concurrency/">PostgreSQL Concurrency: an Article Series</a></li>
-   
-   <li><a href="https://theartofpostgresql.com/blog/2018-07-concurrent-batch-update/">Batch Updates and Concurrency</a></li>
    
   </ul>
  </div>
@@ -299,9 +175,17 @@ PostgreSQL comes with all the tooling you need to handle that situation.</p>
 </div>
 
 
- 
 </body>
+
+
+<script type="text/javascript">
+  var subscribersSiteId='1296f531-7ba0-406f-89e1-bdca40a36208';
+</script>
+<script type="text/javascript"
+        src="https://cdn.subscribers.com/assets/subscribers.js">
+</script>
  
+
 
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-47059482-5"></script>
 <script>
