@@ -20,6 +20,8 @@ can integrate them in my daily workflow.
 Today, I want to introduce the central concept of the SQL language. What is
 an SQL relation?
 
+<!--more-->
+
 The term comes from mathematics and their relational theory. The wikipedia
 page [Relation
 (Mathematics)](https://simple.wikipedia.org/wiki/Relation_(mathematics))

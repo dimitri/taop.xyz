@@ -11,6 +11,8 @@ JOINs. And I must admit, the set theory diagrams never helped me really
 understand JOINs in SQL. So today, I want to help you understand JOINs in a
 different way, hoping to make the concept click at once for you too!
 
+<!--more-->
+
 As we saw in the previous article [What is an SQL
 relation?](/blog/2019-09-sql-relations/), in SQL a relation is a collection
 of objects, all sharing the same definition. SQL introduces relations and

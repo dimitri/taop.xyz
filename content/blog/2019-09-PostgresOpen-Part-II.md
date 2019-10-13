@@ -12,6 +12,8 @@ PostgreSQL](https://theartofpostgresql.com). It's availble as a video online
 at Youtube if you want to watch the slides and listen to it, and it even has
 a subtext!
 
+<!--more-->
+
 <center>
 <iframe width="560" height="315" src="https://www.youtube.com/embed/q9IXCdy_mtY" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 </center>
@@ -21,7 +23,6 @@ second part of the transcript of the video. The first part is available at
 [The Art of PostgreSQL: The Transcript, part I
 ](/blog/2019-09-postgresopen/).
 
-<!--more-->
 <hr />
 
 {{< figure src="/img/PostgresOpen2019/TAOP.021.png" >}}

@@ -4,8 +4,21 @@
     <meta name="generator" content="Hugo 0.50" />
     <meta charset="utf-8" />
     <title>The Art of PostgreSQL - What is an SQL relation?</title>
-    <meta name="description" content="If you&rsquo;re like me, understanding SQL is taking you a long time. And some efforts. It took me years to get a good mental model of how SQL queries are implemented, and then up from the lower levels, to build a mental model of how to reason in SQL.
-Nowadays, in most case, I can think in terms of SQL and write queries that will give me the result set I need." />
+    <meta name="description" content="If you&rsquo;re like me, understanding SQL is taking you a long time. And some
+efforts. It took me years to get a good mental model of how SQL queries are
+implemented, and then up from the lower levels, to build a mental model of
+how to reason in SQL.
+
+Nowadays, in most case, I can think in terms of SQL and write queries that
+will give me the result set I need. In most cases, because some parts of SQL
+are still complex, and I don&rsquo;t practice as much as I used to. In particular,
+newer PostgreSQL features are areas I still need to work with more before I
+can integrate them in my daily workflow.
+
+Today, I want to introduce the central concept of the SQL language. What is
+an SQL relation?
+
+" />
 
     
     <meta name="twitter:card" content="summary" />
@@ -86,6 +99,8 @@ can integrate them in my daily workflow.</p>
 <p>Today, I want to introduce the central concept of the SQL language. What is
 an SQL relation?</p>
 
+<p></p>
+
 <p>The term comes from mathematics and their relational theory. The wikipedia
 page <a href="https://simple.wikipedia.org/wiki/Relation_(mathematics)">Relation
 (Mathematics)</a>
@@ -118,7 +133,6 @@ JOINs</a>.</p>
 <p>Meanwhile, check out my book <a href="https://theartofpostgresql.com">The Art of
 PostgreSQL</a> where you can learn how to put
 SQL to good use when coding your application!</p>
-
 
             <footer>
              <p><strong>TAGS:</strong>
@@ -215,6 +229,16 @@ color: #18181C;
 </div>
 
 
+ <hr style="margin-bottom: 0px;"/>
+
+ <div class="meta" style="padding-bottom: 0px; margin-bottom: 2em;">
+   <ul>
+     <li style="text-align: center">
+       <a href="/compute-database-size/">
+         <img src="/img/growth-icon.png">Compute Database Size</a>
+     </li>
+   </ul>
+ </div>
  <hr style="margin-bottom: 0px;"/>
  
  <div class="packages_block">

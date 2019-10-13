@@ -35,12 +35,6 @@ think it&amp;rsquo;s interesting to use Postgres in your application&amp;rsquo;s
 conference talk addresses the main area where I think many people get it
 wrong:&lt;/p&gt;
 
-&lt;h4 id=&#34;postgres-is-a-rdbms&#34;&gt;Postgres is a RDBMS&lt;/h4&gt;
-
-&lt;h4 id=&#34;rdbms-are-not-a-storage-solution&#34;&gt;RDBMS are not a storage solution&lt;/h4&gt;
-
-&lt;h4 id=&#34;do-not-use-postgres-to-solve-a-storage-problem&#34;&gt;Do not use Postgres to solve a storage problem!&lt;/h4&gt;
-
 &lt;p&gt;&lt;/p&gt;</description>
     </item>
     

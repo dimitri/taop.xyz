@@ -21,6 +21,8 @@ With `map` you apply the same processing to every object in a collection.
 With `reduce`, you compute a result per collection of object. In SQL we know
 how to do that too, and we call that an aggregate.
 
+<!--more-->
+
 Here is an example query that we used already:
 
 ~~~ sql

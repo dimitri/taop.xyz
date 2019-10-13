@@ -17,8 +17,15 @@
       <pubDate>Sat, 07 Sep 2019 22:55:00 +0200</pubDate>
       
       <guid>https://theartofpostgresql.com/blog/2019-09-the-r-in-orm/</guid>
-      <description>Ok, let&amp;rsquo;s face it, I like SQL. A lot. I think it&amp;rsquo;s a fine DSL given how powerful it is, and I respect its initial goal to attract non developers and try to build English sentences rather than code.
-Also, I understand that manually hydrating your collection of objects in your backend developement language is not the best use of your time. And that building SQL as strings makes your code ugly.</description>
+      <description>&lt;p&gt;Ok, let&amp;rsquo;s face it, I like SQL. A lot. I think it&amp;rsquo;s a fine DSL given how
+powerful it is, and I respect its initial goal to attract non developers and
+try to build English sentences rather than code.&lt;/p&gt;
+
+&lt;p&gt;Also, I understand that manually hydrating your collection of objects in
+your backend developement language is not the best use of your time. And
+that building SQL as strings makes your code ugly. I get it.&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -27,8 +34,12 @@ Also, I understand that manually hydrating your collection of objects in your ba
       <pubDate>Sat, 07 Sep 2019 21:30:00 +0200</pubDate>
       
       <guid>https://theartofpostgresql.com/blog/2019-09-sql-joins/</guid>
-      <description>It took me quite some time before I could reason efficiently about SQL JOINs. And I must admit, the set theory diagrams never helped me really understand JOINs in SQL. So today, I want to help you understand JOINs in a different way, hoping to make the concept click at once for you too!
-As we saw in the previous article What is an SQL relation?, in SQL a relation is a collection of objects, all sharing the same definition.</description>
+      <description>&lt;p&gt;It took me quite some time before I could reason efficiently about SQL
+JOINs. And I must admit, the set theory diagrams never helped me really
+understand JOINs in SQL. So today, I want to help you understand JOINs in a
+different way, hoping to make the concept click at once for you too!&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -37,8 +48,21 @@ As we saw in the previous article What is an SQL relation?, in SQL a relation is
       <pubDate>Sat, 07 Sep 2019 21:00:00 +0200</pubDate>
       
       <guid>https://theartofpostgresql.com/blog/2019-09-sql-relations/</guid>
-      <description>If you&amp;rsquo;re like me, understanding SQL is taking you a long time. And some efforts. It took me years to get a good mental model of how SQL queries are implemented, and then up from the lower levels, to build a mental model of how to reason in SQL.
-Nowadays, in most case, I can think in terms of SQL and write queries that will give me the result set I need.</description>
+      <description>&lt;p&gt;If you&amp;rsquo;re like me, understanding SQL is taking you a long time. And some
+efforts. It took me years to get a good mental model of how SQL queries are
+implemented, and then up from the lower levels, to build a mental model of
+how to reason in SQL.&lt;/p&gt;
+
+&lt;p&gt;Nowadays, in most case, I can think in terms of SQL and write queries that
+will give me the result set I need. In most cases, because some parts of SQL
+are still complex, and I don&amp;rsquo;t practice as much as I used to. In particular,
+newer PostgreSQL features are areas I still need to work with more before I
+can integrate them in my daily workflow.&lt;/p&gt;
+
+&lt;p&gt;Today, I want to introduce the central concept of the SQL language. What is
+an SQL relation?&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
     </item>
     
   </channel>

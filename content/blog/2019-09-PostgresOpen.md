@@ -12,13 +12,14 @@ PostgreSQL](https://theartofpostgresql.com). It's availble as a video online
 at Youtube if you want to watch the slides and listen to it, and it even has
 a subtext!
 
+<!--more-->
+
 <center>
 <iframe width="560" height="315" src="https://www.youtube.com/embed/q9IXCdy_mtY" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 </center>
 
 Some people still prefer to read the text, so here it is.
 
-<!--more-->
 <hr />
 
 {{< figure src="/img/PostgresOpen2019/TAOP.001.png"

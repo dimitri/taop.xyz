@@ -24,11 +24,11 @@ think it's interesting to use Postgres in your application's stack. My
 conference talk addresses the main area where I think many people get it
 wrong:
 
+<!--more-->
+
 #### Postgres is a RDBMS 
 #### RDBMS are not a storage solution
 #### Do not use Postgres to solve a storage problem!
-
-<!--more-->
 
 So that's the main message of my conference presentation, which then expands
 on reasons why you might like SQL a lot as soon as you're proficient enough

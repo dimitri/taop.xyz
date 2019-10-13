@@ -4,8 +4,22 @@
     <meta name="generator" content="Hugo 0.50" />
     <meta charset="utf-8" />
     <title>The Art of PostgreSQL - What is an SQL Aggregate?</title>
-    <meta name="description" content="In our previous articles we had a look at What is an SQL relation? and What is a SQL JOIN?. Today, I want to show you what is an aggregate in SQL.
-You might have heard about Map/Reduce when Google made it famous, or maybe some years before, or maybe some years later. The general processing functions map and reduce where invented a very long time ago. The novelty from the advertising giant was in using them in a heavily distributed programming context." />
+    <meta name="description" content="In our previous articles we had a look at What is an SQL
+relation? and What is a SQL
+JOIN?. Today, I want to show you what is an
+aggregate in SQL.
+
+You might have heard about Map/Reduce when Google made it famous, or maybe
+some years before, or maybe some years later. The general processing
+functions map and reduce where invented a very long time ago. The
+novelty from the advertising giant was in using them in a heavily
+distributed programming context.
+
+With map you apply the same processing to every object in a collection.
+With reduce, you compute a result per collection of object. In SQL we know
+how to do that too, and we call that an aggregate.
+
+" />
 
     
     <meta name="twitter:card" content="summary" />
@@ -87,6 +101,8 @@ distributed programming context.</p>
 With <code>reduce</code>, you compute a result per collection of object. In SQL we know
 how to do that too, and we call that an aggregate.</p>
 
+<p></p>
+
 <p>Here is an example query that we used already:</p>
 <div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#586e75">-- name: list-albums-by-artist
 </span><span style="color:#586e75">-- List the album titles and duration of a given artist
@@ -133,7 +149,6 @@ another article though!</p>
 
 <p>Check out my book <a href="https://theartofpostgresql.com">The Art of PostgreSQL</a>
 where you can learn how to put SQL to good use when coding your application!</p>
-
 
             <footer>
              <p><strong>TAGS:</strong>
@@ -224,6 +239,16 @@ color: #18181C;
 </div>
 
 
+ <hr style="margin-bottom: 0px;"/>
+
+ <div class="meta" style="padding-bottom: 0px; margin-bottom: 2em;">
+   <ul>
+     <li style="text-align: center">
+       <a href="/compute-database-size/">
+         <img src="/img/growth-icon.png">Compute Database Size</a>
+     </li>
+   </ul>
+ </div>
  <hr style="margin-bottom: 0px;"/>
  
  <div class="packages_block">

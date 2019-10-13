@@ -14,6 +14,8 @@ Also, I understand that manually hydrating your collection of objects in
 your backend developement language is not the best use of your time. And
 that building SQL as strings makes your code ugly. I get it.
 
+<!--more-->
+
 What I do not understand is the fallacy behind most ORM tools. I am going to
 share my opinion on the topic, and it's not a popular one. You might not
 like it, though I would like that ORM writers and users understand more of
