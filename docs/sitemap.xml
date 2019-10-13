@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://theartofpostgresql.com/compute-database-size/</loc>
+    <lastmod>2019-10-14T00:05:00+02:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://theartofpostgresql.com/blog/2019-09-why-postgres/</loc>
     <lastmod>2019-09-27T15:15:00+02:00</lastmod>
   </url>
@@ -48,11 +53,6 @@
   </url>
   
   <url>
-    <loc>https://theartofpostgresql.com/compute-database-size/</loc>
-    <lastmod>2019-09-02T10:50:00+02:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://theartofpostgresql.com/fr/</loc>
   </url>
   
@@ -69,7 +69,7 @@
   
   <url>
     <loc>https://theartofpostgresql.com/tags/archiving/</loc>
-    <lastmod>2019-09-02T10:50:00+02:00</lastmod>
+    <lastmod>2019-10-14T00:05:00+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -98,13 +98,13 @@
   
   <url>
     <loc>https://theartofpostgresql.com/tags/database-size/</loc>
-    <lastmod>2019-09-02T10:50:00+02:00</lastmod>
+    <lastmod>2019-10-14T00:05:00+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://theartofpostgresql.com/tags/denormalisation/</loc>
-    <lastmod>2019-09-02T10:50:00+02:00</lastmod>
+    <lastmod>2019-10-14T00:05:00+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -128,7 +128,7 @@
   
   <url>
     <loc>https://theartofpostgresql.com/tags/normalisation/</loc>
-    <lastmod>2019-09-02T10:50:00+02:00</lastmod>
+    <lastmod>2019-10-14T00:05:00+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -140,7 +140,7 @@
   
   <url>
     <loc>https://theartofpostgresql.com/page/</loc>
-    <lastmod>2019-09-02T10:50:00+02:00</lastmod>
+    <lastmod>2019-10-14T00:05:00+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -152,7 +152,7 @@
   
   <url>
     <loc>https://theartofpostgresql.com/tags/postgresql/</loc>
-    <lastmod>2019-09-02T10:50:00+02:00</lastmod>
+    <lastmod>2019-10-14T00:05:00+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -182,7 +182,7 @@
   
   <url>
     <loc>https://theartofpostgresql.com/</loc>
-    <lastmod>2019-09-27T15:15:00+02:00</lastmod>
+    <lastmod>2019-10-14T00:05:00+02:00</lastmod>
     <priority>0</priority>
   </url>
   

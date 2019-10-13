@@ -1,5 +1,5 @@
 +++
-date = "2019-09-02T10:50:00+02:00"
+date = "2019-10-14T00:05:00+02:00"
 title = "Compute database size"
 tags = ["PostgreSQL", "Database Size", 
         "Normalisation", "Denormalisation", "Archiving"]
