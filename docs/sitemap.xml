@@ -151,14 +151,14 @@
   </url>
   
   <url>
-    <loc>https://theartofpostgresql.com/tags/postgresql/</loc>
-    <lastmod>2019-09-02T10:50:00+02:00</lastmod>
+    <loc>https://theartofpostgresql.com/categories/postgresql/</loc>
+    <lastmod>2019-09-27T15:15:00+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://theartofpostgresql.com/categories/postgresql/</loc>
-    <lastmod>2019-09-27T15:15:00+02:00</lastmod>
+    <loc>https://theartofpostgresql.com/tags/postgresql/</loc>
+    <lastmod>2019-09-02T10:50:00+02:00</lastmod>
     <priority>0</priority>
   </url>
   
