@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>The Art of PostgreSQL: a modern PostgreSQL book in 2019</title>
+	<meta name="description" content="The PostgreSQL book for developers that teaches you how to turn thousands of lines of code into simple queries.">
+
+        
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:site" content="@tapoueh" />
+        <meta name="twitter:creator" content="@tapoueh" />
+        <meta property="og:url" content="https://theartofpostgresql.com" />
+        <meta property="og:title" content="The Art of PostgreSQL" />
+        <meta property="og:description" content="The book that teaches SQL to developers: Learn to replace thousands of lines of code with simple queries!" />
+        <meta property="og:image" content="https://theartofpostgresql.com/images/hardcover-mockup.jpg" />
+	
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+	
+	
+	<link href="/favicon.ico" rel="icon" type="image/x-icon">
+	
+	
+	<link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700" rel="stylesheet"> 
+	<link rel="stylesheet" href="/css/style.css">
+	
+	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> 
+	<script src="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
+	<script src="/js/custom.js"></script>
+
+        
+<script>
+"use strict";
+
+!function() {
+  var t = window.driftt = window.drift = window.driftt || [];
+  if (!t.init) {
+    if (t.invoked) return void (window.console && console.error && console.error("Drift snippet included twice."));
+    t.invoked = !0, t.methods = [ "identify", "config", "track", "reset", "debug", "show", "ping", "page", "hide", "off", "on" ], 
+    t.factory = function(e) {
+      return function() {
+        var n = Array.prototype.slice.call(arguments);
+        return n.unshift(e), t.push(n), t;
+      };
+    }, t.methods.forEach(function(e) {
+      t[e] = t.factory(e);
+    }), t.load = function(t) {
+      var e = 3e5, n = Math.ceil(new Date() / e) * e, o = document.createElement("script");
+      o.type = "text/javascript", o.async = !0, o.crossorigin = "anonymous", o.src = "https://js.driftt.com/include/" + n + "/" + t + ".js";
+      var i = document.getElementsByTagName("script")[0];
+      i.parentNode.insertBefore(o, i);
+    };
+  }
+}();
+drift.SNIPPET_VERSION = '0.3.1';
+drift.load('w52ccuterdxe');
+</script>
+
+
+</head>
+<body>
+
+
+
+<header class="header">
+  <div class="wrapper">
+    <a class="logo" href="#">The Art of PostgreSQL</a>
+    
+    <nav>
+      <ul>
+	<li><a data-slide=".subscribe_block" href="#">Le Livre</a></li>
+	<li><a data-slide=".packages_block" href="#">Éditions</a></li>
+	<li><a data-slide=".about_block" href="#">Auteur</a></li>
+	<li><a href="/blog/">BLOG</a></li>
+      </ul>
+    </nav>
+    
+  </div>
+  <a data-slide=".price_list" class="button" href="#">Acheter</a>
+</header>
+
+
+
+
+
+
+
+<div class="welcome_slider">
+  <ul>
+    <li data-cover=".cover">
+      <img class="cover" src="images/demo/slide.jpg" alt="" />
+      <div class="wrapper">
+    	<img src="images/demo/welcome_logo.png" alt="" />
+    	<p>
+          <a data-slide=".bestvalue" class="button button_large" href="#">Acheter</a>
+          <a data-slide=".subscribe_block" class="button button_large" href="#">Chapitre Gratuit</a>
+        </p>
+      </div>
+    </li>
+    <li data-cover=".cover"><img class="cover" src="images/demo/slide2.jpg" alt="" /></li>
+    <li data-cover=".cover"><img class="cover" src="images/demo/slide3.jpg" alt="" /></li>
+  </ul>
+</div>
+
+
+
+<div class="container">
+	<div class="wrapper">
+	    <header class="heading">
+    	      <h1>The Art of PostgreSQL</h1>
+              <h4>Le livre qui enseigne le SQL aux développeurs : apprenez comment remplacer des milliers de lignes de code avec des requêtes SQL simples !</h4>
+    	</header>
+    	<ul class="services_list">
+    	    <li>
+    	        <p><img src="images/icons/plus.png" alt="" /></p>
+    	        <p><strong>Nouveau Chapitre</strong></p>
+    	        <p>Ceci est la seconde édition du livre. Elle inclue un
+    	        nouveau chapitre au sujet des extensions PostgreSQL. Écrit
+    	        par l'auteur de la command <tt>CREATE EXTENSION</tt>!</p>
+    	    </li>
+    	    <li>
+    	        <p><img src="images/icons/bookmark.png" alt="" /></p>
+    	        <p><strong>Seconde Édition</strong></p>
+    	        <p>« The Art of PostgreSQL » est le nouveau titre de mon
+    	         livre <i>« Mastering PostgreSQL in Application
+    	         Development »/i>, acclamé comme l'une des toutes meilleurs
+    	         sources existantes pour apprendre le SQL !</p>
+    	    </li>
+    	    <li>
+    	        <p><img src="images/icons/arrow.png" alt="" /></p>
+    	        <p><strong>Un design amélioré</strong></p>
+    	        <p>Après une réception enthousiaste de la première édition
+    	        du livre, la seconde édition est maintenant disponible avec
+    	        une finition améliorée. Embellissez votre bibliothèque !</p>
+    	    </li>
+    	</ul>
+	</div>
+</div>
+
+
+
+<div class="sql_list">
+  <ul>
+    <li>
+      <h2>Le SQL est du Code</h2>
+      <div>
+        <p>Apprenez à intégrer le SQL à votre processus de développement :
+        gestion des versions, tests, relecture de code, déploiement. Le
+        livre couvre les « best practices » permettant de travailler
+        efficacement en SQL.</p>
+      </div>
+    </li>
+    <li>
+      <h2>Des examples concrets</h2>
+      <div>
+        <p>Apprenez le SQL avancé à l'aide d'exemples concerts appuyés sur
+        des jeux de données qui aident à tirer le meilleur du livre !
+        Chacune des nombreuses requêtes SQL du livre est présentée dans le
+        contexte d'une question précise à laquelle répondre à partir des
+        données fournies.</p>
+      </div>
+    </li>
+    <li>
+      <h2>Modélisation de base de données</h2>
+      <div>
+        <p>Le livre couvre les aspects de normalisation des modèles de
+        données avec des exemples concrets et simples. Ceux-ci permettent de
+        plonger dans un sujet qui pourrait être rebutant, et accompagne le
+        lecteur jusqu'aux principes de mise en cache et de stratégie
+        d'indexation.</p>
+      </div>
+    </li>
+    <li>
+      <h2>Le SQL pour les développeurs</h2>
+      <div>
+        <p>Ce livre a été pensé et rédigé pour les développeurs. Nous
+        couvrons des techniques SQL avancées de traitement des données.
+        Apprenez à obtenir précisemment le résultat nécessaire à votre
+        application !</p>
+      </div>
+    </li>
+    <li>
+      <h2>Écrire du SQL efficace</h2>
+      <div>
+        <p>Écrire du SQL efficace est plus facile qu'il n'y parait. Cela
+        commence avec une modélisation de base de données normalisée, étape
+        indispensable à la rédaction de code clair. Le livre enseigne
+        comment écrire des requêtes efficates… et rapides !</p>
+      </div>
+    </li>
+    <li>
+      <h2>Tout compris</h2>
+      <div>
+        <p>Le livre est fourni avec des jeux de données Open Data, et des
+        instructions vous permettant de disposer d'une copie locale des
+        données. Éditez et exécutez le SQL présenté dans le livre afin
+        d'apprendre de manière interactive ! Nous fournissons même une
+        configuration avancée de l'outil <tt>psql</tt>.</p>
+      </div>
+    </li>
+  </ul>
+</div>
+
+
+
+<div class="packages_block">
+  <div class="wrapper">
+    <header class="heading">
+      <h3>Les pré-commandes sont ouvertes !</h3>
+      <p style="text-align: justify; color: black; font-size: 120%;">
+        De nombreux commentaires nous sont parvenus de lecteurs potentiels
+        ayant une forte préférence pour une version française du livre. La
+        traduction représente un investissement de temps tout à fait
+        sérieux, même si l'auteur (coucou !) est français. Du coup, nous
+        vous proposons de voter avec votre porte-monnaie… vous voulez lire
+        « The Art of PostgreSQL » en français ? Pré-commandez le dès
+        aujourd'hui !
+      </p>
+      <p style="font-size: 120%; color: #808080">Dès que 300 commandes
+        seront passées, nous nous mettrons à l'ouvrage.</p>
+
+      <p style="text-align: justify; color: #a0a0a0;">Idéalement nous ferons
+      imprimer le livre en France par une entreprise locale. Les coûts de
+      productions de et de livraison n'étant pas encore étudiés, la version
+      papier de notre offre n'est pas encore disponible en pré-commande.</p>
+
+      <hr style="margin-bottom: 3em;"/>
+      
+      <h3>Une édition pour chaque besoin</h3>
+      <p class="lightpurple">
+        « The Art of PostgreSQL » est disponible selon les quatre formules
+        suivantes.<br/> En commençant par l'édition standard et avec des
+        éditions avancées, tous vos besoins sont couverts…</p>
+    </header>    
+    <ul class="price_list">
+      <li>
+    	<div>
+          <h5>Édition standard</h5>
+          <div class="price">
+            49<sup>€</sup>
+          </div>
+          <p>Le livre complet, avec le contenu intégral de 438 pages
+            d'enseignement SQL avancé. Fourni avec les versions PDF, ePub et
+            MOBI, ainsi que les requêtes SQL dans des fichiers séparés !</p>
+          <p><a data-slide=".descriptions_list" href="#">EN SAVOIR PLUS</a></p>
+          <a class="button button_purple" href="https://sales.theartofpostgresql.com/fr-standard-edition/">PRE-COMMANDE</a>
+        </div>
+      </li>
+      <li class="bestvalue">
+    	<div>
+    	  <div class="best">PREMIER CHOIX</div>
+          <h5>Édition complète</h5>
+          <div class="price">
+            99<sup>€</sup>
+          </div>
+          <p>L'édition complète est fournie avec les versions numériques du
+          livre ainsi qu'un export de la base de données PostgreSQL et ses
+          scripts de restauration. Cela vous permet de rejouer les 334
+          requêtes du livre en utilisant les jeux de données présentés dans
+          le livre !</p>
+          <p><a data-slide=".descriptions_list" href="#">EN SAVOIR PLUS</a></p>
+          <a class="button button_purple" href="https://sales.theartofpostgresql.com/fr-edition-complete/">PRE-COMMANDE</a>
+        </div>
+      </li>
+      <li>
+    	<div>
+          <h5 style="color: #c0c0c0">Édition Papier</h5>
+          <div class="price" style="color: #c0c0c0">
+            129<sup>€</sup>
+          </div>
+          <p style="color: #c0c0c0">Une impression professionelle de 480
+          pages offrant le même contenu. Vous bénéficiez également de tous
+          les avantages de l'Édition Complète, y compris le contenu
+          numérique afin de faciliter le copier/coller, et la base de
+          données sur laquelle rejouer les requêtes SQL du livre !</p>
+          <p><a style="color: #c0c0c0" data-slide=".descriptions_list" href="#">EN SAVOIR PLUS</a></p>
+          <a style="color: #c0c0c0" class="button button_purple" href="#">EN ATTENTE</a>
+        </div>
+      </li>
+      <li>
+    	<div>
+          <h5>Édition Entreprise</h5>
+          <div class="price">
+            229<sup>€</sup>
+          </div>
+          <p>Obtenez tout ce dont votre équipe entière a besoin pour
+          apprendre à maîtriser le SQL. Cette édition inclue une licence
+          permettant de partager le contenu du livre, les 334 requêtes SQL,
+          et une copie de la base de données avec jusqu'à 15 personnes de
+          votre entreprise !</p>
+          <p><a data-slide=".descriptions_list" href="#">EN SAVOIR PLUS</a></p>
+          <a class="button button_purple" href="https://sales.theartofpostgresql.com/fr-edition-entreprise/">PRE-COMMANDE</a>
+        </div>
+      </li>
+    </ul>
+    <header class="heading">
+      <p class="margin">Vous aurez peut être besoin de plus de détails afin
+      de faire votre choix. Notre tableau ci-dessous résume le contenu de
+      chaque édition dans un format facile à comparer.</p>
+      <p>
+        <span class="option">⍟</span> Notez que vous pourrez ajouter la
+        version imprimée du livre dans une deuxième étape après l'achat de
+        toute édition présentée ci-dessous.
+        <span class="option">⍟</span>
+      </p>
+    </header>
+    <ul class="packages_table">
+      <li>
+        <ul>
+          <li>Eléments inclus</li>
+          <li>Standard</li>
+          <li>Complète</li>
+          <li>Papier</li>
+          <li>Entreprise</li>
+        </ul>
+      </li>
+      <li>
+        <ul>
+          <li>Le livre imprimé</li>
+          <li><span class="option">⍟</span></li>
+          <li><span class="option">⍟</span></li>
+          <li><span class="dot">&nbsp;</span></li>
+          <li><span class="option">⍟</span></li>
+        </ul>
+      </li>
+      <li>
+        <ul>
+          <li>L'e-Book</li>
+          <li><span class="dot">&nbsp;</span></li>
+          <li><span class="dot">&nbsp;</span></li>
+          <li><span class="dot">&nbsp;</span></li>
+          <li><span class="dot">&nbsp;</span></li>
+        </ul>
+      </li>
+      <li>
+        <ul>
+          <li>Les 6 Interviews</li>
+          <li><span class="dot">&nbsp;</span></li>
+          <li><span class="dot">&nbsp;</span></li>
+          <li><span class="dot">&nbsp;</span></li>
+          <li><span class="dot">&nbsp;</span></li>
+        </ul>
+      </li>
+      <li>
+        <ul>
+          <li>PDF, ePub, MOBI</li>
+          <li><span class="dot">&nbsp;</span></li>
+          <li><span class="dot">&nbsp;</span></li>
+          <li><span class="dot">&nbsp;</span></li>
+          <li><span class="dot">&nbsp;</span></li>
+        </ul>
+      </li>
+      <li>
+        <ul>
+          <li>Requêtes SQL &amp; Code</li>
+          <li><span class="dot">&nbsp;</span></li>
+          <li><span class="dot">&nbsp;</span></li>
+          <li><span class="dot">&nbsp;</span></li>
+          <li><span class="dot">&nbsp;</span></li>
+        </ul>
+      </li>
+      <li>
+        <ul>
+          <li>Jeux de données</li>
+          <li>&nbsp;</li>
+          <li><span class="dot">&nbsp;</span></li>
+          <li><span class="dot">&nbsp;</span></li>
+          <li><span class="dot">&nbsp;</span></li>
+        </ul>
+      </li>
+      <li>
+        <ul>
+          <li>Exemples de normalization</li>
+          <li>&nbsp;</li>
+          <li><span class="dot">&nbsp;</span></li>
+          <li><span class="dot">&nbsp;</span></li>
+          <li><span class="dot">&nbsp;</span></li>
+        </ul>
+      </li>
+      <li>
+        <ul>
+          <li>Tests Unitaires</li>
+          <li>&nbsp;</li>
+          <li><span class="dot">&nbsp;</span></li>
+          <li><span class="dot">&nbsp;</span></li>
+          <li><span class="dot">&nbsp;</span></li>
+        </ul>
+      </li>
+      <li>
+        <ul>
+          <li>Partage en groupe, jusqu'à 15 personnes</li>
+          <li>&nbsp;</li>
+          <li>&nbsp;</li>
+          <li>&nbsp;</li>
+          <li><span class="dot">&nbsp;</span></li>
+        </ul>
+      </li>
+      <li>
+        <ul>
+          <li>Containeur docker interactif</li>
+          <li>&nbsp;</li>
+          <li>&nbsp;</li>
+          <li>&nbsp;</li>
+          <li><span class="dot">&nbsp;</span></li>
+        </ul>
+      </li>
+      <li>
+        <ul>
+          <li>&nbsp;</li>
+          <li><a data-slide=".bestvalue" href="https://sales.theartofpostgresql.com/fr-standard-edition/">PRE-COMMANDE</a></li>
+          <li><a data-slide=".bestvalue" href="https://sales.theartofpostgresql.com/fr-edition-complete/">PREMIER CHOIX</a></li>
+          <li><a style="color: #c0c0c0" data-slide=".bestvalue" href="#">En ATTENTE</a></li>
+          <li><a data-slide=".bestvalue" href="https://sales.theartofpostgresql.com/fr-edition-entreprise/">PRE-COMMANDE</a></li>
+        </ul>
+      </li>
+    </ul>
+    <ul class="descriptions_list">
+      <li>
+        <h6>Le livre</h6>
+        <p>Le livre de 438 pages présente 334 reqûetes SQL. Chacune d'entre
+        elle est présentée dans un contexte clair et détaillé en toutes
+        lettres.</p>
+      </li>
+      <li>
+        <h6>6 Interviews</h6>
+        <p>Des interviews de vétérans de l'industrie sont proposées. Ces
+        intervenants ont commencé à construire les applications webs au
+        siècle dernier. Ils partagent avec nous leurs opinions et leur recul
+        quant à la meilleure façon d'aborder le SQL.</p>
+      </li>
+      <li>
+        <h6>PDF, ePub, MOBI</h6>
+        <p>Les trois formats électroniques sont fournis pour une
+        compatibilité sans faille avec vos différents écrans : tablette,
+        téléphone, ordinateur. Le PDF a été conçu pour être facile à lire
+        sur nos écrans modernes : essayez-le sur votre tablette !</p>
+      </li>
+      <li>
+        <h6>Containeur docker</h6>
+        <p>Une instance PostgreSQL pré-chargée avec les jeux de données
+        présentés dans le livre est mise en avant par une application web
+        interactive qui vous permet de rejouer chaque requête SQL du
+        livre !</p>
+      </li>
+      <li>
+        <h6>Jeux de données réels</h6>
+        <p>Les jeux de données utillisés tout au long du livre représentent
+        56 tables provenant de différentes sources Open Data. Parce qu'il
+        est plus facile d'apprendre avec des exemples concrets, le livre
+        contient 15 jeux de données bien réels.</p>
+      </li>
+      <li>
+        <h6>Partage en groupes de 15 lecteurs</h6>
+        <p>Partagez le livre et l'instance docker avec vos collègues,
+        jusqu'à 15 personnes par license ! Un seul achat pour toute votre
+        équipe ! Vous disposerez chacun d'une copie des fichiers mis à votre
+        disposition et pourrez avancer à votre rythme.</p>
+      </li>
+      <li>
+        <h6>Examples de normalisation</h6>
+        <p>La modélisation de base de données est bien sûr abordée dans ce
+        livre, et présentée de manière à montrer pourquoi ce sujet est
+        intéressant pour vous, développeur d'application. Les examples
+        concrets de normalisation incluent des scripts et une méthodologie
+        que vous pourrez ré-utiliser dans vos projets.</p>
+      </li>
+      <li>
+        <h6>Requêtes SQL &amp; Code</h6>
+        <p>Toutes les éditions sont fournies avec les 334 requêtes chacune
+        dans un fichier <tt>.sql</tt>. Vous disposez également des
+        applications exemples écrites pour le livre — en Python, Go, et
+        Java.</p>
+      </li>
+      <li>
+        <h6>Tests Unitaires</h6>
+        <p>Les applications sont fournies avec leurs tests unitaires et de
+        non-régression. Nous utilisons l'outil RegreSQL pour rédiger les
+        tests, et après avoir lu le livre vous voudrez certainement
+        l'utiliserer aussi !</p>
+      </li>
+    </ul>
+  </div>
+</div>
+
+
+
+<div class="container">
+  <div class="wrapper">
+    <header class="heading">
+      <h3>Les interviews</h3>
+      <p class="margin">« The Art of PostgreSQL » inclue des interviews de
+        développeurs et utilisateurs avancés de SQL, PHP, Java, Python et
+        Django. Ceci dit, le contenu du livre vous sera utile quelques soient
+        les languages de développement que vous utilisez !</p>
+    </header>
+    <ul class="team_list">
+      <li>
+    	<figure>
+    	  <div data-cover=".cover"><img class="cover" src="images/demo/team_img.jpg" alt="" /></div>
+    	  <figcaption>
+    	    <p>Kris Jenkins</p>
+    	    <p>Clojure's YeSQL</p>
+    	    <a href="#">+</a>
+    	  </figcaption>
+    	  <div class="popup">
+    	    <span class="close"></span>
+    	    <div><div>
+    	        <p><strong>Kris Jenkins</strong> est l'auteur de la solution
+    	        YeSQL en Clojure. Il a co-fondé une startup et propose
+    	        aujourd'hui ses services en programmation fonctionnelle en
+    	        tant qu'indépendant. Kris est un utilisateur et contributeur
+    	        enthousiaste de l'écosystème Open Source. Il travaille
+    	        principalement à l'implémentation de systèmes utilisant Elm,
+    	        Haskell, et Clojure ; améliorant le monde un projet à la
+    	        fois.</p>
+            </div></div>
+    	  </div>
+    	</figure>
+      </li>
+      <li>
+    	<figure>
+    	  <div data-cover=".cover"><img class="cover" src="images/demo/team_img2.jpg" alt="" /></div>
+    	  <figcaption>
+    	    <p>Yohann Gabory</p>
+    	    <p>Django Avanc&eacute;</p>
+    	    <a href="#">+</a>
+    	  </figcaption>
+          <div class="popup">
+            <span class="close"></span>
+            <div><div>
+                <p><strong>Yohann Gabory</strong> est expert Python et
+                Django et a publié à ce titre un ouvrage en français
+                intitulé « Django Avancé », chez Eyrolles. Dans son livre,
+                Yohann partage ses connaissances du système de publication
+                avec les développeurs Python de tout niveau.</p>
+            </div></div>
+          </div>
+    	</figure>
+      </li>
+      <li>
+    	<figure>
+    	  <div data-cover=".cover"><img class="cover" src="images/demo/team_img3.jpg" alt="" /></div>
+    	  <figcaption>
+    	    <p>Gr&eacute;goire Hubert</p>
+    	    <p>POMM Project</p>
+    	    <a href="#">+</a>
+    	  </figcaption>
+          <div class="popup">
+            <span class="close"></span>
+            <div><div>
+                <p><strong>Gr&eacute;goire Hubert</strong> a commencé à
+                développer des applications webs dès que le concept
+                d'application web a existé, et son outil de prédilection
+                pour cela reste PHP. Grégoire a développé la
+                solution <a target="_blank"
+                href="http://www.pomm-project.org">http://www.pomm-project.org</a>
+                afin de pouvoir intégrer PostgreSQL dans ses applications
+                écrites en PHP. POMM permet aux développeurs un accès
+                illimité aux fonctionnalités de Postgres tout en proposant
+                une interface de haut niveau.</p>
+            </div></div>
+          </div>
+    	</figure>
+      </li>
+      <li>
+    	<figure>
+    	  <div data-cover=".cover"><img class="cover" src="images/demo/team_img4.jpg" alt="" /></div>
+    	  <figcaption>
+    	    <p>Markus Winand</p>
+    	    <p>Modern SQL</p>
+    	    <a href="#">+</a>
+    	  </figcaption>
+          <div class="popup">
+            <span class="close"></span>
+            <div><div>
+                <p><strong>Markus Winand</strong> est l'auteur du célèbre
+                livre « SQL Performance Explained » et maintient les
+                sites <a target="_blank"
+                href="http://use-the-index-luke.com">http://use-the-index-luke.com</a>
+                and <a target="_blank"
+                href="http://modern-sql.com">http://modern-sql.com</a>.
+                Markus se présente comme l'ambassadeur du SQL moderne et
+                maîtrise les subtilités du standard SQL et de ses
+                différentes implémentations.</p>
+            </div></div>
+          </div>
+    	</figure>
+      </li>
+      <li>
+    	<figure>
+    	  <div data-cover=".cover"><img class="cover" src="images/demo/team_img5.jpg" alt="" /></div>
+    	  <figcaption>
+    	    <p>&Aacute;lvaro Hern&aacute;ndez Tortosa</p>
+    	    <p>ToroDB</p>
+    	    <a href="#">+</a>
+    	  </figcaption>
+          <div class="popup">
+            <span class="close"></span>
+            <div><div>
+                <p>Entrepreneur, fondateur de plusieurs entreprises de
+                développement logiciel dont récemment <a target="_blank"
+                href="https://www.ongres.com">Ongres</a>. Architecte
+                logiciel et développeur, contributeur au pilote JDBC pour
+                PostgreSQL, <strong>Álvaro Hernández Tortosa</strong> a
+                dirigé le projet <a target="_blank"
+                href="https://www.torodb.com">@ToroDB</a> qui propose une
+                intégration transparente de PostgreSQL au sein d'un cluster
+                MongoDB !</p>
+            </div></div>
+          </div>
+    	</figure>
+      </li>
+      <li>
+    	<figure>
+    	  <div data-cover=".cover"><img class="cover" src="images/demo/team_img6.jpg" alt="" /></div>
+    	  <figcaption>
+    	    <p>Craig Kerstiens</p>
+    	    <p>Citus Data</p>
+    	    <a href="#">+</a>
+    	  </figcaption>
+          <div class="popup">
+            <span class="close"></span>
+            <div><div>
+                <p><strong>Craig Kerstiens</strong> est responsable de
+                l'équipe Cloud de <a target="_blank"
+                href="https://www.citusdata.com">@citusdata.</a> et
+                maintenant des produits PostgreSQL sur Azure, le cloud de
+                Microsoft. Citus est une extension qui implémente un moteur
+                de requêtes distribuées et permet de passer à l'échelle avec
+                PostgreSQL en utilisant plusieurs serveurs sur lesquelles
+                répartir les données.</p>
+                <p>Avant Citus et Microsoft, Craig a passé quelques années à
+                mettre au point et améliorer l'offre Postgres de
+                l'entreprise <a target="_blank"
+                href="https://www.heroku.com/">Heroku</a>.</p>
+            </div></div>
+          </div>
+    	</figure>
+      </li>
+    </ul>
+  </div>
+</div>
+
+
+
+<div class="quote_slider">
+    <div class="wrapper">
+        <ul>
+            <li>
+                <blockquote>
+                    <p>Thanks for your fantastic book. It's helped me immensely in my current job. Technical books can often be a bore and hard to digest, but Mastering PostgreSQL was a pleasure to read.&rdquo;</p>
+                    <p>Ben Davies</p>
+                </blockquote>
+            </li>
+            <li>
+                <blockquote>
+                    <p>At last the definitive Postgres book for app developers is out,  and from the amazing @tapoueh no less. Go get it!&rdquo;</p>
+                    <p>Peter van Hardenberg</p>
+                </blockquote>
+            </li>
+            <li>
+                <blockquote>
+                    <p>Full edition of &ldquo;Mastering PostgreSQL&#8230;&rdquo; is BRILLIANT! Not just best PG resource ever but best tech-learning package I've ever seen!&rdquo;</p>
+                    <p>Derek Sivers</p>
+                </blockquote>
+            </li>
+            <li>
+                <blockquote>
+                    <p>I knew &ldquo;Mastering PostgreSQL&rdquo; had to be good, but being typeset with XeTeX tops it!&rdquo;</p>
+                    <p>Xavier Noria</p>
+                </blockquote>
+            </li>
+            <li>
+                <blockquote>
+                    <p>Bought the ultimate PostgreSQL book for app developers from @tapoueh Go get it! You will learn many things!&rdquo;</p>
+                    <p>Herv&eacute; Piedvache</p>
+                </blockquote>
+            </li>
+            <li>
+                <blockquote>
+                    <p>The culprit seems to be @tapoueh's book and a few commits by someone learning #PostgreSQL best practices&#8230;&rdquo;</p>
+                    <p>Cyril Brulebois</p>
+                </blockquote>
+            </li>
+            <li>
+                <blockquote>
+                    <p>I just discovered your book  and am super excited to order it!&rdquo;</p>
+                    <p>Lucas Charles</p>
+                </blockquote>
+            </li>
+        </ul>
+    </div>
+</div>
+
+
+
+<div class="subscribe_block">
+  <div class="wrapper">
+    <p>Encore hésitant ? Obtenez gratuitement un extrait du livre contenant
+    la table des matières intégrale afin de vous convaincre !</p>
+    <script async data-uid="c1452ad801" src="https://f.convertkit.com/c1452ad801/ad53e74e51.js"></script>
+    
+  </div>
+</div>
+
+
+
+
+<footer class="footer">
+  <div class="wrapper">
+    <div class="about_block">
+      <h6>À propos de l'auteur</h6>
+      <p>Bonjour ! Mon nom est Dimitri Fontaine, et j'ai utilisé et
+      contribué à divers logiciels Open Source depuis plus de 20 ans
+      maintenant. Je fais partie des contributeurs majeurs à PostgreSQL
+      après avoir contribué la notion d'EXTENSION ainsi que les EVENT
+      TRIGGERs, entre autres fonctionnalités.</p>
+      <p>En tant que développeur, j'écris du code de manière quotidienne (ou
+      presque) depuis de nombreuses années, à la fois dans le cadre de mon
+      travail et sur mon temps libre. J'ai été employé comme architecte de
+      bases de données, administrateur de bases de données — d'astreinte ;
+      ou encore développeur d'applications. J'ai toujours apprécié tout
+      particulièrement le SQL. En tant qu'architecte de bases de données,
+      j'ai trouvé agréable de pouvoir accompagner mes collègues dans leur
+      découverte et apprentissage des techniques SQL avancées.</p>
+      <ul>
+	<li><a target="_blank" href="mailto:dim@tapoueh.org">email</a></li>
+	<li><a target="_blank" href="https://twitter.com/tapoueh">twitter</a></li>
+	<li><a target="_blank" href="https://github.com/dimitri/tapoueh.org">github</a></li>
+	<li><a target="_blank" href="https://www.reddit.com/user/theartofpostgresql">reddit</a></li>
+      </ul>
+    </div>
+    <div class="faq_block">
+      <h6>Foire Aux Questions</h6>
+      <dl>
+	<dt>Et si le livre n'était pas du tout ce que j'en attends ?</dt>
+	<dd>« The Art of PostgreSQL » est un livre qui enseigne le SQL aux
+	développeurs d'applications. Si vous vous rendez compte que ce livre
+	ne vous apporte rien, je vous rembourserai votre achat sur simple
+	réception d'un e-mail.</dd>
+	<dt>J'ai acheté le livre et je suis confus… quelle est la suite des
+	opérations ?</dt>
+	<dd>Le contenu du livre est disponible sous les formats PDF, ePub et
+	MOBI et vous pouvez les télécharger sur le
+	site <a href="https://postgresql.thinkific.com/enrollments"
+	target="_">https://postgresql.thinkific.com/</a> où vous avez été
+	inscrits en tant qu'étudiant.</dd>
+	<dt>Le livre est-il protégé par des DRM?</dt>
+	<dd>Non. Le PDF n'est même pas marqué. Vous possédez ce que vous
+	achetez. Les sources de données sélectionnées tout au long du livre
+	sont également disponible sous des licenses de type Open Data, et le
+	livre lui-même est <i>copyright</i> Dimitri Fontaine, tous droits
+	réservés.</dd>
+	<dt>J'ai une autre question ?</dt>
+	<dd>Vous pouvez me contacter par e-mail à
+	l'adresse <a href="mailto:dim@tapoueh.org">dim @ tapoueh.org</a>
+	afin de me poser votre question ! Je ferai de mon mieux pour vous
+	répondre, en général sous 5 jours ouvrés, si je ne suis pas en
+	vacance avec les enfants…</dd>
+      </dl>
+    </div>
+  </div>
+</footer>
+
+
+
+
+
+
+<div class="copyright">
+  <div class="wrapper">
+    Copyright 2019 &copy; Dimitri Fontaine. All rights reserved. Design by <a style="color: white; font-weight: bold;" target="_blank" href="https://www.terrilowry.com">TerriLowry.com.</a>
+  </div>
+</div>
+
+
+</body>
+
+
+<script type="text/javascript">
+  var subscribersSiteId='1296f531-7ba0-406f-89e1-bdca40a36208';
+</script>
+<script type="text/javascript"
+        src="https://cdn.subscribers.com/assets/subscribers.js">
+</script>
+
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-47059482-5"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-47059482-5');
+</script>
+
+
+<script>
+  !function(e,t,n,s,u,a){e.twq||(s=e.twq=function(){s.exe?s.exe.apply(s,arguments):s.queue.push(arguments);
+  },s.version='1.1',s.queue=[],u=t.createElement(n),u.async=!0,u.src='//static.ads-twitter.com/uwt.js',
+  a=t.getElementsByTagName(n)[0],a.parentNode.insertBefore(u,a))}(window,document,'script');
+  
+  twq('init','o0ial');
+  twq('track','PageView');
+</script>
+
+
+</html> 
+

@@ -14,6 +14,7 @@ pygmentsStyle="solarized-dark"
   post = "/blog/:year/:month/:slug/"
   page = "/:filename/"
   conf = "/conf/:slug/"
+  fr = "/fr/:filename"
 
 [taxonomies]
   tag = "tags"
