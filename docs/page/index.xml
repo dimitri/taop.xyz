@@ -21,5 +21,14 @@
 But what is a large amount of data? Do you need to pay attention to those scalability trade-offs now, or can you wait until later?</description>
     </item>
     
+    <item>
+      <title>Table of Content</title>
+      <link>https://theartofpostgresql.com/table-of-content/</link>
+      <pubDate>Mon, 14 Oct 2019 00:05:00 +0200</pubDate>
+      
+      <guid>https://theartofpostgresql.com/table-of-content/</guid>
+      <description>Photo by unsplash-logoNicole Honeywill / Sincerely Media  Each part of The Art of PostgreSQL can be read on its own, or you can read this book from the first to the last page in the order of the parts and chapters therein. A great deal of thinking have been put in the ordering of the parts, so that reading “The Art of PostgreSQL” in a linear fashion should provide the best experience.</description>
+    </item>
+    
   </channel>
 </rss>

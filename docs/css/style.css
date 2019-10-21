@@ -939,6 +939,24 @@ textarea::placeholder {
   padding-bottom: 30px;
   text-align: justify;
 }
+.single_content ul {
+    padding-bottom: 30px;
+}
+.single_content ul li {
+    list-style: disc;
+    padding-left: 2em;
+    list-style-position: inside;
+}
+.single_content a, a:active, a:visited {
+    color: #60b2d3;
+    transition: color linear 0.2s;
+    font-weight: bold;
+}
+.single_content a:hover {
+  text-decoration: none;
+  color: #60b2d3;
+}
+
 .single_content .date {
   font-size: 16px;
 }

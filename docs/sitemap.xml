@@ -8,6 +8,11 @@
   </url>
   
   <url>
+    <loc>https://theartofpostgresql.com/table-of-content/</loc>
+    <lastmod>2019-10-14T00:05:00+02:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://theartofpostgresql.com/blog/2019-09-why-postgres/</loc>
     <lastmod>2019-09-27T15:15:00+02:00</lastmod>
   </url>
@@ -151,14 +156,14 @@
   </url>
   
   <url>
-    <loc>https://theartofpostgresql.com/categories/postgresql/</loc>
-    <lastmod>2019-09-27T15:15:00+02:00</lastmod>
+    <loc>https://theartofpostgresql.com/tags/postgresql/</loc>
+    <lastmod>2019-10-14T00:05:00+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://theartofpostgresql.com/tags/postgresql/</loc>
-    <lastmod>2019-10-14T00:05:00+02:00</lastmod>
+    <loc>https://theartofpostgresql.com/categories/postgresql/</loc>
+    <lastmod>2019-09-27T15:15:00+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -171,6 +176,12 @@
   <url>
     <loc>https://theartofpostgresql.com/tags/sql/</loc>
     <lastmod>2019-09-27T15:15:00+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://theartofpostgresql.com/tags/table-of-content/</loc>
+    <lastmod>2019-10-14T00:05:00+02:00</lastmod>
     <priority>0</priority>
   </url>
   
