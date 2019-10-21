@@ -15,6 +15,7 @@ pygmentsStyle="solarized-dark"
   page = "/:filename/"
   conf = "/conf/:slug/"
   fr = "/fr/:filename"
+  ua = "/ua/:filename"
 
 [taxonomies]
   tag = "tags"
