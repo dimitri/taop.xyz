@@ -111,6 +111,15 @@
     </item>
     
     <item>
+      <title>Pev</title>
+      <link>https://theartofpostgresql.com/tags/pev/</link>
+      <pubDate>Wed, 06 Nov 2019 21:45:00 +0200</pubDate>
+      
+      <guid>https://theartofpostgresql.com/tags/pev/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Postgres Open</title>
       <link>https://theartofpostgresql.com/tags/postgres-open/</link>
       <pubDate>Wed, 25 Sep 2019 11:14:00 +0200</pubDate>
@@ -122,9 +131,18 @@
     <item>
       <title>Postgresql</title>
       <link>https://theartofpostgresql.com/tags/postgresql/</link>
-      <pubDate>Mon, 14 Oct 2019 00:05:00 +0200</pubDate>
+      <pubDate>Wed, 06 Nov 2019 21:45:00 +0200</pubDate>
       
       <guid>https://theartofpostgresql.com/tags/postgresql/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Query Plan</title>
+      <link>https://theartofpostgresql.com/tags/query-plan/</link>
+      <pubDate>Wed, 06 Nov 2019 21:45:00 +0200</pubDate>
+      
+      <guid>https://theartofpostgresql.com/tags/query-plan/</guid>
       <description></description>
     </item>
     
@@ -161,6 +179,15 @@
       <pubDate>Sat, 07 Sep 2019 22:55:00 +0200</pubDate>
       
       <guid>https://theartofpostgresql.com/tags/theory/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Visualizer</title>
+      <link>https://theartofpostgresql.com/tags/visualizer/</link>
+      <pubDate>Wed, 06 Nov 2019 21:45:00 +0200</pubDate>
+      
+      <guid>https://theartofpostgresql.com/tags/visualizer/</guid>
       <description></description>
     </item>
     

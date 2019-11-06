@@ -1,5 +1,5 @@
 +++
-date = "2019-11-04T00:05:00+02:00"
+date = "2019-11-06T21:45:00+02:00"
 title = "PostgreSQL Query Plan Visualizer"
 tags = ["PostgreSQL", "Query Plan", "Visualizer", "PEV"]
 coverImage = "/img/hanna-morris-_XXNjSziZuA-unsplash.jpg"
@@ -48,9 +48,7 @@ Visualizer](/explain-plan-visualizer/). You can paste your query and explain
 plan here and see a nice diagram with visual hints to better understand your
 query plans:
 
-<a name="pev"></a>
-
 {{< pev >}}
 
-If you want to paste another query and plan, at the moment you need to
-[reload that page](/explain-plan-visualizer/#pev) and fill-in the form again.
+The PNG saving feature is experimental. It might even work on your browser
+and with your own query plan… sometimes!

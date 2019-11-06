@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Query Plan on The Art of PostgreSQL</title>
+    <link>https://theartofpostgresql.com/tags/query-plan/</link>
+    <description>Recent content in Query Plan on The Art of PostgreSQL</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 06 Nov 2019 21:45:00 +0200</lastBuildDate>
+    
+	<atom:link href="https://theartofpostgresql.com/tags/query-plan/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>PostgreSQL Query Plan Visualizer</title>
+      <link>https://theartofpostgresql.com/explain-plan-visualizer/</link>
+      <pubDate>Wed, 06 Nov 2019 21:45:00 +0200</pubDate>
+      
+      <guid>https://theartofpostgresql.com/explain-plan-visualizer/</guid>
+      <description>Photo by unsplash-logoHanna Morris  Postgres Query Planning PostgreSQL provides advanced tooling to understand how it executes SQL queries. The execution of a query follows specific steps:
+ Parsing Planning Optimization Execution   When it comes to the execution step, all Postgres does is follow the selected optimized plan. It is possible to ask Postgres for the query plan and inspect it, in order to better understand the execution of any query and then when necessary find a way to execute the same query faster.</description>
+    </item>
+    
+  </channel>
+</rss>

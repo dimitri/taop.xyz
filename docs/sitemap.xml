@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://theartofpostgresql.com/explain-plan-visualizer/</loc>
+    <lastmod>2019-11-06T21:45:00+02:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://theartofpostgresql.com/compute-database-size/</loc>
     <lastmod>2019-10-14T00:05:00+02:00</lastmod>
   </url>
@@ -145,7 +150,13 @@
   
   <url>
     <loc>https://theartofpostgresql.com/page/</loc>
-    <lastmod>2019-10-14T00:05:00+02:00</lastmod>
+    <lastmod>2019-11-06T21:45:00+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://theartofpostgresql.com/tags/pev/</loc>
+    <lastmod>2019-11-06T21:45:00+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -157,13 +168,19 @@
   
   <url>
     <loc>https://theartofpostgresql.com/tags/postgresql/</loc>
-    <lastmod>2019-10-14T00:05:00+02:00</lastmod>
+    <lastmod>2019-11-06T21:45:00+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://theartofpostgresql.com/categories/postgresql/</loc>
     <lastmod>2019-09-27T15:15:00+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://theartofpostgresql.com/tags/query-plan/</loc>
+    <lastmod>2019-11-06T21:45:00+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -193,13 +210,19 @@
   
   <url>
     <loc>https://theartofpostgresql.com/</loc>
-    <lastmod>2019-10-14T00:05:00+02:00</lastmod>
+    <lastmod>2019-11-06T21:45:00+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://theartofpostgresql.com/tags/theory/</loc>
     <lastmod>2019-09-07T22:55:00+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://theartofpostgresql.com/tags/visualizer/</loc>
+    <lastmod>2019-11-06T21:45:00+02:00</lastmod>
     <priority>0</priority>
   </url>
   

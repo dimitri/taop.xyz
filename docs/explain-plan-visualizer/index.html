@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta name="generator" content="Hugo 0.50" />
+    <meta charset="utf-8" />
+    <title>The Art of PostgreSQL - PostgreSQL Query Plan Visualizer</title>
+    <meta name="description" content="Photo by unsplash-logoHanna Morris  Postgres Query Planning PostgreSQL provides advanced tooling to understand how it executes SQL queries. The execution of a query follows specific steps:
+ Parsing Planning Optimization Execution   When it comes to the execution step, all Postgres does is follow the selected optimized plan. It is possible to ask Postgres for the query plan and inspect it, in order to better understand the execution of any query and then when necessary find a way to execute the same query faster." />
+
+    
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@tapoueh" />
+    <meta name="twitter:creator" content="@tapoueh" />
+    <meta property="og:url" content="/explain-plan-visualizer/" />
+    <meta
+      property="og:title"
+      content="PostgreSQL Query Plan Visualizer"
+    />
+    <meta
+      property="og:description"
+      content="The book that teaches SQL to developers: Learn to replace thousands of lines of code with simple queries!"
+    />
+    <meta
+      property="og:image"
+      content="https://theartofpostgresql.com/images/hardcover-mockup.jpg"
+    />
+
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, minimum-scale=1.0"
+    />
+
+    <link href="/favicon.ico" rel="icon" type="image/x-icon" />
+
+    <link
+      href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/syntax.css" />
+    <link href="/pggraph/static/css/main.736aaa9f.chunk.css" rel="stylesheet" />
+    <link
+      href="https://unpkg.com/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://unpkg.com/font-awesome@4.7.0/css/font-awesome.css"
+      rel="stylesheet"
+    />
+    <link href="/pev/css/app.8b6a11bc.css" rel="stylesheet" />
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
+    <script src="/js/custom.js"></script>
+  </head>
+  <body class="blog"></body>
+</html>
+
+<header class="header"  style="background-color: #67527a; background: url('/images/demo/slide.jpg');">
+    <div class="wrapper">
+        <a class="logo" href="/">The Art of PostgreSQL</a>
+        
+        <nav>
+            <ul>
+                <li><a data-slide=".subscribe_block" href="/">The Book</a></li>
+                <li><a data-slide=".packages_block" href="/">PACKAGES</a></li>
+                <li><a data-slide=".about_block" href="#">AUTHOR</a></li>
+                <li><a data-slide=".quote_slider" href="/blog/">BLOG</a></li>
+            </ul>
+        </nav>
+        
+    </div>
+    <a data-slide=".price_list" class="button" href="/">PURCHASE</a>
+</header>
+
+
+<div class="single_block">
+    <div class="wrapper">
+        
+        <div class="single_content">
+         <p><img src="/img/hanna-morris-_XXNjSziZuA-unsplash.jpg" alt="" /></p>
+         <h1>PostgreSQL Query Plan Visualizer</h1>         
+
+         
+
+<div>
+    <p style="text-align: right;">
+    Photo by 
+<a style="background-color:black;color:white;text-decoration:none;padding:4px 6px;font-family:-apple-system, BlinkMacSystemFont, &quot;San Francisco&quot;, &quot;Helvetica Neue&quot;, Helvetica, Ubuntu, Roboto, Noto, &quot;Segoe UI&quot;, Arial, sans-serif;font-size:12px;font-weight:bold;line-height:1.2;display:inline-block;border-radius:3px" href="https://unsplash.com/@hcmorr?utm_medium=referral&amp;utm_campaign=photographer-credit&amp;utm_content=creditBadge" target="_blank" rel="noopener noreferrer" title="Download free do whatever you want high-resolution photos from Hanna Morris"><span style="display:inline-block;padding:2px 3px"><svg xmlns="http://www.w3.org/2000/svg" style="height:12px;width:auto;position:relative;vertical-align:middle;top:-2px;fill:white" viewBox="0 0 32 32"><title>unsplash-logo</title><path d="M10 9V0h12v9H10zm12 5h10v18H0V14h10v9h12v-9z"></path></svg></span><span style="display:inline-block;padding:2px 3px">Hanna Morris</span></a>
+   </p>
+</div>
+
+<h2 id="postgres-query-planning">Postgres Query Planning</h2>
+
+<p>PostgreSQL provides advanced tooling to understand how it executes SQL
+queries. The execution of a query follows specific steps:</p>
+
+<ul>
+<li>Parsing</li>
+<li>Planning</li>
+<li>Optimization</li>
+<li>Execution
+<br /></li>
+</ul>
+
+<p>When it comes to the <strong>execution</strong> step, all Postgres does is follow the
+selected optimized plan. It is possible to ask Postgres for the query plan
+and inspect it, in order to better understand the execution of any query and
+then when necessary find a way to execute the same query faster.</p>
+
+<p>There are several ways to make a query execute faster. The best known is
+through indexing. Postgres indexes provide an alternative access path to the
+data, which in some cases involves less work than accessing the rows on the
+<em>heap storage</em> of the tables directly.</p>
+
+<p>Statistics are another important tool to use for making a query execute
+faster with Postgres. Postgres keeps stats about every table and their
+contents, and uses those statistics in the optimization step above. Having
+better statistics, either in quality, in quantity, and sometimes both, can
+help Postgres make better decisions about what an optimal query plan looks
+like.</p>
+
+<h2 id="explain-plan-visualizer">Explain Plan Visualizer</h2>
+
+<p>To help with reading and understanding query plans, you can use the
+<a href="https://github.com/dalibo/pev2">PEV</a> tool, which is Open Source and easy
+enough to integrate in a website. So that&rsquo;s what we did at <a href="/explain-plan-visualizer/">Explain Plan
+Visualizer</a>. You can paste your query and explain
+plan here and see a nice diagram with visual hints to better understand your
+query plans:</p>
+
+<div id=app></div>
+<script src=/pev/js/chunk-vendors.4c62444f.js></script>
+<script src=/pev/js/app.21df73a4.js></script>
+
+<p>The PNG saving feature is experimental. It might even work on your browser
+and with your own query plan… sometimes!</p>
+
+
+            <footer>
+             <p><strong>TAGS:</strong>
+              
+              
+              <a href="https://theartofpostgresql.com/tags/postgresql">PostgreSQL</a>
+              
+              <a href="https://theartofpostgresql.com/tags/query-plan">Query Plan</a>
+              
+              <a href="https://theartofpostgresql.com/tags/visualizer">Visualizer</a>
+              
+              <a href="https://theartofpostgresql.com/tags/pev">PEV</a>
+              
+              
+             </p>
+            </footer>
+
+            <div class="single_subscribe">
+                <p>Subscribe to receive a FREE chapter of the second edition of my book, <b><i>“The Art of PostgreSQL”</i></b> including the full Table of Contents!</p>
+                 <script async data-uid="c1452ad801" src="https://f.convertkit.com/c1452ad801/ad53e74e51.js"></script>
+            </div>
+        </div>
+
+        <aside class="single_sidebar">
+ <h6>RECENT POSTS</h6>
+ <ul>
+ 
+ <li><a class="previous" href="https://theartofpostgresql.com/compute-database-size/"> Compute database size</a></li>
+ 
+ 
+ </ul>
+ 
+ <h6>TAGS</h6>
+ <div class="tag_list">
+  
+   
+     <a href="https://theartofpostgresql.com/tags/postgresql">PostgreSQL</a>
+   
+     <a href="https://theartofpostgresql.com/tags/query-plan">Query Plan</a>
+   
+     <a href="https://theartofpostgresql.com/tags/visualizer">Visualizer</a>
+   
+     <a href="https://theartofpostgresql.com/tags/pev">PEV</a>
+   
+  
+ </div>
+
+ <hr style="margin-top: 2em;"/>
+ 
+
+
+
+<style>
+#share-buttons {display: inline-block; vertical-align: middle; padding-bottom: 1em;}
+#share-buttons:after {content: ""; display: block; clear: both;}
+#share-buttons > div {
+position: relative;
+height: 36px; 
+width: 64px; 
+float: left; 
+text-align: center;
+color: #18181C;
+}
+#share-buttons > div > svg {height: 16px; margin-top: 10px;}
+#share-buttons > div:hover {cursor: pointer;}
+#share-buttons > div.facebook:hover > svg {fill: #3B5998;}
+#share-buttons > div.twitter:hover > svg {fill: #55ACEE;}
+#share-buttons > div.linkedin:hover > svg {fill: #0077b5;}
+#share-buttons > div.pinterest:hover > svg {fill: #CB2027;}
+#share-buttons > div.gplus:hover > svg {fill: #dd4b39;}
+#share-buttons > div.mail:hover > svg {fill: #7D7D7D;}
+#share-buttons > div.instagram:hover > svg {fill: #C73B92;}
+#share-buttons > div.facebook > svg {height: 36px; margin-top: 9px;}
+#share-buttons > div.twitter > svg {height: 40px; margin-top: 8px;}
+#share-buttons > div.linkedin > svg {height: 38px; margin-top: 7px;}
+#share-buttons > div.pinterest > svg {height: 40px; margin-top: 9px;}
+#share-buttons > div.gplus > svg {height: 34px; margin-top: 9px; position: relative; left: 1px;}
+#share-buttons > div.mail > svg {height: 28px; margin-top: 11px;}
+</style>
+
+<div id="share-buttons">
+ <header style="text-align: center">
+  <h3>Share</h3>
+ </header>
+<div class="facebook" title="Share this on Facebook" onclick="window.open('http://www.facebook.com/share.php?u=https:\/\/theartofpostgresql.com\/\/explain-plan-visualizer\/');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1343 12v264h-157q-86 0-116 36t-30 108v189h293l-39 296h-254v759h-306v-759h-255v-296h255v-218q0-186 104-288.5t277-102.5q147 0 228 12z"/></svg></div>
+<div class="twitter" title="Share this on Twitter" onclick="window.open('http://twitter.com/intent/tweet?text=PostgreSQL Query Plan Visualizer&url=https:\/\/theartofpostgresql.com\/\/explain-plan-visualizer\/');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1684 408q-67 98-162 167 1 14 1 42 0 130-38 259.5t-115.5 248.5-184.5 210.5-258 146-323 54.5q-271 0-496-145 35 4 78 4 225 0 401-138-105-2-188-64.5t-114-159.5q33 5 61 5 43 0 85-11-112-23-185.5-111.5t-73.5-205.5v-4q68 38 146 41-66-44-105-115t-39-154q0-88 44-163 121 149 294.5 238.5t371.5 99.5q-8-38-8-74 0-134 94.5-228.5t228.5-94.5q140 0 236 102 109-21 205-78-37 115-142 178 93-10 186-50z"/></svg></div>
+<div class="linkedin" title="Share this on Linkedin" onclick="window.open('https://www.linkedin.com/shareArticle?mini=true&url=https:\/\/theartofpostgresql.com\/\/explain-plan-visualizer\/&title=&summary=&source=');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M477 625v991h-330v-991h330zm21-306q1 73-50.5 122t-135.5 49h-2q-82 0-132-49t-50-122q0-74 51.5-122.5t134.5-48.5 133 48.5 51 122.5zm1166 729v568h-329v-530q0-105-40.5-164.5t-126.5-59.5q-63 0-105.5 34.5t-63.5 85.5q-11 30-11 81v553h-329q2-399 2-647t-1-296l-1-48h329v144h-2q20-32 41-56t56.5-52 87-43.5 114.5-15.5q171 0 275 113.5t104 332.5z"/></svg></div>
+
+
+</div>
+
+
+ <hr style="margin-bottom: 0px;"/>
+
+ <div class="meta" style="padding-bottom: 0px; margin-bottom: 2em;">
+   <ul>
+     <li style="text-align: center">
+       <a href="/compute-database-size/">
+         <img src="/img/growth-icon.png">Compute Database Size</a>
+     </li>
+     <li style="text-align: center">
+       <a href="/explain-plan-visualizer/">
+         <img src="/img/pev-icon.png">Query Plan Visualizer</a>
+     </li>
+   </ul>
+ </div>
+ <hr style="margin-bottom: 0px;"/>
+ 
+ <div class="packages_block">
+  <header class="heading">
+   <h3>The Book</h3>
+   <p class="lightpurple">
+    The Art of PostgreSQL comes in a choice of four packages.</p>
+  </header>
+
+  <ul class="price_list">
+   <li style="max-width: 100%">
+    <div>
+     <h5>Standard Edition</h5>
+     <div class="price">
+      <sup>$</sup>49
+     </div>
+     <p>The real deal, 438 pages of advanced SQL teaching, just for you. You get the PDF version, the ePub version, and the MOBI version too. And the SQL queries as separate files too!</p>
+     <p><a data-slide=".descriptions_list" href="/#">LEARN MORE</a></p>
+     <a class="button button_purple" style="color: white;" href="https://sales.theartofpostgresql.com/standard-edition/">PURCHASE</a>
+    </div>
+   </li>
+
+   <li style="max-width: 100%; margin-top: 3em;" class="bestvalue">
+    <div>
+     <div class="best">MOST POPULAR</div>
+     <h5>Full Edition</h5>
+     <div class="price">
+      <sup>$</sup>99
+     </div>
+     <p>The Full Edition comes with the electronic book package and an archive with a PostgreSQL dump file ready to be restored in your own instance, plus all the 334 queries as separate files for you to run and edit!</p>
+     <p><a data-slide=".descriptions_list" href="/#">LEARN MORE</a></p>
+     <a class="button button_purple" style="color: white;" href="https://sales.theartofpostgresql.com/full-edition/">PURCHASE</a>
+    </div>
+   </li>
+
+   <li style="max-width: 100%">
+    <div>
+     <h5>Dead Tree Edition</h5>
+     <div class="price">
+      <sup>$</sup>129
+     </div>
+     <p>A professionally printed paperback of 480 pages, with the same content. You also have the benefits of the Full Edition including the copy/paste friendly content, the queries, and the database to use to replay the queries from the book!</p>
+     <p><a data-slide=".descriptions_list" href="/#">LEARN MORE</a></p>
+     <a class="button button_purple" style="color: white;" href="https://sales.theartofpostgresql.com/the-dead-tree-edition/">PURCHASE</a>
+    </div>
+   </li>
+
+   <li style="max-width: 100%">
+    <div>
+     <h5>Enterprise Edition</h5>
+     <div class="price">
+      <sup>$</sup>229
+     </div>
+     <p>Everything you need for your whole team to master SQL, including a licence to share the electronic version of the book, the database, the 334 query files and a licence to share everything with up to 15 people in your enterprise!</p>
+     <p><a data-slide=".descriptions_list" href="#">LEARN MORE</a></p>
+     <a class="button button_purple" style="color: white;" href="https://sales.theartofpostgresql.com/enterprise-edition/">PURCHASE</a>
+    </div>
+   </li>
+
+  </ul>
+ </div>
+
+ <hr style="margin-top: 0px;"/>
+ 
+
+
+
+<style>
+#share-buttons {display: inline-block; vertical-align: middle; padding-bottom: 1em;}
+#share-buttons:after {content: ""; display: block; clear: both;}
+#share-buttons > div {
+position: relative;
+height: 36px; 
+width: 64px; 
+float: left; 
+text-align: center;
+color: #18181C;
+}
+#share-buttons > div > svg {height: 16px; margin-top: 10px;}
+#share-buttons > div:hover {cursor: pointer;}
+#share-buttons > div.facebook:hover > svg {fill: #3B5998;}
+#share-buttons > div.twitter:hover > svg {fill: #55ACEE;}
+#share-buttons > div.linkedin:hover > svg {fill: #0077b5;}
+#share-buttons > div.pinterest:hover > svg {fill: #CB2027;}
+#share-buttons > div.gplus:hover > svg {fill: #dd4b39;}
+#share-buttons > div.mail:hover > svg {fill: #7D7D7D;}
+#share-buttons > div.instagram:hover > svg {fill: #C73B92;}
+#share-buttons > div.facebook > svg {height: 36px; margin-top: 9px;}
+#share-buttons > div.twitter > svg {height: 40px; margin-top: 8px;}
+#share-buttons > div.linkedin > svg {height: 38px; margin-top: 7px;}
+#share-buttons > div.pinterest > svg {height: 40px; margin-top: 9px;}
+#share-buttons > div.gplus > svg {height: 34px; margin-top: 9px; position: relative; left: 1px;}
+#share-buttons > div.mail > svg {height: 28px; margin-top: 11px;}
+</style>
+
+<div id="share-buttons">
+ <header style="text-align: center">
+  <h3>Share</h3>
+ </header>
+<div class="facebook" title="Share this on Facebook" onclick="window.open('http://www.facebook.com/share.php?u=https:\/\/theartofpostgresql.com\/\/explain-plan-visualizer\/');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1343 12v264h-157q-86 0-116 36t-30 108v189h293l-39 296h-254v759h-306v-759h-255v-296h255v-218q0-186 104-288.5t277-102.5q147 0 228 12z"/></svg></div>
+<div class="twitter" title="Share this on Twitter" onclick="window.open('http://twitter.com/intent/tweet?text=PostgreSQL Query Plan Visualizer&url=https:\/\/theartofpostgresql.com\/\/explain-plan-visualizer\/');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1684 408q-67 98-162 167 1 14 1 42 0 130-38 259.5t-115.5 248.5-184.5 210.5-258 146-323 54.5q-271 0-496-145 35 4 78 4 225 0 401-138-105-2-188-64.5t-114-159.5q33 5 61 5 43 0 85-11-112-23-185.5-111.5t-73.5-205.5v-4q68 38 146 41-66-44-105-115t-39-154q0-88 44-163 121 149 294.5 238.5t371.5 99.5q-8-38-8-74 0-134 94.5-228.5t228.5-94.5q140 0 236 102 109-21 205-78-37 115-142 178 93-10 186-50z"/></svg></div>
+<div class="linkedin" title="Share this on Linkedin" onclick="window.open('https://www.linkedin.com/shareArticle?mini=true&url=https:\/\/theartofpostgresql.com\/\/explain-plan-visualizer\/&title=&summary=&source=');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M477 625v991h-330v-991h330zm21-306q1 73-50.5 122t-135.5 49h-2q-82 0-132-49t-50-122q0-74 51.5-122.5t134.5-48.5 133 48.5 51 122.5zm1166 729v568h-329v-530q0-105-40.5-164.5t-126.5-59.5q-63 0-105.5 34.5t-63.5 85.5q-11 30-11 81v553h-329q2-399 2-647t-1-296l-1-48h329v144h-2q20-32 41-56t56.5-52 87-43.5 114.5-15.5q171 0 275 113.5t104 332.5z"/></svg></div>
+
+
+</div>
+
+
+
+</aside>
+
+
+    </div>
+</div>            
+         
+ 
+
+<footer class="footer">
+	<div class="wrapper">
+	    <div class="about_block">
+	        <h6>about the author</h6>
+	        <p>Hi! My name is Dimitri Fontaine and I have been using and contributing to Open Source Software for the best of the last 20 years. I am a PostgreSQL Major Contributor after having contributed Extensions and Event Triggers, among other things.</p>
+	        <p>I have been writing code almost daily for a very long time now, both in a professional capacity and on my leisure time. I&rsquo;ve also been a database architect and a DBA on-call. As a developer I enjoy using SQL. As a database architect, I like teaching advanced SQL techniques to my colleagues.</p>
+	        <ul>
+	            <li><a target="_blank" href="mailto:dim@tapoueh.org">email</a></li>
+	            <li><a target="_blank" href="https://twitter.com/tapoueh">twitter</a></li>
+	            <li><a target="_blank" href="https://github.com/dimitri">github</a></li>
+	            <li><a target="_blank" href="https://www.reddit.com/user/theartofpostgresql">reddit</a></li>
+	        </ul>
+    	</div>
+	    <div class="faq_block">
+            <h6>FAQ</h6>
+	        <dl>
+	           <dt>What if the book isn&rsquo;t what I expected it would be?</dt>
+	           <dd>The Art of PostgreSQL is a book that teaches SQL to application developers. If it's not of any value to you, then just say so and I'll refund you, no questions asked.</dd>
+	           <dt>I bought the book, and I'm confused. What now?</dt>
+	           <dd>The content of the book is available as a PDF, ePub and MOBI file, and you can also download the SQL queries. The content is available over at <a href="https://postgresql.thinkific.com/enrollments" target="_">https://postgresql.thinkific.com/</a> from your student dashboard.</dd>
+	           <dt>Is there any DRM?</dt>
+	           <dd>No. There isn't even watermarking on the PDF. You own what you buy. The sources of data selected for the book are all available with Open Data types of licenses, and the book itself is copyright Dimitri Fontaine. All rights reserved.</dd>
+	           <dt>Any other questions?</dt>
+	           <dd>Contact me by <a href="mailto:dim@tapoueh.org">email</a> and just ask! I will do my best to answer you.</dd>
+	        </dl>
+                <div style="font-size: 150%; margin-top: 3em;">
+                  <h6>Languages</h6>
+                  <a href="/">🇬🇧</a>
+                  <a href="/fr/">🇫🇷</a>
+                </div>  
+    	    </div>            
+	</div>
+</footer>
+
+
+
+
+
+
+<div class="copyright">
+    <div class="wrapper">
+        Copyright 2019 &copy; Dimitri Fontaine. All rights reserved. Design by <a style="color: white; font-weight: bold;" target="_blank" href="https://www.terrilowry.com">TerriLowry.com.</a>
+    </div>
+</div>
+
+
+</body>
+
+
+<script type="text/javascript">
+  var subscribersSiteId='1296f531-7ba0-406f-89e1-bdca40a36208';
+</script>
+<script type="text/javascript"
+        src="https://cdn.subscribers.com/assets/subscribers.js">
+</script>
+ 
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-47059482-5"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-47059482-5');
+</script>
+
+
+<script>
+!function(e,t,n,s,u,a){e.twq||(s=e.twq=function(){s.exe?s.exe.apply(s,arguments):s.queue.push(arguments);
+},s.version='1.1',s.queue=[],u=t.createElement(n),u.async=!0,u.src='//static.ads-twitter.com/uwt.js',
+a=t.getElementsByTagName(n)[0],a.parentNode.insertBefore(u,a))}(window,document,'script');
+
+twq('init','o0ial');
+twq('track','PageView');
+</script>
+
+
+</html> 
+
