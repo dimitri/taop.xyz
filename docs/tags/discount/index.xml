@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Discount on The Art of PostgreSQL</title>
+    <link>https://theartofpostgresql.com/tags/discount/</link>
+    <description>Recent content in Discount on The Art of PostgreSQL</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 29 Nov 2019 17:15:00 +0200</lastBuildDate>
+    
+	<atom:link href="https://theartofpostgresql.com/tags/discount/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Black Friday &amp; Cyber Monday</title>
+      <link>https://theartofpostgresql.com/blog/2019-11-black-friday/</link>
+      <pubDate>Fri, 29 Nov 2019 17:15:00 +0200</pubDate>
+      
+      <guid>https://theartofpostgresql.com/blog/2019-11-black-friday/</guid>
+      <description>Photo by Alberto Bigoni unsplash-logoAlberto Bigoni  Today is Black Friday, then followed by a week end that leads directly to Cyber Monday. This is a period where you can find great deals online, with many discounts. I&amp;rsquo;ll make it short, because we all are busy, right?
+From today to Monday included my book The Art of PostgreSQL is available at a 50% discount with the coupon “BLACKFRIDAY2019”. Enjoy!</description>
+    </item>
+    
+  </channel>
+</rss>
