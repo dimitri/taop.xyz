@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://theartofpostgresql.com/blog/2019-12-25-pgdayparis/</loc>
+    <lastmod>2019-12-25T23:15:00+02:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://theartofpostgresql.com/blog/2019-11-black-friday/</loc>
     <lastmod>2019-11-29T17:15:00+02:00</lastmod>
   </url>
@@ -90,7 +95,7 @@
   
   <url>
     <loc>https://theartofpostgresql.com/blog/</loc>
-    <lastmod>2019-11-29T17:15:00+02:00</lastmod>
+    <lastmod>2019-12-25T23:15:00+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -107,7 +112,7 @@
   
   <url>
     <loc>https://theartofpostgresql.com/tags/conference/</loc>
-    <lastmod>2019-09-25T11:14:00+02:00</lastmod>
+    <lastmod>2019-12-25T23:15:00+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -172,6 +177,12 @@
   </url>
   
   <url>
+    <loc>https://theartofpostgresql.com/tags/pgday-paris/</loc>
+    <lastmod>2019-12-25T23:15:00+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://theartofpostgresql.com/tags/postgres-open/</loc>
     <lastmod>2019-09-25T11:14:00+02:00</lastmod>
     <priority>0</priority>
@@ -185,7 +196,7 @@
   
   <url>
     <loc>https://theartofpostgresql.com/categories/postgresql/</loc>
-    <lastmod>2019-11-29T17:15:00+02:00</lastmod>
+    <lastmod>2019-12-25T23:15:00+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -197,13 +208,13 @@
   
   <url>
     <loc>https://theartofpostgresql.com/tags/relation/</loc>
-    <lastmod>2019-09-25T11:14:00+02:00</lastmod>
+    <lastmod>2019-12-25T23:15:00+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://theartofpostgresql.com/tags/sql/</loc>
-    <lastmod>2019-09-27T15:15:00+02:00</lastmod>
+    <lastmod>2019-12-25T23:15:00+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -221,7 +232,7 @@
   
   <url>
     <loc>https://theartofpostgresql.com/</loc>
-    <lastmod>2019-11-29T17:15:00+02:00</lastmod>
+    <lastmod>2019-12-25T23:15:00+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -245,7 +256,7 @@
   
   <url>
     <loc>https://theartofpostgresql.com/categories/yesql/</loc>
-    <lastmod>2019-11-29T17:15:00+02:00</lastmod>
+    <lastmod>2019-12-25T23:15:00+02:00</lastmod>
     <priority>0</priority>
   </url>
   

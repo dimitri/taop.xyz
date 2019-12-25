@@ -6,10 +6,37 @@
     <description>Recent content in Relation on The Art of PostgreSQL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 25 Sep 2019 11:14:00 +0200</lastBuildDate>
+    <lastBuildDate>Wed, 25 Dec 2019 23:15:00 +0200</lastBuildDate>
     
 	<atom:link href="https://theartofpostgresql.com/tags/relation/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>pgDay Paris 2019 presentation: How to write SQL queries?</title>
+      <link>https://theartofpostgresql.com/blog/2019-12-25-pgdayparis/</link>
+      <pubDate>Wed, 25 Dec 2019 23:15:00 +0200</pubDate>
+      
+      <guid>https://theartofpostgresql.com/blog/2019-12-25-pgdayparis/</guid>
+      <description>&lt;p&gt;The videos from &lt;a href=&#34;https://2019.pgday.paris&#34;&gt;pgDay Paris 2019&lt;/a&gt; are online, and
+they look stunning! If you&amp;rsquo;ve been to the conference, you will be able to
+enjoy great memories, and if you&amp;rsquo;ve not been there, you can now enjoy all
+the fine content that was recorded there at the &lt;a href=&#34;https://www.youtube.com/channel/UCiOSEHQe91goxYNJDjj2rLw/videos&#34;&gt;Youtube Channel for
+pgDay.Paris&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;This year at pgday Paris I tried something new. My presentation was
+interactive, and I&amp;rsquo;ve been writing queries together with the audience,
+making mistakes, loosing keystrokes and having all the fun!&lt;/p&gt;
+
+&lt;p&gt;The idea behind looking like a fool writing queries in front of an audience
+was to show the process behind those elegant queries that we tend to share
+in one piece, on a slide where they shine, beautifully indented. We don&amp;rsquo;t
+get to those queries writing them like we would prose. It takes multiple
+iterations to get there. From something quite simple to something more and
+more sophisticated, until we have exactly the result set we are interested
+in.&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>The Art of PostgreSQL: The Transcript, part III</title>
