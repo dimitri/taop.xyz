@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on The Art of PostgreSQL</title>
@@ -6,17 +6,85 @@
     <description>Recent content in Tags on The Art of PostgreSQL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 07 Sep 2019 22:00:00 +0200</lastBuildDate>
-    
-	<atom:link href="https://theartofpostgresql.com/tags/index.xml" rel="self" type="application/rss+xml" />
-    
+    <lastBuildDate>Wed, 25 Dec 2019 23:15:00 +0200</lastBuildDate><atom:link href="https://theartofpostgresql.com/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Conference</title>
+      <link>https://theartofpostgresql.com/tags/conference/</link>
+      <pubDate>Wed, 25 Dec 2019 23:15:00 +0200</pubDate>
+      
+      <guid>https://theartofpostgresql.com/tags/conference/</guid>
+      <description></description>
+    </item>
     
     <item>
-      <title>Aggregate</title>
-      <link>https://theartofpostgresql.com/tags/aggregate/</link>
-      <pubDate>Sat, 07 Sep 2019 22:00:00 +0200</pubDate>
+      <title>pgDay Paris</title>
+      <link>https://theartofpostgresql.com/tags/pgday-paris/</link>
+      <pubDate>Wed, 25 Dec 2019 23:15:00 +0200</pubDate>
       
-      <guid>https://theartofpostgresql.com/tags/aggregate/</guid>
+      <guid>https://theartofpostgresql.com/tags/pgday-paris/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Relation</title>
+      <link>https://theartofpostgresql.com/tags/relation/</link>
+      <pubDate>Wed, 25 Dec 2019 23:15:00 +0200</pubDate>
+      
+      <guid>https://theartofpostgresql.com/tags/relation/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>SQL</title>
+      <link>https://theartofpostgresql.com/tags/sql/</link>
+      <pubDate>Wed, 25 Dec 2019 23:15:00 +0200</pubDate>
+      
+      <guid>https://theartofpostgresql.com/tags/sql/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Discount</title>
+      <link>https://theartofpostgresql.com/tags/discount/</link>
+      <pubDate>Fri, 29 Nov 2019 17:15:00 +0200</pubDate>
+      
+      <guid>https://theartofpostgresql.com/tags/discount/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>PEV</title>
+      <link>https://theartofpostgresql.com/tags/pev/</link>
+      <pubDate>Wed, 06 Nov 2019 21:45:00 +0200</pubDate>
+      
+      <guid>https://theartofpostgresql.com/tags/pev/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>PostgreSQL</title>
+      <link>https://theartofpostgresql.com/tags/postgresql/</link>
+      <pubDate>Wed, 06 Nov 2019 21:45:00 +0200</pubDate>
+      
+      <guid>https://theartofpostgresql.com/tags/postgresql/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Query Plan</title>
+      <link>https://theartofpostgresql.com/tags/query-plan/</link>
+      <pubDate>Wed, 06 Nov 2019 21:45:00 +0200</pubDate>
+      
+      <guid>https://theartofpostgresql.com/tags/query-plan/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Visualizer</title>
+      <link>https://theartofpostgresql.com/tags/visualizer/</link>
+      <pubDate>Wed, 06 Nov 2019 21:45:00 +0200</pubDate>
+      
+      <guid>https://theartofpostgresql.com/tags/visualizer/</guid>
       <description></description>
     </item>
     
@@ -26,24 +94,6 @@
       <pubDate>Mon, 14 Oct 2019 00:05:00 +0200</pubDate>
       
       <guid>https://theartofpostgresql.com/tags/archiving/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Composition</title>
-      <link>https://theartofpostgresql.com/tags/composition/</link>
-      <pubDate>Sat, 07 Sep 2019 21:30:00 +0200</pubDate>
-      
-      <guid>https://theartofpostgresql.com/tags/composition/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Conference</title>
-      <link>https://theartofpostgresql.com/tags/conference/</link>
-      <pubDate>Wed, 25 Dec 2019 23:15:00 +0200</pubDate>
-      
-      <guid>https://theartofpostgresql.com/tags/conference/</guid>
       <description></description>
     </item>
     
@@ -66,119 +116,11 @@
     </item>
     
     <item>
-      <title>Discount</title>
-      <link>https://theartofpostgresql.com/tags/discount/</link>
-      <pubDate>Fri, 29 Nov 2019 17:15:00 +0200</pubDate>
-      
-      <guid>https://theartofpostgresql.com/tags/discount/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Join</title>
-      <link>https://theartofpostgresql.com/tags/join/</link>
-      <pubDate>Sat, 07 Sep 2019 21:30:00 +0200</pubDate>
-      
-      <guid>https://theartofpostgresql.com/tags/join/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Learn Postgresql</title>
-      <link>https://theartofpostgresql.com/tags/learn-postgresql/</link>
-      <pubDate>Tue, 17 Sep 2019 00:15:00 +0200</pubDate>
-      
-      <guid>https://theartofpostgresql.com/tags/learn-postgresql/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Learn Sql</title>
-      <link>https://theartofpostgresql.com/tags/learn-sql/</link>
-      <pubDate>Tue, 17 Sep 2019 00:15:00 +0200</pubDate>
-      
-      <guid>https://theartofpostgresql.com/tags/learn-sql/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>Normalisation</title>
       <link>https://theartofpostgresql.com/tags/normalisation/</link>
       <pubDate>Mon, 14 Oct 2019 00:05:00 +0200</pubDate>
       
       <guid>https://theartofpostgresql.com/tags/normalisation/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Orm</title>
-      <link>https://theartofpostgresql.com/tags/orm/</link>
-      <pubDate>Sat, 07 Sep 2019 22:55:00 +0200</pubDate>
-      
-      <guid>https://theartofpostgresql.com/tags/orm/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Pev</title>
-      <link>https://theartofpostgresql.com/tags/pev/</link>
-      <pubDate>Wed, 06 Nov 2019 21:45:00 +0200</pubDate>
-      
-      <guid>https://theartofpostgresql.com/tags/pev/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Pgday Paris</title>
-      <link>https://theartofpostgresql.com/tags/pgday-paris/</link>
-      <pubDate>Wed, 25 Dec 2019 23:15:00 +0200</pubDate>
-      
-      <guid>https://theartofpostgresql.com/tags/pgday-paris/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Postgres Open</title>
-      <link>https://theartofpostgresql.com/tags/postgres-open/</link>
-      <pubDate>Wed, 25 Sep 2019 11:14:00 +0200</pubDate>
-      
-      <guid>https://theartofpostgresql.com/tags/postgres-open/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Postgresql</title>
-      <link>https://theartofpostgresql.com/tags/postgresql/</link>
-      <pubDate>Wed, 06 Nov 2019 21:45:00 +0200</pubDate>
-      
-      <guid>https://theartofpostgresql.com/tags/postgresql/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Query Plan</title>
-      <link>https://theartofpostgresql.com/tags/query-plan/</link>
-      <pubDate>Wed, 06 Nov 2019 21:45:00 +0200</pubDate>
-      
-      <guid>https://theartofpostgresql.com/tags/query-plan/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Relation</title>
-      <link>https://theartofpostgresql.com/tags/relation/</link>
-      <pubDate>Wed, 25 Dec 2019 23:15:00 +0200</pubDate>
-      
-      <guid>https://theartofpostgresql.com/tags/relation/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Sql</title>
-      <link>https://theartofpostgresql.com/tags/sql/</link>
-      <pubDate>Wed, 25 Dec 2019 23:15:00 +0200</pubDate>
-      
-      <guid>https://theartofpostgresql.com/tags/sql/</guid>
       <description></description>
     </item>
     
@@ -192,6 +134,51 @@
     </item>
     
     <item>
+      <title>Why PostgreSQL?</title>
+      <link>https://theartofpostgresql.com/tags/why-postgresql/</link>
+      <pubDate>Fri, 27 Sep 2019 15:15:00 +0200</pubDate>
+      
+      <guid>https://theartofpostgresql.com/tags/why-postgresql/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Postgres Open</title>
+      <link>https://theartofpostgresql.com/tags/postgres-open/</link>
+      <pubDate>Wed, 25 Sep 2019 11:14:00 +0200</pubDate>
+      
+      <guid>https://theartofpostgresql.com/tags/postgres-open/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Learn PostgreSQL</title>
+      <link>https://theartofpostgresql.com/tags/learn-postgresql/</link>
+      <pubDate>Tue, 17 Sep 2019 00:15:00 +0200</pubDate>
+      
+      <guid>https://theartofpostgresql.com/tags/learn-postgresql/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Learn SQL</title>
+      <link>https://theartofpostgresql.com/tags/learn-sql/</link>
+      <pubDate>Tue, 17 Sep 2019 00:15:00 +0200</pubDate>
+      
+      <guid>https://theartofpostgresql.com/tags/learn-sql/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>ORM</title>
+      <link>https://theartofpostgresql.com/tags/orm/</link>
+      <pubDate>Sat, 07 Sep 2019 22:55:00 +0200</pubDate>
+      
+      <guid>https://theartofpostgresql.com/tags/orm/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Theory</title>
       <link>https://theartofpostgresql.com/tags/theory/</link>
       <pubDate>Sat, 07 Sep 2019 22:55:00 +0200</pubDate>
@@ -201,20 +188,29 @@
     </item>
     
     <item>
-      <title>Visualizer</title>
-      <link>https://theartofpostgresql.com/tags/visualizer/</link>
-      <pubDate>Wed, 06 Nov 2019 21:45:00 +0200</pubDate>
+      <title>Aggregate</title>
+      <link>https://theartofpostgresql.com/tags/aggregate/</link>
+      <pubDate>Sat, 07 Sep 2019 22:00:00 +0200</pubDate>
       
-      <guid>https://theartofpostgresql.com/tags/visualizer/</guid>
+      <guid>https://theartofpostgresql.com/tags/aggregate/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>Why Postgresql</title>
-      <link>https://theartofpostgresql.com/tags/why-postgresql/</link>
-      <pubDate>Fri, 27 Sep 2019 15:15:00 +0200</pubDate>
+      <title>Composition</title>
+      <link>https://theartofpostgresql.com/tags/composition/</link>
+      <pubDate>Sat, 07 Sep 2019 21:30:00 +0200</pubDate>
       
-      <guid>https://theartofpostgresql.com/tags/why-postgresql/</guid>
+      <guid>https://theartofpostgresql.com/tags/composition/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>JOIN</title>
+      <link>https://theartofpostgresql.com/tags/join/</link>
+      <pubDate>Sat, 07 Sep 2019 21:30:00 +0200</pubDate>
+      
+      <guid>https://theartofpostgresql.com/tags/join/</guid>
       <description></description>
     </item>
     

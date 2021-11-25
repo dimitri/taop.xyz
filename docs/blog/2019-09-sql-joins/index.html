@@ -7,9 +7,7 @@
     <meta name="description" content="It took me quite some time before I could reason efficiently about SQL
 JOINs. And I must admit, the set theory diagrams never helped me really
 understand JOINs in SQL. So today, I want to help you understand JOINs in a
-different way, hoping to make the concept click at once for you too!
-
-" />
+different way, hoping to make the concept click at once for you too!" />
 
     
     <meta name="twitter:card" content="summary" />
@@ -89,34 +87,26 @@ different way, hoping to make the concept click at once for you too!
 JOINs. And I must admit, the set theory diagrams never helped me really
 understand JOINs in SQL. So today, I want to help you understand JOINs in a
 different way, hoping to make the concept click at once for you too!</p>
-
-<p></p>
-
 <p>As we saw in the previous article <a href="/blog/2019-09-sql-relations/">What is an SQL
 relation?</a>, in SQL a relation is a collection
 of objects, all sharing the same definition. SQL introduces relations and
 operators to <em>compose</em> them.</p>
-
 <p>In mathematics, you can define a new function <code>H</code> as being the result of
 applying <code>F</code> to some object, and then <code>G</code> to the result of the previous
 operation. We then note that <code>H = F ∘ G</code> and it means that <code>H(x) = F(G(x))</code>.
 Functional programing languages all have a way to express this kind of
 composition. This allows to build a new function from simpler ones.</p>
-
 <p>In SQL we compose relations: we build a new relation from two existing ones.
 Remember, a relation is a collection of objects. How would you compose two
 collections of objects together to form a new collection of objects?</p>
-
 <p>There aren&rsquo;t that many ways to do it. Both input collections have objects of
 certain properties, or attributes. You typically want to build a new
 collection of objects that would have properties from the two collections,
 right?</p>
-
 <p>That&rsquo;s it. That&rsquo;s a SQL JOIN.</p>
-
 <p>Let&rsquo;s see an example, taken from my book <a href="https://theartofpostgresql.com">The Art of
 PostgreSQL</a>:</p>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#586e75">-- name: list-albums-by-artist
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#586e75">-- name: list-albums-by-artist
 </span><span style="color:#586e75">-- List the album titles and duration of a given artist
 </span><span style="color:#586e75"></span>  <span style="color:#719e07">select</span> album.title <span style="color:#719e07">as</span> album,
          <span style="color:#719e07">sum</span>(milliseconds) <span style="color:#719e07">*</span> <span style="color:#b58900">interval</span> <span style="color:#2aa198">&#39;1 ms&#39;</span> <span style="color:#719e07">as</span> duration
@@ -125,32 +115,29 @@ PostgreSQL</a>:</p>
          <span style="color:#719e07">left</span> <span style="color:#719e07">join</span> track <span style="color:#719e07">using</span>(albumid)
    <span style="color:#719e07">where</span> artist.name <span style="color:#719e07">=</span> <span style="color:#2aa198">&#39;Red Hot Chili Peppers&#39;</span>
 <span style="color:#719e07">group</span> <span style="color:#719e07">by</span> album
-<span style="color:#719e07">order</span> <span style="color:#719e07">by</span> album;</code></pre></div>
-<p>In this query we build a new relation that is a composition of the objects
+<span style="color:#719e07">order</span> <span style="color:#719e07">by</span> album;
+</code></pre></div><p>In this query we build a new relation that is a composition of the objects
 found in the collection <code>ALBUM</code> with the objects found in the collection
 <code>ARTIST</code>. The result is a new collection of objects where we have both the
 properties of the album and the artist, and we enrich albums with the artist
 of the same <code>artistid</code>.</p>
-
 <p>This <code>JOIN</code> that you see in the query, that&rsquo;s all it means. For each album,
 we add the information from the artist that shares the same <code>artistid</code>. In
 that case, we expect a single artist per album, so that&rsquo;s even easier.</p>
-
 <p>Next, we have a <code>LEFT JOIN</code> that composes this new relation with the
 collection of track objects. We build a new collection of objects that have
 all the properties of the <code>ALBUM</code>, the <code>ARTIST</code> and the <code>TRACK</code>.</p>
-
 <p>I will dive in the other parts of the query in other articles! Here&rsquo;s the
 new relation we have defined with the SQL query above:</p>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql">┌───────────────────────┬──────────────────────────────┐
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql">┌───────────────────────┬──────────────────────────────┐
 │         album         │           duration           │
 ├───────────────────────┼──────────────────────────────┤
 │ Blood Sugar Sex Magik │ <span style="color:#719e07">@</span> <span style="color:#2aa198">1</span> hour <span style="color:#2aa198">13</span> mins <span style="color:#2aa198">57</span>.<span style="color:#2aa198">073</span> secs │
 │ <span style="color:#719e07">By</span> The Way            │ <span style="color:#719e07">@</span> <span style="color:#2aa198">1</span> hour <span style="color:#2aa198">8</span> mins <span style="color:#2aa198">49</span>.<span style="color:#2aa198">951</span> secs  │
 │ Californication       │ <span style="color:#719e07">@</span> <span style="color:#2aa198">56</span> mins <span style="color:#2aa198">25</span>.<span style="color:#2aa198">461</span> secs        │
 └───────────────────────┴──────────────────────────────┘
-(<span style="color:#2aa198">3</span> <span style="color:#719e07">rows</span>)</code></pre></div>
-<p>Check out my book <a href="https://theartofpostgresql.com">The Art of PostgreSQL</a>
+(<span style="color:#2aa198">3</span> <span style="color:#719e07">rows</span>)
+</code></pre></div><p>Check out my book <a href="https://theartofpostgresql.com">The Art of PostgreSQL</a>
 where you can learn how to put SQL to good use when coding your application!</p>
 
             <footer>

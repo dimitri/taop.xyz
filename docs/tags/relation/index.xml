@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Relation on The Art of PostgreSQL</title>
@@ -6,11 +6,7 @@
     <description>Recent content in Relation on The Art of PostgreSQL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 25 Dec 2019 23:15:00 +0200</lastBuildDate>
-    
-	<atom:link href="https://theartofpostgresql.com/tags/relation/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Wed, 25 Dec 2019 23:15:00 +0200</lastBuildDate><atom:link href="https://theartofpostgresql.com/tags/relation/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>pgDay Paris 2019 presentation: How to write SQL queries?</title>
       <link>https://theartofpostgresql.com/blog/2019-12-25-pgdayparis/</link>
@@ -22,20 +18,16 @@ they look stunning! If you&amp;rsquo;ve been to the conference, you will be able
 enjoy great memories, and if you&amp;rsquo;ve not been there, you can now enjoy all
 the fine content that was recorded there at the &lt;a href=&#34;https://www.youtube.com/channel/UCiOSEHQe91goxYNJDjj2rLw/videos&#34;&gt;Youtube Channel for
 pgDay.Paris&lt;/a&gt;.&lt;/p&gt;
-
 &lt;p&gt;This year at pgday Paris I tried something new. My presentation was
 interactive, and I&amp;rsquo;ve been writing queries together with the audience,
 making mistakes, loosing keystrokes and having all the fun!&lt;/p&gt;
-
 &lt;p&gt;The idea behind looking like a fool writing queries in front of an audience
 was to show the process behind those elegant queries that we tend to share
 in one piece, on a slide where they shine, beautifully indented. We don&amp;rsquo;t
 get to those queries writing them like we would prose. It takes multiple
 iterations to get there. From something quite simple to something more and
 more sophisticated, until we have exactly the result set we are interested
-in.&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
+in.&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -48,9 +40,7 @@ in.&lt;/p&gt;
 titled the same as the book: &lt;a href=&#34;https://theartofpostgresql.com&#34;&gt;The Art of
 PostgreSQL&lt;/a&gt;. It&amp;rsquo;s availble as a video online
 at Youtube if you want to watch the slides and listen to it, and it even has
-a subtext!&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
+a subtext!&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -63,9 +53,7 @@ a subtext!&lt;/p&gt;
 titled the same as the book: &lt;a href=&#34;https://theartofpostgresql.com&#34;&gt;The Art of
 PostgreSQL&lt;/a&gt;. It&amp;rsquo;s availble as a video online
 at Youtube if you want to watch the slides and listen to it, and it even has
-a subtext!&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
+a subtext!&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -78,9 +66,7 @@ a subtext!&lt;/p&gt;
 titled the same as the book: &lt;a href=&#34;https://theartofpostgresql.com&#34;&gt;The Art of
 PostgreSQL&lt;/a&gt;. It&amp;rsquo;s availble as a video online
 at Youtube if you want to watch the slides and listen to it, and it even has
-a subtext!&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
+a subtext!&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -95,15 +81,11 @@ Or at least have a pretty clear idea of a skeleton to tweak until it gives
 the result set you expect. So instead of working on your SQL query, you
 google &lt;a href=&#34;#&#34;&gt;How to write a SQL query?&lt;/a&gt; or maybe even &lt;a href=&#34;#&#34;&gt;How to learn SQL?&lt;/a&gt;
 Right. I feel you, I&amp;rsquo;ve been there too, even if quite some time ago…&lt;/p&gt;
-
 &lt;p&gt;So here my article where I teach you how to learn SQL.&lt;/p&gt;
-
 &lt;p&gt;I want to share with you how I did it, and how I continue to do it. There&amp;rsquo;s
 no magic secret sauce to it though, it&amp;rsquo;s all basic work. Again, we have to
 learn the main concepts and how they play together, then practice simple
-steps, and then build from there.&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
+steps, and then build from there.&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -115,12 +97,9 @@ steps, and then build from there.&lt;/p&gt;
       <description>&lt;p&gt;Ok, let&amp;rsquo;s face it, I like SQL. A lot. I think it&amp;rsquo;s a fine DSL given how
 powerful it is, and I respect its initial goal to attract non developers and
 try to build English sentences rather than code.&lt;/p&gt;
-
 &lt;p&gt;Also, I understand that manually hydrating your collection of objects in
 your backend developement language is not the best use of your time. And
-that building SQL as strings makes your code ugly. I get it.&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
+that building SQL as strings makes your code ugly. I get it.&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -133,18 +112,14 @@ that building SQL as strings makes your code ugly. I get it.&lt;/p&gt;
 relation?&lt;/a&gt; and &lt;a href=&#34;https://theartofpostgresql.com/blog/2019-09-sql-joins/&#34;&gt;What is a SQL
 JOIN?&lt;/a&gt;. Today, I want to show you what is an
 aggregate in SQL.&lt;/p&gt;
-
 &lt;p&gt;You might have heard about Map/Reduce when Google made it famous, or maybe
 some years before, or maybe some years later. The general processing
 functions &lt;code&gt;map&lt;/code&gt; and &lt;code&gt;reduce&lt;/code&gt; where invented a very long time ago. The
 novelty from the advertising giant was in using them in a heavily
 distributed programming context.&lt;/p&gt;
-
 &lt;p&gt;With &lt;code&gt;map&lt;/code&gt; you apply the same processing to every object in a collection.
 With &lt;code&gt;reduce&lt;/code&gt;, you compute a result per collection of object. In SQL we know
-how to do that too, and we call that an aggregate.&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
+how to do that too, and we call that an aggregate.&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -156,9 +131,7 @@ how to do that too, and we call that an aggregate.&lt;/p&gt;
       <description>&lt;p&gt;It took me quite some time before I could reason efficiently about SQL
 JOINs. And I must admit, the set theory diagrams never helped me really
 understand JOINs in SQL. So today, I want to help you understand JOINs in a
-different way, hoping to make the concept click at once for you too!&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
+different way, hoping to make the concept click at once for you too!&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -171,17 +144,13 @@ different way, hoping to make the concept click at once for you too!&lt;/p&gt;
 efforts. It took me years to get a good mental model of how SQL queries are
 implemented, and then up from the lower levels, to build a mental model of
 how to reason in SQL.&lt;/p&gt;
-
 &lt;p&gt;Nowadays, in most case, I can think in terms of SQL and write queries that
 will give me the result set I need. In most cases, because some parts of SQL
 are still complex, and I don&amp;rsquo;t practice as much as I used to. In particular,
 newer PostgreSQL features are areas I still need to work with more before I
 can integrate them in my daily workflow.&lt;/p&gt;
-
 &lt;p&gt;Today, I want to introduce the central concept of the SQL language. What is
-an SQL relation?&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
+an SQL relation?&lt;/p&gt;</description>
     </item>
     
   </channel>

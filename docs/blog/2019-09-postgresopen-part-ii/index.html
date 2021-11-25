@@ -8,9 +8,7 @@
 titled the same as the book: The Art of
 PostgreSQL. It&rsquo;s availble as a video online
 at Youtube if you want to watch the slides and listen to it, and it even has
-a subtext!
-
-" />
+a subtext!" />
 
     
     <meta name="twitter:card" content="summary" />
@@ -91,44 +89,29 @@ titled the same as the book: <a href="https://theartofpostgresql.com">The Art of
 PostgreSQL</a>. It&rsquo;s availble as a video online
 at Youtube if you want to watch the slides and listen to it, and it even has
 a subtext!</p>
-
-<p></p>
-
-<p><center>
-<iframe width="560" height="315" src="https://www.youtube.com/embed/q9IXCdy_mtY" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-</center></p>
-
+<!-- raw HTML omitted -->
 <p>Some people still prefer to read the text, so here it is. This text is the
 second part of the transcript of the video. The first part is available at
 <a href="/blog/2019-09-postgresopen/">The Art of PostgreSQL: The Transcript, part I
 </a>.</p>
-
-<hr />
-
-<figure>
-    <img src="/img/PostgresOpen2019/TAOP.021.png"/> 
+<!-- raw HTML omitted -->
+<figure><img src="/img/PostgresOpen2019/TAOP.021.png"/>
 </figure>
-
 
 <p>As a developer writing SQL is the main thing you do with PostgreSQL. Because
 you know it&rsquo;s ACID, you don&rsquo;t have to care about that. So what you need to
 care about is implementing your business in the application. So you do SQL.</p>
-
 <p>Here&rsquo;s a very simple use case that I found. The data was open data at the
 time, but it&rsquo;s not easy to download anymore. I will need to change the
 example later but I didn&rsquo;t do that yet.</p>
-
-<figure>
-    <img src="/img/PostgresOpen2019/TAOP.023.png"/> 
+<figure><img src="/img/PostgresOpen2019/TAOP.023.png"/>
 </figure>
-
 
 <p>So when you download the data you have a CSV file that looks like this, with
 the year, the date, the number of shares exchanged on the stock exchange
 that day, the number of trades that exchanged those shares and the amount of
 dollars that were present. What you can see here is that I&rsquo;m picking <code>text</code>
 as the data type for those columns where obviously it&rsquo;s numeric.</p>
-
 <p>But there&rsquo;s a comma to separate the thousands, there&rsquo;s a dollar sign. So if
 you just say to PostgreSQL “hey, it&rsquo;s numbers”, it will not be happy with
 that. Then we use <code>COPY</code> on the client side. So you know the <code>\copy</code>
@@ -137,7 +120,6 @@ required on the client side of the connection. So you can actually use that
 over a connection to a server. You don&rsquo;t need to upload the file to the
 PostgreSQL server before you do that. That&rsquo;s why it&rsquo;s <code>\copy</code> (backslash
 copy) rather than <code>COPY</code>.</p>
-
 <p>And COPY is actually not just a command in Postgres it&rsquo;s also a protocol.
 It&rsquo;s a streaming protocol. So if you have a huge set of data, it&rsquo;s going to
 be streamed. So that&rsquo;s pretty fast, it&rsquo;s pretty efficient. And also if you
@@ -147,33 +129,25 @@ table, you should use COPY. It&rsquo;s way faster. The threshold I usually have 
 mind is like 10 lines. If you&rsquo;re uploading 10 lines of data into the same
 table, use COPY. It&rsquo;s a protocol that is implemented in your driver already.
 So just use COPY from the driver.</p>
-
-<figure>
-    <img src="/img/PostgresOpen2019/TAOP.024.png"/> 
+<figure><img src="/img/PostgresOpen2019/TAOP.024.png"/>
 </figure>
-
 
 <p>But then we don&rsquo;t want to use <code>text</code>, we want to use <code>integer</code> and
 <code>numeric</code>. Because it&rsquo;s money here, you use <code>numeric</code>, right? You knew that
 right? You don&rsquo;t use <code>float</code> for money, otherwise you lose money. So don&rsquo;t
 do it.</p>
-
 <p>And the thing that I wanted to show here is: who knew that you can do in a
 single SQL command, that is going to do a single table rewrite, you can
 actually rewrite three different columns in the same statement and use text
 processing functions to transform the data and make it suitable for the new
 data type. Who knew you could do that?</p>
-
 <p>So, another way to do that would have been for me to use <code>copy from program</code>
 and you could run like a <code>sed</code> or an <code>awk</code> or <code>Python</code> filter to filter the
 data out and make it look like what PostgreSQL is going to expect. But if I
 had done that, then I couldn&rsquo;t have shown you that you can do it in a single
 statement of three columns at a time and an <code>ALTER TABLE</code>.</p>
-
-<figure>
-    <img src="/img/PostgresOpen2019/TAOP.025.png"/> 
+<figure><img src="/img/PostgresOpen2019/TAOP.025.png"/>
 </figure>
-
 
 <p>Something that many developers told me, when I was a consultant, and even
 now when I do meetups and things like that… many developers they don&rsquo;t like
@@ -181,18 +155,14 @@ SQL because it&rsquo;s a black box. And they&rsquo;re like “yeah, we don&rsquo
 algorithm that is going to be used. We write a query and what is going to
 happen on the server? nobody knows… so we prefer to write the code our own
 way.”</p>
-
-<figure>
-    <img src="/img/PostgresOpen2019/TAOP.026.png"/> 
+<figure><img src="/img/PostgresOpen2019/TAOP.026.png"/>
 </figure>
-
 
 <p>So here&rsquo;s an example on top of the data we say already. It&rsquo;s the list of the
 10 days in the dataset where you have the most dollars exchanged that day,
 in the New York Stock Exchange. So it&rsquo;s a top-10, it&rsquo;s easy, right. You run
 through the data and at the end of it you sort the data and at the end of it
 you just output the top 10 lines.</p>
-
 <p>So the example is in Python here. When you want to write that in Python,
 maybem if you have like a couple of millions of lines in the database, maybe
 you don&rsquo;t want to have all that in memory at the same time. Because all you
@@ -203,29 +173,20 @@ you <code>heappushpop</code> and if it&rsquo;s greater than what you have alread
 an entry and if not it&rsquo;s not included, that&rsquo;s it. And the whole data
 structure in memory is going to have 10 lines, for the whole running of your
 script. So it&rsquo;s easy to control and it&rsquo;s nice. Okay.</p>
-
 <p>How do you do that in Postgres?</p>
-
-<figure>
-    <img src="/img/PostgresOpen2019/TAOP.027.png"/> 
+<figure><img src="/img/PostgresOpen2019/TAOP.027.png"/>
 </figure>
-
 
 <p>Well, ORDER BY LIMIT 10, that&rsquo;s it. Maybe that&rsquo;s simpler that way. I don&rsquo;t
 know what you think, but if I had to write and maintain this (Python
 version) or this (SQL version), I think I would do the SQL version.</p>
-
 <p>But then the question I have is how do you know that this query is going to
 use the same thinking we did before? Only 10 lines in memory at all time
 rather than using all the memory for all the rows. And if you have one
 billion rows it&rsquo;s a problem. So how do you figure that out in Postgres?</p>
-
 <p>Well you use EXPLAIN.</p>
-
-<figure>
-    <img src="/img/PostgresOpen2019/TAOP.028.png"/> 
+<figure><img src="/img/PostgresOpen2019/TAOP.028.png"/>
 </figure>
-
 
 <p>My favorite variant of EXPLAIN is using ANALYZE, VERBOSE, and BUFFERS
 options, because that&rsquo;s where you have the most information. You need to be
@@ -235,21 +196,17 @@ have an index or things like that, as it happens, and you want to EXPLAIN
 the update… you can EXPLAIN an UPDATE. Maybe you want to BEGIN, ANALYZE the
 UPDATE, and then ROLLBACK. So that the UPDATE didn&rsquo;t happen when you work
 around it. So EXPLAIN ANALYZE is running the query.</p>
-
 <p>And what we see here is a sort method <strong>top-N heapsort</strong> using this amount
 of memory. I think we covered it. PostgreSQL implements exactly the same
 algorithm as what we did manually in Python before.</p>
-
 <p>So rather than writing all the code that is doing exactly that, but client
 side, which means you need to fetch 2 millions lines before you do anything,
 and then you sort them out. Maybe you can sort them out and send only 10
 lines to the client and it&rsquo;s way faster and way more efficient. And it&rsquo;s
 only 4 lines of SQL.</p>
-
 <p>Question from the audience: some other systems like SQL server are going to
 give you hints about maybe where you should look at because the query is not
 as fast as you expect it to be.</p>
-
 <p>Answer: PostgreSQL itself will not do that but we have several Open Source
 tooling around it like the website
 <a href="https://explain.depesz.com">explain.depesz.com</a> or
@@ -259,24 +216,17 @@ will be in red, splashy, and that&rsquo;s where you should focus. You actually
 have all the information you need (in the explain plan) if you know how to
 read it. But it takes some practice. So using something visual to get there
 is a good use of your time.</p>
-
-<figure>
-    <img src="/img/PostgresOpen2019/TAOP.029.png"/> 
+<figure><img src="/img/PostgresOpen2019/TAOP.029.png"/>
 </figure>
-
 
 <p>Usually when you have this kind of data and you&rsquo;re working on an application
 in a team, one of the first things people are going to ask you, either the
 marketing department or maybe the finance department, or maybe accountants,
 I don&rsquo;t know. Some of your colleagues are going to be interested into some
 kind of monthly reports. So how do you write a monthly report in SQL?</p>
-
 <p>It&rsquo;s pretty easy.</p>
-
-<figure>
-    <img src="/img/PostgresOpen2019/TAOP.030.png"/> 
+<figure><img src="/img/PostgresOpen2019/TAOP.030.png"/>
 </figure>
-
 
 <p>Here I&rsquo;m showing off several things like… I&rsquo;m using <code>psql</code> in that example
 and the <code>\set</code> command is setting a value to a variable in <code>psql</code> and then I
@@ -284,7 +234,6 @@ can use the variable value here (<code>:'start'</code>). So whatever the month i
 change that and run the same query again and again. And I can also pass the
 value of that at the command line of the script. At the <code>psql</code> command line
 rather than in the file itself. Just so you know.</p>
-
 <p>And then we&rsquo;re using <code>to_char</code> to do some pretty formatting. And then, oh,
 that&rsquo;s something you should pay attention to. We don&rsquo;t use BETWEEN for the
 dates. Do you know why? I could have said <code>BETWEEN start AND end</code> but I
@@ -300,9 +249,7 @@ PostgreSQL will look-up in the calendar and decide how many days that month
 was. Of course the example I picked is February so it will have to decide
 how many days you had that year in February. But PostgreSQL can do that for
 you.</p>
-
-<p>So if you use BETWEEN and this kind of expression (<code>date ... + interval '1
-month'</code>) then you might count March the first twice. Once in your February
+<p>So if you use BETWEEN and this kind of expression (<code>date ... + interval '1 month'</code>) then you might count March the first twice. Once in your February
 report and once in your March report. So that&rsquo;s a bug, and then you have the
 accountants running to you and trying to explain the data with you because
 they will never have the same result as you have. And you&rsquo;re like “I don&rsquo;t
@@ -310,43 +257,30 @@ understand your problem”… and yeah that&rsquo;s a bug here. So you use great
 equal and less than strict, and you don&rsquo;t have that bug. So that&rsquo;s a small
 trick. Maybe you knew about it already but I&rsquo;ve run through many developers
 enough that I would, you know, take some time on it.</p>
-
-<figure>
-    <img src="/img/PostgresOpen2019/TAOP.031.png"/> 
+<figure><img src="/img/PostgresOpen2019/TAOP.031.png"/>
 </figure>
-
 
 <p>So here&rsquo;s the result without surprise. Okay, it&rsquo;s some data. We don&rsquo;t know
 the numbers so we don&rsquo;t focus on them but there&rsquo;s a bug. Can you spot the
 bug?</p>
-
 <p>Missing days, exactly, congrats. So we have 28 days that year in February,
 but only 19 rows output. Maybe marketing department, or accounting won&rsquo;t be
 very happy about that. Maybe they want to have the days without activity.</p>
-
-<figure>
-    <img src="/img/PostgresOpen2019/TAOP.032.png"/> 
+<figure><img src="/img/PostgresOpen2019/TAOP.032.png"/>
 </figure>
-
 
 <p>So let&rsquo;s fix it, it&rsquo;s easy. You run the same query right and then you do a
 lookup in the calendar in your application. Here it&rsquo;s in Python but it could
 be anything else. And if the day of the calendar has some data associated
 with it, then you output that data, but otherwise you output zero. And
 here&rsquo;s the result, fixed.</p>
-
-<figure>
-    <img src="/img/PostgresOpen2019/TAOP.033.png"/> 
+<figure><img src="/img/PostgresOpen2019/TAOP.033.png"/>
 </figure>
-
 
 <p>Or is it really? So where is that code going to be used actually? So maybe
 it&rsquo;s going to be used in only one place and then it&rsquo;s fixed. Good enough.</p>
-
-<figure>
-    <img src="/img/PostgresOpen2019/TAOP.035.png"/> 
+<figure><img src="/img/PostgresOpen2019/TAOP.035.png"/>
 </figure>
-
 
 <p>But maybe you have an application with different kind of people using it,
 like the frontend people, backoffice people. Maybe you have a little started
@@ -358,18 +292,13 @@ calendar default implementation in Python is going to be surprisingly
 different from the one in Java. Maybe because of the way they handle the
 default timezone, and maybe you have some other bugs. I don&rsquo;t know, it can
 get pretty complex.</p>
-
 <p>But the thing that is common for all of those is that they are talking to
 our beloved PostgreSQL database. So maybe you wan to solve the days with no
 activity in SQL.</p>
-
 <p>So who think that you know how to solve that in SQL? Like, you know, just a
 gut feeling, let&rsquo;s see.</p>
-
-<figure>
-    <img src="/img/PostgresOpen2019/TAOP.037.png"/> 
+<figure><img src="/img/PostgresOpen2019/TAOP.037.png"/>
 </figure>
-
 
 <p>So there&rsquo;s one thing that is very useful in PostgreSQL and it&rsquo;s called
 <code>generate_series</code>. And as I said before we like boring names in PostgreSQL,
@@ -380,23 +309,18 @@ say we go up to <code>+ 1 month - 1 day</code>, so that we don&rsquo;t step over
 month, because that would be a problem. And we do that one day at a time, we
 step <code>1 day</code>. It could be <code>1 hour</code> or it could be <code>13 hours</code> if that&rsquo;s your
 business requirement. Here it&rsquo;s one day at a time, that&rsquo;s easy.</p>
-
 <p>So we generate a series of dates, that&rsquo;s our calendar. And then we do a LEFT
 JOIN. For each day of the calendar we&rsquo;re going to look if we have data or
 not in the main table. That&rsquo;s easy. That&rsquo;s exactly the lookup that was
 implemented in Python before. It&rsquo;s exactly the same thing but it&rsquo;s done with
 PostgreSQL on the database side.</p>
-
 <p>So we generate some values and we do a LEFT JOIN and here&rsquo;s the result,
 fixed, in SQL. Easy, right?</p>
-
 <p>Question: How come you have zeroes here, where does that come from?</p>
-
 <p>Answer: That&rsquo;s a good question, because those zeroes didn&rsquo;t exist in the
 data set. We invented zeroes, we didn&rsquo;t have any data. LEFT JOIN is going to
 provide you with NULL values. And <code>coalesce</code> is going to return the first
 argument of the function here that is not NULL.</p>
-
 <p>I encourage you to look at PostgreSQL documentation to have more details
 about it. In some communities when you tell people “yeah, go look at the
 documentation”, maybe it&rsquo;s a little rude to do that… you know the RTFM
@@ -409,34 +333,24 @@ of our documentation system. So we when say “please read the docs” it&rsquo;
 because we&rsquo;ve been spending time writing it the good way, the think, and we
 would be happy that it&rsquo;s useful. So in the PostgreSQL community it&rsquo;s polite.
 So… don&rsquo;t take it the wrong way.</p>
-
-<figure>
-    <img src="/img/PostgresOpen2019/TAOP.039.png"/> 
+<figure><img src="/img/PostgresOpen2019/TAOP.039.png"/>
 </figure>
-
 
 <p>Usually the next step for Marketing is going to be “okay, I want week on
 week evolution as a percentage in the same result set.” So, the slide is a
 copy/paste of the result because it&rsquo;s easier to explain it that way.</p>
-
-<figure>
-    <img src="/img/PostgresOpen2019/TAOP.040.png"/> 
+<figure><img src="/img/PostgresOpen2019/TAOP.040.png"/>
 </figure>
-
 
 <p>And I&rsquo;ve tried to change some colors, there&rsquo;s a color code. So basically you
 want from this Wednesday, you want to know that it was 10% less dollars
 exchanged than the previous Wednesday. Okay, you understand the result set?
 It&rsquo;s just a percentage of difference with the previous week, same day the
 week before.</p>
-
 <p>So who know how to implement that in SQL? Okay, the other, I think you don&rsquo;t
 know SQL. I&rsquo;m sorry. We&rsquo;ll get back to that, it&rsquo;s a strong statement I know.</p>
-
-<figure>
-    <img src="/img/PostgresOpen2019/TAOP.041.png"/> 
+<figure><img src="/img/PostgresOpen2019/TAOP.041.png"/>
 </figure>
-
 
 <p>So to implement it we use a CTE here on the left and maybe you recognize it,
 it&rsquo;s exactly the same query as before. The <code>generate_series</code> with a LEFT
@@ -444,20 +358,17 @@ JOIN. Ah, there&rsquo;s a little difference, let&rsquo;s go back to that later. 
 compute that and we use <code>computed_data</code> here as a from clause for the next
 part of the query. And we compute the difference of dollars between the
 dollards from last week and the dollars from this week.</p>
-
 <p>But how do we get those dollars from last week? It&rsquo;s because we use window
 functions. The window functions allow us in one query… The projection
 operator, the select clause is the projection operator, it works one row at
 a time — and here we want to see the values from another row. So we are
 going to say it&rsquo;s a peer row, a friend. So we have many friends now. And
-with window functions the other values from our friends&rsquo; rows.</p>
-
+with window functions the other values from our friends' rows.</p>
 <p>And who are going to be our friend here? Well it depends on the clause you
 put in the OVER clause. So PARTITION BY and ORDER BY. PARTITION BY, you can
 think about it a little like GROUP BY. So it&rsquo;s going to say our friends are
 going to be the other rows who have the same value as us for the PARTITION
 BY clause. So we PARTITION BY <code>extract(isodow from date)</code>.</p>
-
 <p>ISODOW you know what that means? DOW is Day Of Week. And of course in some
 countries Sunday is one, the first, and some other countries it&rsquo;s Monday.
 And then in come countries we begin at zero, not one, so Sunday is zero,
@@ -465,35 +376,25 @@ Monday is one. Well it&rsquo;s crazy. So of course there&rsquo;s an ISO standard
 it. So we use the ISO definition for the Day Of Week. And so anything that
 is a Wednesday is going to be 3 and anything that is 3 is going to be rows
 that we are allowed to see from the current one.</p>
-
 <p>So we are going to be able to see any row that has the same Day Of Week as
 the current row. And we are going to see them in an order that we speficy,
 by date. And we&rsquo;re going to <code>lag(…, 1)</code> so we&rsquo;re going to be able to see the
 one that is a week before us.</p>
-
 <p>Question: Is there a reason that you are using <code>to_char</code> in the main query
 but <code>extract(isodow ...)</code> in the window function?</p>
-
 <p>Answer: so yeah the <code>to_char</code> here is going to be “Wednesday” or maybe going
-to use the locale that you have on your computer, and this (<code>extract(isodow
-...)</code>) is going to be a number, so maybe it&rsquo;s easier reason about numbers
+to use the locale that you have on your computer, and this (<code>extract(isodow ...)</code>) is going to be a number, so maybe it&rsquo;s easier reason about numbers
 from that clause. And also those queries are for slides and showing off
 things.</p>
-
 <p>And so that&rsquo;s a window function. So, who&rsquo;s been using window functions
 before? Nice (there was quite some people in the audience that did!).</p>
-
 <p>It was invented in &lsquo;92 like around, you know, UTF-8 and maybe IPv6, things
 that everybody uses everyday, nowadays… no? maybe not… So that&rsquo;s SQL
 from 92. So if you are not comfortable with it and it&rsquo;s 2019 maybe it&rsquo;s time
 to learn SQL again.</p>
-
 <p>So then the copy/paste from the result of the query is what we saw before.</p>
-
-<figure>
-    <img src="/img/PostgresOpen2019/TAOP.044.png"/> 
+<figure><img src="/img/PostgresOpen2019/TAOP.044.png"/>
 </figure>
-
 
 <p>And the SQL standard, the current version is 2016. And any new version of
 the standard is deprecating every produced one. So there&rsquo;s only one current
@@ -501,14 +402,11 @@ version of the SQL standard. So &lsquo;92 is interesting for historic purposes. 
 you do historic research, that&rsquo;s very interesting. If you do production
 database or application development, you don&rsquo;t care about that. The only one
 that you care about is 2016.</p>
-
-<hr />
-
+<!-- raw HTML omitted -->
 <p>That&rsquo;s it for the first part of this presentation. We covered from about 15
 mins in to 30 mins of this talk. I will publish the transcript for part III
 and then part IV later this week, so stay tuned to this blog if you like
 this content!</p>
-
 <p>Also, as the content comes from my book anyway, you could also subscribe
 below to get the free sample, or just go buy the book at the main home page
 of this website: <a href="https://theartofpostgresql.com">The Art of PostgreSQL</a>.</p>

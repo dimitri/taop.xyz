@@ -1,16 +1,12 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Join on The Art of PostgreSQL</title>
+    <title>JOIN on The Art of PostgreSQL</title>
     <link>https://theartofpostgresql.com/tags/join/</link>
-    <description>Recent content in Join on The Art of PostgreSQL</description>
+    <description>Recent content in JOIN on The Art of PostgreSQL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 07 Sep 2019 21:30:00 +0200</lastBuildDate>
-    
-	<atom:link href="https://theartofpostgresql.com/tags/join/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Sat, 07 Sep 2019 21:30:00 +0200</lastBuildDate><atom:link href="https://theartofpostgresql.com/tags/join/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>What is an SQL JOIN?</title>
       <link>https://theartofpostgresql.com/blog/2019-09-sql-joins/</link>
@@ -20,9 +16,7 @@
       <description>&lt;p&gt;It took me quite some time before I could reason efficiently about SQL
 JOINs. And I must admit, the set theory diagrams never helped me really
 understand JOINs in SQL. So today, I want to help you understand JOINs in a
-different way, hoping to make the concept click at once for you too!&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
+different way, hoping to make the concept click at once for you too!&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -35,17 +29,13 @@ different way, hoping to make the concept click at once for you too!&lt;/p&gt;
 efforts. It took me years to get a good mental model of how SQL queries are
 implemented, and then up from the lower levels, to build a mental model of
 how to reason in SQL.&lt;/p&gt;
-
 &lt;p&gt;Nowadays, in most case, I can think in terms of SQL and write queries that
 will give me the result set I need. In most cases, because some parts of SQL
 are still complex, and I don&amp;rsquo;t practice as much as I used to. In particular,
 newer PostgreSQL features are areas I still need to work with more before I
 can integrate them in my daily workflow.&lt;/p&gt;
-
 &lt;p&gt;Today, I want to introduce the central concept of the SQL language. What is
-an SQL relation?&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
+an SQL relation?&lt;/p&gt;</description>
     </item>
     
   </channel>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Archiving on The Art of PostgreSQL</title>
@@ -6,19 +6,15 @@
     <description>Recent content in Archiving on The Art of PostgreSQL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 14 Oct 2019 00:05:00 +0200</lastBuildDate>
-    
-	<atom:link href="https://theartofpostgresql.com/tags/archiving/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Mon, 14 Oct 2019 00:05:00 +0200</lastBuildDate><atom:link href="https://theartofpostgresql.com/tags/archiving/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Compute database size</title>
       <link>https://theartofpostgresql.com/compute-database-size/</link>
       <pubDate>Mon, 14 Oct 2019 00:05:00 +0200</pubDate>
       
       <guid>https://theartofpostgresql.com/compute-database-size/</guid>
-      <description>Photo by unsplash-logoCharles 🇵🇭  It is well known that database design should be as simple as possible, and follow the normalization process. Except in some cases, sometimes, for scalability purposes. Partitioning might be used to help deal with large amount of data for instance.
-But what is a large amount of data? Do you need to pay attention to those scalability trade-offs now, or can you wait until later?</description>
+      <description>It is well known that database design should be as simple as possible, and follow the normalization process. Except in some cases, sometimes, for scalability purposes. Partitioning might be used to help deal with large amount of data for instance.
+But what is a large amount of data? Do you need to pay attention to those scalability trade-offs now, or can you wait until later? How far can you go with a naive schema?</description>
     </item>
     
   </channel>

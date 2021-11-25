@@ -1,16 +1,12 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Learn Sql on The Art of PostgreSQL</title>
+    <title>Learn SQL on The Art of PostgreSQL</title>
     <link>https://theartofpostgresql.com/tags/learn-sql/</link>
-    <description>Recent content in Learn Sql on The Art of PostgreSQL</description>
+    <description>Recent content in Learn SQL on The Art of PostgreSQL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 17 Sep 2019 00:15:00 +0200</lastBuildDate>
-    
-	<atom:link href="https://theartofpostgresql.com/tags/learn-sql/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Tue, 17 Sep 2019 00:15:00 +0200</lastBuildDate><atom:link href="https://theartofpostgresql.com/tags/learn-sql/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>How to Learn SQL?</title>
       <link>https://theartofpostgresql.com/blog/2019-09-how-to-learn-sql/</link>
@@ -23,15 +19,11 @@ Or at least have a pretty clear idea of a skeleton to tweak until it gives
 the result set you expect. So instead of working on your SQL query, you
 google &lt;a href=&#34;#&#34;&gt;How to write a SQL query?&lt;/a&gt; or maybe even &lt;a href=&#34;#&#34;&gt;How to learn SQL?&lt;/a&gt;
 Right. I feel you, I&amp;rsquo;ve been there too, even if quite some time ago…&lt;/p&gt;
-
 &lt;p&gt;So here my article where I teach you how to learn SQL.&lt;/p&gt;
-
 &lt;p&gt;I want to share with you how I did it, and how I continue to do it. There&amp;rsquo;s
 no magic secret sauce to it though, it&amp;rsquo;s all basic work. Again, we have to
 learn the main concepts and how they play together, then practice simple
-steps, and then build from there.&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
+steps, and then build from there.&lt;/p&gt;</description>
     </item>
     
   </channel>

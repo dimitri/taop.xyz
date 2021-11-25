@@ -1,41 +1,28 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Why Postgresql on The Art of PostgreSQL</title>
+    <title>Why PostgreSQL? on The Art of PostgreSQL</title>
     <link>https://theartofpostgresql.com/tags/why-postgresql/</link>
-    <description>Recent content in Why Postgresql on The Art of PostgreSQL</description>
+    <description>Recent content in Why PostgreSQL? on The Art of PostgreSQL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 27 Sep 2019 15:15:00 +0200</lastBuildDate>
-    
-	<atom:link href="https://theartofpostgresql.com/tags/why-postgresql/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Fri, 27 Sep 2019 15:15:00 +0200</lastBuildDate><atom:link href="https://theartofpostgresql.com/tags/why-postgresql/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Why Postgres?</title>
       <link>https://theartofpostgresql.com/blog/2019-09-why-postgres/</link>
       <pubDate>Fri, 27 Sep 2019 15:15:00 +0200</pubDate>
       
       <guid>https://theartofpostgresql.com/blog/2019-09-why-postgres/</guid>
-      <description>&lt;div&gt;
-    &lt;p style=&#34;text-align: right;&#34;&gt;
-    Photo by Emily Morter
-    &lt;a style=&#34;background-color:black;color:white;text-decoration:none;padding:4px 6px;font-family:-apple-system, BlinkMacSystemFont, &amp;quot;San Francisco&amp;quot;, &amp;quot;Helvetica Neue&amp;quot;, Helvetica, Ubuntu, Roboto, Noto, &amp;quot;Segoe UI&amp;quot;, Arial, sans-serif;font-size:12px;font-weight:bold;line-height:1.2;display:inline-block;border-radius:3px&#34; href=&#34;https://unsplash.com/@emilymorter?utm_medium=referral&amp;amp;utm_campaign=photographer-credit&amp;amp;utm_content=creditBadge&#34; target=&#34;_blank&#34; rel=&#34;noopener noreferrer&#34; title=&#34;Download free do whatever you want high-resolution photos from Emily Morter&#34;&gt;&lt;span style=&#34;display:inline-block;padding:2px 3px&#34;&gt;&lt;svg xmlns=&#34;http://www.w3.org/2000/svg&#34; style=&#34;height:12px;width:auto;position:relative;vertical-align:middle;top:-2px;fill:white&#34; viewBox=&#34;0 0 32 32&#34;&gt;&lt;title&gt;unsplash-logo&lt;/title&gt;&lt;path d=&#34;M10 9V0h12v9H10zm12 5h10v18H0V14h10v9h12v-9z&#34;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/span&gt;&lt;span style=&#34;display:inline-block;padding:2px 3px&#34;&gt;Emily Morter&lt;/span&gt;&lt;/a&gt;
-   &lt;/p&gt;
-&lt;/div&gt;
-
+      <description>&lt;!-- raw HTML omitted --&gt;
 &lt;p&gt;That&amp;rsquo;s a very popular question to ask these days, it seems. The quick answer
 is easy and is the slogan of PostgreSQL, as seen on the community website
 for it: “PostgreSQL: The World&amp;rsquo;s Most Advanced Open Source Relational
 Database”. What does that mean for you, the developer?&lt;/p&gt;
-
 &lt;p&gt;In my recent article &lt;a href=&#34;http://localhost:1313/blog/2019-09-postgresopen/&#34;&gt;The Art of PostgreSQL: The Transcript, part I
 &lt;/a&gt; you will read why I
 think it&amp;rsquo;s interesting to use Postgres in your application&amp;rsquo;s stack. My
 conference talk addresses the main area where I think many people get it
-wrong:&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
+wrong:&lt;/p&gt;</description>
     </item>
     
   </channel>
