@@ -47,7 +47,7 @@ From today to Monday included my book The Art of PostgreSQL is available at a 50
       
       <guid>https://theartofpostgresql.com/explain-plan-visualizer/</guid>
       <description>Postgres Query Planning PostgreSQL provides advanced tooling to understand how it executes SQL queries. The execution of a query follows specific steps:
- Parsing Planning Optimization Execution  When it comes to the execution step, all Postgres does is follow the selected optimized plan. It is possible to ask Postgres for the query plan and inspect it, in order to better understand the execution of any query and then when necessary find a way to execute the same query faster.</description>
+Parsing Planning Optimization Execution When it comes to the execution step, all Postgres does is follow the selected optimized plan. It is possible to ask Postgres for the query plan and inspect it, in order to better understand the execution of any query and then when necessary find a way to execute the same query faster.</description>
     </item>
     
     <item>

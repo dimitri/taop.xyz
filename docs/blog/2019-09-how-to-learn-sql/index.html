@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta name="generator" content="Hugo 0.50" />
+ <head>
+    <meta name="generator" content="Hugo 0.101.0" />
     <meta charset="utf-8" />
     <title>The Art of PostgreSQL - How to Learn SQL?</title>
     <meta name="description" content="Here we are, another SQL query to write. You wish you knew how to write that
@@ -141,17 +141,17 @@ its own domain. Or data type, as we say nowadays.</p>
 <em>quintuple</em>. When you don&rsquo;t know the number of attributes the abstract
 relation you talk about in a teaching article that is broad and general,
 then you say <code>t</code>, and then it&rsquo;s a <em>tuple</em>.</p>
-<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql">\<span style="color:#719e07">set</span> <span style="color:#719e07">start</span> <span style="color:#2aa198">&#39;2017-02-01&#39;</span>
-
-  <span style="color:#719e07">select</span> <span style="color:#b58900">date</span>,
-         to_char(shares, <span style="color:#2aa198">&#39;99G999G999G999&#39;</span>) <span style="color:#719e07">as</span> shares,
-         to_char(trades, <span style="color:#2aa198">&#39;99G999G999&#39;</span>) <span style="color:#719e07">as</span> trades,
-         to_char(dollars, <span style="color:#2aa198">&#39;L99G999G999G999&#39;</span>) <span style="color:#719e07">as</span> dollars
-    <span style="color:#719e07">from</span> factbook
-   <span style="color:#719e07">where</span> <span style="color:#b58900">date</span> <span style="color:#719e07">&gt;=</span> <span style="color:#b58900">date</span> :<span style="color:#2aa198">&#39;start&#39;</span>
-     <span style="color:#719e07">and</span> <span style="color:#b58900">date</span>  <span style="color:#719e07">&lt;</span> <span style="color:#b58900">date</span> :<span style="color:#2aa198">&#39;start&#39;</span> <span style="color:#719e07">+</span> <span style="color:#b58900">interval</span> <span style="color:#2aa198">&#39;1 month&#39;</span>
-<span style="color:#719e07">order</span> <span style="color:#719e07">by</span> <span style="color:#b58900">date</span>;
-</code></pre></div><p>So this query builds a relation of <em>quadruples</em> <code>(date date, shares text, trades text, dollars text)</code>. Each row of the result set has 4 columns. The
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span>\<span style="color:#719e07">set</span> <span style="color:#719e07">start</span> <span style="color:#2aa198">&#39;2017-02-01&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#719e07">select</span> <span style="color:#b58900">date</span>,
+</span></span><span style="display:flex;"><span>         to_char(shares, <span style="color:#2aa198">&#39;99G999G999G999&#39;</span>) <span style="color:#719e07">as</span> shares,
+</span></span><span style="display:flex;"><span>         to_char(trades, <span style="color:#2aa198">&#39;99G999G999&#39;</span>) <span style="color:#719e07">as</span> trades,
+</span></span><span style="display:flex;"><span>         to_char(dollars, <span style="color:#2aa198">&#39;L99G999G999G999&#39;</span>) <span style="color:#719e07">as</span> dollars
+</span></span><span style="display:flex;"><span>    <span style="color:#719e07">from</span> factbook
+</span></span><span style="display:flex;"><span>   <span style="color:#719e07">where</span> <span style="color:#b58900">date</span> <span style="color:#719e07">&gt;=</span> <span style="color:#b58900">date</span> :<span style="color:#2aa198">&#39;start&#39;</span>
+</span></span><span style="display:flex;"><span>     <span style="color:#719e07">and</span> <span style="color:#b58900">date</span>  <span style="color:#719e07">&lt;</span> <span style="color:#b58900">date</span> :<span style="color:#2aa198">&#39;start&#39;</span> <span style="color:#719e07">+</span> <span style="color:#b58900">interval</span> <span style="color:#2aa198">&#39;1 month&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#719e07">order</span> <span style="color:#719e07">by</span> <span style="color:#b58900">date</span>;
+</span></span></code></pre></div><p>So this query builds a relation of <em>quadruples</em> <code>(date date, shares text, trades text, dollars text)</code>. Each row of the result set has 4 columns. The
 first one has the name <em>date</em> and is of type <em>date</em>, because that is the
 data type of the attribute in the base relation <code>factbook</code>. The second
 attribute is named <em>shares</em> and its attribute domain (data type) is <em>text</em>,
@@ -180,44 +180,44 @@ magic to him. Until I began our chapter about explain plans. Then he said <em>�
 know that, that&rsquo;s like AS400 assembly! Now I understand everything!”</em></p>
 <p>Well, maybe you&rsquo;re like this trainee and will find it better to understand
 SQL from having a look at the query plan.</p>
-<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#719e07">EXPLAIN</span> (costs <span style="color:#719e07">off</span>) <span style="color:#719e07">select</span> …
-
- <span style="color:#719e07">Index</span> Scan <span style="color:#719e07">using</span> factbook_date_idx <span style="color:#719e07">on</span> factbook
-   <span style="color:#719e07">Index</span> Cond: ((<span style="color:#b58900">date</span> <span style="color:#719e07">&gt;=</span> <span style="color:#2aa198">&#39;2017-02-01&#39;</span>::<span style="color:#b58900">date</span>)
-            <span style="color:#719e07">AND</span> (<span style="color:#b58900">date</span> <span style="color:#719e07">&lt;</span> <span style="color:#2aa198">&#39;2017-03-01 00:00:00&#39;</span>::<span style="color:#719e07">timestamp</span> <span style="color:#719e07">without</span> time <span style="color:#719e07">zone</span>))
-</code></pre></div><p>With this particular query, PostgreSQL chooses to use an index scan to find
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#719e07">EXPLAIN</span> (costs <span style="color:#719e07">off</span>) <span style="color:#719e07">select</span> …
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span> <span style="color:#719e07">Index</span> Scan <span style="color:#719e07">using</span> factbook_date_idx <span style="color:#719e07">on</span> factbook
+</span></span><span style="display:flex;"><span>   <span style="color:#719e07">Index</span> Cond: ((<span style="color:#b58900">date</span> <span style="color:#719e07">&gt;=</span> <span style="color:#2aa198">&#39;2017-02-01&#39;</span>::<span style="color:#b58900">date</span>)
+</span></span><span style="display:flex;"><span>            <span style="color:#719e07">AND</span> (<span style="color:#b58900">date</span> <span style="color:#719e07">&lt;</span> <span style="color:#2aa198">&#39;2017-03-01 00:00:00&#39;</span>::<span style="color:#719e07">timestamp</span> <span style="color:#719e07">without</span> time <span style="color:#719e07">zone</span>))
+</span></span></code></pre></div><p>With this particular query, PostgreSQL chooses to use an index scan to find
 the data in our date range of interest. That&rsquo;s because the index also
 returns the data in the order we declared for the result set, so PostgreSQL
 does not even have to sort it! Smart.</p>
 <p>What if we want the result set relation to be sorted by number of dollars,
 with the greater numbers first?</p>
-<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#719e07">explain</span> (costs <span style="color:#719e07">off</span>, <span style="color:#719e07">verbose</span>)
-
-  <span style="color:#719e07">select</span> <span style="color:#b58900">date</span>,
-         to_char(shares, <span style="color:#2aa198">&#39;99G999G999G999&#39;</span>) <span style="color:#719e07">as</span> shares,
-         to_char(trades, <span style="color:#2aa198">&#39;99G999G999&#39;</span>) <span style="color:#719e07">as</span> trades,
-         to_char(dollars, <span style="color:#2aa198">&#39;L99G999G999G999&#39;</span>) <span style="color:#719e07">as</span> dollars
-    <span style="color:#719e07">from</span> factbook
-   <span style="color:#719e07">where</span> <span style="color:#b58900">date</span> <span style="color:#719e07">&gt;=</span> <span style="color:#b58900">date</span> :<span style="color:#2aa198">&#39;start&#39;</span>
-     <span style="color:#719e07">and</span> <span style="color:#b58900">date</span>  <span style="color:#719e07">&lt;</span> <span style="color:#b58900">date</span> :<span style="color:#2aa198">&#39;start&#39;</span> <span style="color:#719e07">+</span> <span style="color:#b58900">interval</span> <span style="color:#2aa198">&#39;1 month&#39;</span>
-<span style="color:#719e07">order</span> <span style="color:#719e07">by</span> dollars <span style="color:#719e07">desc</span>;
-
-
- Sort
-   <span style="color:#719e07">Output</span>: <span style="color:#b58900">date</span>,
-           (to_char(shares, <span style="color:#2aa198">&#39;99G999G999G999&#39;</span>::<span style="color:#b58900">text</span>)), 
-           (to_char(trades, <span style="color:#2aa198">&#39;99G999G999&#39;</span>::<span style="color:#b58900">text</span>)), 
-           (to_char(dollars, <span style="color:#2aa198">&#39;L99G999G999G999&#39;</span>::<span style="color:#b58900">text</span>))
-   Sort <span style="color:#719e07">Key</span>: (to_char(factbook.dollars, <span style="color:#2aa198">&#39;L99G999G999G999&#39;</span>::<span style="color:#b58900">text</span>)) <span style="color:#719e07">DESC</span>
-   <span style="color:#719e07">-&gt;</span>  <span style="color:#719e07">Index</span> Scan <span style="color:#719e07">using</span> factbook_date_idx <span style="color:#719e07">on</span> <span style="color:#719e07">public</span>.factbook
-         <span style="color:#719e07">Output</span>: <span style="color:#b58900">date</span>,
-                 to_char(shares, <span style="color:#2aa198">&#39;99G999G999G999&#39;</span>::<span style="color:#b58900">text</span>), 
-                 to_char(trades, <span style="color:#2aa198">&#39;99G999G999&#39;</span>::<span style="color:#b58900">text</span>), 
-                 to_char(dollars, <span style="color:#2aa198">&#39;L99G999G999G999&#39;</span>::<span style="color:#b58900">text</span>)
-         <span style="color:#719e07">Index</span> Cond: ((factbook.<span style="color:#b58900">date</span> <span style="color:#719e07">&gt;=</span> <span style="color:#2aa198">&#39;2017-02-01&#39;</span>::<span style="color:#b58900">date</span>)
-                  <span style="color:#719e07">AND</span> (factbook.<span style="color:#b58900">date</span> <span style="color:#719e07">&lt;</span> <span style="color:#2aa198">&#39;2017-03-01 00:00:00&#39;</span>::<span style="color:#719e07">timestamp</span> <span style="color:#719e07">without</span> time <span style="color:#719e07">zone</span>))
-(<span style="color:#2aa198">6</span> <span style="color:#719e07">rows</span>)
-</code></pre></div><p>This time the execution plan is quite different. The index is still good for
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#719e07">explain</span> (costs <span style="color:#719e07">off</span>, <span style="color:#719e07">verbose</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#719e07">select</span> <span style="color:#b58900">date</span>,
+</span></span><span style="display:flex;"><span>         to_char(shares, <span style="color:#2aa198">&#39;99G999G999G999&#39;</span>) <span style="color:#719e07">as</span> shares,
+</span></span><span style="display:flex;"><span>         to_char(trades, <span style="color:#2aa198">&#39;99G999G999&#39;</span>) <span style="color:#719e07">as</span> trades,
+</span></span><span style="display:flex;"><span>         to_char(dollars, <span style="color:#2aa198">&#39;L99G999G999G999&#39;</span>) <span style="color:#719e07">as</span> dollars
+</span></span><span style="display:flex;"><span>    <span style="color:#719e07">from</span> factbook
+</span></span><span style="display:flex;"><span>   <span style="color:#719e07">where</span> <span style="color:#b58900">date</span> <span style="color:#719e07">&gt;=</span> <span style="color:#b58900">date</span> :<span style="color:#2aa198">&#39;start&#39;</span>
+</span></span><span style="display:flex;"><span>     <span style="color:#719e07">and</span> <span style="color:#b58900">date</span>  <span style="color:#719e07">&lt;</span> <span style="color:#b58900">date</span> :<span style="color:#2aa198">&#39;start&#39;</span> <span style="color:#719e07">+</span> <span style="color:#b58900">interval</span> <span style="color:#2aa198">&#39;1 month&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#719e07">order</span> <span style="color:#719e07">by</span> dollars <span style="color:#719e07">desc</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span> Sort
+</span></span><span style="display:flex;"><span>   <span style="color:#719e07">Output</span>: <span style="color:#b58900">date</span>,
+</span></span><span style="display:flex;"><span>           (to_char(shares, <span style="color:#2aa198">&#39;99G999G999G999&#39;</span>::<span style="color:#b58900">text</span>)), 
+</span></span><span style="display:flex;"><span>           (to_char(trades, <span style="color:#2aa198">&#39;99G999G999&#39;</span>::<span style="color:#b58900">text</span>)), 
+</span></span><span style="display:flex;"><span>           (to_char(dollars, <span style="color:#2aa198">&#39;L99G999G999G999&#39;</span>::<span style="color:#b58900">text</span>))
+</span></span><span style="display:flex;"><span>   Sort <span style="color:#719e07">Key</span>: (to_char(factbook.dollars, <span style="color:#2aa198">&#39;L99G999G999G999&#39;</span>::<span style="color:#b58900">text</span>)) <span style="color:#719e07">DESC</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#719e07">-&gt;</span>  <span style="color:#719e07">Index</span> Scan <span style="color:#719e07">using</span> factbook_date_idx <span style="color:#719e07">on</span> <span style="color:#719e07">public</span>.factbook
+</span></span><span style="display:flex;"><span>         <span style="color:#719e07">Output</span>: <span style="color:#b58900">date</span>,
+</span></span><span style="display:flex;"><span>                 to_char(shares, <span style="color:#2aa198">&#39;99G999G999G999&#39;</span>::<span style="color:#b58900">text</span>), 
+</span></span><span style="display:flex;"><span>                 to_char(trades, <span style="color:#2aa198">&#39;99G999G999&#39;</span>::<span style="color:#b58900">text</span>), 
+</span></span><span style="display:flex;"><span>                 to_char(dollars, <span style="color:#2aa198">&#39;L99G999G999G999&#39;</span>::<span style="color:#b58900">text</span>)
+</span></span><span style="display:flex;"><span>         <span style="color:#719e07">Index</span> Cond: ((factbook.<span style="color:#b58900">date</span> <span style="color:#719e07">&gt;=</span> <span style="color:#2aa198">&#39;2017-02-01&#39;</span>::<span style="color:#b58900">date</span>)
+</span></span><span style="display:flex;"><span>                  <span style="color:#719e07">AND</span> (factbook.<span style="color:#b58900">date</span> <span style="color:#719e07">&lt;</span> <span style="color:#2aa198">&#39;2017-03-01 00:00:00&#39;</span>::<span style="color:#719e07">timestamp</span> <span style="color:#719e07">without</span> time <span style="color:#719e07">zone</span>))
+</span></span><span style="display:flex;"><span>(<span style="color:#2aa198">6</span> <span style="color:#719e07">rows</span>)
+</span></span></code></pre></div><p>This time the execution plan is quite different. The index is still good for
 implement the <code>WHERE</code> clause filtering. As we want the rows in a different
 ordering though, PostgreSQL implements a sort node on-top of the relation
 obtained by scanning the index. This sort node output is another relation,
