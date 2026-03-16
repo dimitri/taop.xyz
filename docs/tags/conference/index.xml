@@ -2,72 +2,39 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Conference on The Art of PostgreSQL</title>
-    <link>https://theartofpostgresql.com/tags/conference/</link>
+    <link>http://localhost:1313/tags/conference/</link>
     <description>Recent content in Conference on The Art of PostgreSQL</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 25 Dec 2019 23:15:00 +0200</lastBuildDate><atom:link href="https://theartofpostgresql.com/tags/conference/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 25 Dec 2019 23:15:00 +0200</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/conference/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>pgDay Paris 2019 presentation: How to write SQL queries?</title>
-      <link>https://theartofpostgresql.com/blog/2019-12-25-pgdayparis/</link>
+      <link>http://localhost:1313/blog/2019-12-25-pgdayparis/</link>
       <pubDate>Wed, 25 Dec 2019 23:15:00 +0200</pubDate>
-      
-      <guid>https://theartofpostgresql.com/blog/2019-12-25-pgdayparis/</guid>
-      <description>&lt;p&gt;The videos from &lt;a href=&#34;https://2019.pgday.paris&#34;&gt;pgDay Paris 2019&lt;/a&gt; are online, and
-they look stunning! If you&amp;rsquo;ve been to the conference, you will be able to
-enjoy great memories, and if you&amp;rsquo;ve not been there, you can now enjoy all
-the fine content that was recorded there at the &lt;a href=&#34;https://www.youtube.com/channel/UCiOSEHQe91goxYNJDjj2rLw/videos&#34;&gt;Youtube Channel for
-pgDay.Paris&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;This year at pgday Paris I tried something new. My presentation was
-interactive, and I&amp;rsquo;ve been writing queries together with the audience,
-making mistakes, loosing keystrokes and having all the fun!&lt;/p&gt;
-&lt;p&gt;The idea behind looking like a fool writing queries in front of an audience
-was to show the process behind those elegant queries that we tend to share
-in one piece, on a slide where they shine, beautifully indented. We don&amp;rsquo;t
-get to those queries writing them like we would prose. It takes multiple
-iterations to get there. From something quite simple to something more and
-more sophisticated, until we have exactly the result set we are interested
-in.&lt;/p&gt;</description>
+      <guid>http://localhost:1313/blog/2019-12-25-pgdayparis/</guid>
+      <description>&lt;p&gt;The videos from &lt;a href=&#34;https://2019.pgday.paris&#34;&gt;pgDay Paris 2019&lt;/a&gt; are online, and&#xA;they look stunning! If you&amp;rsquo;ve been to the conference, you will be able to&#xA;enjoy great memories, and if you&amp;rsquo;ve not been there, you can now enjoy all&#xA;the fine content that was recorded there at the &lt;a href=&#34;https://www.youtube.com/channel/UCiOSEHQe91goxYNJDjj2rLw/videos&#34;&gt;Youtube Channel for&#xA;pgDay.Paris&lt;/a&gt;.&lt;/p&gt;&#xA;&lt;p&gt;This year at pgday Paris I tried something new. My presentation was&#xA;interactive, and I&amp;rsquo;ve been writing queries together with the audience,&#xA;making mistakes, loosing keystrokes and having all the fun!&lt;/p&gt;&#xA;&lt;p&gt;The idea behind looking like a fool writing queries in front of an audience&#xA;was to show the process behind those elegant queries that we tend to share&#xA;in one piece, on a slide where they shine, beautifully indented. We don&amp;rsquo;t&#xA;get to those queries writing them like we would prose. It takes multiple&#xA;iterations to get there. From something quite simple to something more and&#xA;more sophisticated, until we have exactly the result set we are interested&#xA;in.&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>The Art of PostgreSQL: The Transcript, part III</title>
-      <link>https://theartofpostgresql.com/blog/2019-09-postgresopen-part-iii/</link>
+      <link>http://localhost:1313/blog/2019-09-postgresopen-part-iii/</link>
       <pubDate>Wed, 25 Sep 2019 11:14:00 +0200</pubDate>
-      
-      <guid>https://theartofpostgresql.com/blog/2019-09-postgresopen-part-iii/</guid>
-      <description>&lt;p&gt;This article is a transcript of the conference I gave at Postgres Open 2019,
-titled the same as the book: &lt;a href=&#34;https://theartofpostgresql.com&#34;&gt;The Art of
-PostgreSQL&lt;/a&gt;. It&amp;rsquo;s availble as a video online
-at Youtube if you want to watch the slides and listen to it, and it even has
-a subtext!&lt;/p&gt;</description>
+      <guid>http://localhost:1313/blog/2019-09-postgresopen-part-iii/</guid>
+      <description>&lt;p&gt;This article is a transcript of the conference I gave at Postgres Open 2019,&#xA;titled the same as the book: &lt;a href=&#34;https://theartofpostgresql.com&#34;&gt;The Art of&#xA;PostgreSQL&lt;/a&gt;. It&amp;rsquo;s availble as a video online&#xA;at Youtube if you want to watch the slides and listen to it, and it even has&#xA;a subtext!&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>The Art of PostgreSQL: The Transcript, part II</title>
-      <link>https://theartofpostgresql.com/blog/2019-09-postgresopen-part-ii/</link>
+      <link>http://localhost:1313/blog/2019-09-postgresopen-part-ii/</link>
       <pubDate>Mon, 23 Sep 2019 12:15:00 +0200</pubDate>
-      
-      <guid>https://theartofpostgresql.com/blog/2019-09-postgresopen-part-ii/</guid>
-      <description>&lt;p&gt;This article is a transcript of the conference I gave at Postgres Open 2019,
-titled the same as the book: &lt;a href=&#34;https://theartofpostgresql.com&#34;&gt;The Art of
-PostgreSQL&lt;/a&gt;. It&amp;rsquo;s availble as a video online
-at Youtube if you want to watch the slides and listen to it, and it even has
-a subtext!&lt;/p&gt;</description>
+      <guid>http://localhost:1313/blog/2019-09-postgresopen-part-ii/</guid>
+      <description>&lt;p&gt;This article is a transcript of the conference I gave at Postgres Open 2019,&#xA;titled the same as the book: &lt;a href=&#34;https://theartofpostgresql.com&#34;&gt;The Art of&#xA;PostgreSQL&lt;/a&gt;. It&amp;rsquo;s availble as a video online&#xA;at Youtube if you want to watch the slides and listen to it, and it even has&#xA;a subtext!&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>The Art of PostgreSQL: The Transcript, part I</title>
-      <link>https://theartofpostgresql.com/blog/2019-09-postgresopen/</link>
+      <link>http://localhost:1313/blog/2019-09-postgresopen/</link>
       <pubDate>Fri, 20 Sep 2019 20:15:00 +0200</pubDate>
-      
-      <guid>https://theartofpostgresql.com/blog/2019-09-postgresopen/</guid>
-      <description>&lt;p&gt;This article is a transcript of the conference I gave at Postgres Open 2019,
-titled the same as the book: &lt;a href=&#34;https://theartofpostgresql.com&#34;&gt;The Art of
-PostgreSQL&lt;/a&gt;. It&amp;rsquo;s availble as a video online
-at Youtube if you want to watch the slides and listen to it, and it even has
-a subtext!&lt;/p&gt;</description>
+      <guid>http://localhost:1313/blog/2019-09-postgresopen/</guid>
+      <description>&lt;p&gt;This article is a transcript of the conference I gave at Postgres Open 2019,&#xA;titled the same as the book: &lt;a href=&#34;https://theartofpostgresql.com&#34;&gt;The Art of&#xA;PostgreSQL&lt;/a&gt;. It&amp;rsquo;s availble as a video online&#xA;at Youtube if you want to watch the slides and listen to it, and it even has&#xA;a subtext!&lt;/p&gt;</description>
     </item>
-    
   </channel>
 </rss>

@@ -2,141 +2,142 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://theartofpostgresql.com/blog/</loc>
+    <loc>http://localhost:1313/blog/</loc>
     <lastmod>2019-12-25T23:15:00+02:00</lastmod>
   </url><url>
-    <loc>https://theartofpostgresql.com/categories/</loc>
+    <loc>http://localhost:1313/categories/</loc>
     <lastmod>2019-12-25T23:15:00+02:00</lastmod>
   </url><url>
-    <loc>https://theartofpostgresql.com/tags/conference/</loc>
+    <loc>http://localhost:1313/tags/conference/</loc>
     <lastmod>2019-12-25T23:15:00+02:00</lastmod>
   </url><url>
-    <loc>https://theartofpostgresql.com/tags/pgday-paris/</loc>
+    <loc>http://localhost:1313/tags/pgday-paris/</loc>
     <lastmod>2019-12-25T23:15:00+02:00</lastmod>
   </url><url>
-    <loc>https://theartofpostgresql.com/blog/2019-12-25-pgdayparis/</loc>
+    <loc>http://localhost:1313/blog/2019-12-25-pgdayparis/</loc>
     <lastmod>2019-12-25T23:15:00+02:00</lastmod>
   </url><url>
-    <loc>https://theartofpostgresql.com/categories/postgresql/</loc>
+    <loc>http://localhost:1313/categories/postgresql/</loc>
     <lastmod>2019-12-25T23:15:00+02:00</lastmod>
   </url><url>
-    <loc>https://theartofpostgresql.com/tags/relation/</loc>
+    <loc>http://localhost:1313/tags/relation/</loc>
     <lastmod>2019-12-25T23:15:00+02:00</lastmod>
   </url><url>
-    <loc>https://theartofpostgresql.com/tags/sql/</loc>
+    <loc>http://localhost:1313/tags/sql/</loc>
     <lastmod>2019-12-25T23:15:00+02:00</lastmod>
   </url><url>
-    <loc>https://theartofpostgresql.com/tags/</loc>
+    <loc>http://localhost:1313/tags/</loc>
     <lastmod>2019-12-25T23:15:00+02:00</lastmod>
   </url><url>
-    <loc>https://theartofpostgresql.com/</loc>
+    <loc>http://localhost:1313/</loc>
     <lastmod>2019-12-25T23:15:00+02:00</lastmod>
   </url><url>
-    <loc>https://theartofpostgresql.com/categories/yesql/</loc>
+    <loc>http://localhost:1313/categories/yesql/</loc>
     <lastmod>2019-12-25T23:15:00+02:00</lastmod>
   </url><url>
-    <loc>https://theartofpostgresql.com/blog/2019-11-black-friday/</loc>
+    <loc>http://localhost:1313/blog/2019-11-black-friday/</loc>
     <lastmod>2019-11-29T17:15:00+02:00</lastmod>
   </url><url>
-    <loc>https://theartofpostgresql.com/tags/discount/</loc>
+    <loc>http://localhost:1313/tags/discount/</loc>
     <lastmod>2019-11-29T17:15:00+02:00</lastmod>
   </url><url>
-    <loc>https://theartofpostgresql.com/page/</loc>
+    <loc>http://localhost:1313/page/</loc>
     <lastmod>2019-11-06T21:45:00+02:00</lastmod>
   </url><url>
-    <loc>https://theartofpostgresql.com/tags/pev/</loc>
+    <loc>http://localhost:1313/tags/pev/</loc>
     <lastmod>2019-11-06T21:45:00+02:00</lastmod>
   </url><url>
-    <loc>https://theartofpostgresql.com/tags/postgresql/</loc>
+    <loc>http://localhost:1313/tags/postgresql/</loc>
     <lastmod>2019-11-06T21:45:00+02:00</lastmod>
   </url><url>
-    <loc>https://theartofpostgresql.com/explain-plan-visualizer/</loc>
+    <loc>http://localhost:1313/explain-plan-visualizer/</loc>
     <lastmod>2019-11-06T21:45:00+02:00</lastmod>
   </url><url>
-    <loc>https://theartofpostgresql.com/tags/query-plan/</loc>
+    <loc>http://localhost:1313/tags/query-plan/</loc>
     <lastmod>2019-11-06T21:45:00+02:00</lastmod>
   </url><url>
-    <loc>https://theartofpostgresql.com/tags/visualizer/</loc>
+    <loc>http://localhost:1313/tags/visualizer/</loc>
     <lastmod>2019-11-06T21:45:00+02:00</lastmod>
   </url><url>
-    <loc>https://theartofpostgresql.com/tags/archiving/</loc>
+    <loc>http://localhost:1313/tags/archiving/</loc>
     <lastmod>2019-10-14T00:05:00+02:00</lastmod>
   </url><url>
-    <loc>https://theartofpostgresql.com/compute-database-size/</loc>
+    <loc>http://localhost:1313/compute-database-size/</loc>
     <lastmod>2019-10-14T00:05:00+02:00</lastmod>
   </url><url>
-    <loc>https://theartofpostgresql.com/tags/database-size/</loc>
+    <loc>http://localhost:1313/tags/database-size/</loc>
     <lastmod>2019-10-14T00:05:00+02:00</lastmod>
   </url><url>
-    <loc>https://theartofpostgresql.com/tags/denormalisation/</loc>
+    <loc>http://localhost:1313/tags/denormalisation/</loc>
     <lastmod>2019-10-14T00:05:00+02:00</lastmod>
   </url><url>
-    <loc>https://theartofpostgresql.com/tags/normalisation/</loc>
+    <loc>http://localhost:1313/tags/normalisation/</loc>
     <lastmod>2019-10-14T00:05:00+02:00</lastmod>
   </url><url>
-    <loc>https://theartofpostgresql.com/tags/table-of-content/</loc>
+    <loc>http://localhost:1313/table-of-content/</loc>
     <lastmod>2019-10-14T00:05:00+02:00</lastmod>
   </url><url>
-    <loc>https://theartofpostgresql.com/table-of-content/</loc>
+    <loc>http://localhost:1313/tags/table-of-content/</loc>
     <lastmod>2019-10-14T00:05:00+02:00</lastmod>
   </url><url>
-    <loc>https://theartofpostgresql.com/blog/2019-09-why-postgres/</loc>
+    <loc>http://localhost:1313/blog/2019-09-why-postgres/</loc>
     <lastmod>2019-09-27T15:15:00+02:00</lastmod>
   </url><url>
-    <loc>https://theartofpostgresql.com/tags/why-postgresql/</loc>
+    <loc>http://localhost:1313/tags/why-postgresql/</loc>
     <lastmod>2019-09-27T15:15:00+02:00</lastmod>
   </url><url>
-    <loc>https://theartofpostgresql.com/tags/postgres-open/</loc>
+    <loc>http://localhost:1313/tags/postgres-open/</loc>
     <lastmod>2019-09-25T11:14:00+02:00</lastmod>
   </url><url>
-    <loc>https://theartofpostgresql.com/blog/2019-09-postgresopen-part-iii/</loc>
+    <loc>http://localhost:1313/blog/2019-09-postgresopen-part-iii/</loc>
     <lastmod>2019-09-25T11:14:00+02:00</lastmod>
   </url><url>
-    <loc>https://theartofpostgresql.com/blog/2019-09-postgresopen-part-ii/</loc>
+    <loc>http://localhost:1313/blog/2019-09-postgresopen-part-ii/</loc>
     <lastmod>2019-09-23T12:15:00+02:00</lastmod>
   </url><url>
-    <loc>https://theartofpostgresql.com/blog/2019-09-postgresopen/</loc>
+    <loc>http://localhost:1313/blog/2019-09-postgresopen/</loc>
     <lastmod>2019-09-20T20:15:00+02:00</lastmod>
   </url><url>
-    <loc>https://theartofpostgresql.com/blog/2019-09-how-to-learn-sql/</loc>
+    <loc>http://localhost:1313/blog/2019-09-how-to-learn-sql/</loc>
     <lastmod>2019-09-17T00:15:00+02:00</lastmod>
   </url><url>
-    <loc>https://theartofpostgresql.com/tags/learn-postgresql/</loc>
+    <loc>http://localhost:1313/tags/learn-postgresql/</loc>
     <lastmod>2019-09-17T00:15:00+02:00</lastmod>
   </url><url>
-    <loc>https://theartofpostgresql.com/tags/learn-sql/</loc>
+    <loc>http://localhost:1313/tags/learn-sql/</loc>
     <lastmod>2019-09-17T00:15:00+02:00</lastmod>
   </url><url>
-    <loc>https://theartofpostgresql.com/tags/orm/</loc>
+    <loc>http://localhost:1313/tags/orm/</loc>
     <lastmod>2019-09-07T22:55:00+02:00</lastmod>
   </url><url>
-    <loc>https://theartofpostgresql.com/blog/2019-09-the-r-in-orm/</loc>
+    <loc>http://localhost:1313/blog/2019-09-the-r-in-orm/</loc>
     <lastmod>2019-09-07T22:55:00+02:00</lastmod>
   </url><url>
-    <loc>https://theartofpostgresql.com/tags/theory/</loc>
+    <loc>http://localhost:1313/tags/theory/</loc>
     <lastmod>2019-09-07T22:55:00+02:00</lastmod>
   </url><url>
-    <loc>https://theartofpostgresql.com/tags/aggregate/</loc>
+    <loc>http://localhost:1313/tags/aggregate/</loc>
     <lastmod>2019-09-07T22:00:00+02:00</lastmod>
   </url><url>
-    <loc>https://theartofpostgresql.com/blog/2019-09-sql-aggregates/</loc>
+    <loc>http://localhost:1313/blog/2019-09-sql-aggregates/</loc>
     <lastmod>2019-09-07T22:00:00+02:00</lastmod>
   </url><url>
-    <loc>https://theartofpostgresql.com/tags/composition/</loc>
+    <loc>http://localhost:1313/tags/composition/</loc>
     <lastmod>2019-09-07T21:30:00+02:00</lastmod>
   </url><url>
-    <loc>https://theartofpostgresql.com/tags/join/</loc>
+    <loc>http://localhost:1313/tags/join/</loc>
     <lastmod>2019-09-07T21:30:00+02:00</lastmod>
   </url><url>
-    <loc>https://theartofpostgresql.com/blog/2019-09-sql-joins/</loc>
+    <loc>http://localhost:1313/blog/2019-09-sql-joins/</loc>
     <lastmod>2019-09-07T21:30:00+02:00</lastmod>
   </url><url>
-    <loc>https://theartofpostgresql.com/blog/2019-09-sql-relations/</loc>
+    <loc>http://localhost:1313/blog/2019-09-sql-relations/</loc>
     <lastmod>2019-09-07T21:00:00+02:00</lastmod>
   </url><url>
-    <loc>https://theartofpostgresql.com/fr/</loc>
-    <priority>0</priority>
+    <loc>http://localhost:1313/fr/</loc>
   </url><url>
-    <loc>https://theartofpostgresql.com/archives/</loc>
+    <loc>http://localhost:1313/archives/</loc>
+  </url><url>
+    <loc>http://localhost:1313/workshop/</loc>
   </url>
 </urlset>

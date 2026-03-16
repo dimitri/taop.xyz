@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
- <head>
-    <meta name="generator" content="Hugo 0.101.0" />
+ <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta name="generator" content="Hugo 0.152.2">
     <meta charset="utf-8" />
     <title>The Art of PostgreSQL - The Art of PostgreSQL: The Transcript, part II</title>
     <meta name="description" content="This article is a transcript of the conference I gave at Postgres Open 2019,
@@ -89,13 +89,15 @@ titled the same as the book: <a href="https://theartofpostgresql.com">The Art of
 PostgreSQL</a>. It&rsquo;s availble as a video online
 at Youtube if you want to watch the slides and listen to it, and it even has
 a subtext!</p>
-<!-- raw HTML omitted -->
+<center>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/q9IXCdy_mtY" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</center>
 <p>Some people still prefer to read the text, so here it is. This text is the
 second part of the transcript of the video. The first part is available at
 <a href="/blog/2019-09-postgresopen/">The Art of PostgreSQL: The Transcript, part I
 </a>.</p>
-<!-- raw HTML omitted -->
-<figure><img src="/img/PostgresOpen2019/TAOP.021.png"/>
+<hr />
+<figure><img src="/img/PostgresOpen2019/TAOP.021.png">
 </figure>
 
 <p>As a developer writing SQL is the main thing you do with PostgreSQL. Because
@@ -104,7 +106,7 @@ care about is implementing your business in the application. So you do SQL.</p>
 <p>Here&rsquo;s a very simple use case that I found. The data was open data at the
 time, but it&rsquo;s not easy to download anymore. I will need to change the
 example later but I didn&rsquo;t do that yet.</p>
-<figure><img src="/img/PostgresOpen2019/TAOP.023.png"/>
+<figure><img src="/img/PostgresOpen2019/TAOP.023.png">
 </figure>
 
 <p>So when you download the data you have a CSV file that looks like this, with
@@ -129,7 +131,7 @@ table, you should use COPY. It&rsquo;s way faster. The threshold I usually have 
 mind is like 10 lines. If you&rsquo;re uploading 10 lines of data into the same
 table, use COPY. It&rsquo;s a protocol that is implemented in your driver already.
 So just use COPY from the driver.</p>
-<figure><img src="/img/PostgresOpen2019/TAOP.024.png"/>
+<figure><img src="/img/PostgresOpen2019/TAOP.024.png">
 </figure>
 
 <p>But then we don&rsquo;t want to use <code>text</code>, we want to use <code>integer</code> and
@@ -146,7 +148,7 @@ and you could run like a <code>sed</code> or an <code>awk</code> or <code>Python
 data out and make it look like what PostgreSQL is going to expect. But if I
 had done that, then I couldn&rsquo;t have shown you that you can do it in a single
 statement of three columns at a time and an <code>ALTER TABLE</code>.</p>
-<figure><img src="/img/PostgresOpen2019/TAOP.025.png"/>
+<figure><img src="/img/PostgresOpen2019/TAOP.025.png">
 </figure>
 
 <p>Something that many developers told me, when I was a consultant, and even
@@ -155,7 +157,7 @@ SQL because it&rsquo;s a black box. And they&rsquo;re like “yeah, we don&rsquo
 algorithm that is going to be used. We write a query and what is going to
 happen on the server? nobody knows… so we prefer to write the code our own
 way.”</p>
-<figure><img src="/img/PostgresOpen2019/TAOP.026.png"/>
+<figure><img src="/img/PostgresOpen2019/TAOP.026.png">
 </figure>
 
 <p>So here&rsquo;s an example on top of the data we say already. It&rsquo;s the list of the
@@ -174,7 +176,7 @@ an entry and if not it&rsquo;s not included, that&rsquo;s it. And the whole data
 structure in memory is going to have 10 lines, for the whole running of your
 script. So it&rsquo;s easy to control and it&rsquo;s nice. Okay.</p>
 <p>How do you do that in Postgres?</p>
-<figure><img src="/img/PostgresOpen2019/TAOP.027.png"/>
+<figure><img src="/img/PostgresOpen2019/TAOP.027.png">
 </figure>
 
 <p>Well, ORDER BY LIMIT 10, that&rsquo;s it. Maybe that&rsquo;s simpler that way. I don&rsquo;t
@@ -185,7 +187,7 @@ use the same thinking we did before? Only 10 lines in memory at all time
 rather than using all the memory for all the rows. And if you have one
 billion rows it&rsquo;s a problem. So how do you figure that out in Postgres?</p>
 <p>Well you use EXPLAIN.</p>
-<figure><img src="/img/PostgresOpen2019/TAOP.028.png"/>
+<figure><img src="/img/PostgresOpen2019/TAOP.028.png">
 </figure>
 
 <p>My favorite variant of EXPLAIN is using ANALYZE, VERBOSE, and BUFFERS
@@ -216,7 +218,7 @@ will be in red, splashy, and that&rsquo;s where you should focus. You actually
 have all the information you need (in the explain plan) if you know how to
 read it. But it takes some practice. So using something visual to get there
 is a good use of your time.</p>
-<figure><img src="/img/PostgresOpen2019/TAOP.029.png"/>
+<figure><img src="/img/PostgresOpen2019/TAOP.029.png">
 </figure>
 
 <p>Usually when you have this kind of data and you&rsquo;re working on an application
@@ -225,7 +227,7 @@ marketing department or maybe the finance department, or maybe accountants,
 I don&rsquo;t know. Some of your colleagues are going to be interested into some
 kind of monthly reports. So how do you write a monthly report in SQL?</p>
 <p>It&rsquo;s pretty easy.</p>
-<figure><img src="/img/PostgresOpen2019/TAOP.030.png"/>
+<figure><img src="/img/PostgresOpen2019/TAOP.030.png">
 </figure>
 
 <p>Here I&rsquo;m showing off several things like… I&rsquo;m using <code>psql</code> in that example
@@ -257,7 +259,7 @@ understand your problem”… and yeah that&rsquo;s a bug here. So you use great
 equal and less than strict, and you don&rsquo;t have that bug. So that&rsquo;s a small
 trick. Maybe you knew about it already but I&rsquo;ve run through many developers
 enough that I would, you know, take some time on it.</p>
-<figure><img src="/img/PostgresOpen2019/TAOP.031.png"/>
+<figure><img src="/img/PostgresOpen2019/TAOP.031.png">
 </figure>
 
 <p>So here&rsquo;s the result without surprise. Okay, it&rsquo;s some data. We don&rsquo;t know
@@ -266,7 +268,7 @@ bug?</p>
 <p>Missing days, exactly, congrats. So we have 28 days that year in February,
 but only 19 rows output. Maybe marketing department, or accounting won&rsquo;t be
 very happy about that. Maybe they want to have the days without activity.</p>
-<figure><img src="/img/PostgresOpen2019/TAOP.032.png"/>
+<figure><img src="/img/PostgresOpen2019/TAOP.032.png">
 </figure>
 
 <p>So let&rsquo;s fix it, it&rsquo;s easy. You run the same query right and then you do a
@@ -274,12 +276,12 @@ lookup in the calendar in your application. Here it&rsquo;s in Python but it cou
 be anything else. And if the day of the calendar has some data associated
 with it, then you output that data, but otherwise you output zero. And
 here&rsquo;s the result, fixed.</p>
-<figure><img src="/img/PostgresOpen2019/TAOP.033.png"/>
+<figure><img src="/img/PostgresOpen2019/TAOP.033.png">
 </figure>
 
 <p>Or is it really? So where is that code going to be used actually? So maybe
 it&rsquo;s going to be used in only one place and then it&rsquo;s fixed. Good enough.</p>
-<figure><img src="/img/PostgresOpen2019/TAOP.035.png"/>
+<figure><img src="/img/PostgresOpen2019/TAOP.035.png">
 </figure>
 
 <p>But maybe you have an application with different kind of people using it,
@@ -297,7 +299,7 @@ our beloved PostgreSQL database. So maybe you wan to solve the days with no
 activity in SQL.</p>
 <p>So who think that you know how to solve that in SQL? Like, you know, just a
 gut feeling, let&rsquo;s see.</p>
-<figure><img src="/img/PostgresOpen2019/TAOP.037.png"/>
+<figure><img src="/img/PostgresOpen2019/TAOP.037.png">
 </figure>
 
 <p>So there&rsquo;s one thing that is very useful in PostgreSQL and it&rsquo;s called
@@ -333,13 +335,13 @@ of our documentation system. So we when say “please read the docs” it&rsquo;
 because we&rsquo;ve been spending time writing it the good way, the think, and we
 would be happy that it&rsquo;s useful. So in the PostgreSQL community it&rsquo;s polite.
 So… don&rsquo;t take it the wrong way.</p>
-<figure><img src="/img/PostgresOpen2019/TAOP.039.png"/>
+<figure><img src="/img/PostgresOpen2019/TAOP.039.png">
 </figure>
 
 <p>Usually the next step for Marketing is going to be “okay, I want week on
 week evolution as a percentage in the same result set.” So, the slide is a
 copy/paste of the result because it&rsquo;s easier to explain it that way.</p>
-<figure><img src="/img/PostgresOpen2019/TAOP.040.png"/>
+<figure><img src="/img/PostgresOpen2019/TAOP.040.png">
 </figure>
 
 <p>And I&rsquo;ve tried to change some colors, there&rsquo;s a color code. So basically you
@@ -349,7 +351,7 @@ It&rsquo;s just a percentage of difference with the previous week, same day the
 week before.</p>
 <p>So who know how to implement that in SQL? Okay, the other, I think you don&rsquo;t
 know SQL. I&rsquo;m sorry. We&rsquo;ll get back to that, it&rsquo;s a strong statement I know.</p>
-<figure><img src="/img/PostgresOpen2019/TAOP.041.png"/>
+<figure><img src="/img/PostgresOpen2019/TAOP.041.png">
 </figure>
 
 <p>So to implement it we use a CTE here on the left and maybe you recognize it,
@@ -393,7 +395,7 @@ that everybody uses everyday, nowadays… no? maybe not… So that&rsquo;s SQL
 from 92. So if you are not comfortable with it and it&rsquo;s 2019 maybe it&rsquo;s time
 to learn SQL again.</p>
 <p>So then the copy/paste from the result of the query is what we saw before.</p>
-<figure><img src="/img/PostgresOpen2019/TAOP.044.png"/>
+<figure><img src="/img/PostgresOpen2019/TAOP.044.png">
 </figure>
 
 <p>And the SQL standard, the current version is 2016. And any new version of
@@ -402,7 +404,7 @@ version of the SQL standard. So &lsquo;92 is interesting for historic purposes. 
 you do historic research, that&rsquo;s very interesting. If you do production
 database or application development, you don&rsquo;t care about that. The only one
 that you care about is 2016.</p>
-<!-- raw HTML omitted -->
+<hr />
 <p>That&rsquo;s it for the first part of this presentation. We covered from about 15
 mins in to 30 mins of this talk. I will publish the transcript for part III
 and then part IV later this week, so stay tuned to this blog if you like
@@ -415,13 +417,13 @@ of this website: <a href="https://theartofpostgresql.com">The Art of PostgreSQL<
              <p><strong>TAGS:</strong>
               
               
-              <a href="https://theartofpostgresql.com/tags/sql">SQL</a>
+              <a href="http://localhost:1313/tags/sql">SQL</a>
               
-              <a href="https://theartofpostgresql.com/tags/relation">Relation</a>
+              <a href="http://localhost:1313/tags/relation">Relation</a>
               
-              <a href="https://theartofpostgresql.com/tags/postgres-open">Postgres Open</a>
+              <a href="http://localhost:1313/tags/postgres-open">Postgres Open</a>
               
-              <a href="https://theartofpostgresql.com/tags/conference">Conference</a>
+              <a href="http://localhost:1313/tags/conference">Conference</a>
               
               
              </p>
@@ -437,10 +439,10 @@ of this website: <a href="https://theartofpostgresql.com">The Art of PostgreSQL<
  <h6>RECENT POSTS</h6>
  <ul>
  
- <li><a class="previous" href="https://theartofpostgresql.com/blog/2019-09-postgresopen/"> The Art of PostgreSQL: The Transcript, part I</a></li>
+ <li><a class="previous" href="http://localhost:1313/blog/2019-09-postgresopen/"> The Art of PostgreSQL: The Transcript, part I</a></li>
  
  
- <li><a class="next" href="https://theartofpostgresql.com/blog/2019-09-postgresopen-part-iii/"> The Art of PostgreSQL: The Transcript, part III</a></li>
+ <li><a class="next" href="http://localhost:1313/blog/2019-09-postgresopen-part-iii/"> The Art of PostgreSQL: The Transcript, part III</a></li>
  
  </ul>
  
@@ -448,13 +450,13 @@ of this website: <a href="https://theartofpostgresql.com">The Art of PostgreSQL<
  <div class="tag_list">
   
    
-     <a href="https://theartofpostgresql.com/tags/sql">SQL</a>
+     <a href="http://localhost:1313/tags/sql">SQL</a>
    
-     <a href="https://theartofpostgresql.com/tags/relation">Relation</a>
+     <a href="http://localhost:1313/tags/relation">Relation</a>
    
-     <a href="https://theartofpostgresql.com/tags/postgres-open">Postgres Open</a>
+     <a href="http://localhost:1313/tags/postgres-open">Postgres Open</a>
    
-     <a href="https://theartofpostgresql.com/tags/conference">Conference</a>
+     <a href="http://localhost:1313/tags/conference">Conference</a>
    
   
  </div>
@@ -496,9 +498,9 @@ color: #18181C;
  <header style="text-align: center">
   <h3>Share</h3>
  </header>
-<div class="facebook" title="Share this on Facebook" onclick="window.open('http://www.facebook.com/share.php?u=https:\/\/theartofpostgresql.com\/\/blog\/2019-09-postgresopen-part-ii\/');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1343 12v264h-157q-86 0-116 36t-30 108v189h293l-39 296h-254v759h-306v-759h-255v-296h255v-218q0-186 104-288.5t277-102.5q147 0 228 12z"/></svg></div>
-<div class="twitter" title="Share this on Twitter" onclick="window.open('http://twitter.com/intent/tweet?text=The Art of PostgreSQL: The Transcript, part II&url=https:\/\/theartofpostgresql.com\/\/blog\/2019-09-postgresopen-part-ii\/');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1684 408q-67 98-162 167 1 14 1 42 0 130-38 259.5t-115.5 248.5-184.5 210.5-258 146-323 54.5q-271 0-496-145 35 4 78 4 225 0 401-138-105-2-188-64.5t-114-159.5q33 5 61 5 43 0 85-11-112-23-185.5-111.5t-73.5-205.5v-4q68 38 146 41-66-44-105-115t-39-154q0-88 44-163 121 149 294.5 238.5t371.5 99.5q-8-38-8-74 0-134 94.5-228.5t228.5-94.5q140 0 236 102 109-21 205-78-37 115-142 178 93-10 186-50z"/></svg></div>
-<div class="linkedin" title="Share this on Linkedin" onclick="window.open('https://www.linkedin.com/shareArticle?mini=true&url=https:\/\/theartofpostgresql.com\/\/blog\/2019-09-postgresopen-part-ii\/&title=&summary=&source=');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M477 625v991h-330v-991h330zm21-306q1 73-50.5 122t-135.5 49h-2q-82 0-132-49t-50-122q0-74 51.5-122.5t134.5-48.5 133 48.5 51 122.5zm1166 729v568h-329v-530q0-105-40.5-164.5t-126.5-59.5q-63 0-105.5 34.5t-63.5 85.5q-11 30-11 81v553h-329q2-399 2-647t-1-296l-1-48h329v144h-2q20-32 41-56t56.5-52 87-43.5 114.5-15.5q171 0 275 113.5t104 332.5z"/></svg></div>
+<div class="facebook" title="Share this on Facebook" onclick="window.open('http://www.facebook.com/share.php?u=http:\/\/localhost:1313\/\/blog\/2019-09-postgresopen-part-ii\/');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1343 12v264h-157q-86 0-116 36t-30 108v189h293l-39 296h-254v759h-306v-759h-255v-296h255v-218q0-186 104-288.5t277-102.5q147 0 228 12z"/></svg></div>
+<div class="twitter" title="Share this on Twitter" onclick="window.open('http://twitter.com/intent/tweet?text=The Art of PostgreSQL: The Transcript, part II&url=http:\/\/localhost:1313\/\/blog\/2019-09-postgresopen-part-ii\/');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1684 408q-67 98-162 167 1 14 1 42 0 130-38 259.5t-115.5 248.5-184.5 210.5-258 146-323 54.5q-271 0-496-145 35 4 78 4 225 0 401-138-105-2-188-64.5t-114-159.5q33 5 61 5 43 0 85-11-112-23-185.5-111.5t-73.5-205.5v-4q68 38 146 41-66-44-105-115t-39-154q0-88 44-163 121 149 294.5 238.5t371.5 99.5q-8-38-8-74 0-134 94.5-228.5t228.5-94.5q140 0 236 102 109-21 205-78-37 115-142 178 93-10 186-50z"/></svg></div>
+<div class="linkedin" title="Share this on Linkedin" onclick="window.open('https://www.linkedin.com/shareArticle?mini=true&url=http:\/\/localhost:1313\/\/blog\/2019-09-postgresopen-part-ii\/&title=&summary=&source=');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M477 625v991h-330v-991h330zm21-306q1 73-50.5 122t-135.5 49h-2q-82 0-132-49t-50-122q0-74 51.5-122.5t134.5-48.5 133 48.5 51 122.5zm1166 729v568h-329v-530q0-105-40.5-164.5t-126.5-59.5q-63 0-105.5 34.5t-63.5 85.5q-11 30-11 81v553h-329q2-399 2-647t-1-296l-1-48h329v144h-2q20-32 41-56t56.5-52 87-43.5 114.5-15.5q171 0 275 113.5t104 332.5z"/></svg></div>
 
 
 </div>
@@ -617,9 +619,9 @@ color: #18181C;
  <header style="text-align: center">
   <h3>Share</h3>
  </header>
-<div class="facebook" title="Share this on Facebook" onclick="window.open('http://www.facebook.com/share.php?u=https:\/\/theartofpostgresql.com\/\/blog\/2019-09-postgresopen-part-ii\/');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1343 12v264h-157q-86 0-116 36t-30 108v189h293l-39 296h-254v759h-306v-759h-255v-296h255v-218q0-186 104-288.5t277-102.5q147 0 228 12z"/></svg></div>
-<div class="twitter" title="Share this on Twitter" onclick="window.open('http://twitter.com/intent/tweet?text=The Art of PostgreSQL: The Transcript, part II&url=https:\/\/theartofpostgresql.com\/\/blog\/2019-09-postgresopen-part-ii\/');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1684 408q-67 98-162 167 1 14 1 42 0 130-38 259.5t-115.5 248.5-184.5 210.5-258 146-323 54.5q-271 0-496-145 35 4 78 4 225 0 401-138-105-2-188-64.5t-114-159.5q33 5 61 5 43 0 85-11-112-23-185.5-111.5t-73.5-205.5v-4q68 38 146 41-66-44-105-115t-39-154q0-88 44-163 121 149 294.5 238.5t371.5 99.5q-8-38-8-74 0-134 94.5-228.5t228.5-94.5q140 0 236 102 109-21 205-78-37 115-142 178 93-10 186-50z"/></svg></div>
-<div class="linkedin" title="Share this on Linkedin" onclick="window.open('https://www.linkedin.com/shareArticle?mini=true&url=https:\/\/theartofpostgresql.com\/\/blog\/2019-09-postgresopen-part-ii\/&title=&summary=&source=');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M477 625v991h-330v-991h330zm21-306q1 73-50.5 122t-135.5 49h-2q-82 0-132-49t-50-122q0-74 51.5-122.5t134.5-48.5 133 48.5 51 122.5zm1166 729v568h-329v-530q0-105-40.5-164.5t-126.5-59.5q-63 0-105.5 34.5t-63.5 85.5q-11 30-11 81v553h-329q2-399 2-647t-1-296l-1-48h329v144h-2q20-32 41-56t56.5-52 87-43.5 114.5-15.5q171 0 275 113.5t104 332.5z"/></svg></div>
+<div class="facebook" title="Share this on Facebook" onclick="window.open('http://www.facebook.com/share.php?u=http:\/\/localhost:1313\/\/blog\/2019-09-postgresopen-part-ii\/');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1343 12v264h-157q-86 0-116 36t-30 108v189h293l-39 296h-254v759h-306v-759h-255v-296h255v-218q0-186 104-288.5t277-102.5q147 0 228 12z"/></svg></div>
+<div class="twitter" title="Share this on Twitter" onclick="window.open('http://twitter.com/intent/tweet?text=The Art of PostgreSQL: The Transcript, part II&url=http:\/\/localhost:1313\/\/blog\/2019-09-postgresopen-part-ii\/');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1684 408q-67 98-162 167 1 14 1 42 0 130-38 259.5t-115.5 248.5-184.5 210.5-258 146-323 54.5q-271 0-496-145 35 4 78 4 225 0 401-138-105-2-188-64.5t-114-159.5q33 5 61 5 43 0 85-11-112-23-185.5-111.5t-73.5-205.5v-4q68 38 146 41-66-44-105-115t-39-154q0-88 44-163 121 149 294.5 238.5t371.5 99.5q-8-38-8-74 0-134 94.5-228.5t228.5-94.5q140 0 236 102 109-21 205-78-37 115-142 178 93-10 186-50z"/></svg></div>
+<div class="linkedin" title="Share this on Linkedin" onclick="window.open('https://www.linkedin.com/shareArticle?mini=true&url=http:\/\/localhost:1313\/\/blog\/2019-09-postgresopen-part-ii\/&title=&summary=&source=');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M477 625v991h-330v-991h330zm21-306q1 73-50.5 122t-135.5 49h-2q-82 0-132-49t-50-122q0-74 51.5-122.5t134.5-48.5 133 48.5 51 122.5zm1166 729v568h-329v-530q0-105-40.5-164.5t-126.5-59.5q-63 0-105.5 34.5t-63.5 85.5q-11 30-11 81v553h-329q2-399 2-647t-1-296l-1-48h329v144h-2q20-32 41-56t56.5-52 87-43.5 114.5-15.5q171 0 275 113.5t104 332.5z"/></svg></div>
 
 
 </div>
@@ -653,7 +655,14 @@ color: #18181C;
 	           <dt>What if the book isn&rsquo;t what I expected it would be?</dt>
 	           <dd>The Art of PostgreSQL is a book that teaches SQL to application developers. If it's not of any value to you, then just say so and I'll refund you, no questions asked.</dd>
 	           <dt>I bought the book, and I'm confused. What now?</dt>
-	           <dd>The content of the book is available as a PDF, ePub and MOBI file, and you can also download the SQL queries. The content is available over at <a href="https://postgresql.thinkific.com/enrollments" target="_">https://postgresql.thinkific.com/</a> from your student dashboard.</dd>
+	           <dd>
+                     The content of the book is available as a PDF, ePub and
+	             MOBI file, and you can also download the SQL queries.
+	             The content is available over
+	             at <a href="https://members.theartofpostgresql.com/courses/the-art-of-postgresql/"
+	             target="_">https://members.theartofpostgresql.com/courses/the-art-of-postgresql/</a>
+	             from your student dashboard.
+                   </dd>
 	           <dt>Is there any DRM?</dt>
 	           <dd>No. There isn't even watermarking on the PDF. You own what you buy. The sources of data selected for the book are all available with Open Data types of licenses, and the book itself is copyright Dimitri Fontaine. All rights reserved.</dd>
 	           <dt>Any other questions?</dt>

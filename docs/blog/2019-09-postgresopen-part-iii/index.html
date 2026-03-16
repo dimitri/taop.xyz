@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
- <head>
-    <meta name="generator" content="Hugo 0.101.0" />
+ <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta name="generator" content="Hugo 0.152.2">
     <meta charset="utf-8" />
     <title>The Art of PostgreSQL - The Art of PostgreSQL: The Transcript, part III</title>
     <meta name="description" content="This article is a transcript of the conference I gave at Postgres Open 2019,
@@ -89,16 +89,18 @@ titled the same as the book: <a href="https://theartofpostgresql.com">The Art of
 PostgreSQL</a>. It&rsquo;s availble as a video online
 at Youtube if you want to watch the slides and listen to it, and it even has
 a subtext!</p>
-<!-- raw HTML omitted -->
+<center>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/q9IXCdy_mtY" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</center>
 <p>Some people still prefer to read the text, so here it is. This text is the
 third part of the transcript of the video.</p>
 <p>The first part is available at <a href="/blog/2019-09-postgresopen/">The Art of PostgreSQL: The Transcript, part
 I</a>.</p>
 <p>The second part is available at <a href="/blog/2019-09-postgresopen-part-ii/">The Art of PostgreSQL: The Transcript, part
 II</a>.</p>
-<!-- raw HTML omitted -->
+<hr />
 <p>So, how to think in SQL?</p>
-<figure><img src="/img/PostgresOpen2019/TAOP.045.png"/>
+<figure><img src="/img/PostgresOpen2019/TAOP.045.png">
 </figure>
 
 <p>Because, what I&rsquo;m trying to convey here is that SQL
@@ -138,7 +140,7 @@ first chapter is some other data types (Primitive types) and the second
 chapter is objects, so… like integers are not objects but everything is an
 object. In Python you have many things to think about and tools to work
 with. In SQL you have relations.</p>
-<figure><img src="/img/PostgresOpen2019/TAOP.046.png"/>
+<figure><img src="/img/PostgresOpen2019/TAOP.046.png">
 </figure>
 
 <p>So what is a SQL relation? It&rsquo;s basically a collection of data that all
@@ -162,7 +164,7 @@ if you don&rsquo;t know what it is, maybe sometime you will need it and rather
 than writing a very efficient query that you can then just use the result
 of, you&rsquo;re going to have to implement it in your application code and
 retrieve so many data when you only needed that much.</p>
-<figure><img src="/img/PostgresOpen2019/TAOP.047.png"/>
+<figure><img src="/img/PostgresOpen2019/TAOP.047.png">
 </figure>
 
 <p>So here&rsquo;s an example with a LATERAL JOIN. And I tried to put in bold the
@@ -173,7 +175,7 @@ in the query. <strong>SELECT</strong> is the projection operator.</p>
 races and the drivers and the results, and it&rsquo;s going to give you the top-3
 pilots in number of points that they accumulated in a season, by decade.
 Let&rsquo;s see the result.</p>
-<figure><img src="/img/PostgresOpen2019/TAOP.048.png"/>
+<figure><img src="/img/PostgresOpen2019/TAOP.048.png">
 </figure>
 
 <p>So in the &rsquo;50s it was Fangio. So if someone told you that you&rsquo;re driving
@@ -189,7 +191,7 @@ the decade, and then you can GROUP BY and LIMIT to get the top-3 of them.</p>
 <p>It&rsquo;s [lateral] currently the best way to write a top-n query. When you don&rsquo;t
 have it it&rsquo;s very complex to write, when you know about it, it&rsquo;s like “oh, I
 know how to do it”. Any questions so far?</p>
-<figure><img src="/img/PostgresOpen2019/TAOP.050.png"/>
+<figure><img src="/img/PostgresOpen2019/TAOP.050.png">
 </figure>
 
 <p>What I&rsquo;m trying to say now is that SQL is code. So if it&rsquo;s code maybe you
@@ -221,32 +223,32 @@ you&rsquo;re losing out on some of the process around SQL in your code.</p>
 <p>So how to do that? We are going to see about that.</p>
 <p>And maybe you also want to have regression testing around the queries, and
 let&rsquo;s see about that too.</p>
-<figure><img src="/img/PostgresOpen2019/TAOP.051.png"/>
+<figure><img src="/img/PostgresOpen2019/TAOP.051.png">
 </figure>
 
 <p>For you guys who are using an ORM in your code, I&rsquo;m running short on time so
 I will not explain more about it but, just don&rsquo;t do it. It&rsquo;s not worth it.
 Do that instead.</p>
-<figure><img src="/img/PostgresOpen2019/TAOP.052.png"/>
+<figure><img src="/img/PostgresOpen2019/TAOP.052.png">
 </figure>
 
 <p>So those projects like YeSQL began with a Clojure implementation from Kris
 Jenkins, and basically the integration looks like this:</p>
-<figure><img src="/img/PostgresOpen2019/TAOP.053.png"/>
+<figure><img src="/img/PostgresOpen2019/TAOP.053.png">
 </figure>
 
 <p>You write queries in a SQL file, with some comments, and it&rsquo;s going to
 expose the query here. You load the queries and then all the queries are
 going to be exposed a function calls. And the result is going to be a native
 object in your programming language.</p>
-<figure><img src="/img/PostgresOpen2019/TAOP.054.png"/>
+<figure><img src="/img/PostgresOpen2019/TAOP.054.png">
 </figure>
 
 <p>So the integration in the code is going to be so easy and also the query is
 just a SQL file that you are able to share very easily with your DBA
 friends. Because now they&rsquo;re friends because it&rsquo;s easy for you to work with
 them. And also the DBA will be able to review when you do code reviews.</p>
-<figure><img src="/img/PostgresOpen2019/TAOP.055.png"/>
+<figure><img src="/img/PostgresOpen2019/TAOP.055.png">
 </figure>
 
 <p>And then you can implement regression testing on top of it. So I wrote
@@ -267,7 +269,7 @@ files and you know if there&rsquo;s something that changed.</p>
 you integrate it into your system and you run the regression tests and you
 know if it&rsquo;s still behaving the same as before, or maybe not. So it&rsquo;s easy
 to do.</p>
-<figure><img src="/img/PostgresOpen2019/TAOP.057.png"/>
+<figure><img src="/img/PostgresOpen2019/TAOP.057.png">
 </figure>
 
 <p>And so that&rsquo;s the main parts of the presentation about SQL and why I think
@@ -276,7 +278,7 @@ process SQL is code. And then before we wrap up, I wanted to show you some
 powerful queries that you can with PostgreSQL extensions.</p>
 <p>Up to now it was… maybe not so much boring, but not very… I didn&rsquo;t see much
 sparkles, so maybe I can do that.</p>
-<figure><img src="/img/PostgresOpen2019/TAOP.058.png"/>
+<figure><img src="/img/PostgresOpen2019/TAOP.058.png">
 </figure>
 
 <p>First query is going to be about geolocation. Maybe you know about GeoLite.
@@ -294,7 +296,7 @@ yet, but think about it the first time you saw this equal operator <code>=</code
 didn&rsquo;t know how to read it either. So you need to learn about that. So this
 one <code>&gt;&gt;=</code> reads <em>contains</em>. So the IP range contains this address. That&rsquo;s
 easy.</p>
-<figure><img src="/img/PostgresOpen2019/TAOP.059.png"/>
+<figure><img src="/img/PostgresOpen2019/TAOP.059.png">
 </figure>
 
 <p>And also we can have, in PostgreSQL, exclusion constraints. So you can build
@@ -303,7 +305,7 @@ overlapping range anywhere else in the table. So when you give it one IP
 address in the lookup, you&rsquo;re going to lookup either zero or one answer.
 That&rsquo;s it. Because there&rsquo;s no overlapping. Okay? And PostgreSQL is going to
 guarantee that.</p>
-<figure><img src="/img/PostgresOpen2019/TAOP.060.png"/>
+<figure><img src="/img/PostgresOpen2019/TAOP.060.png">
 </figure>
 
 <p>Which means that know you can write this query, which normally wouldn&rsquo;t pass
@@ -323,29 +325,29 @@ and then you&rsquo;re thirsty. You know, that&rsquo;s what happens, so…</p>
 application, maybe it&rsquo;s like a 10 lines query to implement it. It&rsquo;s like, I
 don&rsquo;t know, half an hour of work and then done. Well I don&rsquo;t do the visuals
 and the mappings so you do that, but here you have the query, that&rsquo;s easy.</p>
-<figure><img src="/img/PostgresOpen2019/TAOP.061.png"/>
+<figure><img src="/img/PostgresOpen2019/TAOP.061.png">
 </figure>
 
 <p>And I&rsquo;m running out of time so… this one was interesting, it was bashing on
 MongoDB but so anyway.</p>
-<figure><img src="/img/PostgresOpen2019/TAOP.062.png"/>
+<figure><img src="/img/PostgresOpen2019/TAOP.062.png">
 </figure>
 
 <p>You have the slides, go read over them.</p>
-<figure><img src="/img/PostgresOpen2019/TAOP.064.png"/>
+<figure><img src="/img/PostgresOpen2019/TAOP.064.png">
 </figure>
 
 <p>And this one is, I don&rsquo;t have time to explain it, but it&rsquo;s basically a Model
 View Controler in a single SQL query and the result of the query copy/pasted
 from the console is that:</p>
-<figure><img src="/img/PostgresOpen2019/TAOP.065.png"/>
+<figure><img src="/img/PostgresOpen2019/TAOP.065.png">
 </figure>
 
 <p>That&rsquo;s the kind of things you can do with SQL and Postgres.</p>
-<figure><img src="/img/PostgresOpen2019/TAOP.067.png"/>
+<figure><img src="/img/PostgresOpen2019/TAOP.067.png">
 </figure>
 
-<!-- raw HTML omitted -->
+<hr />
 <p>That&rsquo;s it for this presentation.</p>
 <p>Also, as the content comes from my book anyway, you could also subscribe
 below to get the free sample, or just go buy the book at the main home page
@@ -355,13 +357,13 @@ of this website: <a href="https://theartofpostgresql.com">The Art of PostgreSQL<
              <p><strong>TAGS:</strong>
               
               
-              <a href="https://theartofpostgresql.com/tags/sql">SQL</a>
+              <a href="http://localhost:1313/tags/sql">SQL</a>
               
-              <a href="https://theartofpostgresql.com/tags/relation">Relation</a>
+              <a href="http://localhost:1313/tags/relation">Relation</a>
               
-              <a href="https://theartofpostgresql.com/tags/postgres-open">Postgres Open</a>
+              <a href="http://localhost:1313/tags/postgres-open">Postgres Open</a>
               
-              <a href="https://theartofpostgresql.com/tags/conference">Conference</a>
+              <a href="http://localhost:1313/tags/conference">Conference</a>
               
               
              </p>
@@ -377,10 +379,10 @@ of this website: <a href="https://theartofpostgresql.com">The Art of PostgreSQL<
  <h6>RECENT POSTS</h6>
  <ul>
  
- <li><a class="previous" href="https://theartofpostgresql.com/blog/2019-09-postgresopen-part-ii/"> The Art of PostgreSQL: The Transcript, part II</a></li>
+ <li><a class="previous" href="http://localhost:1313/blog/2019-09-postgresopen-part-ii/"> The Art of PostgreSQL: The Transcript, part II</a></li>
  
  
- <li><a class="next" href="https://theartofpostgresql.com/blog/2019-09-why-postgres/"> Why Postgres?</a></li>
+ <li><a class="next" href="http://localhost:1313/blog/2019-09-why-postgres/"> Why Postgres?</a></li>
  
  </ul>
  
@@ -388,13 +390,13 @@ of this website: <a href="https://theartofpostgresql.com">The Art of PostgreSQL<
  <div class="tag_list">
   
    
-     <a href="https://theartofpostgresql.com/tags/sql">SQL</a>
+     <a href="http://localhost:1313/tags/sql">SQL</a>
    
-     <a href="https://theartofpostgresql.com/tags/relation">Relation</a>
+     <a href="http://localhost:1313/tags/relation">Relation</a>
    
-     <a href="https://theartofpostgresql.com/tags/postgres-open">Postgres Open</a>
+     <a href="http://localhost:1313/tags/postgres-open">Postgres Open</a>
    
-     <a href="https://theartofpostgresql.com/tags/conference">Conference</a>
+     <a href="http://localhost:1313/tags/conference">Conference</a>
    
   
  </div>
@@ -436,9 +438,9 @@ color: #18181C;
  <header style="text-align: center">
   <h3>Share</h3>
  </header>
-<div class="facebook" title="Share this on Facebook" onclick="window.open('http://www.facebook.com/share.php?u=https:\/\/theartofpostgresql.com\/\/blog\/2019-09-postgresopen-part-iii\/');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1343 12v264h-157q-86 0-116 36t-30 108v189h293l-39 296h-254v759h-306v-759h-255v-296h255v-218q0-186 104-288.5t277-102.5q147 0 228 12z"/></svg></div>
-<div class="twitter" title="Share this on Twitter" onclick="window.open('http://twitter.com/intent/tweet?text=The Art of PostgreSQL: The Transcript, part III&url=https:\/\/theartofpostgresql.com\/\/blog\/2019-09-postgresopen-part-iii\/');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1684 408q-67 98-162 167 1 14 1 42 0 130-38 259.5t-115.5 248.5-184.5 210.5-258 146-323 54.5q-271 0-496-145 35 4 78 4 225 0 401-138-105-2-188-64.5t-114-159.5q33 5 61 5 43 0 85-11-112-23-185.5-111.5t-73.5-205.5v-4q68 38 146 41-66-44-105-115t-39-154q0-88 44-163 121 149 294.5 238.5t371.5 99.5q-8-38-8-74 0-134 94.5-228.5t228.5-94.5q140 0 236 102 109-21 205-78-37 115-142 178 93-10 186-50z"/></svg></div>
-<div class="linkedin" title="Share this on Linkedin" onclick="window.open('https://www.linkedin.com/shareArticle?mini=true&url=https:\/\/theartofpostgresql.com\/\/blog\/2019-09-postgresopen-part-iii\/&title=&summary=&source=');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M477 625v991h-330v-991h330zm21-306q1 73-50.5 122t-135.5 49h-2q-82 0-132-49t-50-122q0-74 51.5-122.5t134.5-48.5 133 48.5 51 122.5zm1166 729v568h-329v-530q0-105-40.5-164.5t-126.5-59.5q-63 0-105.5 34.5t-63.5 85.5q-11 30-11 81v553h-329q2-399 2-647t-1-296l-1-48h329v144h-2q20-32 41-56t56.5-52 87-43.5 114.5-15.5q171 0 275 113.5t104 332.5z"/></svg></div>
+<div class="facebook" title="Share this on Facebook" onclick="window.open('http://www.facebook.com/share.php?u=http:\/\/localhost:1313\/\/blog\/2019-09-postgresopen-part-iii\/');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1343 12v264h-157q-86 0-116 36t-30 108v189h293l-39 296h-254v759h-306v-759h-255v-296h255v-218q0-186 104-288.5t277-102.5q147 0 228 12z"/></svg></div>
+<div class="twitter" title="Share this on Twitter" onclick="window.open('http://twitter.com/intent/tweet?text=The Art of PostgreSQL: The Transcript, part III&url=http:\/\/localhost:1313\/\/blog\/2019-09-postgresopen-part-iii\/');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1684 408q-67 98-162 167 1 14 1 42 0 130-38 259.5t-115.5 248.5-184.5 210.5-258 146-323 54.5q-271 0-496-145 35 4 78 4 225 0 401-138-105-2-188-64.5t-114-159.5q33 5 61 5 43 0 85-11-112-23-185.5-111.5t-73.5-205.5v-4q68 38 146 41-66-44-105-115t-39-154q0-88 44-163 121 149 294.5 238.5t371.5 99.5q-8-38-8-74 0-134 94.5-228.5t228.5-94.5q140 0 236 102 109-21 205-78-37 115-142 178 93-10 186-50z"/></svg></div>
+<div class="linkedin" title="Share this on Linkedin" onclick="window.open('https://www.linkedin.com/shareArticle?mini=true&url=http:\/\/localhost:1313\/\/blog\/2019-09-postgresopen-part-iii\/&title=&summary=&source=');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M477 625v991h-330v-991h330zm21-306q1 73-50.5 122t-135.5 49h-2q-82 0-132-49t-50-122q0-74 51.5-122.5t134.5-48.5 133 48.5 51 122.5zm1166 729v568h-329v-530q0-105-40.5-164.5t-126.5-59.5q-63 0-105.5 34.5t-63.5 85.5q-11 30-11 81v553h-329q2-399 2-647t-1-296l-1-48h329v144h-2q20-32 41-56t56.5-52 87-43.5 114.5-15.5q171 0 275 113.5t104 332.5z"/></svg></div>
 
 
 </div>
@@ -557,9 +559,9 @@ color: #18181C;
  <header style="text-align: center">
   <h3>Share</h3>
  </header>
-<div class="facebook" title="Share this on Facebook" onclick="window.open('http://www.facebook.com/share.php?u=https:\/\/theartofpostgresql.com\/\/blog\/2019-09-postgresopen-part-iii\/');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1343 12v264h-157q-86 0-116 36t-30 108v189h293l-39 296h-254v759h-306v-759h-255v-296h255v-218q0-186 104-288.5t277-102.5q147 0 228 12z"/></svg></div>
-<div class="twitter" title="Share this on Twitter" onclick="window.open('http://twitter.com/intent/tweet?text=The Art of PostgreSQL: The Transcript, part III&url=https:\/\/theartofpostgresql.com\/\/blog\/2019-09-postgresopen-part-iii\/');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1684 408q-67 98-162 167 1 14 1 42 0 130-38 259.5t-115.5 248.5-184.5 210.5-258 146-323 54.5q-271 0-496-145 35 4 78 4 225 0 401-138-105-2-188-64.5t-114-159.5q33 5 61 5 43 0 85-11-112-23-185.5-111.5t-73.5-205.5v-4q68 38 146 41-66-44-105-115t-39-154q0-88 44-163 121 149 294.5 238.5t371.5 99.5q-8-38-8-74 0-134 94.5-228.5t228.5-94.5q140 0 236 102 109-21 205-78-37 115-142 178 93-10 186-50z"/></svg></div>
-<div class="linkedin" title="Share this on Linkedin" onclick="window.open('https://www.linkedin.com/shareArticle?mini=true&url=https:\/\/theartofpostgresql.com\/\/blog\/2019-09-postgresopen-part-iii\/&title=&summary=&source=');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M477 625v991h-330v-991h330zm21-306q1 73-50.5 122t-135.5 49h-2q-82 0-132-49t-50-122q0-74 51.5-122.5t134.5-48.5 133 48.5 51 122.5zm1166 729v568h-329v-530q0-105-40.5-164.5t-126.5-59.5q-63 0-105.5 34.5t-63.5 85.5q-11 30-11 81v553h-329q2-399 2-647t-1-296l-1-48h329v144h-2q20-32 41-56t56.5-52 87-43.5 114.5-15.5q171 0 275 113.5t104 332.5z"/></svg></div>
+<div class="facebook" title="Share this on Facebook" onclick="window.open('http://www.facebook.com/share.php?u=http:\/\/localhost:1313\/\/blog\/2019-09-postgresopen-part-iii\/');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1343 12v264h-157q-86 0-116 36t-30 108v189h293l-39 296h-254v759h-306v-759h-255v-296h255v-218q0-186 104-288.5t277-102.5q147 0 228 12z"/></svg></div>
+<div class="twitter" title="Share this on Twitter" onclick="window.open('http://twitter.com/intent/tweet?text=The Art of PostgreSQL: The Transcript, part III&url=http:\/\/localhost:1313\/\/blog\/2019-09-postgresopen-part-iii\/');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1684 408q-67 98-162 167 1 14 1 42 0 130-38 259.5t-115.5 248.5-184.5 210.5-258 146-323 54.5q-271 0-496-145 35 4 78 4 225 0 401-138-105-2-188-64.5t-114-159.5q33 5 61 5 43 0 85-11-112-23-185.5-111.5t-73.5-205.5v-4q68 38 146 41-66-44-105-115t-39-154q0-88 44-163 121 149 294.5 238.5t371.5 99.5q-8-38-8-74 0-134 94.5-228.5t228.5-94.5q140 0 236 102 109-21 205-78-37 115-142 178 93-10 186-50z"/></svg></div>
+<div class="linkedin" title="Share this on Linkedin" onclick="window.open('https://www.linkedin.com/shareArticle?mini=true&url=http:\/\/localhost:1313\/\/blog\/2019-09-postgresopen-part-iii\/&title=&summary=&source=');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M477 625v991h-330v-991h330zm21-306q1 73-50.5 122t-135.5 49h-2q-82 0-132-49t-50-122q0-74 51.5-122.5t134.5-48.5 133 48.5 51 122.5zm1166 729v568h-329v-530q0-105-40.5-164.5t-126.5-59.5q-63 0-105.5 34.5t-63.5 85.5q-11 30-11 81v553h-329q2-399 2-647t-1-296l-1-48h329v144h-2q20-32 41-56t56.5-52 87-43.5 114.5-15.5q171 0 275 113.5t104 332.5z"/></svg></div>
 
 
 </div>
@@ -593,7 +595,14 @@ color: #18181C;
 	           <dt>What if the book isn&rsquo;t what I expected it would be?</dt>
 	           <dd>The Art of PostgreSQL is a book that teaches SQL to application developers. If it's not of any value to you, then just say so and I'll refund you, no questions asked.</dd>
 	           <dt>I bought the book, and I'm confused. What now?</dt>
-	           <dd>The content of the book is available as a PDF, ePub and MOBI file, and you can also download the SQL queries. The content is available over at <a href="https://postgresql.thinkific.com/enrollments" target="_">https://postgresql.thinkific.com/</a> from your student dashboard.</dd>
+	           <dd>
+                     The content of the book is available as a PDF, ePub and
+	             MOBI file, and you can also download the SQL queries.
+	             The content is available over
+	             at <a href="https://members.theartofpostgresql.com/courses/the-art-of-postgresql/"
+	             target="_">https://members.theartofpostgresql.com/courses/the-art-of-postgresql/</a>
+	             from your student dashboard.
+                   </dd>
 	           <dt>Is there any DRM?</dt>
 	           <dd>No. There isn't even watermarking on the PDF. You own what you buy. The sources of data selected for the book are all available with Open Data types of licenses, and the book itself is copyright Dimitri Fontaine. All rights reserved.</dd>
 	           <dt>Any other questions?</dt>

@@ -2,20 +2,18 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Database Size on The Art of PostgreSQL</title>
-    <link>https://theartofpostgresql.com/tags/database-size/</link>
+    <link>http://localhost:1313/tags/database-size/</link>
     <description>Recent content in Database Size on The Art of PostgreSQL</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 14 Oct 2019 00:05:00 +0200</lastBuildDate><atom:link href="https://theartofpostgresql.com/tags/database-size/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 14 Oct 2019 00:05:00 +0200</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/database-size/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Compute database size</title>
-      <link>https://theartofpostgresql.com/compute-database-size/</link>
+      <link>http://localhost:1313/compute-database-size/</link>
       <pubDate>Mon, 14 Oct 2019 00:05:00 +0200</pubDate>
-      
-      <guid>https://theartofpostgresql.com/compute-database-size/</guid>
-      <description>It is well known that database design should be as simple as possible, and follow the normalization process. Except in some cases, sometimes, for scalability purposes. Partitioning might be used to help deal with large amount of data for instance.
-But what is a large amount of data? Do you need to pay attention to those scalability trade-offs now, or can you wait until later? How far can you go with a naive schema?</description>
+      <guid>http://localhost:1313/compute-database-size/</guid>
+      <description>&lt;div&gt;&#xA;    &lt;p style=&#34;text-align: right;&#34;&gt;&#xA;    Photo by &#xA;&lt;a style=&#34;background-color:black;color:white;text-decoration:none;padding:4px 6px;font-family:-apple-system, BlinkMacSystemFont, &amp;quot;San Francisco&amp;quot;, &amp;quot;Helvetica Neue&amp;quot;, Helvetica, Ubuntu, Roboto, Noto, &amp;quot;Segoe UI&amp;quot;, Arial, sans-serif;font-size:12px;font-weight:bold;line-height:1.2;display:inline-block;border-radius:3px&#34; href=&#34;https://unsplash.com/@charlesdeluvio?utm_medium=referral&amp;amp;utm_campaign=photographer-credit&amp;amp;utm_content=creditBadge&#34; target=&#34;_blank&#34; rel=&#34;noopener noreferrer&#34; title=&#34;Download free do whatever you want high-resolution photos from Charles 🇵🇭&#34;&gt;&lt;span style=&#34;display:inline-block;padding:2px 3px&#34;&gt;&lt;svg xmlns=&#34;http://www.w3.org/2000/svg&#34; style=&#34;height:12px;width:auto;position:relative;vertical-align:middle;top:-2px;fill:white&#34; viewBox=&#34;0 0 32 32&#34;&gt;&lt;title&gt;unsplash-logo&lt;/title&gt;&lt;path d=&#34;M10 9V0h12v9H10zm12 5h10v18H0V14h10v9h12v-9z&#34;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/span&gt;&lt;span style=&#34;display:inline-block;padding:2px 3px&#34;&gt;Charles 🇵🇭&lt;/span&gt;&lt;/a&gt;&#xA;   &lt;/p&gt;&#xA;&lt;/div&gt;&#xA;&lt;p&gt;It is well known that database design should be as simple as possible, and&#xA;follow the normalization process. Except in some cases, sometimes, for&#xA;scalability purposes. Partitioning might be used to help deal with large&#xA;amount of data for instance.&lt;/p&gt;</description>
     </item>
-    
   </channel>
 </rss>
