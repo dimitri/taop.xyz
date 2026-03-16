@@ -12,9 +12,10 @@ pygmentsStyle="solarized-dark"
 
 [permalinks]
   post = "/blog/:year/:month/:slug/"
-  page = "/:filename/"
+
+page = "/:contentbasename/"
   conf = "/conf/:slug/"
-  fr = "/fr/:filename"
+  fr = "/fr/:contentbasename/"
 
 [taxonomies]
   tag = "tags"
@@ -36,3 +37,11 @@ pygmentsStyle="solarized-dark"
   clearReading = false
   hierarchicalCategories = true
   favicon = "/favicon.ico"
+
+[markup]
+  defaultMarkdownHandler = 'goldmark'
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      hardWraps = false
+      unsafe = true
+      xhtml = false

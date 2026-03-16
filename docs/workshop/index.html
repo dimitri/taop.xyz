@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+	<meta charset="utf-8">
+	<title>Advanced PostgreSQL Workshops</title>
+	<meta name="description" content="Advanced PostgreSQL Workshops — Master SQL, Performance, and Query Optimization with the Author of The Art of PostgreSQL">
+
+        
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:site" content="@tapoueh" />
+        <meta name="twitter:creator" content="@tapoueh" />
+        <meta property="og:url" content="https://theartofpostgresql.com/workshop" />
+        <meta property="og:title" content="The Art of PostgreSQL" />
+        <meta property="og:description" content="The book that teaches SQL to developers: Learn to replace thousands of lines of code with simple queries!" />
+        <meta property="og:image" content="https://theartofpostgresql.com/img/TheArtOfPostgresUniversity.png" />
+	
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+	
+	
+	<link href="/favicon.ico" rel="icon" type="image/x-icon">
+	
+	
+	<link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700" rel="stylesheet"> 
+	<link rel="stylesheet" href="/css/style.css">
+	
+	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> 
+	<script src="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
+	<script src="/js/custom.js"></script>
+</head>
+<body>
+
+
+
+<header class="header" style="background-color: #372649;">
+  <div class="wrapper">
+    <a class="logo" href="#">The Art of PostgreSQL</a>
+    
+    <nav>
+      <ul>
+	<li><a data-slide=".subscribe_block" href="#">THE WORKSHOP</a></li>
+	<li><a data-slide=".packages_block" href="#">PACKAGES</a></li>
+	<li><a href="/">THE BOOK</a></li>
+	<li><a href="/blog/">BLOG</a></li>
+      </ul>
+    </nav>
+    
+  </div>
+  <a data-slide=".price_list" class="button" href="#">PURCHASE</a>
+</header>
+
+
+
+
+
+
+
+<div class="welcome_slider">
+    <ul>
+    	<li data-cover=".cover">
+    	    <img class="cover" src="/img/TheArtOfPostgresUniversity.png" alt="" />
+    	    <div class="wrapper">
+    	       
+    	    </div>
+    	</li>
+    </ul>
+</div>
+
+
+
+<div class="container">
+  <div class="wrapper">
+    <header class="heading">
+      <h1>The Art of PostgreSQL Workshops</h1>
+      <h4>
+        Thematic PostgreSQL workshops that turn knowledge into practice:
+        conference-grade PostgreSQL masterclass, delivered in a focused
+        3-hour format combining expert instruction, live Q&A, and practical
+        exercises.
+      </h4>
+   </header>
+    <ul class="services_list">
+      <li>
+    	<p><img src="images/icons/plus.png" alt="" /></p>
+    	<p><strong>Structured Learning, <br />
+            Designed for Busy Professionals</strong></p>
+    	<p>
+          Each workshop is a focused 3-hour live online session built around
+          a single high-impact PostgreSQL theme. The format is designed for
+          professionals who want deep, practical knowledge without
+          committing to multi-day training. Clear objectives, guided
+          walkthroughs, and real examples ensure every session delivers
+          immediately applicable skills.
+        </p>
+      </li>
+      <li>
+    	<p><img src="images/icons/bookmark.png" alt="" /></p>
+    	<p><strong>Live Interaction with Expert Guidance</strong></p>
+    	<p>
+          Participants learn in real time and can ask questions throughout
+          the session, ensuring concepts are fully understood — not just
+          demonstrated. Interactive explanations, practical demonstrations,
+          and instructor feedback transform complex database topics into
+          actionable techniques you can apply the same day.          
+        </p>
+      </li>
+      <li>
+    	<p><img src="images/icons/arrow.png" alt="" /></p>
+    	<p><strong>Complete Learning Package <br />
+            with Fixed Schedule</strong></p>
+    	<p>
+          Every full workshop registration includes the complete edition of
+          <strong>The Art of PostgreSQL</strong>, allowing participants to
+          extend learning beyond the session. Workshops run on a fixed
+          calendar, making planning simple for individuals and teams who
+          want structured, predictable skill development.
+        </p>
+      </li>
+    </ul>
+    <div class="heading">
+      <h3>Registration includes The Art of PostgreSQL complete download
+        package (PDF, EPUB, and companion materials), valued at $99.</h3>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="sql_list">
+  <ul>
+    <li>
+      <h2>Understanding Window Functions</h2>
+      <div>
+        <p>
+          Turn complex analytics into elegant SQL by mastering ranking,
+          moving averages, and advanced reporting patterns.
+      </div>
+    </li>
+    <li>
+      <h2>Practical Aggregation & GROUP BY Patterns</h2>
+      <div>
+        <p>
+          Build powerful summary queries and reporting datasets without
+          fragile or slow SQL.
+        </p>
+      </div>
+    </li>
+    <li>
+      <h2>Data Modeling for Performance</h2>
+      <div>
+        <p>
+          Design schemas that scale by aligning data structures with
+          real-world workloads.
+        </p>
+      </div>
+    </li>
+    <li>
+      <h2>Advanced JOIN Techniques</h2>
+      <div>
+        <p>
+          Master complex joins, lateral joins, and set operations to
+          simplify sophisticated data retrieval.
+        </p>
+      </div>
+    </li>
+    <li>
+      <h2>Query Optimization Fundamentals</h2>
+      <div>
+        <p>
+          Discover practical techniques to rewrite inefficient SQL into
+          fast, production-grade queries.
+        </p>
+      </div>
+    </li>
+    <li>
+      <h2>Introduction to Explain Plans</h2>
+      <div>
+        <p>
+          Learn to read query plans like a performance engineer and
+          instantly spot why queries are slow.
+        </p>
+      </div>
+    </li>
+  </ul>
+</div>
+
+
+
+<div class="container">
+  <div class="wrapper">
+    <header class="heading">
+      <h1>Master PostgreSQL Through Principles That Stand the Test of Time</h1>
+      <h4>
+        Build durable expertise in database design, performance, and SQL
+        mastery—skills that remain relevant across PostgreSQL versions, with
+        a feature update review in preparation for a future edition.
+      </h4>
+    </header>
+    <ul class="services_list">
+      <li>
+	
+	<p><strong>Timeless Database Engineering Principles</strong></p>
+	<p>
+          The Art of PostgreSQL remains highly relevant because it focuses
+          on timeless database design principles, performance thinking, and
+          practical SQL techniques that transcend specific version features.
+        </p>
+      </li>
+      <li>
+	
+	<p><strong>Practical Skills That Still Apply</strong></p>
+	<p>
+          While written for PostgreSQL 11, the core architecture, query
+          optimization strategies, indexing approaches, and data modeling
+          practices it teaches continue to apply directly to modern
+          PostgreSQL releases.
+        </p>
+      </li>
+      <li>
+	
+	<p><strong>Future-Proof Learning Investment</strong></p>
+	<p>
+          A curated review of new PostgreSQL features is forthcoming to
+          inform a future edition, but this update is not yet
+          scheduled—making the current book an immediately valuable resource
+          for developers who want durable expertise rather than
+          version-specific checklists.
+        </p>
+      </li>
+    </ul>
+  </div>
+</div>
+
+
+
+<div class="packages_block">
+  <div class="wrapper">
+    <header class="heading">
+      <h3>Workshop Packages & Pricing</h3>
+      <p class="lightpurple">
+        Choose the format that fits your learning goals—from a single
+        focused session to the full workshop series or a private team
+        package.
+      </p>
+    </header>
+    
+    <ul class="price_list">
+      <li>
+    	<div>
+          <h5>Single Session</h5>
+          <div class="price">
+            <sup>$</sup>249
+          </div>
+          <p>
+            Join the workshop series à la carte by registering for any one
+            session from the six available in the current cohort calendar.
+            Each session is a focused 3-hour live webinar dedicated to a
+            specific PostgreSQL topic, combining practical instruction,
+            demonstrations, and live Q&A.
+          </p>
+          <p>
+            This option is ideal if you want to deepen a particular skill or
+            explore the training format before committing to the full
+            series.
+          </p>
+          <p><a data-slide=".descriptions_list" href="#">LEARN MORE</a></p>
+          <div class="dropdown">
+            <button class="button button_purple dropbtn">PURCHASE</button>
+            <div class="dropdown-content">
+              <a href="https://sales.theartofpostgresql.com/workshop-advanced-join-techniques/">Advanced JOIN Techniques</a>
+              <a href="https://sales.theartofpostgresql.com/workshop-intro-to-explain-plans/">Introduction to Explain Plans</a>
+              <a href="https://sales.theartofpostgresql.com/workshop-practical-aggregation-patterns/">Practical Aggregation Patterns</a>
+              <a href="https://sales.theartofpostgresql.com/workshop-data-modeling-for-performance/">Data Modeling for Performance</a>
+              <a href="https://sales.theartofpostgresql.com/workshop-window-functions/">Understanding Window Functions</a>
+              <a href="https://sales.theartofpostgresql.com/workshop-query-optimization-fundamentals/">Query Optimization Fundamentals</a>
+            </div>
+          </div>
+          
+        </div>
+      </li>
+      <li class="bestvalue">
+    	<div>
+    	  <div class="best">MOST POPULAR</div>
+          <h5>Full Workshop Series</h5>
+          <div class="price">
+            <sup>$</sup>1270
+          </div>
+          <p>
+            Get the complete learning experience by enrolling in the full
+            6-session workshop series. This option gives you access to every
+            session in the cohort calendar at a 15% discount, effectively
+            giving you one session free compared to purchasing tickets
+            individually.
+          </p>
+          <p>
+            It’s the best-value option for participants who want a coherent
+            learning path across key PostgreSQL topics, ensuring deeper
+            understanding, continuity between sessions, and the maximum
+            return on your training investment.
+          </p>
+          <p><a data-slide=".descriptions_list" href="#">LEARN MORE</a></p>
+          <a class="button button_purple" href="https://sales.theartofpostgresql.com/workshop-full-workshop-series/">PURCHASE</a>
+        </div>
+      </li>
+      <li>
+    	<div>
+          <h5>Enterprise Team Sessions</h5>
+          <div class="price">
+            <span style="font-size: 70%;">Pending</span>
+          </div>
+          <p>
+            Book a private set of three workshops exclusively for your team.
+            Choose the sessions that best match your needs from the program,
+            and benefit from a dedicated environment where examples,
+            discussions, and Q&A can be oriented toward your team’s
+            real-world challenges.
+          </p>
+          <p>
+            The format remains a structured workshop—not consulting—ensuring
+            a focused learning experience while still allowing participants
+            to connect the material to their own systems, queries, and
+            operational questions.
+          </p>
+          <p><a data-slide=".descriptions_list" href="#">LEARN MORE</a></p>
+          <a class="button button_purple" data-slide=".packages_block" href="">PENDING</a>
+        </div>
+      </li>
+    </ul>
+    
+    
+    
+    
+    
+    
+    
+    
+    <ul class="descriptions_list">
+
+      <li>
+        <h6>Proven Techniques From the Field</h6>
+        <p>
+          The content is drawn from years of real-world PostgreSQL
+          consulting, operations, and performance tuning. Instead of
+          theoretical SQL, you’ll learn the methods professionals use in
+          production systems.
+        </p>
+      </li>
+
+      <li>
+        <h6>The Complete Book Included</h6>
+        <p>
+          Registration includes the <strong>full edition</strong>
+          of <strong>The Art of PostgreSQL</strong> &mdash; a comprehensive
+          reference you can continue to use long after the workshop ends.
+        </p>
+      </li>
+
+      <li>
+        <h6>High Value, Practical Expertise</h6>
+        <p>
+          Each session delivers focused expertise that would normally
+          require days of trial and error to acquire. Participants leave
+          with practical SQL patterns, performance techniques, and a deeper
+          understanding of how PostgreSQL really works.
+        </p>
+      </li>
+      
+      <li>
+        <h6>Master Window Functions</h6>
+        <p>
+          Learn how to express complex analytical queries—ranking, moving
+          averages, cohort analysis—using PostgreSQL window functions. This
+          workshop turns what often feels like “advanced SQL magic” into
+          clear, repeatable techniques you can apply immediately.
+        </p>
+      </li>
+
+      <li>
+        <h6>Advanced JOIN Techniques</h6>
+        <p>
+          Go beyond basic joins and learn patterns that simplify complex
+          data retrieval. From lateral joins to efficient multi-table
+          strategies, you’ll gain tools that dramatically improve both query
+          clarity and performance.
+        </p>
+      </li>
+
+      <li>
+        <h6>Practical Aggregation Patterns</h6>
+        <p>
+          Transform raw data into meaningful insights with robust
+          aggregation techniques. This session focuses on practical
+          reporting queries, reliable GROUP BY patterns, and ways to avoid
+          common performance traps.
+        </p>
+      </li>
+
+      <li>
+        <h6>Data Modeling for Performance</h6>
+        <p>
+          Good performance starts with good schema design. Learn how to
+          model data structures that align with query workloads, reducing
+          complexity and ensuring PostgreSQL can scale efficiently with your
+          application.
+        </p>
+      </li>
+
+      <li>
+        <h6>Introduction to EXPLAIN Plans</h6>
+        <p>
+          Understand what PostgreSQL actually does when executing your
+          queries. This workshop teaches you how to read EXPLAIN and EXPLAIN
+          ANALYZE output so you can diagnose slow queries with confidence.
+        </p>
+      </li>
+
+      <li>
+        <h6>Query Optimization Fundamentals</h6>
+        <p>
+          Discover practical methods to rewrite inefficient SQL into fast,
+          production-ready queries. You’ll learn a systematic approach to
+          identifying bottlenecks and improving performance without
+          guesswork.
+        </p>
+      </li>
+
+      <li>
+        <h6>Hands-On Learning in Focused Sessions</h6>
+        <p>
+          Each workshop is delivered as a concentrated <strong>3-hour online
+          session</strong> designed for maximum signal and minimal time
+          commitment. Expect practical demonstrations, clear explanations,
+          and techniques you can apply immediately.
+        </p>
+      </li>
+
+      <li>
+        <h6>Live Q&A With the Instructor</h6>
+        <p>
+          Every session includes time for live questions, allowing
+          participants to clarify concepts and connect the material to their
+          own real-world database challenges.
+        </p>
+      </li>
+
+      <li>
+        <h6>Learn From a Recognized PostgreSQL Expert</h6>
+        <p>
+          Workshops are led by the author of <strong>The Art of
+          PostgreSQL</strong>, a well-known PostgreSQL practitioner and
+          <strong>international conference speaker</strong> who has taught
+          these techniques to developers and teams worldwide.
+        </p>
+      </li>
+
+    </ul>
+  </div>
+</div>
+
+
+
+<div class="quote_slider">
+    <div class="wrapper">
+        <ul>
+            <li>
+              <blockquote>
+                <p>This book is on a higher level than generic software books. It explains the how's and why's of using Postgres's many feature. It is an excellent companion to the official Postgres documentation.&rdquo;</p>
+                    <p>Bruce Momjian, PostgreSQL core team</p>
+                </blockquote>
+            </li>
+            <li>
+                <blockquote>
+                    <p>Thanks for your fantastic book. It's helped me immensely in my current job. Technical books can often be a bore and hard to digest, but Mastering PostgreSQL was a pleasure to read.&rdquo;</p>
+                    <p>Ben Davies</p>
+                </blockquote>
+            </li>
+            <li>
+                <blockquote>
+                    <p>Thanks for your fantastic book. It's helped me immensely in my current job. Technical books can often be a bore and hard to digest, but Mastering PostgreSQL was a pleasure to read.&rdquo;</p>
+                    <p>Ben Davies</p>
+                </blockquote>
+            </li>
+            <li>
+                <blockquote>
+                    <p>At last the definitive Postgres book for app developers is out,  and from the amazing @tapoueh no less. Go get it!&rdquo;</p>
+                    <p>Peter van Hardenberg</p>
+                </blockquote>
+            </li>
+            <li>
+                <blockquote>
+                    <p>Full edition of &ldquo;Mastering PostgreSQL&#8230;&rdquo; is BRILLIANT! Not just best PG resource ever but best tech-learning package I've ever seen!&rdquo;</p>
+                    <p>Derek Sivers</p>
+                </blockquote>
+            </li>
+            <li>
+                <blockquote>
+                    <p>I knew &ldquo;Mastering PostgreSQL&rdquo; had to be good, but being typeset with XeTeX tops it!&rdquo;</p>
+                    <p>Xavier Noria</p>
+                </blockquote>
+            </li>
+            <li>
+                <blockquote>
+                    <p>Bought the ultimate PostgreSQL book for app developers from @tapoueh Go get it! You will learn many things!&rdquo;</p>
+                    <p>Herv&eacute; Piedvache</p>
+                </blockquote>
+            </li>
+            <li>
+                <blockquote>
+                    <p>The culprit seems to be @tapoueh's book and a few commits by someone learning #PostgreSQL best practices&#8230;&rdquo;</p>
+                    <p>Cyril Brulebois</p>
+                </blockquote>
+            </li>
+            <li>
+                <blockquote>
+                    <p>I just discovered your book  and am super excited to order it!&rdquo;</p>
+                    <p>Lucas Charles</p>
+                </blockquote>
+            </li>
+        </ul>
+    </div>
+</div>
+
+
+
+<div class="subscribe_block">
+    <div class="wrapper">
+     <p>Not convinced yet? Get a FREE chapter including the full Table of Contents!</p>
+     <script async data-uid="c1452ad801" src="https://f.convertkit.com/c1452ad801/ad53e74e51.js"></script>
+     
+    </div>
+</div>
+
+
+ 
+
+<footer class="footer">
+	<div class="wrapper">
+	    <div class="about_block">
+	        <h6>about the author</h6>
+	        <p>Hi! My name is Dimitri Fontaine and I have been using and contributing to Open Source Software for the best of the last 20 years. I am a PostgreSQL Major Contributor after having contributed Extensions and Event Triggers, among other things.</p>
+	        <p>I have been writing code almost daily for a very long time now, both in a professional capacity and on my leisure time. I&rsquo;ve also been a database architect and a DBA on-call. As a developer I enjoy using SQL. As a database architect, I like teaching advanced SQL techniques to my colleagues.</p>
+	        <ul>
+	            <li><a target="_blank" href="mailto:dim@tapoueh.org">email</a></li>
+	            <li><a target="_blank" href="https://twitter.com/tapoueh">twitter</a></li>
+	            <li><a target="_blank" href="https://github.com/dimitri">github</a></li>
+	            <li><a target="_blank" href="https://www.reddit.com/user/theartofpostgresql">reddit</a></li>
+	        </ul>
+    	</div>
+	    <div class="faq_block">
+            <h6>FAQ</h6>
+	        <dl>
+	           <dt>What if the book isn&rsquo;t what I expected it would be?</dt>
+	           <dd>The Art of PostgreSQL is a book that teaches SQL to application developers. If it's not of any value to you, then just say so and I'll refund you, no questions asked.</dd>
+	           <dt>I bought the book, and I'm confused. What now?</dt>
+	           <dd>
+                     The content of the book is available as a PDF, ePub and
+	             MOBI file, and you can also download the SQL queries.
+	             The content is available over
+	             at <a href="https://members.theartofpostgresql.com/courses/the-art-of-postgresql/"
+	             target="_">https://members.theartofpostgresql.com/courses/the-art-of-postgresql/</a>
+	             from your student dashboard.
+                   </dd>
+	           <dt>Is there any DRM?</dt>
+	           <dd>No. There isn't even watermarking on the PDF. You own what you buy. The sources of data selected for the book are all available with Open Data types of licenses, and the book itself is copyright Dimitri Fontaine. All rights reserved.</dd>
+	           <dt>Any other questions?</dt>
+	           <dd>Contact me by <a href="mailto:dim@tapoueh.org">email</a> and just ask! I will do my best to answer you.</dd>
+	        </dl>
+                <div style="font-size: 150%; margin-top: 3em;">
+                  <h6>Languages</h6>
+                  <a href="/">🇬🇧</a>
+                  <a href="/fr/">🇫🇷</a>
+                </div>  
+    	    </div>            
+	</div>
+</footer>
+
+
+
+
+
+
+<div class="copyright">
+    <div class="wrapper">
+        Copyright 2019 &copy; Dimitri Fontaine. All rights reserved. Design by <a style="color: white; font-weight: bold;" target="_blank" href="https://www.terrilowry.com">TerriLowry.com.</a>
+    </div>
+</div>
+
+
+</body>
+
+
+<script type="text/javascript">
+  var subscribersSiteId='1296f531-7ba0-406f-89e1-bdca40a36208';
+</script>
+<script type="text/javascript"
+        src="https://cdn.subscribers.com/assets/subscribers.js">
+</script>
+ 
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-47059482-5"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-47059482-5');
+</script>
+
+
+<script>
+!function(e,t,n,s,u,a){e.twq||(s=e.twq=function(){s.exe?s.exe.apply(s,arguments):s.queue.push(arguments);
+},s.version='1.1',s.queue=[],u=t.createElement(n),u.async=!0,u.src='//static.ads-twitter.com/uwt.js',
+a=t.getElementsByTagName(n)[0],a.parentNode.insertBefore(u,a))}(window,document,'script');
+
+twq('init','o0ial');
+twq('track','PageView');
+</script>
+
+
+</html> 
+
