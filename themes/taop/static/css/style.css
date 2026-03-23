@@ -568,7 +568,7 @@ textarea::placeholder {
   padding: 12px;
   box-sizing: border-box;
 }
-.price_list > li > div .intermediate {
+.price_list > li > div .advanced {
   position: absolute;
   bottom: 100%;
   left: 0;
