@@ -2,31 +2,31 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Postgres Open on The Art of PostgreSQL</title>
-    <link>http://localhost:1313/tags/postgres-open/</link>
+    <link>https://theartofpostgresql.com/tags/postgres-open/</link>
     <description>Recent content in Postgres Open on The Art of PostgreSQL</description>
     <generator>Hugo</generator>
     <language>en-us</language>
     <lastBuildDate>Wed, 25 Sep 2019 11:14:00 +0200</lastBuildDate>
-    <atom:link href="http://localhost:1313/tags/postgres-open/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://theartofpostgresql.com/tags/postgres-open/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>The Art of PostgreSQL: The Transcript, part III</title>
-      <link>http://localhost:1313/blog/2019-09-postgresopen-part-iii/</link>
+      <link>https://theartofpostgresql.com/blog/2019-09-postgresopen-part-iii/</link>
       <pubDate>Wed, 25 Sep 2019 11:14:00 +0200</pubDate>
-      <guid>http://localhost:1313/blog/2019-09-postgresopen-part-iii/</guid>
+      <guid>https://theartofpostgresql.com/blog/2019-09-postgresopen-part-iii/</guid>
       <description>&lt;p&gt;This article is a transcript of the conference I gave at Postgres Open 2019,&#xA;titled the same as the book: &lt;a href=&#34;https://theartofpostgresql.com&#34;&gt;The Art of&#xA;PostgreSQL&lt;/a&gt;. It&amp;rsquo;s availble as a video online&#xA;at Youtube if you want to watch the slides and listen to it, and it even has&#xA;a subtext!&lt;/p&gt;</description>
     </item>
     <item>
       <title>The Art of PostgreSQL: The Transcript, part II</title>
-      <link>http://localhost:1313/blog/2019-09-postgresopen-part-ii/</link>
+      <link>https://theartofpostgresql.com/blog/2019-09-postgresopen-part-ii/</link>
       <pubDate>Mon, 23 Sep 2019 12:15:00 +0200</pubDate>
-      <guid>http://localhost:1313/blog/2019-09-postgresopen-part-ii/</guid>
+      <guid>https://theartofpostgresql.com/blog/2019-09-postgresopen-part-ii/</guid>
       <description>&lt;p&gt;This article is a transcript of the conference I gave at Postgres Open 2019,&#xA;titled the same as the book: &lt;a href=&#34;https://theartofpostgresql.com&#34;&gt;The Art of&#xA;PostgreSQL&lt;/a&gt;. It&amp;rsquo;s availble as a video online&#xA;at Youtube if you want to watch the slides and listen to it, and it even has&#xA;a subtext!&lt;/p&gt;</description>
     </item>
     <item>
       <title>The Art of PostgreSQL: The Transcript, part I</title>
-      <link>http://localhost:1313/blog/2019-09-postgresopen/</link>
+      <link>https://theartofpostgresql.com/blog/2019-09-postgresopen/</link>
       <pubDate>Fri, 20 Sep 2019 20:15:00 +0200</pubDate>
-      <guid>http://localhost:1313/blog/2019-09-postgresopen/</guid>
+      <guid>https://theartofpostgresql.com/blog/2019-09-postgresopen/</guid>
       <description>&lt;p&gt;This article is a transcript of the conference I gave at Postgres Open 2019,&#xA;titled the same as the book: &lt;a href=&#34;https://theartofpostgresql.com&#34;&gt;The Art of&#xA;PostgreSQL&lt;/a&gt;. It&amp;rsquo;s availble as a video online&#xA;at Youtube if you want to watch the slides and listen to it, and it even has&#xA;a subtext!&lt;/p&gt;</description>
     </item>
   </channel>

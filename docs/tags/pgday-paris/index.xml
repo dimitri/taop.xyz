@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>PgDay Paris on The Art of PostgreSQL</title>
-    <link>http://localhost:1313/tags/pgday-paris/</link>
+    <link>https://theartofpostgresql.com/tags/pgday-paris/</link>
     <description>Recent content in PgDay Paris on The Art of PostgreSQL</description>
     <generator>Hugo</generator>
     <language>en-us</language>
     <lastBuildDate>Wed, 25 Dec 2019 23:15:00 +0200</lastBuildDate>
-    <atom:link href="http://localhost:1313/tags/pgday-paris/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://theartofpostgresql.com/tags/pgday-paris/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>pgDay Paris 2019 presentation: How to write SQL queries?</title>
-      <link>http://localhost:1313/blog/2019-12-25-pgdayparis/</link>
+      <link>https://theartofpostgresql.com/blog/2019-12-25-pgdayparis/</link>
       <pubDate>Wed, 25 Dec 2019 23:15:00 +0200</pubDate>
-      <guid>http://localhost:1313/blog/2019-12-25-pgdayparis/</guid>
+      <guid>https://theartofpostgresql.com/blog/2019-12-25-pgdayparis/</guid>
       <description>&lt;p&gt;The videos from &lt;a href=&#34;https://2019.pgday.paris&#34;&gt;pgDay Paris 2019&lt;/a&gt; are online, and&#xA;they look stunning! If you&amp;rsquo;ve been to the conference, you will be able to&#xA;enjoy great memories, and if you&amp;rsquo;ve not been there, you can now enjoy all&#xA;the fine content that was recorded there at the &lt;a href=&#34;https://www.youtube.com/channel/UCiOSEHQe91goxYNJDjj2rLw/videos&#34;&gt;Youtube Channel for&#xA;pgDay.Paris&lt;/a&gt;.&lt;/p&gt;&#xA;&lt;p&gt;This year at pgday Paris I tried something new. My presentation was&#xA;interactive, and I&amp;rsquo;ve been writing queries together with the audience,&#xA;making mistakes, loosing keystrokes and having all the fun!&lt;/p&gt;&#xA;&lt;p&gt;The idea behind looking like a fool writing queries in front of an audience&#xA;was to show the process behind those elegant queries that we tend to share&#xA;in one piece, on a slide where they shine, beautifully indented. We don&amp;rsquo;t&#xA;get to those queries writing them like we would prose. It takes multiple&#xA;iterations to get there. From something quite simple to something more and&#xA;more sophisticated, until we have exactly the result set we are interested&#xA;in.&lt;/p&gt;</description>
     </item>
   </channel>

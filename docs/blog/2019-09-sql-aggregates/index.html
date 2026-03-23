@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
- <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
-    <meta name="generator" content="Hugo 0.152.2">
+ <head>
+    <meta name="generator" content="Hugo 0.158.0">
     <meta charset="utf-8" />
     <title>The Art of PostgreSQL - What is an SQL Aggregate?</title>
     <meta name="description" content="In our previous articles we had a look at What is an SQL
@@ -104,9 +104,9 @@ distributed programming context.</p>
 With <code>reduce</code>, you compute a result per collection of object. In SQL we know
 how to do that too, and we call that an aggregate.</p>
 <p>Here is an example query that we used already:</p>
-<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#586e75">-- name: list-albums-by-artist
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#586e75">-- name: list-albums-by-artist
 </span></span></span><span style="display:flex;"><span><span style="color:#586e75">-- List the album titles and duration of a given artist
-</span></span></span><span style="display:flex;"><span><span style="color:#586e75"></span>  <span style="color:#719e07">select</span> album.title <span style="color:#719e07">as</span> album,
+</span></span></span><span style="display:flex;"><span>  <span style="color:#719e07">select</span> album.title <span style="color:#719e07">as</span> album,
 </span></span><span style="display:flex;"><span>         <span style="color:#719e07">sum</span>(milliseconds) <span style="color:#719e07">*</span> <span style="color:#b58900">interval</span> <span style="color:#2aa198">&#39;1 ms&#39;</span> <span style="color:#719e07">as</span> duration
 </span></span><span style="display:flex;"><span>    <span style="color:#719e07">from</span> album
 </span></span><span style="display:flex;"><span>         <span style="color:#719e07">join</span> artist <span style="color:#719e07">using</span>(artistid)
@@ -121,7 +121,7 @@ relations.</p>
 <p>From this new collection of objects, we want to compute the duration of the
 albums, and we have the duration of each track. So we want a <code>SUM</code> of each
 track duration, per album. Have a look at the query result:</p>
-<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span>┌───────────────────────┬──────────────────────────────┐
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span>┌───────────────────────┬──────────────────────────────┐
 </span></span><span style="display:flex;"><span>│         album         │           duration           │
 </span></span><span style="display:flex;"><span>├───────────────────────┼──────────────────────────────┤
 </span></span><span style="display:flex;"><span>│ Blood Sugar Sex Magik │ <span style="color:#719e07">@</span> <span style="color:#2aa198">1</span> hour <span style="color:#2aa198">13</span> mins <span style="color:#2aa198">57</span>.<span style="color:#2aa198">073</span> secs │
@@ -150,11 +150,11 @@ where you can learn how to put SQL to good use when coding your application!</p>
              <p><strong>TAGS:</strong>
               
               
-              <a href="http://localhost:1313/tags/sql">SQL</a>
+              <a href="https://theartofpostgresql.com/tags/sql">SQL</a>
               
-              <a href="http://localhost:1313/tags/relation">Relation</a>
+              <a href="https://theartofpostgresql.com/tags/relation">Relation</a>
               
-              <a href="http://localhost:1313/tags/aggregate">Aggregate</a>
+              <a href="https://theartofpostgresql.com/tags/aggregate">Aggregate</a>
               
               
              </p>
@@ -170,10 +170,10 @@ where you can learn how to put SQL to good use when coding your application!</p>
  <h6>RECENT POSTS</h6>
  <ul>
  
- <li><a class="previous" href="http://localhost:1313/blog/2019-09-sql-joins/"> What is an SQL JOIN?</a></li>
+ <li><a class="previous" href="https://theartofpostgresql.com/blog/2019-09-sql-joins/"> What is an SQL JOIN?</a></li>
  
  
- <li><a class="next" href="http://localhost:1313/blog/2019-09-the-r-in-orm/"> The R in ORM</a></li>
+ <li><a class="next" href="https://theartofpostgresql.com/blog/2019-09-the-r-in-orm/"> The R in ORM</a></li>
  
  </ul>
  
@@ -181,11 +181,11 @@ where you can learn how to put SQL to good use when coding your application!</p>
  <div class="tag_list">
   
    
-     <a href="http://localhost:1313/tags/sql">SQL</a>
+     <a href="https://theartofpostgresql.com/tags/sql">SQL</a>
    
-     <a href="http://localhost:1313/tags/relation">Relation</a>
+     <a href="https://theartofpostgresql.com/tags/relation">Relation</a>
    
-     <a href="http://localhost:1313/tags/aggregate">Aggregate</a>
+     <a href="https://theartofpostgresql.com/tags/aggregate">Aggregate</a>
    
   
  </div>
@@ -227,9 +227,9 @@ color: #18181C;
  <header style="text-align: center">
   <h3>Share</h3>
  </header>
-<div class="facebook" title="Share this on Facebook" onclick="window.open('http://www.facebook.com/share.php?u=http:\/\/localhost:1313\/\/blog\/2019-09-sql-aggregates\/');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1343 12v264h-157q-86 0-116 36t-30 108v189h293l-39 296h-254v759h-306v-759h-255v-296h255v-218q0-186 104-288.5t277-102.5q147 0 228 12z"/></svg></div>
-<div class="twitter" title="Share this on Twitter" onclick="window.open('http://twitter.com/intent/tweet?text=What is an SQL Aggregate?&url=http:\/\/localhost:1313\/\/blog\/2019-09-sql-aggregates\/');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1684 408q-67 98-162 167 1 14 1 42 0 130-38 259.5t-115.5 248.5-184.5 210.5-258 146-323 54.5q-271 0-496-145 35 4 78 4 225 0 401-138-105-2-188-64.5t-114-159.5q33 5 61 5 43 0 85-11-112-23-185.5-111.5t-73.5-205.5v-4q68 38 146 41-66-44-105-115t-39-154q0-88 44-163 121 149 294.5 238.5t371.5 99.5q-8-38-8-74 0-134 94.5-228.5t228.5-94.5q140 0 236 102 109-21 205-78-37 115-142 178 93-10 186-50z"/></svg></div>
-<div class="linkedin" title="Share this on Linkedin" onclick="window.open('https://www.linkedin.com/shareArticle?mini=true&url=http:\/\/localhost:1313\/\/blog\/2019-09-sql-aggregates\/&title=&summary=&source=');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M477 625v991h-330v-991h330zm21-306q1 73-50.5 122t-135.5 49h-2q-82 0-132-49t-50-122q0-74 51.5-122.5t134.5-48.5 133 48.5 51 122.5zm1166 729v568h-329v-530q0-105-40.5-164.5t-126.5-59.5q-63 0-105.5 34.5t-63.5 85.5q-11 30-11 81v553h-329q2-399 2-647t-1-296l-1-48h329v144h-2q20-32 41-56t56.5-52 87-43.5 114.5-15.5q171 0 275 113.5t104 332.5z"/></svg></div>
+<div class="facebook" title="Share this on Facebook" onclick="window.open('http://www.facebook.com/share.php?u=https:\/\/theartofpostgresql.com\/\/blog\/2019-09-sql-aggregates\/');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1343 12v264h-157q-86 0-116 36t-30 108v189h293l-39 296h-254v759h-306v-759h-255v-296h255v-218q0-186 104-288.5t277-102.5q147 0 228 12z"/></svg></div>
+<div class="twitter" title="Share this on Twitter" onclick="window.open('http://twitter.com/intent/tweet?text=What is an SQL Aggregate?&url=https:\/\/theartofpostgresql.com\/\/blog\/2019-09-sql-aggregates\/');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1684 408q-67 98-162 167 1 14 1 42 0 130-38 259.5t-115.5 248.5-184.5 210.5-258 146-323 54.5q-271 0-496-145 35 4 78 4 225 0 401-138-105-2-188-64.5t-114-159.5q33 5 61 5 43 0 85-11-112-23-185.5-111.5t-73.5-205.5v-4q68 38 146 41-66-44-105-115t-39-154q0-88 44-163 121 149 294.5 238.5t371.5 99.5q-8-38-8-74 0-134 94.5-228.5t228.5-94.5q140 0 236 102 109-21 205-78-37 115-142 178 93-10 186-50z"/></svg></div>
+<div class="linkedin" title="Share this on Linkedin" onclick="window.open('https://www.linkedin.com/shareArticle?mini=true&url=https:\/\/theartofpostgresql.com\/\/blog\/2019-09-sql-aggregates\/&title=&summary=&source=');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M477 625v991h-330v-991h330zm21-306q1 73-50.5 122t-135.5 49h-2q-82 0-132-49t-50-122q0-74 51.5-122.5t134.5-48.5 133 48.5 51 122.5zm1166 729v568h-329v-530q0-105-40.5-164.5t-126.5-59.5q-63 0-105.5 34.5t-63.5 85.5q-11 30-11 81v553h-329q2-399 2-647t-1-296l-1-48h329v144h-2q20-32 41-56t56.5-52 87-43.5 114.5-15.5q171 0 275 113.5t104 332.5z"/></svg></div>
 
 
 </div>
@@ -348,9 +348,9 @@ color: #18181C;
  <header style="text-align: center">
   <h3>Share</h3>
  </header>
-<div class="facebook" title="Share this on Facebook" onclick="window.open('http://www.facebook.com/share.php?u=http:\/\/localhost:1313\/\/blog\/2019-09-sql-aggregates\/');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1343 12v264h-157q-86 0-116 36t-30 108v189h293l-39 296h-254v759h-306v-759h-255v-296h255v-218q0-186 104-288.5t277-102.5q147 0 228 12z"/></svg></div>
-<div class="twitter" title="Share this on Twitter" onclick="window.open('http://twitter.com/intent/tweet?text=What is an SQL Aggregate?&url=http:\/\/localhost:1313\/\/blog\/2019-09-sql-aggregates\/');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1684 408q-67 98-162 167 1 14 1 42 0 130-38 259.5t-115.5 248.5-184.5 210.5-258 146-323 54.5q-271 0-496-145 35 4 78 4 225 0 401-138-105-2-188-64.5t-114-159.5q33 5 61 5 43 0 85-11-112-23-185.5-111.5t-73.5-205.5v-4q68 38 146 41-66-44-105-115t-39-154q0-88 44-163 121 149 294.5 238.5t371.5 99.5q-8-38-8-74 0-134 94.5-228.5t228.5-94.5q140 0 236 102 109-21 205-78-37 115-142 178 93-10 186-50z"/></svg></div>
-<div class="linkedin" title="Share this on Linkedin" onclick="window.open('https://www.linkedin.com/shareArticle?mini=true&url=http:\/\/localhost:1313\/\/blog\/2019-09-sql-aggregates\/&title=&summary=&source=');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M477 625v991h-330v-991h330zm21-306q1 73-50.5 122t-135.5 49h-2q-82 0-132-49t-50-122q0-74 51.5-122.5t134.5-48.5 133 48.5 51 122.5zm1166 729v568h-329v-530q0-105-40.5-164.5t-126.5-59.5q-63 0-105.5 34.5t-63.5 85.5q-11 30-11 81v553h-329q2-399 2-647t-1-296l-1-48h329v144h-2q20-32 41-56t56.5-52 87-43.5 114.5-15.5q171 0 275 113.5t104 332.5z"/></svg></div>
+<div class="facebook" title="Share this on Facebook" onclick="window.open('http://www.facebook.com/share.php?u=https:\/\/theartofpostgresql.com\/\/blog\/2019-09-sql-aggregates\/');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1343 12v264h-157q-86 0-116 36t-30 108v189h293l-39 296h-254v759h-306v-759h-255v-296h255v-218q0-186 104-288.5t277-102.5q147 0 228 12z"/></svg></div>
+<div class="twitter" title="Share this on Twitter" onclick="window.open('http://twitter.com/intent/tweet?text=What is an SQL Aggregate?&url=https:\/\/theartofpostgresql.com\/\/blog\/2019-09-sql-aggregates\/');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1684 408q-67 98-162 167 1 14 1 42 0 130-38 259.5t-115.5 248.5-184.5 210.5-258 146-323 54.5q-271 0-496-145 35 4 78 4 225 0 401-138-105-2-188-64.5t-114-159.5q33 5 61 5 43 0 85-11-112-23-185.5-111.5t-73.5-205.5v-4q68 38 146 41-66-44-105-115t-39-154q0-88 44-163 121 149 294.5 238.5t371.5 99.5q-8-38-8-74 0-134 94.5-228.5t228.5-94.5q140 0 236 102 109-21 205-78-37 115-142 178 93-10 186-50z"/></svg></div>
+<div class="linkedin" title="Share this on Linkedin" onclick="window.open('https://www.linkedin.com/shareArticle?mini=true&url=https:\/\/theartofpostgresql.com\/\/blog\/2019-09-sql-aggregates\/&title=&summary=&source=');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M477 625v991h-330v-991h330zm21-306q1 73-50.5 122t-135.5 49h-2q-82 0-132-49t-50-122q0-74 51.5-122.5t134.5-48.5 133 48.5 51 122.5zm1166 729v568h-329v-530q0-105-40.5-164.5t-126.5-59.5q-63 0-105.5 34.5t-63.5 85.5q-11 30-11 81v553h-329q2-399 2-647t-1-296l-1-48h329v144h-2q20-32 41-56t56.5-52 87-43.5 114.5-15.5q171 0 275 113.5t104 332.5z"/></svg></div>
 
 
 </div>

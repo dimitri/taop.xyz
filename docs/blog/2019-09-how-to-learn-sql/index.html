@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
- <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
-    <meta name="generator" content="Hugo 0.152.2">
+ <head>
+    <meta name="generator" content="Hugo 0.158.0">
     <meta charset="utf-8" />
     <title>The Art of PostgreSQL - How to Learn SQL?</title>
     <meta name="description" content="Here we are, another SQL query to write. You wish you knew how to write that
@@ -141,7 +141,7 @@ its own domain. Or data type, as we say nowadays.</p>
 <em>quintuple</em>. When you don&rsquo;t know the number of attributes the abstract
 relation you talk about in a teaching article that is broad and general,
 then you say <code>t</code>, and then it&rsquo;s a <em>tuple</em>.</p>
-<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span>\<span style="color:#719e07">set</span> <span style="color:#719e07">start</span> <span style="color:#2aa198">&#39;2017-02-01&#39;</span>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span>\<span style="color:#719e07">set</span> <span style="color:#719e07">start</span> <span style="color:#2aa198">&#39;2017-02-01&#39;</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>  <span style="color:#719e07">select</span> <span style="color:#b58900">date</span>,
 </span></span><span style="display:flex;"><span>         to_char(shares, <span style="color:#2aa198">&#39;99G999G999G999&#39;</span>) <span style="color:#719e07">as</span> shares,
@@ -180,7 +180,7 @@ magic to him. Until I began our chapter about explain plans. Then he said <em>�
 know that, that&rsquo;s like AS400 assembly! Now I understand everything!”</em></p>
 <p>Well, maybe you&rsquo;re like this trainee and will find it better to understand
 SQL from having a look at the query plan.</p>
-<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#719e07">EXPLAIN</span> (costs <span style="color:#719e07">off</span>) <span style="color:#719e07">select</span> …
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#719e07">EXPLAIN</span> (costs <span style="color:#719e07">off</span>) <span style="color:#719e07">select</span> …
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span> <span style="color:#719e07">Index</span> Scan <span style="color:#719e07">using</span> factbook_date_idx <span style="color:#719e07">on</span> factbook
 </span></span><span style="display:flex;"><span>   <span style="color:#719e07">Index</span> Cond: ((<span style="color:#b58900">date</span> <span style="color:#719e07">&gt;=</span> <span style="color:#2aa198">&#39;2017-02-01&#39;</span>::<span style="color:#b58900">date</span>)
@@ -191,7 +191,7 @@ returns the data in the order we declared for the result set, so PostgreSQL
 does not even have to sort it! Smart.</p>
 <p>What if we want the result set relation to be sorted by number of dollars,
 with the greater numbers first?</p>
-<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#719e07">explain</span> (costs <span style="color:#719e07">off</span>, <span style="color:#719e07">verbose</span>)
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#719e07">explain</span> (costs <span style="color:#719e07">off</span>, <span style="color:#719e07">verbose</span>)
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>  <span style="color:#719e07">select</span> <span style="color:#b58900">date</span>,
 </span></span><span style="display:flex;"><span>         to_char(shares, <span style="color:#2aa198">&#39;99G999G999G999&#39;</span>) <span style="color:#719e07">as</span> shares,
@@ -303,13 +303,13 @@ the home page!</p>
              <p><strong>TAGS:</strong>
               
               
-              <a href="http://localhost:1313/tags/sql">SQL</a>
+              <a href="https://theartofpostgresql.com/tags/sql">SQL</a>
               
-              <a href="http://localhost:1313/tags/relation">Relation</a>
+              <a href="https://theartofpostgresql.com/tags/relation">Relation</a>
               
-              <a href="http://localhost:1313/tags/learn-sql">Learn SQL</a>
+              <a href="https://theartofpostgresql.com/tags/learn-sql">Learn SQL</a>
               
-              <a href="http://localhost:1313/tags/learn-postgresql">Learn PostgreSQL</a>
+              <a href="https://theartofpostgresql.com/tags/learn-postgresql">Learn PostgreSQL</a>
               
               
              </p>
@@ -325,10 +325,10 @@ the home page!</p>
  <h6>RECENT POSTS</h6>
  <ul>
  
- <li><a class="previous" href="http://localhost:1313/blog/2019-09-the-r-in-orm/"> The R in ORM</a></li>
+ <li><a class="previous" href="https://theartofpostgresql.com/blog/2019-09-the-r-in-orm/"> The R in ORM</a></li>
  
  
- <li><a class="next" href="http://localhost:1313/blog/2019-09-postgresopen/"> The Art of PostgreSQL: The Transcript, part I</a></li>
+ <li><a class="next" href="https://theartofpostgresql.com/blog/2019-09-postgresopen/"> The Art of PostgreSQL: The Transcript, part I</a></li>
  
  </ul>
  
@@ -336,13 +336,13 @@ the home page!</p>
  <div class="tag_list">
   
    
-     <a href="http://localhost:1313/tags/sql">SQL</a>
+     <a href="https://theartofpostgresql.com/tags/sql">SQL</a>
    
-     <a href="http://localhost:1313/tags/relation">Relation</a>
+     <a href="https://theartofpostgresql.com/tags/relation">Relation</a>
    
-     <a href="http://localhost:1313/tags/learn-sql">Learn SQL</a>
+     <a href="https://theartofpostgresql.com/tags/learn-sql">Learn SQL</a>
    
-     <a href="http://localhost:1313/tags/learn-postgresql">Learn PostgreSQL</a>
+     <a href="https://theartofpostgresql.com/tags/learn-postgresql">Learn PostgreSQL</a>
    
   
  </div>
@@ -384,9 +384,9 @@ color: #18181C;
  <header style="text-align: center">
   <h3>Share</h3>
  </header>
-<div class="facebook" title="Share this on Facebook" onclick="window.open('http://www.facebook.com/share.php?u=http:\/\/localhost:1313\/\/blog\/2019-09-how-to-learn-sql\/');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1343 12v264h-157q-86 0-116 36t-30 108v189h293l-39 296h-254v759h-306v-759h-255v-296h255v-218q0-186 104-288.5t277-102.5q147 0 228 12z"/></svg></div>
-<div class="twitter" title="Share this on Twitter" onclick="window.open('http://twitter.com/intent/tweet?text=How to Learn SQL?&url=http:\/\/localhost:1313\/\/blog\/2019-09-how-to-learn-sql\/');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1684 408q-67 98-162 167 1 14 1 42 0 130-38 259.5t-115.5 248.5-184.5 210.5-258 146-323 54.5q-271 0-496-145 35 4 78 4 225 0 401-138-105-2-188-64.5t-114-159.5q33 5 61 5 43 0 85-11-112-23-185.5-111.5t-73.5-205.5v-4q68 38 146 41-66-44-105-115t-39-154q0-88 44-163 121 149 294.5 238.5t371.5 99.5q-8-38-8-74 0-134 94.5-228.5t228.5-94.5q140 0 236 102 109-21 205-78-37 115-142 178 93-10 186-50z"/></svg></div>
-<div class="linkedin" title="Share this on Linkedin" onclick="window.open('https://www.linkedin.com/shareArticle?mini=true&url=http:\/\/localhost:1313\/\/blog\/2019-09-how-to-learn-sql\/&title=&summary=&source=');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M477 625v991h-330v-991h330zm21-306q1 73-50.5 122t-135.5 49h-2q-82 0-132-49t-50-122q0-74 51.5-122.5t134.5-48.5 133 48.5 51 122.5zm1166 729v568h-329v-530q0-105-40.5-164.5t-126.5-59.5q-63 0-105.5 34.5t-63.5 85.5q-11 30-11 81v553h-329q2-399 2-647t-1-296l-1-48h329v144h-2q20-32 41-56t56.5-52 87-43.5 114.5-15.5q171 0 275 113.5t104 332.5z"/></svg></div>
+<div class="facebook" title="Share this on Facebook" onclick="window.open('http://www.facebook.com/share.php?u=https:\/\/theartofpostgresql.com\/\/blog\/2019-09-how-to-learn-sql\/');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1343 12v264h-157q-86 0-116 36t-30 108v189h293l-39 296h-254v759h-306v-759h-255v-296h255v-218q0-186 104-288.5t277-102.5q147 0 228 12z"/></svg></div>
+<div class="twitter" title="Share this on Twitter" onclick="window.open('http://twitter.com/intent/tweet?text=How to Learn SQL?&url=https:\/\/theartofpostgresql.com\/\/blog\/2019-09-how-to-learn-sql\/');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1684 408q-67 98-162 167 1 14 1 42 0 130-38 259.5t-115.5 248.5-184.5 210.5-258 146-323 54.5q-271 0-496-145 35 4 78 4 225 0 401-138-105-2-188-64.5t-114-159.5q33 5 61 5 43 0 85-11-112-23-185.5-111.5t-73.5-205.5v-4q68 38 146 41-66-44-105-115t-39-154q0-88 44-163 121 149 294.5 238.5t371.5 99.5q-8-38-8-74 0-134 94.5-228.5t228.5-94.5q140 0 236 102 109-21 205-78-37 115-142 178 93-10 186-50z"/></svg></div>
+<div class="linkedin" title="Share this on Linkedin" onclick="window.open('https://www.linkedin.com/shareArticle?mini=true&url=https:\/\/theartofpostgresql.com\/\/blog\/2019-09-how-to-learn-sql\/&title=&summary=&source=');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M477 625v991h-330v-991h330zm21-306q1 73-50.5 122t-135.5 49h-2q-82 0-132-49t-50-122q0-74 51.5-122.5t134.5-48.5 133 48.5 51 122.5zm1166 729v568h-329v-530q0-105-40.5-164.5t-126.5-59.5q-63 0-105.5 34.5t-63.5 85.5q-11 30-11 81v553h-329q2-399 2-647t-1-296l-1-48h329v144h-2q20-32 41-56t56.5-52 87-43.5 114.5-15.5q171 0 275 113.5t104 332.5z"/></svg></div>
 
 
 </div>
@@ -505,9 +505,9 @@ color: #18181C;
  <header style="text-align: center">
   <h3>Share</h3>
  </header>
-<div class="facebook" title="Share this on Facebook" onclick="window.open('http://www.facebook.com/share.php?u=http:\/\/localhost:1313\/\/blog\/2019-09-how-to-learn-sql\/');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1343 12v264h-157q-86 0-116 36t-30 108v189h293l-39 296h-254v759h-306v-759h-255v-296h255v-218q0-186 104-288.5t277-102.5q147 0 228 12z"/></svg></div>
-<div class="twitter" title="Share this on Twitter" onclick="window.open('http://twitter.com/intent/tweet?text=How to Learn SQL?&url=http:\/\/localhost:1313\/\/blog\/2019-09-how-to-learn-sql\/');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1684 408q-67 98-162 167 1 14 1 42 0 130-38 259.5t-115.5 248.5-184.5 210.5-258 146-323 54.5q-271 0-496-145 35 4 78 4 225 0 401-138-105-2-188-64.5t-114-159.5q33 5 61 5 43 0 85-11-112-23-185.5-111.5t-73.5-205.5v-4q68 38 146 41-66-44-105-115t-39-154q0-88 44-163 121 149 294.5 238.5t371.5 99.5q-8-38-8-74 0-134 94.5-228.5t228.5-94.5q140 0 236 102 109-21 205-78-37 115-142 178 93-10 186-50z"/></svg></div>
-<div class="linkedin" title="Share this on Linkedin" onclick="window.open('https://www.linkedin.com/shareArticle?mini=true&url=http:\/\/localhost:1313\/\/blog\/2019-09-how-to-learn-sql\/&title=&summary=&source=');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M477 625v991h-330v-991h330zm21-306q1 73-50.5 122t-135.5 49h-2q-82 0-132-49t-50-122q0-74 51.5-122.5t134.5-48.5 133 48.5 51 122.5zm1166 729v568h-329v-530q0-105-40.5-164.5t-126.5-59.5q-63 0-105.5 34.5t-63.5 85.5q-11 30-11 81v553h-329q2-399 2-647t-1-296l-1-48h329v144h-2q20-32 41-56t56.5-52 87-43.5 114.5-15.5q171 0 275 113.5t104 332.5z"/></svg></div>
+<div class="facebook" title="Share this on Facebook" onclick="window.open('http://www.facebook.com/share.php?u=https:\/\/theartofpostgresql.com\/\/blog\/2019-09-how-to-learn-sql\/');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1343 12v264h-157q-86 0-116 36t-30 108v189h293l-39 296h-254v759h-306v-759h-255v-296h255v-218q0-186 104-288.5t277-102.5q147 0 228 12z"/></svg></div>
+<div class="twitter" title="Share this on Twitter" onclick="window.open('http://twitter.com/intent/tweet?text=How to Learn SQL?&url=https:\/\/theartofpostgresql.com\/\/blog\/2019-09-how-to-learn-sql\/');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1684 408q-67 98-162 167 1 14 1 42 0 130-38 259.5t-115.5 248.5-184.5 210.5-258 146-323 54.5q-271 0-496-145 35 4 78 4 225 0 401-138-105-2-188-64.5t-114-159.5q33 5 61 5 43 0 85-11-112-23-185.5-111.5t-73.5-205.5v-4q68 38 146 41-66-44-105-115t-39-154q0-88 44-163 121 149 294.5 238.5t371.5 99.5q-8-38-8-74 0-134 94.5-228.5t228.5-94.5q140 0 236 102 109-21 205-78-37 115-142 178 93-10 186-50z"/></svg></div>
+<div class="linkedin" title="Share this on Linkedin" onclick="window.open('https://www.linkedin.com/shareArticle?mini=true&url=https:\/\/theartofpostgresql.com\/\/blog\/2019-09-how-to-learn-sql\/&title=&summary=&source=');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M477 625v991h-330v-991h330zm21-306q1 73-50.5 122t-135.5 49h-2q-82 0-132-49t-50-122q0-74 51.5-122.5t134.5-48.5 133 48.5 51 122.5zm1166 729v568h-329v-530q0-105-40.5-164.5t-126.5-59.5q-63 0-105.5 34.5t-63.5 85.5q-11 30-11 81v553h-329q2-399 2-647t-1-296l-1-48h329v144h-2q20-32 41-56t56.5-52 87-43.5 114.5-15.5q171 0 275 113.5t104 332.5z"/></svg></div>
 
 
 </div>

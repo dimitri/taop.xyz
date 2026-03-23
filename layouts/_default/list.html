@@ -1,0 +1,21 @@
+{{ partial "post/head.html" . }}
+{{ partial "post/header.html" . }}
+
+<div class="blog_block">
+    <header>
+        <h1>{{ .Title }}</h1>
+    </header>
+    
+    <div class="wrapper">        
+        <div class="posts_wrap">
+            {{ $paginator := .Paginate .Data.Pages }}
+            {{ range $paginator.Pages }}
+                {{ .Render "summary" }}
+            {{ end }}
+        </div>
+
+        {{ partial "post/sidebar.html" . }}
+    </div>
+</div>
+
+{{ partial "footer.html" . }}

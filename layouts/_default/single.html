@@ -1,0 +1,12 @@
+{{ partial "post/head.html" . }}
+{{ partial "post/header.html" . }}
+
+<div class="blog_block">
+    <div class="wrapper">        
+        <article class="post_content">
+            {{ .Content }}
+        </article>
+    </div>
+</div>
+
+{{ partial "footer.html" . }}

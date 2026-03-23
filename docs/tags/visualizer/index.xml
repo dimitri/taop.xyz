@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Visualizer on The Art of PostgreSQL</title>
-    <link>http://localhost:1313/tags/visualizer/</link>
+    <link>https://theartofpostgresql.com/tags/visualizer/</link>
     <description>Recent content in Visualizer on The Art of PostgreSQL</description>
     <generator>Hugo</generator>
     <language>en-us</language>
     <lastBuildDate>Wed, 06 Nov 2019 21:45:00 +0200</lastBuildDate>
-    <atom:link href="http://localhost:1313/tags/visualizer/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://theartofpostgresql.com/tags/visualizer/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>PostgreSQL Query Plan Visualizer</title>
-      <link>http://localhost:1313/explain-plan-visualizer/</link>
+      <link>https://theartofpostgresql.com/explain-plan-visualizer/</link>
       <pubDate>Wed, 06 Nov 2019 21:45:00 +0200</pubDate>
-      <guid>http://localhost:1313/explain-plan-visualizer/</guid>
+      <guid>https://theartofpostgresql.com/explain-plan-visualizer/</guid>
       <description>&lt;div&gt;&#xA;    &lt;p style=&#34;text-align: right;&#34;&gt;&#xA;    Photo by &#xA;&lt;a style=&#34;background-color:black;color:white;text-decoration:none;padding:4px 6px;font-family:-apple-system, BlinkMacSystemFont, &amp;quot;San Francisco&amp;quot;, &amp;quot;Helvetica Neue&amp;quot;, Helvetica, Ubuntu, Roboto, Noto, &amp;quot;Segoe UI&amp;quot;, Arial, sans-serif;font-size:12px;font-weight:bold;line-height:1.2;display:inline-block;border-radius:3px&#34; href=&#34;https://unsplash.com/@hcmorr?utm_medium=referral&amp;amp;utm_campaign=photographer-credit&amp;amp;utm_content=creditBadge&#34; target=&#34;_blank&#34; rel=&#34;noopener noreferrer&#34; title=&#34;Download free do whatever you want high-resolution photos from Hanna Morris&#34;&gt;&lt;span style=&#34;display:inline-block;padding:2px 3px&#34;&gt;&lt;svg xmlns=&#34;http://www.w3.org/2000/svg&#34; style=&#34;height:12px;width:auto;position:relative;vertical-align:middle;top:-2px;fill:white&#34; viewBox=&#34;0 0 32 32&#34;&gt;&lt;title&gt;unsplash-logo&lt;/title&gt;&lt;path d=&#34;M10 9V0h12v9H10zm12 5h10v18H0V14h10v9h12v-9z&#34;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/span&gt;&lt;span style=&#34;display:inline-block;padding:2px 3px&#34;&gt;Hanna Morris&lt;/span&gt;&lt;/a&gt;&#xA;   &lt;/p&gt;&#xA;&lt;/div&gt;&#xA;&lt;h2 id=&#34;postgres-query-planning&#34;&gt;Postgres Query Planning&lt;/h2&gt;&#xA;&lt;p&gt;PostgreSQL provides advanced tooling to understand how it executes SQL&#xA;queries. The execution of a query follows specific steps:&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Parsing&lt;/li&gt;&#xA;&lt;li&gt;Planning&lt;/li&gt;&#xA;&lt;li&gt;Optimization&lt;/li&gt;&#xA;&lt;li&gt;Execution&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;When it comes to the &lt;strong&gt;execution&lt;/strong&gt; step, all Postgres does is follow the&#xA;selected optimized plan. It is possible to ask Postgres for the query plan&#xA;and inspect it, in order to better understand the execution of any query and&#xA;then when necessary find a way to execute the same query faster.&lt;/p&gt;</description>
     </item>
   </channel>
