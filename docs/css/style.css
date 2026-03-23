@@ -568,6 +568,30 @@ textarea::placeholder {
   padding: 12px;
   box-sizing: border-box;
 }
+.price_list > li > div .intermediate {
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  width: 100%;
+  color: #fff;
+  font-weight: 400;
+  letter-spacing: 5px;
+  background: #896da1;
+  padding: 12px;
+  box-sizing: border-box;
+}
+.price_list > li > div .deep-dive {
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  width: 100%;
+  color: #fff;
+  font-weight: 400;
+  letter-spacing: 5px;
+  background: #372649;
+  padding: 12px;
+  box-sizing: border-box;
+}
 .price_list > li > div h5 {
   color: #896da1;
   padding-top: 10px;
