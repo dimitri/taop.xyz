@@ -611,6 +611,71 @@ textarea::placeholder {
   bottom: 25px;
   left: calc(50% - 87px);
 }
+.price_list > li > div .workshop-meta {
+  padding: 0;
+  position: static;
+  text-align: center;
+}
+.workshop-details {
+  margin: 0 auto;
+  border-collapse: collapse;
+}
+.workshop-details th,
+.workshop-details td {
+  padding: 4px 8px;
+  text-align: left;
+  font-size: 13px;
+  line-height: 1.4;
+  color: #896da1;
+}
+.workshop-details th {
+  font-weight: 600;
+  text-align: right;
+}
+.workshop-details td {
+  font-weight: 300;
+  text-align: left;
+}
+.workshop-details td:first-of-type {
+  text-align: right;
+}
+.price_list > li > div .workshop-dates {
+  padding: 0;
+  position: static;
+  text-align: center;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #896da1;
+}
+.price_list > li > div .workshop-dates strong {
+  font-weight: 600;
+}
+.price_list > li > div .workshop-dates table {
+  margin: 0 auto;
+  border-collapse: collapse;
+}
+.price_list > li > div .workshop-dates th,
+.price_list > li > div .workshop-dates td {
+  padding: 4px 8px;
+  font-size: 13px;
+  line-height: 1.4;
+  color: #896da1;
+}
+.price_list > li > div .workshop-dates th {
+  font-weight: 600;
+  text-align: center;
+}
+.price_list > li > div .workshop-dates td {
+  text-align: center;
+}
+.price_list > li > div .workshop-subtitle {
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 1.4;
+  color: #896da1;
+  padding: 0 5%;
+  margin-bottom: 10px;
+}
 /* Packages table */
 .packages_table {
   padding-bottom: 90px;
