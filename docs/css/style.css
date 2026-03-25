@@ -3417,7 +3417,7 @@ body.lab .welcome_slider {
   list-style: none;
   padding: 0;
   margin: 40px auto;
-  max-width: 600px;
+  max-width: 800px;
 }
 .guidance_list li {
   display: flex;
@@ -3431,12 +3431,22 @@ body.lab .welcome_slider {
 }
 .guidance_list .guide_price {
   flex-shrink: 0;
-  width: 100px;
+  width: 60px;
   font-weight: 600;
   color: #372649;
   font-size: 16px;
 }
+.guidance_list .guide_name {
+  flex-shrink: 0;
+  width: 120px;
+  color: #67527a;
+  font-size: 15px;
+}
+.guidance_list .guide_name strong {
+  color: #372649;
+}
 .guidance_list .guide_desc {
+  flex: 1;
   color: #67527a;
   font-size: 15px;
   line-height: 1.5;
