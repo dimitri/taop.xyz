@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Books on The Art of PostgreSQL</title>
+    <link>https://theartofpostgresql.com/book/</link>
+    <description>Recent content in Books on The Art of PostgreSQL</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <atom:link href="https://theartofpostgresql.com/book/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Fair Pricing</title>
+      <link>https://theartofpostgresql.com/book/fair-pricing/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://theartofpostgresql.com/book/fair-pricing/</guid>
+      <description></description>
+    </item>
+  </channel>
+</rss>

@@ -3326,3 +3326,153 @@ body.lab .welcome_slider {
     align-items: center;
   }
 }
+
+/* ==================== FAIR PRICING PAGE ==================== */
+
+.fair_hero {
+  background: #372649;
+  padding: 160px 0 80px 0;
+  text-align: center;
+}
+.fair_hero h1 {
+  color: #fff;
+  font: 400 42px 'Bookman';
+  margin-bottom: 20px;
+  padding: 0;
+}
+.fair_hero .hero_subtitle {
+  color: #dfdde1;
+  font: 300 22px 'Lato';
+  margin-bottom: 15px;
+  padding: 0;
+}
+.fair_hero .hero_price {
+  color: #b8a9c9;
+  font-size: 18px;
+  margin-bottom: 30px;
+  padding: 0;
+}
+.fair_hero .button {
+  margin-top: 10px;
+  background: #60b2d3;
+  border-color: #60b2d3;
+}
+
+.fair_value {
+  padding: 80px 0;
+  background: #fff;
+}
+.fair_value .value_list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 40px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+.fair_value .value_list > li {
+  flex: 1 0 200px;
+  max-width: 280px;
+}
+.fair_value .value_item {
+  text-align: center;
+}
+.fair_value .value_item h6 {
+  color: #372649;
+  font: 700 18px 'Lato';
+  padding: 0 0 10px 0;
+}
+.fair_value .value_item p {
+  color: #67527a;
+  font-size: 15px;
+  line-height: 1.6;
+  margin: 0;
+  padding: 0;
+}
+
+.fair_explanation {
+  padding: 80px 0;
+  background: #f8f7f9;
+}
+.fair_explanation p {
+  max-width: 700px;
+  margin: 0 auto 20px auto;
+  text-align: center;
+  color: #67527a;
+  font-size: 16px;
+  line-height: 1.7;
+}
+.fair_explanation p:last-child {
+  margin-bottom: 0;
+}
+
+.fair_guidance {
+  padding: 80px 0;
+  background: #fff;
+}
+.guidance_list {
+  list-style: none;
+  padding: 0;
+  margin: 40px auto;
+  max-width: 600px;
+}
+.guidance_list li {
+  display: flex;
+  align-items: baseline;
+  gap: 20px;
+  padding: 20px 0;
+  border-bottom: 1px solid #dfdde1;
+}
+.guidance_list li:first-child {
+  border-top: 1px solid #dfdde1;
+}
+.guidance_list .guide_price {
+  flex-shrink: 0;
+  width: 100px;
+  font-weight: 600;
+  color: #372649;
+  font-size: 16px;
+}
+.guidance_list .guide_desc {
+  color: #67527a;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.fair_cta {
+  padding: 80px 0;
+  background: #f8f7f9;
+  text-align: center;
+}
+.fair_cta h3 {
+  font: 400 32px 'Bookman';
+  color: #372649;
+  margin-bottom: 15px;
+  padding: 0;
+}
+.fair_cta p {
+  color: #67527a;
+  font-size: 16px;
+  margin-bottom: 30px;
+  padding: 0;
+}
+
+@media (max-width: 768px) {
+  .fair_hero {
+    padding: 120px 0 60px 0;
+  }
+  .fair_hero h1 {
+    font-size: 32px;
+  }
+  .fair_value .value_list {
+    flex-direction: column;
+    align-items: center;
+  }
+  .fair_guidance .guidance_list li {
+    flex-direction: column;
+    gap: 8px;
+  }
+}
