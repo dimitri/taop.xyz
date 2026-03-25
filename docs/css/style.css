@@ -2335,6 +2335,14 @@ textarea::placeholder {
   padding: 160px 0 80px 0;
   text-align: center;
 }
+
+/* Course page carousel adjustment */
+body.course .welcome_slider,
+body.workshop .welcome_slider,
+body.lab .welcome_slider {
+  padding-top: 66px;
+  box-sizing: border-box;
+}
 .course_hero .presale_banner {
   background: #60b2d3;
   color: #fff;

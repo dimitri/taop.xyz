@@ -2,129 +2,129 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>The Art of PostgreSQL</title>
-    <link>https://theartofpostgresql.com/</link>
+    <link>http://localhost:1313/</link>
     <description>Recent content on The Art of PostgreSQL</description>
     <generator>Hugo</generator>
     <language>en-us</language>
     <lastBuildDate>Wed, 25 Dec 2019 23:15:00 +0200</lastBuildDate>
-    <atom:link href="https://theartofpostgresql.com/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>pgDay Paris 2019 presentation: How to write SQL queries?</title>
-      <link>https://theartofpostgresql.com/blog/2019-12-25-pgdayparis/</link>
+      <link>http://localhost:1313/blog/2019-12-25-pgdayparis/</link>
       <pubDate>Wed, 25 Dec 2019 23:15:00 +0200</pubDate>
-      <guid>https://theartofpostgresql.com/blog/2019-12-25-pgdayparis/</guid>
+      <guid>http://localhost:1313/blog/2019-12-25-pgdayparis/</guid>
       <description>&lt;p&gt;The videos from &lt;a href=&#34;https://2019.pgday.paris&#34;&gt;pgDay Paris 2019&lt;/a&gt; are online, and&#xA;they look stunning! If you&amp;rsquo;ve been to the conference, you will be able to&#xA;enjoy great memories, and if you&amp;rsquo;ve not been there, you can now enjoy all&#xA;the fine content that was recorded there at the &lt;a href=&#34;https://www.youtube.com/channel/UCiOSEHQe91goxYNJDjj2rLw/videos&#34;&gt;Youtube Channel for&#xA;pgDay.Paris&lt;/a&gt;.&lt;/p&gt;&#xA;&lt;p&gt;This year at pgday Paris I tried something new. My presentation was&#xA;interactive, and I&amp;rsquo;ve been writing queries together with the audience,&#xA;making mistakes, loosing keystrokes and having all the fun!&lt;/p&gt;&#xA;&lt;p&gt;The idea behind looking like a fool writing queries in front of an audience&#xA;was to show the process behind those elegant queries that we tend to share&#xA;in one piece, on a slide where they shine, beautifully indented. We don&amp;rsquo;t&#xA;get to those queries writing them like we would prose. It takes multiple&#xA;iterations to get there. From something quite simple to something more and&#xA;more sophisticated, until we have exactly the result set we are interested&#xA;in.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Black Friday &amp; Cyber Monday</title>
-      <link>https://theartofpostgresql.com/blog/2019-11-black-friday/</link>
+      <link>http://localhost:1313/blog/2019-11-black-friday/</link>
       <pubDate>Fri, 29 Nov 2019 17:15:00 +0200</pubDate>
-      <guid>https://theartofpostgresql.com/blog/2019-11-black-friday/</guid>
+      <guid>http://localhost:1313/blog/2019-11-black-friday/</guid>
       <description>&lt;div&gt;&#xA;    &lt;p style=&#34;text-align: right;&#34;&gt;&#xA;    Photo by Alberto Bigoni&#xA;&lt;a style=&#34;background-color:black;color:white;text-decoration:none;padding:4px 6px;font-family:-apple-system, BlinkMacSystemFont, &amp;quot;San Francisco&amp;quot;, &amp;quot;Helvetica Neue&amp;quot;, Helvetica, Ubuntu, Roboto, Noto, &amp;quot;Segoe UI&amp;quot;, Arial, sans-serif;font-size:12px;font-weight:bold;line-height:1.2;display:inline-block;border-radius:3px&#34; href=&#34;https://unsplash.com/@albertobigoni?utm_medium=referral&amp;amp;utm_campaign=photographer-credit&amp;amp;utm_content=creditBadge&#34; target=&#34;_blank&#34; rel=&#34;noopener noreferrer&#34; title=&#34;Download free do whatever you want high-resolution photos from Alberto Bigoni&#34;&gt;&lt;span style=&#34;display:inline-block;padding:2px 3px&#34;&gt;&lt;svg xmlns=&#34;http://www.w3.org/2000/svg&#34; style=&#34;height:12px;width:auto;position:relative;vertical-align:middle;top:-2px;fill:white&#34; viewBox=&#34;0 0 32 32&#34;&gt;&lt;title&gt;unsplash-logo&lt;/title&gt;&lt;path d=&#34;M10 9V0h12v9H10zm12 5h10v18H0V14h10v9h12v-9z&#34;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/span&gt;&lt;span style=&#34;display:inline-block;padding:2px 3px&#34;&gt;Alberto Bigoni&lt;/span&gt;&lt;/a&gt;&#xA;   &lt;/p&gt;&#xA;&lt;/div&gt;&#xA;&lt;p&gt;Today is Black Friday, then followed by a week end that leads directly to&#xA;Cyber Monday. This is a period where you can find great deals online, with&#xA;many discounts. I&amp;rsquo;ll make it short, because we all are busy, right?&lt;/p&gt;</description>
     </item>
     <item>
       <title>PostgreSQL Query Plan Visualizer</title>
-      <link>https://theartofpostgresql.com/explain-plan-visualizer/</link>
+      <link>http://localhost:1313/explain-plan-visualizer/</link>
       <pubDate>Wed, 06 Nov 2019 21:45:00 +0200</pubDate>
-      <guid>https://theartofpostgresql.com/explain-plan-visualizer/</guid>
+      <guid>http://localhost:1313/explain-plan-visualizer/</guid>
       <description>&lt;div&gt;&#xA;    &lt;p style=&#34;text-align: right;&#34;&gt;&#xA;    Photo by &#xA;&lt;a style=&#34;background-color:black;color:white;text-decoration:none;padding:4px 6px;font-family:-apple-system, BlinkMacSystemFont, &amp;quot;San Francisco&amp;quot;, &amp;quot;Helvetica Neue&amp;quot;, Helvetica, Ubuntu, Roboto, Noto, &amp;quot;Segoe UI&amp;quot;, Arial, sans-serif;font-size:12px;font-weight:bold;line-height:1.2;display:inline-block;border-radius:3px&#34; href=&#34;https://unsplash.com/@hcmorr?utm_medium=referral&amp;amp;utm_campaign=photographer-credit&amp;amp;utm_content=creditBadge&#34; target=&#34;_blank&#34; rel=&#34;noopener noreferrer&#34; title=&#34;Download free do whatever you want high-resolution photos from Hanna Morris&#34;&gt;&lt;span style=&#34;display:inline-block;padding:2px 3px&#34;&gt;&lt;svg xmlns=&#34;http://www.w3.org/2000/svg&#34; style=&#34;height:12px;width:auto;position:relative;vertical-align:middle;top:-2px;fill:white&#34; viewBox=&#34;0 0 32 32&#34;&gt;&lt;title&gt;unsplash-logo&lt;/title&gt;&lt;path d=&#34;M10 9V0h12v9H10zm12 5h10v18H0V14h10v9h12v-9z&#34;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/span&gt;&lt;span style=&#34;display:inline-block;padding:2px 3px&#34;&gt;Hanna Morris&lt;/span&gt;&lt;/a&gt;&#xA;   &lt;/p&gt;&#xA;&lt;/div&gt;&#xA;&lt;h2 id=&#34;postgres-query-planning&#34;&gt;Postgres Query Planning&lt;/h2&gt;&#xA;&lt;p&gt;PostgreSQL provides advanced tooling to understand how it executes SQL&#xA;queries. The execution of a query follows specific steps:&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Parsing&lt;/li&gt;&#xA;&lt;li&gt;Planning&lt;/li&gt;&#xA;&lt;li&gt;Optimization&lt;/li&gt;&#xA;&lt;li&gt;Execution&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;When it comes to the &lt;strong&gt;execution&lt;/strong&gt; step, all Postgres does is follow the&#xA;selected optimized plan. It is possible to ask Postgres for the query plan&#xA;and inspect it, in order to better understand the execution of any query and&#xA;then when necessary find a way to execute the same query faster.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Compute database size</title>
-      <link>https://theartofpostgresql.com/compute-database-size/</link>
+      <link>http://localhost:1313/compute-database-size/</link>
       <pubDate>Mon, 14 Oct 2019 00:05:00 +0200</pubDate>
-      <guid>https://theartofpostgresql.com/compute-database-size/</guid>
+      <guid>http://localhost:1313/compute-database-size/</guid>
       <description>&lt;div&gt;&#xA;    &lt;p style=&#34;text-align: right;&#34;&gt;&#xA;    Photo by &#xA;&lt;a style=&#34;background-color:black;color:white;text-decoration:none;padding:4px 6px;font-family:-apple-system, BlinkMacSystemFont, &amp;quot;San Francisco&amp;quot;, &amp;quot;Helvetica Neue&amp;quot;, Helvetica, Ubuntu, Roboto, Noto, &amp;quot;Segoe UI&amp;quot;, Arial, sans-serif;font-size:12px;font-weight:bold;line-height:1.2;display:inline-block;border-radius:3px&#34; href=&#34;https://unsplash.com/@charlesdeluvio?utm_medium=referral&amp;amp;utm_campaign=photographer-credit&amp;amp;utm_content=creditBadge&#34; target=&#34;_blank&#34; rel=&#34;noopener noreferrer&#34; title=&#34;Download free do whatever you want high-resolution photos from Charles 🇵🇭&#34;&gt;&lt;span style=&#34;display:inline-block;padding:2px 3px&#34;&gt;&lt;svg xmlns=&#34;http://www.w3.org/2000/svg&#34; style=&#34;height:12px;width:auto;position:relative;vertical-align:middle;top:-2px;fill:white&#34; viewBox=&#34;0 0 32 32&#34;&gt;&lt;title&gt;unsplash-logo&lt;/title&gt;&lt;path d=&#34;M10 9V0h12v9H10zm12 5h10v18H0V14h10v9h12v-9z&#34;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/span&gt;&lt;span style=&#34;display:inline-block;padding:2px 3px&#34;&gt;Charles 🇵🇭&lt;/span&gt;&lt;/a&gt;&#xA;   &lt;/p&gt;&#xA;&lt;/div&gt;&#xA;&lt;p&gt;It is well known that database design should be as simple as possible, and&#xA;follow the normalization process. Except in some cases, sometimes, for&#xA;scalability purposes. Partitioning might be used to help deal with large&#xA;amount of data for instance.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Table of Content</title>
-      <link>https://theartofpostgresql.com/table-of-content/</link>
+      <link>http://localhost:1313/table-of-content/</link>
       <pubDate>Mon, 14 Oct 2019 00:05:00 +0200</pubDate>
-      <guid>https://theartofpostgresql.com/table-of-content/</guid>
+      <guid>http://localhost:1313/table-of-content/</guid>
       <description>&lt;div&gt;&#xA;    &lt;p style=&#34;text-align: right;&#34;&gt;&#xA;    Photo by &#xA;&lt;a style=&#34;background-color:black;color:white;text-decoration:none;padding:4px 6px;font-family:-apple-system, BlinkMacSystemFont, &amp;quot;San Francisco&amp;quot;, &amp;quot;Helvetica Neue&amp;quot;, Helvetica, Ubuntu, Roboto, Noto, &amp;quot;Segoe UI&amp;quot;, Arial, sans-serif;font-size:12px;font-weight:bold;line-height:1.2;display:inline-block;border-radius:3px&#34; href=&#34;https://unsplash.com/@nicolehoneywill_sincerelymedia?utm_medium=referral&amp;amp;utm_campaign=photographer-credit&amp;amp;utm_content=creditBadge&#34; target=&#34;_blank&#34; rel=&#34;noopener noreferrer&#34; title=&#34;Download free do whatever you want high-resolution photos from Nicole Honeywill / Sincerely Media&#34;&gt;&lt;span style=&#34;display:inline-block;padding:2px 3px&#34;&gt;&lt;svg xmlns=&#34;http://www.w3.org/2000/svg&#34; style=&#34;height:12px;width:auto;position:relative;vertical-align:middle;top:-2px;fill:white&#34; viewBox=&#34;0 0 32 32&#34;&gt;&lt;title&gt;unsplash-logo&lt;/title&gt;&lt;path d=&#34;M10 9V0h12v9H10zm12 5h10v18H0V14h10v9h12v-9z&#34;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/span&gt;&lt;span style=&#34;display:inline-block;padding:2px 3px&#34;&gt;Nicole Honeywill / Sincerely Media&lt;/span&gt;&lt;/a&gt;&#xA;   &lt;/p&gt;&#xA;&lt;/div&gt;&#xA;&lt;p&gt;Each part of &lt;a href=&#34;https://theartofpostgresql.com&#34;&gt;The Art of PostgreSQL&lt;/a&gt; can be&#xA;read on its own, or you can read this book from the first to the last page&#xA;in the order of the parts and chapters therein. A great deal of thinking&#xA;have been put in the ordering of the parts, so that reading “The Art of&#xA;PostgreSQL” in a linear fashion should provide the best experience.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Why Postgres?</title>
-      <link>https://theartofpostgresql.com/blog/2019-09-why-postgres/</link>
+      <link>http://localhost:1313/blog/2019-09-why-postgres/</link>
       <pubDate>Fri, 27 Sep 2019 15:15:00 +0200</pubDate>
-      <guid>https://theartofpostgresql.com/blog/2019-09-why-postgres/</guid>
+      <guid>http://localhost:1313/blog/2019-09-why-postgres/</guid>
       <description>&lt;div&gt;&#xA;    &lt;p style=&#34;text-align: right;&#34;&gt;&#xA;    Photo by Emily Morter&#xA;    &lt;a style=&#34;background-color:black;color:white;text-decoration:none;padding:4px 6px;font-family:-apple-system, BlinkMacSystemFont, &amp;quot;San Francisco&amp;quot;, &amp;quot;Helvetica Neue&amp;quot;, Helvetica, Ubuntu, Roboto, Noto, &amp;quot;Segoe UI&amp;quot;, Arial, sans-serif;font-size:12px;font-weight:bold;line-height:1.2;display:inline-block;border-radius:3px&#34; href=&#34;https://unsplash.com/@emilymorter?utm_medium=referral&amp;amp;utm_campaign=photographer-credit&amp;amp;utm_content=creditBadge&#34; target=&#34;_blank&#34; rel=&#34;noopener noreferrer&#34; title=&#34;Download free do whatever you want high-resolution photos from Emily Morter&#34;&gt;&lt;span style=&#34;display:inline-block;padding:2px 3px&#34;&gt;&lt;svg xmlns=&#34;http://www.w3.org/2000/svg&#34; style=&#34;height:12px;width:auto;position:relative;vertical-align:middle;top:-2px;fill:white&#34; viewBox=&#34;0 0 32 32&#34;&gt;&lt;title&gt;unsplash-logo&lt;/title&gt;&lt;path d=&#34;M10 9V0h12v9H10zm12 5h10v18H0V14h10v9h12v-9z&#34;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/span&gt;&lt;span style=&#34;display:inline-block;padding:2px 3px&#34;&gt;Emily Morter&lt;/span&gt;&lt;/a&gt;&#xA;   &lt;/p&gt;&#xA;&lt;/div&gt;&#xA;&lt;p&gt;That&amp;rsquo;s a very popular question to ask these days, it seems. The quick answer&#xA;is easy and is the slogan of PostgreSQL, as seen on the community website&#xA;for it: “PostgreSQL: The World&amp;rsquo;s Most Advanced Open Source Relational&#xA;Database”. What does that mean for you, the developer?&lt;/p&gt;&#xA;&lt;p&gt;In my recent article &lt;a href=&#34;http://localhost:1313/blog/2019-09-postgresopen/&#34;&gt;The Art of PostgreSQL: The Transcript, part I&#xA;&lt;/a&gt; you will read why I&#xA;think it&amp;rsquo;s interesting to use Postgres in your application&amp;rsquo;s stack. My&#xA;conference talk addresses the main area where I think many people get it&#xA;wrong:&lt;/p&gt;</description>
     </item>
     <item>
       <title>The Art of PostgreSQL: The Transcript, part III</title>
-      <link>https://theartofpostgresql.com/blog/2019-09-postgresopen-part-iii/</link>
+      <link>http://localhost:1313/blog/2019-09-postgresopen-part-iii/</link>
       <pubDate>Wed, 25 Sep 2019 11:14:00 +0200</pubDate>
-      <guid>https://theartofpostgresql.com/blog/2019-09-postgresopen-part-iii/</guid>
+      <guid>http://localhost:1313/blog/2019-09-postgresopen-part-iii/</guid>
       <description>&lt;p&gt;This article is a transcript of the conference I gave at Postgres Open 2019,&#xA;titled the same as the book: &lt;a href=&#34;https://theartofpostgresql.com&#34;&gt;The Art of&#xA;PostgreSQL&lt;/a&gt;. It&amp;rsquo;s availble as a video online&#xA;at Youtube if you want to watch the slides and listen to it, and it even has&#xA;a subtext!&lt;/p&gt;</description>
     </item>
     <item>
       <title>The Art of PostgreSQL: The Transcript, part II</title>
-      <link>https://theartofpostgresql.com/blog/2019-09-postgresopen-part-ii/</link>
+      <link>http://localhost:1313/blog/2019-09-postgresopen-part-ii/</link>
       <pubDate>Mon, 23 Sep 2019 12:15:00 +0200</pubDate>
-      <guid>https://theartofpostgresql.com/blog/2019-09-postgresopen-part-ii/</guid>
+      <guid>http://localhost:1313/blog/2019-09-postgresopen-part-ii/</guid>
       <description>&lt;p&gt;This article is a transcript of the conference I gave at Postgres Open 2019,&#xA;titled the same as the book: &lt;a href=&#34;https://theartofpostgresql.com&#34;&gt;The Art of&#xA;PostgreSQL&lt;/a&gt;. It&amp;rsquo;s availble as a video online&#xA;at Youtube if you want to watch the slides and listen to it, and it even has&#xA;a subtext!&lt;/p&gt;</description>
     </item>
     <item>
       <title>The Art of PostgreSQL: The Transcript, part I</title>
-      <link>https://theartofpostgresql.com/blog/2019-09-postgresopen/</link>
+      <link>http://localhost:1313/blog/2019-09-postgresopen/</link>
       <pubDate>Fri, 20 Sep 2019 20:15:00 +0200</pubDate>
-      <guid>https://theartofpostgresql.com/blog/2019-09-postgresopen/</guid>
+      <guid>http://localhost:1313/blog/2019-09-postgresopen/</guid>
       <description>&lt;p&gt;This article is a transcript of the conference I gave at Postgres Open 2019,&#xA;titled the same as the book: &lt;a href=&#34;https://theartofpostgresql.com&#34;&gt;The Art of&#xA;PostgreSQL&lt;/a&gt;. It&amp;rsquo;s availble as a video online&#xA;at Youtube if you want to watch the slides and listen to it, and it even has&#xA;a subtext!&lt;/p&gt;</description>
     </item>
     <item>
       <title>How to Learn SQL?</title>
-      <link>https://theartofpostgresql.com/blog/2019-09-how-to-learn-sql/</link>
+      <link>http://localhost:1313/blog/2019-09-how-to-learn-sql/</link>
       <pubDate>Tue, 17 Sep 2019 00:15:00 +0200</pubDate>
-      <guid>https://theartofpostgresql.com/blog/2019-09-how-to-learn-sql/</guid>
+      <guid>http://localhost:1313/blog/2019-09-how-to-learn-sql/</guid>
       <description>&lt;p&gt;Here we are, another SQL query to write. You wish you knew how to write that&#xA;mechanically, like you would a loop in your favorite programming language.&#xA;Or at least have a pretty clear idea of a skeleton to tweak until it gives&#xA;the result set you expect. So instead of working on your SQL query, you&#xA;google &lt;a href=&#34;#&#34;&gt;How to write a SQL query?&lt;/a&gt; or maybe even &lt;a href=&#34;#&#34;&gt;How to learn SQL?&lt;/a&gt;&#xA;Right. I feel you, I&amp;rsquo;ve been there too, even if quite some time ago…&lt;/p&gt;&#xA;&lt;p&gt;So here my article where I teach you how to learn SQL.&lt;/p&gt;&#xA;&lt;p&gt;I want to share with you how I did it, and how I continue to do it. There&amp;rsquo;s&#xA;no magic secret sauce to it though, it&amp;rsquo;s all basic work. Again, we have to&#xA;learn the main concepts and how they play together, then practice simple&#xA;steps, and then build from there.&lt;/p&gt;</description>
     </item>
     <item>
       <title>The R in ORM</title>
-      <link>https://theartofpostgresql.com/blog/2019-09-the-r-in-orm/</link>
+      <link>http://localhost:1313/blog/2019-09-the-r-in-orm/</link>
       <pubDate>Sat, 07 Sep 2019 22:55:00 +0200</pubDate>
-      <guid>https://theartofpostgresql.com/blog/2019-09-the-r-in-orm/</guid>
+      <guid>http://localhost:1313/blog/2019-09-the-r-in-orm/</guid>
       <description>&lt;p&gt;Ok, let&amp;rsquo;s face it, I like SQL. A lot. I think it&amp;rsquo;s a fine DSL given how&#xA;powerful it is, and I respect its initial goal to attract non developers and&#xA;try to build English sentences rather than code.&lt;/p&gt;&#xA;&lt;p&gt;Also, I understand that manually hydrating your collection of objects in&#xA;your backend developement language is not the best use of your time. And&#xA;that building SQL as strings makes your code ugly. I get it.&lt;/p&gt;</description>
     </item>
     <item>
       <title>What is an SQL Aggregate?</title>
-      <link>https://theartofpostgresql.com/blog/2019-09-sql-aggregates/</link>
+      <link>http://localhost:1313/blog/2019-09-sql-aggregates/</link>
       <pubDate>Sat, 07 Sep 2019 22:00:00 +0200</pubDate>
-      <guid>https://theartofpostgresql.com/blog/2019-09-sql-aggregates/</guid>
-      <description>&lt;p&gt;In our previous articles we had a look at &lt;a href=&#34;https://theartofpostgresql.com/blog/2019-09-sql-relations/&#34;&gt;What is an SQL&#xA;relation?&lt;/a&gt; and &lt;a href=&#34;https://theartofpostgresql.com/blog/2019-09-sql-joins/&#34;&gt;What is a SQL&#xA;JOIN?&lt;/a&gt;. Today, I want to show you what is an&#xA;aggregate in SQL.&lt;/p&gt;&#xA;&lt;p&gt;You might have heard about Map/Reduce when Google made it famous, or maybe&#xA;some years before, or maybe some years later. The general processing&#xA;functions &lt;code&gt;map&lt;/code&gt; and &lt;code&gt;reduce&lt;/code&gt; where invented a very long time ago. The&#xA;novelty from the advertising giant was in using them in a heavily&#xA;distributed programming context.&lt;/p&gt;&#xA;&lt;p&gt;With &lt;code&gt;map&lt;/code&gt; you apply the same processing to every object in a collection.&#xA;With &lt;code&gt;reduce&lt;/code&gt;, you compute a result per collection of object. In SQL we know&#xA;how to do that too, and we call that an aggregate.&lt;/p&gt;</description>
+      <guid>http://localhost:1313/blog/2019-09-sql-aggregates/</guid>
+      <description>&lt;p&gt;In our previous articles we had a look at &lt;a href=&#34;http://localhost:1313/blog/2019-09-sql-relations/&#34;&gt;What is an SQL&#xA;relation?&lt;/a&gt; and &lt;a href=&#34;http://localhost:1313/blog/2019-09-sql-joins/&#34;&gt;What is a SQL&#xA;JOIN?&lt;/a&gt;. Today, I want to show you what is an&#xA;aggregate in SQL.&lt;/p&gt;&#xA;&lt;p&gt;You might have heard about Map/Reduce when Google made it famous, or maybe&#xA;some years before, or maybe some years later. The general processing&#xA;functions &lt;code&gt;map&lt;/code&gt; and &lt;code&gt;reduce&lt;/code&gt; where invented a very long time ago. The&#xA;novelty from the advertising giant was in using them in a heavily&#xA;distributed programming context.&lt;/p&gt;&#xA;&lt;p&gt;With &lt;code&gt;map&lt;/code&gt; you apply the same processing to every object in a collection.&#xA;With &lt;code&gt;reduce&lt;/code&gt;, you compute a result per collection of object. In SQL we know&#xA;how to do that too, and we call that an aggregate.&lt;/p&gt;</description>
     </item>
     <item>
       <title>What is an SQL JOIN?</title>
-      <link>https://theartofpostgresql.com/blog/2019-09-sql-joins/</link>
+      <link>http://localhost:1313/blog/2019-09-sql-joins/</link>
       <pubDate>Sat, 07 Sep 2019 21:30:00 +0200</pubDate>
-      <guid>https://theartofpostgresql.com/blog/2019-09-sql-joins/</guid>
+      <guid>http://localhost:1313/blog/2019-09-sql-joins/</guid>
       <description>&lt;p&gt;It took me quite some time before I could reason efficiently about SQL&#xA;JOINs. And I must admit, the set theory diagrams never helped me really&#xA;understand JOINs in SQL. So today, I want to help you understand JOINs in a&#xA;different way, hoping to make the concept click at once for you too!&lt;/p&gt;</description>
     </item>
     <item>
       <title>What is an SQL relation?</title>
-      <link>https://theartofpostgresql.com/blog/2019-09-sql-relations/</link>
+      <link>http://localhost:1313/blog/2019-09-sql-relations/</link>
       <pubDate>Sat, 07 Sep 2019 21:00:00 +0200</pubDate>
-      <guid>https://theartofpostgresql.com/blog/2019-09-sql-relations/</guid>
+      <guid>http://localhost:1313/blog/2019-09-sql-relations/</guid>
       <description>&lt;p&gt;If you&amp;rsquo;re like me, understanding SQL is taking you a long time. And some&#xA;efforts. It took me years to get a good mental model of how SQL queries are&#xA;implemented, and then up from the lower levels, to build a mental model of&#xA;how to reason in SQL.&lt;/p&gt;&#xA;&lt;p&gt;Nowadays, in most case, I can think in terms of SQL and write queries that&#xA;will give me the result set I need. In most cases, because some parts of SQL&#xA;are still complex, and I don&amp;rsquo;t practice as much as I used to. In particular,&#xA;newer PostgreSQL features are areas I still need to work with more before I&#xA;can integrate them in my daily workflow.&lt;/p&gt;&#xA;&lt;p&gt;Today, I want to introduce the central concept of the SQL language. What is&#xA;an SQL relation?&lt;/p&gt;</description>
     </item>
     <item>
       <title>Master PostgreSQL</title>
-      <link>https://theartofpostgresql.com/course/</link>
+      <link>http://localhost:1313/course/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://theartofpostgresql.com/course/</guid>
+      <guid>http://localhost:1313/course/</guid>
       <description></description>
     </item>
     <item>
       <title>PostgreSQL Lab</title>
-      <link>https://theartofpostgresql.com/lab/</link>
+      <link>http://localhost:1313/lab/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://theartofpostgresql.com/lab/</guid>
+      <guid>http://localhost:1313/lab/</guid>
       <description></description>
     </item>
     <item>
       <title>workshop</title>
-      <link>https://theartofpostgresql.com/workshop/</link>
+      <link>http://localhost:1313/workshop/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://theartofpostgresql.com/workshop/</guid>
+      <guid>http://localhost:1313/workshop/</guid>
       <description></description>
     </item>
   </channel>
