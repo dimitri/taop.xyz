@@ -138,6 +138,10 @@
   </url><url>
     <loc>https://theartofpostgresql.com/archives/</loc>
   </url><url>
+    <loc>https://theartofpostgresql.com/course/</loc>
+  </url><url>
+    <loc>https://theartofpostgresql.com/lab/</loc>
+  </url><url>
     <loc>https://theartofpostgresql.com/workshop/</loc>
   </url>
 </urlset>

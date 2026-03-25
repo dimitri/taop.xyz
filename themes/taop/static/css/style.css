@@ -284,6 +284,15 @@ textarea::placeholder {
   border-color: #2e2241;
   color: #fff;
 }
+.button.button_outline,
+.button.button_outline:visited {
+  border-color: #372649;
+  color: #372649;
+}
+.button.button_outline:hover {
+  background: #372649;
+  color: #fff;
+}
 
 /* Header */
 .header {
@@ -392,6 +401,7 @@ textarea::placeholder {
 .welcome_slider .bx-pager .bx-pager-item .active:visited {
   background: #fff;
 }
+
 .welcome_slider .bx-prev,
 .welcome_slider .bx-next {
   display: block;
@@ -616,12 +626,14 @@ textarea::placeholder {
   padding-right: 5%;
   color: #896da1;
 }
-.price_list > li > div p:last-of-type {
+.price_list > li > div .workshop-dates {
   padding: 0;
   position: absolute;
   bottom: 80px;
   left: 50%;
   transform: translateX(-50%);
+  width: 100%;
+  box-sizing: border-box;
 }
 .price_list > li > div p a:not(.button) {
   font-weight: 700;
@@ -665,7 +677,12 @@ textarea::placeholder {
 }
 .price_list > li > div .workshop-dates {
   padding: 0;
-  position: static;
+  position: absolute;
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  box-sizing: border-box;
   text-align: center;
   font-size: 13px;
   line-height: 1.5;
@@ -699,6 +716,16 @@ textarea::placeholder {
   color: #896da1;
   padding: 0 5%;
   margin-bottom: 10px;
+}
+
+/* Course pricing overrides - reset absolute positioning */
+.packages_block .price_list > li > div {
+  padding-bottom: 90px;
+}
+.packages_block .price_list > li > div p {
+  position: relative;
+  padding: 0 5% 15px 5%;
+  text-align: center;
 }
 /* Packages table */
 .packages_table {
@@ -2301,3 +2328,993 @@ textarea::placeholder {
 .dropdown:hover .dropdown-content {display: block;}
 
 .dropdown:hover .dropbtn {background-color: #3e8e41;}
+
+/* Course Hero */
+.course_hero {
+  background: #372649;
+  padding: 160px 0 80px 0;
+  text-align: center;
+}
+.course_hero .presale_banner {
+  background: #60b2d3;
+  color: #fff;
+  display: inline-block;
+  padding: 12px 24px;
+  margin-bottom: 40px;
+  font-size: 14px;
+  line-height: 1.6;
+}
+.course_hero .presale_banner strong {
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.course_hero .presale_banner span {
+  opacity: 0.9;
+}
+.course_hero h1 {
+  color: #fff;
+  font: 400 42px 'Bookman';
+  max-width: 800px;
+  margin: 0 auto 20px auto;
+  padding: 0;
+}
+.course_hero .hero_subtitle {
+  color: #dfdde1;
+  font: 300 22px 'Lato';
+  max-width: 600px;
+  margin: 0 auto 30px auto;
+}
+.course_hero .hero_bullets {
+  list-style: none;
+  padding: 0;
+  margin: 0 auto 40px auto;
+  max-width: 400px;
+}
+.course_hero .hero_bullets li {
+  color: #fff;
+  font: 300 18px 'Lato';
+  padding: 8px 0;
+}
+.course_hero .hero_bullets li:before {
+  content: "✓ ";
+  color: #60b2d3;
+  font-weight: 700;
+  margin-right: 8px;
+}
+.course_hero .hero_cta {
+  margin-top: 20px;
+}
+.course_hero .hero_cta .button.button_purple {
+  background: #60b2d3;
+  border-color: #372649;
+}
+.course_hero .hero_cta .button.button_purple:hover {
+  background: #372649;
+  border-color: #60b2d3;
+}
+.course_hero .trust_signal {
+  color: #dfdde1;
+  font-size: 14px;
+  margin-top: 15px;
+  padding: 0;
+}
+
+/* Course Early Access */
+.course_early_access {
+  background: #f8f7f9;
+  padding: 60px 0;
+}
+.course_early_access .early_access_box {
+  max-width: 700px;
+  margin: 0 auto;
+  text-align: center;
+  background: linear-gradient(135deg, #372649 0%, #4a3666 100%);
+  border-radius: 16px;
+  padding: 50px 40px;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+.course_early_access .early_access_header {
+  margin-bottom: 20px;
+}
+.course_early_access .early_badge {
+  display: inline-block;
+  background: #60b2d3;
+  color: #fff;
+  padding: 6px 16px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-right: 10px;
+}
+.course_early_access .limited_badge {
+  display: inline-block;
+  background: rgba(96,178,211,0.3);
+  color: #fff;
+  padding: 6px 16px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  border: 1px solid #60b2d3;
+}
+.course_early_access h3 {
+  color: #fff;
+  font: 400 24px 'Bookman';
+  margin-bottom: 25px;
+  padding: 0;
+}
+.course_early_access .early_benefits {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 25px 0;
+  text-align: left;
+  display: inline-block;
+}
+.course_early_access .early_benefits li {
+  color: #dfdde1;
+  font-size: 16px;
+  padding: 8px 0;
+  padding-left: 25px;
+  position: relative;
+}
+.course_early_access .early_benefits li:before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  color: #60b2d3;
+  font-weight: 700;
+}
+.course_early_access .early_note {
+  color: #b8a9c9;
+  font-size: 16px;
+  line-height: 1.7;
+  margin-bottom: 15px;
+  padding: 0;
+}
+.course_early_access .button {
+  margin-top: 15px;
+}
+
+/* Course Pricing */
+.course_pricing {
+  background: url(../images/demo/packages_bg.png) left top no-repeat,
+    url(../images/demo/packages_bg2.png) right bottom no-repeat;
+  background-color: #dfdde1;
+  padding: 80px 0 60px 0;
+}
+.pricing_tiers {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+  padding: 40px 0;
+  margin: 0;
+  list-style: none;
+}
+.pricing_tiers > li {
+  flex: 1 0 280px;
+  max-width: 360px;
+}
+.pricing_tiers .tier_card {
+  background: #fff;
+  padding: 30px 25px 40px 25px;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  position: relative;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.pricing_tiers .tier_badge {
+  display: inline-block;
+  background: #60b2d3;
+  color: #fff;
+  padding: 6px 16px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 15px;
+}
+.pricing_tiers .tier_card h4 {
+  color: #372649;
+  font: 500 24px 'Bookman';
+  padding: 0 0 8px 0;
+}
+.pricing_tiers .tier_subtitle {
+  color: #896da1;
+  font-size: 16px;
+  margin-bottom: 20px;
+  padding: 0;
+}
+.pricing_tiers .tier_card .price {
+  font: 100 64px/64px 'Lato';
+  color: #896da1;
+  letter-spacing: -4px;
+  margin-bottom: 20px;
+}
+.pricing_tiers .tier_card .price sup {
+  font: 300 20px 'Lato';
+  position: relative;
+  top: -20px;
+  padding-right: 2px;
+}
+.pricing_tiers .tier_description {
+  color: #67527a;
+  font-size: 15px;
+  line-height: 1.6;
+  flex: 1;
+  padding: 0 0 25px 0;
+}
+.pricing_tiers .tier_card .button {
+  margin-top: auto;
+}
+.pricing_tiers li.bestvalue .tier_card {
+  background: #372649;
+}
+.pricing_tiers li.bestvalue .tier_card h4,
+.pricing_tiers li.bestvalue .tier_subtitle,
+.pricing_tiers li.bestvalue .tier_description {
+  color: #fff;
+}
+.pricing_tiers li.bestvalue .tier_card .price {
+  color: #60b2d3;
+}
+.pricing_tiers li.bestvalue .tier_badge {
+  background: #60b2d3;
+}
+.course_pricing .cta_row {
+  text-align: center;
+  padding-top: 30px;
+}
+
+/* Course Curriculum */
+.course_curriculum {
+  padding: 80px 0;
+  background: #fff;
+}
+.course_curriculum .wrapper {
+  max-width: 1000px;
+}
+.course_curriculum .packages_table > li > ul {
+  display: flex;
+}
+.course_curriculum .packages_table > li > ul > li {
+  flex: 1;
+  max-width: 220px;
+  border-top: 1px solid #67527a;
+  text-align: center;
+  padding: 15px 10px;
+  font-size: 15px;
+  color: #67527a;
+}
+.course_curriculum .packages_table > li > ul > li:first-child {
+  flex: 1.5;
+  max-width: 250px;
+  text-align: left;
+  font-weight: 600;
+  color: #372649;
+}
+.course_curriculum .packages_table > li:first-child > ul > li {
+  color: #67527a;
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-top: 2px solid #372649;
+  border-bottom: 1px solid #372649;
+  background: #f8f7f9;
+}
+.course_curriculum .packages_table > li > ul > li:nth-child(2) {
+  background: rgba(96, 178, 211, 0.1);
+}
+.course_curriculum .packages_table > li > ul > li:nth-child(3) {
+  background: #dfdde1;
+}
+.course_curriculum .packages_table > li > ul > li:nth-child(4) {
+  background: rgba(96, 178, 211, 0.1);
+}
+.course_curriculum .packages_table h4 {
+  font: 600 14px 'Lato';
+  color: #372649;
+  margin-bottom: 10px;
+  padding: 0;
+}
+.course_curriculum .packages_table .curriculum_bullets {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.course_curriculum .packages_table .curriculum_bullets li {
+  font-size: 12px;
+  line-height: 1.5;
+  color: #67527a;
+  padding: 3px 0;
+  padding-left: 12px;
+  position: relative;
+}
+.course_curriculum .packages_table .curriculum_bullets li:before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: #896da1;
+}
+.course_curriculum .packages_table > li:last-child a {
+  color: #372649;
+  font-weight: 600;
+}
+
+/* Course Value */
+.course_value {
+  background: #372649;
+  padding: 80px 0;
+}
+.course_value .heading h3 {
+  color: #fff;
+}
+.course_value .heading .lightpurple {
+  color: #dfdde1;
+}
+.value_list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 40px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+.value_list > li {
+  flex: 1 0 220px;
+  max-width: 450px;
+}
+.value_item h6 {
+  color: #fff;
+  font: 700 18px 'Lato';
+  padding: 0 0 10px 0;
+}
+.value_item p {
+  color: #dfdde1;
+  font-size: 15px;
+  line-height: 1.6;
+  margin: 0;
+  padding: 0;
+}
+
+/* Course FAQ */
+.course_faq {
+  padding: 80px 0;
+  background: #fff;
+}
+.faq_list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-width: 800px;
+  margin: 0 auto;
+}
+.faq_list > li {
+  padding: 25px 0;
+  border-bottom: 1px solid #dfdde1;
+}
+.faq_list > li:first-child {
+  border-top: 1px solid #dfdde1;
+}
+.faq_item h6 {
+  color: #372649;
+  font: 700 18px 'Lato';
+  padding: 0 0 10px 0;
+}
+.faq_item p {
+  color: #67527a;
+  font-size: 15px;
+  line-height: 1.7;
+  margin: 0;
+  padding: 0;
+}
+
+/* Course Book Inclusion */
+.course_book_inclusion {
+  padding: 80px 0;
+  background: #f8f7f9;
+}
+.course_book_inclusion .book_feature {
+  display: flex;
+  align-items: center;
+  gap: 60px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+.course_book_inclusion .book_image {
+  flex-shrink: 0;
+}
+.course_book_inclusion .book_image img {
+  max-width: 200px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+.course_book_inclusion .book_content h3 {
+  font: 400 28px 'Bookman';
+  color: #372649;
+  margin-bottom: 20px;
+  padding: 0;
+}
+.course_book_inclusion .book_content p {
+  color: #67527a;
+  font-size: 16px;
+  line-height: 1.7;
+  margin-bottom: 20px;
+  padding: 0;
+}
+.course_book_inclusion .book_benefits {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.course_book_inclusion .book_benefits .benefit {
+  color: #372649;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+/* Course Final CTA */
+.course_final_cta {
+  background: url(../images/demo/packages_bg.png) left top no-repeat,
+    url(../images/demo/packages_bg2.png) right bottom no-repeat;
+  background-color: #dfdde1;
+  padding: 80px 0;
+  text-align: center;
+}
+.course_final_cta .cta_buttons {
+  margin-top: 30px;
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .course_hero {
+    padding: 120px 0 60px 0;
+  }
+  .course_hero h1 {
+    font-size: 32px;
+  }
+  .pricing_tiers {
+    flex-direction: column;
+    align-items: center;
+  }
+  .pricing_tiers > li {
+    max-width: 100%;
+  }
+  .curriculum_levels {
+    flex-direction: column;
+  }
+  .curriculum_levels .level {
+    flex: 1 0 auto;
+  }
+  .course_book_inclusion .book_feature {
+    flex-direction: column;
+    text-align: center;
+    gap: 30px;
+  }
+  .course_book_inclusion .book_benefits {
+    align-items: center;
+  }
+  .course_early_access .early_access_box {
+    padding: 30px 20px;
+  }
+  .course_early_access h3 {
+    font-size: 20px;
+  }
+  .course_early_access .early_badge,
+  .course_early_access .limited_badge {
+    display: block;
+    margin: 5px auto;
+  }
+  .course_early_access .early_badge {
+    margin-bottom: 10px;
+  }
+}
+
+/* ==================== LAB PAGE ==================== */
+
+/* Lab Hero */
+.lab_hero {
+  background: linear-gradient(135deg, #372649 0%, #4a3666 100%);
+  padding: 160px 0 100px 0;
+  text-align: center;
+}
+.lab_hero .free_badge {
+  display: inline-block;
+  background: #60b2d3;
+  color: #fff;
+  padding: 8px 20px;
+  margin-bottom: 30px;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+.lab_hero h1 {
+  color: #fff;
+  font: 400 42px 'Bookman';
+  max-width: 700px;
+  margin: 0 auto 20px auto;
+  padding: 0;
+}
+.lab_hero .hero_subtitle {
+  color: #dfdde1;
+  font: 300 20px 'Lato';
+  max-width: 550px;
+  margin: 0 auto 30px auto;
+}
+.lab_hero .hero_bullets {
+  list-style: none;
+  padding: 0;
+  margin: 0 auto 40px auto;
+  max-width: 400px;
+}
+.lab_hero .hero_bullets li {
+  color: #fff;
+  font: 300 17px 'Lato';
+  padding: 8px 0;
+}
+.lab_hero .hero_bullets li:before {
+  content: "✓ ";
+  color: #b8a9c9;
+  font-weight: 700;
+  margin-right: 8px;
+}
+.lab_hero .hero_cta {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+.lab_hero .hero_bridge {
+  color: #dfdde1;
+  font-size: 16px;
+  line-height: 1.6;
+  margin: 30px auto 0 auto;
+  max-width: 500px;
+  padding: 0;
+}
+.lab_hero .hero_secondary_cta {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 20px;
+}
+.lab_hero .hero_secondary_cta .button.button_outline {
+  background: #60b2d3;
+  border-color: #372649;
+}
+.lab_hero .hero_secondary_cta .button.button_outline:hover {
+  background: #372649;
+  border-color: #60b2d3;
+}
+
+/* Lab Value */
+.lab_value {
+  padding: 80px 0;
+  background: #fff;
+}
+.lab_value .center_quote {
+  text-align: center;
+  font: 400 28px 'Bookman';
+  color: #372649;
+  margin-bottom: 50px;
+  padding: 0;
+}
+.lab_value .value_list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 40px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+.lab_value .value_list > li {
+  flex: 1 0 200px;
+  max-width: 220px;
+}
+.lab_value .value_item {
+  text-align: center;
+}
+.lab_value .value_item h6 {
+  color: #372649;
+  font: 700 18px 'Lato';
+  padding: 0 0 10px 0;
+}
+.lab_value .value_item p {
+  color: #67527a;
+  font-size: 14px;
+  line-height: 1.6;
+  margin: 0;
+  padding: 0;
+}
+
+/* Lab How It Works */
+.lab_how {
+  padding: 80px 0;
+  background: #f8f7f9;
+}
+.lab_how .steps_list {
+  list-style: none;
+  padding: 0;
+  margin: 40px auto;
+  max-width: 700px;
+  counter-reset: step;
+}
+.lab_how .step {
+  display: flex;
+  align-items: flex-start;
+  gap: 25px;
+  padding: 25px 0;
+  border-bottom: 1px solid #e0dfe2;
+}
+.lab_how .step:first-child {
+  border-top: 1px solid #e0dfe2;
+}
+.lab_how .step_number {
+  flex-shrink: 0;
+  width: 50px;
+  height: 50px;
+  background: #372649;
+  color: #fff;
+  font-size: 22px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+.lab_how .step_content h5 {
+  color: #372649;
+  font: 500 20px 'Bookman';
+  padding: 0 0 8px 0;
+}
+.lab_how .step_content p {
+  color: #67527a;
+  font-size: 15px;
+  margin: 0;
+  padding: 0;
+}
+.lab_how .reassurance {
+  text-align: center;
+  margin-top: 40px;
+  color: #896da1;
+  font-size: 15px;
+}
+
+/* Lab Bridge Section */
+.lab_bridge_section {
+  padding: 80px 0;
+  background: #fff;
+  text-align: center;
+}
+.lab_bridge_section h3 {
+  font: 400 28px 'Bookman';
+  color: #372649;
+  margin-bottom: 15px;
+  padding: 0;
+}
+.lab_bridge_section p {
+  color: #67527a;
+  font-size: 16px;
+  max-width: 600px;
+  margin: 0 auto 30px auto;
+  padding: 0;
+  line-height: 1.7;
+}
+.lab_bridge_section .cta_buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 15px;
+}
+
+/* Lab Positioning */
+.lab_positioning {
+  padding: 80px 0;
+  background: #372649;
+}
+
+.lab_positioning h3 {
+  color: #f8f7f9;
+}
+
+/* Lab Dataset */
+.lab_dataset {
+  padding: 80px 0;
+  background: #fff;
+}
+.lab_dataset .dataset_features {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+  max-width: 1000px;
+  margin: 40px auto 0 auto;
+}
+.lab_dataset .feature_item {
+  flex: 1 0 200px;
+  max-width: 230px;
+  text-align: center;
+  padding: 25px 20px;
+  background: #f8f7f9;
+  border-radius: 12px;
+}
+.lab_dataset .feature_icon {
+  font-size: 36px;
+  display: block;
+  margin-bottom: 15px;
+}
+.lab_dataset .feature_item h6 {
+  color: #372649;
+  font: 700 16px 'Lato';
+  padding: 0 0 10px 0;
+}
+.lab_dataset .feature_item p {
+  color: #67527a;
+  font-size: 14px;
+  line-height: 1.5;
+  margin: 0;
+  padding: 0;
+}
+
+/* Lab Ecosystem */
+.lab_ecosystem {
+  padding: 80px 0;
+  background: #372649;
+}
+.lab_ecosystem .heading h3 {
+  color: #fff;
+}
+.lab_ecosystem .heading .lightpurple {
+  color: #dfdde1;
+}
+.lab_ecosystem .flow_diagram {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  margin: 40px auto;
+  max-width: 900px;
+}
+.lab_ecosystem .flow_item {
+  text-align: center;
+  padding: 20px;
+  min-width: 120px;
+  text-decoration: none;
+}
+.lab_ecosystem .flow_item.flow_highlight {
+  background: rgba(96, 178, 211, 0.2);
+  border-radius: 12px;
+  border: 2px solid #60b2d3;
+}
+.lab_ecosystem .flow_icon {
+  font-size: 32px;
+  display: block;
+  margin-bottom: 10px;
+}
+.lab_ecosystem .flow_item h6 {
+  color: #fff;
+  font: 600 16px 'Lato';
+  padding: 0 0 5px 0;
+}
+.lab_ecosystem .flow_item p {
+  color: #dfdde1;
+  font-size: 13px;
+  margin: 0;
+  padding: 0;
+}
+.lab_ecosystem .flow_arrow {
+  color: #60b2d3;
+  font-size: 28px;
+  font-weight: 300;
+}
+.lab_ecosystem .learn_practice_apply {
+  text-align: center;
+  color: #b8a9c9;
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: 4px;
+  margin-top: 30px;
+  padding: 0;
+}
+
+/* Lab Use Cases */
+.lab_usecases {
+  padding: 80px 0;
+  background: #f8f7f9;
+}
+.lab_usecases .usecase_list {
+  list-style: none;
+  padding: 0;
+  margin: 40px auto;
+  max-width: 700px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+.lab_usecases .usecase_list li {
+  background: #fff;
+  padding: 20px 25px;
+  border-radius: 8px;
+  border-left: 4px solid #372649;
+}
+.lab_usecases .usecase_list h6 {
+  color: #372649;
+  font: 700 16px 'Lato';
+  padding: 0 0 8px 0;
+}
+.lab_usecases .usecase_list p {
+  color: #67527a;
+  font-size: 14px;
+  line-height: 1.5;
+  margin: 0;
+  padding: 0;
+}
+.lab_inline_cta {
+  text-align: center;
+  margin-top: 40px;
+  padding: 30px;
+  background: #fff;
+  border-radius: 12px;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.lab_inline_cta p {
+  color: #67527a;
+  font-size: 16px;
+  margin-bottom: 15px;
+  padding: 0;
+}
+
+/* Lab CTA */
+.lab_cta {
+  padding: 80px 0;
+  background: #fff;
+  text-align: center;
+}
+.lab_cta h3 {
+  font: 400 32px 'Bookman';
+  color: #372649;
+  margin-bottom: 10px;
+}
+.lab_cta .free_reminder {
+  color: #896da1;
+  font-size: 16px;
+  margin-bottom: 30px;
+  padding: 0;
+}
+.lab_cta .cta_buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+
+/* Lab Upsell */
+.lab_upsell {
+  padding: 80px 0;
+  background: #f8f7f9;
+}
+.lab_upsell .ecosystem_list {
+  list-style: none;
+  padding: 0;
+  margin: 40px auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+  max-width: 700px;
+}
+.lab_upsell .ecosystem_list li {
+  flex: 1 0 150px;
+  max-width: 200px;
+}
+.lab_upsell .ecosystem_list a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  padding: 25px 20px;
+  background: #fff;
+  border-radius: 12px;
+  transition: all 0.2s ease;
+}
+.lab_upsell .ecosystem_list a:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+.lab_upsell .ecosystem_icon {
+  font-size: 36px;
+  margin-bottom: 10px;
+}
+.lab_upsell .ecosystem_label {
+  color: #372649;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* Lab Final CTA */
+.lab_final_cta {
+  padding: 80px 0;
+  background: linear-gradient(135deg, #372649 0%, #4a3666 100%);
+  text-align: center;
+}
+.lab_final_cta h3 {
+  color: #fff;
+  font: 400 32px 'Bookman';
+  margin-bottom: 10px;
+}
+.lab_final_cta p {
+  color: #dfdde1;
+  font-size: 16px;
+  margin-bottom: 30px;
+  padding: 0;
+}
+.lab_final_cta .cta_buttons .button.button_outline {
+  background: #60b2d3;
+  border-color: #372649;
+}
+.lab_final_cta .cta_buttons .button.button_outline:hover {
+  background: #372649;
+  border-color: #60b2d3;
+}
+
+/* Lab Mobile */
+@media (max-width: 768px) {
+  .lab_hero {
+    padding: 120px 0 60px 0;
+  }
+  .lab_hero h1 {
+    font-size: 30px;
+  }
+  .lab_hero .hero_secondary_cta {
+    flex-direction: column;
+    align-items: center;
+  }
+  .lab_bridge_section .cta_buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+  .lab_how .step {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  .lab_dataset .dataset_features {
+    flex-direction: column;
+    align-items: center;
+  }
+  .lab_dataset .feature_item {
+    max-width: 100%;
+  }
+  .lab_ecosystem .flow_diagram {
+    flex-direction: column;
+  }
+  .lab_ecosystem .flow_arrow {
+    transform: rotate(90deg);
+  }
+  .lab_usecases .usecase_list {
+    grid-template-columns: 1fr;
+  }
+  .lab_final_cta .cta_buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+}

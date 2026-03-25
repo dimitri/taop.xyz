@@ -107,6 +107,20 @@
       <description>&lt;p&gt;If you&amp;rsquo;re like me, understanding SQL is taking you a long time. And some&#xA;efforts. It took me years to get a good mental model of how SQL queries are&#xA;implemented, and then up from the lower levels, to build a mental model of&#xA;how to reason in SQL.&lt;/p&gt;&#xA;&lt;p&gt;Nowadays, in most case, I can think in terms of SQL and write queries that&#xA;will give me the result set I need. In most cases, because some parts of SQL&#xA;are still complex, and I don&amp;rsquo;t practice as much as I used to. In particular,&#xA;newer PostgreSQL features are areas I still need to work with more before I&#xA;can integrate them in my daily workflow.&lt;/p&gt;&#xA;&lt;p&gt;Today, I want to introduce the central concept of the SQL language. What is&#xA;an SQL relation?&lt;/p&gt;</description>
     </item>
     <item>
+      <title>Master PostgreSQL</title>
+      <link>https://theartofpostgresql.com/course/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://theartofpostgresql.com/course/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>PostgreSQL Lab</title>
+      <link>https://theartofpostgresql.com/lab/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://theartofpostgresql.com/lab/</guid>
+      <description></description>
+    </item>
+    <item>
       <title>workshop</title>
       <link>https://theartofpostgresql.com/workshop/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>

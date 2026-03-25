@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>PostgreSQL Lab — Practice on Real Data</title>
+	<meta name="description" content="A free, interactive lab to practice PostgreSQL SQL, performance, and data modeling on real-world datasets.">
+
+	<meta name="twitter:card" content="summary" />
+	<meta name="twitter:site" content="@tapoueh" />
+	<meta name="twitter:creator" content="@tapoueh" />
+	<meta property="og:url" content="https://theartofpostgresql.com/lab" />
+	<meta property="og:title" content="PostgreSQL Lab — Practice on Real Data" />
+	<meta property="og:description" content="A free, interactive lab to apply SQL, performance, and modeling techniques." />
+	<meta property="og:image" content="https://theartofpostgresql.com/img/TheArtOfPostgresLab.png" />
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+	
+	<link href="/favicon.ico" rel="icon" type="image/x-icon">
+	
+	<link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700" rel="stylesheet"> 
+	<link rel="stylesheet" href="/css/style.css">
+	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> 
+	<script src="/js/custom.js"></script>
+</head>
+<body>
+
+<header class="header" style="background-color: #372649;">
+  <div class="wrapper">
+    <a class="logo" href="#">The Art of PostgreSQL</a>
+    <nav>
+      <ul>
+	<li><a href="#how-it-works">HOW IT WORKS</a></li>
+	<li><a href="/course">COURSES</a></li>
+	<li><a href="/workshop">WORKSHOP</a></li>
+	<li><a href="/">THE BOOK</a></li>
+	<li><a href="/blog/">BLOG</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<div class="welcome_slider">
+    <ul>
+    	<li data-cover=".cover">
+    	    <img class="cover" src="/img/TheArtOfPostgresLab.png" alt="" />
+    	    <div class="wrapper">
+	    </div>
+    	</li>
+    </ul>
+</div>
+
+<div class="lab_hero">
+  <div class="wrapper">
+    <div class="free_badge">
+      <span>100% FREE</span>
+    </div>
+    
+    <h1>Practice PostgreSQL on Real Data</h1>
+    
+    <p class="hero_subtitle">
+      The free, interactive companion lab for The Art of PostgreSQL — practice SQL,
+      performance, and modeling techniques on real datasets
+    </p>
+    
+    <ul class="hero_bullets">
+      <li>Run real queries on real datasets</li>
+      <li>Explore advanced SQL patterns hands-on</li>
+      <li>Reinforce what you learn in the book, courses, and workshops</li>
+    </ul>
+    
+    <p class="hero_bridge">
+      The lab is where you practice. If you want a structured path to master these concepts,
+      the course and workshops guide you step-by-step.
+    </p>
+    
+    <div class="hero_secondary_cta">
+      <a href="/course#pricing" class="button button_outline">View the course</a>
+      <a href="/workshop#workshop" class="button button_outline">Join a workshop</a>
+    </div>
+    
+    <div class="hero_cta">
+      <a href="https://github.com/dimitri/TheArtOfPostgreSQL" class="button button_purple button_large" target="_blank">View on GitHub</a>
+    </div>
+  </div>
+</div>
+
+<div class="lab_value">
+  <div class="wrapper">
+    <p class="center_quote">Learn by doing — not by reading alone</p>
+    
+    <ul class="value_list">
+      <li>
+        <div class="value_item">
+          <h6>Stop reading passively</h6>
+          <p>Apply concepts immediately instead of forgetting them by next week.</p>
+        </div>
+      </li>
+      <li>
+        <div class="value_item">
+          <h6>Understand SQL by running queries</h6>
+          <p>Build intuition through direct feedback, not abstract explanations.</p>
+        </div>
+      </li>
+      <li>
+        <div class="value_item">
+          <h6>Build intuition for performance</h6>
+          <p>See how queries behave on real data volumes, not toy examples.</p>
+        </div>
+      </li>
+      <li>
+        <div class="value_item">
+          <h6>Learn faster through practice</h6>
+          <p>Direct experimentation accelerates understanding more than theory.</p>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="lab_positioning">
+  <div class="wrapper">
+    <header class="heading">
+      <h3>When to use the Lab vs the Course</h3>
+    </header>
+    
+    <ul class="value_list">
+      <li>
+        <div class="value_item">
+          <h6>Use the lab if</h6>
+          <p>You prefer to explore, experiment, and learn by trial and error.</p>
+        </div>
+      </li>
+      <li>
+        <div class="value_item">
+          <h6>Use the course if</h6>
+          <p>You want a clear, structured path with explanations and progression.</p>
+        </div>
+      </li>
+      <li>
+        <div class="value_item">
+          <h6>Use workshops if</h6>
+          <p>You want to go deeper with expert guidance and real-time feedback.</p>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div id="how-it-works" class="lab_how">
+  <div class="wrapper">
+    <header class="heading">
+      <h3>How It Works</h3>
+      <p class="lightpurple">Get started in minutes — no complex setup required</p>
+    </header>
+    
+    <ol class="steps_list">
+      <li class="step">
+        <span class="step_number">1</span>
+        <div class="step_content">
+          <h5>Clone or download the lab</h5>
+          <p>Get the repository from GitHub. Clone it or download as a ZIP.</p>
+        </div>
+      </li>
+      <li class="step">
+        <span class="step_number">2</span>
+        <div class="step_content">
+          <h5>Load the dataset</h5>
+          <p>Run the setup script. The dataset loads automatically into PostgreSQL.</p>
+        </div>
+      </li>
+      <li class="step">
+        <span class="step_number">3</span>
+        <div class="step_content">
+          <h5>Run queries and explore</h5>
+          <p>Start experimenting. Try the examples, then write your own queries.</p>
+        </div>
+      </li>
+    </ol>
+    
+    <div class="reassurance">
+      <p>✓ No complex setup &nbsp;&nbsp; ✓ Clear instructions included &nbsp;&nbsp; ✓ Works locally</p>
+    </div>
+  </div>
+</div>
+
+<div class="lab_bridge_section">
+  <div class="wrapper">
+    <h3>Need Guidance?</h3>
+    <p>
+      The lab gives you the environment. The course explains the concepts step by step.
+      The workshops help you apply them with real-time guidance.
+    </p>
+    <div class="cta_buttons">
+      <a href="/course" class="button button_purple">Start with the course</a>
+      <a href="/workshop" class="button button_outline">See workshops</a>
+    </div>
+  </div>
+</div>
+
+<div class="lab_dataset">
+  <div class="wrapper">
+    <header class="heading">
+      <h3>Real Data, Not Toy Examples</h3>
+      <p class="lightpurple">Datasets designed to expose real-world SQL behavior</p>
+    </header>
+    
+    <ul class="dataset_features">
+      <li>
+        <div class="feature_item">
+          <span class="feature_icon">📊</span>
+          <h6>Carefully designed schemas</h6>
+          <p>Realistic data structures that mirror production scenarios.</p>
+        </div>
+      </li>
+      <li>
+        <div class="feature_item">
+          <span class="feature_icon">📈</span>
+          <h6>Performance-realistic volumes</h6>
+          <p>Large enough to expose real performance behavior and query planner decisions.</p>
+        </div>
+      </li>
+      <li>
+        <div class="feature_item">
+          <span class="feature_icon">🔍</span>
+          <h6>Advanced pattern support</h6>
+          <p>Structured to demonstrate window functions, CTEs, lateral joins, and more.</p>
+        </div>
+      </li>
+      <li>
+        <div class="feature_item">
+          <span class="feature_icon">🏭</span>
+          <h6>Near-production scenarios</h6>
+          <p>Close to real applications, not simplified academic examples.</p>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="lab_ecosystem">
+  <div class="wrapper">
+    <header class="heading">
+      <h3>Part of the PostgreSQL Ecosystem</h3>
+      <p class="lightpurple">Everything connects — the lab reinforces your learning</p>
+    </header>
+    
+    <div class="flow_diagram">
+      <a href="/" class="flow_item">
+        <span class="flow_icon">📖</span>
+        <h6>The Book</h6>
+        <p>Explains concepts</p>
+      </a>
+      <span class="flow_arrow">→</span>
+      <a href="/course" class="flow_item">
+        <span class="flow_icon">🎓</span>
+        <h6>The Course</h6>
+        <p>Structures the learning path</p>
+      </a>
+      <span class="flow_arrow">→</span>
+      <a href="/workshop" class="flow_item">
+        <span class="flow_icon">🎤</span>
+        <h6>The Workshop</h6>
+        <p>Live deep dives</p>
+      </a>
+      <span class="flow_arrow">→</span>
+      <div class="flow_item flow_highlight">
+        <span class="flow_icon">🧪</span>
+        <h6>The Lab</h6>
+        <p>Where you practice</p>
+      </div>
+    </div>
+    
+    <p class="learn_practice_apply">Learn → Practice → Apply</p>
+  </div>
+</div>
+
+<div class="lab_usecases">
+  <div class="wrapper">
+    <header class="heading">
+      <h3>What You Can Practice</h3>
+      <p class="lightpurple">These are the exact topics covered in the course and workshops — here you can try them yourself.</p>
+    </header>
+    
+    <ul class="usecase_list">
+      <li>
+        <h6>Window Functions</h6>
+        <p>Ranking, running totals, moving averages, frame calculations</p>
+      </li>
+      <li>
+        <h6>Aggregation &amp; Reporting</h6>
+        <p>GROUP BY patterns, filtering, HAVING vs WHERE, cube/rollup</p>
+      </li>
+      <li>
+        <h6>Query Plans &amp; Performance</h6>
+        <p>EXPLAIN ANALYZE, index usage, seq scan vs index scan</p>
+      </li>
+      <li>
+        <h6>Schema Design</h6>
+        <p>Normalization, denormalization trade-offs, indexing strategies</p>
+      </li>
+      <li>
+        <h6>Advanced JOINs</h6>
+        <p>Lateral joins, subqueries, complex multi-table queries</p>
+      </li>
+      <li>
+        <h6>CTEs &amp; Recursion</h6>
+        <p>Common table expressions, hierarchical data, recursive queries</p>
+      </li>
+    </ul>
+    
+    <div class="lab_inline_cta">
+      <p>Want to understand these patterns, not just try them?</p>
+      <a href="/course" class="button button_purple">Learn step by step</a>
+    </div>
+  </div>
+</div>
+
+<div class="lab_cta">
+  <div class="wrapper">
+    <h3>Start practicing PostgreSQL now</h3>
+    <p class="free_reminder">Free, open-source, and ready to run locally</p>
+    
+    <div class="cta_buttons">
+      <a href="https://github.com/dimitri/TheArtOfPostgreSQL" class="button button_purple button_large" target="_blank">View on GitHub</a>
+    </div>
+  </div>
+</div>
+
+<div class="lab_upsell">
+  <div class="wrapper">
+    <header class="heading">
+      <h3>Want a Structured Path?</h3>
+    </header>
+    
+    <ul class="ecosystem_list">
+      <li>
+        <a href="/">
+          <span class="ecosystem_icon">📖</span>
+          <span class="ecosystem_label">Understand the concepts (book)</span>
+        </a>
+      </li>
+      <li>
+        <a href="/course">
+          <span class="ecosystem_icon">🎓</span>
+          <span class="ecosystem_label">Follow a structured path (course)</span>
+        </a>
+      </li>
+      <li>
+        <a href="/workshop">
+          <span class="ecosystem_icon">🎤</span>
+          <span class="ecosystem_label">Apply with expert guidance (workshop)</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="lab_final_cta">
+  <div class="wrapper">
+    <h3>Practice is where learning sticks</h3>
+    <p>Start with the lab, then deepen your understanding with the course or apply it in a live workshop.</p>
+    <div class="cta_buttons">
+      <a href="https://github.com/dimitri/TheArtOfPostgreSQL" class="button button_purple button_large" target="_blank">View on GitHub</a>
+      <a href="/course#course" class="button button_outline">View the course</a>
+    </div>
+  </div>
+</div>
+
+
+<div class="subscribe_block">
+    <div class="wrapper">
+     <p>Not convinced yet? Get a FREE chapter including the full Table of Contents!</p>
+     <script async data-uid="c1452ad801" src="https://f.convertkit.com/c1452ad801/ad53e74e51.js"></script>
+     
+    </div>
+</div>
+
+
+ 
+
+<footer class="footer">
+	<div class="wrapper">
+	    <div class="about_block">
+	        <h6>about the author</h6>
+	        <p>Hi! My name is Dimitri Fontaine and I have been using and contributing to Open Source Software for the best of the last 20 years. I am a PostgreSQL Major Contributor after having contributed Extensions and Event Triggers, among other things.</p>
+	        <p>I have been writing code almost daily for a very long time now, both in a professional capacity and on my leisure time. I&rsquo;ve also been a database architect and a DBA on-call. As a developer I enjoy using SQL. As a database architect, I like teaching advanced SQL techniques to my colleagues.</p>
+	        <ul>
+	            <li><a target="_blank" href="mailto:dim@tapoueh.org">email</a></li>
+	            <li><a target="_blank" href="https://twitter.com/tapoueh">twitter</a></li>
+	            <li><a target="_blank" href="https://github.com/dimitri">github</a></li>
+	            <li><a target="_blank" href="https://www.reddit.com/user/theartofpostgresql">reddit</a></li>
+	        </ul>
+    	</div>
+	    <div class="faq_block">
+            <h6>FAQ</h6>
+	        <dl>
+	           <dt>What if the book isn&rsquo;t what I expected it would be?</dt>
+	           <dd>The Art of PostgreSQL is a book that teaches SQL to application developers. If it's not of any value to you, then just say so and I'll refund you, no questions asked.</dd>
+	           <dt>I bought the book, and I'm confused. What now?</dt>
+	           <dd>
+                     The content of the book is available as a PDF, ePub and
+	             MOBI file, and you can also download the SQL queries.
+	             The content is available over
+	             at <a href="https://members.theartofpostgresql.com/courses/the-art-of-postgresql/"
+	             target="_">https://members.theartofpostgresql.com/courses/the-art-of-postgresql/</a>
+	             from your student dashboard.
+                   </dd>
+	           <dt>Is there any DRM?</dt>
+	           <dd>No. There isn't even watermarking on the PDF. You own what you buy. The sources of data selected for the book are all available with Open Data types of licenses, and the book itself is copyright Dimitri Fontaine. All rights reserved.</dd>
+	           <dt>Any other questions?</dt>
+	           <dd>Contact me by <a href="mailto:dim@tapoueh.org">email</a> and just ask! I will do my best to answer you.</dd>
+	        </dl>
+                <div style="font-size: 150%; margin-top: 3em;">
+                  <h6>Languages</h6>
+                  <a href="/">🇬🇧</a>
+                  <a href="/fr/">🇫🇷</a>
+                </div>  
+    	    </div>            
+	</div>
+</footer>
+
+
+
+
+
+
+<div class="copyright">
+    <div class="wrapper">
+        Copyright 2019 &copy; Dimitri Fontaine. All rights reserved. Design by <a style="color: white; font-weight: bold;" target="_blank" href="https://www.terrilowry.com">TerriLowry.com.</a>
+    </div>
+</div>
+
+
+</body>
+
+
+<script type="text/javascript">
+  var subscribersSiteId='1296f531-7ba0-406f-89e1-bdca40a36208';
+</script>
+<script type="text/javascript"
+        src="https://cdn.subscribers.com/assets/subscribers.js">
+</script>
+ 
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-47059482-5"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-47059482-5');
+</script>
+
+
+<script>
+!function(e,t,n,s,u,a){e.twq||(s=e.twq=function(){s.exe?s.exe.apply(s,arguments):s.queue.push(arguments);
+},s.version='1.1',s.queue=[],u=t.createElement(n),u.async=!0,u.src='//static.ads-twitter.com/uwt.js',
+a=t.getElementsByTagName(n)[0],a.parentNode.insertBefore(u,a))}(window,document,'script');
+
+twq('init','o0ial');
+twq('track','PageView');
+</script>
+
+
+</html> 
+

@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Master PostgreSQL — Complete, Practical System</title>
+	<meta name="description" content="Learn SQL, performance, and data modeling with real-world techniques — not theory. Master PostgreSQL with a complete, practical system.">
+
+	<meta name="twitter:card" content="summary" />
+	<meta name="twitter:site" content="@tapoueh" />
+	<meta name="twitter:creator" content="@tapoueh" />
+	<meta property="og:url" content="https://theartofpostgresql.com/course" />
+	<meta property="og:title" content="Master PostgreSQL — Complete, Practical System" />
+	<meta property="og:description" content="Learn SQL, performance, and data modeling with real-world techniques." />
+	<meta property="og:image" content="https://theartofpostgresql.com/img/TheArtOfPostgresCourses.png" />
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+	
+	<link href="/favicon.ico" rel="icon" type="image/x-icon">
+	
+	<link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700" rel="stylesheet"> 
+	<link rel="stylesheet" href="/css/style.css">
+	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> 
+	<script src="/js/custom.js"></script>
+</head>
+<body>
+
+<header class="header" style="background-color: #372649;">
+  <div class="wrapper">
+    <a class="logo" href="#">The Art of PostgreSQL</a>
+    <nav>
+      <ul>
+	<li><a href="#pricing">PRICING</a></li>
+	<li><a href="#curriculum">CURRICULUM</a></li>
+	<li><a href="/">THE BOOK</a></li>
+	<li><a href="/workshop">WORKSHOP</a></li>
+	<li><a href="/blog/">BLOG</a></li>
+      </ul>
+    </nav>
+  </div>
+  <a href="#pricing" class="button">GET EARLY ACCESS</a>
+</header>
+
+<div class="welcome_slider">
+    <ul>
+    	<li data-cover=".cover">
+    	    <img class="cover" src="/img/TheArtOfPostgresCourses.png" alt="" />
+    	    <div class="wrapper">
+	    </div>
+    	</li>
+    </ul>
+</div>
+
+<div id="course" class="course_hero">
+  <div class="wrapper">
+    <h1>Master PostgreSQL with a Complete, Practical System</h1>
+    
+    <p class="hero_subtitle">
+      Learn SQL, performance, and data modeling with real-world techniques — not theory
+    </p>
+    
+    <ul class="hero_bullets">
+      <li>Replace complex code with simple SQL</li>
+      <li>Write fast, production-ready queries</li>
+      <li>Understand how PostgreSQL really works</li>
+    </ul>
+    
+    <div class="hero_cta">
+      <a href="#pricing" class="button button_purple button_large">GET EARLY ACCESS</a>
+    </div>
+  </div>
+</div>
+
+<div class="course_early_access">
+  <div class="wrapper">
+    <div class="early_access_box">
+      <div class="early_access_header">
+        <span class="early_badge">EARLY ACCESS</span>
+        <span class="limited_badge">LIMITED OFFER</span>
+      </div>
+      <h3>Be among the first to join and get early access at 50% off</h3>
+      <ul class="early_benefits">
+        <li>Limited to the first 100 subscribers</li>
+        <li>Full course access as content is released progressively</li>
+        <li>Lock in the best price before public launch</li>
+      </ul>
+      <p class="early_note">
+        This is a pre-sale: modules are available now (slides, labs,
+        quizzes), <br /> with new content added regularly. Videos will be
+        introduced progressively.
+      </p>
+      <p class="early_note">
+        If you're comfortable learning from structured material and hands-on
+        practice, <br /> this is the best way to get in early at a reduced
+        price.
+      </p>
+      <a href="#pricing" class="button button_purple">Get early access now (50% off)</a>
+    </div>
+  </div>
+</div>
+
+<div id="pricing" class="packages_block">
+  <div class="wrapper">
+    <header class="heading">
+      <h3>Choose Your Learning Path</h3>
+      <p class="lightpurple">
+        From fundamentals to production-grade expertise. Select the tier
+        that matches your goals. Each tier builds on-top of the previous
+        one: it includes the same material and add specific modules.
+      </p>
+    </header>
+    
+    <ul class="price_list">
+      <li>
+        <div>
+          <div class="paperback">START HERE</div>
+          <h5>Core</h5>
+          <div class="price">
+            <sup>$</sup>249
+          </div>
+          <p class="workshop-subtitle">Learn PostgreSQL the right way</p>
+          <p>
+            Build a solid foundation in PostgreSQL by learning how to think
+            in SQL, not just write it. This tier focuses on clarity,
+            correctness, and essential patterns that make your queries
+            easier to read, maintain, and extend.
+          </p>
+          <p>
+            You'll learn how to structure queries properly, use advanced SQL
+            features with confidence, and avoid common pitfalls. This is the
+            level where SQL stops being a tool and becomes a language you
+            can rely on.
+          </p>
+          <a class="button button_purple" href="#">GET EARLY ACCESS</a>
+        </div>
+      </li>
+      
+      <li class="bestvalue">
+        <div>
+          <div class="best">MOST POPULAR</div>
+          <h5>Advanced</h5>
+          <div class="price">
+            <sup>$</sup>349
+          </div>
+          <p class="workshop-subtitle">Understand performance and execution</p>
+          <p>
+            Go beyond writing correct SQL and learn how PostgreSQL actually
+            executes your queries. This tier focuses on performance: reading
+            query plans, understanding the optimizer, and identifying
+            bottlenecks.
+          </p>
+          <p>
+            You'll develop a systematic approach to making queries faster
+            and more predictable. Instead of guessing, you'll understand why
+            a query is slow and how to fix it using proven techniques.
+          </p>
+          <a class="button button_purple" href="#">GET EARLY ACCESS</a>
+        </div>
+      </li>
+      
+      <li>
+        <div>
+          <div class="deep-dive">ARCHITECT</div>
+          <h5>Architect</h5>
+          <div class="price">
+            <sup>$</sup>449
+          </div>
+          <p class="workshop-subtitle">Design systems that scale</p>
+          <p>
+            At this level, PostgreSQL becomes part of your system design,
+            not just a database. You'll learn how to model data, structure
+            queries, and make architectural decisions that impact
+            performance and scalability.
+          </p>
+          <p>
+            This tier focuses on trade-offs: when to denormalize, how to
+            design for real workloads, and how to balance complexity,
+            performance, and maintainability. It's about making decisions
+            you can justify in production.
+          </p>
+          <a class="button button_purple" href="#">GET EARLY ACCESS</a>
+        </div>
+      </li>
+    </ul>
+    
+    <header class="heading">
+      <div class="cta_row">
+        <a href="#curriculum" class="button button_transparent">View Full Curriculum</a>
+      </div>
+    </header>
+  </div>
+</div>
+
+<div id="curriculum" class="course_curriculum">
+  <div class="wrapper">
+    <header class="heading">
+      <h3>Course Curriculum</h3>
+      <p class="lightpurple">
+        Six modules covering everything you need for PostgreSQL mastery
+      </p>
+    </header>
+    
+    <ul class="packages_table">
+      <li>
+        <ul>
+          <li>Module</li>
+          <li>
+            <h3>Core</h3>
+            <p>Build solid SQL foundations</p>
+          </li>
+          <li>
+            <h3>Advanced</h3>
+            <p>Understand performance</p>
+          </li>
+          <li>
+            <h3>Architect</h3>
+            <p>Design production systems</p>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <ul>
+          <li>Master Window Functions</li>
+          <li>
+            <h4>Rankings, Running Totals</h4>
+            <p>
+              PARTITION BY, ORDER BY, frame clauses; ranking functions;
+              running totals; replacing self-joins; common mistakes
+            </p>
+          </li>
+          <li>
+            <h4>Execution Cost, Sorting</h4>
+            <p>
+              Execution behavior; impact on sorting and memory; combining
+              windows with aggregates; optimizing queries; practical limits
+            </p>
+          </li>
+          <li>
+            <h4>Analytics vs Pre-Aggregation</h4>
+            <p>
+              Windows vs pre-aggregation tables; schema design for
+              analytics; windows vs materialized views; reporting pipelines;
+              anti-patterns
+            </p>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <ul>
+          <li>Reliable Aggregation</li>
+          <li>
+            <h4>Correct GROUP BY, Filtering</h4>
+            <p>
+              GROUP BY semantics; HAVING vs WHERE; COUNT, SUM, AVG;
+              handling NULLs; basic reporting
+            </p>
+          </li>
+          <li>
+            <h4>GROUPING SETS, Performance</h4>
+            <p>
+              ROLLUP, CUBE; aggregation performance; incremental
+              strategies; avoiding bugs
+            </p>
+          </li>
+          <li>
+            <h4>Reporting, Materialized Views</h4>
+            <p>
+              Reporting schemas; pre-aggregation trade-offs; materialized
+              views; real-time vs batch decisions
+            </p>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <ul>
+          <li>Data Modeling</li>
+          <li>
+            <h4>Clean Schema, Basic Indexing</h4>
+            <p>
+              Normalization fundamentals; primary/foreign keys; basic
+              indexing; modeling for correctness
+            </p>
+          </li>
+          <li>
+            <h4>Advanced Indexes, Denormalization</h4>
+            <p>
+              Index types; covering indexes; denormalization techniques;
+              write vs read trade-offs
+            </p>
+          </li>
+          <li>
+            <h4>Partitioning, Large-Scale Schemas</h4>
+            <p>
+              Partitioning strategies; multi-tenant models; schema
+              evolution; flexibility vs performance
+            </p>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <ul>
+          <li>Advanced JOINs</li>
+          <li>
+            <h4>Correct Joins, Avoid Pitfalls</h4>
+            <p>
+              INNER, LEFT, RIGHT joins; join conditions; avoiding cartesian
+              products; rewriting subqueries
+            </p>
+          </li>
+          <li>
+            <h4>Planner Behavior, Join Strategies</h4>
+            <p>
+              LATERAL joins; join order; algorithm basics; reducing cost
+              with indexing
+            </p>
+          </li>
+          <li>
+            <h4>Reduce Complexity, Decomposition</h4>
+            <p>
+              Pre-joining vs on-demand; data duplication trade-offs;
+              query decomposition; join-heavy workloads
+            </p>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <ul>
+          <li>Query Optimization</li>
+          <li>
+            <h4>Fix Slow Queries</h4>
+            <p>
+              Identifying slow queries; basic rewrite techniques; common
+              anti-patterns; using indexes effectively
+            </p>
+          </li>
+          <li>
+            <h4>Systematic Tuning Workflow</h4>
+            <p>
+              Predicate pushdown; reducing I/O and CPU; plan-driven
+              rewrites; benchmarking and validation
+            </p>
+          </li>
+          <li>
+            <h4>System-Level Decisions</h4>
+            <p>
+              Performance budgeting; query SLAs; caching trade-offs;
+              designing for predictable performance
+            </p>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <ul>
+          <li>Read Query Plans</li>
+          <li>
+            <h4>Read Plans, Find Bottlenecks</h4>
+            <p>
+              Reading EXPLAIN output; basic nodes (seq scan, index scan);
+              identifying obvious bottlenecks; EXPLAIN ANALYZE safely
+            </p>
+          </li>
+          <li>
+            <h4>Deep Analysis, I/O Patterns</h4>
+            <p>
+              Cost vs actual; join strategies; buffer usage; detecting
+              planner issues; guiding rewrites
+            </p>
+          </li>
+          <li>
+            <h4>Diagnose Systemic Issues</h4>
+            <p>
+              Plans at scale; planner limitations; statistics management;
+              diagnosing systemic performance issues
+            </p>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <ul>
+          <li>&nbsp;</li>
+          <li><a href="#pricing">Buy Core</a></li>
+          <li><a href="#pricing">Most Popular</a></li>
+          <li><a href="#pricing">Buy Architect</a></li>
+        </ul>
+      </li>      
+    </ul>
+  </div>
+</div>
+
+<div class="course_value">
+  <div class="wrapper">
+    <header class="heading">
+      <h3>What Makes This Different</h3>
+    </header>
+    
+    <ul class="value_list">
+      <li>
+        <div class="value_item">
+          <h6>100% Practical Content</h6>
+          <p>No theory for theory's sake. Every technique is immediately applicable to your work.</p>
+        </div>
+      </li>
+      <li>
+        <div class="value_item">
+          <h6>Real Production Experience</h6>
+          <p>Content designed from years of consulting and real-world system optimization.</p>
+        </div>
+      </li>
+      <li>
+        <div class="value_item">
+          <h6>Learn in Hours What Takes Years</h6>
+          <p>Skip the trial and error. Get the systematic approach that works.</p>
+        </div>
+      </li>
+      <li>
+        <div class="value_item">
+          <h6>Exercises &amp; Materials Included</h6>
+          <p>Quizzes, downloadable resources, and hands-on exercises to reinforce learning.</p>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="course_book_inclusion">
+  <div class="wrapper">
+    <div class="book_feature">
+      <div class="book_image">
+        <img src="/img/TheArtOfPostgres-Front-Cover-400.png" alt="The Art of PostgreSQL book">
+      </div>
+      <div class="book_content">
+        <h3>The Art of PostgreSQL is included</h3>
+        <p>
+          The course includes The Art of PostgreSQL in full. You get the complete reference,
+          always available as you go through the material.
+        </p>
+        <p class="book_benefits">
+          <span class="benefit">✓ 400+ pages of deep PostgreSQL knowledge</span>
+          <span class="benefit">✓ Real-world examples and exercises</span>
+          <span class="benefit">✓ Lifetime access to the complete book</span>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="course_faq">
+  <div class="wrapper">
+    <header class="heading">
+      <h3>Frequently Asked Questions</h3>
+    </header>
+    
+    <ul class="faq_list">
+      <li>
+        <div class="faq_item">
+          <h6>Who is this for?</h6>
+          <p>Developers and database administrators who want to master PostgreSQL. Whether you're building new applications or optimizing existing systems, this course gives you the practical skills that matter.</p>
+        </div>
+      </li>
+      <li>
+        <div class="faq_item">
+          <h6>How is this different from other courses?</h6>
+          <p>Most courses teach SQL syntax. This course teaches you to think in SQL, understand how PostgreSQL executes your queries, and write code that's both simpler and faster. It's the system I wish I'd had when I started.</p>
+        </div>
+      </li>
+      <li>
+        <div class="faq_item">
+          <h6>What does pre-sale mean?</h6>
+          <p>Content will be released progressively over the next 3 months. Early access members get discounted pricing and direct input into the curriculum priorities.</p>
+        </div>
+      </li>
+      <li>
+        <div class="faq_item">
+          <h6>Do I get lifetime access?</h6>
+          <p>Yes. Once released, all course content is available indefinitely. Learn at your own pace, revisit anytime.</p>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="course_final_cta">
+  <div class="wrapper">
+    <header class="heading">
+      <h3>Ready to Master PostgreSQL?</h3>
+      <p class="lightpurple">
+        Join the pre-sale and get early access at discounted pricing.
+      </p>
+    </header>
+    <div class="cta_buttons">
+      <a href="#pricing" class="button button_purple button_large">Get Early Access Now</a>
+    </div>
+  </div>
+</div>
+
+
+<div class="subscribe_block">
+    <div class="wrapper">
+     <p>Not convinced yet? Get a FREE chapter including the full Table of Contents!</p>
+     <script async data-uid="c1452ad801" src="https://f.convertkit.com/c1452ad801/ad53e74e51.js"></script>
+     
+    </div>
+</div>
+
+
+ 
+
+<footer class="footer">
+	<div class="wrapper">
+	    <div class="about_block">
+	        <h6>about the author</h6>
+	        <p>Hi! My name is Dimitri Fontaine and I have been using and contributing to Open Source Software for the best of the last 20 years. I am a PostgreSQL Major Contributor after having contributed Extensions and Event Triggers, among other things.</p>
+	        <p>I have been writing code almost daily for a very long time now, both in a professional capacity and on my leisure time. I&rsquo;ve also been a database architect and a DBA on-call. As a developer I enjoy using SQL. As a database architect, I like teaching advanced SQL techniques to my colleagues.</p>
+	        <ul>
+	            <li><a target="_blank" href="mailto:dim@tapoueh.org">email</a></li>
+	            <li><a target="_blank" href="https://twitter.com/tapoueh">twitter</a></li>
+	            <li><a target="_blank" href="https://github.com/dimitri">github</a></li>
+	            <li><a target="_blank" href="https://www.reddit.com/user/theartofpostgresql">reddit</a></li>
+	        </ul>
+    	</div>
+	    <div class="faq_block">
+            <h6>FAQ</h6>
+	        <dl>
+	           <dt>What if the book isn&rsquo;t what I expected it would be?</dt>
+	           <dd>The Art of PostgreSQL is a book that teaches SQL to application developers. If it's not of any value to you, then just say so and I'll refund you, no questions asked.</dd>
+	           <dt>I bought the book, and I'm confused. What now?</dt>
+	           <dd>
+                     The content of the book is available as a PDF, ePub and
+	             MOBI file, and you can also download the SQL queries.
+	             The content is available over
+	             at <a href="https://members.theartofpostgresql.com/courses/the-art-of-postgresql/"
+	             target="_">https://members.theartofpostgresql.com/courses/the-art-of-postgresql/</a>
+	             from your student dashboard.
+                   </dd>
+	           <dt>Is there any DRM?</dt>
+	           <dd>No. There isn't even watermarking on the PDF. You own what you buy. The sources of data selected for the book are all available with Open Data types of licenses, and the book itself is copyright Dimitri Fontaine. All rights reserved.</dd>
+	           <dt>Any other questions?</dt>
+	           <dd>Contact me by <a href="mailto:dim@tapoueh.org">email</a> and just ask! I will do my best to answer you.</dd>
+	        </dl>
+                <div style="font-size: 150%; margin-top: 3em;">
+                  <h6>Languages</h6>
+                  <a href="/">🇬🇧</a>
+                  <a href="/fr/">🇫🇷</a>
+                </div>  
+    	    </div>            
+	</div>
+</footer>
+
+
+
+
+
+
+<div class="copyright">
+    <div class="wrapper">
+        Copyright 2019 &copy; Dimitri Fontaine. All rights reserved. Design by <a style="color: white; font-weight: bold;" target="_blank" href="https://www.terrilowry.com">TerriLowry.com.</a>
+    </div>
+</div>
+
+
+</body>
+
+
+<script type="text/javascript">
+  var subscribersSiteId='1296f531-7ba0-406f-89e1-bdca40a36208';
+</script>
+<script type="text/javascript"
+        src="https://cdn.subscribers.com/assets/subscribers.js">
+</script>
+ 
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-47059482-5"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-47059482-5');
+</script>
+
+
+<script>
+!function(e,t,n,s,u,a){e.twq||(s=e.twq=function(){s.exe?s.exe.apply(s,arguments):s.queue.push(arguments);
+},s.version='1.1',s.queue=[],u=t.createElement(n),u.async=!0,u.src='//static.ads-twitter.com/uwt.js',
+a=t.getElementsByTagName(n)[0],a.parentNode.insertBefore(u,a))}(window,document,'script');
+
+twq('init','o0ial');
+twq('track','PageView');
+</script>
+
+
+</html> 
+
