@@ -980,7 +980,8 @@ body.course .welcome_slider ul li {
 }
 /* Subscribe block */
 .subscribe_block {
-  background: #474065;
+  /* background: #474065; */
+  background: #372649;
   color: #fff;
   padding: 60px 0 55px 0;
 }
