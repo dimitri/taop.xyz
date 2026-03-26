@@ -1032,7 +1032,8 @@ body.course .welcome_slider ul li {
   background: #e5e3e7;
 }
 .blog .header {
-  border-bottom-color: #78727f;
+  background: #372649;
+  border-bottom-color: rgba(255,255,255,0.3);
 }
 .blog .header .logo {
   background-image: url(../images/logo2.png);
