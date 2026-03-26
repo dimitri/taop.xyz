@@ -2970,6 +2970,7 @@ body.lab .welcome_slider {
   color: #372649;
   font: 700 18px 'Lato';
   padding: 0 0 10px 0;
+  text-align: center;
 }
 .lab_value .value_item p {
   color: #67527a;
@@ -2977,6 +2978,13 @@ body.lab .welcome_slider {
   line-height: 1.6;
   margin: 0;
   padding: 0;
+}
+.value_icon {
+  display: block;
+  text-align: center;
+  font-size: 48px;
+  margin: 10px 0;
+  color: #60b2d3;
 }
 
 /* Lab How It Works */
@@ -3067,6 +3075,12 @@ body.lab .welcome_slider {
 
 .lab_positioning h3 {
   color: #f8f7f9;
+}
+
+.lab_positioning h6 {
+  text-align: center;
+  margin-top: 1em;    
+  margin-bottom: 1em;    
 }
 
 /* Lab Dataset */
