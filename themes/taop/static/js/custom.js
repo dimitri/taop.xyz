@@ -24,45 +24,21 @@ $(function() {
 
 
     // Welcome slider
-            var coloredSlides = [
-                'TheArtOfPostgresCourses.png',
-                'TheArtOfPostgresLab.png',
-                'TheArtOfPostgresUniversity.png',
-                'TheArtOfPostgresWorkshop.png'
-            ];
-            var headerBgColor = '#67527a';
-
-            function updateSlideStyle($slide) {
-                var imgSrc = $slide.find('img.cover').attr('src') || '';
-                var isColored = coloredSlides.some(function(slide) {
-                    return imgSrc.indexOf(slide) !== -1;
-                });
-                if (isColored) {
-                    $('body .header').css('background', headerBgColor);
-                    $('body.index .welcome_slider ul li').css('padding-top', '80px');
-                } else {
-                    $('body .header').css('background', 'transparent');
-                    $('body.index .welcome_slider ul li').css('padding-top', '0');
-                }
-            }
-
             $(window).on('resize load', function () {
-                var sliderConfig = {
-                    mode: 'fade',
-                    auto: true,
-                    stopAutoOnClick: true,
-                    touchEnabled: false,
-                    onSliderLoad: function(currentIndex) {
-                        updateSlideStyle($('.welcome_slider > ul > li').eq(currentIndex));
-                    },
-                    onSlideAfter: function($slide, oldIndex, newIndex) {
-                        updateSlideStyle($slide);
-                    }
-                };
                 if ($(window).width() < 768) {
-                    sliderConfig.touchEnabled = true;
+                    $('.welcome_slider > ul').bxSlider({
+                        mode: 'fade',
+                        auto: true,
+                        stopAutoOnClick: true
+                    });
+                } else {
+                    $('.welcome_slider > ul').bxSlider({
+                        mode: 'fade',
+                        auto: true,
+                        stopAutoOnClick: true,
+                        touchEnabled: false
+                    });
                 }
-                $('.welcome_slider > ul').bxSlider(sliderConfig);
             });
 
 
