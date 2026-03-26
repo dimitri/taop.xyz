@@ -61,6 +61,64 @@ $(function() {
                 mode: 'fade',
                 pager: false
             });
+            
+            // Book social proof quote carousel
+            if ($('.book_social_proof .quote_slider').length) {
+                var $slider = $('.book_social_proof .quote_slider');
+                var $quotes = $slider.find('ul li');
+                var $dots = $slider.find('.quote-dots');
+                var currentQuote = 0;
+                var quoteCount = $quotes.length;
+                var autoInterval;
+                
+                // Create dots
+                for (var i = 0; i < quoteCount; i++) {
+                    $dots.append('<span class="quote-dot" data-index="' + i + '"></span>');
+                }
+                var $dotElements = $slider.find('.quote-dot');
+                
+                function showQuote(index) {
+                    $quotes.removeClass('active');
+                    $dotElements.removeClass('active');
+                    $quotes.eq(index).addClass('active');
+                    $dotElements.eq(index).addClass('active');
+                    currentQuote = index;
+                }
+                
+                // Next/Prev click handlers
+                $slider.find('.quote-prev').on('click', function() {
+                    var prev = (currentQuote - 1 + quoteCount) % quoteCount;
+                    showQuote(prev);
+                    resetAuto();
+                });
+                
+                $slider.find('.quote-next').on('click', function() {
+                    var next = (currentQuote + 1) % quoteCount;
+                    showQuote(next);
+                    resetAuto();
+                });
+                
+                // Dot click handlers
+                $slider.find('.quote-dot').on('click', function() {
+                    var index = $(this).data('index');
+                    showQuote(index);
+                    resetAuto();
+                });
+                
+                function resetAuto() {
+                    clearInterval(autoInterval);
+                    autoInterval = setInterval(function() {
+                        var next = (currentQuote + 1) % quoteCount;
+                        showQuote(next);
+                    }, 5000);
+                }
+                
+                showQuote(0);
+                autoInterval = setInterval(function() {
+                    var next = (currentQuote + 1) % quoteCount;
+                    showQuote(next);
+                }, 5000);
+            }
 
 
 
