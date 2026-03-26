@@ -1,4 +1,3 @@
 +++
 title = "The Art of PostgreSQL"
-layout = "index"
 +++
