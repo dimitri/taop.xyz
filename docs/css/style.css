@@ -4173,10 +4173,18 @@ body.lab .welcome_slider {
     flex-direction: column;
     align-items: center;
   }
+  .book_hero .price_list > li {
+    max-width: 300px;
+    margin: 20px auto;
+  }
 }
 
 @media (max-width: 480px) {
-  .book_core_value .value_list {
+  .value_list {
     grid-template-columns: 1fr;
+  }
+  .price_list > li {
+    max-width: 280px;
+    padding: 30px;
   }
 }
