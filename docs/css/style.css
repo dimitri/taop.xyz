@@ -744,6 +744,17 @@ body.course .welcome_slider ul li {
   padding: 0 5%;
   margin-bottom: 10px;
 }
+.price_list > li > div .paid_yearly {
+  font-size: 14px;
+  color: #67527a;
+  font-style: italic;
+  font-weight: bold;
+  text-align: right;
+  width: 30%;
+  margin: 0 auto;
+  border-bottom: 1px solid #67527a;
+  margin-bottom: 2em;
+}
 
 /* Course pricing overrides - reset absolute positioning */
 .packages_block .price_list > li > div {
