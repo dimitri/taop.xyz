@@ -2097,9 +2097,6 @@ body.course .welcome_slider ul li {
     padding: 20px 10px;
     white-space: nowrap;
   }
-  .header nav ul li:nth-child(2) {
-    padding-right: 10px;
-  }
   /* Mobile nav icons - show icons, hide text */
   .header nav ul li a i {
     display: block;
@@ -3703,7 +3700,6 @@ body.lab .welcome_slider {
   line-height: 1.7;
   padding: 0;
   margin: 0;
-  text-align: justify;
 }
 
 .section_icons {
