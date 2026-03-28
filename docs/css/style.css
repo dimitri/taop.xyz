@@ -368,6 +368,9 @@ body.course .welcome_slider ul li {
   letter-spacing: 2px;
   text-shadow: 0 1px 3px rgba(0,0,0,0.5);
 }
+.header nav ul li a i {
+  display: none;
+}
 .header nav ul li:first-child,
 .header nav ul li a:hover {
   font-weight: 700;
@@ -2096,6 +2099,15 @@ body.course .welcome_slider ul li {
   }
   .header nav ul li:nth-child(2) {
     padding-right: 10px;
+  }
+  /* Mobile nav icons - show icons, hide text */
+  .header nav ul li a i {
+    display: block;
+    font-size: 18px;
+    text-align: center;
+  }
+  .header nav ul li a .nav-text {
+    display: none;
   }
   /* Welcome slider */
   .welcome_slider li,
