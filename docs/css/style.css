@@ -1289,7 +1289,7 @@ body.course .welcome_slider ul li {
 
 /* Blog landing */
 .blog_block {
-  padding: 0 0 80px 0;
+  padding: 80px 0 80px 0;
 }
 .top_blogs ul {
   display: flex;
