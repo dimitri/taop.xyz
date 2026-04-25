@@ -477,6 +477,12 @@ body.course .welcome_slider ul li {
   box-sizing: border-box;
   text-align: center;
 }
+.services_list li.wide {
+  flex: 1 0 100%;
+}
+.services_list.relevant-list li {
+  text-align: left;
+}
 .services_list li p {
   color: #896da1;
   padding-bottom: 10px;
