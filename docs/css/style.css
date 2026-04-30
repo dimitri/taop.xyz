@@ -3905,6 +3905,13 @@ body.lab .welcome_slider {
   justify-content: center;
   flex-wrap: wrap;
 }
+.price_cta {
+  margin-top: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+}
 
 /* Book Hero */
 .book_hero {
@@ -4245,4 +4252,19 @@ body.lab .welcome_slider {
   body {
     padding-bottom: 60px;
   }
+}
+
+/* Money Back Guarantee */
+.money-back-guarantee {
+  display: block;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: #60b2d3;
+  margin-top: 10px;
+  margin-bottom: 3px;
+  justify-content: center;
+}
+.money-back-guarantee i {
+  font-size: 24px;
 }
