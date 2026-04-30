@@ -108,16 +108,16 @@ right?</p>
 <p>That&rsquo;s it. That&rsquo;s a SQL JOIN.</p>
 <p>Let&rsquo;s see an example, taken from my book <a href="https://theartofpostgresql.com">The Art of
 PostgreSQL</a>:</p>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#586e75">-- name: list-albums-by-artist
-</span><span style="color:#586e75">-- List the album titles and duration of a given artist
-</span><span style="color:#586e75"></span>  <span style="color:#719e07">select</span> album.title <span style="color:#719e07">as</span> album,
-         <span style="color:#719e07">sum</span>(milliseconds) <span style="color:#719e07">*</span> <span style="color:#b58900">interval</span> <span style="color:#2aa198">&#39;1 ms&#39;</span> <span style="color:#719e07">as</span> duration
-    <span style="color:#719e07">from</span> album
-         <span style="color:#719e07">join</span> artist <span style="color:#719e07">using</span>(artistid)
-         <span style="color:#719e07">left</span> <span style="color:#719e07">join</span> track <span style="color:#719e07">using</span>(albumid)
-   <span style="color:#719e07">where</span> artist.name <span style="color:#719e07">=</span> <span style="color:#2aa198">&#39;Red Hot Chili Peppers&#39;</span>
-<span style="color:#719e07">group</span> <span style="color:#719e07">by</span> album
-<span style="color:#719e07">order</span> <span style="color:#719e07">by</span> album;
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#75715e">-- name: list-albums-by-artist
+</span><span style="color:#75715e">-- List the album titles and duration of a given artist
+</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">select</span> album.title <span style="color:#66d9ef">as</span> album,
+         <span style="color:#66d9ef">sum</span>(milliseconds) <span style="color:#f92672">*</span> interval <span style="color:#e6db74">&#39;1 ms&#39;</span> <span style="color:#66d9ef">as</span> duration
+    <span style="color:#66d9ef">from</span> album
+         <span style="color:#66d9ef">join</span> artist <span style="color:#66d9ef">using</span>(artistid)
+         <span style="color:#66d9ef">left</span> <span style="color:#66d9ef">join</span> track <span style="color:#66d9ef">using</span>(albumid)
+   <span style="color:#66d9ef">where</span> artist.name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;Red Hot Chili Peppers&#39;</span>
+<span style="color:#66d9ef">group</span> <span style="color:#66d9ef">by</span> album
+<span style="color:#66d9ef">order</span> <span style="color:#66d9ef">by</span> album;
 </code></pre></div><p>In this query we build a new relation that is a composition of the objects
 found in the collection <code>ALBUM</code> with the objects found in the collection
 <code>ARTIST</code>. The result is a new collection of objects where we have both the
@@ -131,14 +131,14 @@ collection of track objects. We build a new collection of objects that have
 all the properties of the <code>ALBUM</code>, the <code>ARTIST</code> and the <code>TRACK</code>.</p>
 <p>I will dive in the other parts of the query in other articles! Here&rsquo;s the
 new relation we have defined with the SQL query above:</p>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql">┌───────────────────────┬──────────────────────────────┐
-│         album         │           duration           │
-├───────────────────────┼──────────────────────────────┤
-│ Blood Sugar Sex Magik │ <span style="color:#719e07">@</span> <span style="color:#2aa198">1</span> hour <span style="color:#2aa198">13</span> mins <span style="color:#2aa198">57</span>.<span style="color:#2aa198">073</span> secs │
-│ <span style="color:#719e07">By</span> The Way            │ <span style="color:#719e07">@</span> <span style="color:#2aa198">1</span> hour <span style="color:#2aa198">8</span> mins <span style="color:#2aa198">49</span>.<span style="color:#2aa198">951</span> secs  │
-│ Californication       │ <span style="color:#719e07">@</span> <span style="color:#2aa198">56</span> mins <span style="color:#2aa198">25</span>.<span style="color:#2aa198">461</span> secs        │
-└───────────────────────┴──────────────────────────────┘
-(<span style="color:#2aa198">3</span> <span style="color:#719e07">rows</span>)
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#960050;background-color:#1e0010">┌───────────────────────┬──────────────────────────────┐</span>
+<span style="color:#960050;background-color:#1e0010">│</span>         album         <span style="color:#960050;background-color:#1e0010">│</span>           duration           <span style="color:#960050;background-color:#1e0010">│</span>
+<span style="color:#960050;background-color:#1e0010">├───────────────────────┼──────────────────────────────┤</span>
+<span style="color:#960050;background-color:#1e0010">│</span> Blood Sugar Sex Magik <span style="color:#960050;background-color:#1e0010">│</span> <span style="color:#f92672">@</span> <span style="color:#ae81ff">1</span> hour <span style="color:#ae81ff">13</span> mins <span style="color:#ae81ff">57</span>.<span style="color:#ae81ff">073</span> secs <span style="color:#960050;background-color:#1e0010">│</span>
+<span style="color:#960050;background-color:#1e0010">│</span> <span style="color:#66d9ef">By</span> The Way            <span style="color:#960050;background-color:#1e0010">│</span> <span style="color:#f92672">@</span> <span style="color:#ae81ff">1</span> hour <span style="color:#ae81ff">8</span> mins <span style="color:#ae81ff">49</span>.<span style="color:#ae81ff">951</span> secs  <span style="color:#960050;background-color:#1e0010">│</span>
+<span style="color:#960050;background-color:#1e0010">│</span> Californication       <span style="color:#960050;background-color:#1e0010">│</span> <span style="color:#f92672">@</span> <span style="color:#ae81ff">56</span> mins <span style="color:#ae81ff">25</span>.<span style="color:#ae81ff">461</span> secs        <span style="color:#960050;background-color:#1e0010">│</span>
+<span style="color:#960050;background-color:#1e0010">└───────────────────────┴──────────────────────────────┘</span>
+(<span style="color:#ae81ff">3</span> <span style="color:#66d9ef">rows</span>)
 </code></pre></div><p>Check out my book <a href="https://theartofpostgresql.com">The Art of PostgreSQL</a>
 where you can learn how to put SQL to good use when coding your application!</p>
 
@@ -356,13 +356,12 @@ color: #18181C;
 
 <div class="copyright">
     <div class="wrapper">
-        Copyright 2019 &copy; Dimitri Fontaine. All rights reserved. Design by <a style="color: white; font-weight: bold;" target="_blank" href="https://www.terrilowry.com">TerriLowry.com.</a>
+        Copyright 2026 &copy; Dimitri Fontaine. All rights reserved. Design by <a style="color: white; font-weight: bold;" target="_blank" href="https://www.terrilowry.com">TerriLowry.com.</a>
     </div>
 </div>
 
 
-</body>
-
+ 
 
 <script type="text/javascript">
   var subscribersSiteId='1296f531-7ba0-406f-89e1-bdca40a36208';
@@ -370,8 +369,9 @@ color: #18181C;
 <script type="text/javascript"
         src="https://cdn.subscribers.com/assets/subscribers.js">
 </script>
- 
+  
 
+ 
 
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-47059482-5"></script>
 <script>
@@ -393,5 +393,6 @@ twq('track','PageView');
 </script>
 
 
+</body>
 </html> 
 

@@ -3606,6 +3606,14 @@ body.lab .welcome_slider {
   background: #372649;
   border-color: #60b2d3;
 }
+body.newsletter .index_hero .hero_cta .button.button_outline {
+  color: #fff;
+  border-color: #fff;
+}
+body.newsletter .index_hero .hero_cta .button.button_outline:hover {
+  background: #fff;
+  color: #372649;
+}
 
 .index_value {
   padding: 80px 0;

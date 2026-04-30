@@ -233,5 +233,14 @@ an SQL relation?&lt;/p&gt;</description>
       <description></description>
     </item>
     
+    <item>
+      <title>Welcome Back</title>
+      <link>https://theartofpostgresql.com/newsletter/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://theartofpostgresql.com/newsletter/</guid>
+      <description></description>
+    </item>
+    
   </channel>
 </rss>
