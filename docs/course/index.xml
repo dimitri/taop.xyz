@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Master PostgreSQL on The Art of PostgreSQL</title>
+    <link>https://theartofpostgresql.com/course/</link>
+    <description>Recent content in Master PostgreSQL on The Art of PostgreSQL</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language><atom:link href="https://theartofpostgresql.com/course/index.xml" rel="self" type="application/rss+xml" />
+  </channel>
+</rss>

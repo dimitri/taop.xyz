@@ -50,7 +50,7 @@
     <loc>https://theartofpostgresql.com/tags/postgresql/</loc>
     <lastmod>2019-11-06T21:45:00+02:00</lastmod>
   </url><url>
-    <loc>https://theartofpostgresql.com/explain-plan-visualizer/</loc>
+    <loc>https://theartofpostgresql.com/postgresql-query-plan-visualizer/</loc>
     <lastmod>2019-11-06T21:45:00+02:00</lastmod>
   </url><url>
     <loc>https://theartofpostgresql.com/tags/query-plan/</loc>
@@ -74,10 +74,10 @@
     <loc>https://theartofpostgresql.com/tags/normalisation/</loc>
     <lastmod>2019-10-14T00:05:00+02:00</lastmod>
   </url><url>
-    <loc>https://theartofpostgresql.com/table-of-content/</loc>
+    <loc>https://theartofpostgresql.com/tags/table-of-content/</loc>
     <lastmod>2019-10-14T00:05:00+02:00</lastmod>
   </url><url>
-    <loc>https://theartofpostgresql.com/tags/table-of-content/</loc>
+    <loc>https://theartofpostgresql.com/table-of-content/</loc>
     <lastmod>2019-10-14T00:05:00+02:00</lastmod>
   </url><url>
     <loc>https://theartofpostgresql.com/blog/2019-09-why-postgres/</loc>
@@ -135,6 +135,7 @@
     <lastmod>2019-09-07T21:00:00+02:00</lastmod>
   </url><url>
     <loc>https://theartofpostgresql.com/fr/</loc>
+    <priority>0</priority>
   </url><url>
     <loc>https://theartofpostgresql.com/archives/</loc>
   </url><url>

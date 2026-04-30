@@ -4,23 +4,26 @@
     <title>Categories on The Art of PostgreSQL</title>
     <link>https://theartofpostgresql.com/categories/</link>
     <description>Recent content in Categories on The Art of PostgreSQL</description>
-    <generator>Hugo</generator>
+    <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 25 Dec 2019 23:15:00 +0200</lastBuildDate>
-    <atom:link href="https://theartofpostgresql.com/categories/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 25 Dec 2019 23:15:00 +0200</lastBuildDate><atom:link href="https://theartofpostgresql.com/categories/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>PostgreSQL</title>
       <link>https://theartofpostgresql.com/categories/postgresql/</link>
       <pubDate>Wed, 25 Dec 2019 23:15:00 +0200</pubDate>
+      
       <guid>https://theartofpostgresql.com/categories/postgresql/</guid>
       <description></description>
     </item>
+    
     <item>
       <title>YeSQL</title>
       <link>https://theartofpostgresql.com/categories/yesql/</link>
       <pubDate>Wed, 25 Dec 2019 23:15:00 +0200</pubDate>
+      
       <guid>https://theartofpostgresql.com/categories/yesql/</guid>
       <description></description>
     </item>
+    
   </channel>
 </rss>

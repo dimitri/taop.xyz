@@ -12,10 +12,9 @@ pygmentsStyle="solarized-dark"
 
 [permalinks]
   post = "/blog/:year/:month/:slug/"
-
-page = "/:contentbasename/"
+  page = "/:slug/"
   conf = "/conf/:slug/"
-  fr = "/fr/:contentbasename/"
+  fr = "/fr/:slug/"
 
 [taxonomies]
   tag = "tags"

@@ -67,6 +67,7 @@ body {
   font: 16px 'Lato', sans-serif;
   color: #67527a;
   background: #f9f9f9;
+  padding-top: 71px;
 }
 div,
 html,
@@ -157,6 +158,7 @@ a:hover {
   max-width: 1180px;
   margin: 0 auto;
   position: relative;
+  text-align: center;
 }
 .clear:after,
 .wrapper:after {
@@ -296,16 +298,17 @@ textarea::placeholder {
 
 /* Header */
 .header {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   z-index: 999;
   border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+  background: #372649;
 }
 body.index .header,
 body.book .header {
-  background: transparent;
+  background: #372649;
 }
 body.workshop .header,
 body.lab .header,
@@ -316,7 +319,7 @@ body.index .welcome_slider ul li,
 body.workshop .welcome_slider ul li,
 body.lab .welcome_slider ul li,
 body.course .welcome_slider ul li {
-  padding-top: 80px;
+  padding-top: 20px;
   box-sizing: border-box;
 }
 .header .logo {
@@ -329,10 +332,14 @@ body.course .welcome_slider ul li {
   background-size: 40px auto;
 }
 /* Top menu */
-.header .button {
+.header nav {
+  display: inline-block;
+}
+.sticky-cta-wrapper {
   position: absolute;
-  top: 15px;
+  top: 50%;
   right: 20px;
+  transform: translateY(-50%);
 }
 .header nav ul {
   display: flex;
@@ -4211,5 +4218,31 @@ body.lab .welcome_slider {
   .price_list > li {
     max-width: 280px;
     padding: 30px;
+  }
+}
+
+/* Sticky CTA - Mobile */
+@media only screen and (max-width: 767px) {
+  .sticky-cta-wrapper {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: auto;
+    transform: none;
+    z-index: 9999;
+    background: #372649;
+    padding: 10px 20px;
+    text-align: center;
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.2);
+  }
+  .sticky-cta-wrapper .sticky-cta {
+    display: block;
+    border-radius: 0;
+    padding: 15px;
+    font-size: 16px;
+  }
+  body {
+    padding-bottom: 60px;
   }
 }

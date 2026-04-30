@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
  <head>
-    <meta name="generator" content="Hugo 0.160.1">
+    <meta name="generator" content="Hugo 0.83.1" />
     <meta charset="utf-8" />
     <title>The Art of PostgreSQL - The Art of PostgreSQL: The Transcript, part I</title>
     <meta name="description" content="This article is a transcript of the conference I gave at Postgres Open 2019,
@@ -96,7 +96,7 @@ a subtext!</p>
 </center>
 <p>Some people still prefer to read the text, so here it is.</p>
 <hr />
-<figure><a href="https://theartofpostgresql.com"><img src="/img/PostgresOpen2019/TAOP.001.png"></a>
+<figure><a href="https://theartofpostgresql.com"><img src="/img/PostgresOpen2019/TAOP.001.png"/></a>
 </figure>
 
 <p>Hi everobody. So we&rsquo;re going to talk about The Art of PostgreSQL. The idea
@@ -104,7 +104,7 @@ of this presentation is that it&rsquo;s mostly oriented to Application Developer
 <p>I&rsquo;ve been a contributor for Postgres for a long time, started last century.
 I work at Citus Data and we&rsquo;ve been acquired by Microsoft. So nowadays it is
 Azure Database for PostgreSQL HyperScale (Citus), or something like that.</p>
-<figure><a href="https://github.com/citusdata/pg_auto_failover"><img src="/img/PostgresOpen2019/TAOP.007.png"></a>
+<figure><a href="https://github.com/citusdata/pg_auto_failover"><img src="/img/PostgresOpen2019/TAOP.007.png"/></a>
 </figure>
 
 <p>One of the projects that I&rsquo;m working on currently is named pg_auto_failover.
@@ -116,7 +116,7 @@ it. It&rsquo;s on github, it&rsquo;s completely Open Source, you can open issues
 can send bug fixes if you want to, even new features if you fancy that. So
 go have a look, it&rsquo;s a project we did to simplify setting up HA for
 PostgreSQL.</p>
-<figure><a href="https://pgloader.io"><img src="/img/PostgresOpen2019/TAOP.011.png"></a>
+<figure><a href="https://pgloader.io"><img src="/img/PostgresOpen2019/TAOP.011.png"/></a>
 </figure>
 
 <p>Another project I&rsquo;ve been working on a lot in the past years is a migration
@@ -131,7 +131,7 @@ do the type mapping for you and load the data and then create the indexes in
 parallel and etc etc. So it&rsquo;s one command line and then your database is
 running on PostgreSQL now. So no excuse, just do it. It support MySQL,
 SQLite, SQL Server and some other input kinds.</p>
-<figure><a href="https://theartofpostgresql.com"><img src="/img/PostgresOpen2019/TAOP.012.png"></a>
+<figure><a href="https://theartofpostgresql.com"><img src="/img/PostgresOpen2019/TAOP.012.png"/></a>
 </figure>
 
 <p>Another project I&rsquo;ve been working on is this book, The Art of PostgreSQL. We
@@ -140,7 +140,7 @@ booth. So if you&rsquo;re interested show up there later. And the slides that
 we&rsquo;re going to go through are mostly extracted from the book. So it&rsquo;s kind
 of the same content.</p>
 <p>So let&rsquo;s get started now.</p>
-<figure><img src="/img/PostgresOpen2019/TAOP.013.png">
+<figure><img src="/img/PostgresOpen2019/TAOP.013.png"/>
 </figure>
 
 <p>The first thing that for me is important as an application developer is why
@@ -164,7 +164,7 @@ how to do it, you don&rsquo;t need PostgreSQL to do that.</p>
 back and that&rsquo;s it. So if storage is the problem, you go use, for example in
 the cloud, blob storage from Azure or maybe S3 from AWS or something else.
 So that&rsquo;s storage. PostgreSQL is not about storage.</p>
-<figure><img src="/img/PostgresOpen2019/TAOP.014.png">
+<figure><img src="/img/PostgresOpen2019/TAOP.014.png"/>
 </figure>
 
 <p>PostgreSQL is about concurrency and isolation. The idea is that what happens
@@ -174,7 +174,7 @@ theory and practice: in theory it&rsquo;s the same, but not in practice.</p>
 <p>The main thing around concurrent and isolation within the context of the
 database — Relational Database Management System, RDMBS — is that we provide
 ACID guarantees. I guess everybody knows what ACID is?</p>
-<figure><img src="/img/PostgresOpen2019/TAOP.015.png">
+<figure><img src="/img/PostgresOpen2019/TAOP.015.png"/>
 </figure>
 
 <p><strong>Atomic</strong> basically means that if you have many things to do in the same
@@ -203,7 +203,7 @@ DDLs.</p>
 <p>With PostgreSQL “file system is full” implies a rollback, you still have
 version 1, don&rsquo;t deploy the app yet, that&rsquo;s it. Simple, done. So that&rsquo;s one
 of the reasons why you use PostgreSQL of course.</p>
-<figure><img src="/img/PostgresOpen2019/TAOP.017.png">
+<figure><img src="/img/PostgresOpen2019/TAOP.017.png"/>
 </figure>
 
 <p>The C of ACID, it means <strong>consistency</strong>. Consistent means there are some
@@ -230,7 +230,7 @@ integer and a text columns, and anything that is in this table <em>foo</em> is
 going to have an integer and a text, that&rsquo;s it. All of them are the same.
 That&rsquo;s what is a relation.</p>
 <p>So consistency is pretty important.</p>
-<figure><img src="/img/PostgresOpen2019/TAOP.018.png">
+<figure><img src="/img/PostgresOpen2019/TAOP.018.png"/>
 </figure>
 
 <p>Then the <em>I</em> for ACID is <strong>isolation</strong>. It&rsquo;s the other side of
@@ -254,7 +254,7 @@ The default is READ COMMITTED. So maybe you want to look into that.</p>
 READ or READ COMMITTED, depending. So that&rsquo;s isolation. So you see that&rsquo;s
 very important, and that&rsquo;s very hard to implement at the application level
 and so maybe that&rsquo;s why you&rsquo;re using PostgreSQL actually.</p>
-<figure><img src="/img/PostgresOpen2019/TAOP.019.png">
+<figure><img src="/img/PostgresOpen2019/TAOP.019.png"/>
 </figure>
 
 <p>And then of course it&rsquo;s <strong>durable</strong>.</p>
@@ -275,7 +275,7 @@ client should still be there when you do that. If it&rsquo;s not, maybe the
 hardware is faulty, maybe the BIOS configuration or many the kernel, OS
 configuration is wrong. Maybe you did <code>fsync = off</code> in PostgreSQL, or maybe
 you&rsquo;re not using PostgreSQL. And then… yeah, don&rsquo;t do that.</p>
-<figure><img src="/img/PostgresOpen2019/TAOP.020.png">
+<figure><img src="/img/PostgresOpen2019/TAOP.020.png"/>
 </figure>
 
 <p>So that&rsquo;s the basics around why would you use PostgreSQL. So to recap

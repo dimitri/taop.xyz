@@ -4,8 +4,7 @@
     <title>Archives on The Art of PostgreSQL</title>
     <link>https://theartofpostgresql.com/archives/</link>
     <description>Recent content in Archives on The Art of PostgreSQL</description>
-    <generator>Hugo</generator>
-    <language>en-us</language>
-    <atom:link href="https://theartofpostgresql.com/archives/index.xml" rel="self" type="application/rss+xml" />
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language><atom:link href="https://theartofpostgresql.com/archives/index.xml" rel="self" type="application/rss+xml" />
   </channel>
 </rss>
