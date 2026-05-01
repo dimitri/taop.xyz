@@ -2,24 +2,24 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Composition on The Art of PostgreSQL</title>
-    <link>http://localhost:1313/tags/composition/</link>
+    <link>https://theartofpostgresql.com/tags/composition/</link>
     <description>Recent content in Composition on The Art of PostgreSQL</description>
     <generator>Hugo</generator>
     <language>en-us</language>
     <lastBuildDate>Sat, 07 Sep 2019 21:30:00 +0200</lastBuildDate>
-    <atom:link href="http://localhost:1313/tags/composition/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://theartofpostgresql.com/tags/composition/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>What is an SQL JOIN?</title>
-      <link>http://localhost:1313/blog/2019-09-sql-joins/</link>
+      <link>https://theartofpostgresql.com/blog/2019-09-sql-joins/</link>
       <pubDate>Sat, 07 Sep 2019 21:30:00 +0200</pubDate>
-      <guid>http://localhost:1313/blog/2019-09-sql-joins/</guid>
+      <guid>https://theartofpostgresql.com/blog/2019-09-sql-joins/</guid>
       <description>&lt;p&gt;It took me quite some time before I could reason efficiently about SQL&#xA;JOINs. And I must admit, the set theory diagrams never helped me really&#xA;understand JOINs in SQL. So today, I want to help you understand JOINs in a&#xA;different way, hoping to make the concept click at once for you too!&lt;/p&gt;</description>
     </item>
     <item>
       <title>What is an SQL relation?</title>
-      <link>http://localhost:1313/blog/2019-09-sql-relations/</link>
+      <link>https://theartofpostgresql.com/blog/2019-09-sql-relations/</link>
       <pubDate>Sat, 07 Sep 2019 21:00:00 +0200</pubDate>
-      <guid>http://localhost:1313/blog/2019-09-sql-relations/</guid>
+      <guid>https://theartofpostgresql.com/blog/2019-09-sql-relations/</guid>
       <description>&lt;p&gt;If you&amp;rsquo;re like me, understanding SQL is taking you a long time. And some&#xA;efforts. It took me years to get a good mental model of how SQL queries are&#xA;implemented, and then up from the lower levels, to build a mental model of&#xA;how to reason in SQL.&lt;/p&gt;&#xA;&lt;p&gt;Nowadays, in most case, I can think in terms of SQL and write queries that&#xA;will give me the result set I need. In most cases, because some parts of SQL&#xA;are still complex, and I don&amp;rsquo;t practice as much as I used to. In particular,&#xA;newer PostgreSQL features are areas I still need to work with more before I&#xA;can integrate them in my daily workflow.&lt;/p&gt;&#xA;&lt;p&gt;Today, I want to introduce the central concept of the SQL language. What is&#xA;an SQL relation?&lt;/p&gt;</description>
     </item>
   </channel>

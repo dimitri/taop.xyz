@@ -341,6 +341,15 @@ body.course .welcome_slider ul li {
   right: 20px;
   transform: translateY(-50%);
 }
+.sticky-cta-wrapper .button.button_purple {
+  background: #60b2d3;
+  border-color: #372649;
+}
+.sticky-cta-wrapper .button.button_purple:hover {
+  background: #372649;
+  border-color: #60b2d3;
+}
+
 .header nav ul {
   display: flex;
   flex-wrap: wrap;

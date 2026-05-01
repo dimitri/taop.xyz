@@ -2,171 +2,171 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on The Art of PostgreSQL</title>
-    <link>http://localhost:1313/tags/</link>
+    <link>https://theartofpostgresql.com/tags/</link>
     <description>Recent content in Tags on The Art of PostgreSQL</description>
     <generator>Hugo</generator>
     <language>en-us</language>
     <lastBuildDate>Wed, 25 Dec 2019 23:15:00 +0200</lastBuildDate>
-    <atom:link href="http://localhost:1313/tags/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://theartofpostgresql.com/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Conference</title>
-      <link>http://localhost:1313/tags/conference/</link>
+      <link>https://theartofpostgresql.com/tags/conference/</link>
       <pubDate>Wed, 25 Dec 2019 23:15:00 +0200</pubDate>
-      <guid>http://localhost:1313/tags/conference/</guid>
+      <guid>https://theartofpostgresql.com/tags/conference/</guid>
       <description></description>
     </item>
     <item>
       <title>PgDay Paris</title>
-      <link>http://localhost:1313/tags/pgday-paris/</link>
+      <link>https://theartofpostgresql.com/tags/pgday-paris/</link>
       <pubDate>Wed, 25 Dec 2019 23:15:00 +0200</pubDate>
-      <guid>http://localhost:1313/tags/pgday-paris/</guid>
+      <guid>https://theartofpostgresql.com/tags/pgday-paris/</guid>
       <description></description>
     </item>
     <item>
       <title>Relation</title>
-      <link>http://localhost:1313/tags/relation/</link>
+      <link>https://theartofpostgresql.com/tags/relation/</link>
       <pubDate>Wed, 25 Dec 2019 23:15:00 +0200</pubDate>
-      <guid>http://localhost:1313/tags/relation/</guid>
+      <guid>https://theartofpostgresql.com/tags/relation/</guid>
       <description></description>
     </item>
     <item>
       <title>SQL</title>
-      <link>http://localhost:1313/tags/sql/</link>
+      <link>https://theartofpostgresql.com/tags/sql/</link>
       <pubDate>Wed, 25 Dec 2019 23:15:00 +0200</pubDate>
-      <guid>http://localhost:1313/tags/sql/</guid>
+      <guid>https://theartofpostgresql.com/tags/sql/</guid>
       <description></description>
     </item>
     <item>
       <title>Discount</title>
-      <link>http://localhost:1313/tags/discount/</link>
+      <link>https://theartofpostgresql.com/tags/discount/</link>
       <pubDate>Fri, 29 Nov 2019 17:15:00 +0200</pubDate>
-      <guid>http://localhost:1313/tags/discount/</guid>
+      <guid>https://theartofpostgresql.com/tags/discount/</guid>
       <description></description>
     </item>
     <item>
       <title>PEV</title>
-      <link>http://localhost:1313/tags/pev/</link>
+      <link>https://theartofpostgresql.com/tags/pev/</link>
       <pubDate>Wed, 06 Nov 2019 21:45:00 +0200</pubDate>
-      <guid>http://localhost:1313/tags/pev/</guid>
+      <guid>https://theartofpostgresql.com/tags/pev/</guid>
       <description></description>
     </item>
     <item>
       <title>PostgreSQL</title>
-      <link>http://localhost:1313/tags/postgresql/</link>
+      <link>https://theartofpostgresql.com/tags/postgresql/</link>
       <pubDate>Wed, 06 Nov 2019 21:45:00 +0200</pubDate>
-      <guid>http://localhost:1313/tags/postgresql/</guid>
+      <guid>https://theartofpostgresql.com/tags/postgresql/</guid>
       <description></description>
     </item>
     <item>
       <title>Query Plan</title>
-      <link>http://localhost:1313/tags/query-plan/</link>
+      <link>https://theartofpostgresql.com/tags/query-plan/</link>
       <pubDate>Wed, 06 Nov 2019 21:45:00 +0200</pubDate>
-      <guid>http://localhost:1313/tags/query-plan/</guid>
+      <guid>https://theartofpostgresql.com/tags/query-plan/</guid>
       <description></description>
     </item>
     <item>
       <title>Visualizer</title>
-      <link>http://localhost:1313/tags/visualizer/</link>
+      <link>https://theartofpostgresql.com/tags/visualizer/</link>
       <pubDate>Wed, 06 Nov 2019 21:45:00 +0200</pubDate>
-      <guid>http://localhost:1313/tags/visualizer/</guid>
+      <guid>https://theartofpostgresql.com/tags/visualizer/</guid>
       <description></description>
     </item>
     <item>
       <title>Archiving</title>
-      <link>http://localhost:1313/tags/archiving/</link>
+      <link>https://theartofpostgresql.com/tags/archiving/</link>
       <pubDate>Mon, 14 Oct 2019 00:05:00 +0200</pubDate>
-      <guid>http://localhost:1313/tags/archiving/</guid>
+      <guid>https://theartofpostgresql.com/tags/archiving/</guid>
       <description></description>
     </item>
     <item>
       <title>Database Size</title>
-      <link>http://localhost:1313/tags/database-size/</link>
+      <link>https://theartofpostgresql.com/tags/database-size/</link>
       <pubDate>Mon, 14 Oct 2019 00:05:00 +0200</pubDate>
-      <guid>http://localhost:1313/tags/database-size/</guid>
+      <guid>https://theartofpostgresql.com/tags/database-size/</guid>
       <description></description>
     </item>
     <item>
       <title>Denormalisation</title>
-      <link>http://localhost:1313/tags/denormalisation/</link>
+      <link>https://theartofpostgresql.com/tags/denormalisation/</link>
       <pubDate>Mon, 14 Oct 2019 00:05:00 +0200</pubDate>
-      <guid>http://localhost:1313/tags/denormalisation/</guid>
+      <guid>https://theartofpostgresql.com/tags/denormalisation/</guid>
       <description></description>
     </item>
     <item>
       <title>Normalisation</title>
-      <link>http://localhost:1313/tags/normalisation/</link>
+      <link>https://theartofpostgresql.com/tags/normalisation/</link>
       <pubDate>Mon, 14 Oct 2019 00:05:00 +0200</pubDate>
-      <guid>http://localhost:1313/tags/normalisation/</guid>
+      <guid>https://theartofpostgresql.com/tags/normalisation/</guid>
       <description></description>
     </item>
     <item>
       <title>Table of Content</title>
-      <link>http://localhost:1313/tags/table-of-content/</link>
+      <link>https://theartofpostgresql.com/tags/table-of-content/</link>
       <pubDate>Mon, 14 Oct 2019 00:05:00 +0200</pubDate>
-      <guid>http://localhost:1313/tags/table-of-content/</guid>
+      <guid>https://theartofpostgresql.com/tags/table-of-content/</guid>
       <description></description>
     </item>
     <item>
       <title>Why PostgreSQL?</title>
-      <link>http://localhost:1313/tags/why-postgresql/</link>
+      <link>https://theartofpostgresql.com/tags/why-postgresql/</link>
       <pubDate>Fri, 27 Sep 2019 15:15:00 +0200</pubDate>
-      <guid>http://localhost:1313/tags/why-postgresql/</guid>
+      <guid>https://theartofpostgresql.com/tags/why-postgresql/</guid>
       <description></description>
     </item>
     <item>
       <title>Postgres Open</title>
-      <link>http://localhost:1313/tags/postgres-open/</link>
+      <link>https://theartofpostgresql.com/tags/postgres-open/</link>
       <pubDate>Wed, 25 Sep 2019 11:14:00 +0200</pubDate>
-      <guid>http://localhost:1313/tags/postgres-open/</guid>
+      <guid>https://theartofpostgresql.com/tags/postgres-open/</guid>
       <description></description>
     </item>
     <item>
       <title>Learn PostgreSQL</title>
-      <link>http://localhost:1313/tags/learn-postgresql/</link>
+      <link>https://theartofpostgresql.com/tags/learn-postgresql/</link>
       <pubDate>Tue, 17 Sep 2019 00:15:00 +0200</pubDate>
-      <guid>http://localhost:1313/tags/learn-postgresql/</guid>
+      <guid>https://theartofpostgresql.com/tags/learn-postgresql/</guid>
       <description></description>
     </item>
     <item>
       <title>Learn SQL</title>
-      <link>http://localhost:1313/tags/learn-sql/</link>
+      <link>https://theartofpostgresql.com/tags/learn-sql/</link>
       <pubDate>Tue, 17 Sep 2019 00:15:00 +0200</pubDate>
-      <guid>http://localhost:1313/tags/learn-sql/</guid>
+      <guid>https://theartofpostgresql.com/tags/learn-sql/</guid>
       <description></description>
     </item>
     <item>
       <title>ORM</title>
-      <link>http://localhost:1313/tags/orm/</link>
+      <link>https://theartofpostgresql.com/tags/orm/</link>
       <pubDate>Sat, 07 Sep 2019 22:55:00 +0200</pubDate>
-      <guid>http://localhost:1313/tags/orm/</guid>
+      <guid>https://theartofpostgresql.com/tags/orm/</guid>
       <description></description>
     </item>
     <item>
       <title>Theory</title>
-      <link>http://localhost:1313/tags/theory/</link>
+      <link>https://theartofpostgresql.com/tags/theory/</link>
       <pubDate>Sat, 07 Sep 2019 22:55:00 +0200</pubDate>
-      <guid>http://localhost:1313/tags/theory/</guid>
+      <guid>https://theartofpostgresql.com/tags/theory/</guid>
       <description></description>
     </item>
     <item>
       <title>Aggregate</title>
-      <link>http://localhost:1313/tags/aggregate/</link>
+      <link>https://theartofpostgresql.com/tags/aggregate/</link>
       <pubDate>Sat, 07 Sep 2019 22:00:00 +0200</pubDate>
-      <guid>http://localhost:1313/tags/aggregate/</guid>
+      <guid>https://theartofpostgresql.com/tags/aggregate/</guid>
       <description></description>
     </item>
     <item>
       <title>Composition</title>
-      <link>http://localhost:1313/tags/composition/</link>
+      <link>https://theartofpostgresql.com/tags/composition/</link>
       <pubDate>Sat, 07 Sep 2019 21:30:00 +0200</pubDate>
-      <guid>http://localhost:1313/tags/composition/</guid>
+      <guid>https://theartofpostgresql.com/tags/composition/</guid>
       <description></description>
     </item>
     <item>
       <title>JOIN</title>
-      <link>http://localhost:1313/tags/join/</link>
+      <link>https://theartofpostgresql.com/tags/join/</link>
       <pubDate>Sat, 07 Sep 2019 21:30:00 +0200</pubDate>
-      <guid>http://localhost:1313/tags/join/</guid>
+      <guid>https://theartofpostgresql.com/tags/join/</guid>
       <description></description>
     </item>
   </channel>

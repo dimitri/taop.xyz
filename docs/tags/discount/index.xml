@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Discount on The Art of PostgreSQL</title>
-    <link>http://localhost:1313/tags/discount/</link>
+    <link>https://theartofpostgresql.com/tags/discount/</link>
     <description>Recent content in Discount on The Art of PostgreSQL</description>
     <generator>Hugo</generator>
     <language>en-us</language>
     <lastBuildDate>Fri, 29 Nov 2019 17:15:00 +0200</lastBuildDate>
-    <atom:link href="http://localhost:1313/tags/discount/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://theartofpostgresql.com/tags/discount/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Black Friday &amp; Cyber Monday</title>
-      <link>http://localhost:1313/blog/2019-11-black-friday/</link>
+      <link>https://theartofpostgresql.com/blog/2019-11-black-friday/</link>
       <pubDate>Fri, 29 Nov 2019 17:15:00 +0200</pubDate>
-      <guid>http://localhost:1313/blog/2019-11-black-friday/</guid>
+      <guid>https://theartofpostgresql.com/blog/2019-11-black-friday/</guid>
       <description>&lt;div&gt;&#xA;    &lt;p style=&#34;text-align: right;&#34;&gt;&#xA;    Photo by Alberto Bigoni&#xA;&lt;a style=&#34;background-color:black;color:white;text-decoration:none;padding:4px 6px;font-family:-apple-system, BlinkMacSystemFont, &amp;quot;San Francisco&amp;quot;, &amp;quot;Helvetica Neue&amp;quot;, Helvetica, Ubuntu, Roboto, Noto, &amp;quot;Segoe UI&amp;quot;, Arial, sans-serif;font-size:12px;font-weight:bold;line-height:1.2;display:inline-block;border-radius:3px&#34; href=&#34;https://unsplash.com/@albertobigoni?utm_medium=referral&amp;amp;utm_campaign=photographer-credit&amp;amp;utm_content=creditBadge&#34; target=&#34;_blank&#34; rel=&#34;noopener noreferrer&#34; title=&#34;Download free do whatever you want high-resolution photos from Alberto Bigoni&#34;&gt;&lt;span style=&#34;display:inline-block;padding:2px 3px&#34;&gt;&lt;svg xmlns=&#34;http://www.w3.org/2000/svg&#34; style=&#34;height:12px;width:auto;position:relative;vertical-align:middle;top:-2px;fill:white&#34; viewBox=&#34;0 0 32 32&#34;&gt;&lt;title&gt;unsplash-logo&lt;/title&gt;&lt;path d=&#34;M10 9V0h12v9H10zm12 5h10v18H0V14h10v9h12v-9z&#34;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/span&gt;&lt;span style=&#34;display:inline-block;padding:2px 3px&#34;&gt;Alberto Bigoni&lt;/span&gt;&lt;/a&gt;&#xA;   &lt;/p&gt;&#xA;&lt;/div&gt;&#xA;&lt;p&gt;Today is Black Friday, then followed by a week end that leads directly to&#xA;Cyber Monday. This is a period where you can find great deals online, with&#xA;many discounts. I&amp;rsquo;ll make it short, because we all are busy, right?&lt;/p&gt;</description>
     </item>
   </channel>

@@ -2,24 +2,24 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Categories on The Art of PostgreSQL</title>
-    <link>http://localhost:1313/categories/</link>
+    <link>https://theartofpostgresql.com/categories/</link>
     <description>Recent content in Categories on The Art of PostgreSQL</description>
     <generator>Hugo</generator>
     <language>en-us</language>
     <lastBuildDate>Wed, 25 Dec 2019 23:15:00 +0200</lastBuildDate>
-    <atom:link href="http://localhost:1313/categories/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://theartofpostgresql.com/categories/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>PostgreSQL</title>
-      <link>http://localhost:1313/categories/postgresql/</link>
+      <link>https://theartofpostgresql.com/categories/postgresql/</link>
       <pubDate>Wed, 25 Dec 2019 23:15:00 +0200</pubDate>
-      <guid>http://localhost:1313/categories/postgresql/</guid>
+      <guid>https://theartofpostgresql.com/categories/postgresql/</guid>
       <description></description>
     </item>
     <item>
       <title>YeSQL</title>
-      <link>http://localhost:1313/categories/yesql/</link>
+      <link>https://theartofpostgresql.com/categories/yesql/</link>
       <pubDate>Wed, 25 Dec 2019 23:15:00 +0200</pubDate>
-      <guid>http://localhost:1313/categories/yesql/</guid>
+      <guid>https://theartofpostgresql.com/categories/yesql/</guid>
       <description></description>
     </item>
   </channel>
