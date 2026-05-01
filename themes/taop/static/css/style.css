@@ -2829,7 +2829,6 @@ body.lab .welcome_slider {
 
 /* Course Book Inclusion */
 .course_book_inclusion {
-  padding: 80px 0;
   background: #f8f7f9;
 }
 .course_book_inclusion .wrapper {
@@ -2841,6 +2840,7 @@ body.lab .welcome_slider {
   gap: 60px;
   max-width: 900px;
   margin: 0 auto;
+  padding: 80px;
 }
 .course_book_inclusion .book_image {
   flex-shrink: 0;
