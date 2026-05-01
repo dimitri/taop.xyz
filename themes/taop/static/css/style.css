@@ -2465,7 +2465,18 @@ body.lab .welcome_slider {
   background: #372649;
   border-color: #60b2d3;
 }
-.course_hero .trust_signal {
+.button.button_transparent,
+.button.button_transparent:visited {
+  border-color: #372649;
+  color: #372649;
+  color: #fff;
+}
+.button.button_transparent:hover {
+  background: #2e2241;
+  border-color: #2e2241;
+  color: #fff;
+}                                                   
+.Course_hero .trust_signal {
   color: #dfdde1;
   font-size: 14px;
   margin-top: 15px;
@@ -2714,7 +2725,7 @@ body.lab .welcome_slider {
   color: #896da1;
 }
 .course_curriculum .packages_table > li:last-child a {
-  color: #372649;
+  /* color: #372649; */
   font-weight: 600;
 }
 
@@ -2764,7 +2775,7 @@ body.lab .welcome_slider {
 }
 .faq_list {
   list-style: none;
-  padding: 0;
+  padding:0;
   margin: 0;
   max-width: 800px;
   margin: 0 auto;
@@ -2780,6 +2791,7 @@ body.lab .welcome_slider {
   color: #372649;
   font: 700 18px 'Lato';
   padding: 0 0 10px 0;
+  text-align: left;
 }
 .faq_item p {
   color: #67527a;
@@ -2787,12 +2799,32 @@ body.lab .welcome_slider {
   line-height: 1.7;
   margin: 0;
   padding: 0;
+  text-align: left;
+}
+.faq_list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-width: 800px;
+  margin: 0 auto;
+}
+.faq_list > li {
+  padding: 25px 0;
+  border-bottom: 1px solid #dfdde1;
+}
+.faq_list > li:first-child {
+  border-top: 1px solid #dfdde1;
+}
+  padding: 0;
 }
 
 /* Course Book Inclusion */
 .course_book_inclusion {
   padding: 80px 0;
   background: #f8f7f9;
+}
+.course_book_inclusion .wrapper {
+  padding: 0 20px;
 }
 .course_book_inclusion .book_feature {
   display: flex;
@@ -3913,13 +3945,6 @@ body.newsletter .index_hero .hero_cta .button.button_outline:hover {
   justify-content: center;
   flex-wrap: wrap;
 }
-.price_cta {
-  margin-top: 40px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  align-items: center;
-}
 
 /* Book Hero */
 .book_hero {
@@ -4275,4 +4300,299 @@ body.newsletter .index_hero .hero_cta .button.button_outline:hover {
 }
 .money-back-guarantee i {
   font-size: 24px;
+}
+
+/* Tier Subtitle (replaces workshop-subtitle on course page) */
+.tier-subtitle {
+  font-size: 16px;
+  color: #67527a;
+  margin-bottom: 15px;
+  font-weight: 500;
+}
+
+/* Early Note */
+.early_note {
+  color: #ff6b6b;
+  font-weight: 600;
+  margin-top: 10px;
+}
+
+/* Hero Subtitle Emphasis */
+.hero_subtitle--emphasis {
+  font-weight: 600;
+  margin-top: 20px;
+}
+
+/* Hero CTA */
+.hero_cta {
+  margin-top: 30px;
+}
+.hero_cta .button + .button {
+  margin-left: 15px;
+}
+
+/* Price CTA - center buttons */
+.price_cta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+/* EARLY50 Banner */
+.early50_banner {
+  background: #67527a;
+  color: #fff;
+  padding: 10px 0;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  box-shadow: 0 -2px 10px rgba(0,0,0,0.2);
+}
+body {
+  padding-bottom: 60px;
+}
+.early50_banner .banner_content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  position: relative;
+}
+.early50_banner .banner_left {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+.early50_banner .banner_badge {
+  background: #ff6b6b;
+  color: #fff;
+  padding: 4px 12px;
+  border-radius: 4px;
+  font-weight: bold;
+  font-size: 14px;
+  letter-spacing: 0.5px;
+}
+.early50_banner .banner_text {
+  font-size: 14px;
+  opacity: 0.95;
+}
+.early50_banner .banner_right {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+.early50_banner .banner_counter {
+  font-size: 14px;
+  font-weight: 500;
+}
+.early50_banner .button_white {
+  background: #fff;
+  color: #67527a;
+  border: 1px solid #fff;
+  font-size: 13px;
+  padding: 6px 16px;
+  border-radius: 4px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: all 0.3s;
+}
+.early50_banner .button_white:hover {
+  background: #f0f0f0;
+}
+.early50_banner .button_small {
+  font-size: 12px;
+  padding: 5px 14px;
+}
+.early50_banner .banner_close {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 0 5px;
+  line-height: 1;
+  opacity: 0.7;
+  transition: opacity 0.3s;
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.early50_banner .banner_close:hover {
+  opacity: 1;
+}
+
+/* What You Get Today Block */
+.what_you_get {
+  padding: 60px 0;
+  background: #fff;
+}
+.what_you_get .heading h3 {
+  color: #67527a;
+}
+.what_you_get .three_columns {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+  margin-top: 40px;
+}
+.what_you_get .column {
+  background: #ffffff;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+.what_you_get .column_icon {
+  text-align: center;
+  margin-bottom: 20px;
+}
+.what_you_get .column_icon i {
+  font-size: 28px;
+  color: #60b2d3;
+}
+.what_you_get .column h4 {
+  color: #67527a;
+  margin-bottom: 15px;
+  font-size: 20px;
+  text-align: center;
+}
+.what_you_get .column ul {
+  list-style: none;
+  padding:0;
+  margin:0;
+}
+.what_you_get .column ul li {
+  padding: 8px 0;
+  font-size: 15px;
+  line-height: 1.5;
+  text-align: left;
+}
+.what_you_get .heading h3 {
+  color: #67527a;
+}
+.what_you_get .three_columns {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+  margin-top: 40px;
+}
+
+
+/* Already Have the Book Block */
+.already_reader {
+  padding: 60px 0;
+  background: #f9f9f9;
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+}
+.already_reader .heading h3 {
+  color: #67527a;
+}
+.already_reader .reader_content {
+  max-width: 800px;
+  margin: 30px auto 0;
+  font-size: 17px;
+  line-height: 1.8;
+}
+.already_reader .reader_content p {
+  margin-bottom: 20px;
+}
+.already_reader .reader_blocks {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+  margin: 30px 0;
+}
+.already_reader .reader_block {
+  text-align: center;
+  padding: 20px;
+}
+.already_reader .reader_block i {
+  font-size: 32px;
+  color: #60b2d3;
+  display: block;
+  margin-bottom: 15px;
+}
+.already_reader .reader_block p {
+  font-size: 15px;
+  line-height: 1.6;
+  margin: 0;
+}
+.already_reader .cta_center {
+  text-align: center;
+  margin-top: 30px;
+}
+@media (max-width: 768px) {
+  .already_reader .reader_blocks {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Updated Pricing Styles */
+.price .original_price {
+  text-decoration: line-through;
+  color: #999;
+  font-size: 0.7em;
+  margin-right: 8px;
+}
+.price .discounted_price {
+  color: #67527a;
+  font-weight: bold;
+  font-size: 0.8em;
+}
+.price .paid_yearly {
+  margin-top: 5px;
+  font-size: 14px;
+  color: #999;
+}
+.strike_text {
+  text-decoration: line-through;
+  color: #999;
+  font-size: 0.9em;
+}
+
+/* Price Features Table */
+.price_features_table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  font-size: 14px;
+}
+.price_features_table tr {
+  border-bottom: 1px solid #eee;
+}
+.price_features_table tr:last-child {
+  border-bottom: none;
+}
+.price_features_table td {
+  padding: 10px 5px;
+  vertical-align: top;
+  text-align: left;
+}
+.price_features_table td.icon {
+  width: 30px;
+  color: #60b2d3;
+  font-size: 16px;
+  text-align: center;
+  padding-top: 12px;
+}
+
+@media (max-width: 768px) {
+  .early50_banner .banner_content {
+    flex-direction: column;
+    text-align: center;
+  }
+  .early50_banner .banner_left,
+  .early50_banner .banner_right {
+    flex-direction: column;
+  }
+  .what_you_get .three_columns {
+    grid-template-columns: 1fr;
+  }
 }

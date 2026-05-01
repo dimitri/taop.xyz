@@ -1,0 +1,15 @@
+<div id="early50-banner" class="early50_banner">
+  <div class="wrapper">
+    <div class="banner_content">
+      <div class="banner_left">
+        <span class="banner_badge">EARLY ACCESS — 50% OFF</span>
+        <span class="banner_text">First {{ if .Params.early50_total }}{{ .Params.early50_total }}{{ else }}100{{ end }} subscribers · Ends June 30, 2026</span>
+      </div>
+      <div class="banner_right">
+        <span class="banner_counter">{{ if .Params.early50_count }}{{ .Params.early50_count }}{{ else }}3{{ end }} of {{ if .Params.early50_total }}{{ .Params.early50_total }}{{ else }}100{{ end }} spots claimed</span>
+        <a href="https://sales.theartofpostgresql.com/the-art-of-postgresql-courses/?coupon=EARLY50" class="button button_small button_white">Claim Your Spot — EARLY50</a>
+      </div>
+      <button class="banner_close" onclick="document.getElementById('early50-banner').style.display='none'" aria-label="Dismiss banner">×</button>
+    </div>
+  </div>
+</div>
