@@ -695,7 +695,7 @@ body.course .welcome_slider ul li {
 }
 .price_list > li > div .button {
   min-width: 175px;
-  position: absolute;
+  /* position: absolute; */
   bottom: 25px;
   left: calc(50% - 87px);
 }
