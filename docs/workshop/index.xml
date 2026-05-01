@@ -2,9 +2,10 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>workshop on The Art of PostgreSQL</title>
-    <link>https://theartofpostgresql.com/workshop/</link>
+    <link>http://localhost:1313/workshop/</link>
     <description>Recent content in workshop on The Art of PostgreSQL</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language><atom:link href="https://theartofpostgresql.com/workshop/index.xml" rel="self" type="application/rss+xml" />
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <atom:link href="http://localhost:1313/workshop/index.xml" rel="self" type="application/rss+xml" />
   </channel>
 </rss>

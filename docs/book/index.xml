@@ -2,27 +2,24 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>The Art of PostgreSQL</title>
-    <link>https://theartofpostgresql.com/book/</link>
+    <link>http://localhost:1313/book/</link>
     <description>Recent content on The Art of PostgreSQL</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language><atom:link href="https://theartofpostgresql.com/book/index.xml" rel="self" type="application/rss+xml" />
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <atom:link href="http://localhost:1313/book/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Fair Pricing</title>
-      <link>https://theartofpostgresql.com/book/fair-pricing/</link>
+      <link>http://localhost:1313/book/fair-pricing/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://theartofpostgresql.com/book/fair-pricing/</guid>
+      <guid>http://localhost:1313/book/fair-pricing/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>The Art of PostgreSQL</title>
-      <link>https://theartofpostgresql.com/book/taopv1/</link>
+      <link>http://localhost:1313/book/taopv1/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://theartofpostgresql.com/book/taopv1/</guid>
+      <guid>http://localhost:1313/book/taopv1/</guid>
       <description></description>
     </item>
-    
   </channel>
 </rss>

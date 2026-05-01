@@ -2,30 +2,18 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Aggregate on The Art of PostgreSQL</title>
-    <link>https://theartofpostgresql.com/tags/aggregate/</link>
+    <link>http://localhost:1313/tags/aggregate/</link>
     <description>Recent content in Aggregate on The Art of PostgreSQL</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 07 Sep 2019 22:00:00 +0200</lastBuildDate><atom:link href="https://theartofpostgresql.com/tags/aggregate/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 07 Sep 2019 22:00:00 +0200</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/aggregate/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>What is an SQL Aggregate?</title>
-      <link>https://theartofpostgresql.com/blog/2019-09-sql-aggregates/</link>
+      <link>http://localhost:1313/blog/2019-09-sql-aggregates/</link>
       <pubDate>Sat, 07 Sep 2019 22:00:00 +0200</pubDate>
-      
-      <guid>https://theartofpostgresql.com/blog/2019-09-sql-aggregates/</guid>
-      <description>&lt;p&gt;In our previous articles we had a look at &lt;a href=&#34;https://theartofpostgresql.com/blog/2019-09-sql-relations/&#34;&gt;What is an SQL
-relation?&lt;/a&gt; and &lt;a href=&#34;https://theartofpostgresql.com/blog/2019-09-sql-joins/&#34;&gt;What is a SQL
-JOIN?&lt;/a&gt;. Today, I want to show you what is an
-aggregate in SQL.&lt;/p&gt;
-&lt;p&gt;You might have heard about Map/Reduce when Google made it famous, or maybe
-some years before, or maybe some years later. The general processing
-functions &lt;code&gt;map&lt;/code&gt; and &lt;code&gt;reduce&lt;/code&gt; where invented a very long time ago. The
-novelty from the advertising giant was in using them in a heavily
-distributed programming context.&lt;/p&gt;
-&lt;p&gt;With &lt;code&gt;map&lt;/code&gt; you apply the same processing to every object in a collection.
-With &lt;code&gt;reduce&lt;/code&gt;, you compute a result per collection of object. In SQL we know
-how to do that too, and we call that an aggregate.&lt;/p&gt;</description>
+      <guid>http://localhost:1313/blog/2019-09-sql-aggregates/</guid>
+      <description>&lt;p&gt;In our previous articles we had a look at &lt;a href=&#34;http://localhost:1313/blog/2019-09-sql-relations/&#34;&gt;What is an SQL&#xA;relation?&lt;/a&gt; and &lt;a href=&#34;http://localhost:1313/blog/2019-09-sql-joins/&#34;&gt;What is a SQL&#xA;JOIN?&lt;/a&gt;. Today, I want to show you what is an&#xA;aggregate in SQL.&lt;/p&gt;&#xA;&lt;p&gt;You might have heard about Map/Reduce when Google made it famous, or maybe&#xA;some years before, or maybe some years later. The general processing&#xA;functions &lt;code&gt;map&lt;/code&gt; and &lt;code&gt;reduce&lt;/code&gt; where invented a very long time ago. The&#xA;novelty from the advertising giant was in using them in a heavily&#xA;distributed programming context.&lt;/p&gt;&#xA;&lt;p&gt;With &lt;code&gt;map&lt;/code&gt; you apply the same processing to every object in a collection.&#xA;With &lt;code&gt;reduce&lt;/code&gt;, you compute a result per collection of object. In SQL we know&#xA;how to do that too, and we call that an aggregate.&lt;/p&gt;</description>
     </item>
-    
   </channel>
 </rss>
