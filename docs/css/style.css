@@ -2885,6 +2885,15 @@ body.lab .welcome_slider {
   margin-top: 30px;
 }
 
+/* Newsletter Subscribe Block */
+.newsletter_subscribe_block {
+  background: url(../images/demo/packages_bg.png) left top no-repeat,
+    url(../images/demo/packages_bg2.png) right bottom no-repeat;
+  background-color: #dfdde1;
+  padding: 80px 0;
+  text-align: center;
+}
+
 /* Mobile adjustments */
 @media (max-width: 768px) {
   .course_hero {

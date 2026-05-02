@@ -1,0 +1,35 @@
+<div class="book_hero" style="background: #f8f7f9;">
+  <div class="wrapper">
+    <header class="heading">
+      <h3>You already know SELECT.<br />This is what comes next.</h3>
+    </header>
+    <div class="hero_description" style="max-width: 800px; margin: 0 auto; text-align: left;">
+      <p>
+        Most developers avoid window functions. They look intimidating, the syntax is unfamiliar,
+        and nobody taught them in the SQL intro course.
+      </p>
+      <p>
+        So instead, developers fetch data from the database and process it in Python —
+        loops, dicts, Pandas DataFrames — code that's slow to write, slower to run,
+        and painful to maintain.
+      </p>
+      <p>
+        Here's what the same problem looks like in SQL, using <code>lag()</code>
+        and a window function to compute week-over-week change:
+      </p>
+      <pre class="nl-problem__code" style="background: #372649; color: #fff; padding: 20px; border-radius: 8px; font-family: monospace; font-size: 16px; max-width: 600px; margin: 0 auto; overflow-x: auto;"><code>SELECT lag(dollars, 1)
+       OVER (
+         PARTITION BY extract('isodow' FROM date)
+         ORDER BY date
+       ) AS last_week_dollars         
+  FROM ...</code></pre>
+      <p>
+        That's it. PostgreSQL handles the calendar, the ordering, and the arithmetic —
+        in a single query, with no application code.
+      </p>
+      <p>
+        This workshop is three hours of exactly that kind of revelation.
+      </p>
+    </div>
+  </div>
+</div>
