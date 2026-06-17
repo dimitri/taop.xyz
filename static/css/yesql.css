@@ -1,0 +1,272 @@
+/* YeSQL — evergreen learning hub. Layered on top of style.css. */
+
+:root {
+  --yesql-purple: #372649;
+  --yesql-purple-2: #4a3666;
+  --yesql-lightpurple: #8b6fb0;
+  --yesql-ink: #2b2b2b;
+  --yesql-muted: #6b6b6b;
+  --yesql-line: #e7e3ec;
+  --yesql-bg: #faf9fc;
+}
+
+/* The site header is position:fixed and ~90px tall (the 40px logo + 25px
+   padding), but the global body padding-top is only 71px. Clear it. */
+body.yesql { background: var(--yesql-bg); padding-top: 96px; }
+
+.yesql_hub .wrapper,
+.yesql_concept .wrapper,
+.yesql_lesson .wrapper {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* ---- Hero / headers ---- */
+.yesql_hero,
+.concept_header {
+  text-align: center;
+  padding: 32px 0 40px;
+  border-bottom: 1px solid var(--yesql-line);
+  margin-bottom: 48px;
+}
+.yesql_hero h1,
+.concept_header h1 {
+  font-size: 3rem;
+  font-weight: 900;
+  color: var(--yesql-purple);
+  margin: 0 0 8px;
+  letter-spacing: -0.02em;
+}
+.yesql_subtitle {
+  font-size: 1.35rem;
+  font-weight: 300;
+  color: var(--yesql-lightpurple);
+  margin: 0 auto 16px;
+}
+.yesql_intro {
+  max-width: 680px;
+  margin: 0 auto;
+  color: var(--yesql-muted);
+  font-size: 1.05rem;
+  line-height: 1.7;
+}
+.concept_header > i {
+  font-size: 2.2rem;
+  color: var(--yesql-lightpurple);
+  margin-bottom: 12px;
+  display: inline-block;
+}
+
+/* ---- Hub: category grid ---- */
+.yesql_grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 24px;
+  padding-bottom: 64px;
+}
+.yesql_card {
+  display: block;
+  background: #fff;
+  border: 1px solid var(--yesql-line);
+  border-radius: 14px;
+  padding: 28px;
+  text-decoration: none;
+  transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+}
+.yesql_card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 40px rgba(55, 38, 73, 0.12);
+  border-color: var(--yesql-lightpurple);
+}
+.yesql_card i {
+  font-size: 1.7rem;
+  color: var(--yesql-lightpurple);
+  margin-bottom: 14px;
+  display: block;
+}
+.yesql_card h3 {
+  color: var(--yesql-purple);
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin: 0 0 8px;
+}
+.yesql_card p {
+  color: var(--yesql-muted);
+  font-size: .97rem;
+  line-height: 1.55;
+  margin: 0 0 16px;
+}
+.yesql_count {
+  font-size: .8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  color: var(--yesql-lightpurple);
+}
+
+/* ---- Breadcrumb ---- */
+.yesql_breadcrumb {
+  font-size: .9rem;
+  color: var(--yesql-muted);
+  padding: 8px 0 0;
+  text-align: left;
+}
+.yesql_breadcrumb a { color: var(--yesql-lightpurple); text-decoration: none; font-weight: 700; }
+.yesql_breadcrumb span { margin: 0 6px; opacity: .5; }
+
+/* ---- Concept: lesson list ---- */
+.lesson_list {
+  list-style: none;
+  margin: 0 0 64px;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 16px;
+  text-align: left;
+}
+.lesson_list li { margin: 0; }
+.lesson_list a {
+  display: block;
+  background: #fff;
+  border: 1px solid var(--yesql-line);
+  border-radius: 12px;
+  padding: 22px 26px;
+  text-decoration: none;
+  transition: border-color .15s ease, box-shadow .15s ease;
+}
+.lesson_list a:hover {
+  border-color: var(--yesql-lightpurple);
+  box-shadow: 0 10px 28px rgba(55, 38, 73, 0.08);
+}
+.lesson_list h3 { color: var(--yesql-purple); font-size: 1.2rem; margin: 0 0 6px; }
+.lesson_list p { color: var(--yesql-muted); margin: 0 0 8px; line-height: 1.55; }
+.lesson_tags { font-size: .82rem; color: var(--yesql-lightpurple); font-weight: 700; }
+.lesson_empty p { color: var(--yesql-muted); font-style: italic; }
+
+/* ---- Lesson: article + sidebar ---- */
+.yesql_lesson .wrapper {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 300px;
+  gap: 48px;
+  align-items: start;
+}
+.lesson_content { min-width: 0; padding-bottom: 40px; text-align: left; }
+.lesson_content h1 {
+  color: var(--yesql-purple);
+  font-size: 2.4rem;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  margin: 16px 0 12px;
+}
+.lesson_lede {
+  font-size: 1.2rem;
+  font-weight: 300;
+  color: var(--yesql-muted);
+  line-height: 1.6;
+  margin: 0 0 32px;
+}
+.lesson_content h2 { color: var(--yesql-purple); margin-top: 2em; }
+.lesson_content h3 { color: var(--yesql-purple); }
+.lesson_content p { line-height: 1.75; color: var(--yesql-ink); }
+.lesson_content pre {
+  border-radius: 10px;
+  padding: 16px 18px;
+  overflow-x: auto;
+  font-family: 'SFMono-Regular', Menlo, Consolas, 'Liberation Mono', monospace;
+  font-size: .8rem;
+  line-height: 1.4;
+}
+/* Plain ``` blocks (psql output, schema dumps, ASCII tables) get no syntax
+   highlighting, so they have no background of their own — give them the same
+   dark terminal look as the highlighted SQL blocks so box-drawing lines up. */
+.lesson_content > pre {
+  background: #272822;
+  color: #f8f8f2;
+  white-space: pre;
+}
+.lesson_content > pre > code {
+  background: none;
+  color: inherit;
+  font-size: inherit;
+  padding: 0;
+  white-space: inherit;
+}
+.lesson_content code { font-size: .92em; }
+.lesson_content :not(pre) > code {
+  background: #efeaf5;
+  color: var(--yesql-purple);
+  padding: 1px 6px;
+  border-radius: 5px;
+}
+
+.lesson_attribution {
+  border-left: 4px solid var(--yesql-lightpurple);
+  background: #fff;
+  padding: 16px 20px;
+  border-radius: 0 10px 10px 0;
+  margin: 40px 0 0;
+}
+.lesson_attribution p { margin: 0; color: var(--yesql-muted); }
+.lesson_attribution a { color: var(--yesql-lightpurple); font-weight: 700; text-decoration: none; }
+
+.lesson_footer .tags { margin-top: 28px; }
+.lesson_footer .tags a {
+  display: inline-block;
+  font-size: .85rem;
+  color: var(--yesql-lightpurple);
+  text-decoration: none;
+  margin-right: 10px;
+}
+
+/* ---- Lesson sidebar ---- */
+.lesson_sidebar { position: sticky; top: 108px; text-align: left; }
+.sidebar_block {
+  background: #fff;
+  border: 1px solid var(--yesql-line);
+  border-radius: 12px;
+  padding: 20px 22px;
+  margin-bottom: 20px;
+}
+.sidebar_block h6 {
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  font-size: .8rem;
+  color: var(--yesql-lightpurple);
+  margin: 0 0 12px;
+}
+.sidebar_block ul { list-style: none; margin: 0; padding: 0; }
+.sidebar_block li { margin: 0 0 8px; line-height: 1.4; }
+.sidebar_block a { color: var(--yesql-ink); text-decoration: none; }
+.sidebar_block a:hover { color: var(--yesql-lightpurple); }
+.sidebar_block li.current a { color: var(--yesql-lightpurple); font-weight: 700; }
+.sidebar_subscribe p { font-size: .95rem; color: var(--yesql-muted); margin: 0 0 12px; }
+
+/* ---- Offer / contextual CTA ---- */
+.yesql_offer {
+  background: linear-gradient(135deg, var(--yesql-purple) 0%, var(--yesql-purple-2) 100%);
+  padding: 56px 0;
+  margin-top: 24px;
+}
+.yesql_offer .offer_card {
+  max-width: 720px;
+  margin: 0 auto;
+  text-align: center;
+  padding: 0 24px;
+}
+.offer_eyebrow {
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  font-size: .8rem;
+  font-weight: 700;
+  color: var(--yesql-lightpurple);
+  margin: 0 0 10px;
+}
+.offer_card h3 { color: #fff; font-size: 1.9rem; font-weight: 900; margin: 0 0 14px; }
+.offer_card p { color: #d9d2e6; font-size: 1.08rem; line-height: 1.65; margin: 0 0 28px; }
+
+@media (max-width: 860px) {
+  .yesql_lesson .wrapper { grid-template-columns: 1fr; }
+  .lesson_sidebar { position: static; }
+  .yesql_hero h1, .concept_header h1 { font-size: 2.2rem; }
+}

@@ -1,0 +1,32 @@
+{{ partial "yesql/head.html" . }}
+{{ partial "header.html" . }}
+
+<div class="yesql_hub">
+  <div class="wrapper">
+    <header class="yesql_hero">
+      <h1>{{ .Title }}</h1>
+      <p class="yesql_subtitle">{{ .Params.subtitle }}</p>
+      <div class="yesql_intro">{{ .Content }}</div>
+    </header>
+
+    <div class="yesql_grid">
+      {{ range .Sections.ByWeight }}
+      <a class="yesql_card" href="{{ .RelPermalink }}">
+        {{ with .Params.icon }}<i class="{{ . }}"></i>{{ end }}
+        <h3>{{ .Title }}</h3>
+        <p>{{ .Params.summary }}</p>
+        <span class="yesql_count">{{ len .RegularPages }} lesson{{ if ne (len .RegularPages) 1 }}s{{ end }}</span>
+      </a>
+      {{ end }}
+    </div>
+  </div>
+</div>
+
+{{ partial "yesql/offer.html" (dict
+  "eyebrow" "From the same source"
+  "title" "The Art of PostgreSQL"
+  "body" "Every lesson here is distilled from the book that teaches SQL to application developers. Get the complete treatment — all the variations, the real-world datasets, and the production patterns."
+  "url" "https://sales.theartofpostgresql.com/the-art-of-postgresql-book/"
+  "label" "Get the Book — $89") }}
+
+{{ partial "footer.html" . }}

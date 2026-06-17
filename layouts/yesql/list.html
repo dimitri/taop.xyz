@@ -1,0 +1,40 @@
+{{ partial "yesql/head.html" . }}
+{{ partial "header.html" . }}
+
+<div class="yesql_concept">
+  <div class="wrapper">
+    <nav class="yesql_breadcrumb">
+      <a href="/yesql/">YeSQL</a> <span>›</span> {{ .Title }}
+    </nav>
+
+    <header class="concept_header">
+      {{ with .Params.icon }}<i class="{{ . }}"></i>{{ end }}
+      <h1>{{ .Title }}</h1>
+      <p class="yesql_subtitle">{{ .Params.summary }}</p>
+      <div class="yesql_intro">{{ .Content }}</div>
+    </header>
+
+    <ul class="lesson_list">
+      {{ range .Pages.ByWeight }}
+      <li>
+        <a href="{{ .RelPermalink }}">
+          <h3>{{ .Title }}</h3>
+          <p>{{ with .Params.summary }}{{ . }}{{ else }}{{ .Summary }}{{ end }}</p>
+          {{ with .Params.tags }}<span class="lesson_tags">{{ range first 3 . }}#{{ . }} {{ end }}</span>{{ end }}
+        </a>
+      </li>
+      {{ else }}
+      <li class="lesson_empty"><p>Lessons for this topic are on the way.</p></li>
+      {{ end }}
+    </ul>
+  </div>
+</div>
+
+{{ partial "yesql/offer.html" (dict
+  "eyebrow" "Go deeper"
+  "title" "The Art of PostgreSQL"
+  "body" "These lessons are the foundation. The book gives you the complete treatment, with real datasets you can run and the production patterns that turn thousands of lines of code into simple queries."
+  "url" "https://sales.theartofpostgresql.com/the-art-of-postgresql-book/"
+  "label" "Get the Book — $89") }}
+
+{{ partial "footer.html" . }}

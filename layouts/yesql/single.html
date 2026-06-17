@@ -1,0 +1,64 @@
+{{ partial "yesql/head.html" . }}
+{{ partial "header.html" . }}
+
+<div class="yesql_lesson">
+  <div class="wrapper">
+    <article class="lesson_content">
+      <nav class="yesql_breadcrumb">
+        <a href="/yesql/">YeSQL</a> <span>›</span>
+        <a href="{{ .CurrentSection.RelPermalink }}">{{ .CurrentSection.Title }}</a>
+      </nav>
+
+      <h1>{{ .Title }}</h1>
+      {{ with .Params.summary }}<p class="lesson_lede">{{ . }}</p>{{ end }}
+
+      {{ .Content }}
+
+      {{ with .Params.book_chapter }}
+      <aside class="lesson_attribution">
+        <p>This lesson is distilled from <b><i>The Art of PostgreSQL</i></b> — {{ . }}.
+        <a href="{{ $.Param "book_url" | default "https://sales.theartofpostgresql.com/the-art-of-postgresql-book/" }}">Read the full chapter →</a></p>
+      </aside>
+      {{ end }}
+
+      <footer class="lesson_footer">
+        {{ with .Params.tags }}
+        <p class="tags">{{ range . }}<a href="{{ "tags/" | absURL }}{{ . | urlize }}">#{{ . }}</a> {{ end }}</p>
+        {{ end }}
+      </footer>
+    </article>
+
+    <aside class="lesson_sidebar">
+      <div class="sidebar_block">
+        <h6>{{ .CurrentSection.Title }}</h6>
+        <ul>
+          {{ range first 6 (.CurrentSection.Pages.ByWeight) }}
+          <li{{ if eq .Permalink $.Permalink }} class="current"{{ end }}><a href="{{ .RelPermalink }}">{{ .Title }}</a></li>
+          {{ end }}
+        </ul>
+      </div>
+
+      <div class="sidebar_block">
+        <h6>Tools</h6>
+        <ul>
+          <li><a href="/compute-database-size/">Compute Database Size</a></li>
+          <li><a href="/explain-plan-visualizer/">Query Plan Visualizer</a></li>
+        </ul>
+      </div>
+
+      <div class="sidebar_block sidebar_subscribe">
+        <p>Get a <b>free chapter</b> of <i>The Art of PostgreSQL</i>, including the full Table of Contents.</p>
+        <script async data-uid="c1452ad801" src="https://f.convertkit.com/c1452ad801/ad53e74e51.js"></script>
+      </div>
+    </aside>
+  </div>
+</div>
+
+{{ partial "yesql/offer.html" (dict
+  "eyebrow" (.Param "cta_eyebrow" | default "Keep going")
+  "title" (.Param "cta_title" | default "The Art of PostgreSQL")
+  "body" (.Param "cta_body" | default "Liked this? It's one piece of a complete, practical system for writing real PostgreSQL. The book is your entry point.")
+  "url" (.Param "cta_url" | default "https://sales.theartofpostgresql.com/the-art-of-postgresql-book/")
+  "label" (.Param "cta_label" | default "Get the Book — $89")) }}
+
+{{ partial "footer.html" . }}
