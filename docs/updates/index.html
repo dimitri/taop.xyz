@@ -1,56 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
- <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
-    <meta name="generator" content="Hugo 0.162.1">
-    <meta charset="utf-8" />
-    <title>The Art of PostgreSQL - What&#39;s new</title>
-    <meta name="description" content="" />
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+	<meta charset="utf-8">
+	<title>The Art of PostgreSQL: a PostgreSQL book for developers in 2026</title>
+	<meta name="description" content="The PostgreSQL book for developers that teaches you how to turn thousands of lines of code into simple queries.">
 
-    
-    <meta name="twitter:card" content="summary" />
-    <meta name="twitter:site" content="@tapoueh" />
-    <meta name="twitter:creator" content="@tapoueh" />
-    <meta property="og:url" content="/updates/" />
-    <meta
-      property="og:title"
-      content="What&#39;s new"
-    />
-    <meta
-      property="og:description"
-      content="The book that teaches SQL to developers: Learn to replace thousands of lines of code with simple queries!"
-    />
-    <meta
-      property="og:image"
-      content="https://theartofpostgresql.com/images/hardcover-mockup.jpg"
-    />
+        
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:site" content="@tapoueh" />
+        <meta name="twitter:creator" content="@tapoueh" />
+        <meta property="og:url" content="https://theartofpostgresql.com" />
+        <meta property="og:title" content="The Art of PostgreSQL" />
+        <meta property="og:description" content="The book that teaches SQL to developers: Learn to replace thousands of lines of code with simple queries!" />
+        <meta property="og:image" content="https://theartofpostgresql.com/images/hardcover-mockup.jpg" />
+	
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+	
+	
+	<link href="/favicon.ico" rel="icon" type="image/x-icon">
+	
+	
+	<link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700" rel="stylesheet"> 
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+	<link rel="stylesheet" href="/css/style.css">
+	
+	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> 
+	<script src="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
+	<script src="/js/custom.js"></script>
+</head>
+<body>
 
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, minimum-scale=1.0"
-    />
-
-    <link href="/favicon.ico" rel="icon" type="image/x-icon" />
-
-    <link
-      href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="/css/style.css" />
-    <link rel="stylesheet" href="/syntax.css" />
-    <link href="/pggraph/static/css/main.736aaa9f.chunk.css" rel="stylesheet" />
-    <link
-      href="https://unpkg.com/bootstrap@4.3.1/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link href="/pev/css/app.888e741c.css" rel="stylesheet" />
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
-    <script src="/js/custom.js"></script>
-  </head>
-  <body class="blog"></body>
-</html>
 
 
 <header class="header">
@@ -69,7 +50,7 @@
 	<li class="divider"></li>
 	<li><a class="logo" href="/">The Art of PostgreSQL</a></li>
 	<li class="divider"></li>
-	<li><a href="/blog/"><i class="fa-solid fa-pen-to-square"></i><span class="nav-text">BLOG</span></a></li>
+	<li><a href="/yesql/"><i class="fa-solid fa-pen-to-square"></i><span class="nav-text">YESQL</span></a></li>
       </ul>
     </nav>
     <div class="sticky-cta-wrapper">
@@ -90,20 +71,39 @@
 .upd-wrap {
   max-width: 740px;
   margin: 0 auto;
-  padding: 7rem 1.5rem 5rem;
+  padding: 8.5rem 1.5rem 5rem;
   font-family: 'Lato', sans-serif;
   color: #372649;
 }
 
  
-.upd-eyebrow {
-  font-size: 0.68rem; font-weight: 700; letter-spacing: 0.14em;
-  text-transform: uppercase; color: #8b6fb0; margin: 0 0 0.5rem;
+.upd-header {
+  padding-bottom: 2.75rem;
+  border-bottom: 1px solid #ddd6e8;
+  margin-bottom: 3rem;
 }
-.upd-wrap h1 { font-size: 2.25rem; font-weight: 300; color: #372649; margin: 0 0 0.3rem; line-height: 1.15; }
+.upd-dateline {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #9d8ab5;
+  margin: 0 0 0.7rem;
+}
+.upd-wrap h1 {
+  font-size: 3.75rem;
+  font-weight: 700;
+  color: #2e2241;
+  margin: 0 0 1.1rem;
+  line-height: 1.04;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+}
 .upd-lede {
-  font-size: 1rem; color: #6b6b6b; font-style: italic;
-  margin: 0 0 2.5rem; padding-bottom: 1.75rem; border-bottom: 1px solid #ddd6e8;
+  font-size: 1.05rem;
+  color: #5f5f6e;
+  line-height: 1.6;
+  margin: 0;
 }
 
  
@@ -132,11 +132,17 @@
 .upd-support a { color: #372649; font-weight: 600; text-decoration: none; border-bottom: 1px solid #c8bfda; }
 
  
-.upd-diagram { margin: 0.8rem 0 0; border: 1px solid #ddd6e8; border-radius: 3px; overflow: hidden; background: #f5f0fc; }
+.upd-diagram { margin: 0.8rem 0 0; border: 1px solid #ddd6e8; border-radius: 3px; overflow: hidden; background: #fff; }
 .upd-diagram figcaption {
   font-size: 0.75rem; color: #8b6fb0; font-style: italic;
   text-align: center; padding: 0.4rem;
   background: #f5f0fc; border-top: 1px solid #e0d8ef;
+}
+.upd-query {
+  margin: 0.7rem 0 0; background: #1e1620; border-radius: 3px;
+  padding: 0.7rem 1rem;
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  font-size: 0.74rem; color: #c8b8e0; line-height: 1.85; overflow-x: auto;
 }
 
  
@@ -194,16 +200,18 @@
 @media (max-width: 520px) {
   .tl-rail  { flex-basis: 44px; }
   .tl-year  { font-size: 1.05rem; top: 5.5rem; }
-  .upd-wrap { padding: 6rem 1rem 4rem; }
-  .upd-wrap h1 { font-size: 1.75rem; }
+  .upd-wrap { padding: 7rem 1rem 4rem; }
+  .upd-wrap h1 { font-size: 2.5rem; letter-spacing: -0.02em; }
 }
 </style>
 
 <div class="upd-page">
 <div class="upd-wrap">
-  <p class="upd-eyebrow">The Art of PostgreSQL</p>
-  <h1>What's new</h1>
-  <p class="upd-lede">A record of the project — book editions, lessons, lab, and open-source work.</p>
+  <header class="upd-header">
+    <p class="upd-dateline">The Art of PostgreSQL &middot; 2011&ndash;2026</p>
+    <h1>What's new</h1>
+    <p class="upd-lede">Book editions, lessons, lab, and open-source tools — a full record of the project from first publication to today.</p>
+  </header>
 
   <section class="upd-wip">
     <div class="upd-wip-heading">
@@ -211,16 +219,32 @@
       <h2>Currently in progress</h2>
     </div>
     <ul>
-      <li><strong>Third edition of The Art of PostgreSQL</strong> — restructured with new chapters and, for the first time, diagrams throughout. The SP-GiST spatial index illustration below is one example of the kind of visual added to the 2026 edition.</li>
+      <li><strong>Third edition of The Art of PostgreSQL</strong> — restructured with new chapters and, for the first time, diagrams throughout. The <code>WITH RECURSIVE</code> border-hop illustration below is one example.</li>
       <li><strong>Full courses</strong> — the YeSQL hub lessons are expanding into complete structured courses, each covering a topic end-to-end with exercises and a final project.</li>
     </ul>
     <p class="upd-support">
       <i class="fa-solid fa-hand-holding-dollar"></i>pgcopydb, pg_auto_failover, and pgloader are free open-source software maintained by one person. <a href="https://oss.theartofpostgresql.com">Financial support</a> helps keep them maintained and the servers running.
     </p>
     <figure class="upd-diagram">
-      <img src="/img/spgist-europe.svg" alt="SP-GiST adaptive quadtree over European castle ruins — the index partitions Europe into progressively finer cells wherever castles cluster, leaving sparse regions (Scandinavia) in large undivided cells." style="display:block;width:100%">
-      <figcaption>SP-GiST adaptive quadtree over European castle ruins — from the book's chapter on indexes. Dense clusters (Rhine valley, Wales) force finer cells; sparse regions (Scandinavia) remain large.</figcaption>
+      <img src="/img/neighbour-reach.svg" alt="WITH RECURSIVE border-hop map: countries reachable from France in 1–4 border hops, color-coded by depth from orange (France) through yellow, green, cyan to blue." style="display:block;width:100%">
+      <figcaption>Countries reachable from France by border hops — computed with <code>WITH RECURSIVE</code>, from the book's chapter on recursive queries.</figcaption>
     </figure>
+    <pre class="upd-query">with recursive reach(isocode, depth) as (
+    select isocode, 0
+      from geoname.country
+     where iso = 'FR'
+
+    union all
+
+    select n.neighbour, r.depth + 1
+      from geoname.neighbour n
+           join reach r on r.isocode = n.isocode
+     where r.depth &lt; 4
+)
+cycle isocode set is_cycle using path
+select distinct on (isocode) iso3, depth
+  from reach where not is_cycle
+ order by isocode, depth;</pre>
   </section>
 
   <div class="tl">
@@ -281,7 +305,7 @@ docker compose run --rm taop load-data</pre>
             <span class="tl-date">2020</span>
           </div>
           <p class="tl-title"><a href="https://github.com/hapostgres/pg_auto_failover" target="_blank" rel="noopener">pg_auto_failover</a></p>
-          <p class="tl-desc">High-availability automation for PostgreSQL 13–18: a monitor service orchestrates health checks and failover, maintaining write availability across node failures and replica promotions. Supports two-node primary/standby setups through to multi-standby production clusters and Citus HA. Featured as one of the primary HA solutions for self-managed PostgreSQL in Google's PostgreSQL documentation.</p>
+          <p class="tl-desc">High-availability automation for PostgreSQL 13–18: a monitor service orchestrates health checks and failover, maintaining write availability across node failures and replica promotions. Supports two-node primary/standby setups through to multi-standby production clusters and Citus HA. Featured as one of the primary HA solutions for self-managed PostgreSQL in <a href="https://cloud.google.com/architecture/architectures-high-availability-postgresql-clusters-compute-engine" target="_blank" rel="noopener">Google's PostgreSQL architecture documentation</a>.</p>
           <figure class="upd-arch">
             <img src="/img/arch-single-standby.svg" alt="pg_auto_failover architecture: primary and secondary data nodes coordinated by a monitor service">
           </figure>
@@ -316,6 +340,22 @@ docker compose run --rm taop load-data</pre>
     </div>
 
     <div class="tl-group">
+      <div class="tl-rail"><span class="tl-year">2018</span></div>
+      <div class="tl-items">
+
+        <div class="tl-entry">
+          <div class="tl-meta">
+            <i class="fa-solid fa-briefcase tl-icon"></i>
+            <span class="tl-date">January 2018</span>
+          </div>
+          <p class="tl-title">Joins Citus Data</p>
+          <p class="tl-desc">Joined Citus Data as a PostgreSQL engineer, working on the Citus distributed PostgreSQL extension — which shards and distributes tables across nodes for horizontal scale. Citus was later acquired by Microsoft and is now the engine behind Azure Cosmos DB for PostgreSQL.</p>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="tl-group">
       <div class="tl-rail"><span class="tl-year">2017</span></div>
       <div class="tl-items">
 
@@ -337,11 +377,36 @@ docker compose run --rm taop load-data</pre>
 
         <div class="tl-entry oss">
           <div class="tl-meta">
+            <i class="fa-solid fa-bolt tl-icon"></i>
+            <span class="tl-date">September 2013</span>
+          </div>
+          <p class="tl-title"><a href="https://www.postgresql.org/docs/current/event-triggers.html" target="_blank" rel="noopener">Event Triggers — PostgreSQL 9.3</a></p>
+          <p class="tl-desc">PostgreSQL 9.3 introduced Event Triggers, designed and implemented by Dimitri — a new trigger category that fires on DDL events (<code>CREATE</code>, <code>ALTER</code>, <code>DROP</code>) database-wide, not per-table. Extensions can install event trigger functions to intercept and react to schema changes. Used today by <strong>Citus</strong> (propagating DDL to worker nodes), <strong>TimescaleDB</strong> (intercepting DDL on hypertables), <strong>pglogical</strong> and <strong>pgl_ddl_deploy</strong> (capturing DDL for logical replication), and <strong>PostgREST</strong> (invalidating its schema cache on <code>ddl_command_end</code>).</p>
+        </div>
+
+        <div class="tl-entry oss">
+          <div class="tl-meta">
             <i class="fa-solid fa-database tl-icon"></i>
-            <span class="tl-date">2013</span>
+            <span class="tl-date">January 2013</span>
           </div>
           <p class="tl-title"><a href="https://pgloader.io" target="_blank" rel="noopener">pgloader</a></p>
           <p class="tl-desc">Data loading tool for PostgreSQL using the <code>COPY</code> command with transactional error handling — bad rows are rejected and logged while good data keeps loading. Originally written in Python, then rewritten in Common Lisp (v3) for parallel performance. v4 is a full rewrite in Clojure/JVM, distributed as a single self-contained JAR — no native dependencies, no SBCL, just <code>java -jar pgloader.jar</code> (Java 21+). Migrates from MySQL, SQLite, MS SQL Server, CSV, and other sources, including full schema generation.</p>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="tl-group">
+      <div class="tl-rail"><span class="tl-year">2011</span></div>
+      <div class="tl-items">
+
+        <div class="tl-entry oss">
+          <div class="tl-meta">
+            <i class="fa-solid fa-puzzle-piece tl-icon"></i>
+            <span class="tl-date">September 2011</span>
+          </div>
+          <p class="tl-title"><a href="https://www.postgresql.org/docs/current/extend-extensions.html" target="_blank" rel="noopener">PostgreSQL Extensions — PostgreSQL 9.1</a></p>
+          <p class="tl-desc">The Extensions system in PostgreSQL 9.1 was designed and implemented by Dimitri — the mechanism behind every <code>CREATE EXTENSION</code> call in use today. It lets database developers package functions, types, operators, and index methods as versioned, installable units. <code>CREATE EXTENSION postgis</code>, <code>CREATE EXTENSION pgvector</code>, <code>CREATE EXTENSION pg_trgm</code>: all of it runs on this foundation.</p>
         </div>
 
       </div>
