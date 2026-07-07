@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+	<channel>
+		<title>Index on The Art of PostgreSQL</title>
+		<link>http://localhost:1313/tags/index/</link>
+		<description>Recent content in Index on The Art of PostgreSQL</description>
+		<generator>Hugo</generator>
+		<language>en-us</language>
+		
+		
+		
+		
+			<atom:link href="http://localhost:1313/tags/index/index.xml" rel="self" type="application/rss+xml" />
+			<item>
+				<title>Query Rewriting and Anti-Patterns</title>
+				<link>http://localhost:1313/yesql/performance/query-rewriting/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>http://localhost:1313/yesql/performance/query-rewriting/</guid>
+				<description>Small SQL changes can have large performance effects. The most common slow queries share a recognizable EXPLAIN signature and a mechanical fix.</description>
+			</item>
+	</channel>
+</rss>

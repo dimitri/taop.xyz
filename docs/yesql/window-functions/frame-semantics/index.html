@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+	<meta charset="utf-8">
+	<title>Frame Semantics: ROWS, RANGE, and GROUPS · The Art of PostgreSQL</title>
+	<meta name="description" content="A window frame defines exactly which rows each window function sees. ROWS counts positions, RANGE counts values, GROUPS counts distinct peers. Mixing them up produces silent bugs.">
+
+	<meta name="twitter:card" content="summary" />
+	<meta name="twitter:site" content="@tapoueh" />
+	<meta name="twitter:creator" content="@tapoueh" />
+	<meta property="og:url" content="http://localhost:1313/yesql/window-functions/frame-semantics/" />
+	<meta property="og:title" content="Frame Semantics: ROWS, RANGE, and GROUPS · YeSQL" />
+	<meta property="og:description" content="Practical PostgreSQL for developers, one concept at a time." />
+	<meta property="og:image" content="https://theartofpostgresql.com/images/hardcover-mockup.jpg" />
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+
+	<link href="/favicon.ico" rel="icon" type="image/x-icon">
+
+	<link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/yesql.css">
+	<link rel="stylesheet" href="/syntax.css">
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="/js/custom.js"></script>
+</head>
+<body class="yesql">
+
+
+<header class="header">
+  <div class="wrapper">
+    <nav>
+      <ul>
+	<li><a href="/book/"><i class="fa-solid fa-book-open"></i><span class="nav-text">BOOK</span></a></li>
+	<li class="divider"></li>
+	<li><a class="logo" href="/">The Art of PostgreSQL</a></li>
+	<li class="divider"></li>
+	<li><a href="/course/"><i class="fa-solid fa-graduation-cap"></i><span class="nav-text">COURSE</span></a></li>
+	<li class="divider"></li>
+	<li><a href="/workshop/"><i class="fa-solid fa-microphone"></i><span class="nav-text">WORKSHOP</span></a></li>
+	<li class="divider"></li>
+	<li><a href="/lab/"><i class="fa-solid fa-flask"></i><span class="nav-text">LAB</span></a></li>
+	<li class="divider"></li>
+	<li><a class="logo" href="/">The Art of PostgreSQL</a></li>
+	<li class="divider"></li>
+	<li><a href="/yesql/"><i class="fa-solid fa-pen-to-square"></i><span class="nav-text">YESQL</span></a></li>
+      </ul>
+    </nav>
+    <div class="sticky-cta-wrapper">
+      <a href="https://sales.theartofpostgresql.com/the-art-of-postgresql-book/" class="sticky-cta button button_purple">Get the Book – $89</a>
+    </div>
+  </div>
+</header>
+
+
+
+
+
+
+
+<div class="yesql_lesson">
+  <div class="wrapper">
+    <article class="lesson_content">
+      <nav class="yesql_breadcrumb">
+        <a href="/yesql/">YeSQL</a> <span>›</span>
+        <a href="/yesql/window-functions/">Window Functions</a>
+      </nav>
+
+      <h1>Frame Semantics: ROWS, RANGE, and GROUPS</h1>
+      <p class="lesson_lede">A window frame defines exactly which rows each window function sees. ROWS counts positions, RANGE counts values, GROUPS counts distinct peers. Mixing them up produces silent bugs.</p>
+
+      
+<div class="lesson_lab_banner">
+  <i class="fa-solid fa-flask"></i>
+  <div class="lab_banner_body">
+    <strong>Run it yourself</strong> — all queries on this page use the
+    <code>f1db</code> dataset,
+    pre-loaded in the free
+    <a href="/lab/">TAOP lab</a>.
+    Start a session with <code>psql taop</code> and follow along.
+    No setup beyond <a href="https://github.com/dimitri/TheArtOfPostgreSQL" rel="noopener">Docker</a>.
+  </div>
+</div>
+
+
+
+      <p>Every window function with an <code>ORDER BY</code> inside <code>OVER</code> operates on a <em>frame</em>
+— the subset of rows visible to that call. The frame specification comes after
+<code>ORDER BY</code> in the <code>OVER</code> clause. When you omit it, PostgreSQL applies a
+default: <code>RANGE UNBOUNDED PRECEDING TO CURRENT ROW</code>.</p>
+<p>That default is a growing window, not a fixed one. It is correct for running
+totals but wrong for moving averages. Understanding frames is what separates
+queries that produce plausible-looking wrong numbers from queries that are
+actually right.</p>
+<p>The three frame modes, each shown below:</p>
+<ul>
+<li><strong><code>ROWS</code></strong> counts physical row positions. <code>ROWS BETWEEN 1 PRECEDING AND 1 FOLLOWING</code> is always exactly three rows.</li>
+<li><strong><code>RANGE</code></strong> counts value ranges on the <code>ORDER BY</code> column. <code>RANGE BETWEEN 10 PRECEDING AND 20 FOLLOWING</code> includes every row whose value falls within that interval.</li>
+<li><strong><code>GROUPS</code></strong> counts distinct peer groups. <code>GROUPS BETWEEN 1 PRECEDING AND 1 FOLLOWING</code> is the current group plus the groups immediately before and after — regardless of how many rows each group contains.</li>
+</ul>
+<p><img src="/img/diagrams/fig-window-frame-spec.svg" alt="Three ROWS frame variants: UNBOUNDED PRECEDING, sliding window, UNBOUNDED FOLLOWING"></p>
+<h3 id="rows-grow-and-shrink">ROWS: grow and shrink</h3>
+<p>The two canonical <code>ROWS</code> frames go in opposite directions. <code>UNBOUNDED PRECEDING TO CURRENT ROW</code> grows from the partition start; <code>CURRENT ROW TO UNBOUNDED FOLLOWING</code> shrinks toward the end. Together they are complementary — a row
+that has accumulated <em>n</em> elements in the left frame has exactly (<em>total</em> − <em>n</em> + 1)
+in the right.</p>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#719e07">select</span> x,
+</span></span><span style="display:flex;"><span>       array_agg(x) over(<span style="color:#719e07">rows</span> <span style="color:#719e07">between</span> unbounded preceding
+</span></span><span style="display:flex;"><span>                                   <span style="color:#719e07">and</span> <span style="color:#719e07">current</span> <span style="color:#719e07">row</span>)       <span style="color:#719e07">as</span> preceding,
+</span></span><span style="display:flex;"><span>       array_agg(x) over(<span style="color:#719e07">rows</span> <span style="color:#719e07">between</span> <span style="color:#719e07">current</span> <span style="color:#719e07">row</span>
+</span></span><span style="display:flex;"><span>                                   <span style="color:#719e07">and</span> unbounded following) <span style="color:#719e07">as</span> following
+</span></span><span style="display:flex;"><span>  <span style="color:#719e07">from</span> generate_series(<span style="color:#2aa198">1</span>, <span style="color:#2aa198">5</span>) <span style="color:#719e07">as</span> t(x);
+</span></span></code></pre></div><pre tabindex="0"><code> x │  preceding  │  following  
+═══╪═════════════╪═════════════
+ 1 │ {1}         │ {1,2,3,4,5}
+ 2 │ {1,2}       │ {2,3,4,5}
+ 3 │ {1,2,3}     │ {3,4,5}
+ 4 │ {1,2,3,4}   │ {4,5}
+ 5 │ {1,2,3,4,5} │ {5}
+(5 rows)
+</code></pre><p><code>array_agg</code> makes the frame contents visible. Each row in <code>preceding</code> gains
+one element; each row in <code>following</code> loses one.</p>
+<h3 id="named-window-and-partition-by">Named WINDOW and PARTITION BY</h3>
+<p>The <code>WINDOW</code> clause names a frame definition so multiple expressions can share
+it without repeating the spec. It also composes with <code>PARTITION BY</code>, which
+restarts each frame independently per group. Here <code>x/3</code> creates groups of two
+or three rows, and two named windows operate within each group:</p>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#719e07">select</span> x,
+</span></span><span style="display:flex;"><span>       x<span style="color:#719e07">/</span><span style="color:#2aa198">3</span> <span style="color:#719e07">as</span> partition,
+</span></span><span style="display:flex;"><span>       array_agg(x) over (partition <span style="color:#719e07">by</span> x<span style="color:#719e07">/</span><span style="color:#2aa198">3</span>) <span style="color:#719e07">as</span> peers,
+</span></span><span style="display:flex;"><span>       array_agg(x) over w1                 <span style="color:#719e07">as</span> w1,
+</span></span><span style="display:flex;"><span>       array_agg(x) over w2                 <span style="color:#719e07">as</span> w2
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#719e07">from</span> generate_series(<span style="color:#2aa198">1</span>, <span style="color:#2aa198">10</span>) <span style="color:#719e07">as</span> t(x)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>window w1 <span style="color:#719e07">as</span> (partition <span style="color:#719e07">by</span> x<span style="color:#719e07">/</span><span style="color:#2aa198">3</span>
+</span></span><span style="display:flex;"><span>              <span style="color:#719e07">order</span> <span style="color:#719e07">by</span> x
+</span></span><span style="display:flex;"><span>              <span style="color:#719e07">rows</span> <span style="color:#719e07">between</span> unbounded preceding <span style="color:#719e07">and</span> <span style="color:#719e07">current</span> <span style="color:#719e07">row</span>),
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>       w2 <span style="color:#719e07">as</span> (partition <span style="color:#719e07">by</span> x<span style="color:#719e07">/</span><span style="color:#2aa198">3</span>
+</span></span><span style="display:flex;"><span>              <span style="color:#719e07">order</span> <span style="color:#719e07">by</span> x
+</span></span><span style="display:flex;"><span>              <span style="color:#719e07">rows</span> <span style="color:#719e07">between</span> <span style="color:#719e07">current</span> <span style="color:#719e07">row</span> <span style="color:#719e07">and</span> <span style="color:#2aa198">1</span> following);
+</span></span></code></pre></div><pre tabindex="0"><code> x  │ partition │  peers  │   w1    │   w2   
+════╪═══════════╪═════════╪═════════╪════════
+  1 │         0 │ {1,2}   │ {1}     │ {1,2}
+  2 │         0 │ {1,2}   │ {1,2}   │ {2}
+  3 │         1 │ {3,4,5} │ {3}     │ {3,4}
+  4 │         1 │ {3,4,5} │ {3,4}   │ {4,5}
+  5 │         1 │ {3,4,5} │ {3,4,5} │ {5}
+  6 │         2 │ {6,7,8} │ {6}     │ {6,7}
+  7 │         2 │ {6,7,8} │ {6,7}   │ {7,8}
+  8 │         2 │ {6,7,8} │ {6,7,8} │ {8}
+  9 │         3 │ {9,10}  │ {9}     │ {9,10}
+ 10 │         3 │ {9,10}  │ {9,10}  │ {10}
+(10 rows)
+</code></pre><p><code>w1</code> grows within each partition; <code>w2</code> is a one-step lookahead, shrinking to
+just the current row on the last row of each partition. <code>peers</code> is a
+no-<code>ORDER BY</code> window — it sees the whole partition, the same value on every
+row in the group.</p>
+<h3 id="rows-vs-range">ROWS vs RANGE</h3>
+<p><code>ROWS</code> advances one physical row at a time. <code>RANGE</code> advances by value — it
+includes every row whose <code>ORDER BY</code> value falls inside the specified interval.
+With unique values they agree; with skewed data or duplicate values they
+diverge significantly.</p>
+<p>The squares of 1 through 10 give a concrete case where the values are sparse
+and the intervals tell different stories:</p>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#719e07">select</span> x,
+</span></span><span style="display:flex;"><span>       array_agg(x) over w1 <span style="color:#719e07">as</span> rows_window,
+</span></span><span style="display:flex;"><span>       array_agg(x) over w2 <span style="color:#719e07">as</span> range_window
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#719e07">from</span> (<span style="color:#719e07">select</span> x<span style="color:#719e07">*</span>x <span style="color:#719e07">from</span> generate_series(<span style="color:#2aa198">1</span>, <span style="color:#2aa198">10</span>) <span style="color:#719e07">as</span> gs(x)) <span style="color:#719e07">as</span> t1(x)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>window w1 <span style="color:#719e07">as</span> (<span style="color:#719e07">order</span> <span style="color:#719e07">by</span> x <span style="color:#719e07">rows</span>  <span style="color:#719e07">between</span> <span style="color:#2aa198">1</span> preceding <span style="color:#719e07">and</span> <span style="color:#2aa198">2</span> following),
+</span></span><span style="display:flex;"><span>       w2 <span style="color:#719e07">as</span> (<span style="color:#719e07">order</span> <span style="color:#719e07">by</span> x range <span style="color:#719e07">between</span> <span style="color:#2aa198">10</span> preceding <span style="color:#719e07">and</span> <span style="color:#2aa198">20</span> following);
+</span></span></code></pre></div><pre tabindex="0"><code>  x  │  rows_window   │ range_window  
+═════╪════════════════╪═══════════════
+   1 │ {1,4,9}        │ {1,4,9,16}
+   4 │ {1,4,9,16}     │ {1,4,9,16}
+   9 │ {4,9,16,25}    │ {1,4,9,16,25}
+  16 │ {9,16,25,36}   │ {9,16,25,36}
+  25 │ {16,25,36,49}  │ {16,25,36}
+  36 │ {25,36,49,64}  │ {36,49}
+  49 │ {36,49,64,81}  │ {49,64}
+  64 │ {49,64,81,100} │ {64,81}
+  81 │ {64,81,100}    │ {81,100}
+ 100 │ {81,100}       │ {100}
+(10 rows)
+</code></pre><p><code>w1</code> always contains exactly 4 values (or fewer at the edges). <code>w2</code> at <code>x=9</code>
+includes <code>{1,4,9,16,25}</code> — every square in the range [−1, 29] — because the
+values happen to be dense there. At <code>x=25</code> the range [15, 45] contains only
+three squares (16, 25, 36), so <code>w2</code> shrinks.</p>
+<p>For moving averages and running totals, <code>ROWS</code> is almost always what you want
+— a fixed, position-based window. <code>RANGE</code> is the right choice when you want
+to aggregate by value proximity: &ldquo;all events within the last 7 days of the
+current row&rsquo;s date,&rdquo; where all rows with the same timestamp should be treated
+as peers.</p>
+<h3 id="groups">GROUPS</h3>
+<p><code>GROUPS</code> is <code>RANGE</code>&rsquo;s cousin, but instead of value distances it counts
+distinct peer groups — sets of rows that share the same <code>ORDER BY</code> value.
+<code>GROUPS BETWEEN 1 PRECEDING AND 1 FOLLOWING</code> means: the current group, the
+group immediately before it, and the group immediately after, however many
+rows those groups contain.</p>
+<p>Race results make this concrete. In race 890 the <code>ORDER BY</code> is <code>laps DESC, milliseconds</code> — finishers are ordered by laps completed, then by time within
+the same lap count. Drivers who completed the same number of laps form a
+peer group.</p>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span>  <span style="color:#719e07">select</span> code, laps,
+</span></span><span style="display:flex;"><span>         rank() over(<span style="color:#719e07">order</span> <span style="color:#719e07">by</span> laps <span style="color:#719e07">desc</span>, milliseconds) <span style="color:#719e07">as</span> <span style="color:#719e07">position</span>,
+</span></span><span style="display:flex;"><span>         array_agg(code) over wr <span style="color:#719e07">as</span> <span style="color:#719e07">rows</span>,
+</span></span><span style="display:flex;"><span>         array_agg(code) over wg <span style="color:#719e07">as</span> groups
+</span></span><span style="display:flex;"><span>    <span style="color:#719e07">from</span> f1db.results
+</span></span><span style="display:flex;"><span>         <span style="color:#719e07">join</span> f1db.drivers <span style="color:#719e07">using</span>(driverid)
+</span></span><span style="display:flex;"><span>   <span style="color:#719e07">where</span> raceid <span style="color:#719e07">=</span> <span style="color:#2aa198">890</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  window wr <span style="color:#719e07">as</span> (<span style="color:#719e07">order</span> <span style="color:#719e07">by</span> laps <span style="color:#719e07">desc</span>, milliseconds
+</span></span><span style="display:flex;"><span>                <span style="color:#719e07">rows</span>   <span style="color:#719e07">between</span> <span style="color:#2aa198">1</span> preceding <span style="color:#719e07">and</span> <span style="color:#2aa198">1</span> following),
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>         wg <span style="color:#719e07">as</span> (<span style="color:#719e07">order</span> <span style="color:#719e07">by</span> laps <span style="color:#719e07">desc</span>, milliseconds
+</span></span><span style="display:flex;"><span>                groups <span style="color:#719e07">between</span> <span style="color:#2aa198">1</span> preceding <span style="color:#719e07">and</span> <span style="color:#2aa198">1</span> following)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#719e07">order</span> <span style="color:#719e07">by</span> <span style="color:#719e07">position</span>;
+</span></span></code></pre></div><pre style="background:rgb(0,43,54);color:#93a1a1;padding:16px 18px;border-radius:10px;font-family:SFMono-Regular,Menlo,Consolas,'Liberation Mono',monospace;font-size:12.8px;overflow-x:auto;line-height:1.5"> code │ laps │ position │     rows      │                groups                 
+══════╪══════╪══════════╪═══════════════╪═══════════════════════════════════════
+ <span style="color:#b58900">HAM</span>  │   70 │        1 │ {<span style="color:#b58900">HAM</span>,<span style="color:#b58900">RAI</span>}     │ {<span style="color:#b58900">HAM</span>,<span style="color:#b58900">RAI</span>}
+ <span style="color:#b58900">RAI</span>  │   70 │        2 │ {<span style="color:#b58900">HAM</span>,<span style="color:#b58900">RAI</span>,<span style="color:#b58900">VET</span>} │ {<span style="color:#b58900">HAM</span>,<span style="color:#b58900">RAI</span>,<span style="color:#b58900">VET</span>}
+ <span style="color:#b58900">VET</span>  │   70 │        3 │ {<span style="color:#b58900">RAI</span>,<span style="color:#b58900">VET</span>,<span style="color:#b58900">WEB</span>} │ {<span style="color:#b58900">RAI</span>,<span style="color:#b58900">VET</span>,<span style="color:#b58900">WEB</span>}
+ <span style="color:#b58900">WEB</span>  │   70 │        4 │ {<span style="color:#b58900">VET</span>,<span style="color:#b58900">WEB</span>,<span style="color:#b58900">ALO</span>} │ {<span style="color:#b58900">VET</span>,<span style="color:#b58900">WEB</span>,<span style="color:#b58900">ALO</span>}
+ <span style="color:#b58900">ALO</span>  │   70 │        5 │ {<span style="color:#b58900">WEB</span>,<span style="color:#b58900">ALO</span>,<span style="color:#b58900">GRO</span>} │ {<span style="color:#b58900">WEB</span>,<span style="color:#b58900">ALO</span>,<span style="color:#b58900">GRO</span>}
+ <span style="color:#b58900">GRO</span>  │   70 │        6 │ {<span style="color:#b58900">ALO</span>,<span style="color:#b58900">GRO</span>,<span style="color:#b58900">BUT</span>} │ {<span style="color:#b58900">ALO</span>,<span style="color:#b58900">GRO</span>,<span style="color:#b58900">BUT</span>}
+ <span style="color:#b58900">BUT</span>  │   70 │        7 │ {<span style="color:#b58900">GRO</span>,<span style="color:#b58900">BUT</span>,<span style="color:#b58900">MAS</span>} │ {<span style="color:#b58900">GRO</span>,<span style="color:#b58900">BUT</span>,<span style="color:#b58900">MAS</span>}
+ <span style="color:#b58900">MAS</span>  │   70 │        8 │ {<span style="color:#b58900">BUT</span>,<span style="color:#b58900">MAS</span>,<span style="color:#268bd2">PER</span>} │ {<span style="color:#b58900">BUT</span>,<span style="color:#b58900">MAS</span>,<span style="color:#268bd2">PER</span>,<span style="color:#268bd2">MAL</span>,<span style="color:#268bd2">HUL</span>,<span style="color:#268bd2">VER</span>,<span style="color:#268bd2">RIC</span>}
+ <span style="color:#268bd2">PER</span>  │   69 │        9 │ {<span style="color:#b58900">MAS</span>,<span style="color:#268bd2">PER</span>,<span style="color:#268bd2">MAL</span>} │ {<span style="color:#b58900">MAS</span>,<span style="color:#268bd2">PER</span>,<span style="color:#268bd2">MAL</span>,<span style="color:#268bd2">HUL</span>,<span style="color:#268bd2">VER</span>,<span style="color:#268bd2">RIC</span>,<span style="color:#859900">VDG</span>,<span style="color:#859900">PIC</span>}
+ <span style="color:#268bd2">MAL</span>  │   69 │        9 │ {<span style="color:#268bd2">PER</span>,<span style="color:#268bd2">MAL</span>,<span style="color:#268bd2">HUL</span>} │ {<span style="color:#b58900">MAS</span>,<span style="color:#268bd2">PER</span>,<span style="color:#268bd2">MAL</span>,<span style="color:#268bd2">HUL</span>,<span style="color:#268bd2">VER</span>,<span style="color:#268bd2">RIC</span>,<span style="color:#859900">VDG</span>,<span style="color:#859900">PIC</span>}
+ <span style="color:#268bd2">HUL</span>  │   69 │        9 │ {<span style="color:#268bd2">MAL</span>,<span style="color:#268bd2">HUL</span>,<span style="color:#268bd2">VER</span>} │ {<span style="color:#b58900">MAS</span>,<span style="color:#268bd2">PER</span>,<span style="color:#268bd2">MAL</span>,<span style="color:#268bd2">HUL</span>,<span style="color:#268bd2">VER</span>,<span style="color:#268bd2">RIC</span>,<span style="color:#859900">VDG</span>,<span style="color:#859900">PIC</span>}
+ <span style="color:#268bd2">VER</span>  │   69 │        9 │ {<span style="color:#268bd2">HUL</span>,<span style="color:#268bd2">VER</span>,<span style="color:#268bd2">RIC</span>} │ {<span style="color:#b58900">MAS</span>,<span style="color:#268bd2">PER</span>,<span style="color:#268bd2">MAL</span>,<span style="color:#268bd2">HUL</span>,<span style="color:#268bd2">VER</span>,<span style="color:#268bd2">RIC</span>,<span style="color:#859900">VDG</span>,<span style="color:#859900">PIC</span>}
+ <span style="color:#268bd2">RIC</span>  │   69 │        9 │ {<span style="color:#268bd2">VER</span>,<span style="color:#268bd2">RIC</span>,<span style="color:#859900">VDG</span>} │ {<span style="color:#b58900">MAS</span>,<span style="color:#268bd2">PER</span>,<span style="color:#268bd2">MAL</span>,<span style="color:#268bd2">HUL</span>,<span style="color:#268bd2">VER</span>,<span style="color:#268bd2">RIC</span>,<span style="color:#859900">VDG</span>,<span style="color:#859900">PIC</span>}
+(22 rows)</pre>
+<p>Positions 1–7 are finishers who each completed 70 laps with a unique time —
+every row is its own group. <code>ROWS</code> and <code>GROUPS</code> agree because there are no
+ties in the ordering.</p>
+<p>At position 8 (MAS) the divergence begins. <code>ROWS</code> sees three physical rows:
+BUT, MAS, PER. <code>GROUPS</code> sees three <em>groups</em>: the group before MAS (just BUT,
+the last 70-lap finisher), MAS&rsquo;s own group (just MAS), and the entire next
+group — all five drivers who completed 69 laps. One boundary step in GROUPS
+captures all of them at once.</p>
+<p>At positions 9–13 (all tied at 69 laps, all rank 9), the <code>groups</code> column is
+identical for every row: it always contains MAS (the preceding 70-lap group),
+all six 69-lappers (the current group), and VDG and PIC (the following 68-lap
+group). <code>ROWS</code> meanwhile advances one row at a time through the same six
+drivers.</p>
+<h3 id="exclude">EXCLUDE</h3>
+<p>The <code>EXCLUDE</code> clause removes rows from an otherwise-defined frame. It adds
+three options: <code>EXCLUDE CURRENT ROW</code> drops only the current row, <code>EXCLUDE GROUP</code> drops the current row and all its ordering peers, and <code>EXCLUDE TIES</code>
+keeps the current row but drops the peers.</p>
+<p>The most useful is <code>EXCLUDE CURRENT ROW</code> — it produces &ldquo;everyone but me&rdquo;
+aggregates that would otherwise require a self-join:</p>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#719e07">select</span> x,
+</span></span><span style="display:flex;"><span>       <span style="color:#719e07">sum</span>(x) over (<span style="color:#719e07">order</span> <span style="color:#719e07">by</span> x
+</span></span><span style="display:flex;"><span>                    <span style="color:#719e07">rows</span> <span style="color:#719e07">between</span> unbounded preceding
+</span></span><span style="display:flex;"><span>                             <span style="color:#719e07">and</span> unbounded following)             <span style="color:#719e07">as</span> sum_all,
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>       <span style="color:#719e07">sum</span>(x) over (<span style="color:#719e07">order</span> <span style="color:#719e07">by</span> x
+</span></span><span style="display:flex;"><span>                    <span style="color:#719e07">rows</span> <span style="color:#719e07">between</span> unbounded preceding
+</span></span><span style="display:flex;"><span>                             <span style="color:#719e07">and</span> unbounded following
+</span></span><span style="display:flex;"><span>                    exclude <span style="color:#719e07">current</span> <span style="color:#719e07">row</span>)                          <span style="color:#719e07">as</span> sum_others,
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>       <span style="color:#719e07">sum</span>(x) over (<span style="color:#719e07">order</span> <span style="color:#719e07">by</span> x
+</span></span><span style="display:flex;"><span>                    groups <span style="color:#719e07">between</span> unbounded preceding
+</span></span><span style="display:flex;"><span>                               <span style="color:#719e07">and</span> unbounded following
+</span></span><span style="display:flex;"><span>                    exclude <span style="color:#719e07">group</span>)                                <span style="color:#719e07">as</span> sum_other_values
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#719e07">from</span> (<span style="color:#719e07">values</span> (<span style="color:#2aa198">1</span>), (<span style="color:#2aa198">1</span>), (<span style="color:#2aa198">2</span>), (<span style="color:#2aa198">3</span>), (<span style="color:#2aa198">3</span>)) <span style="color:#719e07">as</span> t(x);
+</span></span></code></pre></div><pre tabindex="0"><code> x │ sum_all │ sum_others │ sum_other_values 
+═══╪═════════╪════════════╪══════════════════
+ 1 │      10 │          9 │                8
+ 1 │      10 │          9 │                8
+ 2 │      10 │          8 │                8
+ 3 │      10 │          7 │                4
+ 3 │      10 │          7 │                4
+(5 rows)
+</code></pre><p><code>sum_all</code> is 10 on every row — the full partition total. <code>sum_others</code> subtracts
+the current row: the two <code>x=1</code> rows each see 9, the <code>x=2</code> row sees 8, and so
+on. <code>sum_other_values</code> uses <code>EXCLUDE GROUP</code> on a <code>GROUPS</code> frame: it subtracts
+all rows that share the current value — both 1s disappear together, both 3s
+disappear together, leaving 8 for either end and 4 for the middle. A
+self-join would need at least a CTE and a subquery to express the same thing.</p>
+
+
+      <aside class="lesson_email_capture" aria-label="Get the book intro as a PDF">
+  <div class="email_capture_copy">
+    <strong>This chapter is from <em>The Art of PostgreSQL</em>.</strong>
+    <p>Get a free chapter of the 2026 edition — including the full Table of Contents — plus the next lessons by email.</p>
+  </div>
+  <script async data-uid="c1452ad801" src="https://f.convertkit.com/c1452ad801/ad53e74e51.js"></script>
+</aside>
+
+
+
+      
+      <aside class="lesson_course_attr">
+        <i class="fa-solid fa-graduation-cap"></i>
+        <p>This lesson is a preview from the <b>Master Window Functions</b> course.
+        <a href="/course/">See the full curriculum →</a></p>
+      </aside>
+      
+
+      <footer class="lesson_footer">
+        
+        <p class="tags"><a href="http://localhost:1313/tags/window-functions">#window functions</a> <a href="http://localhost:1313/tags/frame">#frame</a> <a href="http://localhost:1313/tags/rows">#ROWS</a> <a href="http://localhost:1313/tags/range">#RANGE</a> <a href="http://localhost:1313/tags/groups">#GROUPS</a> <a href="http://localhost:1313/tags/sql">#SQL</a> </p>
+        
+      </footer>
+    </article>
+
+    <aside class="lesson_sidebar">
+      <div class="sidebar_block">
+        <h6>Window Functions</h6>
+        <ul>
+          
+          <li><a href="/yesql/window-functions/over-clause-mental-model/">The OVER Clause: One Result Per Row Without GROUP BY</a></li>
+          
+          <li><a href="/yesql/window-functions/row-number-rank-dense-rank/">ROW_NUMBER, RANK, and DENSE_RANK: Three Ways to Order Rows</a></li>
+          
+          <li><a href="/yesql/window-functions/running-totals/">Running Totals and Moving Averages</a></li>
+          
+          <li class="current"><a href="/yesql/window-functions/frame-semantics/">Frame Semantics: ROWS, RANGE, and GROUPS</a></li>
+          
+          <li><a href="/yesql/window-functions/sessionization/">Sessionization: Grouping Events with a Running Sum</a></li>
+          
+        </ul>
+      </div>
+
+      <div class="sidebar_block">
+        <h6>Tools</h6>
+        <ul>
+          <li><a href="/compute-database-size/">Compute Database Size</a></li>
+          <li><a href="/explain-plan-visualizer/">Query Plan Visualizer</a></li>
+        </ul>
+      </div>
+
+      <div class="sidebar_block sidebar_lab">
+        <i class="fa-solid fa-flask"></i>
+        <h6>Try it Yourself</h6>
+        <p>A free Docker setup ships all datasets pre-loaded. One command and you're in a live <code>psql</code> session.</p>
+        <a href="/lab/" class="button button_purple">Open the Lab</a>
+        <a href="https://github.com/dimitri/TheArtOfPostgreSQL" class="lab_github_link" rel="noopener"><i class="fa-brands fa-github"></i> Starter Kit on GitHub</a>
+      </div>
+
+
+    </aside>
+  </div>
+</div>
+
+
+<section class="yesql_offer">
+  <div class="wrapper">
+    <div class="offer_card">
+      <p class="offer_eyebrow">Keep going</p>
+      <h3>The Art of PostgreSQL</h3>
+      <p>Liked this? It&#39;s one piece of a complete, practical system for writing real PostgreSQL. The book is your entry point.</p>
+      <a href="https://sales.theartofpostgresql.com/the-art-of-postgresql-book/" class="button button_purple button_large">Get the Book — $89</a>
+    </div>
+  </div>
+</section>
+
+
+ 
+
+<footer class="footer">
+	<div class="wrapper">
+	    <div class="about_block">
+	        <h6>about the author</h6>
+	        <p>Hi! My name is Dimitri Fontaine and I have been using and contributing to Open Source Software for the best of the last 20 years. I am a PostgreSQL Major Contributor after having contributed Extensions and Event Triggers, among other things.</p>
+	        <p>I have been writing code almost daily for a very long time now, both in a professional capacity and on my leisure time. I&rsquo;ve also been a database architect and a DBA on-call. As a developer I enjoy using SQL. As a database architect, I like teaching advanced SQL techniques to my colleagues.</p>
+	        <ul>
+	            <li><a target="_blank" href="mailto:dim@tapoueh.org">email</a></li>
+	            <li><a target="_blank" href="https://twitter.com/tapoueh">twitter</a></li>
+	            <li><a target="_blank" href="https://github.com/dimitri">github</a></li>
+	            <li><a target="_blank" href="https://www.reddit.com/user/theartofpostgresql">reddit</a></li>
+	            <li><a href="/updates/">what's new</a></li>
+	        </ul>
+    	</div>
+	    <div class="faq_block">
+            <h6>FAQ</h6>
+	        <dl>
+	           <dt>What if the book isn&rsquo;t what I expected it would be?</dt>
+	           <dd>The Art of PostgreSQL is a book that teaches SQL to application developers. If it's not of any value to you, then just say so and I'll refund you, no questions asked.</dd>
+	           <dt>I bought the book, and I'm confused. What now?</dt>
+	           <dd>
+                     The content of the book is available as a PDF, ePub and
+	             MOBI file, and you can also download the SQL queries.
+	             The content is available over
+	             at <a href="https://members.theartofpostgresql.com/courses/the-art-of-postgresql/"
+	             target="_">https://members.theartofpostgresql.com/courses/the-art-of-postgresql/</a>
+	             from your student dashboard.
+                   </dd>
+	           <dt>Is there any DRM?</dt>
+	           <dd>No. There isn't even watermarking on the PDF. You own what you buy. The sources of data selected for the book are all available with Open Data types of licenses, and the book itself is copyright Dimitri Fontaine. All rights reserved.</dd>
+	           <dt>Any other questions?</dt>
+	           <dd>Contact me by <a href="mailto:dim@tapoueh.org">email</a> and just ask! I will do my best to answer you.</dd>
+	        </dl>
+     	    </div>
+	</div>
+</footer>
+
+
+
+
+
+
+<div class="copyright">
+    <div class="wrapper">
+        Copyright 2019-2026 &copy; Dimitri Fontaine. All rights reserved. Design by <a style="color: white; font-weight: bold;" target="_blank" href="https://www.terrilowry.com">TerriLowry.com.</a>
+    </div>
+</div>
+
+
+ 
+
+<script type="text/javascript">
+  var subscribersSiteId='1296f531-7ba0-406f-89e1-bdca40a36208';
+</script>
+<script type="text/javascript"
+        src="https://cdn.subscribers.com/assets/subscribers.js">
+</script>
+  
+
+ 
+
+<script>
+!function(e,t,n,s,u,a){e.twq||(s=e.twq=function(){s.exe?s.exe.apply(s,arguments):s.queue.push(arguments);
+},s.version='1.1',s.queue=[],u=t.createElement(n),u.async=!0,u.src='//static.ads-twitter.com/uwt.js',
+a=t.getElementsByTagName(n)[0],a.parentNode.insertBefore(u,a))}(window,document,'script');
+
+twq('init','o0ial');
+twq('track','PageView');
+</script>
+
+
+</body>
+</html> 
+

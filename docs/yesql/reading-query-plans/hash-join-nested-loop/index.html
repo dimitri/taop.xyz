@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1314&amp;path=livereload" data-no-instant defer></script>
+	<meta charset="utf-8">
+	<title>Hash Join vs Nested Loop: What the Plan Node Tells You · The Art of PostgreSQL</title>
+	<meta name="description" content="Two join algorithms, two different performance profiles. The plan node tells you which one PostgreSQL chose and why — and when to question that choice.">
+
+	<meta name="twitter:card" content="summary" />
+	<meta name="twitter:site" content="@tapoueh" />
+	<meta name="twitter:creator" content="@tapoueh" />
+	<meta property="og:url" content="http://localhost:1314/yesql/reading-query-plans/hash-join-nested-loop/" />
+	<meta property="og:title" content="Hash Join vs Nested Loop: What the Plan Node Tells You · YeSQL" />
+	<meta property="og:description" content="Practical PostgreSQL for developers, one concept at a time." />
+	<meta property="og:image" content="https://theartofpostgresql.com/images/hardcover-mockup.jpg" />
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+
+	<link href="/favicon.ico" rel="icon" type="image/x-icon">
+
+	<link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/yesql.css">
+	<link rel="stylesheet" href="/syntax.css">
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="/js/custom.js"></script>
+</head>
+<body class="yesql">
+
+
+<header class="header">
+  <div class="wrapper">
+    <nav>
+      <ul>
+	<li><a href="/book/"><i class="fa-solid fa-book-open"></i><span class="nav-text">BOOK</span></a></li>
+	<li class="divider"></li>
+	<li><a class="logo" href="/">The Art of PostgreSQL</a></li>
+	<li class="divider"></li>
+	<li><a href="/course/"><i class="fa-solid fa-graduation-cap"></i><span class="nav-text">COURSE</span></a></li>
+	<li class="divider"></li>
+	<li><a href="/workshop/"><i class="fa-solid fa-microphone"></i><span class="nav-text">WORKSHOP</span></a></li>
+	<li class="divider"></li>
+	<li><a href="/lab/"><i class="fa-solid fa-flask"></i><span class="nav-text">LAB</span></a></li>
+	<li class="divider"></li>
+	<li><a class="logo" href="/">The Art of PostgreSQL</a></li>
+	<li class="divider"></li>
+	<li><a href="/yesql/"><i class="fa-solid fa-pen-to-square"></i><span class="nav-text">YESQL</span></a></li>
+      </ul>
+    </nav>
+    <div class="sticky-cta-wrapper">
+      <a href="https://sales.theartofpostgresql.com/the-art-of-postgresql-book/" class="sticky-cta button button_purple">Get the Book – $89</a>
+    </div>
+  </div>
+</header>
+
+
+
+
+
+
+
+<div class="yesql_lesson">
+  <div class="wrapper">
+    <article class="lesson_content">
+      <nav class="yesql_breadcrumb">
+        <a href="/yesql/">YeSQL</a> <span>›</span>
+        <a href="/yesql/reading-query-plans/">Reading Query Plans</a>
+      </nav>
+
+      <h1>Hash Join vs Nested Loop: What the Plan Node Tells You</h1>
+      <p class="lesson_lede">Two join algorithms, two different performance profiles. The plan node tells you which one PostgreSQL chose and why — and when to question that choice.</p>
+
+      
+<div class="lesson_lab_banner">
+  <i class="fa-solid fa-flask"></i>
+  <div class="lab_banner_body">
+    <strong>Run it yourself</strong> — all queries on this page use the
+    <code>f1db</code> dataset,
+    pre-loaded in the free
+    <a href="/lab/">TAOP lab</a>.
+    Start a session with <code>psql taop</code> and follow along.
+    No setup beyond <a href="https://github.com/dimitri/TheArtOfPostgreSQL" rel="noopener">Docker</a>.
+  </div>
+</div>
+
+
+
+      <p>When PostgreSQL joins two tables it picks one of three algorithms. The plan
+node name tells you which one was chosen. Understanding the trade-offs helps
+you know when the planner made the right call — and when to give it a nudge.</p>
+<p><img src="/img/diagrams/fig-join-operators.svg" alt="Physical join operators: hash join builds a hash table then probes; nested loop iterates; merge join merges sorted inputs"></p>
+<h3 id="hash-join">Hash Join</h3>
+<p>A Hash Join builds a hash table from the smaller input (the <em>inner</em> side),
+then scans the larger input (the <em>outer</em> side) and probes the hash table for
+each row. The startup cost is the hash table build; after that, probing is
+fast.</p>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#719e07">explain</span> (<span style="color:#719e07">analyze</span>, buffers)
+</span></span><span style="display:flex;"><span><span style="color:#719e07">select</span> d.nationality,
+</span></span><span style="display:flex;"><span>       <span style="color:#719e07">count</span>(<span style="color:#719e07">distinct</span> d.driverid)                     <span style="color:#719e07">as</span> drivers,
+</span></span><span style="display:flex;"><span>       <span style="color:#719e07">count</span>(<span style="color:#719e07">*</span>) filter (<span style="color:#719e07">where</span> res.positionorder <span style="color:#719e07">=</span> <span style="color:#2aa198">1</span>)  <span style="color:#719e07">as</span> wins
+</span></span><span style="display:flex;"><span>  <span style="color:#719e07">from</span> f1db.results res
+</span></span><span style="display:flex;"><span>  <span style="color:#719e07">join</span> f1db.drivers d <span style="color:#719e07">on</span> d.driverid <span style="color:#719e07">=</span> res.driverid
+</span></span><span style="display:flex;"><span>  <span style="color:#719e07">join</span> f1db.races   r <span style="color:#719e07">on</span> r.raceid   <span style="color:#719e07">=</span> res.raceid
+</span></span><span style="display:flex;"><span> <span style="color:#719e07">where</span> r.<span style="color:#719e07">year</span> <span style="color:#719e07">=</span> <span style="color:#2aa198">2017</span>
+</span></span><span style="display:flex;"><span> <span style="color:#719e07">group</span> <span style="color:#719e07">by</span> d.nationality
+</span></span><span style="display:flex;"><span> <span style="color:#719e07">order</span> <span style="color:#719e07">by</span> wins <span style="color:#719e07">desc</span>;
+</span></span></code></pre></div><pre tabindex="0"><code> Sort  (cost=820.05..820.15 rows=41 ...)
+   -&gt;  GroupAggregate  (Group Key: d.nationality)
+         -&gt;  Hash Join  (cost=77.37..790.85 rows=485 ...)
+               Hash Cond: (res.driverid = d.driverid)
+               -&gt;  Hash Join  (cost=36.45..748.64 rows=485 ...)
+                     Hash Cond: (res.raceid = r.raceid)
+                     -&gt;  Seq Scan on results res  (rows=23677 ...)
+                     -&gt;  Hash  →  Seq Scan on races r
+                                   Filter: (year = 2017)
+               -&gt;  Hash  →  Seq Scan on drivers d  (rows=841 ...)
+ Execution Time: 4.515 ms
+</code></pre><p>For this query — joining results to drivers and races across all of 2017 —
+the planner uses a Hash Join. The <code>drivers</code> table is smaller than <code>results</code>;
+it becomes the hash table. Each result row probes into it. Total cost is high,
+but it scales linearly with input size.</p>
+<p>You will see <code>Hash Join</code> in the plan output with a child node <code>Hash</code> below it.
+The <code>Hash</code> node is the build step; the probe happens at the join level.</p>
+<h3 id="nested-loop">Nested Loop</h3>
+<p>A Nested Loop iterates: for each row in the outer input, scan the inner input
+to find matching rows. Ideal when the outer set is small and the inner side
+has an index that makes each lookup fast.</p>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#719e07">explain</span> (<span style="color:#719e07">analyze</span>, buffers)
+</span></span><span style="display:flex;"><span><span style="color:#719e07">select</span> r.name   <span style="color:#719e07">as</span> race,
+</span></span><span style="display:flex;"><span>       r.<span style="color:#b58900">date</span>,
+</span></span><span style="display:flex;"><span>       res.positionorder,
+</span></span><span style="display:flex;"><span>       res.points
+</span></span><span style="display:flex;"><span>  <span style="color:#719e07">from</span> f1db.drivers  d
+</span></span><span style="display:flex;"><span>  <span style="color:#719e07">join</span> f1db.results res <span style="color:#719e07">on</span> res.driverid <span style="color:#719e07">=</span> d.driverid
+</span></span><span style="display:flex;"><span>  <span style="color:#719e07">join</span> f1db.races    r  <span style="color:#719e07">on</span> r.raceid    <span style="color:#719e07">=</span> res.raceid
+</span></span><span style="display:flex;"><span> <span style="color:#719e07">where</span> d.driverid <span style="color:#719e07">=</span> <span style="color:#2aa198">1</span>
+</span></span><span style="display:flex;"><span> <span style="color:#719e07">order</span> <span style="color:#719e07">by</span> r.<span style="color:#b58900">date</span>;
+</span></span></code></pre></div><pre tabindex="0"><code> Sort  (Sort Key: r.date)
+   -&gt;  Hash Join  (Hash Cond: res.raceid = r.raceid)
+         -&gt;  Nested Loop  (actual rows=203.00 loops=1)
+               -&gt;  Index Only Scan on drivers d
+                     Index Cond: (driverid = 1)
+                     actual rows=1.00 loops=1     ← outer set: one driver
+               -&gt;  Seq Scan on results res
+                     Filter: (driverid = 1)
+                     Rows Removed by Filter: 23474
+ Execution Time: 1.936 ms
+</code></pre><p>Here the outer set is one driver (one row). The inner <code>results</code> table is
+scanned with an index on <code>driverid</code>. With one outer row and a fast index
+lookup, Nested Loop is the clear winner — zero hash table build, one index
+probe.</p>
+<p>The plan says <code>Nested Loop</code> with indented child nodes. <code>loops=N</code> in the
+inner node&rsquo;s actual output tells you how many times the inner scan ran. If
+<code>loops=1</code>, you have a Nested Loop over a trivially small outer set. If
+<code>loops=25000</code>, you have a Nested Loop that ran 25,000 index probes — which
+may or may not be the right call.</p>
+<h3 id="what-to-look-for">What to look for</h3>
+<ul>
+<li><strong>Hash Join with <code>loops=1</code> and large inputs</strong>: usually correct. Check
+<code>Batches</code> — if <code>&gt; 1</code>, the hash table spilled to disk and <code>work_mem</code> is
+too low.</li>
+<li><strong>Nested Loop with high <code>loops=N</code> and no inner index</strong>: the planner
+expected the outer set to be small but it was not. Check row estimates.</li>
+<li><strong>Merge Join</strong>: appears when both inputs are already sorted (or sorted by
+an index). No hash table, no nested scan — just a linear merge pass.
+Efficient when both inputs are large and pre-sorted.</li>
+</ul>
+<p>The algorithm chosen is almost never wrong when the row estimates are right.
+When you see an unexpected algorithm, check the estimates first.</p>
+
+
+      <aside class="lesson_email_capture" aria-label="Get the book intro as a PDF">
+  <div class="email_capture_copy">
+    <strong>Reading this from the book?</strong>
+    <p>This chapter is from <em>The Art of PostgreSQL</em>. Get the 2026 edition intro as a PDF, plus the next lessons by email.</p>
+  </div>
+  <form class="email_capture_form"
+        action="https://app.kit.com/forms/YOUR_KIT_FORM_ID/subscriptions"
+        method="post"
+        data-kit-form="YOUR_KIT_FORM_ID"
+        novalidate>
+    <label for="ec_email" class="visually-hidden">Email address</label>
+    <input id="ec_email" type="email" name="email_address"
+           placeholder="you@example.com" required autocomplete="email">
+    <button type="submit">Send me the PDF</button>
+  </form>
+  <p class="email_capture_success" hidden role="status">Done — check your inbox!</p>
+  <p class="email_capture_error" hidden role="alert">
+    Something went wrong. <a href="https://app.kit.com/forms/YOUR_KIT_FORM_ID/subscriptions">Try this link instead.</a>
+  </p>
+</aside>
+
+<script>
+(function () {
+  
+  var KIT_FORM_ID = 'YOUR_KIT_FORM_ID';
+
+  document.querySelectorAll('[data-kit-form]').forEach(function (form) {
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var wrap  = form.closest('.lesson_email_capture');
+      var input = form.querySelector('input[type="email"]');
+      var btn   = form.querySelector('button[type="submit"]');
+      var ok    = wrap.querySelector('.email_capture_success');
+      var err   = wrap.querySelector('.email_capture_error');
+
+      btn.disabled    = true;
+      btn.textContent = 'Sending…';
+
+      
+      
+      fetch('https://api.kit.com/v4/forms/' + KIT_FORM_ID + '/subscribe', {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify({ email_address: input.value }),
+      })
+      .then(function (res) {
+        if (!res.ok) throw new Error(res.status);
+        form.hidden = true;
+        ok.hidden   = false;
+      })
+      .catch(function () {
+        btn.disabled    = false;
+        btn.textContent = 'Send me the PDF';
+        err.hidden      = false;
+      });
+    });
+  });
+}());
+</script>
+
+
+
+      
+      <aside class="lesson_course_attr">
+        <i class="fa-solid fa-graduation-cap"></i>
+        <p>This lesson is a preview from the <b>Read Query Plans</b> course.
+        <a href="/course/read-query-plans/">See the full curriculum →</a></p>
+      </aside>
+      
+
+      <footer class="lesson_footer">
+        
+        <p class="tags"><a href="http://localhost:1314/tags/explain">#EXPLAIN</a> <a href="http://localhost:1314/tags/query-plans">#query plans</a> <a href="http://localhost:1314/tags/hash-join">#hash join</a> <a href="http://localhost:1314/tags/nested-loop">#nested loop</a> <a href="http://localhost:1314/tags/join-algorithms">#join algorithms</a> </p>
+        
+      </footer>
+    </article>
+
+    <aside class="lesson_sidebar">
+      <div class="sidebar_block">
+        <h6>Reading Query Plans</h6>
+        <ul>
+          
+          <li><a href="/yesql/reading-query-plans/explain-analyze-anatomy/">EXPLAIN ANALYZE: Reading Actual vs Estimated Rows</a></li>
+          
+          <li><a href="/yesql/reading-query-plans/reading-explain/">Reading an EXPLAIN Plan</a></li>
+          
+          <li class="current"><a href="/yesql/reading-query-plans/hash-join-nested-loop/">Hash Join vs Nested Loop: What the Plan Node Tells You</a></li>
+          
+        </ul>
+      </div>
+
+      <div class="sidebar_block">
+        <h6>Tools</h6>
+        <ul>
+          <li><a href="/compute-database-size/">Compute Database Size</a></li>
+          <li><a href="/explain-plan-visualizer/">Query Plan Visualizer</a></li>
+        </ul>
+      </div>
+
+      <div class="sidebar_block sidebar_lab">
+        <i class="fa-solid fa-flask"></i>
+        <h6>Try it Yourself</h6>
+        <p>A free Docker setup ships all datasets pre-loaded. One command and you're in a live <code>psql</code> session.</p>
+        <a href="/lab/" class="button button_purple">Open the Lab</a>
+        <a href="https://github.com/dimitri/TheArtOfPostgreSQL" class="lab_github_link" rel="noopener"><i class="fa-brands fa-github"></i> Starter Kit on GitHub</a>
+      </div>
+
+
+    </aside>
+  </div>
+</div>
+
+
+<section class="yesql_offer">
+  <div class="wrapper">
+    <div class="offer_card">
+      <p class="offer_eyebrow">Keep going</p>
+      <h3>Read Query Plans</h3>
+      <p>Join nodes are chapter three. The course covers all join algorithms including Merge Join, bitmap scans, GiST and GIN index nodes, subplan nodes, and the full diagnostic workflow for complex multi-join queries.</p>
+      <a href="/course/read-query-plans/" class="button button_purple button_large">Explore the Course</a>
+    </div>
+  </div>
+</section>
+
+
+ 
+
+<footer class="footer">
+	<div class="wrapper">
+	    <div class="about_block">
+	        <h6>about the author</h6>
+	        <p>Hi! My name is Dimitri Fontaine and I have been using and contributing to Open Source Software for the best of the last 20 years. I am a PostgreSQL Major Contributor after having contributed Extensions and Event Triggers, among other things.</p>
+	        <p>I have been writing code almost daily for a very long time now, both in a professional capacity and on my leisure time. I&rsquo;ve also been a database architect and a DBA on-call. As a developer I enjoy using SQL. As a database architect, I like teaching advanced SQL techniques to my colleagues.</p>
+	        <ul>
+	            <li><a target="_blank" href="mailto:dim@tapoueh.org">email</a></li>
+	            <li><a target="_blank" href="https://twitter.com/tapoueh">twitter</a></li>
+	            <li><a target="_blank" href="https://github.com/dimitri">github</a></li>
+	            <li><a target="_blank" href="https://www.reddit.com/user/theartofpostgresql">reddit</a></li>
+	        </ul>
+    	</div>
+	    <div class="faq_block">
+            <h6>FAQ</h6>
+	        <dl>
+	           <dt>What if the book isn&rsquo;t what I expected it would be?</dt>
+	           <dd>The Art of PostgreSQL is a book that teaches SQL to application developers. If it's not of any value to you, then just say so and I'll refund you, no questions asked.</dd>
+	           <dt>I bought the book, and I'm confused. What now?</dt>
+	           <dd>
+                     The content of the book is available as a PDF, ePub and
+	             MOBI file, and you can also download the SQL queries.
+	             The content is available over
+	             at <a href="https://members.theartofpostgresql.com/courses/the-art-of-postgresql/"
+	             target="_">https://members.theartofpostgresql.com/courses/the-art-of-postgresql/</a>
+	             from your student dashboard.
+                   </dd>
+	           <dt>Is there any DRM?</dt>
+	           <dd>No. There isn't even watermarking on the PDF. You own what you buy. The sources of data selected for the book are all available with Open Data types of licenses, and the book itself is copyright Dimitri Fontaine. All rights reserved.</dd>
+	           <dt>Any other questions?</dt>
+	           <dd>Contact me by <a href="mailto:dim@tapoueh.org">email</a> and just ask! I will do my best to answer you.</dd>
+	        </dl>
+     	    </div>
+	</div>
+</footer>
+
+
+
+
+
+
+<div class="copyright">
+    <div class="wrapper">
+        Copyright 2019-2026 &copy; Dimitri Fontaine. All rights reserved. Design by <a style="color: white; font-weight: bold;" target="_blank" href="https://www.terrilowry.com">TerriLowry.com.</a>
+    </div>
+</div>
+
+
+ 
+
+<script type="text/javascript">
+  var subscribersSiteId='1296f531-7ba0-406f-89e1-bdca40a36208';
+</script>
+<script type="text/javascript"
+        src="https://cdn.subscribers.com/assets/subscribers.js">
+</script>
+  
+
+ 
+
+<script>
+!function(e,t,n,s,u,a){e.twq||(s=e.twq=function(){s.exe?s.exe.apply(s,arguments):s.queue.push(arguments);
+},s.version='1.1',s.queue=[],u=t.createElement(n),u.async=!0,u.src='//static.ads-twitter.com/uwt.js',
+a=t.getElementsByTagName(n)[0],a.parentNode.insertBefore(u,a))}(window,document,'script');
+
+twq('init','o0ial');
+twq('track','PageView');
+</script>
+
+
+</body>
+</html> 
+

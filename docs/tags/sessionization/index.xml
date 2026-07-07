@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+	<channel>
+		<title>Sessionization on The Art of PostgreSQL</title>
+		<link>http://localhost:1313/tags/sessionization/</link>
+		<description>Recent content in Sessionization on The Art of PostgreSQL</description>
+		<generator>Hugo</generator>
+		<language>en-us</language>
+		
+		
+		
+		
+			<atom:link href="http://localhost:1313/tags/sessionization/index.xml" rel="self" type="application/rss+xml" />
+			<item>
+				<title>Sessionization: Grouping Events with a Running Sum</title>
+				<link>http://localhost:1313/yesql/window-functions/sessionization/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>http://localhost:1313/yesql/window-functions/sessionization/</guid>
+				<description>Sessionization turns a stream of timestamped events into labelled sessions using nothing but a window function — no procedural loop required.</description>
+			</item>
+	</channel>
+</rss>

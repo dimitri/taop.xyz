@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+	<meta charset="utf-8">
+	<title>Sessionization: Grouping Events with a Running Sum · The Art of PostgreSQL</title>
+	<meta name="description" content="Sessionization turns a stream of timestamped events into labelled sessions using nothing but a window function — no procedural loop required.">
+
+	<meta name="twitter:card" content="summary" />
+	<meta name="twitter:site" content="@tapoueh" />
+	<meta name="twitter:creator" content="@tapoueh" />
+	<meta property="og:url" content="http://localhost:1313/yesql/window-functions/sessionization/" />
+	<meta property="og:title" content="Sessionization: Grouping Events with a Running Sum · YeSQL" />
+	<meta property="og:description" content="Practical PostgreSQL for developers, one concept at a time." />
+	<meta property="og:image" content="https://theartofpostgresql.com/images/hardcover-mockup.jpg" />
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+
+	<link href="/favicon.ico" rel="icon" type="image/x-icon">
+
+	<link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/yesql.css">
+	<link rel="stylesheet" href="/syntax.css">
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="/js/custom.js"></script>
+</head>
+<body class="yesql">
+
+
+<header class="header">
+  <div class="wrapper">
+    <nav>
+      <ul>
+	<li><a href="/book/"><i class="fa-solid fa-book-open"></i><span class="nav-text">BOOK</span></a></li>
+	<li class="divider"></li>
+	<li><a class="logo" href="/">The Art of PostgreSQL</a></li>
+	<li class="divider"></li>
+	<li><a href="/course/"><i class="fa-solid fa-graduation-cap"></i><span class="nav-text">COURSE</span></a></li>
+	<li class="divider"></li>
+	<li><a href="/workshop/"><i class="fa-solid fa-microphone"></i><span class="nav-text">WORKSHOP</span></a></li>
+	<li class="divider"></li>
+	<li><a href="/lab/"><i class="fa-solid fa-flask"></i><span class="nav-text">LAB</span></a></li>
+	<li class="divider"></li>
+	<li><a class="logo" href="/">The Art of PostgreSQL</a></li>
+	<li class="divider"></li>
+	<li><a href="/yesql/"><i class="fa-solid fa-pen-to-square"></i><span class="nav-text">YESQL</span></a></li>
+      </ul>
+    </nav>
+    <div class="sticky-cta-wrapper">
+      <a href="https://sales.theartofpostgresql.com/the-art-of-postgresql-book/" class="sticky-cta button button_purple">Get the Book – $89</a>
+    </div>
+  </div>
+</header>
+
+
+
+
+
+
+
+<div class="yesql_lesson">
+  <div class="wrapper">
+    <article class="lesson_content">
+      <nav class="yesql_breadcrumb">
+        <a href="/yesql/">YeSQL</a> <span>›</span>
+        <a href="/yesql/window-functions/">Window Functions</a>
+      </nav>
+
+      <h1>Sessionization: Grouping Events with a Running Sum</h1>
+      <p class="lesson_lede">Sessionization turns a stream of timestamped events into labelled sessions using nothing but a window function — no procedural loop required.</p>
+
+      
+<div class="lesson_lab_banner">
+  <i class="fa-solid fa-flask"></i>
+  <div class="lab_banner_body">
+    <strong>Run it yourself</strong> — all queries on this page use the
+    <code>f1db</code> dataset,
+    pre-loaded in the free
+    <a href="/lab/">TAOP lab</a>.
+    Start a session with <code>psql taop</code> and follow along.
+    No setup beyond <a href="https://github.com/dimitri/TheArtOfPostgreSQL" rel="noopener">Docker</a>.
+  </div>
+</div>
+
+
+
+      <p>A session is a group of consecutive events that belong together. Web
+analytics defines it as activity within a 30-minute gap. Race analytics
+defines it as a stint between pit stops. Either way, the problem is the same:
+given ordered events, group the ones that &ldquo;go together&rdquo; and label each group.</p>
+<p>The SQL pattern is called <em>sessionization</em>, and it uses a running sum as the
+group key.</p>
+<h3 id="the-idea">The idea</h3>
+<p>Mark each row that starts a new session with a 1, and all other rows with a
+0. A running sum of those flags increments at every boundary and holds steady
+inside each session. The running sum is the session ID.</p>
+<h3 id="a-pit-stop-example">A pit-stop example</h3>
+<p>The F1 <code>laptimes</code> table records each driver&rsquo;s lap time for every lap of a
+race. A lap significantly slower than the driver&rsquo;s median indicates a pit
+stop. Group the non-pit laps into stints:</p>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#719e07">with</span> lap_stats <span style="color:#719e07">as</span> (
+</span></span><span style="display:flex;"><span>  <span style="color:#719e07">select</span> driverid,
+</span></span><span style="display:flex;"><span>         percentile_cont(<span style="color:#2aa198">0</span>.<span style="color:#2aa198">5</span>) within <span style="color:#719e07">group</span>(<span style="color:#719e07">order</span> <span style="color:#719e07">by</span> milliseconds) <span style="color:#719e07">as</span> median_ms
+</span></span><span style="display:flex;"><span>    <span style="color:#719e07">from</span> laptimes
+</span></span><span style="display:flex;"><span>   <span style="color:#719e07">where</span> raceid <span style="color:#719e07">=</span> <span style="color:#2aa198">890</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#719e07">group</span> <span style="color:#719e07">by</span> driverid
+</span></span><span style="display:flex;"><span>),
+</span></span><span style="display:flex;"><span>lap_flags <span style="color:#719e07">as</span> (
+</span></span><span style="display:flex;"><span>  <span style="color:#719e07">select</span> l.driverid, d.surname, l.lap, l.milliseconds,
+</span></span><span style="display:flex;"><span>         <span style="color:#719e07">case</span> <span style="color:#719e07">when</span> l.milliseconds <span style="color:#719e07">&gt;</span> ls.median_ms <span style="color:#719e07">*</span> <span style="color:#2aa198">1</span>.<span style="color:#2aa198">2</span>
+</span></span><span style="display:flex;"><span>              <span style="color:#719e07">then</span> <span style="color:#2aa198">1</span> <span style="color:#719e07">else</span> <span style="color:#2aa198">0</span> <span style="color:#719e07">end</span> <span style="color:#719e07">as</span> is_pit
+</span></span><span style="display:flex;"><span>    <span style="color:#719e07">from</span> laptimes l
+</span></span><span style="display:flex;"><span>         <span style="color:#719e07">join</span> lap_stats ls <span style="color:#719e07">using</span>(driverid)
+</span></span><span style="display:flex;"><span>         <span style="color:#719e07">join</span> drivers   d  <span style="color:#719e07">using</span>(driverid)
+</span></span><span style="display:flex;"><span>   <span style="color:#719e07">where</span> l.raceid <span style="color:#719e07">=</span> <span style="color:#2aa198">890</span>
+</span></span><span style="display:flex;"><span>),
+</span></span><span style="display:flex;"><span>stints <span style="color:#719e07">as</span> (
+</span></span><span style="display:flex;"><span>  <span style="color:#719e07">select</span> driverid, surname, lap, milliseconds, is_pit,
+</span></span><span style="display:flex;"><span>         <span style="color:#719e07">sum</span>(is_pit) over(partition <span style="color:#719e07">by</span> driverid <span style="color:#719e07">order</span> <span style="color:#719e07">by</span> lap) <span style="color:#719e07">as</span> stint
+</span></span><span style="display:flex;"><span>    <span style="color:#719e07">from</span> lap_flags
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>  <span style="color:#719e07">select</span> s.surname, s.stint,
+</span></span><span style="display:flex;"><span>         <span style="color:#719e07">min</span>(s.lap)  <span style="color:#719e07">as</span> from_lap,
+</span></span><span style="display:flex;"><span>         <span style="color:#719e07">max</span>(s.lap)  <span style="color:#719e07">as</span> to_lap,
+</span></span><span style="display:flex;"><span>         <span style="color:#719e07">count</span>(<span style="color:#719e07">*</span>)    <span style="color:#719e07">as</span> laps,
+</span></span><span style="display:flex;"><span>         round(<span style="color:#719e07">avg</span>(s.milliseconds)) <span style="color:#719e07">*</span> <span style="color:#b58900">interval</span> <span style="color:#2aa198">&#39;1ms&#39;</span> <span style="color:#719e07">as</span> avg_laptime
+</span></span><span style="display:flex;"><span>    <span style="color:#719e07">from</span> stints s
+</span></span><span style="display:flex;"><span>         <span style="color:#719e07">join</span> results r <span style="color:#719e07">on</span> r.driverid <span style="color:#719e07">=</span> s.driverid <span style="color:#719e07">and</span> r.raceid <span style="color:#719e07">=</span> <span style="color:#2aa198">890</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#719e07">where</span> s.is_pit <span style="color:#719e07">=</span> <span style="color:#2aa198">0</span>
+</span></span><span style="display:flex;"><span><span style="color:#719e07">group</span> <span style="color:#719e07">by</span> s.driverid, s.surname, s.stint, r.<span style="color:#719e07">position</span>
+</span></span><span style="display:flex;"><span><span style="color:#719e07">order</span> <span style="color:#719e07">by</span> r.<span style="color:#719e07">position</span>, s.stint
+</span></span><span style="display:flex;"><span>   <span style="color:#719e07">limit</span> <span style="color:#2aa198">15</span>;
+</span></span></code></pre></div><pre tabindex="0"><code>  surname  │ stint │ from_lap │ to_lap │ laps │     avg_laptime
+═══════════╪═══════╪══════════╪════════╪══════╪═════════════════════
+ Hamilton  │     0 │        1 │      9 │    9 │ @ 1 min 28.807 secs
+ Hamilton  │     1 │       11 │     31 │   21 │ @ 1 min 27.997 secs
+ Hamilton  │     2 │       33 │     70 │   38 │ @ 1 min 26.583 secs
+ Räikkönen │     0 │        1 │     13 │   13 │ @ 1 min 29.833 secs
+ Räikkönen │     1 │       15 │     70 │   56 │ @ 1 min 27.243 secs
+ Vettel    │     0 │        1 │     11 │   11 │ @ 1 min 28.971 secs
+ Vettel    │     1 │       13 │     34 │   22 │ @ 1 min 28.375 secs
+ Vettel    │     2 │       36 │     70 │   35 │ @ 1 min 26.454 secs
+ Webber    │     0 │        1 │     23 │   23 │ @ 1 min 29.137 secs
+ Webber    │     1 │       25 │     70 │   46 │ @ 1 min 27.189 secs
+ ...
+(15 rows)
+</code></pre><p>Three CTEs, one window function. <code>lap_stats</code> computes each driver&rsquo;s median
+lap time. <code>lap_flags</code> marks each lap as pit or non-pit. <code>stints</code> runs a
+cumulative sum of <code>is_pit</code> per driver — the sum increments once for every pit
+lap and holds steady across normal laps. That value is the stint number.
+The final query groups by stint and summarises each.</p>
+<h3 id="why-this-works">Why this works</h3>
+<p>The running sum of a 0/1 flag counts how many &ldquo;events&rdquo; have fired up to and
+including the current row. Between events (inside a session), the count does
+not change — every row in the same session shares the same running-sum value.
+At each event (a pit stop, a gap in activity, a state change), the count
+increments and all subsequent rows belong to the next group.</p>
+<p>This is the <em>gaps and islands</em> pattern. The &ldquo;gaps&rdquo; are the boundaries (pit
+laps, idle periods); the &ldquo;islands&rdquo; are the sessions (stints, active periods).
+A single <code>SUM(flag) OVER (PARTITION BY entity ORDER BY time)</code> produces the
+island labels.</p>
+<h3 id="the-general-pattern">The general pattern</h3>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#719e07">sum</span>(<span style="color:#719e07">case</span> <span style="color:#719e07">when</span> <span style="color:#719e07">&lt;</span>boundary_condition<span style="color:#719e07">&gt;</span> <span style="color:#719e07">then</span> <span style="color:#2aa198">1</span> <span style="color:#719e07">else</span> <span style="color:#2aa198">0</span> <span style="color:#719e07">end</span>)
+</span></span><span style="display:flex;"><span>  over(partition <span style="color:#719e07">by</span> <span style="color:#719e07">&lt;</span>entity<span style="color:#719e07">&gt;</span> <span style="color:#719e07">order</span> <span style="color:#719e07">by</span> <span style="color:#719e07">&lt;</span>time_col<span style="color:#719e07">&gt;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#719e07">as</span> session_id
+</span></span></code></pre></div><p>Boundary conditions are flexible: a gap larger than N seconds, a value
+dropping below a threshold, a flag column changing from false to true. The
+pattern works for web sessions, user journeys, machine monitoring, financial
+trade periods, and any other domain where you need to segment an ordered
+stream into contiguous groups.</p>
+
+
+      <aside class="lesson_email_capture" aria-label="Get the book intro as a PDF">
+  <div class="email_capture_copy">
+    <strong>This chapter is from <em>The Art of PostgreSQL</em>.</strong>
+    <p>Get a free chapter of the 2026 edition — including the full Table of Contents — plus the next lessons by email.</p>
+  </div>
+  <script async data-uid="c1452ad801" src="https://f.convertkit.com/c1452ad801/ad53e74e51.js"></script>
+</aside>
+
+
+
+      
+      <aside class="lesson_course_attr">
+        <i class="fa-solid fa-graduation-cap"></i>
+        <p>This lesson is a preview from the <b>Master Window Functions</b> course.
+        <a href="/course/">See the full curriculum →</a></p>
+      </aside>
+      
+
+      <footer class="lesson_footer">
+        
+        <p class="tags"><a href="http://localhost:1313/tags/window-functions">#window functions</a> <a href="http://localhost:1313/tags/sessionization">#sessionization</a> <a href="http://localhost:1313/tags/gaps-and-islands">#gaps and islands</a> <a href="http://localhost:1313/tags/sql">#SQL</a> <a href="http://localhost:1313/tags/analytics">#analytics</a> </p>
+        
+      </footer>
+    </article>
+
+    <aside class="lesson_sidebar">
+      <div class="sidebar_block">
+        <h6>Window Functions</h6>
+        <ul>
+          
+          <li><a href="/yesql/window-functions/over-clause-mental-model/">The OVER Clause: One Result Per Row Without GROUP BY</a></li>
+          
+          <li><a href="/yesql/window-functions/row-number-rank-dense-rank/">ROW_NUMBER, RANK, and DENSE_RANK: Three Ways to Order Rows</a></li>
+          
+          <li><a href="/yesql/window-functions/running-totals/">Running Totals and Moving Averages</a></li>
+          
+          <li><a href="/yesql/window-functions/frame-semantics/">Frame Semantics: ROWS, RANGE, and GROUPS</a></li>
+          
+          <li class="current"><a href="/yesql/window-functions/sessionization/">Sessionization: Grouping Events with a Running Sum</a></li>
+          
+        </ul>
+      </div>
+
+      <div class="sidebar_block">
+        <h6>Tools</h6>
+        <ul>
+          <li><a href="/compute-database-size/">Compute Database Size</a></li>
+          <li><a href="/explain-plan-visualizer/">Query Plan Visualizer</a></li>
+        </ul>
+      </div>
+
+      <div class="sidebar_block sidebar_lab">
+        <i class="fa-solid fa-flask"></i>
+        <h6>Try it Yourself</h6>
+        <p>A free Docker setup ships all datasets pre-loaded. One command and you're in a live <code>psql</code> session.</p>
+        <a href="/lab/" class="button button_purple">Open the Lab</a>
+        <a href="https://github.com/dimitri/TheArtOfPostgreSQL" class="lab_github_link" rel="noopener"><i class="fa-brands fa-github"></i> Starter Kit on GitHub</a>
+      </div>
+
+
+    </aside>
+  </div>
+</div>
+
+
+<section class="yesql_offer">
+  <div class="wrapper">
+    <div class="offer_card">
+      <p class="offer_eyebrow">Keep going</p>
+      <h3>The Art of PostgreSQL</h3>
+      <p>Liked this? It&#39;s one piece of a complete, practical system for writing real PostgreSQL. The book is your entry point.</p>
+      <a href="https://sales.theartofpostgresql.com/the-art-of-postgresql-book/" class="button button_purple button_large">Get the Book — $89</a>
+    </div>
+  </div>
+</section>
+
+
+ 
+
+<footer class="footer">
+	<div class="wrapper">
+	    <div class="about_block">
+	        <h6>about the author</h6>
+	        <p>Hi! My name is Dimitri Fontaine and I have been using and contributing to Open Source Software for the best of the last 20 years. I am a PostgreSQL Major Contributor after having contributed Extensions and Event Triggers, among other things.</p>
+	        <p>I have been writing code almost daily for a very long time now, both in a professional capacity and on my leisure time. I&rsquo;ve also been a database architect and a DBA on-call. As a developer I enjoy using SQL. As a database architect, I like teaching advanced SQL techniques to my colleagues.</p>
+	        <ul>
+	            <li><a target="_blank" href="mailto:dim@tapoueh.org">email</a></li>
+	            <li><a target="_blank" href="https://twitter.com/tapoueh">twitter</a></li>
+	            <li><a target="_blank" href="https://github.com/dimitri">github</a></li>
+	            <li><a target="_blank" href="https://www.reddit.com/user/theartofpostgresql">reddit</a></li>
+	            <li><a href="/updates/">what's new</a></li>
+	        </ul>
+    	</div>
+	    <div class="faq_block">
+            <h6>FAQ</h6>
+	        <dl>
+	           <dt>What if the book isn&rsquo;t what I expected it would be?</dt>
+	           <dd>The Art of PostgreSQL is a book that teaches SQL to application developers. If it's not of any value to you, then just say so and I'll refund you, no questions asked.</dd>
+	           <dt>I bought the book, and I'm confused. What now?</dt>
+	           <dd>
+                     The content of the book is available as a PDF, ePub and
+	             MOBI file, and you can also download the SQL queries.
+	             The content is available over
+	             at <a href="https://members.theartofpostgresql.com/courses/the-art-of-postgresql/"
+	             target="_">https://members.theartofpostgresql.com/courses/the-art-of-postgresql/</a>
+	             from your student dashboard.
+                   </dd>
+	           <dt>Is there any DRM?</dt>
+	           <dd>No. There isn't even watermarking on the PDF. You own what you buy. The sources of data selected for the book are all available with Open Data types of licenses, and the book itself is copyright Dimitri Fontaine. All rights reserved.</dd>
+	           <dt>Any other questions?</dt>
+	           <dd>Contact me by <a href="mailto:dim@tapoueh.org">email</a> and just ask! I will do my best to answer you.</dd>
+	        </dl>
+     	    </div>
+	</div>
+</footer>
+
+
+
+
+
+
+<div class="copyright">
+    <div class="wrapper">
+        Copyright 2019-2026 &copy; Dimitri Fontaine. All rights reserved. Design by <a style="color: white; font-weight: bold;" target="_blank" href="https://www.terrilowry.com">TerriLowry.com.</a>
+    </div>
+</div>
+
+
+ 
+
+<script type="text/javascript">
+  var subscribersSiteId='1296f531-7ba0-406f-89e1-bdca40a36208';
+</script>
+<script type="text/javascript"
+        src="https://cdn.subscribers.com/assets/subscribers.js">
+</script>
+  
+
+ 
+
+<script>
+!function(e,t,n,s,u,a){e.twq||(s=e.twq=function(){s.exe?s.exe.apply(s,arguments):s.queue.push(arguments);
+},s.version='1.1',s.queue=[],u=t.createElement(n),u.async=!0,u.src='//static.ads-twitter.com/uwt.js',
+a=t.getElementsByTagName(n)[0],a.parentNode.insertBefore(u,a))}(window,document,'script');
+
+twq('init','o0ial');
+twq('track','PageView');
+</script>
+
+
+</body>
+</html> 
+

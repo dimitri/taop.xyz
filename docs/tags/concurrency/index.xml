@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+	<channel>
+		<title>Concurrency on The Art of PostgreSQL</title>
+		<link>http://localhost:1313/tags/concurrency/</link>
+		<description>Recent content in Concurrency on The Art of PostgreSQL</description>
+		<generator>Hugo</generator>
+		<language>en-us</language>
+		
+		
+		
+		
+			<atom:link href="http://localhost:1313/tags/concurrency/index.xml" rel="self" type="application/rss+xml" />
+			<item>
+				<title>Why Postgres?</title>
+				<link>http://localhost:1313/yesql/sql-foundations/why-postgres/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>http://localhost:1313/yesql/sql-foundations/why-postgres/</guid>
+				<description>PostgreSQL is not just storage — it is a concurrent data-access service. Here is what that means, and why the PostgreSQL project specifically is the right choice for any serious application.</description>
+			</item>
+	</channel>
+</rss>

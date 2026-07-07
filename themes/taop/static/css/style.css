@@ -1650,6 +1650,8 @@ body.course .welcome_slider ul li {
   color: #fff;
   padding: 75px 0 40px 0;
 }
+.footer a,
+.footer a:visited { color: inherit; }
 .footer .wrapper {
   display: flex;
   flex-wrap: wrap;
@@ -1676,6 +1678,9 @@ body.course .welcome_slider ul li {
   flex: 1;
   padding: 0 35px 40px 0;
   box-sizing: border-box;
+}
+.about_block p {
+  text-align: justify;
 }
 .about_block h6 + p {
   font-size: 16.5px;
@@ -1711,11 +1716,41 @@ body.course .welcome_slider ul li {
 .about_block ul li a[href*='reddit'] {
   background-image: url(../images/icons/reddit.png);
 }
-.faq_block {
+.footer_right_col {
   flex: 1;
-  padding: 0 0 40px 35px;
+  padding-left: 35px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+.faq_block {
+  text-align: left;
+  padding: 0 0 40px 0;
   box-sizing: border-box;
 }
+.whatsnew_block {
+  text-align: left;
+  padding: 0 0 40px 0;
+}
+.whatsnew_block ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  border-top: 1px solid #464150;
+}
+.whatsnew_block ul li {
+  border-bottom: 1px solid #464150;
+  padding: 6px 0;
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 20px;
+}
+.whatsnew_block ul li a,
+.whatsnew_block ul li a:visited {
+  color: #d1d0d3;
+  text-decoration: none;
+}
+.whatsnew_block ul li a:hover { color: #fff; }
 .faq_block dl {
   border-bottom: 1px solid #464150;
 }
@@ -2313,8 +2348,8 @@ body.course .welcome_slider ul li {
   .about_block {
     padding: 0 0 45px 0;
   }
-  .faq_block {
-    padding: 0 0 40px 0;
+  .footer_right_col {
+    padding-left: 0;
   }
 }
 /* Footer */

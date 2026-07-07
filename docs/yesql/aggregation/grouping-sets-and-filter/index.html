@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1314&amp;path=livereload" data-no-instant defer></script>
+	<meta charset="utf-8">
+	<title>GROUPING SETS &#43; FILTER: Multiple Aggregations in One Pass · The Art of PostgreSQL</title>
+	<meta name="description" content="Compute per-driver and per-constructor totals — two different groupings — in a single scan, then pick the winners with FILTER.">
+
+	<meta name="twitter:card" content="summary" />
+	<meta name="twitter:site" content="@tapoueh" />
+	<meta name="twitter:creator" content="@tapoueh" />
+	<meta property="og:url" content="http://localhost:1314/yesql/aggregation/grouping-sets-and-filter/" />
+	<meta property="og:title" content="GROUPING SETS &#43; FILTER: Multiple Aggregations in One Pass · YeSQL" />
+	<meta property="og:description" content="Practical PostgreSQL for developers, one concept at a time." />
+	<meta property="og:image" content="https://theartofpostgresql.com/images/hardcover-mockup.jpg" />
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+
+	<link href="/favicon.ico" rel="icon" type="image/x-icon">
+
+	<link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/yesql.css">
+	<link rel="stylesheet" href="/syntax.css">
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="/js/custom.js"></script>
+</head>
+<body class="yesql">
+
+
+<header class="header">
+  <div class="wrapper">
+    <nav>
+      <ul>
+	<li><a href="/book/"><i class="fa-solid fa-book-open"></i><span class="nav-text">BOOK</span></a></li>
+	<li class="divider"></li>
+	<li><a class="logo" href="/">The Art of PostgreSQL</a></li>
+	<li class="divider"></li>
+	<li><a href="/course/"><i class="fa-solid fa-graduation-cap"></i><span class="nav-text">COURSE</span></a></li>
+	<li class="divider"></li>
+	<li><a href="/workshop/"><i class="fa-solid fa-microphone"></i><span class="nav-text">WORKSHOP</span></a></li>
+	<li class="divider"></li>
+	<li><a href="/lab/"><i class="fa-solid fa-flask"></i><span class="nav-text">LAB</span></a></li>
+	<li class="divider"></li>
+	<li><a class="logo" href="/">The Art of PostgreSQL</a></li>
+	<li class="divider"></li>
+	<li><a href="/yesql/"><i class="fa-solid fa-pen-to-square"></i><span class="nav-text">YESQL</span></a></li>
+      </ul>
+    </nav>
+    <div class="sticky-cta-wrapper">
+      <a href="https://sales.theartofpostgresql.com/the-art-of-postgresql-book/" class="sticky-cta button button_purple">Get the Book – $89</a>
+    </div>
+  </div>
+</header>
+
+
+
+
+
+
+
+<div class="yesql_lesson">
+  <div class="wrapper">
+    <article class="lesson_content">
+      <nav class="yesql_breadcrumb">
+        <a href="/yesql/">YeSQL</a> <span>›</span>
+        <a href="/yesql/aggregation/">Aggregation</a>
+      </nav>
+
+      <h1>GROUPING SETS &#43; FILTER: Multiple Aggregations in One Pass</h1>
+      <p class="lesson_lede">Compute per-driver and per-constructor totals — two different groupings — in a single scan, then pick the winners with FILTER.</p>
+
+      
+<div class="lesson_lab_banner">
+  <i class="fa-solid fa-flask"></i>
+  <div class="lab_banner_body">
+    <strong>Run it yourself</strong> — all queries on this page use the
+    <code>f1db</code> dataset,
+    pre-loaded in the free
+    <a href="/lab/">TAOP lab</a>.
+    Start a session with <code>psql taop</code> and follow along.
+    No setup beyond <a href="https://github.com/dimitri/TheArtOfPostgreSQL" rel="noopener">Docker</a>.
+  </div>
+</div>
+
+
+
+      <p>Ever needed to compute both per-driver and per-constructor points in the same
+query? PostgreSQL&rsquo;s <code>GROUPING SETS</code> and <code>FILTER</code> clauses make this elegant.</p>
+<p>The example is from the chapter <strong>Group By, Having, With, Union All</strong>, where we
+play with the <em>f1db</em> schema — so we dive into the world of Formula 1.</p>
+<h2 id="the-problem">The problem</h2>
+<p>The <a href="https://en.wikipedia.org/wiki/List_of_Formula_One_seasons">list of Formula One seasons</a>
+shows, for each year, the champion driver and the champion constructor: whoever
+won the most points that season. To compute that in SQL we first add up the
+points for each driver <em>and</em> each constructor, then select the top of each.</p>
+<h2 id="step-1--a-simple-group-by">Step 1 — a simple GROUP BY</h2>
+<p>Start with basic points aggregation, per driver:</p>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#719e07">select</span> <span style="color:#719e07">year</span>, driverid, <span style="color:#719e07">sum</span>(points) <span style="color:#719e07">as</span> pts
+</span></span><span style="display:flex;"><span>  <span style="color:#719e07">from</span> results <span style="color:#719e07">join</span> races <span style="color:#719e07">using</span>(raceid)
+</span></span><span style="display:flex;"><span> <span style="color:#719e07">group</span> <span style="color:#719e07">by</span> <span style="color:#719e07">year</span>, driverid
+</span></span><span style="display:flex;"><span> <span style="color:#719e07">order</span> <span style="color:#719e07">by</span> <span style="color:#719e07">year</span>, pts <span style="color:#719e07">desc</span>;
+</span></span></code></pre></div><pre tabindex="0"><code> year │ driverid │ pts
+══════╪══════════╪══════
+ 1950 │      642 │   30
+ 1950 │      786 │   28
+ 1950 │      579 │   27
+ 1950 │      338 │   13
+ 1950 │       17 │   11
+ ...
+(1028 rows)
+</code></pre><h2 id="step-2--add-grouping-sets">Step 2 — add GROUPING SETS</h2>
+<p><img src="/img/diagrams/fig-grouping-sets-lattice.svg" alt="GROUPING SETS lattice: each node is one grouping, the query computes all at once"></p>
+<p><code>GROUPING SETS</code> lets one query aggregate over <em>more than one grouping</em> in a
+single scan — here, both drivers and constructors:</p>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#719e07">select</span> <span style="color:#719e07">year</span> <span style="color:#719e07">as</span> season, driverid, constructorid,
+</span></span><span style="display:flex;"><span>       <span style="color:#719e07">sum</span>(points) <span style="color:#719e07">as</span> pts
+</span></span><span style="display:flex;"><span>  <span style="color:#719e07">from</span> results <span style="color:#719e07">join</span> races <span style="color:#719e07">using</span>(raceid)
+</span></span><span style="display:flex;"><span> <span style="color:#719e07">group</span> <span style="color:#719e07">by</span> <span style="color:#719e07">grouping</span> <span style="color:#719e07">sets</span>((<span style="color:#719e07">year</span>, driverid),
+</span></span><span style="display:flex;"><span>                        (<span style="color:#719e07">year</span>, constructorid))
+</span></span><span style="display:flex;"><span> <span style="color:#719e07">order</span> <span style="color:#719e07">by</span> <span style="color:#719e07">year</span>, pts <span style="color:#719e07">desc</span>;
+</span></span></code></pre></div><pre tabindex="0"><code> season │ driverid │ constructorid │  pts
+════════╪══════════╪═══════════════╪══════
+   1950 │        ¤ │            51 │   92   ← constructor row (driverid NULL)
+   1950 │      642 │             ¤ │   30   ← driver row (constructorid NULL)
+   1950 │      786 │             ¤ │   28
+   1950 │      579 │             ¤ │   27
+   1950 │        ¤ │           154 │   20   ← constructor row
+   1950 │        ¤ │             6 │   18
+ ...
+</code></pre><p>Rows grouped by driver have a <code>NULL</code> <code>constructorid</code>, and vice versa — that&rsquo;s
+the hook the next step uses.</p>
+<h2 id="step-3--add-the-filter-clause">Step 3 — add the FILTER clause</h2>
+<p><code>FILTER (WHERE …)</code> restricts which rows feed each aggregate, so we can pull the
+top driver score and the top constructor score side by side:</p>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#719e07">select</span> season,
+</span></span><span style="display:flex;"><span>       <span style="color:#719e07">max</span>(points) filter(<span style="color:#719e07">where</span> driverid <span style="color:#719e07">is</span> <span style="color:#719e07">not</span> <span style="color:#719e07">null</span>) <span style="color:#719e07">as</span> driver_pts,
+</span></span><span style="display:flex;"><span>       <span style="color:#719e07">max</span>(points) filter(<span style="color:#719e07">where</span> constructorid <span style="color:#719e07">is</span> <span style="color:#719e07">not</span> <span style="color:#719e07">null</span>) <span style="color:#719e07">as</span> constructor_pts
+</span></span><span style="display:flex;"><span>  <span style="color:#719e07">from</span> (
+</span></span><span style="display:flex;"><span>      <span style="color:#719e07">select</span> <span style="color:#719e07">year</span> <span style="color:#719e07">as</span> season, driverid, constructorid, <span style="color:#719e07">sum</span>(points) <span style="color:#719e07">as</span> points
+</span></span><span style="display:flex;"><span>        <span style="color:#719e07">from</span> results <span style="color:#719e07">join</span> races <span style="color:#719e07">using</span>(raceid)
+</span></span><span style="display:flex;"><span>       <span style="color:#719e07">group</span> <span style="color:#719e07">by</span> <span style="color:#719e07">grouping</span> <span style="color:#719e07">sets</span>((<span style="color:#719e07">year</span>, driverid), (<span style="color:#719e07">year</span>, constructorid))
+</span></span><span style="display:flex;"><span>  ) <span style="color:#719e07">as</span> <span style="color:#719e07">data</span>
+</span></span><span style="display:flex;"><span> <span style="color:#719e07">group</span> <span style="color:#719e07">by</span> season;
+</span></span></code></pre></div><pre tabindex="0"><code> season │ driver_pts │ constructor_pts
+════════╪════════════╪═════════════════
+   1950 │         30 │              92
+   1951 │         37 │              86
+   1952 │       53.5 │           120.5
+   1953 │       46.5 │           122.5
+   1954 │      57.14 │           80.28
+ ...
+(75 rows)
+</code></pre><p>(We can&rsquo;t nest one aggregate directly inside another — <code>aggregate function calls cannot be nested</code> — so the sum and the max-of-sum live in two stages.)</p>
+<h2 id="step-4--put-it-together">Step 4 — put it together</h2>
+<p><img src="/img/diagrams/fig-cte-pipeline.svg" alt="CTE pipeline: races → accidents → points → tops → champs — each step narrows the result further"></p>
+<p>Daisy-chain CTEs: <em>points</em> computes the grouped sums, <em>tops</em> finds the maximum
+per season, and <em>champs</em> joins back to <em>points</em> twice — once aliased as the
+champion driver, once as the champion constructor:</p>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#719e07">with</span> points <span style="color:#719e07">as</span> (
+</span></span><span style="display:flex;"><span>   <span style="color:#719e07">select</span> <span style="color:#719e07">year</span> <span style="color:#719e07">as</span> season, driverid, constructorid,
+</span></span><span style="display:flex;"><span>          <span style="color:#719e07">sum</span>(points) <span style="color:#719e07">as</span> points
+</span></span><span style="display:flex;"><span>     <span style="color:#719e07">from</span> results <span style="color:#719e07">join</span> races <span style="color:#719e07">using</span>(raceid)
+</span></span><span style="display:flex;"><span> <span style="color:#719e07">group</span> <span style="color:#719e07">by</span> <span style="color:#719e07">grouping</span> <span style="color:#719e07">sets</span>((<span style="color:#719e07">year</span>, driverid),
+</span></span><span style="display:flex;"><span>                        (<span style="color:#719e07">year</span>, constructorid))
+</span></span><span style="display:flex;"><span>   <span style="color:#719e07">having</span> <span style="color:#719e07">sum</span>(points) <span style="color:#719e07">&gt;</span> <span style="color:#2aa198">0</span>
+</span></span><span style="display:flex;"><span>),
+</span></span><span style="display:flex;"><span>tops <span style="color:#719e07">as</span> (
+</span></span><span style="display:flex;"><span>   <span style="color:#719e07">select</span> season,
+</span></span><span style="display:flex;"><span>          <span style="color:#719e07">max</span>(points) filter(<span style="color:#719e07">where</span> driverid <span style="color:#719e07">is</span> <span style="color:#719e07">null</span>) <span style="color:#719e07">as</span> ctops,
+</span></span><span style="display:flex;"><span>          <span style="color:#719e07">max</span>(points) filter(<span style="color:#719e07">where</span> constructorid <span style="color:#719e07">is</span> <span style="color:#719e07">null</span>) <span style="color:#719e07">as</span> dtops
+</span></span><span style="display:flex;"><span>     <span style="color:#719e07">from</span> points
+</span></span><span style="display:flex;"><span> <span style="color:#719e07">group</span> <span style="color:#719e07">by</span> season
+</span></span><span style="display:flex;"><span>),
+</span></span><span style="display:flex;"><span>champs <span style="color:#719e07">as</span> (
+</span></span><span style="display:flex;"><span>   <span style="color:#719e07">select</span> tops.season, champ_driver.driverid, champ_driver.points,
+</span></span><span style="display:flex;"><span>          champ_constructor.constructorid, champ_constructor.points
+</span></span><span style="display:flex;"><span>     <span style="color:#719e07">from</span> tops
+</span></span><span style="display:flex;"><span>          <span style="color:#719e07">join</span> points <span style="color:#719e07">as</span> champ_driver <span style="color:#719e07">on</span> champ_driver.season <span style="color:#719e07">=</span> tops.season
+</span></span><span style="display:flex;"><span>           <span style="color:#719e07">and</span> champ_driver.constructorid <span style="color:#719e07">is</span> <span style="color:#719e07">null</span>
+</span></span><span style="display:flex;"><span>           <span style="color:#719e07">and</span> champ_driver.points <span style="color:#719e07">=</span> tops.dtops
+</span></span><span style="display:flex;"><span>          <span style="color:#719e07">join</span> points <span style="color:#719e07">as</span> champ_constructor <span style="color:#719e07">on</span> champ_constructor.season <span style="color:#719e07">=</span> tops.season
+</span></span><span style="display:flex;"><span>           <span style="color:#719e07">and</span> champ_constructor.driverid <span style="color:#719e07">is</span> <span style="color:#719e07">null</span>
+</span></span><span style="display:flex;"><span>           <span style="color:#719e07">and</span> champ_constructor.points <span style="color:#719e07">=</span> tops.ctops
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span><span style="color:#719e07">select</span> season,
+</span></span><span style="display:flex;"><span>       format(<span style="color:#2aa198">&#39;%s %s&#39;</span>, drivers.forename, drivers.surname) <span style="color:#719e07">as</span> <span style="color:#2aa198">&#34;Driver&#39;s Champion&#34;</span>,
+</span></span><span style="display:flex;"><span>       constructors.name <span style="color:#719e07">as</span> <span style="color:#2aa198">&#34;Constructor&#39;s champion&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#719e07">from</span> champs
+</span></span><span style="display:flex;"><span>       <span style="color:#719e07">join</span> drivers <span style="color:#719e07">using</span>(driverid)
+</span></span><span style="display:flex;"><span>       <span style="color:#719e07">join</span> constructors <span style="color:#719e07">using</span>(constructorid)
+</span></span><span style="display:flex;"><span><span style="color:#719e07">order</span> <span style="color:#719e07">by</span> season;
+</span></span></code></pre></div><pre tabindex="0"><code> season │ Driver&#39;s Champion  │ Constructor&#39;s champion
+════════╪════════════════════╪════════════════════════
+   1950 │ Nino Farina        │ Alfa Romeo
+   1951 │ Juan Fangio        │ Ferrari
+   1952 │ Alberto Ascari     │ Ferrari
+   ...
+   2014 │ Lewis Hamilton     │ Mercedes
+   2015 │ Lewis Hamilton     │ Mercedes
+   2016 │ Nico Rosberg       │ Mercedes
+</code></pre><p>Two groupings, the winners of each, and the lookups to name them — all in one
+query, no second round-trip to the database.</p>
+
+
+      <aside class="lesson_email_capture" aria-label="Get the book intro as a PDF">
+  <div class="email_capture_copy">
+    <strong>Reading this from the book?</strong>
+    <p>This chapter is from <em>The Art of PostgreSQL</em>. Get the 2026 edition intro as a PDF, plus the next lessons by email.</p>
+  </div>
+  <form class="email_capture_form"
+        action="https://app.kit.com/forms/YOUR_KIT_FORM_ID/subscriptions"
+        method="post"
+        data-kit-form="YOUR_KIT_FORM_ID"
+        novalidate>
+    <label for="ec_email" class="visually-hidden">Email address</label>
+    <input id="ec_email" type="email" name="email_address"
+           placeholder="you@example.com" required autocomplete="email">
+    <button type="submit">Send me the PDF</button>
+  </form>
+  <p class="email_capture_success" hidden role="status">Done — check your inbox!</p>
+  <p class="email_capture_error" hidden role="alert">
+    Something went wrong. <a href="https://app.kit.com/forms/YOUR_KIT_FORM_ID/subscriptions">Try this link instead.</a>
+  </p>
+</aside>
+
+<script>
+(function () {
+  
+  var KIT_FORM_ID = 'YOUR_KIT_FORM_ID';
+
+  document.querySelectorAll('[data-kit-form]').forEach(function (form) {
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var wrap  = form.closest('.lesson_email_capture');
+      var input = form.querySelector('input[type="email"]');
+      var btn   = form.querySelector('button[type="submit"]');
+      var ok    = wrap.querySelector('.email_capture_success');
+      var err   = wrap.querySelector('.email_capture_error');
+
+      btn.disabled    = true;
+      btn.textContent = 'Sending…';
+
+      
+      
+      fetch('https://api.kit.com/v4/forms/' + KIT_FORM_ID + '/subscribe', {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify({ email_address: input.value }),
+      })
+      .then(function (res) {
+        if (!res.ok) throw new Error(res.status);
+        form.hidden = true;
+        ok.hidden   = false;
+      })
+      .catch(function () {
+        btn.disabled    = false;
+        btn.textContent = 'Send me the PDF';
+        err.hidden      = false;
+      });
+    });
+  });
+}());
+</script>
+
+
+
+      
+
+      <footer class="lesson_footer">
+        
+        <p class="tags"><a href="http://localhost:1314/tags/grouping-sets">#GROUPING SETS</a> <a href="http://localhost:1314/tags/filter">#FILTER</a> <a href="http://localhost:1314/tags/group-by">#GROUP BY</a> <a href="http://localhost:1314/tags/cte">#CTE</a> </p>
+        
+      </footer>
+    </article>
+
+    <aside class="lesson_sidebar">
+      <div class="sidebar_block">
+        <h6>Aggregation</h6>
+        <ul>
+          
+          <li><a href="/yesql/aggregation/sql-aggregates/">What is an SQL Aggregate?</a></li>
+          
+          <li class="current"><a href="/yesql/aggregation/grouping-sets-and-filter/">GROUPING SETS &#43; FILTER: Multiple Aggregations in One Pass</a></li>
+          
+          <li><a href="/yesql/aggregation/where-vs-having/">WHERE vs HAVING: Filter Before or After the Group</a></li>
+          
+          <li><a href="/yesql/aggregation/filter-clause/">The FILTER Clause: Multiple Counts in One Pass</a></li>
+          
+          <li><a href="/yesql/aggregation/percentiles-in-one-query/">percentile_cont(): Many Percentiles in One Query</a></li>
+          
+        </ul>
+      </div>
+
+      <div class="sidebar_block">
+        <h6>Tools</h6>
+        <ul>
+          <li><a href="/compute-database-size/">Compute Database Size</a></li>
+          <li><a href="/explain-plan-visualizer/">Query Plan Visualizer</a></li>
+        </ul>
+      </div>
+
+      <div class="sidebar_block sidebar_lab">
+        <i class="fa-solid fa-flask"></i>
+        <h6>Try it Yourself</h6>
+        <p>A free Docker setup ships all datasets pre-loaded. One command and you're in a live <code>psql</code> session.</p>
+        <a href="/lab/" class="button button_purple">Open the Lab</a>
+        <a href="https://github.com/dimitri/TheArtOfPostgreSQL" class="lab_github_link" rel="noopener"><i class="fa-brands fa-github"></i> Starter Kit on GitHub</a>
+      </div>
+
+
+    </aside>
+  </div>
+</div>
+
+
+<section class="yesql_offer">
+  <div class="wrapper">
+    <div class="offer_card">
+      <p class="offer_eyebrow">Keep going</p>
+      <h3>The Art of PostgreSQL</h3>
+      <p>Liked this? It&#39;s one piece of a complete, practical system for writing real PostgreSQL. The book is your entry point.</p>
+      <a href="https://sales.theartofpostgresql.com/the-art-of-postgresql-book/" class="button button_purple button_large">Get the Book — $89</a>
+    </div>
+  </div>
+</section>
+
+
+ 
+
+<footer class="footer">
+	<div class="wrapper">
+	    <div class="about_block">
+	        <h6>about the author</h6>
+	        <p>Hi! My name is Dimitri Fontaine and I have been using and contributing to Open Source Software for the best of the last 20 years. I am a PostgreSQL Major Contributor after having contributed Extensions and Event Triggers, among other things.</p>
+	        <p>I have been writing code almost daily for a very long time now, both in a professional capacity and on my leisure time. I&rsquo;ve also been a database architect and a DBA on-call. As a developer I enjoy using SQL. As a database architect, I like teaching advanced SQL techniques to my colleagues.</p>
+	        <ul>
+	            <li><a target="_blank" href="mailto:dim@tapoueh.org">email</a></li>
+	            <li><a target="_blank" href="https://twitter.com/tapoueh">twitter</a></li>
+	            <li><a target="_blank" href="https://github.com/dimitri">github</a></li>
+	            <li><a target="_blank" href="https://www.reddit.com/user/theartofpostgresql">reddit</a></li>
+	        </ul>
+    	</div>
+	    <div class="faq_block">
+            <h6>FAQ</h6>
+	        <dl>
+	           <dt>What if the book isn&rsquo;t what I expected it would be?</dt>
+	           <dd>The Art of PostgreSQL is a book that teaches SQL to application developers. If it's not of any value to you, then just say so and I'll refund you, no questions asked.</dd>
+	           <dt>I bought the book, and I'm confused. What now?</dt>
+	           <dd>
+                     The content of the book is available as a PDF, ePub and
+	             MOBI file, and you can also download the SQL queries.
+	             The content is available over
+	             at <a href="https://members.theartofpostgresql.com/courses/the-art-of-postgresql/"
+	             target="_">https://members.theartofpostgresql.com/courses/the-art-of-postgresql/</a>
+	             from your student dashboard.
+                   </dd>
+	           <dt>Is there any DRM?</dt>
+	           <dd>No. There isn't even watermarking on the PDF. You own what you buy. The sources of data selected for the book are all available with Open Data types of licenses, and the book itself is copyright Dimitri Fontaine. All rights reserved.</dd>
+	           <dt>Any other questions?</dt>
+	           <dd>Contact me by <a href="mailto:dim@tapoueh.org">email</a> and just ask! I will do my best to answer you.</dd>
+	        </dl>
+     	    </div>
+	</div>
+</footer>
+
+
+
+
+
+
+<div class="copyright">
+    <div class="wrapper">
+        Copyright 2019-2026 &copy; Dimitri Fontaine. All rights reserved. Design by <a style="color: white; font-weight: bold;" target="_blank" href="https://www.terrilowry.com">TerriLowry.com.</a>
+    </div>
+</div>
+
+
+ 
+
+<script type="text/javascript">
+  var subscribersSiteId='1296f531-7ba0-406f-89e1-bdca40a36208';
+</script>
+<script type="text/javascript"
+        src="https://cdn.subscribers.com/assets/subscribers.js">
+</script>
+  
+
+ 
+
+<script>
+!function(e,t,n,s,u,a){e.twq||(s=e.twq=function(){s.exe?s.exe.apply(s,arguments):s.queue.push(arguments);
+},s.version='1.1',s.queue=[],u=t.createElement(n),u.async=!0,u.src='//static.ads-twitter.com/uwt.js',
+a=t.getElementsByTagName(n)[0],a.parentNode.insertBefore(u,a))}(window,document,'script');
+
+twq('init','o0ial');
+twq('track','PageView');
+</script>
+
+
+</body>
+</html> 
+

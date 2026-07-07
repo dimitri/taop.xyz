@@ -1,0 +1,12 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "taop-yesql",
+      "runtimeExecutable": "hugo",
+      "runtimeArgs": ["server", "--port", "1314", "--bind", "0.0.0.0"],
+      "port": 1314,
+      "autoPort": false
+    }
+  ]
+}

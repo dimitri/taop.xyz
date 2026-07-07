@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+	<channel>
+		<title>Frame on The Art of PostgreSQL</title>
+		<link>http://localhost:1313/tags/frame/</link>
+		<description>Recent content in Frame on The Art of PostgreSQL</description>
+		<generator>Hugo</generator>
+		<language>en-us</language>
+		
+		
+		
+		
+			<atom:link href="http://localhost:1313/tags/frame/index.xml" rel="self" type="application/rss+xml" />
+			<item>
+				<title>Running Totals and Moving Averages</title>
+				<link>http://localhost:1313/yesql/window-functions/running-totals/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>http://localhost:1313/yesql/window-functions/running-totals/</guid>
+				<description>SUM OVER with ORDER BY gives you a running total. Add a ROWS BETWEEN frame and you get a sliding window — a moving average that looks back exactly N rows.</description>
+			</item>
+			<item>
+				<title>Frame Semantics: ROWS, RANGE, and GROUPS</title>
+				<link>http://localhost:1313/yesql/window-functions/frame-semantics/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>http://localhost:1313/yesql/window-functions/frame-semantics/</guid>
+				<description>A window frame defines exactly which rows each window function sees. ROWS counts positions, RANGE counts values, GROUPS counts distinct peers. Mixing them up produces silent bugs.</description>
+			</item>
+	</channel>
+</rss>

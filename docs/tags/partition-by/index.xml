@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+	<channel>
+		<title>PARTITION BY on The Art of PostgreSQL</title>
+		<link>http://localhost:1314/tags/partition-by/</link>
+		<description>Recent content in PARTITION BY on The Art of PostgreSQL</description>
+		<generator>Hugo</generator>
+		<language>en-us</language>
+		
+		
+		
+		
+			<atom:link href="http://localhost:1314/tags/partition-by/index.xml" rel="self" type="application/rss+xml" />
+			<item>
+				<title>PARTITION BY: Independent Windows Per Group</title>
+				<link>http://localhost:1314/yesql/window-functions/partition-by/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>http://localhost:1314/yesql/window-functions/partition-by/</guid>
+				<description>PARTITION BY divides the result into independent sub-windows and resets the window function within each one — like GROUP BY, but without losing your rows.</description>
+			</item>
+	</channel>
+</rss>

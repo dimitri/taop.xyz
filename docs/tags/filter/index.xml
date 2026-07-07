@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+	<channel>
+		<title>FILTER on The Art of PostgreSQL</title>
+		<link>http://localhost:1313/tags/filter/</link>
+		<description>Recent content in FILTER on The Art of PostgreSQL</description>
+		<generator>Hugo</generator>
+		<language>en-us</language>
+		
+		
+		
+		
+			<atom:link href="http://localhost:1313/tags/filter/index.xml" rel="self" type="application/rss+xml" />
+			<item>
+				<title>The FILTER Clause: Multiple Counts in One Pass</title>
+				<link>http://localhost:1313/yesql/aggregation/filter-clause/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>http://localhost:1313/yesql/aggregation/filter-clause/</guid>
+				<description>count(*) FILTER (WHERE condition) computes conditional aggregates without CASE expressions or separate subqueries — one scan, multiple results.</description>
+			</item>
+	</channel>
+</rss>

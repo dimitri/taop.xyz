@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 340"
+     role="img" aria-label="RHCP membership as tstzrange (7 rows) versus tstzmultirange (5 rows); a point-in-time query on 2004-01-01 hits Frusciante in both models">
+  <!-- Background -->
+  <rect width="760" height="340" fill="white"/>
+
+  <!-- ── X axis: 1982 → 2025, left_margin=140, px/yr=13 ── -->
+  <!-- px(yr) = 140 + (yr - 1982) * 13 -->
+  <!-- Key positions:
+    1983-01 = 153   1988-01 = 218   1992-05 = 271
+    1993-09 = 293   1998-04 = 347   2009-12 = 499
+    2019-12 = 629   right-edge ≈ 714
+    Query 2004-01-01 = 140 + 22*13 = 426
+  -->
+
+  <defs>
+    <marker id="ax-arr" markerWidth="6" markerHeight="5" refX="5" refY="2.5" orient="auto">
+      <polygon points="0 0,6 2.5,0 5" fill="#94a3b8"/>
+    </marker>
+    <marker id="green-arr" markerWidth="6" markerHeight="5" refX="5" refY="2.5" orient="auto">
+      <polygon points="0 0,6 2.5,0 5" fill="#166534"/>
+    </marker>
+    <marker id="red-arr" markerWidth="6" markerHeight="5" refX="5" refY="2.5" orient="auto">
+      <polygon points="0 0,6 2.5,0 5" fill="#991b1b"/>
+    </marker>
+  </defs>
+
+  <!-- ── Query line ── -->
+  <!-- 2004-01-01: x = 140 + 22*13 = 426 -->
+  <line x1="426" y1="16" x2="426" y2="300" stroke="#ea580c" stroke-width="1.2" stroke-dasharray="5,3"/>
+  <text x="426" y="12" text-anchor="middle" fill="#ea580c" font-size="9" font-style="italic" font-family="ui-sans-serif,sans-serif">1 Jan 2004</text>
+  <text x="426" y="330" text-anchor="middle" fill="#ea580c" font-size="8.5" font-family="ui-monospace,monospace">@&gt; '2004-01-01'</text>
+
+  <!-- ── Section separator ── -->
+  <line x1="10" y1="172" x2="740" y2="172" stroke="#e5e7eb" stroke-width="1" stroke-dasharray="4,3"/>
+
+  <!-- ── Section labels ── -->
+  <text x="10" y="95"  font-size="9" font-weight="bold" font-family="ui-sans-serif,sans-serif" fill="#475569">tstzrange</text>
+  <text x="10" y="107" font-size="8.5" font-family="ui-sans-serif,sans-serif" fill="#94a3b8">7 rows</text>
+  <text x="10" y="216" font-size="9" font-weight="bold" font-family="ui-sans-serif,sans-serif" fill="#475569">tstzmultirange</text>
+  <text x="10" y="228" font-size="8.5" font-family="ui-sans-serif,sans-serif" fill="#94a3b8">5 rows</text>
+
+  <!-- ═══════════════ SECTION 1: tstzrange (top) ═══════════════ -->
+
+  <!-- Anthony Kiedis: 1983-01 to ∞ → x=153 to 714 -->
+  <rect x="153" y="30" width="561" height="14" rx="2" fill="#dcfce7" stroke="#166534" stroke-width="0.8"/>
+  <line x1="710" y1="37" x2="720" y2="37" stroke="#166534" stroke-width="1.2" marker-end="url(#green-arr)"/>
+  <text x="136" y="41" text-anchor="end" font-size="9" font-family="ui-sans-serif,sans-serif" fill="#334155">Anthony Kiedis</text>
+
+  <!-- Flea: 1983-01 to ∞ → x=153 to 714 -->
+  <rect x="153" y="52" width="561" height="14" rx="2" fill="#dcfce7" stroke="#166534" stroke-width="0.8"/>
+  <line x1="710" y1="59" x2="720" y2="59" stroke="#166534" stroke-width="1.2" marker-end="url(#green-arr)"/>
+  <text x="136" y="63" text-anchor="end" font-size="9" font-family="ui-sans-serif,sans-serif" fill="#334155">Flea</text>
+
+  <!-- Chad Smith: 1988-01 to ∞ → x=218 to 714 -->
+  <rect x="218" y="74" width="496" height="14" rx="2" fill="#dcfce7" stroke="#166534" stroke-width="0.8"/>
+  <line x1="710" y1="81" x2="720" y2="81" stroke="#166534" stroke-width="1.2" marker-end="url(#green-arr)"/>
+  <text x="136" y="85" text-anchor="end" font-size="9" font-family="ui-sans-serif,sans-serif" fill="#334155">Chad Smith</text>
+
+  <!-- Dave Navarro: 1993-09 to 1998-04 → x=293 to 347 -->
+  <rect x="293" y="96" width="54" height="14" rx="2" fill="#dcfce7" stroke="#166534" stroke-width="0.8"/>
+  <text x="136" y="107" text-anchor="end" font-size="9" font-family="ui-sans-serif,sans-serif" fill="#334155">Dave Navarro</text>
+
+  <!-- John Frusciante — 3 separate rows (highlighted red) -->
+  <!-- Stint 1: 1988-01 to 1992-05-07 → x=218 to 271 -->
+  <rect x="218" y="118" width="53" height="14" rx="2" fill="#fee2e2" stroke="#991b1b" stroke-width="1.2"/>
+  <text x="136" y="129" text-anchor="end" font-size="9" font-weight="bold" font-family="ui-sans-serif,sans-serif" fill="#991b1b">John Frusciante</text>
+
+  <!-- Stint 2: 1998-04 to 2009-12-31 → x=347 to 499 -->
+  <rect x="347" y="140" width="152" height="14" rx="2" fill="#fee2e2" stroke="#991b1b" stroke-width="1.2"/>
+  <text x="136" y="151" text-anchor="end" font-size="9" font-weight="bold" font-family="ui-sans-serif,sans-serif" fill="#991b1b">John Frusciante</text>
+
+  <!-- Stint 3: 2019-12-15 to ∞ → x=629 to 714 -->
+  <rect x="629" y="162" width="85" height="14" rx="2" fill="#fee2e2" stroke="#991b1b" stroke-width="1.2"/>
+  <line x1="710" y1="169" x2="720" y2="169" stroke="#991b1b" stroke-width="1.2" marker-end="url(#red-arr)"/>
+  <text x="136" y="173" text-anchor="end" font-size="9" font-weight="bold" font-family="ui-sans-serif,sans-serif" fill="#991b1b">John Frusciante</text>
+
+  <!-- Section 1 query dots at x=426 -->
+  <!-- Kiedis: YES -->  <circle cx="426" cy="37"  r="4" fill="#ea580c"/>
+  <!-- Flea: YES -->    <circle cx="426" cy="59"  r="4" fill="#ea580c"/>
+  <!-- Chad: YES -->    <circle cx="426" cy="81"  r="4" fill="#ea580c"/>
+  <!-- Navarro: left 1998, NO -->
+  <!-- Frusciante s1: ended 1992, NO -->
+  <!-- Frusciante s2: 1998-04 to 2009-12, YES → x=426 hits [347,499] -->
+  <circle cx="426" cy="147" r="4" fill="#ea580c"/>
+  <!-- Frusciante s3: starts 2019, NO -->
+
+  <!-- ═══════════════ SECTION 2: tstzmultirange (bottom) ═══════════════ -->
+
+  <!-- Anthony Kiedis: 1983-01 to ∞ → x=153 to 714 -->
+  <rect x="153" y="190" width="561" height="14" rx="2" fill="#dcfce7" stroke="#166534" stroke-width="0.8"/>
+  <line x1="710" y1="197" x2="720" y2="197" stroke="#166534" stroke-width="1.2" marker-end="url(#green-arr)"/>
+  <text x="136" y="201" text-anchor="end" font-size="9" font-family="ui-sans-serif,sans-serif" fill="#334155">Anthony Kiedis</text>
+
+  <!-- Flea: 1983-01 to ∞ → x=153 to 714 -->
+  <rect x="153" y="212" width="561" height="14" rx="2" fill="#dcfce7" stroke="#166534" stroke-width="0.8"/>
+  <line x1="710" y1="219" x2="720" y2="219" stroke="#166534" stroke-width="1.2" marker-end="url(#green-arr)"/>
+  <text x="136" y="223" text-anchor="end" font-size="9" font-family="ui-sans-serif,sans-serif" fill="#334155">Flea</text>
+
+  <!-- Chad Smith: 1988-01 to ∞ → x=218 to 714 -->
+  <rect x="218" y="234" width="496" height="14" rx="2" fill="#dcfce7" stroke="#166534" stroke-width="0.8"/>
+  <line x1="710" y1="241" x2="720" y2="241" stroke="#166534" stroke-width="1.2" marker-end="url(#green-arr)"/>
+  <text x="136" y="245" text-anchor="end" font-size="9" font-family="ui-sans-serif,sans-serif" fill="#334155">Chad Smith</text>
+
+  <!-- Dave Navarro: 1993-09 to 1998-04 → x=293 to 347 -->
+  <rect x="293" y="256" width="54" height="14" rx="2" fill="#dcfce7" stroke="#166534" stroke-width="0.8"/>
+  <text x="136" y="267" text-anchor="end" font-size="9" font-family="ui-sans-serif,sans-serif" fill="#334155">Dave Navarro</text>
+
+  <!-- John Frusciante — ONE row, three sub-ranges (tstzmultirange) -->
+  <!-- Sub-range 1: 1988-01 to 1992-05 → x=218 to 271 -->
+  <rect x="218" y="278" width="53"  height="14" rx="2" fill="#fee2e2" stroke="#991b1b" stroke-width="1.2"/>
+  <!-- Sub-range 2: 1998-04 to 2009-12 → x=347 to 499 -->
+  <rect x="347" y="278" width="152" height="14" rx="2" fill="#fee2e2" stroke="#991b1b" stroke-width="1.2"/>
+  <!-- Sub-range 3: 2019-12 to ∞ → x=629 to 714 -->
+  <rect x="629" y="278" width="85"  height="14" rx="2" fill="#fee2e2" stroke="#991b1b" stroke-width="1.2"/>
+  <line x1="710" y1="285" x2="720" y2="285" stroke="#991b1b" stroke-width="1.2" marker-end="url(#red-arr)"/>
+  <text x="136" y="289" text-anchor="end" font-size="9" font-weight="bold" font-family="ui-sans-serif,sans-serif" fill="#991b1b">John Frusciante</text>
+
+  <!-- Section 2 query dots at x=426 -->
+  <circle cx="426" cy="197" r="4" fill="#ea580c"/>
+  <circle cx="426" cy="219" r="4" fill="#ea580c"/>
+  <circle cx="426" cy="241" r="4" fill="#ea580c"/>
+  <!-- Navarro: NO -->
+  <!-- Frusciante multirange: @> '2004-01-01' checks all sub-ranges; sub-range 2 contains it → YES -->
+  <circle cx="426" cy="285" r="4" fill="#ea580c"/>
+
+  <!-- ── X axis ── -->
+  <line x1="140" y1="305" x2="730" y2="305" stroke="#94a3b8" stroke-width="0.8" marker-end="url(#ax-arr)"/>
+
+  <!-- Year labels on single bottom axis -->
+  <g font-size="8.5" font-family="ui-sans-serif,sans-serif" fill="#94a3b8" text-anchor="middle">
+    <!-- 1985: x = 140 + 3*13 = 179 -->
+    <line x1="179" y1="302" x2="179" y2="308" stroke="#94a3b8" stroke-width="0.8"/>
+    <text x="179" y="318">1985</text>
+    <!-- 1990: x = 140 + 8*13 = 244 -->
+    <line x1="244" y1="302" x2="244" y2="308" stroke="#94a3b8" stroke-width="0.8"/>
+    <text x="244" y="318">1990</text>
+    <!-- 1995: x = 140 + 13*13 = 309 -->
+    <line x1="309" y1="302" x2="309" y2="308" stroke="#94a3b8" stroke-width="0.8"/>
+    <text x="309" y="318">1995</text>
+    <!-- 2000: x = 140 + 18*13 = 374 -->
+    <line x1="374" y1="302" x2="374" y2="308" stroke="#94a3b8" stroke-width="0.8"/>
+    <text x="374" y="318">2000</text>
+    <!-- 2005: x = 140 + 23*13 = 439 -->
+    <line x1="439" y1="302" x2="439" y2="308" stroke="#94a3b8" stroke-width="0.8"/>
+    <text x="439" y="318">2005</text>
+    <!-- 2010: x = 140 + 28*13 = 504 -->
+    <line x1="504" y1="302" x2="504" y2="308" stroke="#94a3b8" stroke-width="0.8"/>
+    <text x="504" y="318">2010</text>
+    <!-- 2015: x = 140 + 33*13 = 569 -->
+    <line x1="569" y1="302" x2="569" y2="308" stroke="#94a3b8" stroke-width="0.8"/>
+    <text x="569" y="318">2015</text>
+    <!-- 2020: x = 140 + 38*13 = 634 -->
+    <line x1="634" y1="302" x2="634" y2="308" stroke="#94a3b8" stroke-width="0.8"/>
+    <text x="634" y="318">2020</text>
+  </g>
+</svg>

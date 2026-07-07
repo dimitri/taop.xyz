@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+	<channel>
+		<title>Data Modeling on The Art of PostgreSQL</title>
+		<link>http://localhost:1313/yesql/data-modeling/</link>
+		<description>Recent content in Data Modeling on The Art of PostgreSQL</description>
+		<generator>Hugo</generator>
+		<language>en-us</language>
+		
+		
+		
+		
+			<atom:link href="http://localhost:1313/yesql/data-modeling/index.xml" rel="self" type="application/rss+xml" />
+			<item>
+				<title>The R in ORM</title>
+				<link>http://localhost:1313/yesql/data-modeling/the-r-in-orm/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>http://localhost:1313/yesql/data-modeling/the-r-in-orm/</guid>
+				<description>The R stands for Relation. Any SQL query defines a relation, and an ORM&amp;rsquo;s whole job is to map that collection of objects to objects in your language — nothing more.</description>
+			</item>
+			<item>
+				<title>The Update Anomaly: Why Normalization Matters</title>
+				<link>http://localhost:1313/yesql/data-modeling/update-anomaly/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>http://localhost:1313/yesql/data-modeling/update-anomaly/</guid>
+				<description>Storing the same fact in more than one row creates a predictable failure mode: a partial update leaves the database inconsistent, with no way to know which copy is correct.</description>
+			</item>
+	</channel>
+</rss>

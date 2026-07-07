@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+	<meta charset="utf-8">
+	<title>JSONB and Arrays · The Art of PostgreSQL</title>
+	<meta name="description" content="PostgreSQL&#39;s JSONB and array types let you store semi-structured data without leaving the relational model — and without sacrificing indexability or query power.">
+
+	<meta name="twitter:card" content="summary" />
+	<meta name="twitter:site" content="@tapoueh" />
+	<meta name="twitter:creator" content="@tapoueh" />
+	<meta property="og:url" content="http://localhost:1313/yesql/data-schema-design/json-and-denormalized-types/" />
+	<meta property="og:title" content="JSONB and Arrays · YeSQL" />
+	<meta property="og:description" content="Practical PostgreSQL for developers, one concept at a time." />
+	<meta property="og:image" content="https://theartofpostgresql.com/images/hardcover-mockup.jpg" />
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+
+	<link href="/favicon.ico" rel="icon" type="image/x-icon">
+
+	<link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/yesql.css">
+	<link rel="stylesheet" href="/syntax.css">
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="/js/custom.js"></script>
+</head>
+<body class="yesql">
+
+
+<header class="header">
+  <div class="wrapper">
+    <nav>
+      <ul>
+	<li><a href="/book/"><i class="fa-solid fa-book-open"></i><span class="nav-text">BOOK</span></a></li>
+	<li class="divider"></li>
+	<li><a class="logo" href="/">The Art of PostgreSQL</a></li>
+	<li class="divider"></li>
+	<li><a href="/course/"><i class="fa-solid fa-graduation-cap"></i><span class="nav-text">COURSE</span></a></li>
+	<li class="divider"></li>
+	<li><a href="/workshop/"><i class="fa-solid fa-microphone"></i><span class="nav-text">WORKSHOP</span></a></li>
+	<li class="divider"></li>
+	<li><a href="/lab/"><i class="fa-solid fa-flask"></i><span class="nav-text">LAB</span></a></li>
+	<li class="divider"></li>
+	<li><a class="logo" href="/">The Art of PostgreSQL</a></li>
+	<li class="divider"></li>
+	<li><a href="/yesql/"><i class="fa-solid fa-pen-to-square"></i><span class="nav-text">YESQL</span></a></li>
+      </ul>
+    </nav>
+    <div class="sticky-cta-wrapper">
+      <a href="https://sales.theartofpostgresql.com/the-art-of-postgresql-book/" class="sticky-cta button button_purple">Get the Book – $89</a>
+    </div>
+  </div>
+</header>
+
+
+
+
+
+
+
+<div class="yesql_lesson">
+  <div class="wrapper">
+    <article class="lesson_content">
+      <nav class="yesql_breadcrumb">
+        <a href="/yesql/">YeSQL</a> <span>›</span>
+        <a href="/yesql/data-schema-design/">Data &amp; Schema Design</a>
+      </nav>
+
+      <h1>JSONB and Arrays</h1>
+      <p class="lesson_lede">PostgreSQL&#39;s JSONB and array types let you store semi-structured data without leaving the relational model — and without sacrificing indexability or query power.</p>
+
+      
+<div class="lesson_lab_banner">
+  <i class="fa-solid fa-flask"></i>
+  <div class="lab_banner_body">
+    <strong>Run it yourself</strong> — all queries on this page use the
+    <code>chinook</code> dataset,
+    pre-loaded in the free
+    <a href="/lab/">TAOP lab</a>.
+    Start a session with <code>psql taop</code> and follow along.
+    No setup beyond <a href="https://github.com/dimitri/TheArtOfPostgreSQL" rel="noopener">Docker</a>.
+  </div>
+</div>
+
+
+
+      <p>PostgreSQL is a relational database, but it does not force you to normalize
+everything into rows and columns. Some data is genuinely better modelled as
+documents or variable-length sets — and PostgreSQL lets you do that while
+keeping full query, index, and constraint support.</p>
+<h3 id="jsonb-the-document-type-that-actually-works">JSONB: the document type that actually works</h3>
+<p><img src="/img/diagrams/fig-jsonb-operators.svg" alt="JSONB operators: containment @&gt;, path access -&gt;, and the GIN index that makes them fast"></p>
+<p>PostgreSQL has two JSON types: <code>json</code> (text with format validation) and
+<code>jsonb</code> (binary, indexed, queryable). Use <code>jsonb</code>. The <code>json</code> type exists for
+backwards compatibility.</p>
+<p><code>jsonb</code> supports three categories of operator. <strong>Path access</strong> operators
+extract values: <code>-&gt;</code> returns a <code>jsonb</code> value; <code>-&gt;&gt;</code> returns text.
+<strong>Containment</strong> (<code>@&gt;</code>) tests whether a document contains a given sub-document.
+<strong>Existence</strong> (<code>?</code>) tests whether a key is present. None of these exist on
+<code>json</code>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#586e75">-- Filter and project from a JSONB document store (magic.cards)
+</span></span></span><span style="display:flex;"><span><span style="color:#719e07">select</span> <span style="color:#719e07">data</span><span style="color:#719e07">-&gt;&gt;</span><span style="color:#2aa198">&#39;name&#39;</span>     <span style="color:#719e07">as</span> card_name,
+</span></span><span style="display:flex;"><span>       <span style="color:#719e07">data</span><span style="color:#719e07">-&gt;&gt;</span><span style="color:#2aa198">&#39;type&#39;</span>     <span style="color:#719e07">as</span> card_type,
+</span></span><span style="display:flex;"><span>       <span style="color:#719e07">data</span><span style="color:#719e07">-&gt;&gt;</span><span style="color:#2aa198">&#39;manaCost&#39;</span> <span style="color:#719e07">as</span> mana_cost
+</span></span><span style="display:flex;"><span>  <span style="color:#719e07">from</span> magic.cards
+</span></span><span style="display:flex;"><span> <span style="color:#719e07">where</span> <span style="color:#719e07">data</span><span style="color:#719e07">-&gt;&gt;</span><span style="color:#2aa198">&#39;type&#39;</span> <span style="color:#719e07">like</span> <span style="color:#2aa198">&#39;Creature%&#39;</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#719e07">and</span> <span style="color:#719e07">data</span><span style="color:#719e07">-&gt;&gt;</span><span style="color:#2aa198">&#39;manaCost&#39;</span> <span style="color:#719e07">is</span> <span style="color:#719e07">not</span> <span style="color:#719e07">null</span>
+</span></span><span style="display:flex;"><span> <span style="color:#719e07">order</span> <span style="color:#719e07">by</span> <span style="color:#719e07">data</span><span style="color:#719e07">-&gt;&gt;</span><span style="color:#2aa198">&#39;name&#39;</span>
+</span></span><span style="display:flex;"><span> <span style="color:#719e07">limit</span> <span style="color:#2aa198">5</span>;
+</span></span></code></pre></div><p>The <code>magic.cards</code> table stores each Magic: The Gathering card as a single
+<code>jsonb</code> document. The column named <code>data</code> holds the entire card — name, type,
+mana cost, subtypes, abilities — with no fixed schema enforced by the table.
+<code>-&gt;&gt;</code> extracts a field as text; <code>-&gt;</code> returns the nested <code>jsonb</code> value, useful
+when the field is itself an object or array.</p>
+<h3 id="gin-indexes-make-containment-fast">GIN indexes make containment fast</h3>
+<p>A GIN (Generalized Inverted Index) indexes every key and value in a <code>jsonb</code>
+column. With it, containment and existence queries hit the index rather than
+scanning every document:</p>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#719e07">create</span> <span style="color:#719e07">index</span> <span style="color:#719e07">on</span> magic.cards <span style="color:#719e07">using</span> gin (<span style="color:#719e07">data</span>);
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#719e07">explain</span> (<span style="color:#719e07">analyze</span>, buffers)
+</span></span><span style="display:flex;"><span>  <span style="color:#719e07">select</span> <span style="color:#719e07">data</span><span style="color:#719e07">-&gt;&gt;</span><span style="color:#2aa198">&#39;name&#39;</span> <span style="color:#719e07">as</span> card_name,
+</span></span><span style="display:flex;"><span>         <span style="color:#719e07">data</span><span style="color:#719e07">-&gt;&gt;</span><span style="color:#2aa198">&#39;type&#39;</span> <span style="color:#719e07">as</span> card_type
+</span></span><span style="display:flex;"><span>    <span style="color:#719e07">from</span> magic.cards
+</span></span><span style="display:flex;"><span>   <span style="color:#719e07">where</span> <span style="color:#719e07">data</span> <span style="color:#719e07">@&gt;</span> <span style="color:#2aa198">&#39;{&#34;type&#34;: &#34;Creature — Human Wizard&#34;}&#39;</span>::jsonb
+</span></span><span style="display:flex;"><span>   <span style="color:#719e07">order</span> <span style="color:#719e07">by</span> <span style="color:#719e07">data</span><span style="color:#719e07">-&gt;&gt;</span><span style="color:#2aa198">&#39;name&#39;</span>;
+</span></span></code></pre></div><p>The plan shows a Bitmap Index Scan on the GIN index, not a sequential scan.
+Without the index, PostgreSQL must parse every document to evaluate <code>@&gt;</code>.</p>
+<p>PostgreSQL offers two GIN opclasses. The default (<code>jsonb_ops</code>) indexes all
+keys and values and supports <code>@&gt;</code>, <code>?</code>, <code>?|</code>, and <code>?&amp;</code>. The alternative
+(<code>jsonb_path_ops</code>) indexes only values — it produces a smaller index and
+faster <code>@&gt;</code> lookups, but does not support the existence operators.</p>
+<h3 id="jsonpath-navigating-nested-documents">JSONPath: navigating nested documents</h3>
+<p>SQL/JSON path expressions (PostgreSQL 12+) navigate inside documents using
+<code>$</code> as the document root:</p>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#586e75">-- @?: does the card have &#34;Dragon&#34; in its subtypes array?
+</span></span></span><span style="display:flex;"><span><span style="color:#719e07">select</span> <span style="color:#719e07">count</span>(<span style="color:#719e07">*</span>)
+</span></span><span style="display:flex;"><span>  <span style="color:#719e07">from</span> magic.cards
+</span></span><span style="display:flex;"><span> <span style="color:#719e07">where</span> <span style="color:#719e07">data</span> <span style="color:#719e07">@?</span> <span style="color:#2aa198">&#39;$.subtypes[*] ? (@ == &#34;Dragon&#34;)&#39;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#586e75">-- @@: cards whose converted mana cost exceeds 8
+</span></span></span><span style="display:flex;"><span><span style="color:#719e07">select</span> <span style="color:#719e07">distinct</span> <span style="color:#719e07">data</span> <span style="color:#719e07">-&gt;&gt;</span> <span style="color:#2aa198">&#39;name&#39;</span> <span style="color:#719e07">as</span> name,
+</span></span><span style="display:flex;"><span>       (<span style="color:#719e07">data</span> <span style="color:#719e07">-&gt;&gt;</span> <span style="color:#2aa198">&#39;cmc&#39;</span>)::<span style="color:#b58900">int</span>    <span style="color:#719e07">as</span> cmc
+</span></span><span style="display:flex;"><span>  <span style="color:#719e07">from</span> magic.cards
+</span></span><span style="display:flex;"><span> <span style="color:#719e07">where</span> <span style="color:#719e07">data</span> <span style="color:#719e07">@@</span> <span style="color:#2aa198">&#39;$.cmc &gt; 8&#39;</span>
+</span></span><span style="display:flex;"><span> <span style="color:#719e07">order</span> <span style="color:#719e07">by</span> cmc <span style="color:#719e07">desc</span>, name
+</span></span><span style="display:flex;"><span> <span style="color:#719e07">limit</span> <span style="color:#2aa198">6</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#586e75">-- jsonb_path_query: extract each matching subtype element
+</span></span></span><span style="display:flex;"><span><span style="color:#719e07">select</span> <span style="color:#719e07">distinct</span> <span style="color:#719e07">data</span> <span style="color:#719e07">-&gt;&gt;</span> <span style="color:#2aa198">&#39;name&#39;</span>                          <span style="color:#719e07">as</span> card,
+</span></span><span style="display:flex;"><span>       jsonb_path_query(<span style="color:#719e07">data</span>, <span style="color:#2aa198">&#39;$.subtypes[*]&#39;</span>)::<span style="color:#b58900">text</span>     <span style="color:#719e07">as</span> subtype
+</span></span><span style="display:flex;"><span>  <span style="color:#719e07">from</span> magic.cards
+</span></span><span style="display:flex;"><span> <span style="color:#719e07">where</span> <span style="color:#719e07">data</span> <span style="color:#719e07">@?</span> <span style="color:#2aa198">&#39;$.subtypes[*] ? (@ == &#34;Dragon&#34;)&#39;</span>
+</span></span><span style="display:flex;"><span> <span style="color:#719e07">order</span> <span style="color:#719e07">by</span> card
+</span></span><span style="display:flex;"><span> <span style="color:#719e07">limit</span> <span style="color:#2aa198">8</span>;
+</span></span></code></pre></div><p><code>@?</code> tests whether any element matches the path (returns boolean). <code>@@</code> tests
+whether the path expression evaluates to true over the document. <code>$.array[*]</code>
+iterates all elements; <code>?(@ == &quot;Dragon&quot;)</code> filters to elements equal to
+<code>&quot;Dragon&quot;</code>. The GIN index accelerates <code>@?</code> and <code>@@</code> queries.</p>
+<h3 id="decomposing-documents-with-jsonb_each">Decomposing documents with jsonb_each</h3>
+<p><code>jsonb_each()</code> expands a <code>jsonb</code> object into <code>(key, value)</code> rows — the
+relational inverse of <code>jsonb_build_object()</code>. Combined with <code>LATERAL</code>, it
+decomposes documents for inspection:</p>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#719e07">select</span> <span style="color:#719e07">key</span>, jsonb_typeof(value) <span style="color:#719e07">as</span> vtype
+</span></span><span style="display:flex;"><span>  <span style="color:#719e07">from</span> (<span style="color:#719e07">select</span> <span style="color:#719e07">data</span> <span style="color:#719e07">from</span> magic.cards
+</span></span><span style="display:flex;"><span>         <span style="color:#719e07">where</span> <span style="color:#719e07">data</span> <span style="color:#719e07">@&gt;</span> <span style="color:#2aa198">&#39;{&#34;name&#34;:&#34;Air Elemental&#34;}&#39;</span> <span style="color:#719e07">limit</span> <span style="color:#2aa198">1</span>) <span style="color:#719e07">c</span>,
+</span></span><span style="display:flex;"><span>       <span style="color:#719e07">lateral</span> jsonb_each(<span style="color:#719e07">c</span>.<span style="color:#719e07">data</span>)
+</span></span><span style="display:flex;"><span> <span style="color:#719e07">order</span> <span style="color:#719e07">by</span> <span style="color:#719e07">key</span>;
+</span></span></code></pre></div><p><code>jsonb_typeof()</code> returns the JSON type of a value: <code>&quot;string&quot;</code>, <code>&quot;number&quot;</code>,
+<code>&quot;boolean&quot;</code>, <code>&quot;array&quot;</code>, <code>&quot;object&quot;</code>, or <code>&quot;null&quot;</code>. This is useful for auditing
+document structure when the schema is not fixed.</p>
+<h3 id="when-to-use-jsonb">When to use JSONB</h3>
+<p>JSONB is the right choice when:</p>
+<ul>
+<li>The shape of the data varies per row (product attributes, event metadata,
+configuration objects)</li>
+<li>You need to query inside the document — not just store and retrieve it whole</li>
+<li>The structure is not yet settled and you want schema flexibility while the
+data model evolves</li>
+</ul>
+<p>JSONB is not the right choice when every row has the same structure and you
+know what columns you need. Typed columns are faster to query, easier to index
+selectively, and produce clearer error messages when data is wrong.</p>
+<p>A useful pattern: start with JSONB when the schema is uncertain, then promote
+frequently-queried keys to typed columns with <code>ALTER TABLE ... ADD COLUMN</code> and
+an expression index or generated column as an intermediate step.</p>
+<h3 id="arrays-a-set-of-values-in-one-column">Arrays: a set of values in one column</h3>
+<p>Any PostgreSQL type can be stored as an array: <code>text[]</code>, <code>integer[]</code>,
+<code>timestamptz[]</code>. The canonical use case is tags or labels — a small,
+variable-length set of values that belongs to a single entity.</p>
+<p>GIN indexing makes array containment queries fast:</p>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#719e07">create</span> <span style="color:#719e07">index</span> <span style="color:#719e07">on</span> hashtag <span style="color:#719e07">using</span> gin (hashtags);
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#586e75">-- Find all tweets tagged with both #Hiring and #Retail:
+</span></span></span><span style="display:flex;"><span><span style="color:#719e07">select</span> <span style="color:#719e07">count</span>(<span style="color:#719e07">*</span>)
+</span></span><span style="display:flex;"><span>  <span style="color:#719e07">from</span> hashtag
+</span></span><span style="display:flex;"><span> <span style="color:#719e07">where</span> hashtags <span style="color:#719e07">@&gt;</span> <span style="color:#b58900">array</span>[<span style="color:#2aa198">&#39;#Hiring&#39;</span>, <span style="color:#2aa198">&#39;#Retail&#39;</span>];
+</span></span></code></pre></div><pre tabindex="0"><code> count
+═══════
+   127
+(1 row)
+</code></pre><p>To process array contents as rows, use <code>unnest()</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span>  <span style="color:#719e07">select</span> tag, <span style="color:#719e07">count</span>(<span style="color:#719e07">*</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#719e07">from</span> hashtag, <span style="color:#719e07">unnest</span>(hashtags) <span style="color:#719e07">as</span> t(tag)
+</span></span><span style="display:flex;"><span><span style="color:#719e07">group</span> <span style="color:#719e07">by</span> tag
+</span></span><span style="display:flex;"><span><span style="color:#719e07">order</span> <span style="color:#719e07">by</span> <span style="color:#719e07">count</span> <span style="color:#719e07">desc</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#719e07">limit</span> <span style="color:#2aa198">10</span>;
+</span></span></code></pre></div><pre tabindex="0"><code>     tag     │ count
+═════════════╪═══════
+ #jobs       │  2341
+ #Hiring     │  1892
+ #USA        │  1654
+ #NYC        │  1203
+ #Retail     │   918
+ #Marketing  │   876
+ #Tech       │   743
+ #startup    │   621
+ #remote     │   589
+ #HR         │   512
+(10 rows)
+</code></pre><p>Arrays are good for &ldquo;store a few values together, query them as a set.&rdquo; If
+you find yourself doing a lot of per-element lookups, joins, or updates, you
+probably need a proper lookup table instead.</p>
+<h3 id="the-underlying-principle">The underlying principle</h3>
+<p>Both types — JSONB and arrays — store multiple values or a structured value in
+a single column, with operators and index types designed to query <em>inside</em> the
+value rather than treating it as opaque. That is what PostgreSQL&rsquo;s extensibility
+model was designed to enable.</p>
+<p>Use them when the data genuinely has a non-tabular shape. Avoid using them as
+a way to skip schema design — the update anomaly applies just as much when the
+repeated fact is buried inside a JSON document or packed into an array.</p>
+<p>For intervals and time spans, PostgreSQL&rsquo;s range types (<code>tstzrange</code>,
+<code>daterange</code>, <code>int4range</code>) are the right model — covered in the
+<a href="/yesql/data-schema-design/range-types/">Range Types and Temporal Constraints</a>
+lesson.</p>
+
+
+      <aside class="lesson_email_capture" aria-label="Get the book intro as a PDF">
+  <div class="email_capture_copy">
+    <strong>This chapter is from <em>The Art of PostgreSQL</em>.</strong>
+    <p>Get a free chapter of the 2026 edition — including the full Table of Contents — plus the next lessons by email.</p>
+  </div>
+  <script async data-uid="c1452ad801" src="https://f.convertkit.com/c1452ad801/ad53e74e51.js"></script>
+</aside>
+
+
+
+      
+
+      <footer class="lesson_footer">
+        
+        <p class="tags"><a href="http://localhost:1313/tags/json">#JSON</a> <a href="http://localhost:1313/tags/jsonb">#JSONB</a> <a href="http://localhost:1313/tags/array">#array</a> <a href="http://localhost:1313/tags/data-types">#Data Types</a> <a href="http://localhost:1313/tags/denormalization">#denormalization</a> <a href="http://localhost:1313/tags/gin">#GIN</a> </p>
+        
+      </footer>
+    </article>
+
+    <aside class="lesson_sidebar">
+      <div class="sidebar_block">
+        <h6>Data &amp; Schema Design</h6>
+        <ul>
+          
+          <li><a href="/yesql/data-schema-design/fk-constraints-trust/">Foreign Key Constraints and What the Planner Knows</a></li>
+          
+          <li class="current"><a href="/yesql/data-schema-design/json-and-denormalized-types/">JSONB and Arrays</a></li>
+          
+          <li><a href="/yesql/data-schema-design/range-types/">Range Types and Temporal Constraints</a></li>
+          
+        </ul>
+      </div>
+
+      <div class="sidebar_block">
+        <h6>Tools</h6>
+        <ul>
+          <li><a href="/compute-database-size/">Compute Database Size</a></li>
+          <li><a href="/explain-plan-visualizer/">Query Plan Visualizer</a></li>
+        </ul>
+      </div>
+
+      <div class="sidebar_block sidebar_lab">
+        <i class="fa-solid fa-flask"></i>
+        <h6>Try it Yourself</h6>
+        <p>A free Docker setup ships all datasets pre-loaded. One command and you're in a live <code>psql</code> session.</p>
+        <a href="/lab/" class="button button_purple">Open the Lab</a>
+        <a href="https://github.com/dimitri/TheArtOfPostgreSQL" class="lab_github_link" rel="noopener"><i class="fa-brands fa-github"></i> Starter Kit on GitHub</a>
+      </div>
+
+
+    </aside>
+  </div>
+</div>
+
+
+<section class="yesql_offer">
+  <div class="wrapper">
+    <div class="offer_card">
+      <p class="offer_eyebrow">Keep going</p>
+      <h3>The Art of PostgreSQL</h3>
+      <p>Liked this? It&#39;s one piece of a complete, practical system for writing real PostgreSQL. The book is your entry point.</p>
+      <a href="https://sales.theartofpostgresql.com/the-art-of-postgresql-book/" class="button button_purple button_large">Get the Book — $89</a>
+    </div>
+  </div>
+</section>
+
+
+ 
+
+<footer class="footer">
+	<div class="wrapper">
+	    <div class="about_block">
+	        <h6>about the author</h6>
+	        <p>Hi! My name is Dimitri Fontaine and I have been using and contributing to Open Source Software for the best of the last 20 years. I am a PostgreSQL Major Contributor after having contributed Extensions and Event Triggers, among other things.</p>
+	        <p>I have been writing code almost daily for a very long time now, both in a professional capacity and on my leisure time. I&rsquo;ve also been a database architect and a DBA on-call. As a developer I enjoy using SQL. As a database architect, I like teaching advanced SQL techniques to my colleagues.</p>
+	        <ul>
+	            <li><a target="_blank" href="mailto:dim@tapoueh.org">email</a></li>
+	            <li><a target="_blank" href="https://twitter.com/tapoueh">twitter</a></li>
+	            <li><a target="_blank" href="https://github.com/dimitri">github</a></li>
+	            <li><a target="_blank" href="https://www.reddit.com/user/theartofpostgresql">reddit</a></li>
+	            <li><a href="/updates/">what's new</a></li>
+	        </ul>
+    	</div>
+	    <div class="faq_block">
+            <h6>FAQ</h6>
+	        <dl>
+	           <dt>What if the book isn&rsquo;t what I expected it would be?</dt>
+	           <dd>The Art of PostgreSQL is a book that teaches SQL to application developers. If it's not of any value to you, then just say so and I'll refund you, no questions asked.</dd>
+	           <dt>I bought the book, and I'm confused. What now?</dt>
+	           <dd>
+                     The content of the book is available as a PDF, ePub and
+	             MOBI file, and you can also download the SQL queries.
+	             The content is available over
+	             at <a href="https://members.theartofpostgresql.com/courses/the-art-of-postgresql/"
+	             target="_">https://members.theartofpostgresql.com/courses/the-art-of-postgresql/</a>
+	             from your student dashboard.
+                   </dd>
+	           <dt>Is there any DRM?</dt>
+	           <dd>No. There isn't even watermarking on the PDF. You own what you buy. The sources of data selected for the book are all available with Open Data types of licenses, and the book itself is copyright Dimitri Fontaine. All rights reserved.</dd>
+	           <dt>Any other questions?</dt>
+	           <dd>Contact me by <a href="mailto:dim@tapoueh.org">email</a> and just ask! I will do my best to answer you.</dd>
+	        </dl>
+     	    </div>
+	</div>
+</footer>
+
+
+
+
+
+
+<div class="copyright">
+    <div class="wrapper">
+        Copyright 2019-2026 &copy; Dimitri Fontaine. All rights reserved. Design by <a style="color: white; font-weight: bold;" target="_blank" href="https://www.terrilowry.com">TerriLowry.com.</a>
+    </div>
+</div>
+
+
+ 
+
+<script type="text/javascript">
+  var subscribersSiteId='1296f531-7ba0-406f-89e1-bdca40a36208';
+</script>
+<script type="text/javascript"
+        src="https://cdn.subscribers.com/assets/subscribers.js">
+</script>
+  
+
+ 
+
+<script>
+!function(e,t,n,s,u,a){e.twq||(s=e.twq=function(){s.exe?s.exe.apply(s,arguments):s.queue.push(arguments);
+},s.version='1.1',s.queue=[],u=t.createElement(n),u.async=!0,u.src='//static.ads-twitter.com/uwt.js',
+a=t.getElementsByTagName(n)[0],a.parentNode.insertBefore(u,a))}(window,document,'script');
+
+twq('init','o0ial');
+twq('track','PageView');
+</script>
+
+
+</body>
+</html> 
+

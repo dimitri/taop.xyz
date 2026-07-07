@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+	<meta charset="utf-8">
+	<title>JOIN Output Cardinality: Why Your Row Counts Surprise You · The Art of PostgreSQL</title>
+	<meta name="description" content="A JOIN does not just combine tables — it multiplies rows. One-to-many joins inflate counts silently, and aggregate queries over joined data produce wrong results unless you account for it.">
+
+	<meta name="twitter:card" content="summary" />
+	<meta name="twitter:site" content="@tapoueh" />
+	<meta name="twitter:creator" content="@tapoueh" />
+	<meta property="og:url" content="http://localhost:1313/yesql/joins-and-relations/join-output-cardinality/" />
+	<meta property="og:title" content="JOIN Output Cardinality: Why Your Row Counts Surprise You · YeSQL" />
+	<meta property="og:description" content="Practical PostgreSQL for developers, one concept at a time." />
+	<meta property="og:image" content="https://theartofpostgresql.com/images/hardcover-mockup.jpg" />
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+
+	<link href="/favicon.ico" rel="icon" type="image/x-icon">
+
+	<link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/yesql.css">
+	<link rel="stylesheet" href="/syntax.css">
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="/js/custom.js"></script>
+</head>
+<body class="yesql">
+
+
+<header class="header">
+  <div class="wrapper">
+    <nav>
+      <ul>
+	<li><a href="/book/"><i class="fa-solid fa-book-open"></i><span class="nav-text">BOOK</span></a></li>
+	<li class="divider"></li>
+	<li><a class="logo" href="/">The Art of PostgreSQL</a></li>
+	<li class="divider"></li>
+	<li><a href="/course/"><i class="fa-solid fa-graduation-cap"></i><span class="nav-text">COURSE</span></a></li>
+	<li class="divider"></li>
+	<li><a href="/workshop/"><i class="fa-solid fa-microphone"></i><span class="nav-text">WORKSHOP</span></a></li>
+	<li class="divider"></li>
+	<li><a href="/lab/"><i class="fa-solid fa-flask"></i><span class="nav-text">LAB</span></a></li>
+	<li class="divider"></li>
+	<li><a class="logo" href="/">The Art of PostgreSQL</a></li>
+	<li class="divider"></li>
+	<li><a href="/yesql/"><i class="fa-solid fa-pen-to-square"></i><span class="nav-text">YESQL</span></a></li>
+      </ul>
+    </nav>
+    <div class="sticky-cta-wrapper">
+      <a href="https://sales.theartofpostgresql.com/the-art-of-postgresql-book/" class="sticky-cta button button_purple">Get the Book – $89</a>
+    </div>
+  </div>
+</header>
+
+
+
+
+
+
+
+<div class="yesql_lesson">
+  <div class="wrapper">
+    <article class="lesson_content">
+      <nav class="yesql_breadcrumb">
+        <a href="/yesql/">YeSQL</a> <span>›</span>
+        <a href="/yesql/joins-and-relations/">Joins &amp; Relations</a>
+      </nav>
+
+      <h1>JOIN Output Cardinality: Why Your Row Counts Surprise You</h1>
+      <p class="lesson_lede">A JOIN does not just combine tables — it multiplies rows. One-to-many joins inflate counts silently, and aggregate queries over joined data produce wrong results unless you account for it.</p>
+
+      
+<div class="lesson_lab_banner">
+  <i class="fa-solid fa-flask"></i>
+  <div class="lab_banner_body">
+    <strong>Run it yourself</strong> — all queries on this page use the
+    <code>f1db</code> dataset,
+    pre-loaded in the free
+    <a href="/lab/">TAOP lab</a>.
+    Start a session with <code>psql taop</code> and follow along.
+    No setup beyond <a href="https://github.com/dimitri/TheArtOfPostgreSQL" rel="noopener">Docker</a>.
+  </div>
+</div>
+
+
+
+      <p>Here is a question that trips up developers at every level: how many races has
+Ferrari entered in Formula One? The <code>constructors</code> table has one row per team.
+The <code>results</code> table has one row per driver per race. A naive count after joining
+the two gives the wrong answer:</p>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#719e07">select</span> <span style="color:#719e07">c</span>.name                    <span style="color:#719e07">as</span> <span style="color:#719e07">constructor</span>,
+</span></span><span style="display:flex;"><span>       <span style="color:#719e07">count</span>(<span style="color:#719e07">*</span>)                  <span style="color:#719e07">as</span> result_rows
+</span></span><span style="display:flex;"><span>  <span style="color:#719e07">from</span> f1db.constructors <span style="color:#719e07">c</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#719e07">join</span> f1db.results res <span style="color:#719e07">on</span> res.constructorid <span style="color:#719e07">=</span> <span style="color:#719e07">c</span>.constructorid
+</span></span><span style="display:flex;"><span> <span style="color:#719e07">group</span> <span style="color:#719e07">by</span> <span style="color:#719e07">c</span>.constructorid, <span style="color:#719e07">c</span>.name
+</span></span><span style="display:flex;"><span> <span style="color:#719e07">order</span> <span style="color:#719e07">by</span> result_rows <span style="color:#719e07">desc</span>
+</span></span><span style="display:flex;"><span> <span style="color:#719e07">limit</span> <span style="color:#2aa198">5</span>;
+</span></span></code></pre></div><pre tabindex="0"><code> constructor │ result_rows
+═════════════╪═════════════
+ Ferrari     │        2130
+ McLaren     │        1615
+ Williams    │        1369
+ Tyrrell     │         881
+ Team Lotus  │         871
+(5 rows)
+</code></pre><p>This counts <em>result rows</em>, not <em>distinct races</em>. Ferrari typically enters two
+cars per race, so the count is roughly twice the number of races entered. For a
+team with three cars in some eras, the inflation is worse.</p>
+<p>This is called <strong>join amplification</strong>: a one-to-many join multiplies the rows
+on the &ldquo;one&rdquo; side by the number of matching rows on the &ldquo;many&rdquo; side. The query
+compiles and returns results. The results are wrong.</p>
+<p><img src="/img/diagrams/fig-join-amplification.svg" alt="Join amplification: one constructor row fans out into many result rows"></p>
+<h3 id="the-fix-count-what-you-actually-mean">The fix: count what you actually mean</h3>
+<p>If you want distinct races, count distinct race IDs:</p>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#719e07">select</span> <span style="color:#719e07">c</span>.name                        <span style="color:#719e07">as</span> <span style="color:#719e07">constructor</span>,
+</span></span><span style="display:flex;"><span>       <span style="color:#719e07">count</span>(<span style="color:#719e07">distinct</span> res.raceid)    <span style="color:#719e07">as</span> races_entered,
+</span></span><span style="display:flex;"><span>       <span style="color:#719e07">count</span>(<span style="color:#719e07">distinct</span> res.driverid)  <span style="color:#719e07">as</span> distinct_drivers
+</span></span><span style="display:flex;"><span>  <span style="color:#719e07">from</span> f1db.constructors <span style="color:#719e07">c</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#719e07">join</span> f1db.results res <span style="color:#719e07">on</span> res.constructorid <span style="color:#719e07">=</span> <span style="color:#719e07">c</span>.constructorid
+</span></span><span style="display:flex;"><span> <span style="color:#719e07">group</span> <span style="color:#719e07">by</span> <span style="color:#719e07">c</span>.constructorid, <span style="color:#719e07">c</span>.name
+</span></span><span style="display:flex;"><span> <span style="color:#719e07">order</span> <span style="color:#719e07">by</span> races_entered <span style="color:#719e07">desc</span>
+</span></span><span style="display:flex;"><span> <span style="color:#719e07">limit</span> <span style="color:#2aa198">5</span>;
+</span></span></code></pre></div><pre tabindex="0"><code> constructor │ races_entered │ distinct_drivers
+═════════════╪═══════════════╪══════════════════
+ Ferrari     │           946 │               95
+ McLaren     │           775 │               51
+ Williams    │           689 │               53
+ Tyrrell     │           433 │               47
+ Team Lotus  │           395 │               61
+(5 rows)
+</code></pre><p><code>COUNT(DISTINCT res.raceid)</code> counts each race once regardless of how many
+result rows belong to it. The same query now correctly answers two questions
+at once: how many races and how many different drivers.</p>
+<h3 id="the-mental-model">The mental model</h3>
+<p>When you write <code>A JOIN B ON A.id = B.a_id</code> and there are multiple <code>B</code> rows
+per <code>A</code> row, the output has one row per <code>(A, B)</code> pair — not one row per <code>A</code>.
+This is correct and expected behaviour. The issue is not the JOIN; it is
+failing to account for it in the aggregate.</p>
+<p>Before aggregating over a join, ask: <em>for each group, what is the right
+denominator?</em> <code>COUNT(*)</code> counts pairs. <code>COUNT(DISTINCT col)</code> counts unique
+values in one of the joined tables. Often the right answer is to aggregate
+before joining, not after.</p>
+<h3 id="aggregate-before-joining">Aggregate before joining</h3>
+<p>The problem compounds when two &ldquo;many&rdquo; tables are joined at once.
+<code>constructorresults</code> records the points each constructor scored in each race —
+one row per (constructor, race). <code>results</code> records every driver entry —
+multiple rows per (constructor, race). Joining both before aggregating
+silently multiplies each points row by the number of driver entries that race:</p>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#719e07">select</span> <span style="color:#719e07">c</span>.name,
+</span></span><span style="display:flex;"><span>       <span style="color:#719e07">sum</span>(cr.points) <span style="color:#719e07">as</span> season_points,
+</span></span><span style="display:flex;"><span>       <span style="color:#719e07">count</span>(<span style="color:#719e07">*</span>)       <span style="color:#719e07">as</span> <span style="color:#719e07">row_count</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#719e07">from</span> f1db.constructors        <span style="color:#719e07">c</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#719e07">join</span> f1db.constructorresults cr <span style="color:#719e07">using</span> (constructorid)
+</span></span><span style="display:flex;"><span>  <span style="color:#719e07">join</span> f1db.results            res <span style="color:#719e07">using</span> (constructorid, raceid)
+</span></span><span style="display:flex;"><span>  <span style="color:#719e07">join</span> f1db.races                r <span style="color:#719e07">using</span> (raceid)
+</span></span><span style="display:flex;"><span> <span style="color:#719e07">where</span> r.<span style="color:#719e07">year</span> <span style="color:#719e07">=</span> <span style="color:#2aa198">2016</span>
+</span></span><span style="display:flex;"><span> <span style="color:#719e07">group</span> <span style="color:#719e07">by</span> <span style="color:#719e07">c</span>.constructorid, <span style="color:#719e07">c</span>.name
+</span></span><span style="display:flex;"><span> <span style="color:#719e07">order</span> <span style="color:#719e07">by</span> season_points <span style="color:#719e07">desc</span>
+</span></span><span style="display:flex;"><span> <span style="color:#719e07">limit</span> <span style="color:#2aa198">5</span>;
+</span></span></code></pre></div><pre tabindex="0"><code>    name     │ season_points │ row_count 
+═════════════╪═══════════════╪═══════════
+ Mercedes    │          1530 │        42
+ Red Bull    │           936 │        42
+ Ferrari     │           796 │        42
+ Force India │           346 │        42
+ Williams    │           276 │        42
+(5 rows)
+</code></pre><p>Mercedes&rsquo; actual 2016 constructor championship total is 765 points. The join
+doubles it: 2016 had 21 races, each constructor entered 2 drivers, so each
+<code>constructorresults</code> row matches 2 <code>results</code> rows and is summed twice. The
+42 in <code>row_count</code> is the tell — 21 races × 2 drivers. There is no <code>DISTINCT</code>
+fix for <code>SUM</code>. The right approach collapses each &ldquo;many&rdquo; side to one row per
+constructor before joining:</p>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#719e07">with</span> season_points <span style="color:#719e07">as</span> (
+</span></span><span style="display:flex;"><span>  <span style="color:#719e07">select</span> cr.constructorid,
+</span></span><span style="display:flex;"><span>         r.<span style="color:#719e07">year</span>,
+</span></span><span style="display:flex;"><span>         <span style="color:#719e07">sum</span>(cr.points) <span style="color:#719e07">as</span> season_points
+</span></span><span style="display:flex;"><span>    <span style="color:#719e07">from</span> f1db.constructorresults cr
+</span></span><span style="display:flex;"><span>    <span style="color:#719e07">join</span> f1db.races r <span style="color:#719e07">using</span> (raceid)
+</span></span><span style="display:flex;"><span>   <span style="color:#719e07">group</span> <span style="color:#719e07">by</span> cr.constructorid, r.<span style="color:#719e07">year</span>
+</span></span><span style="display:flex;"><span>),
+</span></span><span style="display:flex;"><span>entries <span style="color:#719e07">as</span> (
+</span></span><span style="display:flex;"><span>  <span style="color:#719e07">select</span> res.constructorid,
+</span></span><span style="display:flex;"><span>         r.<span style="color:#719e07">year</span>,
+</span></span><span style="display:flex;"><span>         <span style="color:#719e07">count</span>(<span style="color:#719e07">*</span>) <span style="color:#719e07">as</span> driver_entries
+</span></span><span style="display:flex;"><span>    <span style="color:#719e07">from</span> f1db.results res
+</span></span><span style="display:flex;"><span>    <span style="color:#719e07">join</span> f1db.races r <span style="color:#719e07">using</span> (raceid)
+</span></span><span style="display:flex;"><span>   <span style="color:#719e07">group</span> <span style="color:#719e07">by</span> res.constructorid, r.<span style="color:#719e07">year</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span><span style="color:#719e07">select</span> <span style="color:#719e07">c</span>.name,
+</span></span><span style="display:flex;"><span>       sp.season_points,
+</span></span><span style="display:flex;"><span>       e.driver_entries
+</span></span><span style="display:flex;"><span>  <span style="color:#719e07">from</span> f1db.constructors <span style="color:#719e07">c</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#719e07">join</span> season_points sp <span style="color:#719e07">using</span> (constructorid)
+</span></span><span style="display:flex;"><span>  <span style="color:#719e07">join</span> entries        e <span style="color:#719e07">using</span> (constructorid, <span style="color:#719e07">year</span>)
+</span></span><span style="display:flex;"><span> <span style="color:#719e07">where</span> sp.<span style="color:#719e07">year</span> <span style="color:#719e07">=</span> <span style="color:#2aa198">2016</span>
+</span></span><span style="display:flex;"><span> <span style="color:#719e07">order</span> <span style="color:#719e07">by</span> sp.season_points <span style="color:#719e07">desc</span>
+</span></span><span style="display:flex;"><span> <span style="color:#719e07">limit</span> <span style="color:#2aa198">5</span>;
+</span></span></code></pre></div><pre tabindex="0"><code>    name     │ season_points │ driver_entries 
+═════════════╪═══════════════╪════════════════
+ Mercedes    │           765 │             42
+ Red Bull    │           468 │             42
+ Ferrari     │           398 │             42
+ Force India │           173 │             42
+ Williams    │           138 │             42
+(5 rows)
+</code></pre><p>Each CTE produces one row per (constructor, year) before any join happens.
+The year filter is written once in the outer <code>WHERE</code> — PostgreSQL pushes it
+into both CTEs automatically. <code>EXPLAIN</code> makes that visible:</p>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#719e07">EXPLAIN</span>
+</span></span><span style="display:flex;"><span><span style="color:#719e07">with</span> season_points <span style="color:#719e07">as</span> ( ... ),
+</span></span><span style="display:flex;"><span>     entries       <span style="color:#719e07">as</span> ( ... )
+</span></span><span style="display:flex;"><span><span style="color:#719e07">select</span> ...
+</span></span><span style="display:flex;"><span> <span style="color:#719e07">where</span> sp.<span style="color:#719e07">year</span> <span style="color:#719e07">=</span> <span style="color:#2aa198">2016</span> ...;
+</span></span></code></pre></div><pre tabindex="0"><code> Limit
+   -&gt; Sort  (Sort Key: sp.season_points DESC)
+       -&gt; Hash Join  (Hash Cond: c.constructorid = e.constructorid)
+           -&gt; Hash Join  (Hash Cond: c.constructorid = sp.constructorid)
+               -&gt; Seq Scan on constructors c
+               -&gt; Hash
+                   -&gt; Subquery Scan on sp
+                       -&gt; HashAggregate  (Group Key: cr.constructorid)
+                           -&gt; Hash Join  (Hash Cond: cr.raceid = r.raceid)
+                               -&gt; Seq Scan on constructorresults cr
+                               -&gt; Hash
+                                   -&gt; Seq Scan on races r
+                                         Filter: (year = 2016)   ← pushed down
+           -&gt; Hash
+               -&gt; Subquery Scan on e
+                   -&gt; HashAggregate  (Group Key: res.constructorid)
+                       -&gt; Hash Join  (Hash Cond: res.raceid = r_1.raceid)
+                           -&gt; Seq Scan on results res
+                           -&gt; Hash
+                               -&gt; Seq Scan on races r_1
+                                     Filter: (year = 2016)   ← pushed down
+</code></pre><p><code>Filter: (year = 2016)</code> appears inside the <code>races</code> scan in both CTE branches,
+not as a post-aggregation filter on the outer result. Since PostgreSQL 12,
+non-materialized CTEs are inlined by default and the planner can push
+predicates through them. The year column also disappears from the group key
+(<code>Group Key: cr.constructorid</code>, not <code>cr.constructorid, r.year</code>) — once the
+filter pins year to a constant, grouping by it adds no further distinction.</p>
+
+
+      <aside class="lesson_email_capture" aria-label="Get the book intro as a PDF">
+  <div class="email_capture_copy">
+    <strong>This chapter is from <em>The Art of PostgreSQL</em>.</strong>
+    <p>Get a free chapter of the 2026 edition — including the full Table of Contents — plus the next lessons by email.</p>
+  </div>
+  <script async data-uid="c1452ad801" src="https://f.convertkit.com/c1452ad801/ad53e74e51.js"></script>
+</aside>
+
+
+
+      
+      <aside class="lesson_course_attr">
+        <i class="fa-solid fa-graduation-cap"></i>
+        <p>This lesson is a preview from the <b>Advanced JOIN Techniques</b> course.
+        <a href="/course/">See the full curriculum →</a></p>
+      </aside>
+      
+
+      <footer class="lesson_footer">
+        
+        <p class="tags"><a href="http://localhost:1313/tags/sql">#SQL</a> <a href="http://localhost:1313/tags/join">#JOIN</a> <a href="http://localhost:1313/tags/cardinality">#cardinality</a> <a href="http://localhost:1313/tags/aggregation">#aggregation</a> <a href="http://localhost:1313/tags/correctness">#correctness</a> </p>
+        
+      </footer>
+    </article>
+
+    <aside class="lesson_sidebar">
+      <div class="sidebar_block">
+        <h6>Joins &amp; Relations</h6>
+        <ul>
+          
+          <li><a href="/yesql/joins-and-relations/what-is-a-join/">What is an SQL JOIN?</a></li>
+          
+          <li class="current"><a href="/yesql/joins-and-relations/join-output-cardinality/">JOIN Output Cardinality: Why Your Row Counts Surprise You</a></li>
+          
+          <li><a href="/yesql/joins-and-relations/with-recursive/">WITH RECURSIVE: Walking a River Network</a></li>
+          
+          <li><a href="/yesql/joins-and-relations/lateral-join-top-n/">LATERAL JOIN for Top-N Per Group</a></li>
+          
+        </ul>
+      </div>
+
+      <div class="sidebar_block">
+        <h6>Tools</h6>
+        <ul>
+          <li><a href="/compute-database-size/">Compute Database Size</a></li>
+          <li><a href="/explain-plan-visualizer/">Query Plan Visualizer</a></li>
+        </ul>
+      </div>
+
+      <div class="sidebar_block sidebar_lab">
+        <i class="fa-solid fa-flask"></i>
+        <h6>Try it Yourself</h6>
+        <p>A free Docker setup ships all datasets pre-loaded. One command and you're in a live <code>psql</code> session.</p>
+        <a href="/lab/" class="button button_purple">Open the Lab</a>
+        <a href="https://github.com/dimitri/TheArtOfPostgreSQL" class="lab_github_link" rel="noopener"><i class="fa-brands fa-github"></i> Starter Kit on GitHub</a>
+      </div>
+
+
+    </aside>
+  </div>
+</div>
+
+
+<section class="yesql_offer">
+  <div class="wrapper">
+    <div class="offer_card">
+      <p class="offer_eyebrow">Keep going</p>
+      <h3>Advanced JOIN Techniques</h3>
+      <p>Amplification is chapter three. The course covers all JOIN types, LATERAL joins, self-joins, join performance (nested loop, hash join, merge join), and how to design schemas and queries where joins stay predictable.</p>
+      <a href="/course/" class="button button_purple button_large">Explore the Course</a>
+    </div>
+  </div>
+</section>
+
+
+ 
+
+<footer class="footer">
+	<div class="wrapper">
+	    <div class="about_block">
+	        <h6>about the author</h6>
+	        <p>Hi! My name is Dimitri Fontaine and I have been using and contributing to Open Source Software for the best of the last 20 years. I am a PostgreSQL Major Contributor after having contributed Extensions and Event Triggers, among other things.</p>
+	        <p>I have been writing code almost daily for a very long time now, both in a professional capacity and on my leisure time. I&rsquo;ve also been a database architect and a DBA on-call. As a developer I enjoy using SQL. As a database architect, I like teaching advanced SQL techniques to my colleagues.</p>
+	        <ul>
+	            <li><a target="_blank" href="mailto:dim@tapoueh.org">email</a></li>
+	            <li><a target="_blank" href="https://twitter.com/tapoueh">twitter</a></li>
+	            <li><a target="_blank" href="https://github.com/dimitri">github</a></li>
+	            <li><a target="_blank" href="https://www.reddit.com/user/theartofpostgresql">reddit</a></li>
+	            <li><a href="/updates/">what's new</a></li>
+	        </ul>
+    	</div>
+	    <div class="faq_block">
+            <h6>FAQ</h6>
+	        <dl>
+	           <dt>What if the book isn&rsquo;t what I expected it would be?</dt>
+	           <dd>The Art of PostgreSQL is a book that teaches SQL to application developers. If it's not of any value to you, then just say so and I'll refund you, no questions asked.</dd>
+	           <dt>I bought the book, and I'm confused. What now?</dt>
+	           <dd>
+                     The content of the book is available as a PDF, ePub and
+	             MOBI file, and you can also download the SQL queries.
+	             The content is available over
+	             at <a href="https://members.theartofpostgresql.com/courses/the-art-of-postgresql/"
+	             target="_">https://members.theartofpostgresql.com/courses/the-art-of-postgresql/</a>
+	             from your student dashboard.
+                   </dd>
+	           <dt>Is there any DRM?</dt>
+	           <dd>No. There isn't even watermarking on the PDF. You own what you buy. The sources of data selected for the book are all available with Open Data types of licenses, and the book itself is copyright Dimitri Fontaine. All rights reserved.</dd>
+	           <dt>Any other questions?</dt>
+	           <dd>Contact me by <a href="mailto:dim@tapoueh.org">email</a> and just ask! I will do my best to answer you.</dd>
+	        </dl>
+     	    </div>
+	</div>
+</footer>
+
+
+
+
+
+
+<div class="copyright">
+    <div class="wrapper">
+        Copyright 2019-2026 &copy; Dimitri Fontaine. All rights reserved. Design by <a style="color: white; font-weight: bold;" target="_blank" href="https://www.terrilowry.com">TerriLowry.com.</a>
+    </div>
+</div>
+
+
+ 
+
+<script type="text/javascript">
+  var subscribersSiteId='1296f531-7ba0-406f-89e1-bdca40a36208';
+</script>
+<script type="text/javascript"
+        src="https://cdn.subscribers.com/assets/subscribers.js">
+</script>
+  
+
+ 
+
+<script>
+!function(e,t,n,s,u,a){e.twq||(s=e.twq=function(){s.exe?s.exe.apply(s,arguments):s.queue.push(arguments);
+},s.version='1.1',s.queue=[],u=t.createElement(n),u.async=!0,u.src='//static.ads-twitter.com/uwt.js',
+a=t.getElementsByTagName(n)[0],a.parentNode.insertBefore(u,a))}(window,document,'script');
+
+twq('init','o0ial');
+twq('track','PageView');
+</script>
+
+
+</body>
+</html> 
+
