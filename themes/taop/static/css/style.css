@@ -341,6 +341,15 @@ body.course .welcome_slider ul li {
   right: 20px;
   transform: translateY(-50%);
 }
+.sticky-cta-wrapper .button.button_purple {
+  background: #60b2d3;
+  border-color: #372649;
+}
+.sticky-cta-wrapper .button.button_purple:hover {
+  background: #372649;
+  border-color: #60b2d3;
+}
+
 .header nav ul {
   display: flex;
   flex-wrap: wrap;
@@ -686,7 +695,7 @@ body.course .welcome_slider ul li {
 }
 .price_list > li > div .button {
   min-width: 175px;
-  position: absolute;
+  /* position: absolute; */
   bottom: 25px;
   left: calc(50% - 87px);
 }
@@ -2820,7 +2829,6 @@ body.lab .welcome_slider {
 
 /* Course Book Inclusion */
 .course_book_inclusion {
-  padding: 80px 0;
   background: #f8f7f9;
 }
 .course_book_inclusion .wrapper {
@@ -2832,6 +2840,7 @@ body.lab .welcome_slider {
   gap: 60px;
   max-width: 900px;
   margin: 0 auto;
+  padding: 80px;
 }
 .course_book_inclusion .book_image {
   flex-shrink: 0;
@@ -2874,6 +2883,15 @@ body.lab .welcome_slider {
 }
 .course_final_cta .cta_buttons {
   margin-top: 30px;
+}
+
+/* Newsletter Subscribe Block */
+.newsletter_subscribe_block {
+  background: url(../images/demo/packages_bg.png) left top no-repeat,
+    url(../images/demo/packages_bg2.png) right bottom no-repeat;
+  background-color: #dfdde1;
+  padding: 80px 0;
+  text-align: center;
 }
 
 /* Mobile adjustments */
@@ -3829,10 +3847,12 @@ body.newsletter .index_hero .hero_cta .button.button_outline:hover {
   margin-top: 20px;
 }
 
+.index_workshops .button.button_purple, 
 .index_workshops .section_cta .button.button_purple {
   background: #60b2d3;
   border-color: #372649;
 }
+.index_workshops .button.button_purple:hover, 
 .index_workshops .section_cta .button.button_purple:hover {
   background: #372649;
   border-color: #60b2d3;
