@@ -1,76 +1,7 @@
-{{/*
-  yesql/email-capture.html — inline email-capture bar rendered at the end of every
-  lesson page (included once in layouts/yesql/single.html).
-
-  TODO: Create your Kit form at app.kit.com, then:
-    1. Replace KIT_FORM_ID (below) with the numeric form ID shown in the embed code.
-    2. The JS path POSTs to api.kit.com/v4/forms/{id}/subscribe. That endpoint
-       requires an X-Kit-Api-Key header — either:
-         a) Add a lightweight proxy (Netlify Function / Cloudflare Worker) that
-            injects the key and call that URL instead, or
-         b) Replace the JS block with the Kit inline-embed <script> tag from
-            app.kit.com/forms/{id}/edit → "Embed" tab.
-       The <form action> provides a fully working no-JS fallback regardless.
-*/}}
-{{- $kitFormID  := "YOUR_KIT_FORM_ID" -}}{{/* TODO: replace with real Kit form ID */}}
-{{- $kitAction  := printf "https://app.kit.com/forms/%s/subscriptions" $kitFormID -}}
-
 <aside class="lesson_email_capture" aria-label="Get the book intro as a PDF">
   <div class="email_capture_copy">
-    <strong>Reading this from the book?</strong>
-    <p>This chapter is from <em>The Art of PostgreSQL</em>. Get the 2026 edition intro as a PDF, plus the next lessons by email.</p>
+    <strong>This chapter is from <em>The Art of PostgreSQL</em>.</strong>
+    <p>Get a free chapter of the 2026 edition — including the full Table of Contents — plus the next lessons by email.</p>
   </div>
-  <form class="email_capture_form"
-        action="{{ $kitAction }}"
-        method="post"
-        data-kit-form="{{ $kitFormID }}"
-        novalidate>
-    <label for="ec_email" class="visually-hidden">Email address</label>
-    <input id="ec_email" type="email" name="email_address"
-           placeholder="you@example.com" required autocomplete="email">
-    <button type="submit">Send me the PDF</button>
-  </form>
-  <p class="email_capture_success" hidden role="status">Done — check your inbox!</p>
-  <p class="email_capture_error" hidden role="alert">
-    Something went wrong. <a href="{{ $kitAction }}">Try this link instead.</a>
-  </p>
+  <script async data-uid="c1452ad801" src="https://f.convertkit.com/c1452ad801/ad53e74e51.js"></script>
 </aside>
-
-<script>
-(function () {
-  // TODO: Replace with your Kit form ID once created (must match the Hugo constant above).
-  var KIT_FORM_ID = '{{ $kitFormID }}';
-
-  document.querySelectorAll('[data-kit-form]').forEach(function (form) {
-    form.addEventListener('submit', function (e) {
-      e.preventDefault();
-      var wrap  = form.closest('.lesson_email_capture');
-      var input = form.querySelector('input[type="email"]');
-      var btn   = form.querySelector('button[type="submit"]');
-      var ok    = wrap.querySelector('.email_capture_success');
-      var err   = wrap.querySelector('.email_capture_error');
-
-      btn.disabled    = true;
-      btn.textContent = 'Sending…';
-
-      // TODO: If api.kit.com rejects the CORS preflight, route through a proxy
-      // that adds: 'X-Kit-Api-Key': '<your-public-key>'
-      fetch('https://api.kit.com/v4/forms/' + KIT_FORM_ID + '/subscribe', {
-        method:  'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body:    JSON.stringify({ email_address: input.value }),
-      })
-      .then(function (res) {
-        if (!res.ok) throw new Error(res.status);
-        form.hidden = true;
-        ok.hidden   = false;
-      })
-      .catch(function () {
-        btn.disabled    = false;
-        btn.textContent = 'Send me the PDF';
-        err.hidden      = false;
-      });
-    });
-  });
-}());
-</script>
