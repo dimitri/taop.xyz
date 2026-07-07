@@ -1,0 +1,11 @@
+{{/* Contextual CTA card. Call with: (dict "eyebrow" "..." "title" "..." "body" "..." "url" "..." "label" "...") */}}
+<section class="yesql_offer">
+  <div class="wrapper">
+    <div class="offer_card">
+      {{ with .eyebrow }}<p class="offer_eyebrow">{{ . }}</p>{{ end }}
+      <h3>{{ .title }}</h3>
+      <p>{{ .body }}</p>
+      <a href="{{ .url }}" class="button button_purple button_large">{{ .label }}</a>
+    </div>
+  </div>
+</section>

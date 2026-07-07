@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>{{ with .Title }}{{ . }} · {{ end }}The Art of PostgreSQL</title>
+	<meta name="description" content="{{ with .Description }}{{ . }}{{ else }}{{ with .Params.summary }}{{ . }}{{ else }}Practical PostgreSQL for developers, one concept at a time.{{ end }}{{ end }}">
+
+	<meta name="twitter:card" content="summary" />
+	<meta name="twitter:site" content="@tapoueh" />
+	<meta name="twitter:creator" content="@tapoueh" />
+	<meta property="og:url" content="{{ .Permalink }}" />
+	<meta property="og:title" content="{{ with .Title }}{{ . }} · {{ end }}YeSQL" />
+	<meta property="og:description" content="Practical PostgreSQL for developers, one concept at a time." />
+	<meta property="og:image" content="https://theartofpostgresql.com/images/hardcover-mockup.jpg" />
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+
+	<link href="/favicon.ico" rel="icon" type="image/x-icon">
+
+	<link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/yesql.css">
+	<link rel="stylesheet" href="/syntax.css">
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="/js/custom.js"></script>
+</head>
+<body class="yesql">
