@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 440"
+     role="img" aria-label="Band membership timelines: Queen, RHCP, and Motörhead, with a point-in-time query for Live Aid, 13 July 1985">
+  <defs>
+    <marker id="arr" markerWidth="6" markerHeight="5" refX="5" refY="2.5" orient="auto">
+      <polygon points="0 0,6 2.5,0 5" fill="#94a3b8"/>
+    </marker>
+    <marker id="arr-q" markerWidth="6" markerHeight="5" refX="5" refY="2.5" orient="auto">
+      <polygon points="0 0,6 2.5,0 5" fill="#1e40af"/>
+    </marker>
+    <marker id="arr-r" markerWidth="6" markerHeight="5" refX="5" refY="2.5" orient="auto">
+      <polygon points="0 0,6 2.5,0 5" fill="#166534"/>
+    </marker>
+    <marker id="arr-m" markerWidth="6" markerHeight="5" refX="5" refY="2.5" orient="auto">
+      <polygon points="0 0,6 2.5,0 5" fill="#991b1b"/>
+    </marker>
+    <marker id="arr-d" markerWidth="6" markerHeight="5" refX="5" refY="2.5" orient="auto">
+      <polygon points="0 0,6 2.5,0 5" fill="#6b21a8"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="860" height="440" fill="white"/>
+
+  <!-- ── X axis setup: 1968 → 2025, left_margin=135, px/yr=12.5 ── -->
+  <!-- px(yr) = 135 + (yr - 1968) * 12.5 -->
+  <!-- Key positions:
+    1970=160  1975=222  1980=285  1985=347  1990=410  1995=472
+    1997=497  2000=535  2009=662  2015=722  2016=735  2020=785  2025=847
+    LiveAid 1985-07-13 = 135 + 17.54*12.5 = 354
+  -->
+
+  <!-- ── X axis ── -->
+  <line x1="135" y1="398" x2="850" y2="398" stroke="#9ca3af" stroke-width="1" marker-end="url(#arr)"/>
+
+  <!-- Tick marks + year labels -->
+  <g font-size="9" font-family="ui-sans-serif,sans-serif" fill="#94a3b8" text-anchor="middle">
+    <!-- 1970: x=160 -->
+    <line x1="160" y1="394" x2="160" y2="402" stroke="#94a3b8" stroke-width="1"/>
+    <text x="160" y="413">1970</text>
+    <!-- 1975: x=222 -->
+    <line x1="222" y1="394" x2="222" y2="402" stroke="#94a3b8" stroke-width="1"/>
+    <text x="222" y="413">1975</text>
+    <!-- 1980: x=285 -->
+    <line x1="285" y1="394" x2="285" y2="402" stroke="#94a3b8" stroke-width="1"/>
+    <text x="285" y="413">1980</text>
+    <!-- 1985: x=347 -->
+    <line x1="347" y1="394" x2="347" y2="402" stroke="#94a3b8" stroke-width="1"/>
+    <text x="347" y="413">1985</text>
+    <!-- 1990: x=410 -->
+    <line x1="410" y1="394" x2="410" y2="402" stroke="#94a3b8" stroke-width="1"/>
+    <text x="410" y="413">1990</text>
+    <!-- 1995: x=472 -->
+    <line x1="472" y1="394" x2="472" y2="402" stroke="#94a3b8" stroke-width="1"/>
+    <text x="472" y="413">1995</text>
+    <!-- 2000: x=535 -->
+    <line x1="535" y1="394" x2="535" y2="402" stroke="#94a3b8" stroke-width="1"/>
+    <text x="535" y="413">2000</text>
+    <!-- 2005: x=597 -->
+    <line x1="597" y1="394" x2="597" y2="402" stroke="#94a3b8" stroke-width="1"/>
+    <text x="597" y="413">2005</text>
+    <!-- 2010: x=660 -->
+    <line x1="660" y1="394" x2="660" y2="402" stroke="#94a3b8" stroke-width="1"/>
+    <text x="660" y="413">2010</text>
+    <!-- 2015: x=722 -->
+    <line x1="722" y1="394" x2="722" y2="402" stroke="#94a3b8" stroke-width="1"/>
+    <text x="722" y="413">2015</text>
+    <!-- 2020: x=785 -->
+    <line x1="785" y1="394" x2="785" y2="402" stroke="#94a3b8" stroke-width="1"/>
+    <text x="785" y="413">2020</text>
+  </g>
+
+  <!-- ── Live Aid query line ── -->
+  <!-- 1985-07-13: x = 135 + 17.54*12.5 = 354 -->
+  <line x1="354" y1="18" x2="354" y2="398" stroke="#ea580c" stroke-width="1.2" stroke-dasharray="5,3"/>
+  <text x="354" y="14" text-anchor="middle" fill="#ea580c" font-size="9.5" font-family="ui-sans-serif,sans-serif" font-style="italic">Live Aid, 13 Jul 1985</text>
+  <text x="354" y="428" text-anchor="middle" fill="#ea580c" font-size="8.5" font-family="ui-monospace,monospace">@&gt; '1985-07-13'</text>
+
+  <!-- ── Section separators ── -->
+  <line x1="5"   y1="122" x2="855" y2="122" stroke="#e5e7eb" stroke-width="1" stroke-dasharray="3,3"/>
+  <line x1="5"   y1="240" x2="855" y2="240" stroke="#e5e7eb" stroke-width="1" stroke-dasharray="3,3"/>
+  <line x1="5"   y1="340" x2="855" y2="340" stroke="#e5e7eb" stroke-width="1" stroke-dasharray="3,3"/>
+
+  <!-- ── Section labels ── -->
+  <g font-size="9.5" font-weight="bold" font-family="ui-sans-serif,sans-serif" text-anchor="middle">
+    <text x="22" y="72"  fill="#1e40af" transform="rotate(-90,22,72)">Queen</text>
+    <text x="22" y="190" fill="#166534" transform="rotate(-90,22,190)">Red Hot Chili Peppers</text>
+    <text x="22" y="297" fill="#991b1b" transform="rotate(-90,22,297)">Motörhead</text>
+    <text x="22" y="370" fill="#6b21a8" transform="rotate(-90,22,370)" font-size="8.5">Mikkey Dee</text>
+  </g>
+
+  <!-- ═══════════════ QUEEN ═══════════════ -->
+  <!-- Roger Taylor: 1970-06-27 to infinity → x=160 to 847 -->
+  <rect x="160" y="35" width="687" height="14" rx="2" fill="#dbeafe" stroke="#1e40af" stroke-width="0.8"/>
+  <line x1="843" y1="42" x2="852" y2="42" stroke="#1e40af" stroke-width="1.2" marker-end="url(#arr-q)"/>
+  <text x="130" y="46" text-anchor="end" font-size="9" font-family="ui-sans-serif,sans-serif" fill="#334155">Roger Taylor</text>
+
+  <!-- Brian May: 1970-06-27 to infinity → x=160 to 847 -->
+  <rect x="160" y="57" width="687" height="14" rx="2" fill="#dbeafe" stroke="#1e40af" stroke-width="0.8"/>
+  <line x1="843" y1="64" x2="852" y2="64" stroke="#1e40af" stroke-width="1.2" marker-end="url(#arr-q)"/>
+  <text x="130" y="68" text-anchor="end" font-size="9" font-family="ui-sans-serif,sans-serif" fill="#334155">Brian May</text>
+
+  <!-- Freddie Mercury: 1970-06-27 to 1991-11-24 → x=160 to 427 -->
+  <rect x="160" y="79" width="267" height="14" rx="2" fill="#dbeafe" stroke="#1e40af" stroke-width="0.8"/>
+  <text x="130" y="90" text-anchor="end" font-size="9" font-family="ui-sans-serif,sans-serif" fill="#334155">Freddie Mercury</text>
+
+  <!-- John Deacon: 1971-02-01 to 1997-01-31 → x=174 to 497 -->
+  <rect x="174" y="101" width="323" height="14" rx="2" fill="#dbeafe" stroke="#1e40af" stroke-width="0.8"/>
+  <text x="130" y="112" text-anchor="end" font-size="9" font-family="ui-sans-serif,sans-serif" fill="#334155">John Deacon</text>
+
+  <!-- Queen query dots (x=354) -->
+  <circle cx="354" cy="42"  r="4" fill="#ea580c"/>
+  <circle cx="354" cy="64"  r="4" fill="#ea580c"/>
+  <circle cx="354" cy="86"  r="4" fill="#ea580c"/>
+  <circle cx="354" cy="108" r="4" fill="#ea580c"/>
+
+  <!-- ═══════════════ RHCP ═══════════════ -->
+  <!-- Anthony Kiedis: 1983-01 to infinity → x=323 to 847 -->
+  <rect x="323" y="135" width="524" height="14" rx="2" fill="#dcfce7" stroke="#166534" stroke-width="0.8"/>
+  <line x1="843" y1="142" x2="852" y2="142" stroke="#166534" stroke-width="1.2" marker-end="url(#arr-r)"/>
+  <text x="130" y="146" text-anchor="end" font-size="9" font-family="ui-sans-serif,sans-serif" fill="#334155">Anthony Kiedis</text>
+
+  <!-- Flea: 1983-01 to infinity → x=323 to 847 -->
+  <rect x="323" y="157" width="524" height="14" rx="2" fill="#dcfce7" stroke="#166534" stroke-width="0.8"/>
+  <line x1="843" y1="164" x2="852" y2="164" stroke="#166534" stroke-width="1.2" marker-end="url(#arr-r)"/>
+  <text x="130" y="168" text-anchor="end" font-size="9" font-family="ui-sans-serif,sans-serif" fill="#334155">Flea</text>
+
+  <!-- Chad Smith: 1988-01 to infinity → x=385 to 847 -->
+  <rect x="385" y="179" width="462" height="14" rx="2" fill="#dcfce7" stroke="#166534" stroke-width="0.8"/>
+  <line x1="843" y1="186" x2="852" y2="186" stroke="#166534" stroke-width="1.2" marker-end="url(#arr-r)"/>
+  <text x="130" y="190" text-anchor="end" font-size="9" font-family="ui-sans-serif,sans-serif" fill="#334155">Chad Smith</text>
+
+  <!-- John Frusciante: 3 stints (highlighted red) -->
+  <!-- Stint 1: 1988-01 to 1992-05-07 → x=385 to 439 -->
+  <rect x="385" y="201" width="54"  height="14" rx="2" fill="#fee2e2" stroke="#991b1b" stroke-width="1.2"/>
+  <!-- Stint 2: 1998-04 to 2009-12-31 → x=513 to 662 -->
+  <rect x="513" y="201" width="149" height="14" rx="2" fill="#fee2e2" stroke="#991b1b" stroke-width="1.2"/>
+  <!-- Stint 3: 2019-12-15 to infinity → x=785 to 847 -->
+  <rect x="785" y="201" width="58"  height="14" rx="2" fill="#fee2e2" stroke="#991b1b" stroke-width="1.2"/>
+  <line x1="839" y1="208" x2="850" y2="208" stroke="#991b1b" stroke-width="1.2" marker-end="url(#arr-m)"/>
+  <text x="130" y="212" text-anchor="end" font-size="9" font-weight="bold" font-family="ui-sans-serif,sans-serif" fill="#991b1b">John Frusciante</text>
+
+  <!-- Dave Navarro: 1993-09 to 1998-04 → x=456 to 513 -->
+  <rect x="456" y="223" width="57"  height="14" rx="2" fill="#dcfce7" stroke="#166534" stroke-width="0.8"/>
+  <text x="130" y="234" text-anchor="end" font-size="9" font-family="ui-sans-serif,sans-serif" fill="#334155">Dave Navarro</text>
+
+  <!-- RHCP query dots (x=354) — only Kiedis and Flea; others joined after 1985 -->
+  <circle cx="354" cy="142" r="4" fill="#ea580c"/>
+  <circle cx="354" cy="164" r="4" fill="#ea580c"/>
+
+  <!-- ═══════════════ MOTÖRHEAD ═══════════════ -->
+  <!-- Lemmy Kilmister: 1975-06 to 2015-12-28 → x=222 to 722 -->
+  <rect x="222" y="253" width="500" height="14" rx="2" fill="#fee2e2" stroke="#991b1b" stroke-width="0.8"/>
+  <text x="130" y="264" text-anchor="end" font-size="9" font-family="ui-sans-serif,sans-serif" fill="#334155">Lemmy Kilmister</text>
+
+  <!-- Phil Taylor: 2 stints (highlighted) -->
+  <!-- Stint 1: 1975-11 to 1984-05 → x=233 to 339 -->
+  <rect x="233" y="275" width="106" height="14" rx="2" fill="#fee2e2" stroke="#991b1b" stroke-width="1.2"/>
+  <!-- Stint 2: 1987-06 to 1992-01 → x=373 to 435 -->
+  <rect x="373" y="275" width="62"  height="14" rx="2" fill="#fee2e2" stroke="#991b1b" stroke-width="1.2"/>
+  <text x="130" y="286" text-anchor="end" font-size="9" font-weight="bold" font-family="ui-sans-serif,sans-serif" fill="#991b1b">Phil Taylor</text>
+
+  <!-- Phil Campbell: 1984-02 to 2015-12-28 → x=336 to 722 -->
+  <rect x="336" y="297" width="386" height="14" rx="2" fill="#fee2e2" stroke="#991b1b" stroke-width="0.8"/>
+  <text x="130" y="308" text-anchor="end" font-size="9" font-family="ui-sans-serif,sans-serif" fill="#334155">Phil Campbell</text>
+
+  <!-- Mikkey Dee (in Motörhead): 1992-01 to 2015-12-28 → x=435 to 722 -->
+  <rect x="435" y="319" width="287" height="14" rx="2" fill="#f3e8ff" stroke="#6b21a8" stroke-width="0.8"/>
+  <text x="130" y="330" text-anchor="end" font-size="9" font-weight="bold" font-family="ui-sans-serif,sans-serif" fill="#6b21a8">Mikkey Dee</text>
+
+  <!-- Motörhead query dot: Lemmy yes (x=354); Phil Taylor gap (NO); Phil Campbell yes; Mikkey no -->
+  <circle cx="354" cy="260" r="4" fill="#ea580c"/>
+  <circle cx="354" cy="304" r="4" fill="#ea580c"/>
+
+  <!-- ═══════════════ MIKKEY DEE ELSEWHERE ═══════════════ -->
+  <!-- King Diamond: 1985-06 to 1992-01 → x=354 to 435 -->
+  <rect x="354" y="353" width="81"  height="14" rx="2" fill="#f3e8ff" stroke="#6b21a8" stroke-width="1.2"/>
+  <text x="130" y="364" text-anchor="end" font-size="9" font-weight="bold" font-family="ui-sans-serif,sans-serif" fill="#6b21a8">King Diamond</text>
+
+  <!-- Scorpions: 2016-01 to infinity → x=735 to 847 -->
+  <rect x="735" y="375" width="112" height="14" rx="2" fill="#f3e8ff" stroke="#6b21a8" stroke-width="1.2"/>
+  <line x1="843" y1="382" x2="852" y2="382" stroke="#6b21a8" stroke-width="1.2" marker-end="url(#arr-d)"/>
+  <text x="130" y="386" text-anchor="end" font-size="9" font-weight="bold" font-family="ui-sans-serif,sans-serif" fill="#6b21a8">Scorpions</text>
+
+  <!-- King Diamond query dot: YES (Live Aid is just inside start of 1985-06 stint) -->
+  <circle cx="354" cy="360" r="4" fill="#ea580c"/>
+</svg>

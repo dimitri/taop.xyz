@@ -1,0 +1,619 @@
+/* YeSQL — evergreen learning hub. Layered on top of style.css. */
+
+:root {
+  --yesql-purple: #372649;
+  --yesql-purple-2: #4a3666;
+  --yesql-lightpurple: #8b6fb0;
+  --yesql-ink: #2b2b2b;
+  --yesql-muted: #6b6b6b;
+  --yesql-line: #e7e3ec;
+  --yesql-bg: #faf9fc;
+}
+
+/* The site header is position:fixed and ~90px tall (the 40px logo + 25px
+   padding), but the global body padding-top is only 71px. Clear it. */
+body.yesql { background: var(--yesql-bg); padding-top: 96px; }
+
+.yesql_hub .wrapper,
+.yesql_concept .wrapper,
+.yesql_lesson .wrapper {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* ---- Hero / headers ---- */
+.yesql_hero,
+.concept_header {
+  text-align: center;
+  padding: 32px 0 40px;
+  border-bottom: 1px solid var(--yesql-line);
+  margin-bottom: 48px;
+}
+.yesql_hero h1,
+.concept_header h1 {
+  font-size: 3rem;
+  font-weight: 900;
+  color: var(--yesql-purple);
+  margin: 0 0 8px;
+  letter-spacing: -0.02em;
+}
+.yesql_subtitle {
+  font-size: 1.35rem;
+  font-weight: 300;
+  color: var(--yesql-lightpurple);
+  margin: 0 auto 16px;
+}
+.yesql_intro {
+  max-width: 680px;
+  margin: 0 auto;
+  color: var(--yesql-muted);
+  font-size: 1.05rem;
+  line-height: 1.7;
+}
+.concept_header > i {
+  font-size: 2.2rem;
+  color: var(--yesql-lightpurple);
+  margin-bottom: 12px;
+  display: inline-block;
+}
+
+/* ---- Hub: category grid ---- */
+.yesql_grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 24px;
+  padding-bottom: 64px;
+}
+.yesql_card {
+  display: block;
+  background: #fff;
+  border: 1px solid var(--yesql-line);
+  border-radius: 14px;
+  padding: 28px;
+  text-decoration: none;
+  transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+}
+.yesql_card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 40px rgba(55, 38, 73, 0.12);
+  border-color: var(--yesql-lightpurple);
+}
+.yesql_card i {
+  font-size: 1.7rem;
+  color: var(--yesql-lightpurple);
+  margin-bottom: 14px;
+  display: block;
+}
+.yesql_card h3 {
+  color: var(--yesql-purple);
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin: 0 0 8px;
+}
+.yesql_card p {
+  color: var(--yesql-muted);
+  font-size: .97rem;
+  line-height: 1.55;
+  margin: 0 0 16px;
+}
+.yesql_count {
+  font-size: .8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  color: var(--yesql-lightpurple);
+}
+
+/* ---- Breadcrumb ---- */
+.yesql_breadcrumb {
+  font-size: .9rem;
+  color: var(--yesql-muted);
+  padding: 8px 0 0;
+  text-align: left;
+}
+.yesql_breadcrumb a { color: var(--yesql-lightpurple); text-decoration: none; font-weight: 700; }
+.yesql_breadcrumb span { margin: 0 6px; opacity: .5; }
+
+/* ---- Concept: lesson list ---- */
+.lesson_list {
+  list-style: none;
+  margin: 0 0 64px;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 16px;
+  text-align: left;
+}
+.lesson_list li { margin: 0; }
+.lesson_list a {
+  display: block;
+  background: #fff;
+  border: 1px solid var(--yesql-line);
+  border-radius: 12px;
+  padding: 22px 26px;
+  text-decoration: none;
+  transition: border-color .15s ease, box-shadow .15s ease;
+}
+.lesson_list a:hover {
+  border-color: var(--yesql-lightpurple);
+  box-shadow: 0 10px 28px rgba(55, 38, 73, 0.08);
+}
+.lesson_list h3 { color: var(--yesql-purple); font-size: 1.2rem; margin: 0 0 6px; }
+.lesson_list p { color: var(--yesql-muted); margin: 0 0 8px; line-height: 1.55; }
+.lesson_tags { font-size: .82rem; color: var(--yesql-lightpurple); font-weight: 700; }
+.lesson_empty p { color: var(--yesql-muted); font-style: italic; }
+
+/* ---- Lesson: article + sidebar ---- */
+.yesql_lesson .wrapper {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 300px;
+  gap: 48px;
+  align-items: start;
+}
+.lesson_content { min-width: 0; padding-bottom: 40px; text-align: left; }
+.lesson_content h1 {
+  color: var(--yesql-purple);
+  font-size: 2.4rem;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  margin: 16px 0 12px;
+}
+.lesson_lede {
+  font-size: 1.2rem;
+  font-weight: 300;
+  color: var(--yesql-muted);
+  line-height: 1.6;
+  margin: 0 0 32px;
+}
+.lesson_content h2 { color: var(--yesql-purple); margin-top: 2em; }
+.lesson_content h3 { color: var(--yesql-purple); }
+.lesson_content p { line-height: 1.75; color: var(--yesql-ink); }
+.lesson_content pre {
+  border-radius: 10px;
+  padding: 16px 18px;
+  overflow-x: auto;
+  font-family: 'SFMono-Regular', Menlo, Consolas, 'Liberation Mono', monospace;
+  font-size: .8rem;
+  line-height: 1.4;
+}
+/* Text density map: height-block chars (▂▄▆█) are solid fills — no stipple.
+   line-height 1 is essential so successive rows of blocks stack without gaps. */
+.lesson_content pre.yesql_map {
+  line-height: 1;
+  letter-spacing: 0;
+  background: #272822;
+  color: #f8f8f2;
+}
+/* Plain ``` blocks (psql output, schema dumps, ASCII tables) get no syntax
+   highlighting, so they have no background of their own — give them the same
+   dark terminal look as the highlighted SQL blocks so box-drawing lines up. */
+.lesson_content > pre {
+  background: #272822;
+  color: #f8f8f2;
+  white-space: pre;
+}
+.lesson_content > pre > code {
+  background: none;
+  color: inherit;
+  font-size: inherit;
+  padding: 0;
+  white-space: inherit;
+}
+.lesson_content code { font-size: .92em; }
+.lesson_content :not(pre) > code {
+  background: #efeaf5;
+  color: var(--yesql-purple);
+  padding: 1px 6px;
+  border-radius: 5px;
+}
+
+.lesson_attribution {
+  border-left: 4px solid var(--yesql-lightpurple);
+  background: #fff;
+  padding: 16px 20px;
+  border-radius: 0 10px 10px 0;
+  margin: 40px 0 0;
+}
+.lesson_attribution p { margin: 0; color: var(--yesql-muted); }
+.lesson_attribution a { color: var(--yesql-lightpurple); font-weight: 700; text-decoration: none; }
+
+.lesson_footer .tags { margin-top: 28px; }
+.lesson_footer .tags a {
+  display: inline-block;
+  font-size: .85rem;
+  color: var(--yesql-lightpurple);
+  text-decoration: none;
+  margin-right: 10px;
+}
+
+/* ---- Lesson sidebar ---- */
+.lesson_sidebar { position: sticky; top: 108px; text-align: left; }
+.sidebar_block {
+  background: #fff;
+  border: 1px solid var(--yesql-line);
+  border-radius: 12px;
+  padding: 20px 22px;
+  margin-bottom: 20px;
+}
+.sidebar_block h6 {
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  font-size: .8rem;
+  color: var(--yesql-lightpurple);
+  margin: 0 0 12px;
+}
+.sidebar_block ul { list-style: none; margin: 0; padding: 0; }
+.sidebar_block li { margin: 0 0 8px; line-height: 1.4; }
+.sidebar_block a { color: var(--yesql-ink); text-decoration: none; }
+.sidebar_block a:hover { color: var(--yesql-lightpurple); }
+.sidebar_block li.current a { color: var(--yesql-lightpurple); font-weight: 700; }
+.sidebar_subscribe p { font-size: .95rem; color: var(--yesql-muted); margin: 0 0 12px; }
+
+/* ---- Offer / contextual CTA ---- */
+.yesql_offer {
+  background: linear-gradient(135deg, var(--yesql-purple) 0%, var(--yesql-purple-2) 100%);
+  padding: 56px 0;
+  margin-top: 24px;
+}
+.yesql_offer .offer_card {
+  max-width: 720px;
+  margin: 0 auto;
+  text-align: center;
+  padding: 0 24px;
+}
+.offer_eyebrow {
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  font-size: .8rem;
+  font-weight: 700;
+  color: var(--yesql-lightpurple);
+  margin: 0 0 10px;
+}
+.offer_card h3 { color: #fff; font-size: 1.9rem; font-weight: 900; margin: 0 0 14px; }
+.offer_card p { color: #d9d2e6; font-size: 1.08rem; line-height: 1.65; margin: 0 0 28px; }
+
+@media (max-width: 860px) {
+  .yesql_lesson .wrapper { grid-template-columns: 1fr; }
+  .lesson_sidebar { position: static; }
+  .yesql_hero h1, .concept_header h1 { font-size: 2.2rem; }
+}
+
+@media (max-width: 600px) {
+  body.yesql { padding-top: 130px; }
+}
+
+/* --- Course badge on hub category cards --- */
+.yesql_course_badge {
+  display: inline-block;
+  margin-top: 10px;
+  font-size: .78rem;
+  font-weight: 700;
+  color: #fff;
+  background: var(--yesql-lightpurple);
+  padding: 2px 10px;
+  border-radius: 20px;
+  letter-spacing: .03em;
+}
+.yesql_course_badge i { margin-right: 4px; font-size: .75rem; }
+
+/* --- Course promo block on category list pages --- */
+.category_course_promo {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  background: linear-gradient(135deg, var(--yesql-purple) 0%, var(--yesql-purple-2) 100%);
+  border-radius: 12px;
+  padding: 22px 28px;
+  margin-bottom: 32px;
+  color: #fff;
+}
+.category_course_promo > i { font-size: 2rem; color: var(--yesql-lightpurple); flex-shrink: 0; }
+.category_course_promo .promo_body { flex: 1; }
+.promo_label { font-size: .78rem; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; color: var(--yesql-lightpurple); margin: 0 0 4px; }
+.category_course_promo a { color: #fff; font-size: 1.1rem; font-weight: 700; text-decoration: none; }
+.category_course_promo a:hover { text-decoration: underline; }
+.category_course_promo p { color: #d9d2e6; font-size: .93rem; margin: 4px 0 0; }
+.category_course_promo .button { flex-shrink: 0; white-space: nowrap; }
+@media (max-width: 600px) { .category_course_promo { flex-direction: column; align-items: flex-start; } }
+
+/* --- Course attribution on lesson pages --- */
+.lesson_course_attr {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  border-left: 4px solid var(--yesql-lightpurple);
+  background: linear-gradient(90deg, #f3f0f7 0%, #fff 100%);
+  padding: 14px 18px;
+  border-radius: 0 10px 10px 0;
+  margin: 18px 0 0;
+}
+.lesson_course_attr > i { color: var(--yesql-lightpurple); margin-top: 2px; flex-shrink: 0; }
+.lesson_course_attr p { margin: 0; color: var(--yesql-muted); font-size: .95rem; }
+.lesson_course_attr a { color: var(--yesql-lightpurple); font-weight: 700; text-decoration: none; }
+.lesson_course_attr a:hover { text-decoration: underline; }
+
+/* --- Lab intro banner (inline, before lesson content) --- */
+.lesson_lab_banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  background: #f0edf6;
+  border-left: 4px solid var(--yesql-lightpurple);
+  border-radius: 0 8px 8px 0;
+  padding: 12px 16px;
+  margin-bottom: 28px;
+  font-size: .9rem;
+  color: var(--yesql-ink);
+}
+.lesson_lab_banner > i { color: var(--yesql-lightpurple); margin-top: 2px; flex-shrink: 0; }
+.lab_banner_body { line-height: 1.5; }
+.lab_banner_body strong { color: var(--yesql-purple); }
+.lab_banner_body code { font-size: .85em; background: #e3ddf0; padding: 1px 5px; border-radius: 3px; }
+.lab_banner_body a { color: var(--yesql-lightpurple); font-weight: 600; text-decoration: none; }
+.lab_banner_body a:hover { text-decoration: underline; }
+
+/* --- Lab sidebar block --- */
+.sidebar_lab {
+  background: linear-gradient(160deg, var(--yesql-purple) 0%, var(--yesql-purple-2) 100%);
+  border-radius: 10px;
+  color: #fff;
+  text-align: center;
+  padding: 20px 18px 18px;
+}
+.sidebar_lab > i { font-size: 1.6rem; color: var(--yesql-lightpurple); display: block; margin-bottom: 8px; }
+.sidebar_lab h6 { color: #fff; margin: 0 0 8px; font-size: .9rem; text-transform: uppercase; letter-spacing: .06em; }
+.sidebar_lab p { color: #d9d2e6; font-size: .88rem; margin: 0 0 14px; line-height: 1.45; }
+.sidebar_lab p code { background: rgba(255,255,255,.15); padding: 1px 5px; border-radius: 3px; font-size: .85em; }
+.sidebar_lab .button { display: flex; width: 100%; box-sizing: border-box; text-align: center; margin-bottom: 10px; }
+.sidebar_lab .button.button_purple { background: #60b2d3; border-color: #60b2d3; color: #fff; }
+.sidebar_lab .button.button_purple:hover { background: #372649; border-color: #fff; }
+.sidebar_lab .lab_github_link { display: block; color: #fff; font-size: .82rem; text-decoration: none; }
+.sidebar_lab .lab_github_link:hover { color: #d9d2e6; }
+.lab_github_link i { margin-right: 4px; }
+
+/* --- Visually-hidden utility (accessible labels) --- */
+.visually-hidden {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* --- Lesson email capture bar --- */
+.lesson_email_capture {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  background: #f3f0f7;
+  border-left: 4px solid var(--yesql-lightpurple);
+  border-radius: 0 10px 10px 0;
+  padding: 20px 24px;
+  margin: 40px 0 0;
+}
+.email_capture_copy { flex: 1; min-width: 0; }
+.email_capture_copy strong {
+  display: block;
+  color: var(--yesql-purple);
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+.email_capture_copy p { margin: 0; color: var(--yesql-muted); font-size: .9rem; line-height: 1.5; }
+.email_capture_form { display: flex; gap: 8px; flex-shrink: 0; }
+.email_capture_form input[type="email"] {
+  border: 1px solid var(--yesql-line);
+  border-radius: 20px;
+  padding: 7px 14px;
+  font-size: .9rem;
+  color: var(--yesql-ink);
+  background: #fff;
+  outline: none;
+  width: 200px;
+}
+.email_capture_form input[type="email"]:focus {
+  border-color: var(--yesql-lightpurple);
+  box-shadow: 0 0 0 3px rgba(139, 111, 176, 0.15);
+}
+.email_capture_form button[type="submit"] {
+  background: var(--yesql-lightpurple);
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  padding: 7px 18px;
+  font-size: .9rem;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background .15s ease;
+}
+.email_capture_form button[type="submit"]:disabled { opacity: .6; cursor: default; }
+.email_capture_form button[type="submit"]:not(:disabled):hover { background: var(--yesql-purple); }
+.email_capture_success,
+.email_capture_error { margin: 0; font-size: .9rem; }
+.email_capture_success { color: var(--yesql-purple); font-weight: 700; }
+.email_capture_error { color: #c0392b; }
+.email_capture_error a { color: inherit; }
+@media (max-width: 700px) {
+  .lesson_email_capture { flex-direction: column; align-items: flex-start; }
+  .email_capture_form { flex-direction: column; width: 100%; }
+  .email_capture_form input[type="email"] { width: 100%; box-sizing: border-box; }
+}
+
+/* --- Lesson diagrams --- */
+.lesson_content img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 28px auto;
+  border-radius: 6px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+}
+
+/* --- Data tables (booktabs style) ---
+   Heavy top and bottom rules, light mid rule under header,
+   no vertical lines, uppercase small-caps headers.         */
+.lesson_content table {
+  border-collapse: collapse;
+  width: auto;
+  max-width: 100%;
+  margin: 2em 0;
+  font-size: .9rem;
+  line-height: 1.5;
+}
+.lesson_content thead {
+  border-top: 2px solid var(--yesql-ink);
+}
+.lesson_content thead th {
+  padding: 7px 28px 8px 0;
+  text-align: left;
+  font-size: .76rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: var(--yesql-muted);
+  border-bottom: 1px solid var(--yesql-ink);
+  white-space: nowrap;
+}
+.lesson_content thead th:first-child { padding-left: 2px; }
+.lesson_content thead th:last-child  { padding-right: 0; }
+.lesson_content tbody { border-bottom: 2px solid var(--yesql-ink); }
+.lesson_content tbody td {
+  padding: 6px 28px 6px 0;
+  vertical-align: top;
+  color: var(--yesql-ink);
+  border-bottom: 1px solid var(--yesql-line);
+}
+.lesson_content tbody td:first-child { padding-left: 2px; }
+.lesson_content tbody td:last-child  { padding-right: 0; }
+.lesson_content tbody tr:last-child td { border-bottom: none; }
+/* Null / unknown cells rendered with em-dash */
+.lesson_content td em { font-style: normal; color: var(--yesql-muted); }
+/* Highlight rows on hover */
+.lesson_content tbody tr:hover td { background: #f5f2f9; }
+@media (max-width: 600px) {
+  .lesson_content table { font-size: .82rem; }
+  .lesson_content thead th,
+  .lesson_content tbody td { padding-right: 16px; }
+}
+
+/* --- Figures with captions --- */
+.lesson_content ul,
+.lesson_content ol {
+  padding-left: 1.6em;
+  margin: 1em 0;
+}
+.lesson_content ul { list-style: disc; }
+.lesson_content ol { list-style: decimal; }
+.lesson_content li {
+  list-style: inherit;
+  margin-bottom: .4em;
+  line-height: 1.6;
+}
+.lesson_content li > ul,
+.lesson_content li > ol {
+  margin: .4em 0 .2em;
+}
+
+.lesson_content figure {
+  margin: 2em 0;
+}
+.lesson_content figure img {
+  display: block;
+  max-width: 100%;
+}
+.lesson_content figcaption {
+  font-size: .82rem;
+  color: var(--yesql-muted);
+  margin-top: .55em;
+  font-style: italic;
+  line-height: 1.45;
+}
+
+/* --- Join-type comparison diagram ----------------------------------------
+   Replicated from the book's fig-join-types.tex: six side-by-side mini-tables
+   (Input + 5 join types) with color-coded rows.                            */
+.join-diagram {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 0;
+  overflow-x: auto;
+  margin: 2em 0 0.25em;
+  padding-bottom: 4px;
+}
+.jd-panel {
+  flex: 0 0 auto;
+  padding-right: 20px;
+}
+.jd-panel:last-child { padding-right: 0; }
+.jd-panel + .jd-panel {
+  border-left: 1px solid var(--yesql-line);
+  padding-left: 20px;
+}
+.jd-title {
+  font-size: .7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .07em;
+  color: var(--yesql-muted);
+  margin-bottom: 6px;
+  text-align: center;
+}
+.join-diagram table {
+  border-collapse: collapse;
+  margin: 0 auto;
+  font-size: .85rem;
+}
+.join-diagram thead th {
+  padding: 3px 14px;
+  font-size: .7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  color: var(--yesql-muted);
+  border-bottom: 1px solid var(--yesql-ink);
+  text-align: center;
+}
+.join-diagram tbody td {
+  padding: 3px 14px;
+  text-align: center;
+  border-bottom: 1px solid var(--yesql-line);
+  font-family: ui-monospace, 'SFMono-Regular', Menlo, monospace;
+  font-size: .82rem;
+}
+.join-diagram tbody tr:last-child td { border-bottom: none; }
+.jd-match td                { background: #ebebeb; }
+.jd-left                    { background: #fde8c4 !important; }
+.jd-right                   { background: #d4e8f5 !important; }
+.jd-null                    { background: #f5f5f5 !important; color: #aaa !important; font-style: italic; }
+.jd-note {
+  font-size: .7rem;
+  color: var(--yesql-muted);
+  text-align: center;
+  margin: 5px 0 0;
+  font-style: italic;
+  line-height: 1.35;
+}
+.jd-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  font-size: .78rem;
+  color: var(--yesql-muted);
+  margin: 0.4em 0 2em;
+}
+.jd-swatch {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  vertical-align: middle;
+  margin-right: 3px;
+}
+.jd-swatch-match { background: #ebebeb; border: 1px solid #ccc; }
+.jd-swatch-left  { background: #fde8c4; border: 1px solid #e0b870; }
+.jd-swatch-right { background: #d4e8f5; border: 1px solid #80b8d8; }
+.jd-null-token   { font-style: italic; }
