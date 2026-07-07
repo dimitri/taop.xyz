@@ -1,21 +1,19 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>Query Plan on The Art of PostgreSQL</title>
-    <link>https://theartofpostgresql.com/tags/query-plan/</link>
-    <description>Recent content in Query Plan on The Art of PostgreSQL</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
-    <lastBuildDate>Wed, 06 Nov 2019 21:45:00 +0200</lastBuildDate><atom:link href="https://theartofpostgresql.com/tags/query-plan/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>PostgreSQL Query Plan Visualizer</title>
-      <link>https://theartofpostgresql.com/postgresql-query-plan-visualizer/</link>
-      <pubDate>Wed, 06 Nov 2019 21:45:00 +0200</pubDate>
-      
-      <guid>https://theartofpostgresql.com/postgresql-query-plan-visualizer/</guid>
-      <description>Photo by unsplash-logoHanna Morris  Postgres Query Planning PostgreSQL provides advanced tooling to understand how it executes SQL queries. The execution of a query follows specific steps:
- Parsing Planning Optimization Execution  When it comes to the execution step, all Postgres does is follow the selected optimized plan. It is possible to ask Postgres for the query plan and inspect it, in order to better understand the execution of any query and then when necessary find a way to execute the same query faster.</description>
-    </item>
-    
-  </channel>
-</rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Query Plan on The Art of PostgreSQL</title><link>https://theartofpostgresql.com/tags/query-plan/</link><description>Recent content in Query Plan on The Art of PostgreSQL</description><generator>Hugo</generator><language>en-us</language><lastBuildDate>Wed, 06 Nov 2019 21:45:00 +0200</lastBuildDate><atom:link href="https://theartofpostgresql.com/tags/query-plan/index.xml" rel="self" type="application/rss+xml"/><item><title>Reading EXPLAIN</title><link>https://theartofpostgresql.com/yesql/performance/reading-explain/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://theartofpostgresql.com/yesql/performance/reading-explain/</guid><description>EXPLAIN reveals the plan PostgreSQL chose without running the query. Reading cost, row estimates, and node type fluently is the starting point for all query analysis.</description></item><item><title>PostgreSQL Query Plan Visualizer</title><link>https://theartofpostgresql.com/postgresql-query-plan-visualizer/</link><pubDate>Wed, 06 Nov 2019 21:45:00 +0200</pubDate><guid>https://theartofpostgresql.com/postgresql-query-plan-visualizer/</guid><description>&lt;div&gt;
+ &lt;p style="text-align: right;"&gt;
+ Photo by 
+&lt;a style="background-color:black;color:white;text-decoration:none;padding:4px 6px;font-family:-apple-system, BlinkMacSystemFont, &amp;quot;San Francisco&amp;quot;, &amp;quot;Helvetica Neue&amp;quot;, Helvetica, Ubuntu, Roboto, Noto, &amp;quot;Segoe UI&amp;quot;, Arial, sans-serif;font-size:12px;font-weight:bold;line-height:1.2;display:inline-block;border-radius:3px" href="https://unsplash.com/@hcmorr?utm_medium=referral&amp;amp;utm_campaign=photographer-credit&amp;amp;utm_content=creditBadge" target="_blank" rel="noopener noreferrer" title="Download free do whatever you want high-resolution photos from Hanna Morris"&gt;&lt;span style="display:inline-block;padding:2px 3px"&gt;&lt;svg xmlns="http://www.w3.org/2000/svg" style="height:12px;width:auto;position:relative;vertical-align:middle;top:-2px;fill:white" viewBox="0 0 32 32"&gt;&lt;title&gt;unsplash-logo&lt;/title&gt;&lt;path d="M10 9V0h12v9H10zm12 5h10v18H0V14h10v9h12v-9z"&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/span&gt;&lt;span style="display:inline-block;padding:2px 3px"&gt;Hanna Morris&lt;/span&gt;&lt;/a&gt;
+ &lt;/p&gt;
+&lt;/div&gt;
+&lt;h2 id="postgres-query-planning"&gt;Postgres Query Planning&lt;/h2&gt;
+&lt;p&gt;PostgreSQL provides advanced tooling to understand how it executes SQL
+queries. The execution of a query follows specific steps:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Parsing&lt;/li&gt;
+&lt;li&gt;Planning&lt;/li&gt;
+&lt;li&gt;Optimization&lt;/li&gt;
+&lt;li&gt;Execution&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;When it comes to the &lt;strong&gt;execution&lt;/strong&gt; step, all Postgres does is follow the
+selected optimized plan. It is possible to ask Postgres for the query plan
+and inspect it, in order to better understand the execution of any query and
+then when necessary find a way to execute the same query faster.&lt;/p&gt;</description></item></channel></rss>

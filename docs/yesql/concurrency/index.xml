@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+	<channel>
+		<title>Concurrency &amp; Data Changes on The Art of PostgreSQL</title>
+		<link>http://localhost:1313/yesql/concurrency/</link>
+		<description>Recent content in Concurrency &amp; Data Changes on The Art of PostgreSQL</description>
+		<generator>Hugo</generator>
+		<language>en-us</language>
+		
+		
+		
+		
+			<atom:link href="http://localhost:1313/yesql/concurrency/index.xml" rel="self" type="application/rss+xml" />
+			<item>
+				<title>INSERT, UPDATE, DELETE — and RETURNING</title>
+				<link>http://localhost:1313/yesql/concurrency/insert-update-delete/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>http://localhost:1313/yesql/concurrency/insert-update-delete/</guid>
+				<description>The three DML commands share two superpowers most developers never use: a RETURNING clause that hands back the rows you touched, and the ability to drive changes from a query.</description>
+			</item>
+			<item>
+				<title>Isolation and Locking</title>
+				<link>http://localhost:1313/yesql/concurrency/isolation-and-locking/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>http://localhost:1313/yesql/concurrency/isolation-and-locking/</guid>
+				<description>The I in ACID: PostgreSQL keeps concurrent transactions from stepping on each other so you don&amp;rsquo;t have to write locking code yourself. Pick the isolation level that matches your correctness needs.</description>
+			</item>
+			<item>
+				<title>Triggers</title>
+				<link>http://localhost:1313/yesql/concurrency/triggers/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>http://localhost:1313/yesql/concurrency/triggers/</guid>
+				<description>A trigger runs a function automatically when rows change — great for event-driven processing, but a classic way to silently destroy your write throughput if you turn inserts into updates on a shared row.</description>
+			</item>
+			<item>
+				<title>LISTEN and NOTIFY</title>
+				<link>http://localhost:1313/yesql/concurrency/listen-notify/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>http://localhost:1313/yesql/concurrency/listen-notify/</guid>
+				<description>PostgreSQL can push messages to connected clients, giving you a lightweight pub/sub bus inside your database — perfect for cache invalidation, awkward for durable queues.</description>
+			</item>
+	</channel>
+</rss>

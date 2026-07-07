@@ -1,0 +1,153 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><title>LATERAL JOIN for Top-N Per Group · The Art of PostgreSQL</title><meta name=description content="LATERAL lets the right-hand subquery reference columns from the left side — enabling top-N per group in a single scan without window functions and outer filters."><meta name=twitter:card content="summary"><meta name=twitter:site content="@tapoueh"><meta name=twitter:creator content="@tapoueh"><meta property="og:url" content="https://theartofpostgresql.com/yesql/joins-and-relations/lateral-join-top-n/"><meta property="og:title" content="LATERAL JOIN for Top-N Per Group · YeSQL"><meta property="og:description" content="Practical PostgreSQL for developers, one concept at a time."><meta property="og:image" content="https://theartofpostgresql.com/images/hardcover-mockup.jpg"><meta name=viewport content="width=device-width,initial-scale=1,minimum-scale=1"><link href=/favicon.ico rel=icon type=image/x-icon><link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900" rel=stylesheet><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css><link rel=stylesheet href=/css/style.css><link rel=stylesheet href=/css/yesql.css><link rel=stylesheet href=/syntax.css><script src=https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js></script><script src=/js/custom.js></script></head><body class=yesql><header class=header><div class=wrapper><nav><ul><li><a href=/book/><i class="fa-solid fa-book-open"></i><span class=nav-text>BOOK</span></a></li><li class=divider></li><li><a class=logo href=/>The Art of PostgreSQL</a></li><li class=divider></li><li><a href=/course/><i class="fa-solid fa-graduation-cap"></i><span class=nav-text>COURSE</span></a></li><li class=divider></li><li><a href=/workshop/><i class="fa-solid fa-microphone"></i><span class=nav-text>WORKSHOP</span></a></li><li class=divider></li><li><a href=/lab/><i class="fa-solid fa-flask"></i><span class=nav-text>LAB</span></a></li><li class=divider></li><li><a class=logo href=/>The Art of PostgreSQL</a></li><li class=divider></li><li><a href=/yesql/><i class="fa-solid fa-pen-to-square"></i><span class=nav-text>YESQL</span></a></li></ul></nav><div class=sticky-cta-wrapper><a href=https://sales.theartofpostgresql.com/the-art-of-postgresql-book/ class="sticky-cta button button_purple">Get the Book – $89</a></div></div></header><div class=yesql_lesson><div class=wrapper><article class=lesson_content><nav class=yesql_breadcrumb><a href=/yesql/>YeSQL</a> <span>›</span>
+<a href=/yesql/joins-and-relations/>Joins & Relations</a></nav><h1>LATERAL JOIN for Top-N Per Group</h1><p class=lesson_lede>LATERAL lets the right-hand subquery reference columns from the left side — enabling top-N per group in a single scan without window functions and outer filters.</p><div class=lesson_lab_banner><i class="fa-solid fa-flask"></i><div class=lab_banner_body><strong>Run it yourself</strong> — all queries on this page use the
+<code>f1db</code> dataset,
+pre-loaded in the free
+<a href=/lab/>TAOP lab</a>.
+Start a session with <code>psql taop</code> and follow along.
+No setup beyond <a href=https://github.com/dimitri/TheArtOfPostgreSQL rel=noopener>Docker</a>.</div></div><p>Top-N per group is one of the most commonly asked SQL questions. Given a list
+of drivers, what were each driver&rsquo;s best three finishes of the 2017 season?</p><p><img src=/img/diagrams/fig-lateral-flow.svg alt="LATERAL join: the right-side subquery evaluates once per left-side row, returning multiple rows"></p><p>The right-hand side of a <code>LATERAL</code> join is a subquery that can reference
+columns from the left side. PostgreSQL evaluates it once per left-hand row —
+like a correlated subquery, but returning multiple rows. Adding <code>GROUPING SETS</code>
+to the outer query produces a subtotal row per driver alongside the detail rows:</p><div class=highlight><pre tabindex=0 style=color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#719e07>select</span> d.surname          <span style=color:#719e07>as</span> driver,
+</span></span><span style=display:flex><span>       top3.race,
+</span></span><span style=display:flex><span>       top3.pos,
+</span></span><span style=display:flex><span>       <span style=color:#719e07>sum</span>(top3.points)   <span style=color:#719e07>as</span> points
+</span></span><span style=display:flex><span>  <span style=color:#719e07>from</span> f1db.drivers d
+</span></span><span style=display:flex><span>  <span style=color:#719e07>join</span> <span style=color:#719e07>lateral</span> (
+</span></span><span style=display:flex><span>      <span style=color:#719e07>select</span> r.name            <span style=color:#719e07>as</span> race,
+</span></span><span style=display:flex><span>             res.positionorder <span style=color:#719e07>as</span> pos,
+</span></span><span style=display:flex><span>             res.points
+</span></span><span style=display:flex><span>        <span style=color:#719e07>from</span> f1db.results res
+</span></span><span style=display:flex><span>        <span style=color:#719e07>join</span> f1db.races   r <span style=color:#719e07>on</span> r.raceid <span style=color:#719e07>=</span> res.raceid
+</span></span><span style=display:flex><span>       <span style=color:#719e07>where</span> res.driverid <span style=color:#719e07>=</span> d.driverid
+</span></span><span style=display:flex><span>         <span style=color:#719e07>and</span> r.<span style=color:#719e07>year</span>       <span style=color:#719e07>=</span> <span style=color:#2aa198>2017</span>
+</span></span><span style=display:flex><span>         <span style=color:#719e07>and</span> res.points   <span style=color:#719e07>&gt;</span> <span style=color:#2aa198>0</span>
+</span></span><span style=display:flex><span>       <span style=color:#719e07>order</span> <span style=color:#719e07>by</span> res.points <span style=color:#719e07>desc</span>
+</span></span><span style=display:flex><span>       <span style=color:#719e07>limit</span> <span style=color:#2aa198>3</span>
+</span></span><span style=display:flex><span>  ) top3 <span style=color:#719e07>on</span> <span style=color:#719e07>true</span>
+</span></span><span style=display:flex><span> <span style=color:#719e07>where</span> d.surname <span style=color:#719e07>in</span> (<span style=color:#2aa198>&#39;Hamilton&#39;</span>, <span style=color:#2aa198>&#39;Vettel&#39;</span>, <span style=color:#2aa198>&#39;Bottas&#39;</span>, <span style=color:#2aa198>&#39;Ricciardo&#39;</span>, <span style=color:#2aa198>&#39;Verstappen&#39;</span>)
+</span></span><span style=display:flex><span> <span style=color:#719e07>group</span> <span style=color:#719e07>by</span> <span style=color:#719e07>grouping</span> <span style=color:#719e07>sets</span> (
+</span></span><span style=display:flex><span>   (d.surname, top3.race, top3.pos),   <span style=color:#586e75>-- one row per race
+</span></span></span><span style=display:flex><span>   (d.surname)                          <span style=color:#586e75>-- one subtotal row per driver
+</span></span></span><span style=display:flex><span> )
+</span></span><span style=display:flex><span> <span style=color:#719e07>order</span> <span style=color:#719e07>by</span> d.surname,
+</span></span><span style=display:flex><span>          <span style=color:#719e07>grouping</span>(top3.race, top3.pos),
+</span></span><span style=display:flex><span>          <span style=color:#719e07>sum</span>(top3.points) <span style=color:#719e07>desc</span> nulls <span style=color:#719e07>last</span>;
+</span></span></code></pre></div><pre tabindex=0><code>   driver   │         race          │ pos │ points
+════════════╪═══════════════════════╪═════╪════════
+ Bottas     │ Austrian Grand Prix   │   1 │     25
+ Bottas     │ Russian Grand Prix    │   1 │     25
+ Bottas     │ Canadian Grand Prix   │   2 │     18
+ Bottas     │ ¤                     │   ¤ │     68
+ Hamilton   │ Canadian Grand Prix   │   1 │     25
+ Hamilton   │ Chinese Grand Prix    │   1 │     25
+ Hamilton   │ Spanish Grand Prix    │   1 │     25
+ Hamilton   │ ¤                     │   ¤ │     75
+ Ricciardo  │ Azerbaijan Grand Prix │   1 │     25
+ Ricciardo  │ Spanish Grand Prix    │   3 │     15
+ Ricciardo  │ Monaco Grand Prix     │   3 │     15
+ Ricciardo  │ ¤                     │   ¤ │     55
+ Verstappen │ Chinese Grand Prix    │   3 │     15
+ Verstappen │ British Grand Prix    │   4 │     12
+ Verstappen │ Australian Grand Prix │   5 │     10
+ Verstappen │ ¤                     │   ¤ │     37
+ Vettel     │ Australian Grand Prix │   1 │     25
+ Vettel     │ Bahrain Grand Prix    │   1 │     25
+ Vettel     │ Monaco Grand Prix     │   1 │     25
+ Vettel     │ ¤                     │   ¤ │     75
+(20 rows)
+</code></pre><p>The subquery references <code>d.driverid</code> — a column from the left side — which is
+what makes it <code>LATERAL</code>. Without <code>LATERAL</code>, that reference would be a syntax
+error. The <code>LIMIT 3</code> runs <em>inside</em> the subquery, so only three rows are
+returned per driver, not three rows surviving an outer filter over all rows.</p><p><code>GROUPING SETS</code> in the outer query adds a second grouping: for <code>(d.surname)</code>
+alone, <code>race</code> and <code>pos</code> collapse to <code>NULL</code> and <code>SUM(points)</code> totals the three
+races. The <code>grouping(top3.race, top3.pos)</code> expression in <code>ORDER BY</code> returns a
+non-zero value for those subtotal rows, sorting them after the detail rows
+within each driver. The result is 15 detail rows plus 5 subtotal rows — 20 in
+total.</p><p><code>JOIN LATERAL (...) ON TRUE</code> is the standard idiom when the join condition is
+always true — the correlation happens inside the subquery, not in the <code>ON</code>
+clause. Use <code>LEFT JOIN LATERAL (...) ON TRUE</code> to keep left-hand rows even when
+the subquery returns zero rows (the equivalent of <code>LEFT JOIN</code>).</p><h3 id=the-window-function-alternative>The window function alternative</h3><p>The same top-3 result is achievable with <code>ROW_NUMBER()</code>:</p><div class=highlight><pre tabindex=0 style=color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#719e07>select</span> driver, race, pos, points
+</span></span><span style=display:flex><span>  <span style=color:#719e07>from</span> (
+</span></span><span style=display:flex><span>    <span style=color:#719e07>select</span> d.surname          <span style=color:#719e07>as</span> driver,
+</span></span><span style=display:flex><span>           r.name             <span style=color:#719e07>as</span> race,
+</span></span><span style=display:flex><span>           res.positionorder  <span style=color:#719e07>as</span> pos,
+</span></span><span style=display:flex><span>           res.points,
+</span></span><span style=display:flex><span>           row_number() over (
+</span></span><span style=display:flex><span>             partition <span style=color:#719e07>by</span> d.driverid
+</span></span><span style=display:flex><span>             <span style=color:#719e07>order</span> <span style=color:#719e07>by</span> res.points <span style=color:#719e07>desc</span>
+</span></span><span style=display:flex><span>           ) <span style=color:#719e07>as</span> rn
+</span></span><span style=display:flex><span>      <span style=color:#719e07>from</span> f1db.results res
+</span></span><span style=display:flex><span>      <span style=color:#719e07>join</span> f1db.races   r <span style=color:#719e07>on</span> r.raceid <span style=color:#719e07>=</span> res.raceid
+</span></span><span style=display:flex><span>      <span style=color:#719e07>join</span> f1db.drivers d <span style=color:#719e07>on</span> d.driverid <span style=color:#719e07>=</span> res.driverid
+</span></span><span style=display:flex><span>     <span style=color:#719e07>where</span> r.<span style=color:#719e07>year</span> <span style=color:#719e07>=</span> <span style=color:#2aa198>2017</span>
+</span></span><span style=display:flex><span>       <span style=color:#719e07>and</span> res.points <span style=color:#719e07>&gt;</span> <span style=color:#2aa198>0</span>
+</span></span><span style=display:flex><span>       <span style=color:#719e07>and</span> d.surname <span style=color:#719e07>in</span> (<span style=color:#2aa198>&#39;Hamilton&#39;</span>, <span style=color:#2aa198>&#39;Vettel&#39;</span>, <span style=color:#2aa198>&#39;Bottas&#39;</span>, <span style=color:#2aa198>&#39;Ricciardo&#39;</span>, <span style=color:#2aa198>&#39;Verstappen&#39;</span>)
+</span></span><span style=display:flex><span>  ) ranked
+</span></span><span style=display:flex><span> <span style=color:#719e07>where</span> rn <span style=color:#719e07>&lt;=</span> <span style=color:#2aa198>3</span>
+</span></span><span style=display:flex><span> <span style=color:#719e07>order</span> <span style=color:#719e07>by</span> driver, points <span style=color:#719e07>desc</span>;
+</span></span></code></pre></div><pre tabindex=0><code>   driver   │         race          │ pos │ points
+════════════╪═══════════════════════╪═════╪════════
+ Bottas     │ Russian Grand Prix    │   1 │     25
+ Bottas     │ Austrian Grand Prix   │   1 │     25
+ Bottas     │ Canadian Grand Prix   │   2 │     18
+ Hamilton   │ Chinese Grand Prix    │   1 │     25
+ Hamilton   │ Canadian Grand Prix   │   1 │     25
+ Hamilton   │ Spanish Grand Prix    │   1 │     25
+ Ricciardo  │ Azerbaijan Grand Prix │   1 │     25
+ Ricciardo  │ Monaco Grand Prix     │   3 │     15
+ Ricciardo  │ Canadian Grand Prix   │   3 │     15
+ Verstappen │ Chinese Grand Prix    │   3 │     15
+ Verstappen │ British Grand Prix    │   4 │     12
+ Verstappen │ Hungarian Grand Prix  │   5 │     10
+ Vettel     │ Bahrain Grand Prix    │   1 │     25
+ Vettel     │ Hungarian Grand Prix  │   1 │     25
+ Vettel     │ Monaco Grand Prix     │   1 │     25
+(15 rows)
+</code></pre><p>The structure differs: the window function approach computes <code>rn</code> for every row
+in the filtered set, then discards all but the top 3 in an outer <code>WHERE</code>. When
+there are ties for third place, <code>ROW_NUMBER()</code> breaks them arbitrarily — so the
+two queries can pick different races for Ricciardo and Verstappen where points
+are equal. <code>RANK()</code> instead of <code>ROW_NUMBER()</code> would keep all tied rows but
+could return more than 3.</p><p><code>LATERAL</code> is preferable when:</p><ul><li>The <code>LIMIT</code> or filter is complex and benefits from running close to the data</li><li>You want to push the cutoff <em>inside</em> the subquery and avoid generating
+intermediate rows</li><li>The subquery is essentially independent logic that happens to need one
+value from the outer query</li></ul><p>Window functions are preferable when you need the ranking <em>and</em> the detail
+rows, or when you want to apply multiple windowed computations in one pass.</p><h3 id=under-the-hood>Under the hood</h3><p><code>EXPLAIN</code> makes the structural difference concrete. Both plans are abridged to
+the nodes that matter:</p><p><strong>LATERAL + GROUPING SETS:</strong></p><pre tabindex=0><code>Nested Loop
+  -&gt; Seq Scan on drivers d                            rows=7
+       Filter: surname = ANY (&#39;{Hamilton,...}&#39;)
+  -&gt; Limit                                            ← stops after 3 rows per driver
+       -&gt; Sort  (Sort Key: res.points DESC)
+            -&gt; Nested Loop (results × races)
+                 -&gt; Seq Scan on results res           ← re-runs for each driver
+                      Filter: (points &gt; 0
+                               AND driverid = d.driverid)
+                 -&gt; Seq Scan on races r
+                      Filter: (year = 2017)
+</code></pre><p><strong>Window function:</strong></p><pre tabindex=0><code>WindowAgg
+  Run Condition: (row_number() OVER (?) &lt;= 3)         ← PG 14+ early-exit per partition
+  -&gt; Sort  (Sort Key: d.driverid, res.points DESC)    ← sort ALL qualifying rows first
+       -&gt; Hash Join  (Hash Cond: res.driverid = d.driverid)
+            -&gt; Seq Scan on results res   rows=6590     ← one scan of all scoring results
+                 Filter: (points &gt; 0)
+            -&gt; Hash
+                 -&gt; Seq Scan on drivers d   rows=7
+                      Filter: surname = ANY (...)
+</code></pre><p>Two differences stand out:</p><p><strong>Scan count.</strong> LATERAL re-scans <code>results</code> once per driver (7 × cost 765); the
+window function scans it once (cost 706, returning 6,590 rows). Without indexes,
+the window function wins on I/O. Add an index on <code>results(driverid, points desc)</code>
+and LATERAL flips: each inner scan becomes a cheap index seek that stops at row 3,
+while the window function still has to sort every qualifying row in each partition
+before the <code>Run Condition</code> can trigger.</p><p><strong>Where the cutoff lands.</strong> LATERAL&rsquo;s <code>Limit</code> sits <em>inside</em> the Nested Loop — rows
+stop being generated after 3, before they reach the <code>GroupAggregate</code>. The window
+function&rsquo;s <code>Run Condition</code> (PostgreSQL 14+) is an early-exit hint per partition, but
+it fires <em>after</em> the preceding <code>Sort</code> has already ordered every qualifying row across
+all five drivers. The cutoff is later in the pipeline.</p><aside class=lesson_email_capture aria-label="Get the book intro as a PDF"><div class=email_capture_copy><strong>Reading this from the book?</strong><p>This chapter is from <em>The Art of PostgreSQL</em>. Get the 2026 edition intro as a PDF, plus the next lessons by email.</p></div><form class=email_capture_form action=https://app.kit.com/forms/YOUR_KIT_FORM_ID/subscriptions method=post data-kit-form=YOUR_KIT_FORM_ID novalidate><label for=ec_email class=visually-hidden>Email address</label>
+<input id=ec_email type=email name=email_address placeholder=you@example.com required autocomplete=email>
+<button type=submit>Send me the PDF</button></form><p class=email_capture_success hidden role=status>Done — check your inbox!</p><p class=email_capture_error hidden role=alert>Something went wrong. <a href=https://app.kit.com/forms/YOUR_KIT_FORM_ID/subscriptions>Try this link instead.</a></p></aside><script>(function(){var e="YOUR_KIT_FORM_ID";document.querySelectorAll("[data-kit-form]").forEach(function(t){t.addEventListener("submit",function(n){n.preventDefault();var o=t.closest(".lesson_email_capture"),i=t.querySelector('input[type="email"]'),s=t.querySelector('button[type="submit"]'),a=o.querySelector(".email_capture_success"),r=o.querySelector(".email_capture_error");s.disabled=!0,s.textContent="Sending…",fetch("https://api.kit.com/v4/forms/"+e+"/subscribe",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({email_address:i.value})}).then(function(e){if(!e.ok)throw new Error(e.status);t.hidden=!0,a.hidden=!1}).catch(function(){s.disabled=!1,s.textContent="Send me the PDF",r.hidden=!1})})})})()</script><aside class=lesson_course_attr><i class="fa-solid fa-graduation-cap"></i><p>This lesson is a preview from the <b>Advanced JOIN Techniques</b> course.
+<a href=/course/>See the full curriculum →</a></p></aside><footer class=lesson_footer><p class=tags><a href=https://theartofpostgresql.com/tags/sql>#SQL</a> <a href=https://theartofpostgresql.com/tags/lateral>#LATERAL</a> <a href=https://theartofpostgresql.com/tags/join>#JOIN</a> <a href=https://theartofpostgresql.com/tags/top-n>#top-N</a> <a href=https://theartofpostgresql.com/tags/subquery>#subquery</a></p></footer></article><aside class=lesson_sidebar><div class=sidebar_block><h6>Joins & Relations</h6><ul><li><a href=/yesql/joins-and-relations/what-is-a-join/>What is an SQL JOIN?</a></li><li><a href=/yesql/joins-and-relations/join-output-cardinality/>JOIN Output Cardinality: Why Your Row Counts Surprise You</a></li><li><a href=/yesql/joins-and-relations/with-recursive/>WITH RECURSIVE: Walking a River Network</a></li><li class=current><a href=/yesql/joins-and-relations/lateral-join-top-n/>LATERAL JOIN for Top-N Per Group</a></li></ul></div><div class=sidebar_block><h6>Tools</h6><ul><li><a href=/compute-database-size/>Compute Database Size</a></li><li><a href=/explain-plan-visualizer/>Query Plan Visualizer</a></li></ul></div><div class="sidebar_block sidebar_lab"><i class="fa-solid fa-flask"></i><h6>Try it Yourself</h6><p>A free Docker setup ships all datasets pre-loaded. One command and you're in a live <code>psql</code> session.</p><a href=/lab/ class="button button_purple">Open the Lab</a>
+<a href=https://github.com/dimitri/TheArtOfPostgreSQL class=lab_github_link rel=noopener><i class="fa-brands fa-github"></i> Starter Kit on GitHub</a></div></aside></div></div><section class=yesql_offer><div class=wrapper><div class=offer_card><p class=offer_eyebrow>Keep going</p><h3>Advanced JOIN Techniques</h3><p>LATERAL is chapter four. The course covers all LATERAL patterns — per-row subqueries, k-nearest-neighbour search, social graph traversal — and how to choose between LATERAL and window functions for the same problem.</p><a href=/course/ class="button button_purple button_large">Explore the Course</a></div></div></section><footer class=footer><div class=wrapper><div class=about_block><h6>about the author</h6><p>Hi! My name is Dimitri Fontaine and I have been using and contributing to Open Source Software for the best of the last 20 years. I am a PostgreSQL Major Contributor after having contributed Extensions and Event Triggers, among other things.</p><p>I have been writing code almost daily for a very long time now, both in a professional capacity and on my leisure time. I&rsquo;ve also been a database architect and a DBA on-call. As a developer I enjoy using SQL. As a database architect, I like teaching advanced SQL techniques to my colleagues.</p><ul><li><a target=_blank href=mailto:dim@tapoueh.org>email</a></li><li><a target=_blank href=https://twitter.com/tapoueh>twitter</a></li><li><a target=_blank href=https://github.com/dimitri>github</a></li><li><a target=_blank href=https://www.reddit.com/user/theartofpostgresql>reddit</a></li></ul></div><div class=faq_block><h6>FAQ</h6><dl><dt>What if the book isn&rsquo;t what I expected it would be?</dt><dd>The Art of PostgreSQL is a book that teaches SQL to application developers. If it's not of any value to you, then just say so and I'll refund you, no questions asked.</dd><dt>I bought the book, and I'm confused. What now?</dt><dd>The content of the book is available as a PDF, ePub and
+MOBI file, and you can also download the SQL queries.
+The content is available over
+at <a href=https://members.theartofpostgresql.com/courses/the-art-of-postgresql/ target=_>https://members.theartofpostgresql.com/courses/the-art-of-postgresql/</a>
+from your student dashboard.</dd><dt>Is there any DRM?</dt><dd>No. There isn't even watermarking on the PDF. You own what you buy. The sources of data selected for the book are all available with Open Data types of licenses, and the book itself is copyright Dimitri Fontaine. All rights reserved.</dd><dt>Any other questions?</dt><dd>Contact me by <a href=mailto:dim@tapoueh.org>email</a> and just ask! I will do my best to answer you.</dd></dl></div></div></footer><div class=copyright><div class=wrapper>Copyright 2019-2026 &copy; Dimitri Fontaine. All rights reserved. Design by <a style=color:#fff;font-weight:700 target=_blank href=https://www.terrilowry.com>TerriLowry.com.</a></div></div><script type=text/javascript>var subscribersSiteId="1296f531-7ba0-406f-89e1-bdca40a36208"</script><script type=text/javascript src=https://cdn.subscribers.com/assets/subscribers.js></script><script>!function(e,t,n,s,o,i){e.twq||(s=e.twq=function(){s.exe?s.exe.apply(s,arguments):s.queue.push(arguments)},s.version="1.1",s.queue=[],o=t.createElement(n),o.async=!0,o.src="//static.ads-twitter.com/uwt.js",i=t.getElementsByTagName(n)[0],i.parentNode.insertBefore(o,i))}(window,document,"script"),twq("init","o0ial"),twq("track","PageView")</script></body></html>

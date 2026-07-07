@@ -1,6 +1,6 @@
 # YeSQL — Session Handoff & Implementation Status
 
-> Working branch: **`yesql`**. Status as of 2026-06-17.
+> Working branch: **`yesql`**. Status as of 2026-06-18.
 > Companion docs: [`YESQL.md`](YESQL.md) is the strategy/taxonomy plan; this file
 > is the operational handoff — what exists, how to run it, how to add to it, and
 > what's left. Read both before continuing.
@@ -12,191 +12,223 @@
 A replacement for the stale 2019 `/blog` with **YeSQL**, an evergreen,
 topic-organized PostgreSQL learning hub. Tagline: *"Practical PostgreSQL for
 developers, one concept at a time."* Each lesson teaches a single concept with a
-runnable query, attributes the source book chapter, and routes the reader to the
-next step (newsletter → book → course). It lives at `/yesql/` and reuses the
-modern 2026 site design (purple gradient shell, sticky "Get the Book – $89" CTA).
+runnable query, attributes the source book chapter or course, and routes the reader
+to the next step (newsletter → book → course). It lives at `/yesql/` and reuses
+the modern 2026 site design (purple gradient shell, sticky "Get the Book – $89" CTA).
 
-The old blog content under `content/blog/` is **untouched and still builds** — it
-has not been retired yet (see TODO).
+The old blog at `content/blog/` has been **retired** — Hugo alias redirects from
+all 11 old `/blog/...` URLs are live. The `content/blog/` directory can be deleted
+(or already has been — see TODO below).
 
 ---
 
 ## 2. Run & build
 
-Hugo **0.83.1 extended** (pinned; matches the site). Docker + Makefile added.
+Hugo **0.162.1** (system Homebrew install on ARM). Docker pinned to 0.83.1 but
+the Docker/Rosetta build fails on this machine — use Hugo directly.
 
 ```bash
-make serve            # build image (if needed) + live dev server, bind-mounted
-                      # browse http://localhost:1313/yesql/
-make serve PORT=1314  # use another host port (see caveat below)
-make build            # render static site into ./docs (the publishDir)
-make stop             # stop the dev container
-make help             # list targets
+hugo server                 # live dev server at http://localhost:1313/yesql/
+hugo --minify               # render static site into ./docs (the publishDir)
+make serve PORT=1314        # Docker fallback (may fail on ARM with Rosetta error)
 ```
 
-Caveats:
-- **Port 1313 may already be taken** by a pre-existing `tapouehorg-hugo-1`
-  container on this machine. Either `docker stop tapouehorg-hugo-1` first, or run
-  `make serve PORT=1314`.
-- **Live-reload is unreliable across the macOS bind mount on this old Hugo.**
-  After editing templates or CSS, `make stop && make serve` (or
-  `docker restart taop-hugo`) to be sure.
-- Plain `hugo` on the host also works if installed (`hugo server`).
+**Config fix applied:** `[ignoreErrors]` section was malformed TOML (pre-existing).
+Replaced with `ignoreLogs = [""]` at the top level. Hugo 0.162+ is now happy.
 
-A clean build currently produces **8 category pages + 23 lessons** with exit 0.
+A clean build produces **325 pages, 130 aliases**, exit 0.
 
 ---
 
-## 3. Repo map (what was added)
+## 3. Taxonomy — 11 categories (revised from 8)
 
-```
-YESQL.md                          strategy + taxonomy v2 + launch plan
-YESQL-HANDOFF.md                  this file
-Dockerfile, .dockerignore, Makefile   Dockerized Hugo dev server
+The original 8-category taxonomy was derived from the book. It has been expanded
+to 11 categories so each of the 6 courses under `/Users/dim/dev/TAOP/taop-courses/`
+has a dedicated home in the hub.
 
-layouts/yesql/
-  hub.html                        Tier 1 — the /yesql/ landing hub (category grid)
-  list.html                       Tier 2 — a category/concept page (lesson grid)
-  single.html                     Tier 3 — a lesson page (article + sidebar + offer)
-layouts/partials/yesql/
-  head.html                       page-aware <head> on the modern shell
-  offer.html                      reusable contextual CTA card (dict-driven)
+| # | Slug | Title | Weight | Course |
+|---|------|--------|--------|--------|
+| 1 | `sql-foundations` | SQL Foundations | 1 | — |
+| 2 | `window-functions` | Window Functions | 2 | Course 1 |
+| 3 | `aggregation` | Aggregation | 3 | Course 2 |
+| 4 | `joins-and-relations` | Joins & Relations | 4 | Course 4 |
+| 5 | `query-optimization` | Query Optimization | 5 | Course 5 |
+| 6 | `reading-query-plans` | Reading Query Plans | 6 | Course 6 |
+| 7 | `data-modeling` | Data Modeling | 7 | Course 3 |
+| 8 | `writing-sql` | Writing SQL Well | 8 | — |
+| 9 | `data-types` | Data Types | 9 | — |
+| 10 | `concurrency` | Concurrency & Data Changes | 10 | — |
+| 11 | `extensions-spatial` | Extensions & PostGIS | 11 | — |
 
-static/css/yesql.css              all YeSQL styling (layered over style.css)
-static/img/yesql/                 figures ported from the lab starter-kit
-
-content/yesql/
-  _index.md                       hub (layout = "hub")
-  <category>/_index.md            8 category pages (title/weight/icon/summary)
-  <category>/<slug>.md            lessons
-
-themes/taop/layouts/partials/header.html   MODIFIED: nav BLOG → YESQL (/yesql/)
-```
-
-How Hugo wires it: content section `yesql` → `layouts/yesql/`. The hub `_index.md`
-sets `layout = "hub"`. Nested category `_index.md` files use `list.html`. Regular
-lesson `.md` files use `single.html`. URLs are dateless (`/yesql/<cat>/<slug>/`)
-from the default section permalink — no `config.toml` change needed.
+**Dropped:** `querying-data` and `indexing-performance` — split into the above.
+YeSQL was not yet published, so no redirect aliases were needed for those category
+pages.
 
 ---
 
-## 4. Authoring a lesson (conventions — follow exactly)
+## 4. Repo map (what was added in this session)
+
+```
+YESQL-HANDOFF.md                  this file (updated)
+
+# New category _index.md files:
+content/yesql/window-functions/_index.md
+content/yesql/aggregation/_index.md
+content/yesql/joins-and-relations/_index.md
+content/yesql/query-optimization/_index.md
+content/yesql/reading-query-plans/_index.md
+
+# Moved lessons (from querying-data/ → aggregation/ or joins-and-relations/):
+content/yesql/aggregation/sql-aggregates.md
+content/yesql/aggregation/grouping-sets-and-filter.md
+content/yesql/aggregation/percentiles-in-one-query.md
+content/yesql/joins-and-relations/what-is-a-join.md
+content/yesql/joins-and-relations/with-recursive.md
+content/yesql/joins-and-relations/nested-lateral-joins.md
+
+# Moved lessons (from indexing-performance/ → query-optimization/ or reading-query-plans/):
+content/yesql/query-optimization/indexing-strategy.md
+content/yesql/query-optimization/postgresql-index-types.md
+content/yesql/reading-query-plans/reading-explain.md
+
+# New course-teaser lessons (2 per course):
+content/yesql/window-functions/over-clause-mental-model.md
+content/yesql/window-functions/row-number-rank-dense-rank.md
+content/yesql/aggregation/where-vs-having.md
+content/yesql/aggregation/filter-clause.md
+content/yesql/data-modeling/update-anomaly.md
+content/yesql/data-modeling/fk-constraints-trust.md
+content/yesql/joins-and-relations/join-output-cardinality.md
+content/yesql/joins-and-relations/lateral-join-top-n.md
+content/yesql/query-optimization/planner-cost-model.md
+content/yesql/query-optimization/predicate-pushdown.md
+content/yesql/reading-query-plans/explain-analyze-anatomy.md
+content/yesql/reading-query-plans/hash-join-nested-loop.md
+
+# Previously missing data-types lessons (now written):
+content/yesql/data-types/a-tour-of-postgresql-data-types.md
+content/yesql/data-types/json-and-denormalized-types.md
+
+# Template changes:
+layouts/yesql/hub.html          course badge on category cards
+layouts/yesql/list.html         course promo block above lesson list
+layouts/yesql/single.html       course attribution block after book attribution
+
+# CSS additions (appended to):
+static/css/yesql.css            .yesql_course_badge, .category_course_promo,
+                                .lesson_course_attr, mobile padding-top fix
+
+# Config fix:
+config.toml                     [ignoreErrors] section → ignoreLogs = [""]
+```
+
+---
+
+## 5. Authoring a lesson (conventions — unchanged)
 
 Front matter is TOML between `+++`:
 
-```
+```toml
 +++
 title = "What is an SQL Aggregate?"
-weight = 20                      # ordering within the category
+weight = 20
 summary = "One sentence; shown on the category card and meta description."
 tags = ["SQL", "Aggregate", "GROUP BY"]
 book_chapter = "Chapter 15, Group By, Having, With, Union All"
-# optional CTA overrides (default offer = the book):
+
+# For course-derived lessons, add:
+course_title = "Reliable Aggregation"
+course_url = "/course/reliable-aggregation/"
+
+# Optional CTA overrides (default offer = the book):
 # cta_eyebrow / cta_title / cta_body / cta_url / cta_label
 +++
 ```
 
 Rules:
 - **Voice:** first-person, direct, opinionated, addresses "you" the app developer.
-- **Length:** ~250–500 words. Free = "what it is, why it matters, ONE worked
-  example." Do **not** reproduce whole book chapters — distill. Reuse at most one
-  short example query verbatim; keep surrounding prose original.
-- **No hard CTA in the body.** `single.html` auto-renders the book-attribution box
-  (from `book_chapter`) and the offer card. End with a light forward-pointer or an
-  internal cross-link instead.
-- **Code fences:** ` ```sql ` for queries (syntax-highlighted). **Plain ` ``` `
-  (no language)** for psql/terminal output, schema dumps, EXPLAIN plans, ASCII
-  tables — these render as a dark terminal block, so box-drawing lines up.
+- **Length:** ~300–500 words. Free = "what it is, why it matters, ONE worked
+  example." Distill — do not reproduce whole book or course chapters.
+- **No hard CTA in the body.** `single.html` auto-renders the book-attribution
+  box (from `book_chapter`), the course attribution box (from `course_title`),
+  and the offer card. End with a light forward-pointer or internal cross-link.
+- **Code fences:** ` ```sql ` for queries. **Plain ` ``` `** for psql output,
+  EXPLAIN plans, ASCII tables — dark terminal block.
 - **Cross-links** are root-relative: `/yesql/<cat>/<slug>/`.
 
-To add a new category: create `content/yesql/<slug>/_index.md` with
-`title`, `weight`, `icon` (a Font Awesome class, e.g. `fa-solid fa-cube`), and
-`summary`. It appears on the hub automatically.
-
----
-
-## 5. Taxonomy v2 (8 categories)
-
-Consolidated from the book's 52 chapters (chapter titles → lesson titles;
-interviews and scaffolding chapters filtered out). Full mapping in
-[`YESQL.md`](YESQL.md).
-
-`sql-foundations` · `querying-data` · `writing-sql` · `indexing-performance` ·
-`data-types` · `data-modeling` · `concurrency` · `extensions-spatial`
+For course-category pages (`_index.md`), also set:
+```toml
+course_title = "Course Name"
+course_url = "/course/course-slug/"
+```
+This drives the hub card badge and the category-page promo block automatically.
 
 ---
 
 ## 6. Current state — lessons per category
 
-| Category | # | Lessons | Source |
-|---|---|---|---|
-| sql-foundations | 3 | how-to-learn-sql, what-is-a-relation, why-postgres | refreshed 2019 posts |
-| querying-data | 6 | what-is-a-join, sql-aggregates, grouping-sets-and-filter, with-recursive, nested-lateral-joins, percentiles-in-one-query | posts + lab starter-kit |
-| writing-sql | 3 | sql-is-code, business-logic-in-sql, the-psql-repl | book (distilled) |
-| indexing-performance | 3 | indexing-strategy, postgresql-index-types, reading-explain | book (distilled) |
-| data-types | **1** | serialization-and-deserialization | book (distilled) |
-| data-modeling | 1 | the-r-in-orm | refreshed 2019 post |
-| concurrency | 4 | insert-update-delete, isolation-and-locking, triggers, listen-notify | book (distilled) |
-| extensions-spatial | 2 | knn-search, map-as-text | lab starter-kit |
+| Category | # | Lessons |
+|---|---|---|
+| sql-foundations | 3 | how-to-learn-sql, what-is-a-relation, why-postgres |
+| window-functions | 2 | over-clause-mental-model, row-number-rank-dense-rank |
+| aggregation | 5 | what-is-an-sql-aggregate, grouping-sets-and-filter, percentiles-in-one-query, where-vs-having, filter-clause |
+| joins-and-relations | 5 | what-is-a-join, with-recursive, nested-lateral-joins, join-output-cardinality, lateral-join-top-n |
+| query-optimization | 4 | indexing-strategy, postgresql-index-types, planner-cost-model, predicate-pushdown |
+| reading-query-plans | 3 | reading-explain, explain-analyze-anatomy, hash-join-nested-loop |
+| data-modeling | 3 | the-r-in-orm, update-anomaly, fk-constraints-trust |
+| writing-sql | 3 | sql-is-code, business-logic-in-sql, the-psql-repl |
+| data-types | 3 | serialization-and-deserialization, a-tour-of-postgresql-data-types, json-and-denormalized-types |
+| concurrency | 4 | insert-update-delete, isolation-and-locking, triggers, listen-notify |
+| extensions-spatial | 2 | knn-search, map-as-text |
 
-**Total: 23 lessons.** Original 12-lesson launch set (6 refreshed evergreen posts +
-6 lab starter-kit queries) is complete; the four previously-empty categories were
-then filled from book content via parallel drafting agents.
+**Total: 37 lessons** across 11 categories.
 
 ---
 
 ## 7. TODO / open items (next session)
 
-1. **Finish `data-types`** — 2 lessons were planned but not written (the drafting
-   run was interrupted). Missing:
-   - `a-tour-of-postgresql-data-types.md` — title "A Tour of PostgreSQL Data Types",
-     weight 20, `book_chapter = "Chapter 23, PostgreSQL Data Types"`,
-     source `taop-vol-1/en/04-data-types/02-pg-data-types-101.md`.
-   - `json-and-denormalized-types.md` — title "JSON and Other Denormalized Types",
-     weight 30, `book_chapter = "Chapter 24, Denormalized Data Types"`,
-     source `taop-vol-1/en/04-data-types/04-non-relational-types.md`.
-   (Note: `serialization-and-deserialization.md` already forward-links to the
-   first of these — the link 404s until it's written.)
-2. **Review the book-distilled lessons for voice/accuracy** — `writing-sql`,
-   `indexing-performance`, `concurrency`, and `data-types` were drafted by agents
-   from the book. `indexing-performance/reading-explain.md` in particular drew on
-   general PostgreSQL knowledge where the source chapter was thin — verify it.
-3. **301-redirect the 11 old `/blog/...` URLs** to their YeSQL homes (or to
-   `/yesql/`) before retiring the blog, to preserve SEO equity.
-4. **Retire / repurpose `content/blog/`** — decide between deleting, redirecting,
-   or demoting the PostgresOpen/PgDay posts into a small dated "What's New"
-   sub-feed (see YESQL.md).
-5. **Mobile header clearance** — `body.yesql { padding-top: 96px }` clears the
-   fixed desktop header; on narrow viewports the nav wraps taller and may need a
-   media-query bump.
-6. **Clarify "main hero of the main page"** — interpreted as the YeSQL hub hero
-   (fixed via header clearance). Confirm the requester didn't mean the site
-   homepage `/`.
+1. **Delete `content/blog/`** — blog redirect aliases are live. The old files
+   can now be removed: `rm -rf content/blog/`. (Permission was denied during
+   this session — do it from the shell.)
+
+2. **Wire up course URLs** — the `course_url` values in category `_index.md`
+   files point to `/course/master-window-functions/` etc. These need real
+   destination pages in `content/course/`. Until then the links land on the
+   course section index or 404. Either create stub course pages or temporarily
+   point `course_url` to the book sales page.
+
+3. **Review book-distilled lessons for voice/accuracy** — `writing-sql`,
+   `concurrency`, and `reading-query-plans/reading-explain.md` were drafted by
+   agents from book source. Verify the EXPLAIN content in `reading-explain.md`
+   especially — it was flagged in the previous handoff as drawn partly from
+   general PostgreSQL knowledge where the source chapter was thin.
+
+4. **Mobile header clearance** — `body.yesql { padding-top: 130px }` at 600px
+   breakpoint is a starting estimate. Verify on a real narrow viewport and
+   adjust if needed.
+
+5. **Confirm blog redirect slugs** — the blog filenames were like
+   `2019-09-SQL-relations.md`, generating the slug `2019-09-sql-relations`.
+   Hugo aliases were set to match. Quick check: confirm `/blog/2019-09-sql-relations/`
+   redirects correctly (the alias was set to that path in `what-is-a-relation.md`).
+
+6. **Review new course-teaser lessons** — the 12 lessons written this session
+   are tight distillations from the course READMEs and SQL files. Review for
+   voice (should match the established first-person, developer-direct tone)
+   and for technical accuracy against the actual course material.
 
 ---
 
 ## 8. Content source repos (for reuse)
 
 Siblings of this repo under `/Users/dim/dev/TAOP/`:
-- `taop-vol-1/` — **book source** (`en/<part>/<section>.md`, 52 chapters). Distill,
-  don't copy.
-- `TheArtOfPostgreSQL/` — **public lab / starter-kit** (`starter-kit/*.md`,
-  `datasets.md`, `toc.txt`). Already public — safe to reuse freely.
-
----
-
-## 9. Continuing the Claude Code session on another machine
-
-The **work** travels via git (this branch). The **conversation/session** does not
-sync automatically — Claude Code stores transcripts locally per project path.
-
-- Project context that *does* travel with the repo: this file, `YESQL.md`, and git
-  history. Starting fresh on the other machine with these is usually enough.
-- Project **memory** (`~/.claude/projects/-Users-dim-dev-TAOP-taop-xyz/memory/`)
-  is machine-local and is **not** in git — copy that folder over if you want the
-  saved `taop-repo-layout` / `yesql-hub-plan` memories there too.
-- To literally resume *this chat*, copy the session transcript
-  `~/.claude/projects/-Users-dim-dev-TAOP-taop-xyz/d6626391-…jsonl` into the
-  matching project folder on the other machine (the folder name is derived from
-  the repo's absolute path, so it differs if the checkout path differs), then
-  `claude --resume` from the repo.
+- `taop-vol-1/` — **book source** (`en/<part>/<section>.md`). Distill, don't copy.
+- `TheArtOfPostgreSQL/` — **public lab / starter-kit**. Already public — safe to reuse.
+- `taop-courses/` — **6 courses** (README.md + sql/*.sql per course). Distill
+  key concepts into 300–500 word lessons with one worked SQL example.
+  - `1-Master-Window-Functions/` → `window-functions/`
+  - `2-Reliable-Aggregation/` → `aggregation/`
+  - `3-Data-Modeling/` → `data-modeling/`
+  - `4-Advanced-JOINs/` → `joins-and-relations/`
+  - `5-Query-Optimization/` → `query-optimization/`
+  - `6-Read-Query-Plans/` → `reading-query-plans/`

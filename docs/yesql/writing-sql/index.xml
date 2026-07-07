@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+	<channel>
+		<title>Writing SQL Well on The Art of PostgreSQL</title>
+		<link>http://localhost:1313/yesql/writing-sql/</link>
+		<description>Recent content in Writing SQL Well on The Art of PostgreSQL</description>
+		<generator>Hugo</generator>
+		<language>en-us</language>
+		
+		
+		
+		
+			<atom:link href="http://localhost:1313/yesql/writing-sql/index.xml" rel="self" type="application/rss+xml" />
+			<item>
+				<title>SQL is Code</title>
+				<link>http://localhost:1313/yesql/writing-sql/sql-is-code/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>http://localhost:1313/yesql/writing-sql/sql-is-code/</guid>
+				<description>Your queries live in your application&amp;rsquo;s source tree, so treat them like the rest of your code: format them for reading, comment intent, and put them under version control.</description>
+			</item>
+			<item>
+				<title>Where Does Business Logic Belong?</title>
+				<link>http://localhost:1313/yesql/writing-sql/business-logic-in-sql/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>http://localhost:1313/yesql/writing-sql/business-logic-in-sql/</guid>
+				<description>Every query already embeds business logic. The real question is not whether to put logic in the database, but how much — and the answer turns on correctness and efficiency.</description>
+			</item>
+			<item>
+				<title>The psql REPL: Your SQL Workbench</title>
+				<link>http://localhost:1313/yesql/writing-sql/the-psql-repl/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>http://localhost:1313/yesql/writing-sql/the-psql-repl/</guid>
+				<description>psql is the interactive read-eval-print loop where you build queries one step at a time. A small psqlrc and a handful of backslash commands turn it into a serious workbench.</description>
+			</item>
+	</channel>
+</rss>

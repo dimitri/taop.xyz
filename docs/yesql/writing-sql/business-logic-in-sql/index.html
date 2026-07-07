@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1314&amp;path=livereload" data-no-instant defer></script>
+	<meta charset="utf-8">
+	<title>Where Does Business Logic Belong? · The Art of PostgreSQL</title>
+	<meta name="description" content="Every query already embeds business logic. The real question is not whether to put logic in the database, but how much — and the answer turns on correctness and efficiency.">
+
+	<meta name="twitter:card" content="summary" />
+	<meta name="twitter:site" content="@tapoueh" />
+	<meta name="twitter:creator" content="@tapoueh" />
+	<meta property="og:url" content="http://localhost:1314/yesql/writing-sql/business-logic-in-sql/" />
+	<meta property="og:title" content="Where Does Business Logic Belong? · YeSQL" />
+	<meta property="og:description" content="Practical PostgreSQL for developers, one concept at a time." />
+	<meta property="og:image" content="https://theartofpostgresql.com/images/hardcover-mockup.jpg" />
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+
+	<link href="/favicon.ico" rel="icon" type="image/x-icon">
+
+	<link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/yesql.css">
+	<link rel="stylesheet" href="/syntax.css">
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="/js/custom.js"></script>
+</head>
+<body class="yesql">
+
+
+<header class="header">
+  <div class="wrapper">
+    <nav>
+      <ul>
+	<li><a href="/book/"><i class="fa-solid fa-book-open"></i><span class="nav-text">BOOK</span></a></li>
+	<li class="divider"></li>
+	<li><a class="logo" href="/">The Art of PostgreSQL</a></li>
+	<li class="divider"></li>
+	<li><a href="/course/"><i class="fa-solid fa-graduation-cap"></i><span class="nav-text">COURSE</span></a></li>
+	<li class="divider"></li>
+	<li><a href="/workshop/"><i class="fa-solid fa-microphone"></i><span class="nav-text">WORKSHOP</span></a></li>
+	<li class="divider"></li>
+	<li><a href="/lab/"><i class="fa-solid fa-flask"></i><span class="nav-text">LAB</span></a></li>
+	<li class="divider"></li>
+	<li><a class="logo" href="/">The Art of PostgreSQL</a></li>
+	<li class="divider"></li>
+	<li><a href="/yesql/"><i class="fa-solid fa-pen-to-square"></i><span class="nav-text">YESQL</span></a></li>
+      </ul>
+    </nav>
+    <div class="sticky-cta-wrapper">
+      <a href="https://sales.theartofpostgresql.com/the-art-of-postgresql-book/" class="sticky-cta button button_purple">Get the Book – $89</a>
+    </div>
+  </div>
+</header>
+
+
+
+
+
+
+
+<div class="yesql_lesson">
+  <div class="wrapper">
+    <article class="lesson_content">
+      <nav class="yesql_breadcrumb">
+        <a href="/yesql/">YeSQL</a> <span>›</span>
+        <a href="/yesql/writing-sql/">Writing SQL Well</a>
+      </nav>
+
+      <h1>Where Does Business Logic Belong?</h1>
+      <p class="lesson_lede">Every query already embeds business logic. The real question is not whether to put logic in the database, but how much — and the answer turns on correctness and efficiency.</p>
+
+      
+<div class="lesson_lab_banner">
+  <i class="fa-solid fa-flask"></i>
+  <div class="lab_banner_body">
+    <strong>Run it yourself</strong> — all queries on this page use the
+    <code>f1db</code> dataset,
+    pre-loaded in the free
+    <a href="/lab/">TAOP lab</a>.
+    Start a session with <code>psql taop</code> and follow along.
+    No setup beyond <a href="https://github.com/dimitri/TheArtOfPostgreSQL" rel="noopener">Docker</a>.
+  </div>
+</div>
+
+
+
+      <p>Teams argue endlessly about whether business logic belongs in the application or the database. I think that framing is wrong. Every SQL query you write already contains business logic, so the question is not <em>whether</em> but <em>how much</em>.</p>
+<p>Look at this query and ask what it encodes:</p>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span>  <span style="color:#719e07">select</span> name
+</span></span><span style="display:flex;"><span>    <span style="color:#719e07">from</span> track
+</span></span><span style="display:flex;"><span>   <span style="color:#719e07">where</span> albumid <span style="color:#719e07">=</span> <span style="color:#2aa198">193</span>
+</span></span><span style="display:flex;"><span><span style="color:#719e07">order</span> <span style="color:#719e07">by</span> trackid;
+</span></span></code></pre></div><pre tabindex="0"><code>           name
+══════════════════════════
+ Let There Be Rock
+ Go Down
+ Dog Eat Dog
+ Let There Be Rock
+ Bad Boy Boogie
+ Problem Child
+ Overdose
+ Hell Ain&#39;t A Bad Place...
+ Whole Lotta Rosie
+(9 rows)
+</code></pre><p>The <code>select</code> says your use case only cares about track names. The <code>where</code> says you want album 193. The <code>order by</code> says tracks should appear in disc order, and that <code>trackid</code> happens to capture that order. That is four business decisions in five lines. There is no logic-free query.</p>
+<p>So the useful question is where to <em>implement</em> a given use case, and you decide that on two axes: correctness and efficiency. Consider a concrete case: list each album by an artist with its total duration.</p>
+<p>In SQL, that is one statement:</p>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span>  <span style="color:#719e07">select</span> album.title <span style="color:#719e07">as</span> album,
+</span></span><span style="display:flex;"><span>         <span style="color:#719e07">sum</span>(milliseconds) <span style="color:#719e07">*</span> <span style="color:#b58900">interval</span> <span style="color:#2aa198">&#39;1 ms&#39;</span> <span style="color:#719e07">as</span> duration
+</span></span><span style="display:flex;"><span>    <span style="color:#719e07">from</span> album
+</span></span><span style="display:flex;"><span>         <span style="color:#719e07">join</span> artist <span style="color:#719e07">using</span>(artistid)
+</span></span><span style="display:flex;"><span>         <span style="color:#719e07">left</span> <span style="color:#719e07">join</span> track <span style="color:#719e07">using</span>(albumid)
+</span></span><span style="display:flex;"><span>   <span style="color:#719e07">where</span> artist.name <span style="color:#719e07">=</span> <span style="color:#2aa198">&#39;Red Hot Chili Peppers&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#719e07">group</span> <span style="color:#719e07">by</span> album
+</span></span><span style="display:flex;"><span><span style="color:#719e07">order</span> <span style="color:#719e07">by</span> album;
+</span></span></code></pre></div><pre tabindex="0"><code>         album         │           duration
+═══════════════════════╪══════════════════════════════
+ Blood Sugar Sex Magik │ @ 1 hour 13 mins 57.073 secs
+ By The Way            │ @ 1 hour 8 mins 49.951 secs
+ Californication       │ @ 56 mins 25.461 secs
+(3 rows)
+</code></pre><p>The alternative is to fetch the artist, then the albums, then loop over albums fetching tracks, and finally sum the durations in application code.</p>
+<p>That alternative loses on <strong>correctness</strong>. Each separate query runs in its own snapshot. If a concurrent user reassigns an album between two of your fetches, you can silently report a duration of zero. The single SQL statement always runs against one consistent snapshot, so the anomaly cannot happen.</p>
+<p>It also loses on <strong>efficiency</strong>. The application version is five network round trips instead of one. With a typical 1–2 ms latency between app and database, you have burned ten milliseconds before doing any real work, while the server computes the whole result in under one millisecond. Multiply that by your concurrent users and the gap only widens.</p>
+<p>Push the <a href="/yesql/aggregation/sql-aggregates/">aggregation</a> and <a href="/yesql/joins-and-relations/what-is-a-join/">joins</a> into the query the database was built to run them. That is usually the correct <em>and</em> the efficient choice.</p>
+
+
+      <aside class="lesson_email_capture" aria-label="Get the book intro as a PDF">
+  <div class="email_capture_copy">
+    <strong>Reading this from the book?</strong>
+    <p>This chapter is from <em>The Art of PostgreSQL</em>. Get the 2026 edition intro as a PDF, plus the next lessons by email.</p>
+  </div>
+  <form class="email_capture_form"
+        action="https://app.kit.com/forms/YOUR_KIT_FORM_ID/subscriptions"
+        method="post"
+        data-kit-form="YOUR_KIT_FORM_ID"
+        novalidate>
+    <label for="ec_email" class="visually-hidden">Email address</label>
+    <input id="ec_email" type="email" name="email_address"
+           placeholder="you@example.com" required autocomplete="email">
+    <button type="submit">Send me the PDF</button>
+  </form>
+  <p class="email_capture_success" hidden role="status">Done — check your inbox!</p>
+  <p class="email_capture_error" hidden role="alert">
+    Something went wrong. <a href="https://app.kit.com/forms/YOUR_KIT_FORM_ID/subscriptions">Try this link instead.</a>
+  </p>
+</aside>
+
+<script>
+(function () {
+  
+  var KIT_FORM_ID = 'YOUR_KIT_FORM_ID';
+
+  document.querySelectorAll('[data-kit-form]').forEach(function (form) {
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var wrap  = form.closest('.lesson_email_capture');
+      var input = form.querySelector('input[type="email"]');
+      var btn   = form.querySelector('button[type="submit"]');
+      var ok    = wrap.querySelector('.email_capture_success');
+      var err   = wrap.querySelector('.email_capture_error');
+
+      btn.disabled    = true;
+      btn.textContent = 'Sending…';
+
+      
+      
+      fetch('https://api.kit.com/v4/forms/' + KIT_FORM_ID + '/subscribe', {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify({ email_address: input.value }),
+      })
+      .then(function (res) {
+        if (!res.ok) throw new Error(res.status);
+        form.hidden = true;
+        ok.hidden   = false;
+      })
+      .catch(function () {
+        btn.disabled    = false;
+        btn.textContent = 'Send me the PDF';
+        err.hidden      = false;
+      });
+    });
+  });
+}());
+</script>
+
+
+
+      
+
+      <footer class="lesson_footer">
+        
+        <p class="tags"><a href="http://localhost:1314/tags/sql">#SQL</a> <a href="http://localhost:1314/tags/business-logic">#Business Logic</a> <a href="http://localhost:1314/tags/architecture">#Architecture</a> </p>
+        
+      </footer>
+    </article>
+
+    <aside class="lesson_sidebar">
+      <div class="sidebar_block">
+        <h6>Writing SQL Well</h6>
+        <ul>
+          
+          <li><a href="/yesql/writing-sql/sql-is-code/">SQL is Code</a></li>
+          
+          <li class="current"><a href="/yesql/writing-sql/business-logic-in-sql/">Where Does Business Logic Belong?</a></li>
+          
+          <li><a href="/yesql/writing-sql/the-psql-repl/">The psql REPL: Your SQL Workbench</a></li>
+          
+        </ul>
+      </div>
+
+      <div class="sidebar_block">
+        <h6>Tools</h6>
+        <ul>
+          <li><a href="/compute-database-size/">Compute Database Size</a></li>
+          <li><a href="/explain-plan-visualizer/">Query Plan Visualizer</a></li>
+        </ul>
+      </div>
+
+      <div class="sidebar_block sidebar_lab">
+        <i class="fa-solid fa-flask"></i>
+        <h6>Try it Yourself</h6>
+        <p>A free Docker setup ships all datasets pre-loaded. One command and you're in a live <code>psql</code> session.</p>
+        <a href="/lab/" class="button button_purple">Open the Lab</a>
+        <a href="https://github.com/dimitri/TheArtOfPostgreSQL" class="lab_github_link" rel="noopener"><i class="fa-brands fa-github"></i> Starter Kit on GitHub</a>
+      </div>
+
+
+    </aside>
+  </div>
+</div>
+
+
+<section class="yesql_offer">
+  <div class="wrapper">
+    <div class="offer_card">
+      <p class="offer_eyebrow">Keep going</p>
+      <h3>The Art of PostgreSQL</h3>
+      <p>Liked this? It&#39;s one piece of a complete, practical system for writing real PostgreSQL. The book is your entry point.</p>
+      <a href="https://sales.theartofpostgresql.com/the-art-of-postgresql-book/" class="button button_purple button_large">Get the Book — $89</a>
+    </div>
+  </div>
+</section>
+
+
+ 
+
+<footer class="footer">
+	<div class="wrapper">
+	    <div class="about_block">
+	        <h6>about the author</h6>
+	        <p>Hi! My name is Dimitri Fontaine and I have been using and contributing to Open Source Software for the best of the last 20 years. I am a PostgreSQL Major Contributor after having contributed Extensions and Event Triggers, among other things.</p>
+	        <p>I have been writing code almost daily for a very long time now, both in a professional capacity and on my leisure time. I&rsquo;ve also been a database architect and a DBA on-call. As a developer I enjoy using SQL. As a database architect, I like teaching advanced SQL techniques to my colleagues.</p>
+	        <ul>
+	            <li><a target="_blank" href="mailto:dim@tapoueh.org">email</a></li>
+	            <li><a target="_blank" href="https://twitter.com/tapoueh">twitter</a></li>
+	            <li><a target="_blank" href="https://github.com/dimitri">github</a></li>
+	            <li><a target="_blank" href="https://www.reddit.com/user/theartofpostgresql">reddit</a></li>
+	        </ul>
+    	</div>
+	    <div class="faq_block">
+            <h6>FAQ</h6>
+	        <dl>
+	           <dt>What if the book isn&rsquo;t what I expected it would be?</dt>
+	           <dd>The Art of PostgreSQL is a book that teaches SQL to application developers. If it's not of any value to you, then just say so and I'll refund you, no questions asked.</dd>
+	           <dt>I bought the book, and I'm confused. What now?</dt>
+	           <dd>
+                     The content of the book is available as a PDF, ePub and
+	             MOBI file, and you can also download the SQL queries.
+	             The content is available over
+	             at <a href="https://members.theartofpostgresql.com/courses/the-art-of-postgresql/"
+	             target="_">https://members.theartofpostgresql.com/courses/the-art-of-postgresql/</a>
+	             from your student dashboard.
+                   </dd>
+	           <dt>Is there any DRM?</dt>
+	           <dd>No. There isn't even watermarking on the PDF. You own what you buy. The sources of data selected for the book are all available with Open Data types of licenses, and the book itself is copyright Dimitri Fontaine. All rights reserved.</dd>
+	           <dt>Any other questions?</dt>
+	           <dd>Contact me by <a href="mailto:dim@tapoueh.org">email</a> and just ask! I will do my best to answer you.</dd>
+	        </dl>
+     	    </div>
+	</div>
+</footer>
+
+
+
+
+
+
+<div class="copyright">
+    <div class="wrapper">
+        Copyright 2019-2026 &copy; Dimitri Fontaine. All rights reserved. Design by <a style="color: white; font-weight: bold;" target="_blank" href="https://www.terrilowry.com">TerriLowry.com.</a>
+    </div>
+</div>
+
+
+ 
+
+<script type="text/javascript">
+  var subscribersSiteId='1296f531-7ba0-406f-89e1-bdca40a36208';
+</script>
+<script type="text/javascript"
+        src="https://cdn.subscribers.com/assets/subscribers.js">
+</script>
+  
+
+ 
+
+<script>
+!function(e,t,n,s,u,a){e.twq||(s=e.twq=function(){s.exe?s.exe.apply(s,arguments):s.queue.push(arguments);
+},s.version='1.1',s.queue=[],u=t.createElement(n),u.async=!0,u.src='//static.ads-twitter.com/uwt.js',
+a=t.getElementsByTagName(n)[0],a.parentNode.insertBefore(u,a))}(window,document,'script');
+
+twq('init','o0ial');
+twq('track','PageView');
+</script>
+
+
+</body>
+</html> 
+

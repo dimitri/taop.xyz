@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+	<meta charset="utf-8">
+	<title>Serialization and Deserialization · The Art of PostgreSQL</title>
+	<meta name="description" content="A database is not a place to dump strings and parse them back. Its type system is the contract that keeps your data consistent across every part of your application.">
+
+	<meta name="twitter:card" content="summary" />
+	<meta name="twitter:site" content="@tapoueh" />
+	<meta name="twitter:creator" content="@tapoueh" />
+	<meta property="og:url" content="http://localhost:1313/yesql/data-types/serialization-and-deserialization/" />
+	<meta property="og:title" content="Serialization and Deserialization · YeSQL" />
+	<meta property="og:description" content="Practical PostgreSQL for developers, one concept at a time." />
+	<meta property="og:image" content="https://theartofpostgresql.com/images/hardcover-mockup.jpg" />
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+
+	<link href="/favicon.ico" rel="icon" type="image/x-icon">
+
+	<link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/yesql.css">
+	<link rel="stylesheet" href="/syntax.css">
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="/js/custom.js"></script>
+</head>
+<body class="yesql">
+
+
+<header class="header">
+  <div class="wrapper">
+    <nav>
+      <ul>
+	<li><a href="/book/"><i class="fa-solid fa-book-open"></i><span class="nav-text">BOOK</span></a></li>
+	<li class="divider"></li>
+	<li><a class="logo" href="/">The Art of PostgreSQL</a></li>
+	<li class="divider"></li>
+	<li><a href="/course/"><i class="fa-solid fa-graduation-cap"></i><span class="nav-text">COURSE</span></a></li>
+	<li class="divider"></li>
+	<li><a href="/workshop/"><i class="fa-solid fa-microphone"></i><span class="nav-text">WORKSHOP</span></a></li>
+	<li class="divider"></li>
+	<li><a href="/lab/"><i class="fa-solid fa-flask"></i><span class="nav-text">LAB</span></a></li>
+	<li class="divider"></li>
+	<li><a class="logo" href="/">The Art of PostgreSQL</a></li>
+	<li class="divider"></li>
+	<li><a href="/yesql/"><i class="fa-solid fa-pen-to-square"></i><span class="nav-text">YESQL</span></a></li>
+      </ul>
+    </nav>
+    <div class="sticky-cta-wrapper">
+      <a href="https://sales.theartofpostgresql.com/the-art-of-postgresql-book/" class="sticky-cta button button_purple">Get the Book – $89</a>
+    </div>
+  </div>
+</header>
+
+
+
+
+
+
+
+<div class="yesql_lesson">
+  <div class="wrapper">
+    <article class="lesson_content">
+      <nav class="yesql_breadcrumb">
+        <a href="/yesql/">YeSQL</a> <span>›</span>
+        <a href="/yesql/data-types/">Data Types</a>
+      </nav>
+
+      <h1>Serialization and Deserialization</h1>
+      <p class="lesson_lede">A database is not a place to dump strings and parse them back. Its type system is the contract that keeps your data consistent across every part of your application.</p>
+
+      
+<div class="lesson_lab_banner">
+  <i class="fa-solid fa-flask"></i>
+  <div class="lab_banner_body">
+    <strong>Run it yourself</strong> — all queries on this page use the
+    <code>f1db</code> dataset,
+    pre-loaded in the free
+    <a href="/lab/">TAOP lab</a>.
+    Start a session with <code>psql taop</code> and follow along.
+    No setup beyond <a href="https://github.com/dimitri/TheArtOfPostgreSQL" rel="noopener">Docker</a>.
+  </div>
+</div>
+
+
+
+      <p>It is tempting to think of an RDBMS as a place to <em>store</em> your in-memory
+objects: you serialize them on the way in, deserialize them on the way out, and
+treat the database as a fancy disk. That framing misses the point entirely.</p>
+<p>Saving a value to disk and reading it back is not a problem you need a database
+for. A flat file does that. What you actually get from PostgreSQL is something
+much more valuable: a <em>transactional</em> system that guarantees the <strong>consistency</strong>
+of your data — the C in ACID.</p>
+<p>Why does that matter? Because a real application is never one program. It&rsquo;s an
+admin panel, a customer back-office, a public front-end, accounting reports —
+often written in different languages by different teams, sometimes by
+third-party tools. For all of those to agree on the same business rules, you
+need one core that enforces correctness for everyone. That core is your
+database, and the way it enforces correctness is through its <strong>type system</strong>.</p>
+<p>This is the boundary I want you to internalize: the type system is the contract
+between your application and your data. When you pick the right column type, you
+hand the work of validation to PostgreSQL instead of scattering string-parsing
+and casting logic across every service that touches the table.</p>
+<p>Here&rsquo;s the difference in one line. Ask PostgreSQL to accept an impossible date:</p>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#719e07">select</span> <span style="color:#b58900">date</span> <span style="color:#2aa198">&#39;2010-02-29&#39;</span>;
+</span></span></code></pre></div><pre tabindex="0"><code>ERROR:  date/time field value out of range: &#34;2010-02-29&#34;
+LINE 1: select date &#39;2010-02-29&#39;;
+                    ^
+</code></pre><p>2010 was not a leap year, so February 29th does not exist — and PostgreSQL
+<em>knows</em> that, because its <code>date</code> type implements the Gregorian calendar. A
+column typed as <code>text</code> would have happily stored that string, and every reader
+would later have to discover, independently, that it&rsquo;s garbage.</p>
+<p>That&rsquo;s the trade. Store a date as <code>text</code> and you&rsquo;ve signed up to validate it in
+application code, forever, in every language you use. Store it as <code>date</code> and the
+database refuses bad input at the door, once, for everyone.</p>
+<p>So before reaching for a generic string column, ask: <em>is there a type that
+already understands this value?</em> Most of the time there is — and letting the
+database enforce it is the whole reason it&rsquo;s there. Next, take
+<a href="/yesql/data-types/a-tour-of-postgresql-data-types/">a tour of the types PostgreSQL offers</a>.</p>
+
+
+      <aside class="lesson_email_capture" aria-label="Get the book intro as a PDF">
+  <div class="email_capture_copy">
+    <strong>Reading this from the book?</strong>
+    <p>This chapter is from <em>The Art of PostgreSQL</em>. Get the 2026 edition intro as a PDF, plus the next lessons by email.</p>
+  </div>
+  <form class="email_capture_form"
+        action="https://app.kit.com/forms/YOUR_KIT_FORM_ID/subscriptions"
+        method="post"
+        data-kit-form="YOUR_KIT_FORM_ID"
+        novalidate>
+    <label for="ec_email" class="visually-hidden">Email address</label>
+    <input id="ec_email" type="email" name="email_address"
+           placeholder="you@example.com" required autocomplete="email">
+    <button type="submit">Send me the PDF</button>
+  </form>
+  <p class="email_capture_success" hidden role="status">Done — check your inbox!</p>
+  <p class="email_capture_error" hidden role="alert">
+    Something went wrong. <a href="https://app.kit.com/forms/YOUR_KIT_FORM_ID/subscriptions">Try this link instead.</a>
+  </p>
+</aside>
+
+<script>
+(function () {
+  
+  var KIT_FORM_ID = 'YOUR_KIT_FORM_ID';
+
+  document.querySelectorAll('[data-kit-form]').forEach(function (form) {
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var wrap  = form.closest('.lesson_email_capture');
+      var input = form.querySelector('input[type="email"]');
+      var btn   = form.querySelector('button[type="submit"]');
+      var ok    = wrap.querySelector('.email_capture_success');
+      var err   = wrap.querySelector('.email_capture_error');
+
+      btn.disabled    = true;
+      btn.textContent = 'Sending…';
+
+      
+      
+      fetch('https://api.kit.com/v4/forms/' + KIT_FORM_ID + '/subscribe', {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify({ email_address: input.value }),
+      })
+      .then(function (res) {
+        if (!res.ok) throw new Error(res.status);
+        form.hidden = true;
+        ok.hidden   = false;
+      })
+      .catch(function () {
+        btn.disabled    = false;
+        btn.textContent = 'Send me the PDF';
+        err.hidden      = false;
+      });
+    });
+  });
+}());
+</script>
+
+
+
+      
+
+      <footer class="lesson_footer">
+        
+        <p class="tags"><a href="http://localhost:1313/tags/data-types">#Data Types</a> <a href="http://localhost:1313/tags/consistency">#Consistency</a> <a href="http://localhost:1313/tags/rdbms">#RDBMS</a> <a href="http://localhost:1313/tags/type-system">#Type System</a> </p>
+        
+      </footer>
+    </article>
+
+    <aside class="lesson_sidebar">
+      <div class="sidebar_block">
+        <h6>Data Types</h6>
+        <ul>
+          
+          <li class="current"><a href="/yesql/data-types/serialization-and-deserialization/">Serialization and Deserialization</a></li>
+          
+          <li><a href="/yesql/data-types/a-tour-of-postgresql-data-types/">A Tour of PostgreSQL Data Types</a></li>
+          
+        </ul>
+      </div>
+
+      <div class="sidebar_block">
+        <h6>Tools</h6>
+        <ul>
+          <li><a href="/compute-database-size/">Compute Database Size</a></li>
+          <li><a href="/explain-plan-visualizer/">Query Plan Visualizer</a></li>
+        </ul>
+      </div>
+
+      <div class="sidebar_block sidebar_lab">
+        <i class="fa-solid fa-flask"></i>
+        <h6>Try it Yourself</h6>
+        <p>A free Docker setup ships all datasets pre-loaded. One command and you're in a live <code>psql</code> session.</p>
+        <a href="/lab/" class="button button_purple">Open the Lab</a>
+        <a href="https://github.com/dimitri/TheArtOfPostgreSQL" class="lab_github_link" rel="noopener"><i class="fa-brands fa-github"></i> Starter Kit on GitHub</a>
+      </div>
+
+
+    </aside>
+  </div>
+</div>
+
+
+<section class="yesql_offer">
+  <div class="wrapper">
+    <div class="offer_card">
+      <p class="offer_eyebrow">Keep going</p>
+      <h3>The Art of PostgreSQL</h3>
+      <p>Liked this? It&#39;s one piece of a complete, practical system for writing real PostgreSQL. The book is your entry point.</p>
+      <a href="https://sales.theartofpostgresql.com/the-art-of-postgresql-book/" class="button button_purple button_large">Get the Book — $89</a>
+    </div>
+  </div>
+</section>
+
+
+ 
+
+<footer class="footer">
+	<div class="wrapper">
+	    <div class="about_block">
+	        <h6>about the author</h6>
+	        <p>Hi! My name is Dimitri Fontaine and I have been using and contributing to Open Source Software for the best of the last 20 years. I am a PostgreSQL Major Contributor after having contributed Extensions and Event Triggers, among other things.</p>
+	        <p>I have been writing code almost daily for a very long time now, both in a professional capacity and on my leisure time. I&rsquo;ve also been a database architect and a DBA on-call. As a developer I enjoy using SQL. As a database architect, I like teaching advanced SQL techniques to my colleagues.</p>
+	        <ul>
+	            <li><a target="_blank" href="mailto:dim@tapoueh.org">email</a></li>
+	            <li><a target="_blank" href="https://twitter.com/tapoueh">twitter</a></li>
+	            <li><a target="_blank" href="https://github.com/dimitri">github</a></li>
+	            <li><a target="_blank" href="https://www.reddit.com/user/theartofpostgresql">reddit</a></li>
+	        </ul>
+    	</div>
+	    <div class="faq_block">
+            <h6>FAQ</h6>
+	        <dl>
+	           <dt>What if the book isn&rsquo;t what I expected it would be?</dt>
+	           <dd>The Art of PostgreSQL is a book that teaches SQL to application developers. If it's not of any value to you, then just say so and I'll refund you, no questions asked.</dd>
+	           <dt>I bought the book, and I'm confused. What now?</dt>
+	           <dd>
+                     The content of the book is available as a PDF, ePub and
+	             MOBI file, and you can also download the SQL queries.
+	             The content is available over
+	             at <a href="https://members.theartofpostgresql.com/courses/the-art-of-postgresql/"
+	             target="_">https://members.theartofpostgresql.com/courses/the-art-of-postgresql/</a>
+	             from your student dashboard.
+                   </dd>
+	           <dt>Is there any DRM?</dt>
+	           <dd>No. There isn't even watermarking on the PDF. You own what you buy. The sources of data selected for the book are all available with Open Data types of licenses, and the book itself is copyright Dimitri Fontaine. All rights reserved.</dd>
+	           <dt>Any other questions?</dt>
+	           <dd>Contact me by <a href="mailto:dim@tapoueh.org">email</a> and just ask! I will do my best to answer you.</dd>
+	        </dl>
+     	    </div>
+	</div>
+</footer>
+
+
+
+
+
+
+<div class="copyright">
+    <div class="wrapper">
+        Copyright 2019-2026 &copy; Dimitri Fontaine. All rights reserved. Design by <a style="color: white; font-weight: bold;" target="_blank" href="https://www.terrilowry.com">TerriLowry.com.</a>
+    </div>
+</div>
+
+
+ 
+
+<script type="text/javascript">
+  var subscribersSiteId='1296f531-7ba0-406f-89e1-bdca40a36208';
+</script>
+<script type="text/javascript"
+        src="https://cdn.subscribers.com/assets/subscribers.js">
+</script>
+  
+
+ 
+
+<script>
+!function(e,t,n,s,u,a){e.twq||(s=e.twq=function(){s.exe?s.exe.apply(s,arguments):s.queue.push(arguments);
+},s.version='1.1',s.queue=[],u=t.createElement(n),u.async=!0,u.src='//static.ads-twitter.com/uwt.js',
+a=t.getElementsByTagName(n)[0],a.parentNode.insertBefore(u,a))}(window,document,'script');
+
+twq('init','o0ial');
+twq('track','PageView');
+</script>
+
+
+</body>
+</html> 
+

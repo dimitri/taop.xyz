@@ -1,0 +1,155 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><title>An Indexing Strategy · The Art of PostgreSQL</title><meta name=description content="Indexes follow from your queries, not your tables. An index is a named trade: faster reads in exchange for slower writes. Only make trades you can justify."><meta name=twitter:card content="summary"><meta name=twitter:site content="@tapoueh"><meta name=twitter:creator content="@tapoueh"><meta property="og:url" content="https://theartofpostgresql.com/yesql/performance/indexing-strategy/"><meta property="og:title" content="An Indexing Strategy · YeSQL"><meta property="og:description" content="Practical PostgreSQL for developers, one concept at a time."><meta property="og:image" content="https://theartofpostgresql.com/images/hardcover-mockup.jpg"><meta name=viewport content="width=device-width,initial-scale=1,minimum-scale=1"><link href=/favicon.ico rel=icon type=image/x-icon><link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900" rel=stylesheet><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css><link rel=stylesheet href=/css/style.css><link rel=stylesheet href=/css/yesql.css><link rel=stylesheet href=/syntax.css><script src=https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js></script><script src=/js/custom.js></script></head><body class=yesql><header class=header><div class=wrapper><nav><ul><li><a href=/book/><i class="fa-solid fa-book-open"></i><span class=nav-text>BOOK</span></a></li><li class=divider></li><li><a class=logo href=/>The Art of PostgreSQL</a></li><li class=divider></li><li><a href=/course/><i class="fa-solid fa-graduation-cap"></i><span class=nav-text>COURSE</span></a></li><li class=divider></li><li><a href=/workshop/><i class="fa-solid fa-microphone"></i><span class=nav-text>WORKSHOP</span></a></li><li class=divider></li><li><a href=/lab/><i class="fa-solid fa-flask"></i><span class=nav-text>LAB</span></a></li><li class=divider></li><li><a class=logo href=/>The Art of PostgreSQL</a></li><li class=divider></li><li><a href=/yesql/><i class="fa-solid fa-pen-to-square"></i><span class=nav-text>YESQL</span></a></li></ul></nav><div class=sticky-cta-wrapper><a href=https://sales.theartofpostgresql.com/the-art-of-postgresql-book/ class="sticky-cta button button_purple">Get the Book – $89</a></div></div></header><div class=yesql_lesson><div class=wrapper><article class=lesson_content><nav class=yesql_breadcrumb><a href=/yesql/>YeSQL</a> <span>›</span>
+<a href=/yesql/performance/>Performance</a></nav><h1>An Indexing Strategy</h1><p class=lesson_lede>Indexes follow from your queries, not your tables. An index is a named trade: faster reads in exchange for slower writes. Only make trades you can justify.</p><div class=lesson_lab_banner><i class="fa-solid fa-flask"></i><div class=lab_banner_body><strong>Run it yourself</strong> — all queries on this page use the
+<code>f1db</code> dataset,
+pre-loaded in the free
+<a href=/lab/>TAOP lab</a>.
+Start a session with <code>psql taop</code> and follow along.
+No setup beyond <a href=https://github.com/dimitri/TheArtOfPostgreSQL rel=noopener>Docker</a>.</div></div><p>The most common mistake is treating indexing as a data-modeling step: draw
+your tables, then sprinkle indexes on the columns that &ldquo;look important.&rdquo; That
+gets it backwards. An index exists to make a <em>query</em> faster, and you don&rsquo;t
+know which queries you run until you&rsquo;ve written them. Indexing is a developer
+activity, downstream of your SQL — not a schema decoration.</p><p>PostgreSQL creates exactly two kinds of index on its own: the ones it needs
+for correctness. A <code>PRIMARY KEY</code>, <code>UNIQUE</code>, or <code>EXCLUDE USING</code> constraint each
+requires a backing index, because that&rsquo;s how PostgreSQL enforces the constraint
+against concurrent transactions. Everything else is yours to decide.</p><h3 id=the-write-side-cost>The write-side cost</h3><p>An index is duplicated data kept in sync with the table — transactionally.
+Every <code>INSERT</code> updates every index on the table; every <code>UPDATE</code> that touches
+an indexed column does too (PostgreSQL&rsquo;s HOT mechanism spares only updates
+that avoid all indexed columns). A table with eight indexes pays roughly eight
+extra writes per inserted row — write amplification that shows up as slower
+ingestion, more WAL, and more vacuum work.</p><p>The discipline that follows: index for the queries you actually run, audit
+<code>pg_stat_user_indexes.idx_scan</code> for indexes nothing uses, and treat each
+<code>CREATE INDEX</code> as a trade you can name — <em>this read path</em>, paid for by <em>that
+write overhead</em>.</p><h3 id=index-types>Index types</h3><p>PostgreSQL supports five index types, each suited to a different class of
+queries. The f1db schema uses B-tree everywhere — all indexes in f1db are
+B-tree except the circuits GiST spatial index:</p><div class=highlight><pre tabindex=0 style=color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#719e07>select</span> i.relname        <span style=color:#719e07>as</span> index_name,
+</span></span><span style=display:flex><span>       t.relname        <span style=color:#719e07>as</span> <span style=color:#719e07>table_name</span>,
+</span></span><span style=display:flex><span>       am.amname        <span style=color:#719e07>as</span> index_type,
+</span></span><span style=display:flex><span>       pg_size_pretty(pg_relation_size(i.oid)) <span style=color:#719e07>as</span> index_size
+</span></span><span style=display:flex><span>  <span style=color:#719e07>from</span> pg_index ix
+</span></span><span style=display:flex><span>  <span style=color:#719e07>join</span> pg_class    i <span style=color:#719e07>on</span> i.oid <span style=color:#719e07>=</span> ix.indexrelid
+</span></span><span style=display:flex><span>  <span style=color:#719e07>join</span> pg_class    t <span style=color:#719e07>on</span> t.oid <span style=color:#719e07>=</span> ix.indrelid
+</span></span><span style=display:flex><span>  <span style=color:#719e07>join</span> pg_am      am <span style=color:#719e07>on</span> am.oid <span style=color:#719e07>=</span> i.relam
+</span></span><span style=display:flex><span>  <span style=color:#719e07>join</span> pg_namespace n <span style=color:#719e07>on</span> n.oid <span style=color:#719e07>=</span> t.relnamespace
+</span></span><span style=display:flex><span> <span style=color:#719e07>where</span> n.nspname <span style=color:#719e07>=</span> <span style=color:#2aa198>&#39;f1db&#39;</span>
+</span></span><span style=display:flex><span> <span style=color:#719e07>order</span> <span style=color:#719e07>by</span> t.relname, i.relname;
+</span></span></code></pre></div><pre tabindex=0><code>      index_name       │      table_name      │ index_type │ index_size
+═══════════════════════╪══════════════════════╪════════════╪════════════
+ circuits_position_idx │ circuits             │ gist       │ 8192 bytes
+ idx_49472_primary     │ circuits             │ btree      │ 16 kB
+ idx_49535_primary     │ laptimes             │ btree      │ 16 MB
+ idx_49535_raceid      │ laptimes             │ btree      │ 2968 kB
+ idx_49569_primary     │ results              │ btree      │ 536 kB
+ ...
+</code></pre><p><strong>B-tree</strong> (default) handles equality, range, and sorting: <code>=</code>, <code>&lt;</code>, <code>></code>,
+<code>BETWEEN</code>, <code>IN</code>, <code>IS NULL</code>. It stores values in sorted order, so it can
+satisfy <code>ORDER BY</code> without a separate Sort node. Use B-tree for almost
+everything.</p><p><strong>Hash</strong> handles only <code>=</code>. Faster than B-tree for pure equality at scale,
+but useless for range queries or sorting. Crash-safe since PostgreSQL 10.</p><p><strong>GiST</strong> handles geometric types, ranges, and full-text with custom operators:
+overlap (<code>&&</code>), containment (<code>@></code>), nearest-neighbor distance (<code>&lt;-></code>). Use it
+when B-tree operators are insufficient — the band membership exclusion
+constraint in the <a href=/yesql/data-schema-design/range-types/>range types lesson</a>
+uses a GiST index.</p><p><strong>GIN</strong> (Generalized Inverted Index) is optimized for types whose values
+contain multiple components: arrays, JSONB documents, <code>tsvector</code> full-text.
+One index entry per element, fast for containment (<code>@></code>, <code>@@</code>). The hashtag
+and JSONB examples in the <a href=/yesql/data-schema-design/json-and-denormalized-types/>JSONB lesson</a>
+use GIN indexes.</p><p><strong>BRIN</strong> (Block Range INdex) stores min/max values per block range. It is
+tiny — a few kilobytes even for billion-row tables — and is effective only
+when rows are physically ordered by the indexed column, as with timestamps or
+monotone IDs in append-heavy tables. For tables where <code>id</code> increases
+monotonically, a BRIN index on <code>id</code> costs almost nothing and can replace a
+B-tree for range scans.</p><h3 id=selectivity-when-does-the-planner-choose-an-index>Selectivity: when does the planner choose an index?</h3><p>The planner weighs sequential scan cost against index scan cost. A sequential
+scan reads the table top to bottom — cheap per page, cost proportional to
+table size. An index scan follows pointers from the B-tree to random heap
+locations — fast for selective queries, expensive when many rows match (each
+pointer is a random read).</p><p>The crossover threshold is roughly 5–20% of rows depending on <code>random_page_cost</code>.
+On SSDs, lowering <code>random_page_cost</code> from 4.0 toward 1.0 makes the planner
+more willing to use index scans for moderate selectivity.</p><div class=highlight><pre tabindex=0 style=color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#719e07>explain</span> (<span style=color:#719e07>analyze</span>, buffers)
+</span></span><span style=display:flex><span><span style=color:#719e07>select</span> r.<span style=color:#719e07>year</span>, <span style=color:#719e07>count</span>(<span style=color:#719e07>*</span>) <span style=color:#719e07>as</span> races, <span style=color:#719e07>sum</span>(res.points) <span style=color:#719e07>as</span> points
+</span></span><span style=display:flex><span>  <span style=color:#719e07>from</span> f1db.results res
+</span></span><span style=display:flex><span>  <span style=color:#719e07>join</span> f1db.races r <span style=color:#719e07>on</span> r.raceid <span style=color:#719e07>=</span> res.raceid
+</span></span><span style=display:flex><span>  <span style=color:#719e07>join</span> f1db.drivers d <span style=color:#719e07>on</span> d.driverid <span style=color:#719e07>=</span> res.driverid
+</span></span><span style=display:flex><span> <span style=color:#719e07>where</span> d.surname <span style=color:#719e07>=</span> <span style=color:#2aa198>&#39;Hamilton&#39;</span>
+</span></span><span style=display:flex><span> <span style=color:#719e07>group</span> <span style=color:#719e07>by</span> r.<span style=color:#719e07>year</span>
+</span></span><span style=display:flex><span> <span style=color:#719e07>order</span> <span style=color:#719e07>by</span> r.<span style=color:#719e07>year</span>;
+</span></span></code></pre></div><pre tabindex=0><code> GroupAggregate  (cost=761.03..762.15 rows=56) (actual time=2.109..2.126 rows=14 loops=1)
+   -&gt;  Sort  (cost=761.03..761.17 rows=56) ...
+         -&gt;  Nested Loop  (cost=32.80..759.40 rows=56) ...
+               -&gt;  Hash Join  (cost=32.52..742.75 rows=56) ...
+                     -&gt;  Seq Scan on results res  rows=23597
+                     -&gt;  Seq Scan on drivers d  rows=2
+                           Filter: ((surname)::text = &#39;Hamilton&#39;::text)
+                           Rows Removed by Filter: 838
+               -&gt;  Index Scan using idx_49556_primary on races r  (loops=204)
+</code></pre><p><code>drivers</code> is scanned sequentially (840 rows, no index on <code>surname</code>) — the
+filter discards 838 rows and passes 2 to the join. Then for each of the 204
+matching result rows, the planner uses an index scan on <code>races</code> by <code>raceid</code>.
+A B-tree on <code>drivers(surname)</code> would replace that Seq Scan with an Index Scan
+and avoid the 838-row discard.</p><h3 id=composite-indexes-and-column-order>Composite indexes and column order</h3><p>A composite index on <code>(a, b)</code> can satisfy queries filtering on <code>a</code> alone or
+on <code>(a, b)</code> together. It cannot help a query filtering on <code>b</code> alone — the
+B-tree is sorted by the leading column first. Put the most selective column
+in the leading position, and put the column used for equality (<code>=</code>) before
+columns used for ranges (<code>&lt;</code>, <code>></code>).</p><p>The <code>laptimes</code> table has a composite primary key <code>(raceid, driverid, lap)</code>.
+A query for one driver&rsquo;s fastest lap in one race:</p><div class=highlight><pre tabindex=0 style=color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#719e07>select</span> <span style=color:#719e07>min</span>(milliseconds)
+</span></span><span style=display:flex><span>  <span style=color:#719e07>from</span> f1db.laptimes
+</span></span><span style=display:flex><span> <span style=color:#719e07>where</span> raceid <span style=color:#719e07>=</span> <span style=color:#2aa198>1069</span> <span style=color:#719e07>and</span> driverid <span style=color:#719e07>=</span> <span style=color:#2aa198>1</span>;
+</span></span></code></pre></div><p>lands an Index Scan on the <code>(raceid, driverid, lap)</code> composite primary key —
+both leading columns match, so the planner descends directly to the right
+subtree and reads fewer than a dozen rows out of 500,000.</p><p>For paginated queries, a two-column index on <code>(filter_col, sort_col)</code> covers
+both the <code>WHERE</code> and <code>ORDER BY</code> in one B-tree descent. A query that paginates
+recent orders for one customer:</p><div class=highlight><pre tabindex=0 style=color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#719e07>select</span> id, total, created_at
+</span></span><span style=display:flex><span>  <span style=color:#719e07>from</span> orders
+</span></span><span style=display:flex><span> <span style=color:#719e07>where</span> customer_id <span style=color:#719e07>=</span> <span style=color:#2aa198>42</span>
+</span></span><span style=display:flex><span> <span style=color:#719e07>order</span> <span style=color:#719e07>by</span> created_at <span style=color:#719e07>desc</span>
+</span></span><span style=display:flex><span> <span style=color:#719e07>limit</span> <span style=color:#2aa198>20</span>;
+</span></span></code></pre></div><p>with an index on <code>(customer_id, created_at)</code> produces:</p><pre tabindex=0><code>Limit
+  -&gt;  Index Scan Backward using orders_customer_created_idx on orders
+        Index Cond: (customer_id = 42)
+</code></pre><p>No separate Sort node — the index is already sorted by <code>created_at</code> within
+each <code>customer_id</code> group.</p><h3 id=partial-indexes>Partial indexes</h3><p>A partial index covers only the rows matching a <code>WHERE</code> clause. Before
+creating one, see what the current plan looks like for race winners:</p><div class=highlight><pre tabindex=0 style=color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#719e07>explain</span> (<span style=color:#719e07>analyze</span>, buffers)
+</span></span><span style=display:flex><span><span style=color:#719e07>select</span> res.raceid, res.driverid, res.constructorid
+</span></span><span style=display:flex><span>  <span style=color:#719e07>from</span> f1db.results res
+</span></span><span style=display:flex><span> <span style=color:#719e07>where</span> res.positionorder <span style=color:#719e07>=</span> <span style=color:#2aa198>1</span>
+</span></span><span style=display:flex><span> <span style=color:#719e07>order</span> <span style=color:#719e07>by</span> res.raceid;
+</span></span></code></pre></div><pre tabindex=0><code> Sort  (cost=755.08..757.51 rows=970) (actual time=1.292..1.324 rows=970 loops=1)
+   -&gt;  Seq Scan on results res  (cost=0.00..706.96 rows=970)
+         Filter: (positionorder = 1)
+         Rows Removed by Filter: 22627
+</code></pre><p>22,627 rows fetched and discarded to find 970 winners. A partial index on
+only those rows:</p><div class=highlight><pre tabindex=0 style=color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#719e07>create</span> <span style=color:#719e07>index</span> results_winners_idx
+</span></span><span style=display:flex><span>    <span style=color:#719e07>on</span> f1db.results (raceid, driverid, constructorid)
+</span></span><span style=display:flex><span>    <span style=color:#719e07>where</span> positionorder <span style=color:#719e07>=</span> <span style=color:#2aa198>1</span>;
+</span></span></code></pre></div><p>The index covers only 970 rows instead of 23,597 — it is smaller, cheaper to
+scan, and the planner can use it when the query&rsquo;s <code>WHERE</code> clause includes
+<code>positionorder = 1</code>. Partial indexes are the right tool when a large fraction
+of your queries always filter on the same fixed condition.</p><h3 id=covering-indexes>Covering indexes</h3><p>An <code>Index Only Scan</code> satisfies the entire query from the index without
+visiting the heap. For it to work, all columns referenced by the query
+(both <code>WHERE</code> and <code>SELECT</code>) must be present in the index.</p><p>When the columns needed for output are not in the index key, add them with
+<code>INCLUDE</code>:</p><div class=highlight><pre tabindex=0 style=color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#719e07>create</span> <span style=color:#719e07>index</span> results_driverid_covering
+</span></span><span style=display:flex><span>    <span style=color:#719e07>on</span> f1db.results (driverid)
+</span></span><span style=display:flex><span>    include (points, positionorder);
+</span></span></code></pre></div><p>Queries that select only <code>driverid</code>, <code>points</code>, and <code>positionorder</code> with a
+filter on <code>driverid</code> can now use an Index Only Scan with zero heap fetches.
+The <code>INCLUDE</code> columns are stored at the leaf level of the B-tree but are not
+part of the sort key — they don&rsquo;t improve ordering, only coverage.</p><h3 id=auditing-unused-indexes>Auditing unused indexes</h3><p>Indexes you don&rsquo;t use still impose a write cost. PostgreSQL tracks usage in
+<code>pg_stat_user_indexes</code>:</p><div class=highlight><pre tabindex=0 style=color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#719e07>select</span> schemaname,
+</span></span><span style=display:flex><span>       relname        <span style=color:#719e07>as</span> <span style=color:#719e07>table_name</span>,
+</span></span><span style=display:flex><span>       indexrelname   <span style=color:#719e07>as</span> index_name,
+</span></span><span style=display:flex><span>       idx_scan       <span style=color:#719e07>as</span> times_used,
+</span></span><span style=display:flex><span>       pg_size_pretty(pg_relation_size(indexrelid)) <span style=color:#719e07>as</span> <span style=color:#719e07>size</span>
+</span></span><span style=display:flex><span>  <span style=color:#719e07>from</span> pg_stat_user_indexes
+</span></span><span style=display:flex><span> <span style=color:#719e07>where</span> idx_scan <span style=color:#719e07>=</span> <span style=color:#2aa198>0</span>
+</span></span><span style=display:flex><span>   <span style=color:#719e07>and</span> schemaname <span style=color:#719e07>not</span> <span style=color:#719e07>in</span> (<span style=color:#2aa198>&#39;pg_catalog&#39;</span>)
+</span></span><span style=display:flex><span> <span style=color:#719e07>order</span> <span style=color:#719e07>by</span> pg_relation_size(indexrelid) <span style=color:#719e07>desc</span>;
+</span></span></code></pre></div><p>Any index with <code>idx_scan = 0</code> since the last statistics reset is a candidate
+for removal. Reset the stats after major load tests or schema changes with
+<code>select pg_stat_reset()</code>, then wait for a representative workload period
+before drawing conclusions.</p><aside class=lesson_email_capture aria-label="Get the book intro as a PDF"><div class=email_capture_copy><strong>Reading this from the book?</strong><p>This chapter is from <em>The Art of PostgreSQL</em>. Get the 2026 edition intro as a PDF, plus the next lessons by email.</p></div><form class=email_capture_form action=https://app.kit.com/forms/YOUR_KIT_FORM_ID/subscriptions method=post data-kit-form=YOUR_KIT_FORM_ID novalidate><label for=ec_email class=visually-hidden>Email address</label>
+<input id=ec_email type=email name=email_address placeholder=you@example.com required autocomplete=email>
+<button type=submit>Send me the PDF</button></form><p class=email_capture_success hidden role=status>Done — check your inbox!</p><p class=email_capture_error hidden role=alert>Something went wrong. <a href=https://app.kit.com/forms/YOUR_KIT_FORM_ID/subscriptions>Try this link instead.</a></p></aside><script>(function(){var e="YOUR_KIT_FORM_ID";document.querySelectorAll("[data-kit-form]").forEach(function(t){t.addEventListener("submit",function(n){n.preventDefault();var o=t.closest(".lesson_email_capture"),i=t.querySelector('input[type="email"]'),s=t.querySelector('button[type="submit"]'),a=o.querySelector(".email_capture_success"),r=o.querySelector(".email_capture_error");s.disabled=!0,s.textContent="Sending…",fetch("https://api.kit.com/v4/forms/"+e+"/subscribe",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({email_address:i.value})}).then(function(e){if(!e.ok)throw new Error(e.status);t.hidden=!0,a.hidden=!1}).catch(function(){s.disabled=!1,s.textContent="Send me the PDF",r.hidden=!1})})})})()</script><aside class=lesson_course_attr><i class="fa-solid fa-graduation-cap"></i><p>This lesson is a preview from the <b>Query Optimization</b> course.
+<a href=/course/>See the full curriculum →</a></p></aside><footer class=lesson_footer><p class=tags><a href=https://theartofpostgresql.com/tags/indexing>#Indexing</a> <a href=https://theartofpostgresql.com/tags/performance>#Performance</a> <a href=https://theartofpostgresql.com/tags/explain>#EXPLAIN</a> <a href=https://theartofpostgresql.com/tags/b-tree>#B-tree</a> <a href=https://theartofpostgresql.com/tags/gin>#GIN</a> <a href=https://theartofpostgresql.com/tags/brin>#BRIN</a> <a href=https://theartofpostgresql.com/tags/partial-index>#partial index</a></p></footer></article><aside class=lesson_sidebar><div class=sidebar_block><h6>Performance</h6><ul><li><a href=/yesql/performance/reading-explain/>Reading EXPLAIN</a></li><li class=current><a href=/yesql/performance/indexing-strategy/>An Indexing Strategy</a></li><li><a href=/yesql/performance/query-rewriting/>Query Rewriting and Anti-Patterns</a></li></ul></div><div class=sidebar_block><h6>Tools</h6><ul><li><a href=/compute-database-size/>Compute Database Size</a></li><li><a href=/explain-plan-visualizer/>Query Plan Visualizer</a></li></ul></div><div class="sidebar_block sidebar_lab"><i class="fa-solid fa-flask"></i><h6>Try it Yourself</h6><p>A free Docker setup ships all datasets pre-loaded. One command and you're in a live <code>psql</code> session.</p><a href=/lab/ class="button button_purple">Open the Lab</a>
+<a href=https://github.com/dimitri/TheArtOfPostgreSQL class=lab_github_link rel=noopener><i class="fa-brands fa-github"></i> Starter Kit on GitHub</a></div></aside></div></div><section class=yesql_offer><div class=wrapper><div class=offer_card><p class=offer_eyebrow>Keep going</p><h3>Query Optimization</h3><p>Indexing strategy is one chapter. The course covers the full cost model, row estimate diagnostics, query rewriting, common anti-patterns, and index maintenance under load.</p><a href=/course/ class="button button_purple button_large">Explore the Course</a></div></div></section><footer class=footer><div class=wrapper><div class=about_block><h6>about the author</h6><p>Hi! My name is Dimitri Fontaine and I have been using and contributing to Open Source Software for the best of the last 20 years. I am a PostgreSQL Major Contributor after having contributed Extensions and Event Triggers, among other things.</p><p>I have been writing code almost daily for a very long time now, both in a professional capacity and on my leisure time. I&rsquo;ve also been a database architect and a DBA on-call. As a developer I enjoy using SQL. As a database architect, I like teaching advanced SQL techniques to my colleagues.</p><ul><li><a target=_blank href=mailto:dim@tapoueh.org>email</a></li><li><a target=_blank href=https://twitter.com/tapoueh>twitter</a></li><li><a target=_blank href=https://github.com/dimitri>github</a></li><li><a target=_blank href=https://www.reddit.com/user/theartofpostgresql>reddit</a></li></ul></div><div class=faq_block><h6>FAQ</h6><dl><dt>What if the book isn&rsquo;t what I expected it would be?</dt><dd>The Art of PostgreSQL is a book that teaches SQL to application developers. If it's not of any value to you, then just say so and I'll refund you, no questions asked.</dd><dt>I bought the book, and I'm confused. What now?</dt><dd>The content of the book is available as a PDF, ePub and
+MOBI file, and you can also download the SQL queries.
+The content is available over
+at <a href=https://members.theartofpostgresql.com/courses/the-art-of-postgresql/ target=_>https://members.theartofpostgresql.com/courses/the-art-of-postgresql/</a>
+from your student dashboard.</dd><dt>Is there any DRM?</dt><dd>No. There isn't even watermarking on the PDF. You own what you buy. The sources of data selected for the book are all available with Open Data types of licenses, and the book itself is copyright Dimitri Fontaine. All rights reserved.</dd><dt>Any other questions?</dt><dd>Contact me by <a href=mailto:dim@tapoueh.org>email</a> and just ask! I will do my best to answer you.</dd></dl></div></div></footer><div class=copyright><div class=wrapper>Copyright 2019-2026 &copy; Dimitri Fontaine. All rights reserved. Design by <a style=color:#fff;font-weight:700 target=_blank href=https://www.terrilowry.com>TerriLowry.com.</a></div></div><script type=text/javascript>var subscribersSiteId="1296f531-7ba0-406f-89e1-bdca40a36208"</script><script type=text/javascript src=https://cdn.subscribers.com/assets/subscribers.js></script><script>!function(e,t,n,s,o,i){e.twq||(s=e.twq=function(){s.exe?s.exe.apply(s,arguments):s.queue.push(arguments)},s.version="1.1",s.queue=[],o=t.createElement(n),o.async=!0,o.src="//static.ads-twitter.com/uwt.js",i=t.getElementsByTagName(n)[0],i.parentNode.insertBefore(o,i))}(window,document,"script"),twq("init","o0ial"),twq("track","PageView")</script></body></html>

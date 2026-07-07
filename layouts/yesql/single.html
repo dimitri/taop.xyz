@@ -12,12 +12,18 @@
       <h1>{{ .Title }}</h1>
       {{ with .Params.summary }}<p class="lesson_lede">{{ . }}</p>{{ end }}
 
+      {{ partial "yesql/lab-intro.html" . }}
+
       {{ .Content }}
 
-      {{ with .Params.book_chapter }}
-      <aside class="lesson_attribution">
-        <p>This lesson is distilled from <b><i>The Art of PostgreSQL</i></b> — {{ . }}.
-        <a href="{{ $.Param "book_url" | default "https://sales.theartofpostgresql.com/the-art-of-postgresql-book/" }}">Read the full chapter →</a></p>
+      {{ partial "yesql/email-capture.html" . }}
+
+
+      {{ with .Params.course_title }}
+      <aside class="lesson_course_attr">
+        <i class="fa-solid fa-graduation-cap"></i>
+        <p>This lesson is a preview from the <b>{{ . }}</b> course.
+        <a href="{{ $.Param "course_url" }}">See the full curriculum →</a></p>
       </aside>
       {{ end }}
 
@@ -46,10 +52,15 @@
         </ul>
       </div>
 
-      <div class="sidebar_block sidebar_subscribe">
-        <p>Get a <b>free chapter</b> of <i>The Art of PostgreSQL</i>, including the full Table of Contents.</p>
-        <script async data-uid="c1452ad801" src="https://f.convertkit.com/c1452ad801/ad53e74e51.js"></script>
+      <div class="sidebar_block sidebar_lab">
+        <i class="fa-solid fa-flask"></i>
+        <h6>Try it Yourself</h6>
+        <p>A free Docker setup ships all datasets pre-loaded. One command and you're in a live <code>psql</code> session.</p>
+        <a href="/lab/" class="button button_purple">Open the Lab</a>
+        <a href="https://github.com/dimitri/TheArtOfPostgreSQL" class="lab_github_link" rel="noopener"><i class="fa-brands fa-github"></i> Starter Kit on GitHub</a>
       </div>
+
+
     </aside>
   </div>
 </div>

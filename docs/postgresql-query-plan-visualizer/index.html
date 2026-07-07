@@ -1,202 +1,42 @@
-<!DOCTYPE html>
-<html lang="en">
- <head>
-    <meta name="generator" content="Hugo 0.83.1" />
-    <meta charset="utf-8" />
-    <title>The Art of PostgreSQL - PostgreSQL Query Plan Visualizer</title>
-    <meta name="description" content="Photo by unsplash-logoHanna Morris  Postgres Query Planning PostgreSQL provides advanced tooling to understand how it executes SQL queries. The execution of a query follows specific steps:
- Parsing Planning Optimization Execution  When it comes to the execution step, all Postgres does is follow the selected optimized plan. It is possible to ask Postgres for the query plan and inspect it, in order to better understand the execution of any query and then when necessary find a way to execute the same query faster." />
-
+<!doctype html><html lang=en><head><meta name=generator content="Hugo 0.162.1"><meta charset=utf-8><title>The Art of PostgreSQL - PostgreSQL Query Plan Visualizer</title><meta name=description content="
     
-    <meta name="twitter:card" content="summary" />
-    <meta name="twitter:site" content="@tapoueh" />
-    <meta name="twitter:creator" content="@tapoueh" />
-    <meta property="og:url" content="/postgresql-query-plan-visualizer/" />
-    <meta
-      property="og:title"
-      content="PostgreSQL Query Plan Visualizer"
-    />
-    <meta
-      property="og:description"
-      content="The book that teaches SQL to developers: Learn to replace thousands of lines of code with simple queries!"
-    />
-    <meta
-      property="og:image"
-      content="https://theartofpostgresql.com/images/hardcover-mockup.jpg"
-    />
-
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, minimum-scale=1.0"
-    />
-
-    <link href="/favicon.ico" rel="icon" type="image/x-icon" />
-
-    <link
-      href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="/css/style.css" />
-    <link rel="stylesheet" href="/syntax.css" />
-    <link href="/pggraph/static/css/main.736aaa9f.chunk.css" rel="stylesheet" />
-    <link
-      href="https://unpkg.com/bootstrap@4.3.1/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link href="/pev/css/app.888e741c.css" rel="stylesheet" />
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
-    <script src="/js/custom.js"></script>
-  </head>
-  <body class="blog"></body>
-</html>
-
-<header class="header">
-  <div class="wrapper">
-    <nav>
-      <ul>
-	<li><a href="/book/"><i class="fa-solid fa-book-open"></i><span class="nav-text">BOOK</span></a></li>
-	<li class="divider"></li>
-	<li><a class="logo" href="/">The Art of PostgreSQL</a></li>
-	<li class="divider"></li>
-	<li><a href="/course/"><i class="fa-solid fa-graduation-cap"></i><span class="nav-text">COURSE</span></a></li>
-	<li class="divider"></li>
-	<li><a href="/workshop/"><i class="fa-solid fa-microphone"></i><span class="nav-text">WORKSHOP</span></a></li>
-	<li class="divider"></li>
-	<li><a href="/lab/"><i class="fa-solid fa-flask"></i><span class="nav-text">LAB</span></a></li>
-	<li class="divider"></li>
-	<li><a class="logo" href="/">The Art of PostgreSQL</a></li>
-	<li class="divider"></li>
-	<li><a href="/blog/"><i class="fa-solid fa-pen-to-square"></i><span class="nav-text">BLOG</span></a></li>
-      </ul>
-    </nav>
-  </div>
-</header>
-
-
-<div class="blog_block">
-    <div class="wrapper">        
-        <article class="post_content">
-            <div>
-    <p style="text-align: right;">
     Photo by 
-<a style="background-color:black;color:white;text-decoration:none;padding:4px 6px;font-family:-apple-system, BlinkMacSystemFont, &quot;San Francisco&quot;, &quot;Helvetica Neue&quot;, Helvetica, Ubuntu, Roboto, Noto, &quot;Segoe UI&quot;, Arial, sans-serif;font-size:12px;font-weight:bold;line-height:1.2;display:inline-block;border-radius:3px" href="https://unsplash.com/@hcmorr?utm_medium=referral&amp;utm_campaign=photographer-credit&amp;utm_content=creditBadge" target="_blank" rel="noopener noreferrer" title="Download free do whatever you want high-resolution photos from Hanna Morris"><span style="display:inline-block;padding:2px 3px"><svg xmlns="http://www.w3.org/2000/svg" style="height:12px;width:auto;position:relative;vertical-align:middle;top:-2px;fill:white" viewBox="0 0 32 32"><title>unsplash-logo</title><path d="M10 9V0h12v9H10zm12 5h10v18H0V14h10v9h12v-9z"></path></svg></span><span style="display:inline-block;padding:2px 3px">Hanna Morris</span></a>
-   </p>
-</div>
-<h2 id="postgres-query-planning">Postgres Query Planning</h2>
-<p>PostgreSQL provides advanced tooling to understand how it executes SQL
-queries. The execution of a query follows specific steps:</p>
-<ul>
-<li>Parsing</li>
-<li>Planning</li>
-<li>Optimization</li>
-<li>Execution</li>
-</ul>
-<p>When it comes to the <strong>execution</strong> step, all Postgres does is follow the
+unsplash-logoHanna Morris
+   
+
+Postgres Query Planning
+PostgreSQL provides advanced tooling to understand how it executes SQL
+queries. The execution of a query follows specific steps:
+
+Parsing
+Planning
+Optimization
+Execution
+
+When it comes to the execution step, all Postgres does is follow the
 selected optimized plan. It is possible to ask Postgres for the query plan
 and inspect it, in order to better understand the execution of any query and
-then when necessary find a way to execute the same query faster.</p>
-<p>There are several ways to make a query execute faster. The best known is
+then when necessary find a way to execute the same query faster."><meta name=twitter:card content="summary"><meta name=twitter:site content="@tapoueh"><meta name=twitter:creator content="@tapoueh"><meta property="og:url" content="/postgresql-query-plan-visualizer/"><meta property="og:title" content="PostgreSQL Query Plan Visualizer"><meta property="og:description" content="The book that teaches SQL to developers: Learn to replace thousands of lines of code with simple queries!"><meta property="og:image" content="https://theartofpostgresql.com/images/hardcover-mockup.jpg"><meta name=viewport content="width=device-width,initial-scale=1,minimum-scale=1"><link href=/favicon.ico rel=icon type=image/x-icon><link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900" rel=stylesheet><link rel=stylesheet href=/css/style.css><link rel=stylesheet href=/syntax.css><link href=/pggraph/static/css/main.736aaa9f.chunk.css rel=stylesheet><link href=https://unpkg.com/bootstrap@4.3.1/dist/css/bootstrap.min.css rel=stylesheet><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css><link href=/pev/css/app.888e741c.css rel=stylesheet><script src=https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js></script><script src=https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js></script><script src=/js/custom.js></script></head><body class=blog></body></html><header class=header><div class=wrapper><nav><ul><li><a href=/book/><i class="fa-solid fa-book-open"></i><span class=nav-text>BOOK</span></a></li><li class=divider></li><li><a class=logo href=/>The Art of PostgreSQL</a></li><li class=divider></li><li><a href=/course/><i class="fa-solid fa-graduation-cap"></i><span class=nav-text>COURSE</span></a></li><li class=divider></li><li><a href=/workshop/><i class="fa-solid fa-microphone"></i><span class=nav-text>WORKSHOP</span></a></li><li class=divider></li><li><a href=/lab/><i class="fa-solid fa-flask"></i><span class=nav-text>LAB</span></a></li><li class=divider></li><li><a class=logo href=/>The Art of PostgreSQL</a></li><li class=divider></li><li><a href=/blog/><i class="fa-solid fa-pen-to-square"></i><span class=nav-text>BLOG</span></a></li></ul></nav></div></header><div class=blog_block><div class=wrapper><article class=post_content><div><p style=text-align:right>Photo by
+<a style="background-color:#000;color:#fff;text-decoration:none;padding:4px 6px;font-family:-apple-system,BlinkMacSystemFont,san francisco,helvetica neue,Helvetica,Ubuntu,Roboto,Noto,segoe ui,Arial,sans-serif;font-size:12px;font-weight:700;line-height:1.2;display:inline-block;border-radius:3px" href="https://unsplash.com/@hcmorr?utm_medium=referral&amp;utm_campaign=photographer-credit&amp;utm_content=creditBadge" target=_blank rel="noopener noreferrer" title="Download free do whatever you want high-resolution photos from Hanna Morris"><span style="display:inline-block;padding:2px 3px"><svg style="height:12px;width:auto;position:relative;vertical-align:middle;top:-2px;fill:#fff" viewBox="0 0 32 32"><title>unsplash-logo</title><path d="M10 9V0h12v9H10zm12 5h10v18H0V14h10v9h12v-9z"/></svg></span><span style="display:inline-block;padding:2px 3px">Hanna Morris</span></a></p></div><h2 id=postgres-query-planning>Postgres Query Planning</h2><p>PostgreSQL provides advanced tooling to understand how it executes SQL
+queries. The execution of a query follows specific steps:</p><ul><li>Parsing</li><li>Planning</li><li>Optimization</li><li>Execution</li></ul><p>When it comes to the <strong>execution</strong> step, all Postgres does is follow the
+selected optimized plan. It is possible to ask Postgres for the query plan
+and inspect it, in order to better understand the execution of any query and
+then when necessary find a way to execute the same query faster.</p><p>There are several ways to make a query execute faster. The best known is
 through indexing. Postgres indexes provide an alternative access path to the
 data, which in some cases involves less work than accessing the rows on the
-<em>heap storage</em> of the tables directly.</p>
-<p>Statistics are another important tool to use for making a query execute
+<em>heap storage</em> of the tables directly.</p><p>Statistics are another important tool to use for making a query execute
 faster with Postgres. Postgres keeps stats about every table and their
 contents, and uses those statistics in the optimization step above. Having
 better statistics, either in quality, in quantity, and sometimes both, can
 help Postgres make better decisions about what an optimal query plan looks
-like.</p>
-<h2 id="explain-plan-visualizer">Explain Plan Visualizer</h2>
-<p>To help with reading and understanding query plans, you can use the
-<a href="https://github.com/dalibo/pev2">PEV</a> tool, which is Open Source and easy
-enough to integrate in a website. So that&rsquo;s what we did at <a href="/explain-plan-visualizer/">Explain Plan
+like.</p><h2 id=explain-plan-visualizer>Explain Plan Visualizer</h2><p>To help with reading and understanding query plans, you can use the
+<a href=https://github.com/dalibo/pev2>PEV</a> tool, which is Open Source and easy
+enough to integrate in a website. So that&rsquo;s what we did at <a href=/explain-plan-visualizer/>Explain Plan
 Visualizer</a>. You can paste your query and explain
 plan here and see a nice diagram with visual hints to better understand your
-query plans:</p>
-<div id=app></div>
-<script src=/pev/js/chunk-vendors.4c62444f.js></script>
-<script src=/pev/js/app.7d88b591.js></script>
-<p>The PNG saving feature is experimental. It might even work on your browser
-and with your own query plan… sometimes!</p>
-
-        </article>
-    </div>
-</div>
-
- 
-
-<footer class="footer">
-	<div class="wrapper">
-	    <div class="about_block">
-	        <h6>about the author</h6>
-	        <p>Hi! My name is Dimitri Fontaine and I have been using and contributing to Open Source Software for the best of the last 20 years. I am a PostgreSQL Major Contributor after having contributed Extensions and Event Triggers, among other things.</p>
-	        <p>I have been writing code almost daily for a very long time now, both in a professional capacity and on my leisure time. I&rsquo;ve also been a database architect and a DBA on-call. As a developer I enjoy using SQL. As a database architect, I like teaching advanced SQL techniques to my colleagues.</p>
-	        <ul>
-	            <li><a target="_blank" href="mailto:dim@tapoueh.org">email</a></li>
-	            <li><a target="_blank" href="https://twitter.com/tapoueh">twitter</a></li>
-	            <li><a target="_blank" href="https://github.com/dimitri">github</a></li>
-	            <li><a target="_blank" href="https://www.reddit.com/user/theartofpostgresql">reddit</a></li>
-	        </ul>
-    	</div>
-	    <div class="faq_block">
-            <h6>FAQ</h6>
-	        <dl>
-	           <dt>What if the book isn&rsquo;t what I expected it would be?</dt>
-	           <dd>The Art of PostgreSQL is a book that teaches SQL to application developers. If it's not of any value to you, then just say so and I'll refund you, no questions asked.</dd>
-	           <dt>I bought the book, and I'm confused. What now?</dt>
-	           <dd>
-                     The content of the book is available as a PDF, ePub and
-	             MOBI file, and you can also download the SQL queries.
-	             The content is available over
-	             at <a href="https://members.theartofpostgresql.com/courses/the-art-of-postgresql/"
-	             target="_">https://members.theartofpostgresql.com/courses/the-art-of-postgresql/</a>
-	             from your student dashboard.
-                   </dd>
-	           <dt>Is there any DRM?</dt>
-	           <dd>No. There isn't even watermarking on the PDF. You own what you buy. The sources of data selected for the book are all available with Open Data types of licenses, and the book itself is copyright Dimitri Fontaine. All rights reserved.</dd>
-	           <dt>Any other questions?</dt>
-	           <dd>Contact me by <a href="mailto:dim@tapoueh.org">email</a> and just ask! I will do my best to answer you.</dd>
-	        </dl>
-     	    </div>
-	</div>
-</footer>
-
-
-
-
-
-
-<div class="copyright">
-    <div class="wrapper">
-        Copyright 2019-2026 &copy; Dimitri Fontaine. All rights reserved. Design by <a style="color: white; font-weight: bold;" target="_blank" href="https://www.terrilowry.com">TerriLowry.com.</a>
-    </div>
-</div>
-
-
- 
-
-<script type="text/javascript">
-  var subscribersSiteId='1296f531-7ba0-406f-89e1-bdca40a36208';
-</script>
-<script type="text/javascript"
-        src="https://cdn.subscribers.com/assets/subscribers.js">
-</script>
-  
-
- 
-
-<script>
-!function(e,t,n,s,u,a){e.twq||(s=e.twq=function(){s.exe?s.exe.apply(s,arguments):s.queue.push(arguments);
-},s.version='1.1',s.queue=[],u=t.createElement(n),u.async=!0,u.src='//static.ads-twitter.com/uwt.js',
-a=t.getElementsByTagName(n)[0],a.parentNode.insertBefore(u,a))}(window,document,'script');
-
-twq('init','o0ial');
-twq('track','PageView');
-</script>
-
-
-</body>
-</html> 
-
+query plans:</p><div id=app></div><script src=/pev/js/chunk-vendors.4c62444f.js></script><script src=/pev/js/app.7d88b591.js></script><p>The PNG saving feature is experimental. It might even work on your browser
+and with your own query plan… sometimes!</p></article></div></div><footer class=footer><div class=wrapper><div class=about_block><h6>about the author</h6><p>Hi! My name is Dimitri Fontaine and I have been using and contributing to Open Source Software for the best of the last 20 years. I am a PostgreSQL Major Contributor after having contributed Extensions and Event Triggers, among other things.</p><p>I have been writing code almost daily for a very long time now, both in a professional capacity and on my leisure time. I&rsquo;ve also been a database architect and a DBA on-call. As a developer I enjoy using SQL. As a database architect, I like teaching advanced SQL techniques to my colleagues.</p><ul><li><a target=_blank href=mailto:dim@tapoueh.org>email</a></li><li><a target=_blank href=https://twitter.com/tapoueh>twitter</a></li><li><a target=_blank href=https://github.com/dimitri>github</a></li><li><a target=_blank href=https://www.reddit.com/user/theartofpostgresql>reddit</a></li></ul></div><div class=faq_block><h6>FAQ</h6><dl><dt>What if the book isn&rsquo;t what I expected it would be?</dt><dd>The Art of PostgreSQL is a book that teaches SQL to application developers. If it's not of any value to you, then just say so and I'll refund you, no questions asked.</dd><dt>I bought the book, and I'm confused. What now?</dt><dd>The content of the book is available as a PDF, ePub and
+MOBI file, and you can also download the SQL queries.
+The content is available over
+at <a href=https://members.theartofpostgresql.com/courses/the-art-of-postgresql/ target=_>https://members.theartofpostgresql.com/courses/the-art-of-postgresql/</a>
+from your student dashboard.</dd><dt>Is there any DRM?</dt><dd>No. There isn't even watermarking on the PDF. You own what you buy. The sources of data selected for the book are all available with Open Data types of licenses, and the book itself is copyright Dimitri Fontaine. All rights reserved.</dd><dt>Any other questions?</dt><dd>Contact me by <a href=mailto:dim@tapoueh.org>email</a> and just ask! I will do my best to answer you.</dd></dl></div></div></footer><div class=copyright><div class=wrapper>Copyright 2019-2026 &copy; Dimitri Fontaine. All rights reserved. Design by <a style=color:#fff;font-weight:700 target=_blank href=https://www.terrilowry.com>TerriLowry.com.</a></div></div><script type=text/javascript>var subscribersSiteId="1296f531-7ba0-406f-89e1-bdca40a36208"</script><script type=text/javascript src=https://cdn.subscribers.com/assets/subscribers.js></script><script>!function(e,t,n,s,o,i){e.twq||(s=e.twq=function(){s.exe?s.exe.apply(s,arguments):s.queue.push(arguments)},s.version="1.1",s.queue=[],o=t.createElement(n),o.async=!0,o.src="//static.ads-twitter.com/uwt.js",i=t.getElementsByTagName(n)[0],i.parentNode.insertBefore(o,i))}(window,document,"script"),twq("init","o0ial"),twq("track","PageView")</script></body></html>

@@ -4,8 +4,7 @@ title = "The Art of PostgreSQL"
 theme = "taop"
 publishDir = "docs"
 
-[ignoreErrors]
-  ignoreErrors = [""]
+ignoreLogs = [""]
 
 # PygmentsCodeFences = true
 # pygmentsstyle = "autumn"

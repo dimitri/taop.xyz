@@ -1,0 +1,151 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><title>Reading EXPLAIN · The Art of PostgreSQL</title><meta name=description content="EXPLAIN reveals the plan PostgreSQL chose without running the query. Reading cost, row estimates, and node type fluently is the starting point for all query analysis."><meta name=twitter:card content="summary"><meta name=twitter:site content="@tapoueh"><meta name=twitter:creator content="@tapoueh"><meta property="og:url" content="https://theartofpostgresql.com/yesql/performance/reading-explain/"><meta property="og:title" content="Reading EXPLAIN · YeSQL"><meta property="og:description" content="Practical PostgreSQL for developers, one concept at a time."><meta property="og:image" content="https://theartofpostgresql.com/images/hardcover-mockup.jpg"><meta name=viewport content="width=device-width,initial-scale=1,minimum-scale=1"><link href=/favicon.ico rel=icon type=image/x-icon><link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900" rel=stylesheet><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css><link rel=stylesheet href=/css/style.css><link rel=stylesheet href=/css/yesql.css><link rel=stylesheet href=/syntax.css><script src=https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js></script><script src=/js/custom.js></script></head><body class=yesql><header class=header><div class=wrapper><nav><ul><li><a href=/book/><i class="fa-solid fa-book-open"></i><span class=nav-text>BOOK</span></a></li><li class=divider></li><li><a class=logo href=/>The Art of PostgreSQL</a></li><li class=divider></li><li><a href=/course/><i class="fa-solid fa-graduation-cap"></i><span class=nav-text>COURSE</span></a></li><li class=divider></li><li><a href=/workshop/><i class="fa-solid fa-microphone"></i><span class=nav-text>WORKSHOP</span></a></li><li class=divider></li><li><a href=/lab/><i class="fa-solid fa-flask"></i><span class=nav-text>LAB</span></a></li><li class=divider></li><li><a class=logo href=/>The Art of PostgreSQL</a></li><li class=divider></li><li><a href=/yesql/><i class="fa-solid fa-pen-to-square"></i><span class=nav-text>YESQL</span></a></li></ul></nav><div class=sticky-cta-wrapper><a href=https://sales.theartofpostgresql.com/the-art-of-postgresql-book/ class="sticky-cta button button_purple">Get the Book – $89</a></div></div></header><div class=yesql_lesson><div class=wrapper><article class=lesson_content><nav class=yesql_breadcrumb><a href=/yesql/>YeSQL</a> <span>›</span>
+<a href=/yesql/performance/>Performance</a></nav><h1>Reading EXPLAIN</h1><p class=lesson_lede>EXPLAIN reveals the plan PostgreSQL chose without running the query. Reading cost, row estimates, and node type fluently is the starting point for all query analysis.</p><div class=lesson_lab_banner><i class="fa-solid fa-flask"></i><div class=lab_banner_body><strong>Run it yourself</strong> — all queries on this page use the
+<code>f1db</code> dataset,
+pre-loaded in the free
+<a href=/lab/>TAOP lab</a>.
+Start a session with <code>psql taop</code> and follow along.
+No setup beyond <a href=https://github.com/dimitri/TheArtOfPostgreSQL rel=noopener>Docker</a>.</div></div><p><code>EXPLAIN</code> tells you the plan PostgreSQL chose without executing the query. No
+rows are produced, no data is changed — the output is the planner&rsquo;s internal
+decision written out as text. Learning to read it fluently is the foundation
+of all performance work.</p><h3 id=the-simplest-plan>The simplest plan</h3><p>The most basic form: wrap any query in <code>EXPLAIN</code>:</p><div class=highlight><pre tabindex=0 style=color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#719e07>explain</span>
+</span></span><span style=display:flex><span><span style=color:#719e07>select</span> <span style=color:#719e07>count</span>(<span style=color:#719e07>*</span>)
+</span></span><span style=display:flex><span>  <span style=color:#719e07>from</span> f1db.results;
+</span></span></code></pre></div><pre tabindex=0><code>                                           QUERY PLAN
+══════════════════════════════════════════════════════════════════════════════════════════
+ Aggregate  (cost=681.24..681.25 rows=1 width=8)
+   -&gt;  Index Only Scan using idx_49569_primary on results  (cost=0.29..622.24 rows=23597 width=0)
+(2 rows)
+</code></pre><p>Two nodes. The indentation shows the tree: <code>Index Only Scan</code> feeds rows
+upward into <code>Aggregate</code>. Each node shows <code>cost=startup..total rows=N width=W</code>:</p><ul><li><strong>startup cost</strong> — work done before the first row appears (here 0.29 for
+the index scan, 681.24 for the aggregate that must process everything
+before it can emit the count)</li><li><strong>total cost</strong> — estimated total work to produce all rows</li><li><strong>rows</strong> — estimated number of rows this node will emit</li><li><strong>width</strong> — average row width in bytes (0 here because <code>count(*)</code> touches
+no actual columns)</li></ul><p>Costs are in arbitrary planner units — what matters is relative comparison
+between nodes and between two versions of the same query.</p><h3 id=plan-trees-reading-indentation>Plan trees: reading indentation</h3><p>A three-table join produces a tree. Indentation shows parent-child structure;
+data flows upward toward the root:</p><div class=highlight><pre tabindex=0 style=color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#719e07>explain</span>
+</span></span><span style=display:flex><span><span style=color:#719e07>select</span> d.surname, r.name, res.points
+</span></span><span style=display:flex><span>  <span style=color:#719e07>from</span> f1db.drivers  d
+</span></span><span style=display:flex><span>  <span style=color:#719e07>join</span> f1db.results res <span style=color:#719e07>on</span> res.driverid <span style=color:#719e07>=</span> d.driverid
+</span></span><span style=display:flex><span>  <span style=color:#719e07>join</span> f1db.races    r  <span style=color:#719e07>on</span> r.raceid    <span style=color:#719e07>=</span> res.raceid
+</span></span><span style=display:flex><span> <span style=color:#719e07>where</span> r.<span style=color:#719e07>year</span> <span style=color:#719e07>=</span> <span style=color:#2aa198>2017</span>
+</span></span><span style=display:flex><span> <span style=color:#719e07>limit</span> <span style=color:#2aa198>20</span>;
+</span></span></code></pre></div><pre tabindex=0><code> Limit  (cost=0.56..69.61 rows=20 width=34)
+   -&gt;  Nested Loop  (cost=0.56..1671.61 rows=484 width=34)
+         -&gt;  Nested Loop  (cost=0.29..1527.85 rows=484 width=35)
+               -&gt;  Seq Scan on results res  (cost=0.00..647.97 rows=23597 width=24)
+               -&gt;  Memoize  (cost=0.29..0.31 rows=1 width=27)
+                     Cache Key: res.raceid
+                     -&gt;  Index Scan using idx_49556_primary on races r
+                           Index Cond: (raceid = res.raceid)
+                           Filter: (year = 2017)
+         -&gt;  Index Scan using idx_49514_primary on drivers d
+               Index Cond: (driverid = res.driverid)
+</code></pre><p>Reading from the leaves upward: <code>results</code> is scanned sequentially, then for
+each row the <code>Memoize</code> node looks up the matching <code>races</code> row (caching
+repeated lookups by <code>raceid</code>). Those two streams merge in the inner <code>Nested Loop</code>, then each combined row triggers an index lookup on <code>drivers</code>. The outer
+<code>Limit</code> stops the outer <code>Nested Loop</code> after 20 rows.</p><p><img src=/img/diagrams/fig-plan-tree-join.svg alt="Plan tree for the 3-table join: Limit → Nested Loop → (Nested Loop, Index Scan drivers) → (Seq Scan results, Memoize → Index Scan races)"></p><h3 id=startup-cost-vs-total-cost>Startup cost vs total cost</h3><p>The gap between startup and total cost reveals the node&rsquo;s behavior:</p><div class=highlight><pre tabindex=0 style=color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#719e07>explain</span>
+</span></span><span style=display:flex><span><span style=color:#719e07>select</span> d.surname,
+</span></span><span style=display:flex><span>       <span style=color:#719e07>sum</span>(res.points) <span style=color:#719e07>as</span> career_points
+</span></span><span style=display:flex><span>  <span style=color:#719e07>from</span> f1db.drivers  d
+</span></span><span style=display:flex><span>  <span style=color:#719e07>join</span> f1db.results res <span style=color:#719e07>on</span> res.driverid <span style=color:#719e07>=</span> d.driverid
+</span></span><span style=display:flex><span> <span style=color:#719e07>group</span> <span style=color:#719e07>by</span> d.driverid, d.surname
+</span></span><span style=display:flex><span> <span style=color:#719e07>order</span> <span style=color:#719e07>by</span> career_points <span style=color:#719e07>desc</span>
+</span></span><span style=display:flex><span> <span style=color:#719e07>limit</span> <span style=color:#2aa198>10</span>;
+</span></span></code></pre></div><pre tabindex=0><code> Limit  (cost=895.66..895.69 rows=10 width=23)
+   -&gt;  Sort  (cost=895.66..897.76 rows=840 width=23)
+         Sort Key: (sum(res.points)) DESC
+         -&gt;  HashAggregate  (cost=869.11..877.51 rows=840 width=23)
+               Group Key: d.driverid
+               -&gt;  Hash Join  (cost=40.90..751.12 rows=23597 width=23)
+                     -&gt;  Seq Scan on results res  (cost=0.00..647.97 rows=23597 width=16)
+                     -&gt;  Hash  (cost=30.40..30.40 rows=840 width=15)
+                           -&gt;  Seq Scan on drivers d
+</code></pre><p><code>Sort (cost=895.66..897.76)</code>: startup cost 895 means the Sort must consume
+<em>all</em> 840 input rows before it can return row one — it materializes
+everything first. A streaming node like <code>Seq Scan (cost=0.00..)</code> has zero
+startup: it returns the first row immediately.</p><p>High startup cost signals: <strong>Sort</strong>, <strong>Hash</strong> (build phase), <strong>HashAggregate</strong>,
+and CTEs marked <code>MATERIALIZED</code>. These nodes produce no output until they have
+consumed all input. Everything with <code>cost=0.00..N</code> streams row-at-a-time.</p><p><img src=/img/diagrams/fig-explain-startup-cost.svg alt="Startup cost as share of total cost: Seq Scan and Hash Join start emitting rows almost immediately; HashAggregate and Sort spend 99%+ of their cost in the startup phase before a single row appears"></p><h3 id=seq-scan-and-the-filter-signal>Seq Scan and the Filter signal</h3><p>The most important warning in a <code>EXPLAIN</code> output is a <code>Filter</code> on a <code>Seq Scan</code> that removes many rows. This query on all <code>results</code>:</p><div class=highlight><pre tabindex=0 style=color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#719e07>explain</span>
+</span></span><span style=display:flex><span><span style=color:#719e07>select</span> <span style=color:#719e07>*</span>
+</span></span><span style=display:flex><span>  <span style=color:#719e07>from</span> f1db.results
+</span></span><span style=display:flex><span> <span style=color:#719e07>where</span> points <span style=color:#719e07>&gt;=</span> <span style=color:#2aa198>0</span>;
+</span></span></code></pre></div><pre tabindex=0><code> Seq Scan on results  (cost=0.00..706.96 rows=23597 width=138)
+   Filter: (points &gt;= &#39;0&#39;::double precision)
+</code></pre><p>All 23,597 rows match, so a Seq Scan is correct here — no index would help.
+Compare this to EXPLAIN ANALYZE output with <code>Rows Removed by Filter: 22627</code>:
+that figure tells you 22,627 rows were fetched and discarded. A large removal
+ratio on a Seq Scan is the clearest signal that an index on the filtered
+column might cut that work dramatically.</p><h3 id=explain-analyze-seeing-what-actually-ran>EXPLAIN ANALYZE: seeing what actually ran</h3><p>Add <code>ANALYZE</code> to execute the query and measure each node:</p><div class=highlight><pre tabindex=0 style=color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#719e07>explain</span> (<span style=color:#719e07>analyze</span>, format <span style=color:#b58900>text</span>)
+</span></span><span style=display:flex><span><span style=color:#719e07>select</span> d.surname, r.name, res.points
+</span></span><span style=display:flex><span>  <span style=color:#719e07>from</span> f1db.drivers  d
+</span></span><span style=display:flex><span>  <span style=color:#719e07>join</span> f1db.results res <span style=color:#719e07>on</span> res.driverid <span style=color:#719e07>=</span> d.driverid
+</span></span><span style=display:flex><span>  <span style=color:#719e07>join</span> f1db.races    r  <span style=color:#719e07>on</span> r.raceid    <span style=color:#719e07>=</span> res.raceid
+</span></span><span style=display:flex><span> <span style=color:#719e07>where</span> r.<span style=color:#719e07>year</span> <span style=color:#719e07>=</span> <span style=color:#2aa198>2017</span>
+</span></span><span style=display:flex><span>   <span style=color:#719e07>and</span> res.positionorder <span style=color:#719e07>=</span> <span style=color:#2aa198>1</span>
+</span></span><span style=display:flex><span> <span style=color:#719e07>order</span> <span style=color:#719e07>by</span> r.<span style=color:#b58900>date</span>;
+</span></span></code></pre></div><pre tabindex=0><code> Sort  (cost=754.48..754.53 rows=20) (actual time=1.946..1.948 rows=11 loops=1)
+   Sort Method: quicksort  Memory: 25kB
+   -&gt;  Nested Loop  (cost=36.73..754.05 rows=20) (actual time=1.897..1.931 rows=11 loops=1)
+         -&gt;  Hash Join  (cost=36.45..745.97 rows=20) (actual time=1.881..1.907 rows=11 loops=1)
+               Hash Cond: (res.raceid = r.raceid)
+               -&gt;  Seq Scan on results res  (cost=0.00..706.96 rows=970) (actual time=0.009..1.750 rows=970 loops=1)
+                     Filter: (positionorder = 1)
+                     Rows Removed by Filter: 22627
+               -&gt;  Hash  (cost=36.20..36.20 rows=20) (actual time=0.091..0.092 rows=20 loops=1)
+                     -&gt;  Seq Scan on races r  (cost=0.00..36.20 rows=20) (actual time=0.070..0.084 rows=20 loops=1)
+                           Filter: (year = 2017)
+                           Rows Removed by Filter: 956
+         -&gt;  Index Scan using idx_49514_primary on drivers d (actual time=0.002..0.002 rows=1 loops=11)
+               Index Cond: (driverid = res.driverid)
+ Planning Time: 0.642 ms
+ Execution Time: 2.019 ms
+</code></pre><p>Each node now shows <code>actual time=start..end rows=actual loops=N</code>. The planner
+estimated 970 rows for <code>positionorder = 1</code>; the actual was also 970 — a good
+estimate. The <code>loops=11</code> on the <code>Index Scan</code> on <code>drivers</code> means that node ran
+11 times (once per matching result row); times and rows shown are per-loop
+averages.</p><p><strong>One safety rule:</strong> <code>EXPLAIN ANALYZE</code> executes the statement. On a <code>SELECT</code>
+this is safe. On an <code>UPDATE</code>, <code>DELETE</code>, or <code>INSERT</code>, the rows really change.
+Wrap data-modifying statements in a transaction you roll back:</p><div class=highlight><pre tabindex=0 style=color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#719e07>begin</span>;
+</span></span><span style=display:flex><span><span style=color:#719e07>explain</span> (<span style=color:#719e07>analyze</span>, buffers)
+</span></span><span style=display:flex><span>  <span style=color:#719e07>update</span> f1db.results <span style=color:#719e07>set</span> points <span style=color:#719e07>=</span> points <span style=color:#719e07>where</span> resultid <span style=color:#719e07>=</span> <span style=color:#2aa198>1</span>;
+</span></span><span style=display:flex><span><span style=color:#719e07>rollback</span>;
+</span></span></code></pre></div><h3 id=buffers-cache-vs-disk>Buffers: cache vs disk</h3><p>Add <code>BUFFERS</code> to see page-level I/O:</p><div class=highlight><pre tabindex=0 style=color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#719e07>explain</span> (<span style=color:#719e07>analyze</span>, buffers)
+</span></span><span style=display:flex><span><span style=color:#719e07>select</span> <span style=color:#719e07>c</span>.name,
+</span></span><span style=display:flex><span>       <span style=color:#719e07>count</span>(<span style=color:#719e07>*</span>) filter (<span style=color:#719e07>where</span> res.positionorder <span style=color:#719e07>=</span> <span style=color:#2aa198>1</span>) <span style=color:#719e07>as</span> wins,
+</span></span><span style=display:flex><span>       <span style=color:#719e07>sum</span>(res.points)                                <span style=color:#719e07>as</span> total_points
+</span></span><span style=display:flex><span>  <span style=color:#719e07>from</span> f1db.constructors <span style=color:#719e07>c</span>
+</span></span><span style=display:flex><span>  <span style=color:#719e07>join</span> f1db.results res <span style=color:#719e07>on</span> res.constructorid <span style=color:#719e07>=</span> <span style=color:#719e07>c</span>.constructorid
+</span></span><span style=display:flex><span>  <span style=color:#719e07>join</span> f1db.races   r   <span style=color:#719e07>on</span> r.raceid          <span style=color:#719e07>=</span> res.raceid
+</span></span><span style=display:flex><span> <span style=color:#719e07>where</span> r.<span style=color:#719e07>year</span> <span style=color:#719e07>between</span> <span style=color:#2aa198>2010</span> <span style=color:#719e07>and</span> <span style=color:#2aa198>2017</span>
+</span></span><span style=display:flex><span> <span style=color:#719e07>group</span> <span style=color:#719e07>by</span> <span style=color:#719e07>c</span>.constructorid, <span style=color:#719e07>c</span>.name
+</span></span><span style=display:flex><span> <span style=color:#719e07>order</span> <span style=color:#719e07>by</span> wins <span style=color:#719e07>desc</span>
+</span></span><span style=display:flex><span> <span style=color:#719e07>limit</span> <span style=color:#2aa198>10</span>;
+</span></span></code></pre></div><pre tabindex=0><code> Limit  (cost=812.85..812.87 rows=10) (actual time=2.566..2.568 rows=10 loops=1)
+   Buffers: shared hit=442
+   -&gt;  Sort  (cost=812.85..813.37 rows=208) ...
+         -&gt;  HashAggregate  (cost=806.27..808.35 rows=208) ...
+               -&gt;  Hash Join  (cost=48.27..768.55 rows=3772) ...
+                     -&gt;  Hash Join  (cost=40.59..750.77 rows=3772) ...
+                           -&gt;  Seq Scan on results res  (cost=0.00..647.97 rows=23597)
+                                 Buffers: shared hit=412
+                           -&gt;  Seq Scan on races r
+                                 Filter: ((year &gt;= 2010) AND (year &lt;= 2017))
+                                 Rows Removed by Filter: 820
+                                 Buffers: shared hit=24
+                     -&gt;  Seq Scan on constructors c
+                           Buffers: shared hit=3
+</code></pre><p><code>shared hit=N</code> means pages served from PostgreSQL&rsquo;s buffer cache (fast).
+<code>shared read=N</code> means pages fetched from disk or the OS cache (slower). Here
+all 442 pages were cache hits — the working set is warm. A persistent
+<code>shared read</code> count on repeated runs means the working set exceeds
+<code>shared_buffers</code>; the query is genuinely I/O bound, and no SQL rewrite will
+help until the memory situation changes.</p><p><code>temp read=N written=M</code> appears when sorts or hashes spilled past <code>work_mem</code>.
+That signals a different fix: more <code>work_mem</code>, or an index that pre-sorts the
+data.</p><aside class=lesson_email_capture aria-label="Get the book intro as a PDF"><div class=email_capture_copy><strong>Reading this from the book?</strong><p>This chapter is from <em>The Art of PostgreSQL</em>. Get the 2026 edition intro as a PDF, plus the next lessons by email.</p></div><form class=email_capture_form action=https://app.kit.com/forms/YOUR_KIT_FORM_ID/subscriptions method=post data-kit-form=YOUR_KIT_FORM_ID novalidate><label for=ec_email class=visually-hidden>Email address</label>
+<input id=ec_email type=email name=email_address placeholder=you@example.com required autocomplete=email>
+<button type=submit>Send me the PDF</button></form><p class=email_capture_success hidden role=status>Done — check your inbox!</p><p class=email_capture_error hidden role=alert>Something went wrong. <a href=https://app.kit.com/forms/YOUR_KIT_FORM_ID/subscriptions>Try this link instead.</a></p></aside><script>(function(){var e="YOUR_KIT_FORM_ID";document.querySelectorAll("[data-kit-form]").forEach(function(t){t.addEventListener("submit",function(n){n.preventDefault();var o=t.closest(".lesson_email_capture"),i=t.querySelector('input[type="email"]'),s=t.querySelector('button[type="submit"]'),a=o.querySelector(".email_capture_success"),r=o.querySelector(".email_capture_error");s.disabled=!0,s.textContent="Sending…",fetch("https://api.kit.com/v4/forms/"+e+"/subscribe",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({email_address:i.value})}).then(function(e){if(!e.ok)throw new Error(e.status);t.hidden=!0,a.hidden=!1}).catch(function(){s.disabled=!1,s.textContent="Send me the PDF",r.hidden=!1})})})})()</script><aside class=lesson_course_attr><i class="fa-solid fa-graduation-cap"></i><p>This lesson is a preview from the <b>Reading Query Plans</b> course.
+<a href=/course/>See the full curriculum →</a></p></aside><footer class=lesson_footer><p class=tags><a href=https://theartofpostgresql.com/tags/explain>#EXPLAIN</a> <a href=https://theartofpostgresql.com/tags/query-plan>#query plan</a> <a href=https://theartofpostgresql.com/tags/cost>#cost</a> <a href=https://theartofpostgresql.com/tags/performance>#performance</a> <a href=https://theartofpostgresql.com/tags/postgresql>#PostgreSQL</a></p></footer></article><aside class=lesson_sidebar><div class=sidebar_block><h6>Performance</h6><ul><li class=current><a href=/yesql/performance/reading-explain/>Reading EXPLAIN</a></li><li><a href=/yesql/performance/indexing-strategy/>An Indexing Strategy</a></li><li><a href=/yesql/performance/query-rewriting/>Query Rewriting and Anti-Patterns</a></li></ul></div><div class=sidebar_block><h6>Tools</h6><ul><li><a href=/compute-database-size/>Compute Database Size</a></li><li><a href=/explain-plan-visualizer/>Query Plan Visualizer</a></li></ul></div><div class="sidebar_block sidebar_lab"><i class="fa-solid fa-flask"></i><h6>Try it Yourself</h6><p>A free Docker setup ships all datasets pre-loaded. One command and you're in a live <code>psql</code> session.</p><a href=/lab/ class="button button_purple">Open the Lab</a>
+<a href=https://github.com/dimitri/TheArtOfPostgreSQL class=lab_github_link rel=noopener><i class="fa-brands fa-github"></i> Starter Kit on GitHub</a></div></aside></div></div><section class=yesql_offer><div class=wrapper><div class=offer_card><p class=offer_eyebrow>Keep going</p><h3>Reading Query Plans</h3><p>EXPLAIN basics are chapter one. The course covers every plan node type in depth, EXPLAIN ANALYZE, buffer diagnostics, row estimate mismatches, and a step-by-step diagnostic workflow.</p><a href=/course/ class="button button_purple button_large">Explore the Course</a></div></div></section><footer class=footer><div class=wrapper><div class=about_block><h6>about the author</h6><p>Hi! My name is Dimitri Fontaine and I have been using and contributing to Open Source Software for the best of the last 20 years. I am a PostgreSQL Major Contributor after having contributed Extensions and Event Triggers, among other things.</p><p>I have been writing code almost daily for a very long time now, both in a professional capacity and on my leisure time. I&rsquo;ve also been a database architect and a DBA on-call. As a developer I enjoy using SQL. As a database architect, I like teaching advanced SQL techniques to my colleagues.</p><ul><li><a target=_blank href=mailto:dim@tapoueh.org>email</a></li><li><a target=_blank href=https://twitter.com/tapoueh>twitter</a></li><li><a target=_blank href=https://github.com/dimitri>github</a></li><li><a target=_blank href=https://www.reddit.com/user/theartofpostgresql>reddit</a></li></ul></div><div class=faq_block><h6>FAQ</h6><dl><dt>What if the book isn&rsquo;t what I expected it would be?</dt><dd>The Art of PostgreSQL is a book that teaches SQL to application developers. If it's not of any value to you, then just say so and I'll refund you, no questions asked.</dd><dt>I bought the book, and I'm confused. What now?</dt><dd>The content of the book is available as a PDF, ePub and
+MOBI file, and you can also download the SQL queries.
+The content is available over
+at <a href=https://members.theartofpostgresql.com/courses/the-art-of-postgresql/ target=_>https://members.theartofpostgresql.com/courses/the-art-of-postgresql/</a>
+from your student dashboard.</dd><dt>Is there any DRM?</dt><dd>No. There isn't even watermarking on the PDF. You own what you buy. The sources of data selected for the book are all available with Open Data types of licenses, and the book itself is copyright Dimitri Fontaine. All rights reserved.</dd><dt>Any other questions?</dt><dd>Contact me by <a href=mailto:dim@tapoueh.org>email</a> and just ask! I will do my best to answer you.</dd></dl></div></div></footer><div class=copyright><div class=wrapper>Copyright 2019-2026 &copy; Dimitri Fontaine. All rights reserved. Design by <a style=color:#fff;font-weight:700 target=_blank href=https://www.terrilowry.com>TerriLowry.com.</a></div></div><script type=text/javascript>var subscribersSiteId="1296f531-7ba0-406f-89e1-bdca40a36208"</script><script type=text/javascript src=https://cdn.subscribers.com/assets/subscribers.js></script><script>!function(e,t,n,s,o,i){e.twq||(s=e.twq=function(){s.exe?s.exe.apply(s,arguments):s.queue.push(arguments)},s.version="1.1",s.queue=[],o=t.createElement(n),o.async=!0,o.src="//static.ads-twitter.com/uwt.js",i=t.getElementsByTagName(n)[0],i.parentNode.insertBefore(o,i))}(window,document,"script"),twq("init","o0ial"),twq("track","PageView")</script></body></html>

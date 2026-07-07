@@ -14,6 +14,18 @@
       <div class="yesql_intro">{{ .Content }}</div>
     </header>
 
+    {{ with .Params.course_title }}
+    <div class="category_course_promo">
+      <i class="fa-solid fa-graduation-cap"></i>
+      <div class="promo_body">
+        <p class="promo_label">Paired course</p>
+        <a href="{{ $.Params.course_url }}">{{ . }}</a>
+        <p>Go deeper with structured exercises, datasets, and production patterns.</p>
+      </div>
+      <a href="{{ $.Params.course_url }}" class="button button_purple">See the Course</a>
+    </div>
+    {{ end }}
+
     <ul class="lesson_list">
       {{ range .Pages.ByWeight }}
       <li>

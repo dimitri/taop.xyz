@@ -1,82 +1,169 @@
 +++
 title = "Why Postgres?"
 weight = 30
-summary = "An RDBMS is not a storage solution. The problem Postgres really solves is concurrency — serving many users correct, live data across transactional and analytical workloads alike."
+summary = "PostgreSQL is not just storage — it is a concurrent data-access service. Here is what that means, and why the PostgreSQL project specifically is the right choice for any serious application."
 tags = ["PostgreSQL", "Architecture", "Concurrency"]
 book_chapter = "Chapter 3, Software Architecture"
+aliases = ["/blog/2019-09-why-postgres/"]
+lab_datasets = "f1db, chinook"
 +++
 
-That's a very popular question these days. The quick answer is the project's own
-slogan: *“PostgreSQL: The World's Most Advanced Open Source Relational
-Database.”* But what does that mean for you, the developer?
+The following concepts are important to keep in mind when working with PostgreSQL:
 
-The main area where I think many people get it wrong is this:
+#### Relational Database Management System
 
-> **Postgres is an RDBMS. An RDBMS is not a storage solution. Do not use Postgres
-> to solve a storage problem.**
+PostgreSQL is an RDBMS and as such its role in your software
+architecture is to handle **concurrent access** to **live data** that is
+manipulated by several applications, or several parts of an application.
 
-The main problem Postgres and other RDBMS solve is **concurrency**. You want your
-application to serve many users at the same time — and nowadays that has to
-happen online, with no off-hours for maintenance or for reconciling the day's
-activity into a reporting system.
+Typically we will find the user-side parts of the application, a
+front-office and a user back-office with a different set of features
+depending on the user role, including some kinds of reporting
+(accounting, finance, analytics), and often some glue scripts here and
+there, crontabs or the like.
 
-## System of records, dashboards, and analytics
+<figure>
+  <img src="/img/diagrams/fig-data-access-service.svg" alt="PostgreSQL as a concurrent data-access service">
+  <figcaption>PostgreSQL acts as a concurrent data-access service: every application component — front-office, back-office, reporting, background scripts — shares one consistent view of the live data through a single SQL API.</figcaption>
+</figure>
 
-We increasingly want access to our data *as it happens*, not a snapshot of
-yesterday. Think of bank statements: not long ago, up-to-yesterday-4pm was a fine
-answer. Now we get a text message seconds after a payment — especially if it's
-unusual. We want dashboards and analytics over data that's still being written,
-with users never having to think about it.
+#### Atomic, Consistent, Isolated, Durable
 
-That's **why** you use Postgres. As an RDBMS it knows how to handle concurrency
-and very diverse workloads. You can implement your transactional system of
-records and, at the same time, deliver customer and activity dashboards and
-analytics.
+At the heart of the concurrent access semantics is the concept of a
+transaction. A transaction should be **atomic** and **isolated**, the
+latter allowing for *online backups* of the data.
 
-## Why SQL?
+Additionally, the RDBMS is tasked with maintaining a data set that is
+**consistent** with the business rules at all times. That's why database
+modeling and normalization tasks are so important, and why PostgreSQL
+supports an advanced set of *constraints*.
 
-To support all of that on one technology, you need a language for both very
-simple transactions and quite complex analytics. That's exactly what SQL was
-designed for.
+**Durable** means that whatever happens PostgreSQL guarantees that it
+won't lose any *committed* change. Your data is safe. Not even an OS
+crash is allowed to risk your data. We're left with disk corruption
+risks, and that's why being able to carry out *online backups* is so
+important.
 
-`BEGIN`, `COMMIT`, and `ROLLBACK` are the Transaction Control Language — the
-**A** and **I** of ACID, Atomic and Isolated, and how you implement concurrency
-as a developer. SQL covers CRUD easily, and it's very good at *batching*:
-remember that you can use JOINs in your `INSERT`, `UPDATE`, and `DELETE`
-statements, handling any number of rows at once.
+<figure>
+  <img src="/img/diagrams/fig-acid.svg" alt="The four ACID guarantees">
+  <figcaption>The four ACID guarantees a transaction provides are the heart of how PostgreSQL keeps data correct under concurrent access: Atomic means all-or-nothing, Consistent means business rules hold before and after, Isolated means concurrent transactions do not see each other's partial work, and Durable means a committed change survives any crash.</figcaption>
+</figure>
 
-SQL is good at analytics too. With `GROUPING SETS`, window functions, advanced
-aggregates, sub-queries, and Common Table Expressions, what you can express in a
-single statement is almost endless. A strong understanding of
-[what a relation is](/yesql/sql-foundations/what-is-a-relation/) and
-[what a JOIN is](/yesql/querying-data/what-is-a-join/) is key to your success.
+#### Data Access API and Service
 
-## Extensions
+Given the characteristics listed above, PostgreSQL allows one to
+implement a data access API. In a world of containers and
+micro-services, PostgreSQL is the data access service, and its API is
+SQL.
 
-Some things are hard to do in SQL — and that's where extensions come in. In
-distributed systems you decide whether to send the computation to the data, or
-the data to the computation. With Postgres it's the same choice: pull the data
-into your application nodes, or process it where it lives. Reducing the data that
-crosses the network is often the most efficient option — and that's why we have
-extensions like **PostGIS**, for geo-spatial joins that return exactly the data
-you need.
+If it looks a lot heavier than your typical micro-service, remember that
+PostgreSQL implements a **stateful service**, on top of which you can
+build the other parts. Those other parts will be scalable and highly
+available by design, because solving those problems for *stateless*
+services is so much easier.
 
-## Licensing
+#### Structured Query Language
 
-Postgres is Open Source, with no single entity behind it. Some companies have
-built businesses around contributing to it, but any individual can contribute —
-all in the open, on public mailing lists. Even the website, the mailing-list
-system, and the conference software are Open Source, managed by the community,
-and welcoming new contributions.
+The data access API offered by PostgreSQL is based on the SQL
+programming language. It's a **declarative** language where your job as
+a developer is to describe in detail the *result set* you are interested
+in.
 
-## So, why Postgres?
+PostgreSQL's job is then to find the most efficient way to access only
+the data needed to compute this result set, and execute the plan it
+comes up with.
 
-To build an application that is correct under concurrency, versatile in
-architecture (CRUD, system of records, OLTP — and also OLAP, analytics,
-dashboards), and powerful in computation — so you can choose, case by case, where
-processing happens without re-architecting anything.
+#### Extensible (JSON, XML, Arrays, Ranges)
 
-If you're not sure which transactional system to use, just use Postgres. You'll
-never be wrong picking it. And if you ever hit truly exceptional scale, it's
-usually easy to move just that part to a specialized system and plug it back into
-the rest of your application — the part that still runs on Postgres.
+The SQL language is statically typed: every query defines a new relation
+that must be fully understood by the system before executing it. That's
+why sometimes *cast* expressions are needed in your queries.
+
+PostgreSQL's unique approach to implementing SQL was invented in the 80s
+with the stated goal of enabling extensibility. SQL operators and
+functions are defined in a catalog and looked up at run-time. Functions
+and operators in PostgreSQL support *polymorphism* and almost every part
+of the system can be extended.
+
+This unique approach has allowed PostgreSQL to be capable of improving
+SQL; it offers a deep coverage for composite data types and documents
+processing right within the language, with clean semantics.
+
+So when designing your software architecture, think about PostgreSQL not as
+*storage* layer, but rather as a *concurrent data access service*. This
+service is capable of handling data processing. How much of the processing
+you want to implement in the SQL part of your architecture depends on many
+factors, including team size, skill set, and operational constraints.
+
+### Why PostgreSQL?
+
+While this course focuses on teaching SQL and how to make the best of this
+programming language in modern application development, it only addresses
+the PostgreSQL implementation of the SQL standard. That choice is down to
+several factors, all consequences of PostgreSQL truly being *the world's
+most advanced open source database*:
+
+  - PostgreSQL is open source, available under a BSD-like licence named the
+    [PostgreSQL licence](https://www.postgresql.org/about/licence/).
+
+  - The PostgreSQL project is done completely in the open, using public
+    mailing lists for all discussions, contributions, and decisions, and the
+    project goes as far as self-hosting all requirements in order to avoid
+    being influenced by a particular company.
+
+  - While being developed and maintained in the open by volunteers, most
+    PostgreSQL developers today are contributing in a professional capacity,
+    both in the interest of their employer and to solve real customer
+    problems.
+
+  - PostgreSQL releases a new major version about once a year, following a
+    *when it's ready* release cycle.
+
+  - The PostgreSQL design, ever since its Berkeley days under the
+    supervision of [Michael
+    Stonebraker](https://en.wikipedia.org/wiki/Michael_Stonebraker), allows
+    enhancing SQL in very advanced ways, as we see in the data types and
+    indexing support parts of this book.
+
+  - The PostgreSQL documentation is one of the best reference manuals you
+    can find, open source or not, and that's because a patch in the code is
+    only accepted when it also includes editing the parts of the
+    documentations that need editing.
+
+  - While new NoSQL systems are offering different trade-offs in terms of
+    operations, guarantees, query languages and APIs, I would argue that
+    PostgreSQL is YeSQL!
+
+In particular, the extensibility of PostgreSQL allows this 20-year-old
+system to keep renewing itself. As a data point, this extensibility design
+makes PostgreSQL one of the best JSON processing platforms you can find.
+
+It makes it possible to improve SQL with advanced support for new data types
+even from "userland code", and to integrate processing functions and
+operators and their indexing support.
+
+We'll see lots of examples of that kind of integration in this course. One of
+them is a query used in the schemaless design section where we deal with a
+Magic™ The Gathering set of cards imported from a JSON data set:
+
+```sql
+select jsonb_pretty(data)
+  from magic.cards
+ where data @> '{
+                 "type":"Enchantment",
+                 "artist":"Jim Murray",
+                 "colors":["White"]
+                }';
+```
+
+The `@>` operator reads *contains* and implements JSON searches, with
+support from a specialized GIN index if one has been created. The
+*jsonb_pretty()* function does what we can expect from its name, and the
+query returns *magic.cards* rows that match the JSON criteria for given
+*type*, *artist* and *colors* key, all as a pretty printed JSON document.
+
+PostgreSQL extensibility design is what allows one to enhance SQL in that
+way. The query still fully respects SQL rules, there are no tricks here. It
+is only functions and operators, positioned where we expect them in the
+*where* clause for the searching and in the *select* clause for the
+projection that builds the output format.

@@ -1,0 +1,140 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><title>Query Rewriting and Anti-Patterns · The Art of PostgreSQL</title><meta name=description content="Small SQL changes can have large performance effects. The most common slow queries share a recognizable EXPLAIN signature and a mechanical fix."><meta name=twitter:card content="summary"><meta name=twitter:site content="@tapoueh"><meta name=twitter:creator content="@tapoueh"><meta property="og:url" content="https://theartofpostgresql.com/yesql/performance/query-rewriting/"><meta property="og:title" content="Query Rewriting and Anti-Patterns · YeSQL"><meta property="og:description" content="Practical PostgreSQL for developers, one concept at a time."><meta property="og:image" content="https://theartofpostgresql.com/images/hardcover-mockup.jpg"><meta name=viewport content="width=device-width,initial-scale=1,minimum-scale=1"><link href=/favicon.ico rel=icon type=image/x-icon><link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900" rel=stylesheet><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css><link rel=stylesheet href=/css/style.css><link rel=stylesheet href=/css/yesql.css><link rel=stylesheet href=/syntax.css><script src=https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js></script><script src=/js/custom.js></script></head><body class=yesql><header class=header><div class=wrapper><nav><ul><li><a href=/book/><i class="fa-solid fa-book-open"></i><span class=nav-text>BOOK</span></a></li><li class=divider></li><li><a class=logo href=/>The Art of PostgreSQL</a></li><li class=divider></li><li><a href=/course/><i class="fa-solid fa-graduation-cap"></i><span class=nav-text>COURSE</span></a></li><li class=divider></li><li><a href=/workshop/><i class="fa-solid fa-microphone"></i><span class=nav-text>WORKSHOP</span></a></li><li class=divider></li><li><a href=/lab/><i class="fa-solid fa-flask"></i><span class=nav-text>LAB</span></a></li><li class=divider></li><li><a class=logo href=/>The Art of PostgreSQL</a></li><li class=divider></li><li><a href=/yesql/><i class="fa-solid fa-pen-to-square"></i><span class=nav-text>YESQL</span></a></li></ul></nav><div class=sticky-cta-wrapper><a href=https://sales.theartofpostgresql.com/the-art-of-postgresql-book/ class="sticky-cta button button_purple">Get the Book – $89</a></div></div></header><div class=yesql_lesson><div class=wrapper><article class=lesson_content><nav class=yesql_breadcrumb><a href=/yesql/>YeSQL</a> <span>›</span>
+<a href=/yesql/performance/>Performance</a></nav><h1>Query Rewriting and Anti-Patterns</h1><p class=lesson_lede>Small SQL changes can have large performance effects. The most common slow queries share a recognizable EXPLAIN signature and a mechanical fix.</p><div class=lesson_lab_banner><i class="fa-solid fa-flask"></i><div class=lab_banner_body><strong>Run it yourself</strong> — all queries on this page use the
+<code>f1db</code> dataset,
+pre-loaded in the free
+<a href=/lab/>TAOP lab</a>.
+Start a session with <code>psql taop</code> and follow along.
+No setup beyond <a href=https://github.com/dimitri/TheArtOfPostgreSQL rel=noopener>Docker</a>.</div></div><p>Some slow queries are not exotic at all — they are the same handful of
+mistakes, written daily in every codebase. Each one has a recognizable
+<code>EXPLAIN</code> signature and a mechanical fix.</p><h3 id=non-sargable-predicates-functions-that-hide-columns-from-indexes>Non-sargable predicates: functions that hide columns from indexes</h3><p>The most expensive mistake is also the most innocent-looking: wrapping an
+indexed column in a function call. An index on <code>name</code> stores <code>name</code> values
+in sorted order. A predicate on <code>lower(name)</code> asks about values the index
+has never seen — so it might as well not exist.</p><div class=highlight><pre tabindex=0 style=color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#586e75>-- An index exists on geoname.geoname(name)
+</span></span></span><span style=display:flex><span><span style=color:#719e07>explain</span> (<span style=color:#719e07>analyze</span>, buffers)
+</span></span><span style=display:flex><span><span style=color:#719e07>select</span> name, population
+</span></span><span style=display:flex><span>  <span style=color:#719e07>from</span> geoname.geoname
+</span></span><span style=display:flex><span> <span style=color:#719e07>where</span> <span style=color:#719e07>lower</span>(name) <span style=color:#719e07>=</span> <span style=color:#2aa198>&#39;paris&#39;</span>;
+</span></span></code></pre></div><pre tabindex=0><code> Seq Scan on geoname  (cost=0.00..3165.07 rows=57 width=38)
+                      (actual time=0.043..33.5 rows=7 loops=1)
+   Filter: (lower((name)::text) = &#39;paris&#39;)
+   Rows Removed by Filter: 115064
+</code></pre><p>The index on <code>name</code> is ignored. The planner evaluates <code>lower(name)</code> for all
+115,071 rows and discards the ones that don&rsquo;t match — 115,064 of them.</p><p>The sargable version compares the bare column directly:</p><div class=highlight><pre tabindex=0 style=color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#719e07>explain</span> (<span style=color:#719e07>analyze</span>, buffers)
+</span></span><span style=display:flex><span><span style=color:#719e07>select</span> name, population
+</span></span><span style=display:flex><span>  <span style=color:#719e07>from</span> geoname.geoname
+</span></span><span style=display:flex><span> <span style=color:#719e07>where</span> name <span style=color:#719e07>=</span> <span style=color:#2aa198>&#39;Paris&#39;</span>;
+</span></span></code></pre></div><pre tabindex=0><code> Index Scan using geoname_name_idx on geoname  (cost=0.42..8.45 rows=1 width=38)
+                                                (actual time=0.084..0.086 rows=1 loops=1)
+   Index Cond: ((name)::text = &#39;Paris&#39;)
+   Buffers: shared hit=4
+</code></pre><p>One B-tree descent, four buffer pages, under a millisecond. The same logical
+question answered three orders of magnitude faster.</p><p>When case-insensitive search is the requirement and the query cannot change,
+move the function into the index instead:</p><div class=highlight><pre tabindex=0 style=color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#719e07>create</span> <span style=color:#719e07>index</span> geoname_name_lower <span style=color:#719e07>on</span> geoname.geoname (<span style=color:#719e07>lower</span>(name));
+</span></span></code></pre></div><p>The expression index stores the computed <code>lower(name)</code> values directly. The
+unchanged <code>lower(name) = 'paris'</code> predicate now matches what the index
+contains, and the planner uses it.</p><p>The same pattern appears in quieter variants: implicit casts
+(<code>varchar_col = 123</code> casts the <em>column</em>, not the literal), date truncation
+(<code>date_trunc('month', created_at) = '2024-01-01'</code>), and leading-wildcard
+<code>LIKE '%term'</code> (no prefix for the B-tree to descend on). All produce the
+same signature: an index that exists and a Seq Scan that ignores it.</p><h3 id=offset-pagination-doing-the-work-and-throwing-it-away>OFFSET pagination: doing the work and throwing it away</h3><p><code>OFFSET</code> reads as &ldquo;skip N rows&rdquo; but executes as &ldquo;produce N rows and discard
+them.&rdquo; Every page deeper into the result costs more than the one before.</p><div class=highlight><pre tabindex=0 style=color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#586e75>-- Page 5001 of a sorted geoname catalogue
+</span></span></span><span style=display:flex><span><span style=color:#719e07>explain</span> (<span style=color:#719e07>analyze</span>, buffers)
+</span></span><span style=display:flex><span><span style=color:#719e07>select</span> geonameid, name
+</span></span><span style=display:flex><span>  <span style=color:#719e07>from</span> geoname.geoname
+</span></span><span style=display:flex><span> <span style=color:#719e07>order</span> <span style=color:#719e07>by</span> geonameid
+</span></span><span style=display:flex><span> <span style=color:#719e07>limit</span> <span style=color:#2aa198>20</span> <span style=color:#719e07>offset</span> <span style=color:#2aa198>100000</span>;
+</span></span></code></pre></div><pre tabindex=0><code> Limit  (cost=9042.32..9044.13 rows=20 width=22)
+        (actual time=33.487..33.493 rows=20 loops=1)
+   Buffers: shared hit=62625
+   -&gt;  Index Scan using geoname_pkey on geoname
+         (actual time=0.024..29.308 rows=100020 loops=1)
+         Buffers: shared hit=62625
+</code></pre><p>The index scan produces 100,020 rows so the <code>Limit</code> node can throw away
+100,000 of them. 62,625 buffer pages touched — every page up to position
+100,020 — to return 20 rows. Page 1 of the same query touches fewer than 10
+pages. The cost grows linearly with offset depth.</p><p><strong>Keyset pagination</strong> eliminates this. The application remembers the last key
+it displayed and asks for what comes next:</p><div class=highlight><pre tabindex=0 style=color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#719e07>explain</span> (<span style=color:#719e07>analyze</span>, buffers)
+</span></span><span style=display:flex><span><span style=color:#719e07>select</span> geonameid, name
+</span></span><span style=display:flex><span>  <span style=color:#719e07>from</span> geoname.geoname
+</span></span><span style=display:flex><span> <span style=color:#719e07>where</span> geonameid <span style=color:#719e07>&gt;</span> <span style=color:#2aa198>10150618</span>      <span style=color:#586e75>-- last key seen on the previous page
+</span></span></span><span style=display:flex><span> <span style=color:#719e07>order</span> <span style=color:#719e07>by</span> geonameid
+</span></span><span style=display:flex><span> <span style=color:#719e07>limit</span> <span style=color:#2aa198>20</span>;
+</span></span></code></pre></div><pre tabindex=0><code> Limit  (cost=0.42..10.14 rows=20 width=22)
+        (actual time=0.084..0.113 rows=20 loops=1)
+   Buffers: shared hit=9 read=1
+   -&gt;  Index Scan using geoname_pkey on geoname
+         Index Cond: (geonameid &gt; 10150618)
+</code></pre><p>Ten buffer pages. 0.1 ms. Page 5,001 of results costs exactly what page 1
+costs. The index descends directly to the first row after the last key and
+reads forward.</p><p>The honest trade-off: keyset pagination cannot jump to an arbitrary page
+number, only walk forward or backward from a known key. Most pagination
+interfaces never needed random page access anyway — and the ones that do
+typically aggregate (page count, total results) rather than seek to page N
+arbitrarily.</p><h3 id=predicate-pushdown-and-join-order>Predicate pushdown and join order</h3><p>PostgreSQL&rsquo;s planner pushes <code>WHERE</code> predicates as close to the data source as
+possible automatically. The main case where it cannot do this is an explicit
+<code>MATERIALIZED</code> CTE, which acts as an optimization fence: the CTE executes as
+a separate step, and the planner cannot push predicates from the outer query
+into it.</p><div class=highlight><pre tabindex=0 style=color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#586e75>-- PostgreSQL 12+: CTEs are inlined by default
+</span></span></span><span style=display:flex><span><span style=color:#586e75>-- The planner treats this as a plain subquery and pushes year = 2017 inward
+</span></span></span><span style=display:flex><span><span style=color:#719e07>explain</span> (<span style=color:#719e07>analyze</span>, buffers)
+</span></span><span style=display:flex><span><span style=color:#719e07>select</span> r.name, r.<span style=color:#b58900>date</span>, d.surname <span style=color:#719e07>as</span> winner
+</span></span><span style=display:flex><span>  <span style=color:#719e07>from</span> f1db.races   r
+</span></span><span style=display:flex><span>  <span style=color:#719e07>join</span> f1db.results res <span style=color:#719e07>on</span> res.raceid    <span style=color:#719e07>=</span> r.raceid
+</span></span><span style=display:flex><span>                       <span style=color:#719e07>and</span> res.positionorder <span style=color:#719e07>=</span> <span style=color:#2aa198>1</span>
+</span></span><span style=display:flex><span>  <span style=color:#719e07>join</span> f1db.drivers d   <span style=color:#719e07>on</span> d.driverid   <span style=color:#719e07>=</span> res.driverid
+</span></span><span style=display:flex><span> <span style=color:#719e07>where</span> r.<span style=color:#719e07>year</span> <span style=color:#719e07>=</span> <span style=color:#2aa198>2017</span>;
+</span></span></code></pre></div><pre tabindex=0><code> Nested Loop  (cost=36.73..754.05 rows=20)
+              (actual time=1.236..1.254 rows=11 loops=1)
+   Buffers: shared hit=469
+   -&gt;  Hash Join  (cost=36.45..745.97 rows=20) ...
+         -&gt;  Seq Scan on results res  (actual rows=970 loops=1)
+               Filter: (positionorder = 1)
+               Rows Removed by Filter: 22627
+         -&gt;  Seq Scan on races r  (actual rows=20 loops=1)
+               Filter: (year = 2017)
+               Rows Removed by Filter: 956
+   -&gt;  Index Scan on drivers d (loops=11)
+ Execution Time: 1.303 ms
+</code></pre><p>The <code>year = 2017</code> filter applies directly on the <code>races</code> scan — 976 rows
+fetched, 956 discarded, 20 proceed. That small inner hash table (20 rows)
+makes the subsequent Hash Join cheap.</p><p>If you wrap the races filter in <code>WITH races_2017 AS MATERIALIZED (...)</code>, the
+planner runs it as a separate full scan and stores the result, then joins. The
+total cost increases even though the SQL expresses the same intent. Use
+<code>MATERIALIZED</code> deliberately, when you want the CTE to run once regardless of
+how many times it&rsquo;s referenced — not as a way to organize complex SQL.</p><h3 id=select--and-row-width>SELECT * and row width</h3><p><code>SELECT *</code> is not a style problem, it is a <em>width</em> problem. Every selected
+column travels through every plan node: sorts, hash tables, and the network.</p><p>Compare <code>width=</code> in the plan for the same aggregation with and without the
+wide columns. In a hashtag analysis query:</p><pre tabindex=0><code>-- SELECT *  from results join:  width=138  (all columns including text payloads)
+-- SELECT needed columns only:   width=24   (just driverid and points)
+</code></pre><p>Width affects sort memory (<code>Sort Method: external merge</code> vs <code>quicksort</code>),
+hash batch count (<code>Batches > 1</code> when hash table exceeds <code>work_mem</code>), and
+network transfer. When a node already does expensive work — a sort over
+millions of rows — carrying unnecessary columns through it multiplies the
+cost.</p><p>The fix is mechanical: select only the columns the caller needs. In code that
+builds queries dynamically (ORMs, report builders), the habit of <code>SELECT *</code>
+often hides in the abstraction layer rather than the SQL string.</p><h3 id=exists-vs-in-for-subqueries>EXISTS vs IN for subqueries</h3><p><code>NOT IN (subquery)</code> has a correctness trap: if the subquery returns any
+<code>NULL</code>, the result is an empty set — all rows are excluded silently.
+<code>NOT EXISTS</code> does not have this behaviour. Prefer anti-joins with
+<code>NOT EXISTS</code>:</p><div class=highlight><pre tabindex=0 style=color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#586e75>-- Dangerous: if any race has raceid IS NULL (unlikely but possible after
+</span></span></span><span style=display:flex><span><span style=color:#586e75>-- a bad import), this returns zero rows instead of the expected set
+</span></span></span><span style=display:flex><span><span style=color:#719e07>select</span> driverid <span style=color:#719e07>from</span> f1db.results
+</span></span><span style=display:flex><span> <span style=color:#719e07>where</span> raceid <span style=color:#719e07>not</span> <span style=color:#719e07>in</span> (<span style=color:#719e07>select</span> raceid <span style=color:#719e07>from</span> f1db.races <span style=color:#719e07>where</span> <span style=color:#719e07>year</span> <span style=color:#719e07>=</span> <span style=color:#2aa198>2017</span>);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#586e75>-- Safe: NULL in races.raceid does not affect outer result
+</span></span></span><span style=display:flex><span><span style=color:#719e07>select</span> driverid <span style=color:#719e07>from</span> f1db.results r
+</span></span><span style=display:flex><span> <span style=color:#719e07>where</span> <span style=color:#719e07>not</span> <span style=color:#719e07>exists</span> (
+</span></span><span style=display:flex><span>   <span style=color:#719e07>select</span> <span style=color:#2aa198>1</span> <span style=color:#719e07>from</span> f1db.races ra
+</span></span><span style=display:flex><span>    <span style=color:#719e07>where</span> ra.raceid <span style=color:#719e07>=</span> r.raceid
+</span></span><span style=display:flex><span>      <span style=color:#719e07>and</span> ra.<span style=color:#719e07>year</span> <span style=color:#719e07>=</span> <span style=color:#2aa198>2017</span>
+</span></span><span style=display:flex><span> );
+</span></span></code></pre></div><p>PostgreSQL often rewrites correlated <code>EXISTS</code> subqueries into semi-joins
+automatically, so performance is usually equivalent. The correctness
+difference, however, is not automatic — the <code>NOT IN</code> trap silently returns
+wrong results, and there is no plan node to warn you.</p><aside class=lesson_email_capture aria-label="Get the book intro as a PDF"><div class=email_capture_copy><strong>Reading this from the book?</strong><p>This chapter is from <em>The Art of PostgreSQL</em>. Get the 2026 edition intro as a PDF, plus the next lessons by email.</p></div><form class=email_capture_form action=https://app.kit.com/forms/YOUR_KIT_FORM_ID/subscriptions method=post data-kit-form=YOUR_KIT_FORM_ID novalidate><label for=ec_email class=visually-hidden>Email address</label>
+<input id=ec_email type=email name=email_address placeholder=you@example.com required autocomplete=email>
+<button type=submit>Send me the PDF</button></form><p class=email_capture_success hidden role=status>Done — check your inbox!</p><p class=email_capture_error hidden role=alert>Something went wrong. <a href=https://app.kit.com/forms/YOUR_KIT_FORM_ID/subscriptions>Try this link instead.</a></p></aside><script>(function(){var e="YOUR_KIT_FORM_ID";document.querySelectorAll("[data-kit-form]").forEach(function(t){t.addEventListener("submit",function(n){n.preventDefault();var o=t.closest(".lesson_email_capture"),i=t.querySelector('input[type="email"]'),s=t.querySelector('button[type="submit"]'),a=o.querySelector(".email_capture_success"),r=o.querySelector(".email_capture_error");s.disabled=!0,s.textContent="Sending…",fetch("https://api.kit.com/v4/forms/"+e+"/subscribe",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({email_address:i.value})}).then(function(e){if(!e.ok)throw new Error(e.status);t.hidden=!0,a.hidden=!1}).catch(function(){s.disabled=!1,s.textContent="Send me the PDF",r.hidden=!1})})})})()</script><aside class=lesson_course_attr><i class="fa-solid fa-graduation-cap"></i><p>This lesson is a preview from the <b>Query Optimization</b> course.
+<a href=/course/>See the full curriculum →</a></p></aside><footer class=lesson_footer><p class=tags><a href=https://theartofpostgresql.com/tags/performance>#performance</a> <a href=https://theartofpostgresql.com/tags/anti-patterns>#anti-patterns</a> <a href=https://theartofpostgresql.com/tags/index>#index</a> <a href=https://theartofpostgresql.com/tags/pagination>#pagination</a> <a href=https://theartofpostgresql.com/tags/explain>#EXPLAIN</a> <a href=https://theartofpostgresql.com/tags/postgresql>#PostgreSQL</a></p></footer></article><aside class=lesson_sidebar><div class=sidebar_block><h6>Performance</h6><ul><li><a href=/yesql/performance/reading-explain/>Reading EXPLAIN</a></li><li><a href=/yesql/performance/indexing-strategy/>An Indexing Strategy</a></li><li class=current><a href=/yesql/performance/query-rewriting/>Query Rewriting and Anti-Patterns</a></li></ul></div><div class=sidebar_block><h6>Tools</h6><ul><li><a href=/compute-database-size/>Compute Database Size</a></li><li><a href=/explain-plan-visualizer/>Query Plan Visualizer</a></li></ul></div><div class="sidebar_block sidebar_lab"><i class="fa-solid fa-flask"></i><h6>Try it Yourself</h6><p>A free Docker setup ships all datasets pre-loaded. One command and you're in a live <code>psql</code> session.</p><a href=/lab/ class="button button_purple">Open the Lab</a>
+<a href=https://github.com/dimitri/TheArtOfPostgreSQL class=lab_github_link rel=noopener><i class="fa-brands fa-github"></i> Starter Kit on GitHub</a></div></aside></div></div><section class=yesql_offer><div class=wrapper><div class=offer_card><p class=offer_eyebrow>Keep going</p><h3>Query Optimization</h3><p>Anti-patterns are one chapter. The course covers the full cost model, row estimate diagnostics, join rewriting, CTE optimization fences, and a complete index selection strategy.</p><a href=/course/ class="button button_purple button_large">Explore the Course</a></div></div></section><footer class=footer><div class=wrapper><div class=about_block><h6>about the author</h6><p>Hi! My name is Dimitri Fontaine and I have been using and contributing to Open Source Software for the best of the last 20 years. I am a PostgreSQL Major Contributor after having contributed Extensions and Event Triggers, among other things.</p><p>I have been writing code almost daily for a very long time now, both in a professional capacity and on my leisure time. I&rsquo;ve also been a database architect and a DBA on-call. As a developer I enjoy using SQL. As a database architect, I like teaching advanced SQL techniques to my colleagues.</p><ul><li><a target=_blank href=mailto:dim@tapoueh.org>email</a></li><li><a target=_blank href=https://twitter.com/tapoueh>twitter</a></li><li><a target=_blank href=https://github.com/dimitri>github</a></li><li><a target=_blank href=https://www.reddit.com/user/theartofpostgresql>reddit</a></li></ul></div><div class=faq_block><h6>FAQ</h6><dl><dt>What if the book isn&rsquo;t what I expected it would be?</dt><dd>The Art of PostgreSQL is a book that teaches SQL to application developers. If it's not of any value to you, then just say so and I'll refund you, no questions asked.</dd><dt>I bought the book, and I'm confused. What now?</dt><dd>The content of the book is available as a PDF, ePub and
+MOBI file, and you can also download the SQL queries.
+The content is available over
+at <a href=https://members.theartofpostgresql.com/courses/the-art-of-postgresql/ target=_>https://members.theartofpostgresql.com/courses/the-art-of-postgresql/</a>
+from your student dashboard.</dd><dt>Is there any DRM?</dt><dd>No. There isn't even watermarking on the PDF. You own what you buy. The sources of data selected for the book are all available with Open Data types of licenses, and the book itself is copyright Dimitri Fontaine. All rights reserved.</dd><dt>Any other questions?</dt><dd>Contact me by <a href=mailto:dim@tapoueh.org>email</a> and just ask! I will do my best to answer you.</dd></dl></div></div></footer><div class=copyright><div class=wrapper>Copyright 2019-2026 &copy; Dimitri Fontaine. All rights reserved. Design by <a style=color:#fff;font-weight:700 target=_blank href=https://www.terrilowry.com>TerriLowry.com.</a></div></div><script type=text/javascript>var subscribersSiteId="1296f531-7ba0-406f-89e1-bdca40a36208"</script><script type=text/javascript src=https://cdn.subscribers.com/assets/subscribers.js></script><script>!function(e,t,n,s,o,i){e.twq||(s=e.twq=function(){s.exe?s.exe.apply(s,arguments):s.queue.push(arguments)},s.version="1.1",s.queue=[],o=t.createElement(n),o.async=!0,o.src="//static.ads-twitter.com/uwt.js",i=t.getElementsByTagName(n)[0],i.parentNode.insertBefore(o,i))}(window,document,"script"),twq("init","o0ial"),twq("track","PageView")</script></body></html>

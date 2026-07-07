@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+	<channel>
+		<title>Predicate Pushdown on The Art of PostgreSQL</title>
+		<link>http://localhost:1314/tags/predicate-pushdown/</link>
+		<description>Recent content in Predicate Pushdown on The Art of PostgreSQL</description>
+		<generator>Hugo</generator>
+		<language>en-us</language>
+		
+		
+		
+		
+			<atom:link href="http://localhost:1314/tags/predicate-pushdown/index.xml" rel="self" type="application/rss+xml" />
+			<item>
+				<title>Predicate Pushdown: Filter Close to the Scan</title>
+				<link>http://localhost:1314/yesql/query-optimization/predicate-pushdown/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>http://localhost:1314/yesql/query-optimization/predicate-pushdown/</guid>
+				<description>PostgreSQL automatically moves WHERE conditions as close to the underlying scan as possible. Understanding when it can&amp;rsquo;t — and why — is a key query-rewriting skill.</description>
+			</item>
+	</channel>
+</rss>
