@@ -1,0 +1,276 @@
+{{ partial "post/head.html" . }}
+{{ partial "header.html" . }}
+
+<style>
+.upd-wrap {
+  max-width: 740px;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem 5rem;
+  font-family: 'Lato', sans-serif;
+}
+.upd-eyebrow {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #8b6fb0;
+  margin: 0 0 0.5rem;
+}
+.upd-wrap h1 {
+  font-size: 2.25rem;
+  font-weight: 300;
+  color: #372649;
+  margin: 0 0 0.3rem;
+  line-height: 1.15;
+}
+.upd-lede {
+  font-size: 1rem;
+  color: #6b6b6b;
+  font-style: italic;
+  margin: 0 0 2.5rem;
+  padding-bottom: 1.75rem;
+  border-bottom: 1px solid #e7e3ec;
+}
+/* ── timeline ── */
+.tl { display: flex; flex-direction: column; }
+.tl-group { display: flex; gap: 1.6rem; }
+.tl-rail { flex: 0 0 60px; text-align: right; padding-top: 0.1rem; }
+.tl-year {
+  display: block;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #8b6fb0;
+  position: sticky;
+  top: 1rem;
+  line-height: 1;
+}
+.tl-items {
+  flex: 1;
+  min-width: 0;
+  border-left: 2px solid #e7e3ec;
+  padding: 0 0 2.5rem 1.7rem;
+}
+.tl-entry { position: relative; padding: 0.2rem 0 1.2rem; }
+.tl-entry::before {
+  content: "";
+  position: absolute;
+  left: -1.7rem;
+  margin-left: -5px;
+  top: 0.72rem;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #372649;
+  box-shadow: 0 0 0 3px #fff;
+}
+.tl-entry.oss::before  { background: #1a5c3a; }
+.tl-entry.site::before { background: #8b6fb0; }
+.tl-entry.talk::before { background: #7a5500; }
+.tl-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.25rem;
+}
+.tl-date {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #6b6b6b;
+}
+.tl-tag {
+  font-size: 0.58rem;
+  font-weight: 900;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  padding: 0.12em 0.52em;
+  border-radius: 2px;
+  border: 0.5px solid;
+}
+.tl-tag.book { color: #372649; background: #f5f0fc; border-color: #c4b0d8; }
+.tl-tag.oss  { color: #1a5c3a; background: #edf6f1; border-color: #9dc9b0; }
+.tl-tag.site { color: #555;    background: #f4f4f4; border-color: #d0d0d0; }
+.tl-tag.talk { color: #7a5500; background: #fdf6e3; border-color: #dfc060; }
+.tl-title {
+  font-size: 1.02rem;
+  font-weight: 600;
+  color: #1e1620;
+  line-height: 1.3;
+  margin: 0 0 0.22rem;
+}
+.tl-title a {
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px solid #e7e3ec;
+  transition: border-color 0.15s;
+}
+.tl-title a:hover           { border-color: #372649; }
+.tl-entry.oss .tl-title a:hover  { border-color: #1a5c3a; }
+.tl-entry.talk .tl-title a:hover { border-color: #7a5500; }
+.tl-desc {
+  font-size: 0.875rem;
+  color: #6b6b6b;
+  line-height: 1.62;
+  margin: 0;
+}
+.tl-desc code {
+  font-size: 0.82em;
+  background: #f0edf4;
+  padding: 0.1em 0.35em;
+  border-radius: 2px;
+}
+.sponsor-aside {
+  margin: 0.65rem 0 0;
+  padding: 0.85rem 1.1rem;
+  background: #f2f8f4;
+  border-left: 3px solid #1a5c3a;
+}
+.sponsor-aside p {
+  font-size: 0.82rem;
+  color: #555;
+  line-height: 1.55;
+  margin: 0;
+}
+.sponsor-aside a {
+  color: #1a5c3a;
+  font-weight: 700;
+  text-decoration: none;
+  border-bottom: 1px solid currentColor;
+}
+@media (max-width: 520px) {
+  .tl-rail  { flex-basis: 44px; }
+  .tl-year  { font-size: 1.05rem; }
+  .upd-wrap { padding: 1.5rem 1rem 4rem; }
+  .upd-wrap h1 { font-size: 1.75rem; }
+}
+</style>
+
+<div class="upd-wrap">
+  <p class="upd-eyebrow">The Art of PostgreSQL</p>
+  <h1>What's new</h1>
+  <p class="upd-lede">A record of the project — book editions, lessons, and open-source work.</p>
+
+  <div class="tl">
+
+    <div class="tl-group">
+      <div class="tl-rail"><span class="tl-year">2026</span></div>
+      <div class="tl-items">
+
+        <div class="tl-entry">
+          <div class="tl-meta">
+            <span class="tl-date">Jul 7, 2026</span>
+            <span class="tl-tag book">lessons</span>
+          </div>
+          <p class="tl-title"><a href="/yesql/">YeSQL hub — 24 free lessons</a></p>
+          <p class="tl-desc">Six categories covering SQL foundations, window functions, aggregation, joins, performance, and schema design. Every lesson is free; no account required.</p>
+        </div>
+
+        <div class="tl-entry site">
+          <div class="tl-meta">
+            <span class="tl-date">Jul 2026</span>
+            <span class="tl-tag site">site</span>
+          </div>
+          <p class="tl-title">GitHub Actions CI/CD deployment</p>
+          <p class="tl-desc">theartofpostgresql.com now builds and deploys automatically on every push to master — no more manual <code>hugo &amp;&amp; git push docs/</code>.</p>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="tl-group">
+      <div class="tl-rail"><span class="tl-year">2022</span></div>
+      <div class="tl-items">
+
+        <div class="tl-entry oss">
+          <div class="tl-meta">
+            <span class="tl-date">2022</span>
+            <span class="tl-tag oss">open source</span>
+          </div>
+          <p class="tl-title"><a href="https://github.com/dimitri/pgcopydb" target="_blank" rel="noopener">pgcopydb</a></p>
+          <p class="tl-desc">Parallel, resumable PostgreSQL-to-PostgreSQL migration. Clones a running database — schema, data, sequences, indexes, large objects — without a maintenance window. v0.18 released July 2026.</p>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="tl-group">
+      <div class="tl-rail"><span class="tl-year">2020</span></div>
+      <div class="tl-items">
+
+        <div class="tl-entry oss">
+          <div class="tl-meta">
+            <span class="tl-date">2020</span>
+            <span class="tl-tag oss">open source</span>
+          </div>
+          <p class="tl-title"><a href="https://github.com/hapostgres/pg_auto_failover" target="_blank" rel="noopener">pg_auto_failover</a></p>
+          <p class="tl-desc">High-availability automation for PostgreSQL: a monitor service orchestrates health checks and failover, maintaining write availability across node failures and replica promotions.</p>
+          <div class="sponsor-aside">
+            <p>pgcopydb, pg_auto_failover, and pgloader are free open-source software. If they save your team time, <a href="https://github.com/sponsors/dimitri" target="_blank" rel="noopener">GitHub sponsorship</a> helps keep them maintained.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="tl-group">
+      <div class="tl-rail"><span class="tl-year">2019</span></div>
+      <div class="tl-items">
+
+        <div class="tl-entry">
+          <div class="tl-meta">
+            <span class="tl-date">Aug 2019</span>
+            <span class="tl-tag book">book</span>
+          </div>
+          <p class="tl-title"><a href="/book/">The Art of PostgreSQL</a></p>
+          <p class="tl-desc">Fully rewritten and relaunched under the current title. Restructured around teaching SQL as a language for application developers — with a complete dataset and worked examples throughout every chapter.</p>
+        </div>
+
+        <div class="tl-entry talk">
+          <div class="tl-meta">
+            <span class="tl-date">Sep 2019</span>
+            <span class="tl-tag talk">talk</span>
+          </div>
+          <p class="tl-title">PostgresOpen 2019 — Chicago</p>
+          <p class="tl-desc">Conference talk on SQL query composition and the book's core thesis: that relational thinking unlocks the full power of PostgreSQL for application developers.</p>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="tl-group">
+      <div class="tl-rail"><span class="tl-year">2017</span></div>
+      <div class="tl-items">
+
+        <div class="tl-entry">
+          <div class="tl-meta">
+            <span class="tl-date">Nov 6, 2017</span>
+            <span class="tl-tag book">book</span>
+          </div>
+          <p class="tl-title">Mastering PostgreSQL in Application Development</p>
+          <p class="tl-desc">First edition, self-published. The original title of what became The Art of PostgreSQL. The core argument — that SQL is a powerful query language most developers underuse — has not changed.</p>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="tl-group">
+      <div class="tl-rail"><span class="tl-year">2013</span></div>
+      <div class="tl-items">
+
+        <div class="tl-entry oss">
+          <div class="tl-meta">
+            <span class="tl-date">2013</span>
+            <span class="tl-tag oss">open source</span>
+          </div>
+          <p class="tl-title"><a href="https://pgloader.io" target="_blank" rel="noopener">pgloader</a></p>
+          <p class="tl-desc">Rewritten from Perl to Common Lisp for parallel loading and extensibility. Migrates data into PostgreSQL from MySQL, SQLite, MS SQL Server, CSV, and other sources — handling type coercion, constraint creation, and schema generation automatically.</p>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+{{ partial "footer.html" . }}
