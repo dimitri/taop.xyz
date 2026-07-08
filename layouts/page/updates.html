@@ -333,6 +333,22 @@ docker compose run --rm taop load-data</pre>
     </div>
 
     <div class="tl-group">
+      <div class="tl-rail"><span class="tl-year">2012</span></div>
+      <div class="tl-items">
+
+        <div class="tl-entry oss">
+          <div class="tl-meta">
+            <i class="fa-solid fa-shield-halved tl-icon"></i>
+            <span class="tl-date">2012</span>
+          </div>
+          <p class="tl-title"><a href="https://github.com/dimitri/pgextwlist" target="_blank" rel="noopener">pgextwlist — Extension Whitelisting</a></p>
+          <p class="tl-desc">Built to solve the managed-database problem the PostgreSQL 9.1 Extensions system immediately created: how do you let non-superuser application accounts run <code>CREATE EXTENSION</code> without granting superuser? pgextwlist intercepts <code>CREATE</code>, <code>DROP</code>, and <code>ALTER EXTENSION</code> statements, checks the extension name against a configurable allowlist, and runs the operation as the bootstrap superuser on the caller's behalf. It became standard infrastructure for cloud PostgreSQL providers — Heroku maintains a fork, Zalando ships it in every Spilo/postgres-operator cluster, and Aiven uses it to delegate extension management to tenant accounts — and continues to track new PostgreSQL releases after 14 years of active maintenance.</p>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="tl-group">
       <div class="tl-rail"><span class="tl-year">2011</span></div>
       <div class="tl-items">
 
