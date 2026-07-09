@@ -3055,6 +3055,50 @@ body.lab .welcome_slider {
   border-color: #60b2d3;
 }
 
+/* Lab Hero — two-column layout */
+.lab_hero_inner {
+  display: flex;
+  align-items: flex-start;
+  gap: 60px;
+}
+.lab_hero_text {
+  flex: 0 0 44%;
+  text-align: left;
+}
+.lab_hero_text h1 {
+  max-width: none;
+  margin: 0 0 20px 0;
+}
+.lab_hero_text .hero_subtitle {
+  max-width: none;
+  margin: 0 0 30px 0;
+}
+.lab_hero_text .hero_bullets {
+  max-width: none;
+  margin: 0 0 30px 0;
+}
+.lab_hero_text .free_badge {
+  display: block;
+}
+.lab_hero_text .hero_cta {
+  align-items: flex-start;
+}
+.lab_hero_text .hero_secondary_cta {
+  justify-content: flex-start;
+}
+.lab_hero_screenshot {
+  flex: 1;
+  min-width: 0;
+  padding-top: 10px;
+}
+.lab_hero_screenshot img {
+  width: 100%;
+  max-width: 100%;
+  border-radius: 6px;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.5);
+  display: block;
+}
+
 /* Lab Value */
 .lab_value {
   padding: 80px 0;
@@ -3140,6 +3184,9 @@ body.lab .welcome_slider {
   align-items: center;
   justify-content: center;
   border-radius: 50%;
+}
+.lab_how .step_content {
+  text-align: left;
 }
 .lab_how .step_content h5 {
   color: #372649;
@@ -3459,6 +3506,33 @@ body.lab .welcome_slider {
   .lab_hero .hero_secondary_cta {
     flex-direction: column;
     align-items: center;
+  }
+  .lab_hero_inner {
+    flex-direction: column;
+  }
+  .lab_hero_text {
+    flex: none;
+    text-align: center;
+  }
+  .lab_hero_text h1 {
+    max-width: 100%;
+    margin: 0 auto 20px auto;
+  }
+  .lab_hero_text .hero_subtitle {
+    max-width: 100%;
+    margin: 0 auto 30px auto;
+  }
+  .lab_hero_text .hero_bullets {
+    margin: 0 auto 30px auto;
+  }
+  .lab_hero_text .free_badge {
+    display: inline-block;
+  }
+  .lab_hero_text .hero_cta {
+    align-items: center;
+  }
+  .lab_hero_text .hero_secondary_cta {
+    justify-content: center;
   }
   .lab_bridge_section .cta_buttons {
     flex-direction: column;
