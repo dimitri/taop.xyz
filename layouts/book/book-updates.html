@@ -2,13 +2,13 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>What's New — Second Edition, Updated (2026) | The Art of PostgreSQL</title>
+  <title>Second Edition, Updated (2026) | The Art of PostgreSQL</title>
   <meta name="description" content="The 2026 update adds a pgvector chapter, 56 new figures, full PostgreSQL 12–18 coverage, and an integrated companion lab. Free for all existing purchasers.">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:site" content="@tapoueh" />
   <meta property="og:url" content="https://theartofpostgresql.com/book/updates/" />
-  <meta property="og:title" content="What's New — Second Edition, Updated (2026)" />
+  <meta property="og:title" content="Second Edition, Updated (2026)" />
   <meta property="og:description" content="pgvector chapter, 56 new figures, PG 12–18 coverage, integrated lab. Free for all existing purchasers." />
   <link href="/favicon.ico" rel="icon" type="image/x-icon">
   <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700" rel="stylesheet">
@@ -50,6 +50,8 @@
     .bku-gallery-img-box { height: 210px; display: flex; align-items: center; justify-content: center; padding: 14px; background: #fff; overflow: hidden; }
     .bku-gallery-fig img { max-width: 100%; max-height: 182px; object-fit: contain; display: block; }
     .bku-gallery-fig figcaption { padding: 10px 14px; font: 300 0.8rem/1.4 'Lato'; color: #888; border-top: 1px solid #ede8f2; }
+    .bku-screenshot { margin: 20px 0 4px; border-radius: 6px; overflow: hidden; box-shadow: 0 2px 16px rgba(55,38,73,0.13); }
+    .bku-screenshot img { width: 100%; height: auto; display: block; }
     @media (max-width: 600px) {
       .bku-page { padding: 48px 16px 80px; }
       .bku-page h1 { font-size: 1.9rem; }
@@ -65,7 +67,7 @@
 <div class="bku-page">
 
   <p class="bku-eyebrow">The Art of PostgreSQL</p>
-  <h1>What's New — Second Edition, Updated (2026)</h1>
+  <h1>Second Edition, Updated (2026)</h1>
   <p class="bku-lede">
     The 2026 update is the most significant revision since the book's first
     publication. It modernises the text from PostgreSQL 11 to the 17/18 landscape,
@@ -114,21 +116,6 @@
     <h2>What changed</h2>
 
     <div class="bku-change">
-      <div class="bku-change-icon"><i class="fa-solid fa-microchip"></i></div>
-      <div class="bku-change-body">
-        <h3>New Extensions Coverage — pgvector and Citus</h3>
-        <p>
-          Part VIII (Extensions) gains two major additions:
-        </p>
-        <ul>
-          <li><strong>Vector search with pgvector</strong> — <code>vector</code> type, HNSW and IVFFlat index types, distance operators (<code>&lt;-&gt;</code> / <code>&lt;#&gt;</code> / <code>&lt;=&gt;</code>), and hybrid search combining vector similarity with relational filters</li>
-          <li><strong>Citus distributed architecture</strong> — coordinator, workers, shards, and reference tables</li>
-          <li><strong>pg_trgm</strong> — index rebuild requirement after upgrading to PG 18</li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="bku-change">
       <div class="bku-change-icon"><i class="fa-solid fa-database"></i></div>
       <div class="bku-change-body">
         <h3>PostgreSQL 12–18 Coverage</h3>
@@ -156,6 +143,21 @@
           <li><code>RETURNING OLD</code> / <code>RETURNING NEW</code> — before/after values in DML (PG 18)</li>
         </ul>
         <p>The book also expands coverage of existing features across all PostgreSQL versions: B-tree, GiST, SP-GiST, GIN, BRIN, and Bloom index internals; fillfactor and HOT updates; <code>GROUPING()</code> function; Row Level Security; and <code>RANGE</code> / <code>GROUPS</code> window frame modes.</p>
+      </div>
+    </div>
+
+    <div class="bku-change">
+      <div class="bku-change-icon"><i class="fa-solid fa-microchip"></i></div>
+      <div class="bku-change-body">
+        <h3>New Extensions Coverage — pgvector and Citus</h3>
+        <p>
+          Part VIII (Extensions) gains two major additions:
+        </p>
+        <ul>
+          <li><strong>Vector search with pgvector</strong> — <code>vector</code> type, HNSW and IVFFlat index types, distance operators (<code>&lt;-&gt;</code> / <code>&lt;#&gt;</code> / <code>&lt;=&gt;</code>), and hybrid search combining vector similarity with relational filters</li>
+          <li><strong>Citus distributed architecture</strong> — coordinator, workers, shards, and reference tables</li>
+          <li><strong>pg_trgm</strong> — index rebuild requirement after upgrading to PG 18</li>
+        </ul>
       </div>
     </div>
 
@@ -194,6 +196,9 @@
           is there, ready to run, edit, and experiment with. No account required beyond Docker.
           <a href="/lab/">Learn more about the lab →</a>
         </p>
+        <div class="bku-screenshot">
+          <img src="/img/query-ui-explain.png" alt="The lab's query UI showing a SQL query and its EXPLAIN plan side by side" loading="lazy">
+        </div>
       </div>
     </div>
 
