@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>What's New — Second Edition, Updated (2026) | The Art of PostgreSQL</title>
+  <meta name="description" content="The 2026 update adds a pgvector chapter, 56 new figures, full PostgreSQL 12–18 coverage, and an integrated companion lab. Free for all existing purchasers.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:site" content="@tapoueh" />
+  <meta property="og:url" content="https://theartofpostgresql.com/book/updates/" />
+  <meta property="og:title" content="What's New — Second Edition, Updated (2026)" />
+  <meta property="og:description" content="pgvector chapter, 56 new figures, PG 12–18 coverage, integrated lab. Free for all existing purchasers." />
+  <link href="/favicon.ico" rel="icon" type="image/x-icon">
+  <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
+  <script src="/js/custom.js"></script>
+  <style>
+    .bku-page { max-width: 780px; margin: 0 auto; padding: 80px 24px 120px; }
+    .bku-eyebrow { font: 700 11px/1 'Lato'; letter-spacing: 3px; text-transform: uppercase; color: #60b2d3; margin: 0 0 16px; }
+    .bku-page h1 { font: 300 2.6rem/1.1 'Lato'; color: #372649; margin: 0 0 12px; }
+    .bku-lede { font: 300 1.15rem/1.65 'Lato'; color: #67527a; margin: 0 0 56px; max-width: 640px; }
+    .bku-free-banner { background: #372649; color: #fff; border-radius: 8px; padding: 20px 28px; margin-bottom: 56px; display: flex; align-items: center; gap: 16px; }
+    .bku-free-banner i { font-size: 1.4rem; color: #60b2d3; flex-shrink: 0; }
+    .bku-free-banner p { margin: 0; font: 400 0.95rem/1.5 'Lato'; }
+    .bku-free-banner a { color: #60b2d3; }
+    .bku-section { margin-bottom: 56px; }
+    .bku-section h2 { font: 700 1.3rem/1.2 'Lato'; color: #372649; margin: 0 0 24px; padding-bottom: 10px; border-bottom: 2px solid #ede8f2; }
+    .bku-change { display: flex; gap: 20px; margin-bottom: 32px; }
+    .bku-change-icon { width: 40px; height: 40px; border-radius: 50%; background: #ede8f2; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+    .bku-change-icon i { color: #372649; font-size: 1rem; }
+    .bku-change-body h3 { font: 700 1rem/1.2 'Lato'; color: #372649; margin: 0 0 8px; }
+    .bku-change-body p { font: 300 0.95rem/1.6 'Lato'; color: #555; margin: 0 0 6px; }
+    .bku-change-body code { font-size: 0.88em; background: #f0ecf5; padding: 1px 5px; border-radius: 3px; color: #372649; }
+    .bku-change-body ul { margin: 6px 0 0 0; padding-left: 1.2em; }
+    .bku-change-body ul li { font: 300 0.92rem/1.6 'Lato'; color: #555; }
+    .bku-history { border-left: 3px solid #ede8f2; padding-left: 24px; }
+    .bku-history-item { margin-bottom: 28px; position: relative; }
+    .bku-history-item::before { content: ''; width: 10px; height: 10px; border-radius: 50%; background: #60b2d3; position: absolute; left: -30px; top: 5px; }
+    .bku-history-item h4 { font: 700 0.95rem/1.2 'Lato'; color: #372649; margin: 0 0 4px; }
+    .bku-history-item p { font: 300 0.9rem/1.5 'Lato'; color: #888; margin: 0; }
+    .bku-cta { background: #f8f7f9; border-radius: 8px; padding: 36px; text-align: center; margin-top: 56px; }
+    .bku-cta h3 { font: 300 1.5rem/1.2 'Lato'; color: #372649; margin: 0 0 10px; }
+    .bku-cta p { font: 300 0.95rem/1.6 'Lato'; color: #67527a; margin: 0 0 24px; }
+    .bku-cta-buttons { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    @media (max-width: 600px) {
+      .bku-page { padding: 48px 16px 80px; }
+      .bku-page h1 { font-size: 1.9rem; }
+      .bku-free-banner { flex-direction: column; gap: 10px; }
+    }
+  </style>
+</head>
+<body class="book">
+
+{{ partial "header.html" . }}
+
+<div class="bku-page">
+
+  <p class="bku-eyebrow">The Art of PostgreSQL</p>
+  <h1>What's New — Second Edition, Updated (2026)</h1>
+  <p class="bku-lede">
+    The 2026 update is the most significant revision since the book's first
+    publication. It modernises the text from PostgreSQL 11 to the 17/18 landscape,
+    adds an entirely new chapter on vector search, introduces 56 new figures, and
+    ships with a fully integrated companion lab.
+  </p>
+
+  <div class="bku-free-banner">
+    <i class="fa-solid fa-gift"></i>
+    <p>
+      <strong>Free for all existing purchasers.</strong>
+      Log into your <a href="https://store.theartofpostgresql.com/login" target="_blank" rel="noopener">ThriveCart account</a>,
+      open the lesson for The Art of PostgreSQL, and download the updated PDF and ePub.
+      Questions? Email <a href="mailto:dim@tapoueh.org">dim@tapoueh.org</a> with your order email.
+    </p>
+  </div>
+
+  <div class="bku-section">
+    <h2>What changed</h2>
+
+    <div class="bku-change">
+      <div class="bku-change-icon"><i class="fa-solid fa-microchip"></i></div>
+      <div class="bku-change-body">
+        <h3>Chapter 51 — Vector Search with pgvector</h3>
+        <p>
+          A complete new chapter covering vector embeddings and nearest-neighbor
+          search in PostgreSQL using the pgvector extension.
+        </p>
+        <ul>
+          <li>HNSW and IVFFlat index types — when to use each and how they work</li>
+          <li>Vector distance operators: cosine, L2, inner product</li>
+          <li>Hybrid search: combining vector similarity with relational filters</li>
+          <li>Practical patterns for semantic search on real data</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="bku-change">
+      <div class="bku-change-icon"><i class="fa-solid fa-chart-bar"></i></div>
+      <div class="bku-change-body">
+        <h3>56 New Figures</h3>
+        <p>
+          All 56 figures are generated from SQL and PostgreSQL system data using
+          TikZ — they are derived from the database itself, not drawn by hand.
+          They illustrate plan node types, join strategies, index structures,
+          normalization concepts, and data distribution patterns.
+        </p>
+      </div>
+    </div>
+
+    <div class="bku-change">
+      <div class="bku-change-icon"><i class="fa-solid fa-database"></i></div>
+      <div class="bku-change-body">
+        <h3>PostgreSQL 12–18 Coverage</h3>
+        <p>
+          New features introduced across PostgreSQL versions 12 through 18 are
+          covered where they apply to the book's topics:
+        </p>
+        <ul>
+          <li><code>GENERATED ALWAYS AS (expr) VIRTUAL</code> — virtual generated columns (PG 12+)</li>
+          <li><code>RETURNING OLD</code> / <code>RETURNING NEW</code> — before/after values in DML (PG 17)</li>
+          <li><code>uuidv7()</code> — time-ordered UUID generation (PG 17)</li>
+          <li><code>NULLS NOT DISTINCT</code> in unique constraints and indexes (PG 15)</li>
+          <li>Incremental sort — planner optimisation for partially-sorted input (PG 13)</li>
+          <li>Logical replication improvements, improved <code>EXPLAIN</code> output, and more</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="bku-change">
+      <div class="bku-change-icon"><i class="fa-solid fa-flask"></i></div>
+      <div class="bku-change-body">
+        <h3>Fully Integrated Companion Lab</h3>
+        <p>
+          The lab is now a first-class part of the book. One command starts
+          a complete PostgreSQL environment with all datasets pre-seeded:
+        </p>
+        <p><code>docker compose up -d</code></p>
+        <p>
+          Open <code>localhost:8042</code> to reach an interactive query pane
+          organised by book chapter — every SQL query from the book is there,
+          ready to run, edit, and experiment with. No account required beyond
+          Docker. <a href="/lab/">Learn more about the lab →</a>
+        </p>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="bku-section">
+    <h2>Edition history</h2>
+    <div class="bku-history">
+      <div class="bku-history-item">
+        <h4>Second Edition, Updated (2026) — current</h4>
+        <p>pgvector chapter, 56 new figures, PG 12–18 coverage, integrated lab. 570 pages.</p>
+      </div>
+      <div class="bku-history-item">
+        <h4>Second Edition (2022)</h4>
+        <p>Renamed to <em>The Art of PostgreSQL</em>. Restructured and expanded. Covers PostgreSQL 10–14.</p>
+      </div>
+      <div class="bku-history-item">
+        <h4>First Edition (2019)</h4>
+        <p>Published as <em>Mastering PostgreSQL in Application Development</em>. Covers PostgreSQL 10–11.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="bku-cta">
+    <h3>Get the book</h3>
+    <p>Digital edition — PDF and ePub — immediate download. 30-day money-back guarantee.</p>
+    <div class="bku-cta-buttons">
+      <a href="https://sales.theartofpostgresql.com/the-art-of-postgresql-book/" class="button button_purple button_large">Get the Book — $89</a>
+      <a href="/book/fair-pricing/" class="button button_outline">Fair Pricing</a>
+    </div>
+  </div>
+
+</div>
+
+{{ partial "footer.html" . }}
+</body>
+</html>
