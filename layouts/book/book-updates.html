@@ -34,8 +34,16 @@
     .bku-change-body h3 { font: 700 1rem/1.2 'Lato'; color: #372649; margin: 0 0 8px; }
     .bku-change-body p { font: 300 0.95rem/1.6 'Lato'; color: #555; margin: 0 0 6px; }
     .bku-change-body code { font-size: 0.88em; background: #f0ecf5; padding: 1px 5px; border-radius: 3px; color: #372649; }
-    .bku-change-body ul { margin: 6px 0 0 0; padding-left: 1.2em; }
-    .bku-change-body ul li { font: 300 0.92rem/1.6 'Lato'; color: #555; }
+    .bku-change-body ul:not(.bku-feat-list) { margin: 6px 0 0 0; padding-left: 1.2em; }
+    .bku-change-body ul:not(.bku-feat-list) li { font: 300 0.92rem/1.6 'Lato'; color: #555; }
+    .bku-feat-list { list-style: none; padding: 0; margin: 14px 0 28px; }
+    .bku-feat-list li { display: flex; align-items: flex-start; gap: 12px; padding: 11px 0; border-bottom: 1px solid #f0ecf5; }
+    .bku-feat-list li:last-child { border-bottom: none; }
+    .bku-feat-icon { flex-shrink: 0; width: 16px; text-align: center; color: #8b6fb0; font-size: 0.78rem; margin-top: 3px; }
+    a.bku-feat-icon { color: #b45309; text-decoration: none; transition: color 0.15s; }
+    a.bku-feat-icon:hover { color: #7c3a05; }
+    .bku-feat-text { flex: 1; min-width: 0; font: 300 0.9rem/1.5 'Lato'; color: #555; }
+    .bku-pg { flex-shrink: 0; align-self: center; font: 700 0.62rem/1 'Lato'; letter-spacing: 0.06em; color: #fff; background: #60b2d3; padding: 3px 7px; border-radius: 2px; white-space: nowrap; }
     .bku-history { border-left: 3px solid #ede8f2; padding-left: 24px; }
     .bku-history-item { margin-bottom: 28px; position: relative; }
     .bku-history-item::before { content: ''; width: 10px; height: 10px; border-radius: 50%; background: #60b2d3; position: absolute; left: -30px; top: 5px; }
@@ -113,7 +121,7 @@
   </div>
 
   <div class="bku-section">
-    <h2>What changed</h2>
+    <h2>The Art of PostgreSQL book 2026 updates</h2>
 
     <div class="bku-change">
       <div class="bku-change-icon"><i class="fa-solid fa-database"></i></div>
@@ -123,24 +131,24 @@
           New features introduced across PostgreSQL versions 12 through 18 are
           covered where they apply to the book's topics:
         </p>
-        <ul>
-          <li><code>GENERATED ALWAYS AS (expr) STORED</code> — stored generated columns (PG 12)</li>
-          <li><code>MATERIALIZED</code> / <code>NOT MATERIALIZED</code> CTE hints (PG 12)</li>
-          <li>Incremental sort — planner optimisation for partially-sorted input (PG 13)</li>
-          <li><code>SEARCH</code> and <code>CYCLE</code> clauses in recursive CTEs (PG 14)</li>
-          <li><code>EXCLUDE</code> clause in window frame specifications (PG 14)</li>
-          <li>JSONB subscript syntax <code>['key']</code> (PG 14)</li>
-          <li>Multi-ranges and <code>range_agg()</code> (PG 14)</li>
-          <li><code>NULLS NOT DISTINCT</code> in unique constraints and indexes (PG 15)</li>
-          <li><code>MERGE</code> statement; <code>WHEN NOT MATCHED BY SOURCE</code> (PG 15/17)</li>
-          <li>SQL/JSON constructors and <code>JSON_TABLE</code> (PG 16/17)</li>
-          <li>Built-in <code>C.UTF-8</code> collation (PG 17)</li>
-          <li><code>MERGE RETURNING merge_action()</code> (PG 17)</li>
-          <li>Partition <code>SPLIT PARTITION</code> / <code>MERGE PARTITIONS</code> (PG 17)</li>
-          <li><code>COPY … ON ERROR IGNORE</code>, <code>LOG_VERBOSITY</code>, <code>REJECT_LIMIT</code> (PG 17/18)</li>
-          <li><code>GENERATED ALWAYS AS (expr) VIRTUAL</code> — virtual generated columns (PG 18)</li>
-          <li><code>uuidv7()</code> — time-ordered UUID generation (PG 18)</li>
-          <li><code>RETURNING OLD</code> / <code>RETURNING NEW</code> — before/after values in DML (PG 18)</li>
+        <ul class="bku-feat-list">
+          <li><i class="fa-solid fa-bolt bku-feat-icon"></i><span class="bku-feat-text"><code>GENERATED ALWAYS AS (expr) STORED</code> — stored generated columns</span><span class="bku-pg">PG 12</span></li>
+          <li><i class="fa-solid fa-layer-group bku-feat-icon"></i><span class="bku-feat-text"><code>MATERIALIZED</code> / <code>NOT MATERIALIZED</code> CTE hints</span><span class="bku-pg">PG 12</span></li>
+          <li><i class="fa-solid fa-sort bku-feat-icon"></i><span class="bku-feat-text">Incremental sort — planner optimisation for partially-sorted input</span><span class="bku-pg">PG 13</span></li>
+          <li><a href="/yesql/joins-and-relations/with-recursive/" class="bku-feat-icon" title="YeSQL lesson: WITH RECURSIVE"><i class="fa-solid fa-rotate"></i></a><span class="bku-feat-text"><code>SEARCH</code> and <code>CYCLE</code> clauses in recursive CTEs</span><span class="bku-pg">PG 14</span></li>
+          <li><a href="/yesql/window-functions/frame-semantics/" class="bku-feat-icon" title="YeSQL lesson: Frame Semantics"><i class="fa-solid fa-circle-minus"></i></a><span class="bku-feat-text"><code>EXCLUDE</code> clause in window frame specifications</span><span class="bku-pg">PG 14</span></li>
+          <li><a href="/yesql/data-schema-design/json-and-denormalized-types/" class="bku-feat-icon" title="YeSQL lesson: JSONB, Arrays &amp; Ranges"><i class="fa-solid fa-code"></i></a><span class="bku-feat-text">JSONB subscript syntax <code>['key']</code></span><span class="bku-pg">PG 14</span></li>
+          <li><a href="/yesql/data-schema-design/range-types/" class="bku-feat-icon" title="YeSQL lesson: Range Types"><i class="fa-solid fa-ruler-horizontal"></i></a><span class="bku-feat-text">Multi-ranges and <code>range_agg()</code></span><span class="bku-pg">PG 14</span></li>
+          <li><a href="/yesql/sql-foundations/null-in-sql/" class="bku-feat-icon" title="YeSQL lesson: NULL in SQL"><i class="fa-solid fa-filter"></i></a><span class="bku-feat-text"><code>NULLS NOT DISTINCT</code> in unique constraints and indexes</span><span class="bku-pg">PG 15</span></li>
+          <li><i class="fa-solid fa-shuffle bku-feat-icon"></i><span class="bku-feat-text"><code>MERGE</code> statement; <code>WHEN NOT MATCHED BY SOURCE</code></span><span class="bku-pg">PG 15/17</span></li>
+          <li><a href="/yesql/data-schema-design/json-and-denormalized-types/" class="bku-feat-icon" title="YeSQL lesson: JSONB, Arrays &amp; Ranges"><i class="fa-solid fa-table"></i></a><span class="bku-feat-text">SQL/JSON constructors and <code>JSON_TABLE</code></span><span class="bku-pg">PG 16/17</span></li>
+          <li><i class="fa-solid fa-language bku-feat-icon"></i><span class="bku-feat-text">Built-in <code>C.UTF-8</code> collation</span><span class="bku-pg">PG 17</span></li>
+          <li><i class="fa-solid fa-reply bku-feat-icon"></i><span class="bku-feat-text"><code>MERGE RETURNING merge_action()</code></span><span class="bku-pg">PG 17</span></li>
+          <li><i class="fa-solid fa-scissors bku-feat-icon"></i><span class="bku-feat-text">Partition <code>SPLIT PARTITION</code> / <code>MERGE PARTITIONS</code></span><span class="bku-pg">PG 17</span></li>
+          <li><i class="fa-solid fa-shield-halved bku-feat-icon"></i><span class="bku-feat-text"><code>COPY … ON ERROR IGNORE</code>, <code>LOG_VERBOSITY</code>, <code>REJECT_LIMIT</code></span><span class="bku-pg">PG 17/18</span></li>
+          <li><i class="fa-solid fa-wand-magic-sparkles bku-feat-icon"></i><span class="bku-feat-text"><code>GENERATED ALWAYS AS (expr) VIRTUAL</code> — virtual generated columns</span><span class="bku-pg">PG 18</span></li>
+          <li><i class="fa-solid fa-fingerprint bku-feat-icon"></i><span class="bku-feat-text"><code>uuidv7()</code> — time-ordered UUID generation</span><span class="bku-pg">PG 18</span></li>
+          <li><i class="fa-solid fa-right-left bku-feat-icon"></i><span class="bku-feat-text"><code>RETURNING OLD</code> / <code>RETURNING NEW</code> — before/after values in DML</span><span class="bku-pg">PG 18</span></li>
         </ul>
         <p>The book also expands coverage of existing features across all PostgreSQL versions: B-tree, GiST, SP-GiST, GIN, BRIN, and Bloom index internals; fillfactor and HOT updates; <code>GROUPING()</code> function; Row Level Security; and <code>RANGE</code> / <code>GROUPS</code> window frame modes.</p>
       </div>
