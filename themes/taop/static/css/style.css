@@ -499,6 +499,10 @@ body.course .welcome_slider ul li {
 .services_list.relevant-list li {
   text-align: left;
 }
+.services_list.relevant-list li p strong {
+  display: block;
+  text-align: center;
+}
 .services_list li p {
   color: #896da1;
   padding-bottom: 10px;
@@ -507,6 +511,8 @@ body.course .welcome_slider ul li {
 .services_list li p strong {
   color: #67527a;
   font-size: 300 17px;
+  display: block;
+  text-align: center;
 }
 .services_list li p img {
   width: 24px;
@@ -2514,7 +2520,6 @@ body.lab .welcome_slider {
 .button.button_transparent:visited {
   border-color: #372649;
   color: #372649;
-  color: #fff;
 }
 .button.button_transparent:hover {
   background: #2e2241;
