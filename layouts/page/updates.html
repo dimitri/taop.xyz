@@ -1,4 +1,27 @@
-{{ partial "head.html" . }}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>What's New | The Art of PostgreSQL</title>
+  <meta name="description" content="A record of the project — book editions, lessons, lab, and open-source tools from 2011 to today.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:site" content="@tapoueh" />
+  <meta name="twitter:creator" content="@tapoueh" />
+  <meta property="og:url" content="https://theartofpostgresql.com/updates/" />
+  <meta property="og:title" content="What's New — The Art of PostgreSQL" />
+  <meta property="og:description" content="Book editions, lessons, lab, and open-source tools — a full record of the project from first publication to today." />
+  <meta property="og:image" content="https://theartofpostgresql.com/images/hardcover-mockup.jpg" />
+  <link href="/favicon.ico" rel="icon" type="image/x-icon">
+  <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
+  <script src="/js/custom.js"></script>
+</head>
+<body class="page">
+
 {{ partial "header.html" . }}
 
 <style>
@@ -155,7 +178,6 @@
       <h2>Currently in progress</h2>
     </div>
     <ul>
-      <li><strong>Third edition of The Art of PostgreSQL</strong> — restructured with new chapters and, for the first time, diagrams throughout. The <code>WITH RECURSIVE</code> border-hop illustration below is one example.</li>
       <li><strong>Full courses</strong> — the YeSQL hub lessons are expanding into complete structured courses, each covering a topic end-to-end with exercises and a final project.</li>
     </ul>
     <p class="upd-support">
@@ -191,6 +213,15 @@ select distinct on (isocode) iso3, depth
 
         <div class="tl-entry">
           <div class="tl-meta">
+            <i class="fa-solid fa-book tl-icon"></i>
+            <span class="tl-date">July 2026</span>
+          </div>
+          <p class="tl-title"><a href="/book/">Second Edition, Updated (2026)</a><a href="/book/updates/" class="tl-gh">What's new →</a></p>
+          <p class="tl-desc">Modernises the book from PostgreSQL 11 to the 17/18 landscape. Adds Chapter 51 — Vector Search with pgvector (HNSW, IVFFlat, hybrid search). Introduces 56 new TikZ figures generated from SQL, a fully integrated companion lab, and coverage of PG 12–18 features throughout (virtual generated columns, <code>RETURNING OLD/NEW</code>, <code>uuidv7()</code>, <code>NULLS NOT DISTINCT</code>, incremental sort, and more). Free update for all existing purchasers.</p>
+        </div>
+
+        <div class="tl-entry">
+          <div class="tl-meta">
             <i class="fa-solid fa-graduation-cap tl-icon"></i>
             <span class="tl-date">June 2026</span>
           </div>
@@ -207,9 +238,9 @@ select distinct on (isocode) iso3, depth
             <a href="/lab/">The Art of PostgreSQL Lab</a><a href="https://github.com/dimitri/TheArtOfPostgreSQL" target="_blank" rel="noopener" class="tl-gh"><i class="fa-brands fa-github"></i> GitHub</a>
           </p>
           <p class="tl-desc">Interactive SQL practice environment with real PostgreSQL datasets and exercises aligned with the book chapters. Book readers can explore every dataset used in the text hands-on. The starter-kit runs without the book — a self-contained Docker environment with the same datasets, usable by anyone.</p>
-          <pre class="tl-quickstart">docker compose build
-docker compose up -d postgres
-docker compose run --rm taop load-data</pre>
+          <pre class="tl-quickstart">git clone https://github.com/dimitri/TheArtOfPostgreSQL
+cd TheArtOfPostgreSQL
+docker compose up -d</pre>
         </div>
 
       </div>

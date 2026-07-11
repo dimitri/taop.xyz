@@ -313,7 +313,15 @@ body.book .header {
 body.workshop .header,
 body.lab .header,
 body.course .header {
+  background: transparent;
+  border-bottom-color: transparent;
+  transition: background 0.3s, border-color 0.3s;
+}
+body.workshop .header.nav-solid,
+body.lab .header.nav-solid,
+body.course .header.nav-solid {
   background: #372649;
+  border-bottom-color: rgba(255,255,255,0.3);
 }
 body.index .welcome_slider ul li,
 body.workshop .welcome_slider ul li,
@@ -499,6 +507,10 @@ body.course .welcome_slider ul li {
 .services_list.relevant-list li {
   text-align: left;
 }
+.services_list.relevant-list li p strong {
+  display: block;
+  text-align: center;
+}
 .services_list li p {
   color: #896da1;
   padding-bottom: 10px;
@@ -507,6 +519,8 @@ body.course .welcome_slider ul li {
 .services_list li p strong {
   color: #67527a;
   font-size: 300 17px;
+  display: block;
+  text-align: center;
 }
 .services_list li p img {
   width: 24px;
@@ -2445,13 +2459,7 @@ body.course .welcome_slider ul li {
   text-align: center;
 }
 
-/* Course page carousel adjustment */
-body.course .welcome_slider,
-body.workshop .welcome_slider,
-body.lab .welcome_slider {
-  padding-top: 66px;
-  box-sizing: border-box;
-}
+/* Course page carousel adjustment — removed: new full-bleed heroes handle nav clearance internally */
 .course_hero .presale_banner {
   background: #60b2d3;
   color: #fff;
@@ -2514,7 +2522,6 @@ body.lab .welcome_slider {
 .button.button_transparent:visited {
   border-color: #372649;
   color: #372649;
-  color: #fff;
 }
 .button.button_transparent:hover {
   background: #2e2241;
@@ -4176,6 +4183,51 @@ body.newsletter .index_hero .hero_cta .button.button_outline:hover {
   font-size: 14px;
   line-height: 1.5;
 }
+
+/* Book Second Edition */
+.book_second_edition {
+  background: #372649;
+  padding: 60px 0;
+}
+.book_second_edition .second_edition_inner {
+  max-width: 720px;
+  margin: 0 auto;
+}
+.book_second_edition .second_edition_badge {
+  display: inline-block;
+  background: #60b2d3;
+  color: #fff;
+  font: 700 11px/1 Lato, sans-serif;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 6px 14px;
+  margin-bottom: 20px;
+}
+.book_second_edition h2 {
+  color: #fff;
+  font: 400 2rem Bookman, serif;
+  margin: 0 0 18px 0;
+  padding: 0;
+  line-height: 1.15;
+}
+.book_second_edition p {
+  color: rgba(255,255,255,0.72);
+  font: 300 1.05rem/1.75 Lato, sans-serif;
+  margin: 0 0 14px 0;
+  padding: 0;
+}
+.book_second_edition p a {
+  color: #60b2d3;
+  text-decoration: none;
+}
+.book_second_edition p a:hover { text-decoration: underline; }
+.book_second_edition .second_edition_existing {
+  margin-top: 4px;
+  color: rgba(255,255,255,0.55);
+  font-size: 0.95rem;
+}
+.book_second_edition .second_edition_existing strong { color: rgba(255,255,255,0.75); font-weight: 600; }
+.book_second_edition .second_edition_existing a { color: #60b2d3; }
 
 /* Book System Bridge */
 .book_system_bridge {

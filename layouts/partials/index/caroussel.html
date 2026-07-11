@@ -1,21 +1,18 @@
-<!-- welcome_slider -->
 <div class="welcome_slider">
-    <ul>
-    	<li data-cover=".cover">
-    	    <img class="cover" src="/images/demo/slide.jpg" alt="" />
-    	    <div class="wrapper">
-    	       <img src="/images/demo/welcome_logo.png" alt="" />
-    	       <p>
-                 <a class="button button_large" href="https://sales.theartofpostgresql.com/the-art-of-postgresql-book/">
-                   Buy the Book
-                 </a>
-                 <a class="button button_large" href="#subscribe">
-                   Get the Free Chapter
-                 </a>
-               </p>
-    	    </div>
-    	</li>
-    	<li data-cover=".cover"><img class="cover" src="/img/TheArtOfPostgresEcosystem.png" alt="" /></li>
-    	<li data-cover=".cover"><img class="cover" src="/images/demo/slide3.jpg" alt="" /></li>
-    </ul>
+  <div style="position: relative; min-height: 100vh; overflow: hidden;">
+    <img src="/images/demo/slide.jpg" alt=""
+         style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; z-index: 0;">
+    <div style="position: relative; z-index: 1; min-height: 100vh; max-width: 820px; margin: 0 auto;
+                display: flex; flex-flow: column nowrap; justify-content: center; align-items: center;">
+      <img src="/images/demo/welcome_logo.png" alt="" style="max-width: 812px;">
+      <p style="margin: 40px 0 0 0; display: flex; gap: 24px; flex-wrap: wrap; justify-content: center;">
+        <a class="button button_large" href="https://sales.theartofpostgresql.com/the-art-of-postgresql-book/">
+          Buy the Book
+        </a>
+        <a class="button button_large" href="/book/updates/">
+          See What's New
+        </a>
+      </p>
+    </div>
+  </div>
 </div>

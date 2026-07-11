@@ -24,22 +24,24 @@ $(function() {
 
 
     // Welcome slider
-            $(window).on('resize load', function () {
-                if ($(window).width() < 768) {
-                    $('.welcome_slider > ul').bxSlider({
-                        mode: 'fade',
-                        auto: true,
-                        stopAutoOnClick: true
-                    });
-                } else {
-                    $('.welcome_slider > ul').bxSlider({
-                        mode: 'fade',
-                        auto: true,
-                        stopAutoOnClick: true,
-                        touchEnabled: false
-                    });
-                }
-            });
+            if ($.fn.bxSlider) {
+                $(window).on('resize load', function () {
+                    if ($(window).width() < 768) {
+                        $('.welcome_slider > ul').bxSlider({
+                            mode: 'fade',
+                            auto: true,
+                            stopAutoOnClick: true
+                        });
+                    } else {
+                        $('.welcome_slider > ul').bxSlider({
+                            mode: 'fade',
+                            auto: true,
+                            stopAutoOnClick: true,
+                            touchEnabled: false
+                        });
+                    }
+                });
+            }
 
 
 
@@ -57,10 +59,12 @@ $(function() {
 
 
     // Quote slider
-            $('.quote_slider .wrapper > ul').bxSlider({
-                mode: 'fade',
-                pager: false
-            });
+            if ($.fn.bxSlider) {
+                $('.quote_slider .wrapper > ul').bxSlider({
+                    mode: 'fade',
+                    pager: false
+                });
+            }
             
             // Book social proof quote carousel
             if ($('.book_social_proof .quote_slider').length) {
@@ -118,6 +122,21 @@ $(function() {
                     var next = (currentQuote + 1) % quoteCount;
                     showQuote(next);
                 }, 5000);
+            }
+
+
+
+
+    // Transparent hero nav: restore solid background after scrolling past hero
+            if ($('.welcome_slider').length) {
+                var $header = $('.header');
+                $(window).on('scroll.hero', function() {
+                    if ($(this).scrollTop() > window.innerHeight * 0.8) {
+                        $header.addClass('nav-solid');
+                    } else {
+                        $header.removeClass('nav-solid');
+                    }
+                });
             }
 
 

@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Second Edition, Updated (2026) | The Art of PostgreSQL</title>
+  <meta name="description" content="The 2026 update adds a pgvector chapter, 56 new figures, full PostgreSQL 12–18 coverage, and an integrated companion lab. Free for all existing purchasers.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:site" content="@tapoueh" />
+  <meta property="og:url" content="https://theartofpostgresql.com/book/updates/" />
+  <meta property="og:title" content="Second Edition, Updated (2026)" />
+  <meta property="og:description" content="pgvector chapter, 56 new figures, PG 12–18 coverage, integrated lab. Free for all existing purchasers." />
+  <link href="/favicon.ico" rel="icon" type="image/x-icon">
+  <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
+  <script src="/js/custom.js"></script>
+  <style>
+    .bku-page { max-width: 780px; margin: 0 auto; padding: 80px 24px 120px; }
+    .bku-eyebrow { font: 700 11px/1 'Lato'; letter-spacing: 3px; text-transform: uppercase; color: #60b2d3; margin: 0 0 16px; }
+    .bku-page h1 { font: 300 2.6rem/1.1 'Lato'; color: #372649; margin: 0 0 12px; }
+    .bku-lede { font: 300 1.15rem/1.65 'Lato'; color: #67527a; margin: 0 0 56px; max-width: 640px; }
+    .bku-free-banner { background: #372649; color: #fff; border-radius: 8px; padding: 20px 28px; margin-bottom: 56px; display: flex; align-items: center; gap: 16px; }
+    .bku-free-banner i { font-size: 1.4rem; color: #60b2d3; flex-shrink: 0; }
+    .bku-free-banner p { margin: 0; font: 400 0.95rem/1.5 'Lato'; }
+    .bku-free-banner a { color: #60b2d3; }
+    .bku-section { margin-bottom: 56px; }
+    .bku-section h2 { font: 700 1.3rem/1.2 'Lato'; color: #372649; margin: 0 0 24px; padding-bottom: 10px; border-bottom: 2px solid #ede8f2; }
+    .bku-change { display: flex; gap: 20px; margin-bottom: 32px; }
+    .bku-change-icon { width: 40px; height: 40px; border-radius: 50%; background: #ede8f2; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+    .bku-change-icon i { color: #372649; font-size: 1rem; }
+    .bku-change-body h3 { font: 700 1rem/1.2 'Lato'; color: #372649; margin: 0 0 8px; }
+    .bku-change-body p { font: 300 0.95rem/1.6 'Lato'; color: #555; margin: 0 0 6px; }
+    .bku-change-body code { font-size: 0.88em; background: #f0ecf5; padding: 1px 5px; border-radius: 3px; color: #372649; }
+    .bku-change-body ul:not(.bku-feat-list) { margin: 6px 0 0 0; padding-left: 1.2em; }
+    .bku-change-body ul:not(.bku-feat-list) li { font: 300 0.92rem/1.6 'Lato'; color: #555; }
+    .bku-feat-list { list-style: none; padding: 0; margin: 14px 0 28px; }
+    .bku-feat-list li { display: flex; align-items: flex-start; gap: 12px; padding: 11px 0; border-bottom: 1px solid #f0ecf5; }
+    .bku-feat-list li:last-child { border-bottom: none; }
+    .bku-feat-icon { flex-shrink: 0; width: 16px; text-align: center; color: #8b6fb0; font-size: 0.78rem; margin-top: 3px; }
+    a.bku-feat-icon { color: #b45309; text-decoration: none; transition: color 0.15s; }
+    a.bku-feat-icon:hover { color: #7c3a05; }
+    .bku-feat-text { flex: 1; min-width: 0; font: 300 0.9rem/1.5 'Lato'; color: #555; }
+    .bku-pg { flex-shrink: 0; align-self: center; font: 700 0.62rem/1 'Lato'; letter-spacing: 0.06em; color: #fff; background: #60b2d3; padding: 3px 7px; border-radius: 2px; white-space: nowrap; }
+    .bku-history { border-left: 3px solid #ede8f2; padding-left: 24px; }
+    .bku-history-item { margin-bottom: 28px; position: relative; }
+    .bku-history-item::before { content: ''; width: 10px; height: 10px; border-radius: 50%; background: #60b2d3; position: absolute; left: -30px; top: 5px; }
+    .bku-history-item h4 { font: 700 0.95rem/1.2 'Lato'; color: #372649; margin: 0 0 4px; }
+    .bku-history-item p { font: 300 0.9rem/1.5 'Lato'; color: #888; margin: 0; }
+    .bku-cta { background: #f8f7f9; border-radius: 8px; padding: 36px; text-align: center; margin-top: 56px; }
+    .bku-cta h3 { font: 300 1.5rem/1.2 'Lato'; color: #372649; margin: 0 0 10px; }
+    .bku-cta p { font: 300 0.95rem/1.6 'Lato'; color: #67527a; margin: 0 0 24px; }
+    .bku-cta-buttons { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .bku-gallery { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 56px; }
+    .bku-gallery-fig { margin: 0; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 12px rgba(55,38,73,0.10); background: #fff; }
+    .bku-gallery-img-box { height: 210px; display: flex; align-items: center; justify-content: center; padding: 14px; background: #fff; overflow: hidden; }
+    .bku-gallery-fig img { max-width: 100%; max-height: 182px; object-fit: contain; display: block; }
+    .bku-gallery-fig figcaption { padding: 10px 14px; font: 300 0.8rem/1.4 'Lato'; color: #888; border-top: 1px solid #ede8f2; }
+    .bku-screenshot { margin: 20px 0 4px; border-radius: 6px; overflow: hidden; box-shadow: 0 2px 16px rgba(55,38,73,0.13); }
+    .bku-screenshot img { width: 100%; height: auto; display: block; }
+    @media (max-width: 600px) {
+      .bku-page { padding: 48px 16px 80px; }
+      .bku-page h1 { font-size: 1.9rem; }
+      .bku-free-banner { flex-direction: column; gap: 10px; }
+      .bku-gallery { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body class="book">
+
+{{ partial "header.html" . }}
+
+<div class="bku-page">
+
+  <p class="bku-eyebrow">The Art of PostgreSQL</p>
+  <h1>Second Edition, Updated (2026)</h1>
+  <p class="bku-lede">
+    The 2026 update is the most significant revision since the book's first
+    publication. It modernises the text from PostgreSQL 11 to the 17/18 landscape,
+    adds an entirely new chapter on vector search, introduces 56 new figures, and
+    ships with a fully integrated companion lab.
+  </p>
+
+  <div class="bku-free-banner">
+    <i class="fa-solid fa-gift"></i>
+    <p>
+      <strong>Free for all existing purchasers.</strong>
+      Log into your <a href="https://members.theartofpostgresql.com/courses/the-art-of-postgresql/" target="_blank" rel="noopener">ThriveCart account</a>,
+      open the lesson for The Art of PostgreSQL, and download the updated PDF and ePub.
+      Questions? Email <a href="mailto:dim@tapoueh.org">dim@tapoueh.org</a> with your order email.
+    </p>
+  </div>
+
+  <div class="bku-gallery">
+    <figure class="bku-gallery-fig">
+      <div class="bku-gallery-img-box">
+        <img src="/img/diagrams/fig-btree-page-layout.svg" alt="B-tree index page layout diagram" loading="lazy">
+      </div>
+      <figcaption>B-tree index page structure — Root, Internal, and Leaf nodes with sibling pointers</figcaption>
+    </figure>
+    <figure class="bku-gallery-fig">
+      <div class="bku-gallery-img-box" style="background:#fff; padding:0; overflow:hidden;">
+        <img src="/img/diagrams/loire-basin.png" alt="Loire river basin rendered from SQL with PostGIS" loading="lazy" style="max-height:210px; width:100%; object-fit:cover; object-position:center;">
+      </div>
+      <figcaption>Loire river basin — 58,836 river reaches from HydroRIVERS rendered via PostGIS and psql</figcaption>
+    </figure>
+    <figure class="bku-gallery-fig">
+      <div class="bku-gallery-img-box" style="background:#0d1117; padding:0; overflow:hidden;">
+        <img src="/img/diagrams/fig-plan-tree-join.svg" alt="PostgreSQL query plan tree with color-coded node types" loading="lazy" style="max-height:210px; width:100%; object-fit:cover; object-position:top center;">
+      </div>
+      <figcaption>Query plan tree — Limit → Nested Loop → Seq Scan / Index Scan / Memoize, color-coded by node type</figcaption>
+    </figure>
+    <figure class="bku-gallery-fig">
+      <div class="bku-gallery-img-box">
+        <img src="/img/diagrams/fig-range-multirange.svg" alt="tstzrange vs tstzmultirange timeline diagram" loading="lazy">
+      </div>
+      <figcaption>tstzrange (7 rows) vs tstzmultirange (5 rows) — band membership periods with <code>@&gt;</code> point-in-time query</figcaption>
+    </figure>
+  </div>
+
+  <div class="bku-section">
+    <h2>The Art of PostgreSQL book 2026 updates</h2>
+
+    <div class="bku-change">
+      <div class="bku-change-icon"><i class="fa-solid fa-database"></i></div>
+      <div class="bku-change-body">
+        <h3>PostgreSQL 12–18 Coverage</h3>
+        <p>
+          New features introduced across PostgreSQL versions 12 through 18 are
+          covered where they apply to the book's topics:
+        </p>
+        <ul class="bku-feat-list">
+          <li><i class="fa-solid fa-bolt bku-feat-icon"></i><span class="bku-feat-text"><code>GENERATED ALWAYS AS (expr) STORED</code> — stored generated columns</span><span class="bku-pg">PG 12</span></li>
+          <li><i class="fa-solid fa-layer-group bku-feat-icon"></i><span class="bku-feat-text"><code>MATERIALIZED</code> / <code>NOT MATERIALIZED</code> CTE hints</span><span class="bku-pg">PG 12</span></li>
+          <li><i class="fa-solid fa-sort bku-feat-icon"></i><span class="bku-feat-text">Incremental sort — planner optimisation for partially-sorted input</span><span class="bku-pg">PG 13</span></li>
+          <li><a href="/yesql/joins-and-relations/with-recursive/" class="bku-feat-icon" title="YeSQL lesson: WITH RECURSIVE"><i class="fa-solid fa-rotate"></i></a><span class="bku-feat-text"><code>SEARCH</code> and <code>CYCLE</code> clauses in recursive CTEs</span><span class="bku-pg">PG 14</span></li>
+          <li><a href="/yesql/window-functions/frame-semantics/" class="bku-feat-icon" title="YeSQL lesson: Frame Semantics"><i class="fa-solid fa-circle-minus"></i></a><span class="bku-feat-text"><code>EXCLUDE</code> clause in window frame specifications</span><span class="bku-pg">PG 14</span></li>
+          <li><a href="/yesql/data-schema-design/json-and-denormalized-types/" class="bku-feat-icon" title="YeSQL lesson: JSONB, Arrays &amp; Ranges"><i class="fa-solid fa-code"></i></a><span class="bku-feat-text">JSONB subscript syntax <code>['key']</code></span><span class="bku-pg">PG 14</span></li>
+          <li><a href="/yesql/data-schema-design/range-types/" class="bku-feat-icon" title="YeSQL lesson: Range Types"><i class="fa-solid fa-ruler-horizontal"></i></a><span class="bku-feat-text">Multi-ranges and <code>range_agg()</code></span><span class="bku-pg">PG 14</span></li>
+          <li><a href="/yesql/sql-foundations/null-in-sql/" class="bku-feat-icon" title="YeSQL lesson: NULL in SQL"><i class="fa-solid fa-filter"></i></a><span class="bku-feat-text"><code>NULLS NOT DISTINCT</code> in unique constraints and indexes</span><span class="bku-pg">PG 15</span></li>
+          <li><i class="fa-solid fa-shuffle bku-feat-icon"></i><span class="bku-feat-text"><code>MERGE</code> statement; <code>WHEN NOT MATCHED BY SOURCE</code></span><span class="bku-pg">PG 15/17</span></li>
+          <li><a href="/yesql/data-schema-design/json-and-denormalized-types/" class="bku-feat-icon" title="YeSQL lesson: JSONB, Arrays &amp; Ranges"><i class="fa-solid fa-table"></i></a><span class="bku-feat-text">SQL/JSON constructors and <code>JSON_TABLE</code></span><span class="bku-pg">PG 16/17</span></li>
+          <li><i class="fa-solid fa-language bku-feat-icon"></i><span class="bku-feat-text">Built-in <code>C.UTF-8</code> collation</span><span class="bku-pg">PG 17</span></li>
+          <li><i class="fa-solid fa-reply bku-feat-icon"></i><span class="bku-feat-text"><code>MERGE RETURNING merge_action()</code></span><span class="bku-pg">PG 17</span></li>
+          <li><i class="fa-solid fa-scissors bku-feat-icon"></i><span class="bku-feat-text">Partition <code>SPLIT PARTITION</code> / <code>MERGE PARTITIONS</code></span><span class="bku-pg">PG 17</span></li>
+          <li><i class="fa-solid fa-shield-halved bku-feat-icon"></i><span class="bku-feat-text"><code>COPY … ON ERROR IGNORE</code>, <code>LOG_VERBOSITY</code>, <code>REJECT_LIMIT</code></span><span class="bku-pg">PG 17/18</span></li>
+          <li><i class="fa-solid fa-wand-magic-sparkles bku-feat-icon"></i><span class="bku-feat-text"><code>GENERATED ALWAYS AS (expr) VIRTUAL</code> — virtual generated columns</span><span class="bku-pg">PG 18</span></li>
+          <li><i class="fa-solid fa-fingerprint bku-feat-icon"></i><span class="bku-feat-text"><code>uuidv7()</code> — time-ordered UUID generation</span><span class="bku-pg">PG 18</span></li>
+          <li><i class="fa-solid fa-right-left bku-feat-icon"></i><span class="bku-feat-text"><code>RETURNING OLD</code> / <code>RETURNING NEW</code> — before/after values in DML</span><span class="bku-pg">PG 18</span></li>
+        </ul>
+        <p>The book also expands coverage of existing features across all PostgreSQL versions: B-tree, GiST, SP-GiST, GIN, BRIN, and Bloom index internals; fillfactor and HOT updates; <code>GROUPING()</code> function; Row Level Security; and <code>RANGE</code> / <code>GROUPS</code> window frame modes.</p>
+      </div>
+    </div>
+
+    <div class="bku-change">
+      <div class="bku-change-icon"><i class="fa-solid fa-microchip"></i></div>
+      <div class="bku-change-body">
+        <h3>New Extensions Coverage — pgvector and Citus</h3>
+        <p>
+          Part VIII (Extensions) gains two major additions:
+        </p>
+        <ul>
+          <li><strong>Vector search with pgvector</strong> — <code>vector</code> type, HNSW and IVFFlat index types, distance operators (<code>&lt;-&gt;</code> / <code>&lt;#&gt;</code> / <code>&lt;=&gt;</code>), and hybrid search combining vector similarity with relational filters</li>
+          <li><strong>Citus distributed architecture</strong> — coordinator, workers, shards, and reference tables</li>
+          <li><strong>pg_trgm</strong> — index rebuild requirement after upgrading to PG 18</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="bku-change">
+      <div class="bku-change-icon"><i class="fa-solid fa-chart-bar"></i></div>
+      <div class="bku-change-body">
+        <h3>56 New Figures</h3>
+        <p>
+          All 56 figures are new TikZ diagrams, generated from SQL or authored for this
+          edition — not drawn by hand. They span every part of the book:
+        </p>
+        <ul>
+          <li><strong>Part II</strong> — psql session anatomy; B-tree, GiST, SP-GiST, GIN index page layouts</li>
+          <li><strong>Part III</strong> — select pipeline; river hop visualisations; neighbour reach map</li>
+          <li><strong>Part IV</strong> — numeric types; array layout; JSONB operators; multi-range timeline</li>
+          <li><strong>Part V</strong> — normalisation anomalies; materialized view refresh; validity ranges; partition timeline</li>
+          <li><strong>Part VI</strong> — three-valued logic truth tables; SQL isolation matrix; trigger timing; listen/notify flow</li>
+          <li><strong>Part VIII</strong> — IP range search; trigram similarity; Citus architecture; PostGIS map of Châteaux within 100 km of Paris</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="bku-change">
+      <div class="bku-change-icon"><i class="fa-solid fa-flask"></i></div>
+      <div class="bku-change-body">
+        <h3>Fully Integrated Companion Lab</h3>
+        <p>
+          The lab is now a first-class part of the book. One command starts
+          a complete PostgreSQL environment with all datasets pre-seeded:
+        </p>
+        <p><code>docker compose up -d</code></p>
+        <p>
+          Datasets include F1db, MoMA, Geonames, Last.fm, Wikidata castle ruins, London OSM,
+          and more — every dataset used in the book. Open <code>localhost:8042</code> to reach
+          an interactive query pane organised by book chapter — every SQL query from the book
+          is there, ready to run, edit, and experiment with. No account required beyond Docker.
+          <a href="/lab/">Learn more about the lab →</a>
+        </p>
+        <div class="bku-screenshot">
+          <img src="/img/query-ui-explain.png" alt="The lab's query UI showing a SQL query and its EXPLAIN plan side by side" loading="lazy">
+        </div>
+      </div>
+    </div>
+
+    <div class="bku-change">
+      <div class="bku-change-icon"><i class="fa-solid fa-pen-to-square"></i></div>
+      <div class="bku-change-body">
+        <h3>Prose and Presentation Overhaul</h3>
+        <ul>
+          <li>AI-assisted typo and grammar pass across the full manuscript</li>
+          <li>Six interview chapters reformatted: questions promoted to headings, answers in styled pull-quote blocks</li>
+          <li>New appendix chapter: PostGIS SQL rendering pipeline for the Loire river basin, orthographic globe, and London pub k-NN map — TikZ and SVG variants shown side by side</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="bku-section">
+    <h2>Edition history</h2>
+    <div class="bku-history">
+      <div class="bku-history-item">
+        <h4>Second Edition, Updated (2026) — current</h4>
+        <p>pgvector chapter, 56 new figures, PG 12–18 coverage, integrated lab. 570 pages.</p>
+      </div>
+      <div class="bku-history-item">
+        <h4>Second Edition (2022)</h4>
+        <p>Renamed to <em>The Art of PostgreSQL</em>. Restructured and expanded. Covers PostgreSQL 10–14.</p>
+      </div>
+      <div class="bku-history-item">
+        <h4>First Edition (2019)</h4>
+        <p>Published as <em>Mastering PostgreSQL in Application Development</em>. Covers PostgreSQL 10–11.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="bku-cta">
+    <h3>Get the book</h3>
+    <p>Digital edition — PDF and ePub — immediate download. 30-day money-back guarantee.</p>
+    <div class="bku-cta-buttons">
+      <a href="https://sales.theartofpostgresql.com/the-art-of-postgresql-book/" class="button button_purple button_large">Get the Book — $89</a>
+      <a href="/book/fair-pricing/" class="button button_outline">Fair Pricing</a>
+    </div>
+  </div>
+
+</div>
+
+{{ partial "footer.html" . }}
+</body>
+</html>
