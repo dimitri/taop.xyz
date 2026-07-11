@@ -83,30 +83,15 @@
     <div class="bku-change">
       <div class="bku-change-icon"><i class="fa-solid fa-microchip"></i></div>
       <div class="bku-change-body">
-        <h3>Chapter 51 — Vector Search with pgvector</h3>
+        <h3>New Extensions Coverage — pgvector and Citus</h3>
         <p>
-          A complete new chapter covering vector embeddings and nearest-neighbor
-          search in PostgreSQL using the pgvector extension.
+          Part VIII (Extensions) gains two major additions:
         </p>
         <ul>
-          <li>HNSW and IVFFlat index types — when to use each and how they work</li>
-          <li>Vector distance operators: cosine, L2, inner product</li>
-          <li>Hybrid search: combining vector similarity with relational filters</li>
-          <li>Practical patterns for semantic search on real data</li>
+          <li><strong>Vector search with pgvector</strong> — <code>vector</code> type, HNSW and IVFFlat index types, distance operators (<code>&lt;-&gt;</code> / <code>&lt;#&gt;</code> / <code>&lt;=&gt;</code>), and hybrid search combining vector similarity with relational filters</li>
+          <li><strong>Citus distributed architecture</strong> — coordinator, workers, shards, and reference tables</li>
+          <li><strong>pg_trgm</strong> — index rebuild requirement after upgrading to PG 18</li>
         </ul>
-      </div>
-    </div>
-
-    <div class="bku-change">
-      <div class="bku-change-icon"><i class="fa-solid fa-chart-bar"></i></div>
-      <div class="bku-change-body">
-        <h3>56 New Figures</h3>
-        <p>
-          All 56 figures are generated from SQL and PostgreSQL system data using
-          TikZ — they are derived from the database itself, not drawn by hand.
-          They illustrate plan node types, join strategies, index structures,
-          normalization concepts, and data distribution patterns.
-        </p>
       </div>
     </div>
 
@@ -119,12 +104,40 @@
           covered where they apply to the book's topics:
         </p>
         <ul>
-          <li><code>GENERATED ALWAYS AS (expr) VIRTUAL</code> — virtual generated columns (PG 12+)</li>
-          <li><code>RETURNING OLD</code> / <code>RETURNING NEW</code> — before/after values in DML (PG 17)</li>
-          <li><code>uuidv7()</code> — time-ordered UUID generation (PG 17)</li>
-          <li><code>NULLS NOT DISTINCT</code> in unique constraints and indexes (PG 15)</li>
+          <li><code>GENERATED ALWAYS AS (expr) STORED</code> — stored generated columns (PG 12)</li>
+          <li><code>MATERIALIZED</code> / <code>NOT MATERIALIZED</code> CTE hints (PG 12)</li>
           <li>Incremental sort — planner optimisation for partially-sorted input (PG 13)</li>
-          <li>Logical replication improvements, improved <code>EXPLAIN</code> output, and more</li>
+          <li><code>SEARCH</code> and <code>CYCLE</code> clauses in recursive CTEs (PG 14)</li>
+          <li>JSONB subscript syntax <code>['key']</code> (PG 14)</li>
+          <li>Multi-ranges and <code>range_agg()</code> (PG 14)</li>
+          <li><code>NULLS NOT DISTINCT</code> in unique constraints and indexes (PG 15)</li>
+          <li><code>MERGE</code> statement; <code>WHEN NOT MATCHED BY SOURCE</code> (PG 15/17)</li>
+          <li>SQL/JSON constructors and <code>JSON_TABLE</code> (PG 16/17)</li>
+          <li><code>MERGE RETURNING merge_action()</code> (PG 17)</li>
+          <li>Partition <code>SPLIT PARTITION</code> / <code>MERGE PARTITIONS</code> (PG 17)</li>
+          <li><code>COPY … ON ERROR IGNORE</code>, <code>LOG_VERBOSITY</code>, <code>REJECT_LIMIT</code> (PG 17/18)</li>
+          <li><code>GENERATED ALWAYS AS (expr) VIRTUAL</code> — virtual generated columns (PG 18)</li>
+          <li><code>uuidv7()</code> — time-ordered UUID generation (PG 18)</li>
+          <li><code>RETURNING OLD</code> / <code>RETURNING NEW</code> — before/after values in DML (PG 18)</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="bku-change">
+      <div class="bku-change-icon"><i class="fa-solid fa-chart-bar"></i></div>
+      <div class="bku-change-body">
+        <h3>56 New Figures</h3>
+        <p>
+          All 56 figures are new TikZ diagrams, generated from SQL or authored for this
+          edition — not drawn by hand. They span every part of the book:
+        </p>
+        <ul>
+          <li><strong>Part II</strong> — psql session anatomy; B-tree, GiST, SP-GiST, GIN index page layouts</li>
+          <li><strong>Part III</strong> — select pipeline; river hop visualisations; neighbour reach map</li>
+          <li><strong>Part IV</strong> — numeric types; array layout; JSONB operators; multi-range timeline</li>
+          <li><strong>Part V</strong> — normalisation anomalies; materialized view refresh; validity ranges; partition timeline</li>
+          <li><strong>Part VI</strong> — three-valued logic truth tables; SQL isolation matrix; trigger timing; listen/notify flow</li>
+          <li><strong>Part VIII</strong> — IP range search; trigram similarity; Citus architecture; PostGIS map of Châteaux within 100 km of Paris</li>
         </ul>
       </div>
     </div>
@@ -139,11 +152,24 @@
         </p>
         <p><code>docker compose up -d</code></p>
         <p>
-          Open <code>localhost:8042</code> to reach an interactive query pane
-          organised by book chapter — every SQL query from the book is there,
-          ready to run, edit, and experiment with. No account required beyond
-          Docker. <a href="/lab/">Learn more about the lab →</a>
+          Datasets include F1db, MoMA, Geonames, Last.fm, Wikidata castle ruins, London OSM,
+          and more — every dataset used in the book. Open <code>localhost:8042</code> to reach
+          an interactive query pane organised by book chapter — every SQL query from the book
+          is there, ready to run, edit, and experiment with. No account required beyond Docker.
+          <a href="/lab/">Learn more about the lab →</a>
         </p>
+      </div>
+    </div>
+
+    <div class="bku-change">
+      <div class="bku-change-icon"><i class="fa-solid fa-pen-to-square"></i></div>
+      <div class="bku-change-body">
+        <h3>Prose and Presentation Overhaul</h3>
+        <ul>
+          <li>AI-assisted typo and grammar pass across the full manuscript</li>
+          <li>Six interview chapters reformatted: questions promoted to headings, answers in styled pull-quote blocks</li>
+          <li>New appendix chapter: PostGIS SQL rendering pipeline for the Loire river basin, orthographic globe, and London pub k-NN map — TikZ and SVG variants shown side by side</li>
+        </ul>
       </div>
     </div>
 
