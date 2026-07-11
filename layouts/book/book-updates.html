@@ -45,10 +45,16 @@
     .bku-cta h3 { font: 300 1.5rem/1.2 'Lato'; color: #372649; margin: 0 0 10px; }
     .bku-cta p { font: 300 0.95rem/1.6 'Lato'; color: #67527a; margin: 0 0 24px; }
     .bku-cta-buttons { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .bku-gallery { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 56px; }
+    .bku-gallery-fig { margin: 0; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 12px rgba(55,38,73,0.10); background: #fff; }
+    .bku-gallery-img-box { height: 210px; display: flex; align-items: center; justify-content: center; padding: 14px; background: #fff; overflow: hidden; }
+    .bku-gallery-fig img { max-width: 100%; max-height: 182px; object-fit: contain; display: block; }
+    .bku-gallery-fig figcaption { padding: 10px 14px; font: 300 0.8rem/1.4 'Lato'; color: #888; border-top: 1px solid #ede8f2; }
     @media (max-width: 600px) {
       .bku-page { padding: 48px 16px 80px; }
       .bku-page h1 { font-size: 1.9rem; }
       .bku-free-banner { flex-direction: column; gap: 10px; }
+      .bku-gallery { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -75,6 +81,33 @@
       open the lesson for The Art of PostgreSQL, and download the updated PDF and ePub.
       Questions? Email <a href="mailto:dim@tapoueh.org">dim@tapoueh.org</a> with your order email.
     </p>
+  </div>
+
+  <div class="bku-gallery">
+    <figure class="bku-gallery-fig">
+      <div class="bku-gallery-img-box">
+        <img src="/img/diagrams/fig-btree-page-layout.svg" alt="B-tree index page layout diagram" loading="lazy">
+      </div>
+      <figcaption>B-tree index page structure — Root, Internal, and Leaf nodes with sibling pointers</figcaption>
+    </figure>
+    <figure class="bku-gallery-fig">
+      <div class="bku-gallery-img-box" style="background:#fff; padding:0; overflow:hidden;">
+        <img src="/img/diagrams/loire-basin.png" alt="Loire river basin rendered from SQL with PostGIS" loading="lazy" style="max-height:210px; width:100%; object-fit:cover; object-position:center;">
+      </div>
+      <figcaption>Loire river basin — 58,836 river reaches from HydroRIVERS rendered via PostGIS and psql</figcaption>
+    </figure>
+    <figure class="bku-gallery-fig">
+      <div class="bku-gallery-img-box" style="background:#0d1117; padding:0; overflow:hidden;">
+        <img src="/img/diagrams/fig-plan-tree-join.svg" alt="PostgreSQL query plan tree with color-coded node types" loading="lazy" style="max-height:210px; width:100%; object-fit:cover; object-position:top center;">
+      </div>
+      <figcaption>Query plan tree — Limit → Nested Loop → Seq Scan / Index Scan / Memoize, color-coded by node type</figcaption>
+    </figure>
+    <figure class="bku-gallery-fig">
+      <div class="bku-gallery-img-box">
+        <img src="/img/diagrams/fig-range-multirange.svg" alt="tstzrange vs tstzmultirange timeline diagram" loading="lazy">
+      </div>
+      <figcaption>tstzrange (7 rows) vs tstzmultirange (5 rows) — band membership periods with <code>@&gt;</code> point-in-time query</figcaption>
+    </figure>
   </div>
 
   <div class="bku-section">
@@ -108,11 +141,13 @@
           <li><code>MATERIALIZED</code> / <code>NOT MATERIALIZED</code> CTE hints (PG 12)</li>
           <li>Incremental sort — planner optimisation for partially-sorted input (PG 13)</li>
           <li><code>SEARCH</code> and <code>CYCLE</code> clauses in recursive CTEs (PG 14)</li>
+          <li><code>EXCLUDE</code> clause in window frame specifications (PG 14)</li>
           <li>JSONB subscript syntax <code>['key']</code> (PG 14)</li>
           <li>Multi-ranges and <code>range_agg()</code> (PG 14)</li>
           <li><code>NULLS NOT DISTINCT</code> in unique constraints and indexes (PG 15)</li>
           <li><code>MERGE</code> statement; <code>WHEN NOT MATCHED BY SOURCE</code> (PG 15/17)</li>
           <li>SQL/JSON constructors and <code>JSON_TABLE</code> (PG 16/17)</li>
+          <li>Built-in <code>C.UTF-8</code> collation (PG 17)</li>
           <li><code>MERGE RETURNING merge_action()</code> (PG 17)</li>
           <li>Partition <code>SPLIT PARTITION</code> / <code>MERGE PARTITIONS</code> (PG 17)</li>
           <li><code>COPY … ON ERROR IGNORE</code>, <code>LOG_VERBOSITY</code>, <code>REJECT_LIMIT</code> (PG 17/18)</li>
@@ -120,6 +155,7 @@
           <li><code>uuidv7()</code> — time-ordered UUID generation (PG 18)</li>
           <li><code>RETURNING OLD</code> / <code>RETURNING NEW</code> — before/after values in DML (PG 18)</li>
         </ul>
+        <p>The book also expands coverage of existing features across all PostgreSQL versions: B-tree, GiST, SP-GiST, GIN, BRIN, and Bloom index internals; fillfactor and HOT updates; <code>GROUPING()</code> function; Row Level Security; and <code>RANGE</code> / <code>GROUPS</code> window frame modes.</p>
       </div>
     </div>
 
