@@ -428,6 +428,54 @@ body.course .welcome_slider ul li {
   margin: 0 30px 10px 0;
   min-width: 200px;
 }
+/* Full-bleed hero — book and index pages */
+.hero-slide {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+}
+.hero-content {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  max-width: 820px;
+  margin: 0 auto;
+  padding: 0 32px;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+}
+.hero-logo {
+  width: 100%;
+  max-width: 812px;
+  height: auto;
+  display: block;
+}
+.hero-cta {
+  margin: 40px 0 0;
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+@media (max-width: 640px) {
+  .hero-content {
+    padding: 0 20px;
+  }
+  .hero-cta {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 14px;
+    width: 100%;
+  }
+  .hero-cta .button {
+    text-align: center;
+    width: 100%;
+    box-sizing: border-box;
+  }
+}
+
 .welcome_slider .bx-pager {
   position: absolute;
   bottom: 57px;
