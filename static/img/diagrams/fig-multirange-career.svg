@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 200"
+     role="img" aria-label="Fernando Alonso career timeline: multirange active_years column showing non-contiguous stints at Renault and McLaren; vertical dashed line at 2010 shows @> containment query returning Ferrari">
+
+  <!-- x(year) = 55 + (year − 2001) × 38.82 ; 2001→55, 2007→288, 2008→327, 2010→404, 2015→599, 2018→715 -->
+
+  <!-- ── title ── -->
+  <text x="384" y="18" text-anchor="middle"
+        fill="#372649" font-size="10.5" font-family="ui-sans-serif,sans-serif" font-weight="bold">
+    Fernando Alonso — active_years (driverid = 4)
+  </text>
+
+  <!-- ── @> 2010 dashed vertical line (full height) ── -->
+  <line x1="404" y1="24" x2="404" y2="188" stroke="#372649" stroke-width="1.5" stroke-dasharray="6,4"/>
+
+  <!-- ── Career timeline bars (y=30..58) ── -->
+
+  <!-- Minardi [2001,2002) -->
+  <rect x="55"  y="30" width="39"  height="28" rx="2" fill="#c5bbcf"/>
+  <text x="74"  y="49" text-anchor="middle" fill="#555" font-size="7.5" font-family="ui-sans-serif,sans-serif">Minardi</text>
+
+  <!-- Renault [2003,2007) -->
+  <rect x="133" y="30" width="155" height="28" rx="2" fill="#60b2d3"/>
+  <text x="210" y="49" text-anchor="middle" fill="white" font-size="9"   font-family="ui-sans-serif,sans-serif">Renault</text>
+
+  <!-- McLaren [2007,2008) -->
+  <rect x="288" y="30" width="39"  height="28" rx="2" fill="#7c5c9e"/>
+  <text x="307" y="49" text-anchor="middle" fill="white" font-size="7"   font-family="ui-sans-serif,sans-serif">McLaren</text>
+
+  <!-- Renault [2008,2010) -->
+  <rect x="327" y="30" width="77"  height="28" rx="2" fill="#60b2d3"/>
+  <text x="365" y="49" text-anchor="middle" fill="white" font-size="9"   font-family="ui-sans-serif,sans-serif">Renault</text>
+
+  <!-- Ferrari [2010,2015) -->
+  <rect x="404" y="30" width="195" height="28" rx="2" fill="#bf4040"/>
+  <text x="501" y="49" text-anchor="middle" fill="white" font-size="9.5" font-family="ui-sans-serif,sans-serif">Ferrari</text>
+
+  <!-- McLaren [2015,2018) -->
+  <rect x="599" y="30" width="116" height="28" rx="2" fill="#7c5c9e"/>
+  <text x="657" y="49" text-anchor="middle" fill="white" font-size="9"   font-family="ui-sans-serif,sans-serif">McLaren</text>
+
+  <!-- ── x-axis ── -->
+  <line x1="55" y1="59" x2="715" y2="59" stroke="#ddd" stroke-width="1"/>
+
+  <!-- Year ticks and labels -->
+  <line x1="55"  y1="57" x2="55"  y2="64" stroke="#bbb" stroke-width="1"/>
+  <text x="55"   y="75" text-anchor="middle" fill="#999" font-size="8" font-family="ui-sans-serif,sans-serif">2001</text>
+
+  <line x1="133" y1="57" x2="133" y2="64" stroke="#bbb" stroke-width="1"/>
+  <text x="133"  y="75" text-anchor="middle" fill="#999" font-size="8" font-family="ui-sans-serif,sans-serif">2003</text>
+
+  <line x1="288" y1="57" x2="288" y2="64" stroke="#bbb" stroke-width="1"/>
+  <text x="288"  y="75" text-anchor="middle" fill="#999" font-size="8" font-family="ui-sans-serif,sans-serif">2007</text>
+
+  <line x1="327" y1="57" x2="327" y2="64" stroke="#bbb" stroke-width="1"/>
+  <text x="327"  y="75" text-anchor="middle" fill="#999" font-size="8" font-family="ui-sans-serif,sans-serif">2008</text>
+
+  <!-- 2010 tick: bolder, matches dashed line -->
+  <line x1="404" y1="57" x2="404" y2="64" stroke="#372649" stroke-width="1.5"/>
+  <text x="404"  y="75" text-anchor="middle" fill="#372649" font-size="8" font-family="ui-sans-serif,sans-serif" font-weight="bold">2010</text>
+
+  <line x1="599" y1="57" x2="599" y2="64" stroke="#bbb" stroke-width="1"/>
+  <text x="599"  y="75" text-anchor="middle" fill="#999" font-size="8" font-family="ui-sans-serif,sans-serif">2015</text>
+
+  <line x1="715" y1="57" x2="715" y2="64" stroke="#bbb" stroke-width="1"/>
+  <text x="715"  y="75" text-anchor="middle" fill="#999" font-size="8" font-family="ui-sans-serif,sans-serif">2018</text>
+
+  <!-- ── Multirange row visualisations (one row per constructor) ── -->
+
+  <!-- Row label -->
+  <text x="384" y="95" text-anchor="middle"
+        fill="#888" font-size="8.5" font-family="ui-sans-serif,sans-serif">
+    each bar below = one row in driver_contract_range (active_years column)
+  </text>
+
+  <!-- Renault row: {[2003,2007), [2008,2010)} -->
+  <text x="10" y="116" fill="#60b2d3" font-size="8" font-family="ui-sans-serif,sans-serif" font-weight="bold">Renault</text>
+
+  <!-- solid segment [2003,2007) x=133..288 -->
+  <rect x="133" y="108" width="155" height="10" rx="1" fill="#60b2d3" fill-opacity="0.7"/>
+  <!-- dashed gap [2007,2008) x=288..327 -->
+  <line x1="288" y1="113" x2="327" y2="113" stroke="#60b2d3" stroke-width="2" stroke-dasharray="4,3" opacity="0.5"/>
+  <!-- solid segment [2008,2010) x=327..404 -->
+  <rect x="327" y="108" width="77"  height="10" rx="1" fill="#60b2d3" fill-opacity="0.7"/>
+
+  <!-- Renault multirange literal -->
+  <text x="133" y="129" fill="#60b2d3" font-size="8.5" font-family="ui-monospace,monospace">
+    &#x27;{[2003,2007), [2008,2010)}&#x27;
+  </text>
+
+  <!-- McLaren row: {[2007,2008), [2015,2018)} -->
+  <text x="10" y="155" fill="#7c5c9e" font-size="8" font-family="ui-sans-serif,sans-serif" font-weight="bold">McLaren</text>
+
+  <!-- solid segment [2007,2008) x=288..327 -->
+  <rect x="288" y="147" width="39"  height="10" rx="1" fill="#7c5c9e" fill-opacity="0.7"/>
+  <!-- dashed gap [2008,2015) x=327..599 -->
+  <line x1="327" y1="152" x2="599" y2="152" stroke="#7c5c9e" stroke-width="2" stroke-dasharray="4,3" opacity="0.5"/>
+  <!-- solid segment [2015,2018) x=599..715 -->
+  <rect x="599" y="147" width="116" height="10" rx="1" fill="#7c5c9e" fill-opacity="0.7"/>
+
+  <!-- McLaren multirange literal -->
+  <text x="288" y="168" fill="#7c5c9e" font-size="8.5" font-family="ui-monospace,monospace">
+    &#x27;{[2007,2008), [2015,2018)}&#x27;
+  </text>
+
+  <!-- ── @> 2010 result annotation ── -->
+  <!-- label above bars -->
+  <text x="412" y="29" fill="#372649" font-size="9" font-family="ui-monospace,monospace" font-weight="bold">@&gt; 2010</text>
+
+  <!-- result label below McLaren row -->
+  <text x="412" y="188" fill="#bf4040" font-size="8.5" font-family="ui-sans-serif,sans-serif">
+    → Ferrari '{[2010,2015)}' contains 2010
+  </text>
+</svg>
