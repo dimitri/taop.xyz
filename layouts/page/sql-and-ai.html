@@ -19,16 +19,17 @@
   <script src="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
   <script src="/js/custom.js"></script>
   <style>
-    .sai-page { max-width: 780px; margin: 0 auto; padding: 120px 24px 120px; }
-    .sai-eyebrow { font: 700 11px/1 'Lato'; letter-spacing: 3px; text-transform: uppercase; color: #60b2d3; margin: 0 0 20px; display: flex; align-items: center; gap: 9px; }
-    .sai-eyebrow i { font-size: 0.95rem; }
-    .sai-page h1 { font: 300 2.6rem/1.1 'Lato'; color: #372649; margin: 0 0 20px; }
-    .sai-lede { font: 300 1.18rem/1.72 'Lato'; color: #67527a; margin: 0 0 60px; }
+    body.sai .header { background: #2e2241 url('/images/demo/slide.jpg') center top no-repeat; background-size: cover; background-attachment: fixed; }
+    .sai-hero { background: #2e2241 url('/images/demo/slide.jpg') center top no-repeat; background-size: cover; background-attachment: fixed; padding: 160px 0 80px; text-align: center; }
+    .sai-hero h1 { font: 300 2.8rem/1.15 'Lato'; color: #fff; max-width: 780px; margin: 0 auto; padding: 0 24px; }
+
+    .sai-page { max-width: 780px; margin: 0 auto; padding: 60px 24px 120px; }
+    .sai-lede { font: 300 1.18rem/1.72 'Lato'; color: #67527a; margin: 0; }
     .sai-lede code { font-size: 0.88em; background: #ede8f2; padding: 1px 6px; border-radius: 3px; color: #372649; }
 
-    .sai-intro-wrap { display: flex; gap: 52px; align-items: flex-start; margin-bottom: 60px; }
+    .sai-intro-wrap { display: flex; gap: 52px; align-items: center; margin-bottom: 60px; }
     .sai-intro-text { flex: 1 1 0; min-width: 0; }
-    .sai-intro-cover { flex: 0 0 auto; width: 188px; padding-top: 6px; }
+    .sai-intro-cover { flex: 0 0 auto; width: 260px; }
     .sai-intro-cover img { width: 100%; height: auto; display: block; border-radius: 3px; box-shadow: 0 10px 36px rgba(55,38,73,0.20), 0 2px 8px rgba(55,38,73,0.10); }
 
     .sai-section { margin-bottom: 60px; }
@@ -68,26 +69,29 @@
     .sai-cta .button.button_purple:hover   { background: #372649; border-color: #60b2d3; }
 
     @media (max-width: 640px) {
-      .sai-page { padding: 100px 16px 80px; }
-      .sai-page h1 { font-size: 1.9rem; }
-      .sai-intro-wrap { flex-direction: column-reverse; gap: 24px; }
-      .sai-intro-cover { width: 140px; }
+      .sai-hero { padding: 100px 0 48px; }
+      .sai-hero h1 { font-size: 1.9rem; }
+      .sai-page { padding: 40px 16px 80px; }
+      .sai-intro-wrap { flex-direction: column-reverse; gap: 24px; align-items: center; }
+      .sai-intro-cover { width: 90%; max-width: 320px; }
       .sai-stat-row { grid-template-columns: 1fr; gap: 12px; }
       .sai-pullquote { padding: 14px 18px; }
       .sai-cta { padding: 36px 20px; }
     }
   </style>
 </head>
-<body class="page">
+<body class="page sai">
 
 {{ partial "header.html" . }}
+
+<div class="sai-hero">
+  <h1>You Still Need SQL —<br>Even When AI Writes the Queries</h1>
+</div>
 
 <div class="sai-page">
 
   <div class="sai-intro-wrap">
     <div class="sai-intro-text">
-      <p class="sai-eyebrow"><i class="fa-solid fa-robot"></i> The Art of PostgreSQL</p>
-      <h1>You Still Need SQL —<br>Even When AI Writes the Queries</h1>
       <p class="sai-lede">
         AI tools can generate a query from a plain-English description. What they
         cannot do is understand your database, design your schema, or catch a
