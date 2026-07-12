@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>SQL and AI: Why You Still Need to Understand SQL | The Art of PostgreSQL</title>
+  <meta name="description" content="AI tools can generate queries. They cannot understand your database, architect your schema, or catch what goes silently wrong. That is still a human job.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:site" content="@tapoueh" />
+  <meta property="og:url" content="https://theartofpostgresql.com/sql-and-ai/" />
+  <meta property="og:title" content="SQL and AI: Why You Still Need to Understand SQL" />
+  <meta property="og:description" content="AI generates queries. It cannot understand your database, design your schema, or catch a wrong JOIN that runs silently. That is still a human job." />
+  <meta property="og:image" content="https://theartofpostgresql.com/images/hardcover-mockup.jpg" />
+  <link href="/favicon.ico" rel="icon" type="image/x-icon">
+  <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
+  <script src="/js/custom.js"></script>
+  <style>
+    .sai-page { max-width: 780px; margin: 0 auto; padding: 120px 24px 120px; }
+    .sai-eyebrow { font: 700 11px/1 'Lato'; letter-spacing: 3px; text-transform: uppercase; color: #60b2d3; margin: 0 0 20px; display: flex; align-items: center; gap: 9px; }
+    .sai-eyebrow i { font-size: 0.95rem; }
+    .sai-page h1 { font: 300 2.6rem/1.1 'Lato'; color: #372649; margin: 0 0 20px; }
+    .sai-lede { font: 300 1.18rem/1.72 'Lato'; color: #67527a; margin: 0 0 60px; }
+    .sai-lede code { font-size: 0.88em; background: #ede8f2; padding: 1px 6px; border-radius: 3px; color: #372649; }
+
+    .sai-intro-wrap { display: flex; gap: 52px; align-items: flex-start; margin-bottom: 60px; }
+    .sai-intro-text { flex: 1 1 0; min-width: 0; }
+    .sai-intro-cover { flex: 0 0 auto; width: 188px; padding-top: 6px; }
+    .sai-intro-cover img { width: 100%; height: auto; display: block; border-radius: 3px; box-shadow: 0 10px 36px rgba(55,38,73,0.20), 0 2px 8px rgba(55,38,73,0.10); }
+
+    .sai-section { margin-bottom: 60px; }
+    .sai-section-header { display: flex; align-items: flex-start; gap: 18px; margin-bottom: 20px; }
+    .sai-icon { width: 44px; height: 44px; border-radius: 50%; background: #ede8f2; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+    .sai-icon i { color: #372649; font-size: 1.1rem; }
+    .sai-section h2 { font: 700 1.25rem/1.25 'Lato'; color: #372649; margin: 0 0 4px; }
+    .sai-section .sai-sub { font: 300 0.95rem/1.45 'Lato'; color: #67527a; margin: 0; }
+    .sai-section p { font: 300 1.06rem/1.75 'Lato'; color: #444; margin: 0 0 16px; }
+    .sai-section p:last-child { margin-bottom: 0; }
+    .sai-section code { font-size: 0.88em; background: #f0ecf5; padding: 1px 5px; border-radius: 3px; color: #372649; }
+    .sai-divider { border: none; border-top: 2px solid #ede8f2; margin: 0 0 60px; }
+    .sai-further { font: 400 0.95rem/1.65 'Lato'; color: #372649; padding: 0 40px; margin: 20px 0 0; }
+    .sai-further a { color: #372649; text-decoration: underline; text-decoration-color: #60b2d3; text-underline-offset: 3px; }
+    .sai-further a:hover { color: #60b2d3; }
+
+    .sai-pullquote { position: relative; margin: 0 0 60px; padding: 6px 32px 20px 64px; background: #f8f7f9; border-radius: 8px; }
+    .sai-pullquote::before { content: '\201C'; position: absolute; top: -4px; left: 20px; font: 700 5rem/1 Georgia, serif; color: #60b2d3; line-height: 1; }
+    .sai-pullquote p { font: 300 1.05rem/1.65 'Lato'; color: #372649; margin: 0; text-indent: 0.6em; }
+    .sai-pullquote cite { display: block; margin-top: 10px; font: 400 0.83rem/1 'Lato'; color: #67527a; font-style: normal; }
+
+    .sai-stat-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 60px; }
+    .sai-stat { background: #fff; border: 1px solid #e4dded; border-radius: 10px; padding: 28px 22px 20px; display: flex; flex-direction: column; align-items: center; text-align: center; }
+    .sai-stat-icon { width: 46px; height: 46px; border-radius: 50%; background: #ede8f2; display: flex; align-items: center; justify-content: center; margin-bottom: 18px; }
+    .sai-stat-icon i { color: #372649; font-size: 1.1rem; }
+    .sai-stat-num { font: 700 2.4rem/1 'Lato'; color: #372649; display: block; margin-bottom: 12px; letter-spacing: -0.02em; }
+    .sai-stat-label { font: 300 0.88rem/1.5 'Lato'; color: #67527a; flex: 1; }
+    .sai-stat-source { display: block; margin-top: 16px; padding-top: 14px; border-top: 1px solid #ede8f2; width: 100%; font: 400 0.75rem/1 'Lato'; color: #9e8fb0; text-decoration: none; letter-spacing: 0.01em; }
+    .sai-stat-source:hover { color: #372649; }
+
+    .sai-cta { background: #372649; border-radius: 8px; padding: 48px 40px; text-align: center; margin-top: 60px; }
+    .sai-cta h3 { font: 300 1.6rem/1.2 'Lato'; color: #fff; margin: 0 0 12px; }
+    .sai-cta p { font: 300 0.97rem/1.65 'Lato'; color: #b8a8cc; margin: 0 0 28px; max-width: 520px; margin-left: auto; margin-right: auto; }
+    .sai-cta-buttons { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+    .sai-cta .button.button_purple,
+    .sai-cta .button.button_purple:visited { background: #60b2d3; border-color: #60b2d3; }
+    .sai-cta .button.button_purple:hover   { background: #372649; border-color: #60b2d3; }
+
+    @media (max-width: 640px) {
+      .sai-page { padding: 48px 16px 80px; }
+      .sai-page h1 { font-size: 1.9rem; }
+      .sai-intro-wrap { flex-direction: column-reverse; gap: 24px; }
+      .sai-intro-cover { width: 140px; }
+      .sai-stat-row { grid-template-columns: 1fr; gap: 12px; }
+      .sai-pullquote { padding: 14px 18px; }
+      .sai-cta { padding: 36px 20px; }
+    }
+  </style>
+</head>
+<body class="page">
+
+{{ partial "header.html" . }}
+
+<div class="sai-page">
+
+  <div class="sai-intro-wrap">
+    <div class="sai-intro-text">
+      <p class="sai-eyebrow"><i class="fa-solid fa-robot"></i> The Art of PostgreSQL</p>
+      <h1>You Still Need SQL —<br>Even When AI Writes the Queries</h1>
+      <p class="sai-lede">
+        AI tools can generate a query from a plain-English description. What they
+        cannot do is understand your database, design your schema, or catch a
+        wrong <code>JOIN</code> that runs without error but returns subtly incorrect
+        numbers. That is still a human job — and it starts with knowing SQL.
+      </p>
+    </div>
+    <div class="sai-intro-cover">
+      <img src="/images/hardcover-mockup.jpg" alt="The Art of PostgreSQL — hardcover">
+    </div>
+  </div>
+
+  <!-- ── Section 1 ── -->
+  <div class="sai-section">
+    <div class="sai-section-header">
+      <div class="sai-icon"><i class="fa-solid fa-bullseye"></i></div>
+      <div>
+        <h2>AI writes queries. You still decide what to ask.</h2>
+        <p class="sai-sub">The question is no longer "can I write this query?" — it is "do I know what query to write?"</p>
+      </div>
+    </div>
+    <p>
+      The most powerful use of an AI coding assistant is not typing
+      <em>write me a SQL query</em>. It is knowing exactly what the query should
+      do — which join type, which aggregation, whether a window function or a
+      subquery fits the logic — and using the assistant to get there faster.
+    </p>
+    <p>
+      That knowledge is what separates a developer who gives the AI a precise
+      prompt and reviews the result confidently from one who pastes the output
+      into production and hopes. The first person knows SQL. The second is
+      guessing.
+    </p>
+  </div>
+
+  <hr class="sai-divider">
+
+  <!-- ── Section 2 ── -->
+  <div class="sai-section">
+    <div class="sai-section-header">
+      <div class="sai-icon"><i class="fa-solid fa-database"></i></div>
+      <div>
+        <h2>Your database is not in the training data.</h2>
+        <p class="sai-sub">Production schemas have undocumented tables, cryptic column names, and implicit business rules.</p>
+      </div>
+    </div>
+    <p>
+      Text-to-SQL tools perform well on clean, well-documented schemas with
+      roughly twenty tables and explicit foreign keys. On the
+      <a href="https://beehive-advisors.com/blog/bird-bench" target="_blank" rel="noopener">BIRD benchmark</a>
+      — which was designed specifically for real-world database conditions —
+      accuracy drops to around <strong>64% on complex queries</strong>, even
+      with ideal, well-documented inputs. Real production databases are
+      different: columns named <code>flg_acct_tp</code>, tables that were
+      deprecated three years ago but are still joined in a dozen queries,
+      foreign key relationships that were never declared.
+    </p>
+    <p>
+      The AI does not know your schema is broken. It does not know that
+      <code>orders.status = 3</code> means "shipped" in your system. You do —
+      or you should — and that understanding comes from knowing what a
+      relational model is supposed to look like and recognizing when yours
+      diverges from it.
+    </p>
+  </div>
+
+  <div class="sai-pullquote">
+    <p>"People doing mission-critical, secure, accurate database development on
+    large existing databases will still struggle in 2026 due to undocumented
+    databases and bad tooling."</p>
+    <cite>— <a href="https://www.brentozar.com/archive/2026/01/database-development-with-ai-in-2026/" target="_blank" rel="noopener">Brent Ozar, January 2026</a></cite>
+  </div>
+
+  <!-- ── Section 3 ── -->
+  <div class="sai-section">
+    <div class="sai-section-header">
+      <div class="sai-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
+      <div>
+        <h2>Wrong SQL runs. You need to catch it.</h2>
+        <p class="sai-sub">A bad <code>LEFT JOIN</code> returns numbers. They just aren't the right ones.</p>
+      </div>
+    </div>
+    <p>
+      SQL errors fall into two categories: syntax errors, which the database
+      rejects immediately, and logic errors, which the database happily
+      executes and returns plausible-looking numbers that are quietly wrong.
+    </p>
+    <p>
+      Using a <code>LEFT JOIN</code> where an <code>INNER JOIN</code> is
+      correct inflates aggregates with <code>NULL</code>-padded rows.
+      Grouping at the wrong level double-counts. Filtering after a join
+      instead of before changes the result set. None of these produce an
+      error. They produce a wrong answer that looks right until someone
+      compares it against another source.
+    </p>
+    <p>
+      AI-generated SQL is only useful if you can read it, evaluate it, and
+      catch what is wrong. That skill is exactly what SQL literacy gives you —
+      and it matters more in the AI era, not less.
+    </p>
+    <p class="sai-further">
+      We cover both mistakes in detail, with actual SQL run against a real database:
+      <a href="/yesql/sql-foundations/sql-and-ai-left-join/">a LEFT JOIN that silently drops 198 rows when paired with a WHERE on the right-side table</a>,
+      and <a href="/yesql/sql-foundations/sql-and-ai-count/">a COUNT(*) that overcounts by a factor of four because the join multiplies rows</a>.
+    </p>
+  </div>
+
+  <hr class="sai-divider">
+
+  <!-- ── Section 4 ── -->
+  <div class="sai-section">
+    <div class="sai-section-header">
+      <div class="sai-icon"><i class="fa-solid fa-layer-group"></i></div>
+      <div>
+        <h2>Schema design is not a query problem.</h2>
+        <p class="sai-sub">The most consequential SQL decisions happen before a single SELECT is written.</p>
+      </div>
+    </div>
+    <p>
+      How you model a many-to-many relationship, whether a timeline should use
+      a <code>tstzrange</code> or two timestamp columns, when a generated
+      stored column is the right answer versus a view — these are design
+      decisions that determine which queries are fast, which constraints
+      enforce correctness at write time, and which ones require a trigger or
+      an application workaround to work around a brittle schema.
+    </p>
+    <p>
+      An AI cannot make these choices for you because the choices depend on
+      your specific access patterns, your team's operational practices, and
+      your tolerance for schema migration complexity. The only way to make
+      them well is to understand what PostgreSQL can actually express — range
+      types, exclusion constraints, partial indexes, generated columns,
+      <code>MERGE</code>, row-level security — so you know what options exist
+      before you commit to a design.
+    </p>
+    <p>
+      That is the argument at the center of this book: knowing what is possible
+      lets you make better design decisions than any tool that only looks at the
+      query surface.
+    </p>
+    <p class="sai-further">
+      We work through a concrete example with actual SQL:
+      <a href="/yesql/sql-foundations/sql-and-ai-schema/">the schema decision AI cannot make</a>
+      — how knowing PostgreSQL has <code>int4range</code> and exclusion constraints changes
+      what you ask for, and what you get back.
+    </p>
+  </div>
+
+  <!-- ── Stats ── -->
+  <div class="sai-stat-row">
+    <div class="sai-stat">
+      <div class="sai-stat-icon"><i class="fa-solid fa-robot"></i></div>
+      <span class="sai-stat-num">64%</span>
+      <span class="sai-stat-label">Accuracy on complex queries even with clean, well-documented schemas</span>
+      <a class="sai-stat-source" href="https://beehive-advisors.com/blog/bird-bench" target="_blank" rel="noopener">BIRD benchmark — real-world database conditions ↗</a>
+    </div>
+    <div class="sai-stat">
+      <div class="sai-stat-icon"><i class="fa-solid fa-briefcase"></i></div>
+      <span class="sai-stat-num">65–75%</span>
+      <span class="sai-stat-label">Of data job postings require SQL — more than Python or any ML framework</span>
+      <a class="sai-stat-source" href="https://lightcast.io/resources/blog/what-job-postings-say-about-demand-for-sql" target="_blank" rel="noopener">Lightcast — job postings analysis ↗</a>
+    </div>
+    <div class="sai-stat">
+      <div class="sai-stat-icon"><i class="fa-solid fa-code-branch"></i></div>
+      <span class="sai-stat-num">7</span>
+      <span class="sai-stat-label">Major PostgreSQL releases since the first edition, each adding new SQL capability</span>
+      <a class="sai-stat-source" href="https://www.postgresql.org/support/versioning/" target="_blank" rel="noopener">PostgreSQL versioning policy ↗</a>
+    </div>
+  </div>
+
+  <!-- ── Section 5 ── -->
+  <div class="sai-section">
+    <div class="sai-section-header">
+      <div class="sai-icon"><i class="fa-solid fa-chart-line"></i></div>
+      <div>
+        <h2>The market has not moved on from SQL.</h2>
+        <p class="sai-sub">Demand for SQL expertise is higher in 2026 than it was in 2019 when the first edition was published.</p>
+      </div>
+    </div>
+    <p>
+      SQL appears in 65–75% of data-related job descriptions — more than
+      Python, R, or any specific machine learning framework. The language is
+      standardized, stable, and supported by every relational database. AI
+      tools generate it, which means every data-adjacent role now assumes you
+      can read it and verify it, even if you no longer type every character by
+      hand.
+    </p>
+    <p>
+      PostgreSQL in particular has never been more relevant. Seven major
+      versions since 2019 have added window frame modes, multi-ranges,
+      <code>MERGE</code>, <code>RETURNING OLD / NEW</code>, <code>JSON_TABLE</code>,
+      virtual generated columns, and <code>uuidv7()</code> — none of which an AI
+      will reach for if it does not know you need them.
+    </p>
+  </div>
+
+  <!-- ── CTA ── -->
+  <div class="sai-cta">
+    <h3>The Art of PostgreSQL, Second Edition</h3>
+    <p>
+      A book for developers who want to understand SQL deeply enough to
+      design better schemas, write correct queries, and know what to ask —
+      with or without an AI in the loop.
+    </p>
+    <div class="sai-cta-buttons">
+      <a href="https://sales.theartofpostgresql.com/the-art-of-postgresql-book/"
+         class="button button_purple button_large">Get the Book — $89</a>
+      <a href="/book/updates/" class="button button_outline button_large"
+         style="color:#fff; border-color:#6b4e8c;">See What's New in 2026</a>
+    </div>
+  </div>
+
+</div>
+
+{{ partial "footer.html" . }}
+
+</body>
+</html>

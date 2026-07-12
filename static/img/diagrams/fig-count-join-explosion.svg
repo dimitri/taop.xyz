@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 294"
+     role="img" aria-label="JOIN explosion: drivers JOIN results JOIN races produces one row per (driver, race) pair; COUNT(*) = 4136 vs COUNT(DISTINCT raceid) = 953">
+  <defs>
+    <marker id="cj-a" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto">
+      <polygon points="0 0,7 2.5,0 5" fill="#9e8fb0"/>
+    </marker>
+    <marker id="cj-d" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto">
+      <polygon points="0 0,7 2.5,0 5" fill="#c5bbcf"/>
+    </marker>
+  </defs>
+
+  <!-- ── f1db.drivers ── -->
+  <rect x="8"  y="10" width="162" height="120" rx="3" fill="#f8f7f9" stroke="#c5bbcf" stroke-width="1"/>
+  <path d="M11,10 A3,3 0 0,0 8,13 L8,36 L170,36 L170,13 A3,3 0 0,0 167,10 Z" fill="#372649"/>
+  <text x="89"  y="28" text-anchor="middle" fill="white"   font-size="11" font-family="ui-sans-serif,sans-serif" font-weight="bold">f1db.drivers</text>
+
+  <text x="18" y="53"  fill="#372649" font-size="10" font-family="ui-monospace,monospace">driverid</text>
+  <rect x="132" y="42" width="22" height="13" rx="2" fill="#60b2d3"/>
+  <text x="143" y="52" text-anchor="middle" fill="white" font-size="7" font-family="ui-sans-serif,sans-serif" font-weight="bold">PK</text>
+
+  <text x="18" y="71"  fill="#888" font-size="10" font-family="ui-monospace,monospace">nationality</text>
+  <text x="18" y="89"  fill="#888" font-size="10" font-family="ui-monospace,monospace">forename</text>
+  <text x="18" y="107" fill="#888" font-size="10" font-family="ui-monospace,monospace">surname</text>
+
+  <text x="89" y="144" text-anchor="middle" fill="#b8a8cc" font-size="9" font-family="ui-sans-serif,sans-serif">~ 850 rows</text>
+
+  <!-- ── f1db.results (center, highlighted) ── -->
+  <rect x="228" y="10" width="188" height="138" rx="3" fill="#ede8f2" stroke="#8b6fb0" stroke-width="1.5"/>
+  <path d="M231,10 A3,3 0 0,0 228,13 L228,36 L416,36 L416,13 A3,3 0 0,0 413,10 Z" fill="#372649"/>
+  <text x="322" y="28" text-anchor="middle" fill="white"   font-size="11" font-family="ui-sans-serif,sans-serif" font-weight="bold">f1db.results</text>
+
+  <text x="238" y="53"  fill="#372649" font-size="10" font-family="ui-monospace,monospace">resultid</text>
+  <rect x="350" y="42" width="22" height="13" rx="2" fill="#60b2d3"/>
+  <text x="361" y="52" text-anchor="middle" fill="white" font-size="7" font-family="ui-sans-serif,sans-serif" font-weight="bold">PK</text>
+
+  <text x="238" y="71"  fill="#372649" font-size="10" font-family="ui-monospace,monospace">driverid</text>
+  <rect x="350" y="60" width="22" height="13" rx="2" fill="#9e8fb0"/>
+  <text x="361" y="70" text-anchor="middle" fill="white" font-size="7" font-family="ui-sans-serif,sans-serif" font-weight="bold">FK</text>
+
+  <text x="238" y="89"  fill="#372649" font-size="10" font-family="ui-monospace,monospace">raceid</text>
+  <rect x="350" y="78" width="22" height="13" rx="2" fill="#9e8fb0"/>
+  <text x="361" y="88" text-anchor="middle" fill="white" font-size="7" font-family="ui-sans-serif,sans-serif" font-weight="bold">FK</text>
+
+  <text x="238" y="107" fill="#888" font-size="10" font-family="ui-monospace,monospace">constructorid</text>
+  <text x="238" y="125" fill="#888" font-size="10" font-family="ui-monospace,monospace">points</text>
+
+  <text x="322" y="162" text-anchor="middle" fill="#7c5c9e" font-size="9" font-family="ui-sans-serif,sans-serif">~ 23,000 rows</text>
+
+  <!-- ── f1db.races ── -->
+  <rect x="468" y="10" width="156" height="120" rx="3" fill="#f8f7f9" stroke="#c5bbcf" stroke-width="1"/>
+  <path d="M471,10 A3,3 0 0,0 468,13 L468,36 L624,36 L624,13 A3,3 0 0,0 621,10 Z" fill="#372649"/>
+  <text x="546" y="28" text-anchor="middle" fill="white"   font-size="11" font-family="ui-sans-serif,sans-serif" font-weight="bold">f1db.races</text>
+
+  <text x="478" y="53"  fill="#372649" font-size="10" font-family="ui-monospace,monospace">raceid</text>
+  <rect x="574" y="42" width="22" height="13" rx="2" fill="#60b2d3"/>
+  <text x="585" y="52" text-anchor="middle" fill="white" font-size="7" font-family="ui-sans-serif,sans-serif" font-weight="bold">PK</text>
+
+  <text x="478" y="71"  fill="#888" font-size="10" font-family="ui-monospace,monospace">year</text>
+  <text x="478" y="89"  fill="#888" font-size="10" font-family="ui-monospace,monospace">name</text>
+  <text x="478" y="107" fill="#888" font-size="10" font-family="ui-monospace,monospace">date</text>
+
+  <text x="546" y="144" text-anchor="middle" fill="#b8a8cc" font-size="9" font-family="ui-sans-serif,sans-serif">~ 976 rows</text>
+
+  <!-- ── Join arrow: drivers → results (ON driverid, 1:N) ── -->
+  <line x1="170" y1="67" x2="226" y2="68" stroke="#9e8fb0" stroke-width="1.5" marker-end="url(#cj-a)"/>
+  <text x="172" y="61" fill="#9e8fb0" font-size="9" font-family="ui-sans-serif,sans-serif">1</text>
+  <text x="208" y="61" fill="#9e8fb0" font-size="9" font-family="ui-sans-serif,sans-serif">N</text>
+  <text x="177" y="77" fill="#c5bbcf" font-size="7.5" font-family="ui-monospace,monospace">ON driverid</text>
+
+  <!-- ── Join arrow: races → results (ON raceid, 1:N) ── -->
+  <line x1="468" y1="50" x2="418" y2="86" stroke="#9e8fb0" stroke-width="1.5" marker-end="url(#cj-a)"/>
+  <text x="453" y="47" fill="#9e8fb0" font-size="9" font-family="ui-sans-serif,sans-serif">1</text>
+  <text x="420" y="98" fill="#9e8fb0" font-size="9" font-family="ui-sans-serif,sans-serif">N</text>
+  <text x="421" y="66" fill="#c5bbcf" font-size="7.5" font-family="ui-monospace,monospace">ON raceid</text>
+
+  <!-- ── Arrow down from results to join-result box ── -->
+  <line x1="322" y1="163" x2="322" y2="177" stroke="#c5bbcf" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#cj-d)"/>
+
+  <!-- ── Join result box ── -->
+  <rect x="8" y="178" width="638" height="108" rx="5" fill="#f8f7f9" stroke="#c5bbcf" stroke-width="1"/>
+
+  <text x="322" y="196" text-anchor="middle" fill="#372649" font-size="10" font-family="ui-sans-serif,sans-serif" font-weight="bold">join result — one row per (driver, race) pair</text>
+
+  <!-- vertical divider -->
+  <line x1="323" y1="202" x2="323" y2="278" stroke="#e4dded" stroke-width="1"/>
+
+  <!-- left: COUNT(*) -->
+  <text x="163" y="217" text-anchor="middle" fill="#555" font-size="9.5" font-family="ui-monospace,monospace">COUNT(*)</text>
+  <text x="163" y="232" text-anchor="middle" fill="#999" font-size="8.5" font-family="ui-sans-serif,sans-serif">counts every (driver, race) pair</text>
+  <text x="163" y="260" text-anchor="middle" fill="#b45309" font-size="28" font-family="ui-sans-serif,sans-serif" font-weight="bold">4,136</text>
+  <text x="163" y="275" text-anchor="middle" fill="#b45309" font-size="9"  font-family="ui-sans-serif,sans-serif">wrong for "how many races?"</text>
+
+  <!-- right: COUNT(DISTINCT raceid) -->
+  <text x="483" y="217" text-anchor="middle" fill="#555" font-size="9.5" font-family="ui-monospace,monospace">COUNT(DISTINCT ra.raceid)</text>
+  <text x="483" y="232" text-anchor="middle" fill="#999" font-size="8.5" font-family="ui-sans-serif,sans-serif">deduplicates before counting</text>
+  <text x="483" y="260" text-anchor="middle" fill="#256a40" font-size="28" font-family="ui-sans-serif,sans-serif" font-weight="bold">953</text>
+  <text x="483" y="275" text-anchor="middle" fill="#256a40" font-size="9"  font-family="ui-sans-serif,sans-serif">distinct races with British drivers</text>
+</svg>
