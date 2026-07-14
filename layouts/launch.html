@@ -2,16 +2,16 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>The Art of PostgreSQL — The Complete PostgreSQL Learning System</title>
-    <meta name="description" content="The book, the course, the lab — everything you need to go from writing SQL to thinking in SQL. One coherent learning path, built by a PostgreSQL Major Contributor.">
+    <title>The Art of PostgreSQL — Second Edition, Updated (2026)</title>
+    <meta name="description" content="The 2026 edition is here. Now covering PostgreSQL 10–18, with a new chapter on pgvector, 56 new figures, and an integrated companion lab. Free update for existing purchasers.">
     <meta name="robots" content="noindex, nofollow">
 
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="@tapoueh" />
     <meta name="twitter:creator" content="@tapoueh" />
     <meta property="og:url" content="{{ .Permalink }}" />
-    <meta property="og:title" content="The Art of PostgreSQL — The Complete Learning System" />
-    <meta property="og:description" content="The book, the course, the lab — everything you need to go from writing SQL to thinking in SQL." />
+    <meta property="og:title" content="The Art of PostgreSQL — Second Edition, Updated (2026)" />
+    <meta property="og:description" content="Now covering PostgreSQL 10–18. Free update for existing purchasers. New to the book? Available today." />
     <meta property="og:image" content="https://theartofpostgresql.com/img/TheArtOfPostgresUniversity.png" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
@@ -33,21 +33,32 @@
 
 {{ partial "launch/section-hero.html" . }}
 
-{{- /* partial "launch/section-workshop-recap.html" . */ -}}
+{{ partial "launch/section-whats-new.html" . }}
 
 {{ partial "launch/section-learning-path.html" . }}
 
 {{ partial "launch/section-book.html" . }}
 
-{{ partial "launch/section-lab.html" . }}
-
 {{ partial "launch/section-course.html" . }}
 
-{{ partial "launch/section-workshops.html" . }}
+<section class="book_hero">
+  <div class="wrapper">
+    <header class="heading">
+      <h3>Live Workshop — Limited Seats</h3>
+      <p class="lightpurple">Deep-dive sessions with the author</p>
+    </header>
+    <p class="hero_description" style="max-width: 700px; margin: 0 auto 30px auto; text-align: center;">
+      More workshops coming soon — sign up to be notified first.
+    </p>
+    <div class="section_cta">
+      <a href="https://theartofpostgresql.com/workshop/" class="button button_outline button_large">
+        See Upcoming Workshops
+      </a>
+    </div>
+  </div>
+</section>
 
-{{ partial "launch/section-about.html" . }}
-
-{{ partial "launch/section-testimonials.html" . }}
+{{ partial "book/social-proof.html" . }}
 
 {{ partial "launch/section-faq.html" . }}
 
