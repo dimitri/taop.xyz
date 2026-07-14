@@ -1,7 +1,17 @@
 <style>
-.index_system .services_list li { flex: 1 0 50%; max-width: 50%; }
+.index_system .services_list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 340px));
+  gap: 16px 64px;
+  justify-content: center;
+}
+.index_system .services_list li {
+  flex: none;
+  max-width: none;
+  padding: 24px 0;
+}
 @media (max-width: 768px) {
-  .index_system .services_list li { flex: 1 0 100%; max-width: 100%; }
+  .index_system .services_list { grid-template-columns: 1fr; max-width: 480px; margin: 0 auto; }
 }
 </style>
 <section class="index_system" style="background: white;">
