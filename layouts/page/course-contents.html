@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Course Contents — 6 PostgreSQL Courses | The Art of PostgreSQL</title>
+  <meta name="description" content="6 courses, 48 modules, 3 tiers. A complete practical PostgreSQL curriculum: window functions, aggregation, data modeling, JOINs, query optimization, and reading query plans.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:site" content="@tapoueh" />
+  <meta property="og:url" content="https://theartofpostgresql.com/course/contents/" />
+  <meta property="og:title" content="Course Contents — 6 PostgreSQL Courses" />
+  <meta property="og:description" content="6 courses, 48 modules, 3 tiers. The complete practical PostgreSQL curriculum." />
+  <link href="/favicon.ico" rel="icon" type="image/x-icon">
+  <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/syntax.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="/js/custom.js"></script>
+  <style>
+    /* ── Course Contents overview page ── */
+    body.course-contents-page .header {
+      background: #2e2241 url('/images/demo/slide.jpg') center top no-repeat;
+      background-size: cover;
+      background-attachment: fixed;
+    }
+
+    /* Hero */
+    .coc-hero {
+      background: #2e2241 url('/images/demo/slide.jpg') center top no-repeat;
+      background-size: cover;
+      background-attachment: fixed;
+      padding: 120px 0 64px;
+      text-align: center;
+    }
+    .coc-eyebrow {
+      font: 700 0.72rem/1 'Lato', sans-serif;
+      color: #60b2d3;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin: 0 0 18px;
+    }
+    .coc-hero h1 {
+      font: 300 2.6rem/1.2 'Lato', sans-serif;
+      color: #fff;
+      max-width: 680px;
+      margin: 0 auto 16px;
+      padding: 0 24px;
+    }
+    .coc-hero-sub {
+      font: 300 1.05rem/1.65 'Lato', sans-serif;
+      color: rgba(255,255,255,0.7);
+      max-width: 560px;
+      margin: 0 auto 40px;
+      padding: 0 24px;
+    }
+    .coc-stats-bar {
+      display: flex;
+      justify-content: center;
+      gap: 0;
+      flex-wrap: wrap;
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+    .coc-stat {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 0 32px;
+      border-right: 1px solid rgba(255,255,255,0.18);
+    }
+    .coc-stat:last-child { border-right: none; }
+    .coc-stat-n {
+      font: 700 2rem/1 'Lato', sans-serif;
+      color: #60b2d3;
+      letter-spacing: -0.02em;
+    }
+    .coc-stat-l {
+      font: 300 0.75rem/1.4 'Lato', sans-serif;
+      color: rgba(255,255,255,0.6);
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      margin-top: 6px;
+      white-space: nowrap;
+    }
+
+    /* Tiers section */
+    .coc-tiers {
+      background: #f4f2f8;
+      padding: 36px 0;
+      border-bottom: 1px solid #e0dce8;
+    }
+    .coc-tiers-inner {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+    .coc-tiers-heading {
+      font: 700 0.72rem/1 'Lato', sans-serif;
+      color: #9e8fb0;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      text-align: center;
+      margin: 0 0 20px;
+    }
+    .coc-tier-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: #e0dce8;
+      border: 1px solid #e0dce8;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .coc-tier-card {
+      background: #fff;
+      padding: 20px 22px;
+    }
+    .coc-tier-name {
+      font: 700 0.75rem/1 'Lato', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin: 0 0 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .coc-tier-name::before {
+      content: '';
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+    }
+    .coc-tier-card.tier-core .coc-tier-name { color: #3a8aad; }
+    .coc-tier-card.tier-core .coc-tier-name::before { background: #60b2d3; }
+    .coc-tier-card.tier-advanced .coc-tier-name { color: #7050a8; }
+    .coc-tier-card.tier-advanced .coc-tier-name::before { background: #8b6fb0; }
+    .coc-tier-card.tier-architect .coc-tier-name { color: #92420a; }
+    .coc-tier-card.tier-architect .coc-tier-name::before { background: #b45309; }
+    .coc-tier-desc {
+      font: 300 0.82rem/1.55 'Lato', sans-serif;
+      color: #555;
+      margin: 0;
+    }
+    .coc-tier-modules {
+      font: 700 0.72rem/1 'Lato', sans-serif;
+      color: #b0a8c0;
+      margin-top: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* Course grid */
+    .coc-courses {
+      background: #fff;
+      padding: 56px 0 64px;
+    }
+    .coc-courses-inner {
+      max-width: 1040px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+    .coc-section-heading {
+      font: 700 0.75rem/1 'Lato', sans-serif;
+      color: #9e8fb0;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      text-align: center;
+      margin: 0 0 32px;
+    }
+    .coc-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+    .coc-card {
+      border: 1px solid #e0dce8;
+      border-radius: 4px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .coc-card-header {
+      background: #e9e4f4;
+      padding: 18px 22px 16px;
+      border-bottom: 1px solid #d8d0e8;
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+    }
+    .coc-card-num {
+      font: 300 2rem/1 'Lato', sans-serif;
+      color: #7b60a0;
+      flex-shrink: 0;
+      letter-spacing: -0.04em;
+    }
+    .coc-card-meta { flex: 1; min-width: 0; }
+    .coc-card-title {
+      font: 400 1rem/1.25 'Lato', sans-serif;
+      color: #372649;
+      margin: 0 0 6px;
+    }
+    .coc-card-tagline {
+      font: 300 0.8rem/1.5 'Lato', sans-serif;
+      color: #666;
+      margin: 0;
+    }
+    .coc-card-body {
+      padding: 16px 22px 20px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    .coc-card-topics {
+      flex: 1;
+      list-style: none;
+      margin: 0 0 16px;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .coc-card-topics li {
+      font: 300 0.8rem/1.4 'Lato', sans-serif;
+      color: #555;
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+    }
+    .coc-card-topics li::before {
+      content: '·';
+      color: #c0b8d0;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    .coc-card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 14px;
+      border-top: 1px solid #f0ecf6;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .coc-card-tiers {
+      display: flex;
+      gap: 5px;
+    }
+    .coc-badge {
+      font: 700 0.6rem/1 'Lato', sans-serif;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 3px 7px;
+      border-radius: 2px;
+    }
+    .coc-badge.tier-core {
+      background: rgba(96,178,211,0.12);
+      color: #3a8aad;
+      border: 1px solid rgba(96,178,211,0.3);
+    }
+    .coc-badge.tier-advanced {
+      background: rgba(139,111,176,0.1);
+      color: #7050a8;
+      border: 1px solid rgba(139,111,176,0.28);
+    }
+    .coc-badge.tier-architect {
+      background: rgba(180,83,9,0.1);
+      color: #92420a;
+      border: 1px solid rgba(180,83,9,0.28);
+    }
+    .coc-card-link {
+      font: 400 0.8rem/1 'Lato', sans-serif;
+      color: #60b2d3;
+      text-decoration: none;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .coc-card-link:hover { text-decoration: underline; }
+
+    .coc-card-dataset {
+      font: 300 0.72rem/1 'Lato', sans-serif;
+      color: #b0a8c0;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .coc-card-dataset i { font-size: 0.75em; }
+
+    /* CTA */
+    .coc-cta {
+      background: #372649;
+      padding: 64px 0;
+      text-align: center;
+    }
+    .coc-cta h2 {
+      font: 300 1.9rem/1.2 'Lato', sans-serif;
+      color: #fff;
+      margin: 0 0 14px;
+    }
+    .coc-cta p {
+      font: 300 0.95rem/1.65 'Lato', sans-serif;
+      color: rgba(255,255,255,0.65);
+      max-width: 480px;
+      margin: 0 auto 30px;
+      padding: 0 24px;
+    }
+    .coc-cta .button.button_purple,
+    .coc-cta .button.button_purple:visited {
+      background: #60b2d3;
+      border-color: #60b2d3;
+      color: #fff;
+    }
+    .coc-cta .button.button_purple:hover {
+      background: #4a9cbf;
+      border-color: #4a9cbf;
+    }
+    .coc-cta-note {
+      margin-top: 16px;
+      font: 300 0.8rem/1 'Lato', sans-serif;
+      color: rgba(255,255,255,0.4);
+    }
+
+    @media (max-width: 700px) {
+      .coc-hero h1 { font-size: 1.9rem; }
+      .coc-grid { grid-template-columns: 1fr; }
+      .coc-tier-cards { grid-template-columns: 1fr; }
+      .coc-stat { padding: 12px 20px; border-right: none; border-bottom: 1px solid rgba(255,255,255,0.18); }
+      .coc-stat:last-child { border-bottom: none; }
+      .coc-stats-bar { flex-direction: column; }
+    }
+  </style>
+</head>
+
+<body class="page course-contents-page">
+{{ partial "header.html" . }}
+
+<!-- Hero -->
+<section class="coc-hero">
+  <p class="coc-eyebrow">The Complete PostgreSQL Curriculum</p>
+  <h1>6 Courses — 48 Modules</h1>
+  <p class="coc-hero-sub">Practical SQL mastery from foundations to production architecture. All courses sold as a single package.</p>
+  <div class="coc-stats-bar">
+    <div class="coc-stat">
+      <span class="coc-stat-n">6</span>
+      <span class="coc-stat-l">Courses</span>
+    </div>
+    <div class="coc-stat">
+      <span class="coc-stat-n">48</span>
+      <span class="coc-stat-l">Modules</span>
+    </div>
+    <div class="coc-stat">
+      <span class="coc-stat-n">3</span>
+      <span class="coc-stat-l">Tiers</span>
+    </div>
+    <div class="coc-stat">
+      <span class="coc-stat-n">SQL</span>
+      <span class="coc-stat-l">Only</span>
+    </div>
+  </div>
+</section>
+
+<!-- Tiers -->
+<div class="coc-tiers">
+  <div class="coc-tiers-inner">
+    <p class="coc-tiers-heading">Learning tiers included in every course</p>
+    <div class="coc-tier-cards">
+      <div class="coc-tier-card tier-core">
+        <p class="coc-tier-name">Core</p>
+        <p class="coc-tier-desc">Foundations and mental models. Six modules per course building practical fluency with the subject's core SQL constructs.</p>
+        <p class="coc-tier-modules">Modules 1 – 6</p>
+      </div>
+      <div class="coc-tier-card tier-advanced">
+        <p class="coc-tier-name">Advanced</p>
+        <p class="coc-tier-desc">Real-world patterns, performance analysis, and composing complex queries under production constraints.</p>
+        <p class="coc-tier-modules">Module 7</p>
+      </div>
+      <div class="coc-tier-card tier-architect">
+        <p class="coc-tier-name">Architect</p>
+        <p class="coc-tier-desc">System-level thinking: data architecture, scalability trade-offs, and integration with the broader PostgreSQL ecosystem.</p>
+        <p class="coc-tier-modules">Module 8</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Course grid -->
+<section class="coc-courses">
+  <div class="coc-courses-inner">
+    <p class="coc-section-heading">All 6 courses</p>
+    <div class="coc-grid">
+
+      <!-- Course 1 -->
+      <div class="coc-card">
+        <div class="coc-card-header">
+          <span class="coc-card-num">01</span>
+          <div class="coc-card-meta">
+            <h2 class="coc-card-title">Master Window Functions</h2>
+            <p class="coc-card-tagline">Write analytical SQL without collapsing rows or procedural workarounds.</p>
+          </div>
+        </div>
+        <div class="coc-card-body">
+          <p class="coc-card-dataset"><i class="fa-solid fa-database"></i> f1db — Formula One racing</p>
+          <ul class="coc-card-topics">
+            <li>OVER clause, PARTITION BY, frame semantics (ROWS/RANGE/GROUPS)</li>
+            <li>Ranking functions — ROW_NUMBER, RANK, DENSE_RANK, NTILE</li>
+            <li>Running totals, moving averages, LEAD & LAG</li>
+            <li>Sessionization, cohort analysis, gaps & islands</li>
+            <li>WindowAgg plan nodes, index strategies, materialized views</li>
+          </ul>
+          <div class="coc-card-footer">
+<a href="/course/window-functions/" class="coc-card-link">Full curriculum →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Course 2 -->
+      <div class="coc-card">
+        <div class="coc-card-header">
+          <span class="coc-card-num">02</span>
+          <div class="coc-card-meta">
+            <h2 class="coc-card-title">Reliable Aggregation</h2>
+            <p class="coc-card-tagline">Avoid correctness traps and build reports you can trust.</p>
+          </div>
+        </div>
+        <div class="coc-card-body">
+          <p class="coc-card-dataset"><i class="fa-solid fa-database"></i> f1db — Formula One racing</p>
+          <ul class="coc-card-topics">
+            <li>GROUP BY semantics — evaluation order, row vs group context</li>
+            <li>COUNT DISTINCT, FILTER clause, WHERE vs HAVING</li>
+            <li>GROUPING SETS, ROLLUP, CUBE</li>
+            <li>Ordered-set aggregates — percentile_cont, mode()</li>
+            <li>Incremental aggregation, ETL/ELT patterns, MERGE</li>
+          </ul>
+          <div class="coc-card-footer">
+<a href="/course/aggregation/" class="coc-card-link">Full curriculum →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Course 3 -->
+      <div class="coc-card">
+        <div class="coc-card-header">
+          <span class="coc-card-num">03</span>
+          <div class="coc-card-meta">
+            <h2 class="coc-card-title">Data Modeling for Performance</h2>
+            <p class="coc-card-tagline">Schema design from normal forms through indexes and safe evolution.</p>
+          </div>
+        </div>
+        <div class="coc-card-body">
+          <p class="coc-card-dataset"><i class="fa-solid fa-database"></i> chinook & f1db — plus JSONB, temporal examples</p>
+          <ul class="coc-card-topics">
+            <li>Normal forms, database anomalies, FK enforcement trade-offs</li>
+            <li>Natural vs surrogate PKs, UUID, check & exclusion constraints</li>
+            <li>All index types — B-tree, GiST, GIN, BRIN, partial, covering</li>
+            <li>Safe schema evolution — NOT VALID, CONCURRENTLY, three-step pattern</li>
+            <li>JSONB document model, audit trails, SQL/JSON path</li>
+          </ul>
+          <div class="coc-card-footer">
+<a href="/course/data-modeling/" class="coc-card-link">Full curriculum →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Course 4 -->
+      <div class="coc-card">
+        <div class="coc-card-header">
+          <span class="coc-card-num">04</span>
+          <div class="coc-card-meta">
+            <h2 class="coc-card-title">Advanced JOIN Techniques</h2>
+            <p class="coc-card-tagline">SQL as relational algebra — all join types, LATERAL, and recursive CTEs.</p>
+          </div>
+        </div>
+        <div class="coc-card-body">
+          <p class="coc-card-dataset"><i class="fa-solid fa-database"></i> f1db, chinook, tweet, geoname</p>
+          <ul class="coc-card-topics">
+            <li>All join types — INNER, LEFT, FULL OUTER, CROSS, NATURAL</li>
+            <li>WITH RECURSIVE — SEARCH and CYCLE clauses (PostgreSQL 14)</li>
+            <li>LATERAL — top-N per group, kNN geographic search</li>
+            <li>Semi-JOIN (EXISTS), anti-JOIN (NOT EXISTS), NOT IN null trap</li>
+            <li>Hash Join, Nested Loop, Merge Join — plan reading and index impact</li>
+          </ul>
+          <div class="coc-card-footer">
+<a href="/course/advanced-joins/" class="coc-card-link">Full curriculum →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Course 5 -->
+      <div class="coc-card">
+        <div class="coc-card-header">
+          <span class="coc-card-num">05</span>
+          <div class="coc-card-meta">
+            <h2 class="coc-card-title">Query Optimization Fundamentals</h2>
+            <p class="coc-card-tagline">Systematic workflow: observe, diagnose, fix, verify.</p>
+          </div>
+        </div>
+        <div class="coc-card-body">
+          <p class="coc-card-dataset"><i class="fa-solid fa-database"></i> f1db, chinook, geoname, public.hashtag</p>
+          <ul class="coc-card-topics">
+            <li>PostgreSQL cost model, pg_stats, pg_stat_statements</li>
+            <li>EXPLAIN ANALYZE — actual timing, row divergence, BUFFERS</li>
+            <li>Predicate pushdown, CTE fences, anti-patterns</li>
+            <li>All index types, composite indexes, index-only scans</li>
+            <li>Partitioning, parallel query, performance budgets, query SLAs</li>
+          </ul>
+          <div class="coc-card-footer">
+<a href="/course/query-optimization/" class="coc-card-link">Full curriculum →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Course 6 -->
+      <div class="coc-card">
+        <div class="coc-card-header">
+          <span class="coc-card-num">06</span>
+          <div class="coc-card-meta">
+            <h2 class="coc-card-title">Read Query Plans</h2>
+            <p class="coc-card-tagline">Fluent EXPLAIN reading — every node type and what to do about it.</p>
+          </div>
+        </div>
+        <div class="coc-card-body">
+          <p class="coc-card-dataset"><i class="fa-solid fa-database"></i> f1db, chinook, geoname, public.hashtag</p>
+          <ul class="coc-card-topics">
+            <li>Plan tree anatomy — startup vs total cost, indentation model</li>
+            <li>Every node type: scans, joins, aggregates, set ops, parallel</li>
+            <li>Detecting row misestimation, spill to disk, expensive sorts</li>
+            <li>FORMAT JSON, explain.depesz.com, pev2, cold vs warm cache</li>
+            <li>pg_stat_activity, VACUUM signals, lock monitoring, CREATE STATISTICS</li>
+          </ul>
+          <div class="coc-card-footer">
+<a href="/course/read-query-plans/" class="coc-card-link">Full curriculum →</a>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /.coc-grid -->
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="coc-cta">
+  <h2>All 6 courses in one package.</h2>
+  <p>Core, Advanced, and Architect tiers. 48 modules. Real datasets. SQL you can use today.</p>
+  <a href="https://sales.theartofpostgresql.com/the-art-of-postgresql-courses/" class="button button_purple button_large">
+    Get All 6 Courses
+  </a>
+  <p class="coc-cta-note">30-day refund guarantee</p>
+</section>
+
+{{ partial "footer.html" . }}
+
+</body>
+</html>

@@ -2566,6 +2566,16 @@ body.course .welcome_slider ul li {
   background: #372649;
   border-color: #60b2d3;
 }
+.course_hero .hero_cta .button.button_transparent,
+.course_hero .hero_cta .button.button_transparent:visited {
+  border-color: rgba(255,255,255,0.4);
+  color: rgba(255,255,255,0.85);
+}
+.course_hero .hero_cta .button.button_transparent:hover {
+  background: rgba(255,255,255,0.1);
+  border-color: rgba(255,255,255,0.7);
+  color: #fff;
+}
 .button.button_transparent,
 .button.button_transparent:visited {
   border-color: #372649;

@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>{{ .Title }} | The Art of PostgreSQL</title>
+  <meta name="description" content="Full curriculum for {{ .Params.course_title }}: 8 modules, 3 tiers. {{ .Params.course_tagline }}">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:site" content="@tapoueh" />
+  <meta property="og:url" content="https://theartofpostgresql.com/course/{{ .Params.course_slug }}/" />
+  <meta property="og:title" content="{{ .Title }}" />
+  <meta property="og:description" content="{{ .Params.course_tagline }}" />
+  <link href="/favicon.ico" rel="icon" type="image/x-icon">
+  <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/syntax.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="/js/custom.js"></script>
+  <style>
+    /* ── Course TOC page ── */
+    body.course-toc-page .header {
+      background: #2e2241;
+    }
+
+    /* Hero */
+    .ct-hero {
+      background: linear-gradient(160deg, #2e2241 0%, #1e1630 100%);
+      padding: 100px 0 56px;
+      text-align: center;
+    }
+    .ct-eyebrow {
+      font: 700 0.72rem/1 'Lato', sans-serif;
+      color: #60b2d3;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin: 0 0 18px;
+    }
+    .ct-hero h1 {
+      font: 300 2.4rem/1.2 'Lato', sans-serif;
+      color: #fff;
+      max-width: 640px;
+      margin: 0 auto 16px;
+      padding: 0 24px;
+    }
+    .ct-hero-sub {
+      font: 300 1rem/1.65 'Lato', sans-serif;
+      color: rgba(255,255,255,0.7);
+      max-width: 520px;
+      margin: 0 auto 28px;
+      padding: 0 24px;
+    }
+    .ct-meta-row {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      padding: 0 24px;
+    }
+    .ct-meta-item {
+      font: 300 0.82rem/1 'Lato', sans-serif;
+      color: rgba(255,255,255,0.55);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .ct-meta-item i {
+      color: #60b2d3;
+      font-size: 0.8em;
+    }
+    .ct-meta-sep {
+      width: 1px;
+      height: 14px;
+      background: rgba(255,255,255,0.2);
+    }
+
+    /* Tier legend */
+    .ct-tiers {
+      background: #f4f2f8;
+      padding: 22px 0;
+    }
+    .ct-tiers-inner {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      justify-content: center;
+      gap: 28px;
+      flex-wrap: wrap;
+    }
+    .ct-tier-legend {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .ct-tier-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .ct-tier-dot.tier-core { background: #60b2d3; }
+    .ct-tier-dot.tier-advanced { background: #8b6fb0; }
+    .ct-tier-dot.tier-architect { background: #b45309; }
+    .ct-tier-legend-label {
+      font: 700 0.72rem/1 'Lato', sans-serif;
+      letter-spacing: 0.06em;
+    }
+    .ct-tier-legend-label.tier-core { color: #60b2d3; }
+    .ct-tier-legend-label.tier-advanced { color: #8b6fb0; }
+    .ct-tier-legend-label.tier-architect { color: #b45309; }
+    .ct-tier-legend-desc {
+      font: 300 0.78rem/1 'Lato', sans-serif;
+      color: #666;
+    }
+
+    /* Modules */
+    .ct-modules {
+      background: #fff;
+      padding: 56px 0 64px;
+    }
+    .ct-modules-inner {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+    .ct-module {
+      border-left: 4px solid #e0dce8;
+      padding: 24px 0 24px 28px;
+      margin-bottom: 4px;
+      position: relative;
+    }
+    .ct-module.tier-core { border-left-color: #60b2d3; }
+    .ct-module.tier-advanced { border-left-color: #8b6fb0; }
+    .ct-module.tier-architect { border-left-color: #b45309; }
+
+    .ct-mod-header {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+    .ct-mod-num {
+      font: 700 0.68rem/1 'Lato', sans-serif;
+      color: #b0a8c0;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      flex-shrink: 0;
+    }
+    .ct-mod-title {
+      font: 400 1.05rem/1.3 'Lato', sans-serif;
+      color: #372649;
+      margin: 0;
+      flex: 1;
+    }
+    .ct-tier-badge {
+      font: 700 0.62rem/1 'Lato', sans-serif;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 2px;
+      flex-shrink: 0;
+    }
+    .ct-tier-badge.tier-core {
+      background: rgba(96,178,211,0.12);
+      color: #3a8aad;
+      border: 1px solid rgba(96,178,211,0.35);
+    }
+    .ct-tier-badge.tier-advanced {
+      background: rgba(139,111,176,0.1);
+      color: #7050a8;
+      border: 1px solid rgba(139,111,176,0.3);
+    }
+    .ct-tier-badge.tier-architect {
+      background: rgba(180,83,9,0.1);
+      color: #92420a;
+      border: 1px solid rgba(180,83,9,0.3);
+    }
+    .ct-topics {
+      margin: 0;
+      padding: 0 0 0 18px;
+      list-style: none;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 3px 32px;
+    }
+    .ct-topics li {
+      font: 300 0.88rem/1.55 'Lato', sans-serif;
+      color: #555;
+      padding-left: 14px;
+      position: relative;
+    }
+    .ct-topics li::before {
+      content: '·';
+      position: absolute;
+      left: 0;
+      color: #b0a8c0;
+      font-weight: 700;
+    }
+
+    /* Nav prev/next */
+    .ct-nav {
+      background: #f4f2f8;
+      padding: 20px 0;
+      border-top: 1px solid #e0dce8;
+    }
+    .ct-nav-inner {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+    .ct-nav a {
+      font: 300 0.82rem/1 'Lato', sans-serif;
+      color: #60b2d3;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .ct-nav a:hover { text-decoration: underline; }
+    .ct-nav-center {
+      font: 300 0.78rem/1 'Lato', sans-serif;
+      color: #9e8fb0;
+      text-align: center;
+    }
+    .ct-nav-center a {
+      color: #9e8fb0;
+    }
+
+    /* CTA */
+    .ct-cta {
+      background: #372649;
+      padding: 56px 0;
+      text-align: center;
+    }
+    .ct-cta h2 {
+      font: 300 1.7rem/1.2 'Lato', sans-serif;
+      color: #fff;
+      margin: 0 0 12px;
+    }
+    .ct-cta p {
+      font: 300 0.95rem/1.65 'Lato', sans-serif;
+      color: rgba(255,255,255,0.65);
+      max-width: 480px;
+      margin: 0 auto 28px;
+      padding: 0 24px;
+    }
+    .ct-cta .button.button_purple,
+    .ct-cta .button.button_purple:visited {
+      background: #60b2d3;
+      border-color: #60b2d3;
+      color: #fff;
+    }
+    .ct-cta .button.button_purple:hover {
+      background: #4a9cbf;
+      border-color: #4a9cbf;
+    }
+    .ct-cta-sub {
+      margin-top: 16px;
+    }
+    .ct-cta-sub a {
+      font: 300 0.82rem/1 'Lato', sans-serif;
+      color: rgba(255,255,255,0.5);
+      text-decoration: none;
+    }
+    .ct-cta-sub a:hover { color: rgba(255,255,255,0.85); }
+
+    /* Back link */
+    .ct-back {
+      background: #f4f2f8;
+      padding: 14px 0;
+      border-bottom: 1px solid #e0dce8;
+    }
+    .ct-back-inner {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+    .ct-back a {
+      font: 300 0.82rem/1 'Lato', sans-serif;
+      color: #60b2d3;
+      text-decoration: none;
+    }
+    .ct-back a:hover { text-decoration: underline; }
+
+    @media (max-width: 640px) {
+      .ct-hero h1 { font-size: 1.8rem; }
+      .ct-mod-header { gap: 8px; }
+      .ct-topics { grid-template-columns: 1fr; }
+      .ct-module { padding-left: 18px; }
+      .ct-tiers-inner { flex-direction: column; gap: 12px; }
+    }
+  </style>
+</head>
+
+<body class="page course-toc-page">
+{{ partial "header.html" . }}
+
+<!-- Back breadcrumb -->
+<div class="ct-back">
+  <div class="ct-back-inner">
+    <a href="/course/contents/">← All 6 Courses</a>
+  </div>
+</div>
+
+<!-- Hero -->
+<section class="ct-hero">
+  <p class="ct-eyebrow">Course {{ .Params.course_num }} of 6</p>
+  <h1>{{ .Params.course_title }}</h1>
+  <p class="ct-hero-sub">{{ .Params.course_tagline }}</p>
+  <div class="ct-meta-row">
+    <span class="ct-meta-item"><i class="fa-solid fa-database"></i> {{ .Params.course_dataset }}</span>
+    <span class="ct-meta-sep"></span>
+    <span class="ct-meta-item"><i class="fa-regular fa-calendar"></i> {{ .Params.course_date }}</span>
+    <span class="ct-meta-sep"></span>
+    <span class="ct-meta-item"><i class="fa-solid fa-layer-group"></i> 8 modules</span>
+  </div>
+</section>
+
+<!-- Tier legend -->
+<div class="ct-tiers">
+  <div class="ct-tiers-inner">
+    <div class="ct-tier-legend">
+      <span class="ct-tier-dot tier-core"></span>
+      <span class="ct-tier-legend-label tier-core">Core</span>
+      <span class="ct-tier-legend-desc">— foundational skills</span>
+    </div>
+    <div class="ct-tier-legend">
+      <span class="ct-tier-dot tier-advanced"></span>
+      <span class="ct-tier-legend-label tier-advanced">Advanced</span>
+      <span class="ct-tier-legend-desc">— real-world patterns</span>
+    </div>
+    <div class="ct-tier-legend">
+      <span class="ct-tier-dot tier-architect"></span>
+      <span class="ct-tier-legend-label tier-architect">Architect</span>
+      <span class="ct-tier-legend-desc">— system-level thinking</span>
+    </div>
+  </div>
+</div>
+
+<!-- Modules -->
+<section class="ct-modules">
+  <div class="ct-modules-inner">
+    {{ range .Params.modules }}
+    {{ $tier := .tier | lower | replaceRE " " "-" }}
+    <div class="ct-module tier-{{ $tier }}">
+      <div class="ct-mod-header">
+        <span class="ct-mod-num">Module {{ printf "%02d" .num }}</span>
+        <h2 class="ct-mod-title">{{ .title }}</h2>
+        <span class="ct-tier-badge tier-{{ $tier }}">{{ .tier }}</span>
+      </div>
+      <ul class="ct-topics">
+        {{ range .topics }}
+        <li>{{ . }}</li>
+        {{ end }}
+      </ul>
+    </div>
+    {{ end }}
+  </div>
+</section>
+
+<!-- Prev / Next nav -->
+<div class="ct-nav">
+  <div class="ct-nav-inner">
+    {{ if .Params.course_prev_slug }}
+    <a href="/course/{{ .Params.course_prev_slug }}/">← {{ .Params.course_prev_title }}</a>
+    {{ else }}
+    <span></span>
+    {{ end }}
+    <span class="ct-nav-center"><a href="/course/contents/">View all 6 courses</a></span>
+    {{ if .Params.course_next_slug }}
+    <a href="/course/{{ .Params.course_next_slug }}/">{{ .Params.course_next_title }} →</a>
+    {{ else }}
+    <span></span>
+    {{ end }}
+  </div>
+</div>
+
+<!-- CTA -->
+<section class="ct-cta">
+  <h2>All 6 courses. One package.</h2>
+  <p>Core, Advanced, and Architect tiers — {{ printf "%d" 48 }} modules across 6 courses.</p>
+  <a href="https://sales.theartofpostgresql.com/the-art-of-postgresql-courses/" class="button button_purple button_large">
+    Get All 6 Courses
+  </a>
+  <p class="ct-cta-sub"><a href="/course/contents/">Browse full curriculum →</a></p>
+</section>
+
+{{ partial "footer.html" . }}
+
+</body>
+</html>

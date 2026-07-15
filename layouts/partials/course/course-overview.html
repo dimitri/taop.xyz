@@ -1,0 +1,231 @@
+<div id="curriculum" class="course-overview">
+  <div class="wrapper">
+    <header class="co-header">
+      <h2>6 Courses. 48 Modules. One System.</h2>
+      <p class="co-sub">Window functions, aggregation, schema design, advanced JOINs, query optimization, and reading query plans — each course is 8 modules across Core, Advanced, and Architect tiers.</p>
+      <a href="/course/contents/" class="co-browse-link">Browse the full 48-module curriculum →</a>
+    </header>
+
+    <div class="co-grid">
+      <a href="/course/window-functions/" class="co-card">
+        <span class="co-num">01</span>
+        <h3>Window Functions</h3>
+        <p>OVER, PARTITION BY, frame clauses, sessionization. The SQL feature most developers underuse.</p>
+        <span class="co-meta">8 modules · Core → Architect</span>
+      </a>
+      <a href="/course/aggregation/" class="co-card">
+        <span class="co-num">02</span>
+        <h3>Reliable Aggregation</h3>
+        <p>GROUP BY semantics, GROUPING SETS, FILTER, ordered-set aggregates, and correctness traps.</p>
+        <span class="co-meta">8 modules · Core → Architect</span>
+      </a>
+      <a href="/course/data-modeling/" class="co-card">
+        <span class="co-num">03</span>
+        <h3>Data &amp; Schema Design</h3>
+        <p>Normal forms, primary keys, index design, schema evolution, and JSONB for semi-structured data.</p>
+        <span class="co-meta">8 modules · Core → Architect</span>
+      </a>
+      <a href="/course/advanced-joins/" class="co-card">
+        <span class="co-num">04</span>
+        <h3>Advanced JOIN Techniques</h3>
+        <p>Join semantics, fan-out amplification, LATERAL, WITH RECURSIVE, and complex query composition.</p>
+        <span class="co-meta">8 modules · Core → Architect</span>
+      </a>
+      <a href="/course/query-optimization/" class="co-card">
+        <span class="co-num">05</span>
+        <h3>Query Optimization</h3>
+        <p>How PostgreSQL executes queries, bottleneck detection, query rewriting, and indexing strategy.</p>
+        <span class="co-meta">8 modules · Core → Architect</span>
+      </a>
+      <a href="/course/read-query-plans/" class="co-card">
+        <span class="co-num">06</span>
+        <h3>Reading Query Plans</h3>
+        <p>EXPLAIN anatomy, plan node types, row estimate mismatches, and a complete diagnostic workflow.</p>
+        <span class="co-meta">8 modules · Core → Architect</span>
+      </a>
+    </div>
+
+    <div class="co-tiers">
+      <div class="co-tier co-tier-core">
+        <span class="co-tier-name">Core</span>
+        <span class="co-tier-count">36 modules</span>
+        <span class="co-tier-desc">SQL foundations, no prerequisites</span>
+        <a href="https://sales.theartofpostgresql.com/the-art-of-postgresql-courses/" class="co-tier-cta">Buy Core</a>
+      </div>
+      <div class="co-tier co-tier-advanced">
+        <span class="co-tier-name">Advanced <span class="co-tier-popular">Most Popular</span></span>
+        <span class="co-tier-count">42 modules</span>
+        <span class="co-tier-desc">Performance, plan analysis, and query rewriting techniques and methodology</span>
+        <a href="https://sales.theartofpostgresql.com/the-art-of-postgresql-courses/" class="co-tier-cta">Buy Advanced</a>
+      </div>
+      <div class="co-tier co-tier-architect">
+        <span class="co-tier-name">Architect</span>
+        <span class="co-tier-count">48 modules</span>
+        <span class="co-tier-desc">Schema evolution, data architecture, and system-level trade-offs</span>
+        <a href="https://sales.theartofpostgresql.com/the-art-of-postgresql-courses/" class="co-tier-cta">Buy Architect</a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<style>
+.course-overview {
+  background: #f5f2fa;
+  padding: 80px 0 72px;
+}
+.co-header {
+  text-align: center;
+  max-width: 680px;
+  margin: 0 auto 52px;
+}
+.co-header h2 {
+  font: 300 2rem/1.2 'Lato', sans-serif;
+  color: #372649;
+  margin: 0 0 14px;
+}
+.co-sub {
+  font: 300 1rem/1.65 'Lato', sans-serif;
+  color: #5a4a70;
+  margin: 0 0 20px;
+}
+.co-browse-link {
+  font: 400 0.88rem/1 'Lato', sans-serif;
+  color: #60b2d3;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(96,178,211,0.35);
+  padding-bottom: 2px;
+  transition: border-color 0.15s;
+}
+.co-browse-link:hover {
+  border-color: #60b2d3;
+}
+.co-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+.co-card {
+  display: block;
+  background: #fff;
+  border: 1px solid #ddd6ea;
+  border-radius: 6px;
+  padding: 24px 24px 20px;
+  text-decoration: none;
+  transition: box-shadow 0.18s, transform 0.18s;
+}
+.co-card:hover {
+  box-shadow: 0 4px 20px rgba(55,38,73,0.12);
+  transform: translateY(-2px);
+}
+.co-num {
+  display: block;
+  font: 700 0.72rem/1 'Lato', sans-serif;
+  color: #9e8fb0;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+.co-card h3 {
+  font: 400 1rem/1.25 'Lato', sans-serif;
+  color: #372649;
+  margin: 0 0 10px;
+}
+.co-card p {
+  font: 300 0.875rem/1.6 'Lato', sans-serif;
+  color: #5a4a70;
+  margin: 0 0 14px;
+}
+.co-meta {
+  font: 300 0.76rem/1 'Lato', sans-serif;
+  color: #9e8fb0;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+}
+@media (max-width: 720px) {
+  .co-grid { grid-template-columns: 1fr; }
+  .co-header h2 { font-size: 1.5rem; }
+}
+@media (min-width: 721px) and (max-width: 960px) {
+  .co-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* ── Tier nudge ── */
+.co-tiers {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  max-width: 960px;
+  margin: 40px auto 0;
+  border-top: 1px solid #ddd6ea;
+  padding-top: 32px;
+}
+.co-tier {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 20px 20px 18px;
+  background: #fff;
+  border: 1px solid #ddd6ea;
+  border-radius: 6px;
+}
+.co-tier.co-tier-advanced {
+  border-color: #60b2d3;
+}
+.co-tier-name {
+  font: 700 0.95rem/1 'Lato', sans-serif;
+  color: #372649;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 2px;
+}
+.co-tier-popular {
+  font: 700 0.58rem/1 'Lato', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #fff;
+  background: #60b2d3;
+  border-radius: 2px;
+  padding: 2px 6px;
+}
+.co-tier-count {
+  font: 300 0.78rem/1 'Lato', sans-serif;
+  color: #9e8fb0;
+}
+.co-tier-desc {
+  font: 300 0.82rem/1.45 'Lato', sans-serif;
+  color: #5a4a70;
+  flex: 1;
+}
+.co-tier-cta {
+  display: inline-block;
+  margin-top: 12px;
+  font: 400 0.82rem/1 'Lato', sans-serif;
+  color: #60b2d3;
+  text-decoration: none;
+  border: 1px solid rgba(96,178,211,0.45);
+  border-radius: 3px;
+  padding: 8px 16px;
+  text-align: center;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+.co-tier-cta:hover {
+  background: rgba(96,178,211,0.1);
+  border-color: #60b2d3;
+}
+.co-tier.co-tier-advanced .co-tier-cta {
+  background: #60b2d3;
+  border-color: #60b2d3;
+  color: #fff;
+}
+.co-tier.co-tier-advanced .co-tier-cta:hover {
+  background: #4a9cbf;
+  border-color: #4a9cbf;
+}
+@media (max-width: 720px) {
+  .co-tiers { grid-template-columns: 1fr; }
+}
+</style>

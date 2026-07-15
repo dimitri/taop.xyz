@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Course 5 — Query Optimization Fundamentals | The Art of PostgreSQL</title>
+  <meta name="description" content="8-module curriculum: cost model and EXPLAIN basics through systematic optimization workflow. f1db, chinook, and geoname datasets.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <meta property="og:url" content="https://theartofpostgresql.com/course/query-optimization/" />
+  <meta property="og:title" content="Course 5 — Query Optimization Fundamentals" />
+  <meta property="og:description" content="Systematic bottleneck identification, query rewriting, index strategy, and verified improvements." />
+  <link href="/favicon.ico" rel="icon" type="image/x-icon">
+  <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/syntax.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="/js/custom.js"></script>
+  {{ partial "course/toc-styles.html" . }}
+</head>
+<body class="page course-page">
+{{ partial "header.html" . }}
+
+<nav class="cp-course-nav" aria-label="Course navigation">
+  <div class="cp-course-nav-inner">
+    <a href="/course/advanced-joins/">← Advanced JOIN Techniques</a>
+    <span class="cp-course-nav-center">Course 5 of 6</span>
+    <a href="/course/read-query-plans/">Read Query Plans →</a>
+  </div>
+</nav>
+
+<section class="cp-hero">
+  <p class="cp-hero-eyebrow">Course 5 of 6 · f1db, chinook, geoname</p>
+  <h1>Query Optimization Fundamentals</h1>
+  <p class="cp-hero-sub">Systematic bottleneck identification, query rewriting, index strategy, and verified improvements.</p>
+  <div class="cp-stats-bar">
+    <div class="cp-stat"><span class="cp-stat-n">8</span><span class="cp-stat-l">Modules</span></div>
+    <div class="cp-stat"><span class="cp-stat-n">6</span><span class="cp-stat-l">Core</span></div>
+    <div class="cp-stat"><span class="cp-stat-n">1</span><span class="cp-stat-l">Advanced</span></div>
+    <div class="cp-stat"><span class="cp-stat-n">1</span><span class="cp-stat-l">Architect</span></div>
+  </div>
+</section>
+
+
+<nav class="cp-part-nav" aria-label="Module index">
+  <div class="cp-part-nav-inner">
+    <h2 class="cp-part-nav-title">Module Overview</h2>
+    <table class="cp-part-table">
+      <thead><tr><th class="col-part">Module</th><th class="col-title">Title</th><th class="col-hook">Focus</th></tr></thead>
+      <tbody>
+        <tr><td class="col-part"><a href="#module-1">Mod 01</a><span class="cp-tier-pill core">Core</span></td><td class="col-title"><a href="#module-1">How PostgreSQL Executes Queries</a></td><td class="col-hook">Cost model parameters and pg_stat_statements</td></tr>
+        <tr><td class="col-part"><a href="#module-2">Mod 02</a><span class="cp-tier-pill core">Core</span></td><td class="col-title"><a href="#module-2">Reading and Interpreting EXPLAIN</a></td><td class="col-hook">Startup cost, total cost, actual timing, BUFFERS</td></tr>
+        <tr><td class="col-part"><a href="#module-3">Mod 03</a><span class="cp-tier-pill core">Core</span></td><td class="col-title"><a href="#module-3">Identifying Performance Bottlenecks</a></td><td class="col-hook">Seq Scan cost, correlated columns, sort, selectivity</td></tr>
+        <tr><td class="col-part"><a href="#module-4">Mod 04</a><span class="cp-tier-pill core">Core</span></td><td class="col-title"><a href="#module-4">Query Rewriting Techniques</a></td><td class="col-hook">Predicate pushdown, EXISTS vs IN, CTE fences</td></tr>
+        <tr><td class="col-part"><a href="#module-5">Mod 05</a><span class="cp-tier-pill core">Core</span></td><td class="col-title"><a href="#module-5">Common Anti-Patterns</a></td><td class="col-hook">Non-sargable predicates, OFFSET, SELECT *</td></tr>
+        <tr><td class="col-part"><a href="#module-6">Mod 06</a><span class="cp-tier-pill core">Core</span></td><td class="col-title"><a href="#module-6">Indexing for Performance</a></td><td class="col-hook">B-tree, GiST, GIN, partial, covering, INCLUDE clause</td></tr>
+        <tr><td class="col-part"><a href="#module-7">Mod 07</a><span class="cp-tier-pill advanced">Advanced</span></td><td class="col-title"><a href="#module-7">Advanced Optimization Patterns</a></td><td class="col-hook">pg_class inventory, MATERIALIZED, named CTEs</td></tr>
+        <tr><td class="col-part"><a href="#module-8">Mod 08</a><span class="cp-tier-pill architect">Architect</span></td><td class="col-title"><a href="#module-8">Systematic Optimization Workflow</a></td><td class="col-hook">Observe → Diagnose → Fix → Verify + partitioning</td></tr>
+      </tbody>
+    </table>
+  </div>
+</nav>
+
+<div class="cp-modules">
+
+<section class="cp-part tier-core" id="module-1">
+  <div class="wrapper">
+    <div class="cp-part-head">
+      <span class="cp-part-badge">Module 01</span>
+      <h2>How PostgreSQL Executes Queries</h2>
+      <p class="cp-part-meta">Core · 4 topics</p>
+      <p class="cp-part-desc">The planner generates a plan tree from statistics and cost estimates. This module covers pg_stats, row-count estimates, join ordering, and how cost model parameters shape planning decisions.</p>
+    </div>
+    <div class="cp-part-body">
+      <div class="cp-chapters">
+        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">Cost model settings (seq_page_cost, random_page_cost)</span><span class="cp-ch-topics">seq_page_cost and random_page_cost calibrate I/O cost weights for every plan decision.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">Table statistics</span><span class="cp-ch-topics">pg_stats exposes MCVs, histograms, and null fraction used for row-count estimates.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">Row estimates from EXPLAIN</span><span class="cp-ch-topics">EXPLAIN rows=N shows the planner's estimate, derived from column statistics before execution.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">Query lifecycle statistics with pg_stat_statements</span><span class="cp-ch-topics">pg_stat_statements accumulates call counts and total execution time per normalized query shape.</span></div></div>
+      </div>
+      <div class="cp-showcase">
+        <figure class="cp-diagram">
+          <img src="/img/diagrams/fig-query-pipeline.svg" alt="Query execution pipeline">
+          <figcaption>A query travels from parse tree through rewriter and planner to executor — statistics and cost estimates drive every planning decision</figcaption>
+        </figure>
+        <div class="cp-query-card">
+          <div class="cp-query-label">Module 01 · Cost model parameters</div>
+          <pre><code>select name,
+       setting,
+       unit,
+       short_desc
+  from pg_settings
+ where name in (
+   'seq_page_cost',
+   'random_page_cost',
+   'cpu_tuple_cost',
+   'cpu_index_tuple_cost',
+   'cpu_operator_cost',
+   'effective_cache_size',
+   'work_mem'
+ )
+ order by name;</code></pre>
+          <p class="cp-query-caption">Name, setting, unit, and description for seven planner cost and memory parameters.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cp-part tier-core" id="module-2">
+  <div class="wrapper">
+    <div class="cp-part-head">
+      <span class="cp-part-badge">Module 02</span>
+      <h2>Reading and Interpreting EXPLAIN</h2>
+      <p class="cp-part-meta">Core · 4 topics</p>
+      <p class="cp-part-desc">EXPLAIN reveals startup cost, total cost, estimated rows, and row width for every node. FORMAT JSON and the indentation model are covered alongside how to read a multi-node plan tree.</p>
+    </div>
+    <div class="cp-part-body">
+      <div class="cp-chapters">
+        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">Basic EXPLAIN</span><span class="cp-ch-topics">EXPLAIN shows cost, estimated rows, and row width for every plan node.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">EXPLAIN ANALYZE</span><span class="cp-ch-topics">ANALYZE adds actual row counts and timing alongside the planner's estimates.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">BUFFERS</span><span class="cp-ch-topics">BUFFERS adds cache hit and disk read counts at every plan node.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">Plan node types: Seq Scan, Index Scan, Hash Join, Nested Loop, Merge Join</span><span class="cp-ch-topics">Each plan node type has a characteristic cost and scaling profile.</span></div></div>
+      </div>
+      <div class="cp-showcase">
+        <figure class="cp-diagram">
+          <img src="/img/diagrams/fig-explain-anatomy.svg" alt="EXPLAIN anatomy">
+          <figcaption>Every EXPLAIN node reports startup cost, total cost, estimated rows, and row width — four numbers that tell the optimizer's story</figcaption>
+        </figure>
+        <div class="cp-query-card">
+          <div class="cp-query-label">Module 02 · EXPLAIN ANALYZE join</div>
+          <pre><code>explain (analyze, buffers, format text)
+select r.name    as race,
+       d.surname as winner
+  from f1db.races   r
+  join f1db.results res
+    on res.raceid   = r.raceid
+  join f1db.drivers d
+    on d.driverid   = res.driverid
+ where r.year = 2017
+   and res.positionorder = 1
+ order by r.date;</code></pre>
+          <p class="cp-query-caption">Actual and estimated rows, timing, and buffer hits for a three-table race-winners join.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cp-part tier-core" id="module-3">
+  <div class="wrapper">
+    <div class="cp-part-head">
+      <span class="cp-part-badge">Module 03</span>
+      <h2>Identifying Performance Bottlenecks</h2>
+      <p class="cp-part-meta">Core · 4 topics</p>
+      <p class="cp-part-desc">pg_stat_statements ranks queries by cumulative total time — the right starting point for any optimization session. EXPLAIN ANALYZE adds actual rows and timing; BUFFERS shows cache hits vs disk reads.</p>
+    </div>
+    <div class="cp-part-body">
+      <div class="cp-chapters">
+        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">Sequential scan cost on large tables</span><span class="cp-ch-topics">A sequential scan reads every table page; pg_class.relpages determines its base cost.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">Misestimation from correlated columns</span><span class="cp-ch-topics">Correlated columns mislead row estimates; CREATE STATISTICS fixes them by recording dependency.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">Sort cost</span><span class="cp-ch-topics">An unindexed sort materializes all matching rows before the first result returns.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">Join selectivity and predicate ordering</span><span class="cp-ch-topics">Applying the most selective filter first shrinks the join's intermediate row count.</span></div></div>
+      </div>
+      <div class="cp-showcase">
+        <figure class="cp-diagram">
+          <img src="/img/diagrams/fig-explain-startup-cost.svg" alt="Estimated vs actual row counts">
+          <figcaption>EXPLAIN ANALYZE shows estimated vs actual row counts — a large divergence signals stale statistics or correlated predicates that the planner's independence assumption misses.</figcaption>
+        </figure>
+        <div class="cp-query-card">
+          <div class="cp-query-label">Module 03 · Correlated column misestimate</div>
+          <pre><code>-- geoname.class and .feature are strongly
+-- correlated: 'PPL' always implies class 'P'.
+-- The planner multiplies selectivities as
+-- if they were independent and lands far
+-- below the actual row count.
+explain (analyze, buffers)
+select name, population
+  from geoname.geoname
+ where class   = 'P'
+   and feature = 'PPL';</code></pre>
+          <p class="cp-query-caption">EXPLAIN ANALYZE plan for geoname rows matching both class 'P' and feature 'PPL'.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cp-part tier-core" id="module-4">
+  <div class="wrapper">
+    <div class="cp-part-head">
+      <span class="cp-part-badge">Module 04</span>
+      <h2>Query Rewriting Techniques</h2>
+      <p class="cp-part-meta">Core · 4 topics</p>
+      <p class="cp-part-desc">Predicate pushdown, CTE fences, and subquery flattening change what the planner can see. Restructuring a query to remove barriers often yields more improvement than any index change.</p>
+    </div>
+    <div class="cp-part-body">
+      <div class="cp-chapters">
+        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">Predicate pushdown</span><span class="cp-ch-topics">Inline predicates let the planner filter rows at the earliest scan node.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">EXISTS vs IN for subqueries</span><span class="cp-ch-topics">EXISTS stops at the first match; IN materializes all matches before proceeding.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">CTE optimization fences</span><span class="cp-ch-topics">MATERIALIZED forces a separate execution step; inlined CTEs are optimized as subqueries.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">Removing unnecessary work: DISTINCT, COUNT semantics</span><span class="cp-ch-topics">Eliminating unneeded DISTINCT and misused COUNT semantics removes hidden deduplication passes.</span></div></div>
+      </div>
+      <div class="cp-showcase">
+        <figure class="cp-diagram">
+          <img src="/img/diagrams/fig-plan-tree.svg" alt="Plan tree showing predicate pushdown">
+          <figcaption>Predicate pushdown moves filter conditions as close to the data source as possible — the plan tree shows whether filters are applied at the scan node or wastefully at a higher level.</figcaption>
+        </figure>
+        <div class="cp-query-card">
+          <div class="cp-query-label">Module 04 · Predicate pushdown</div>
+          <pre><code>-- Inline predicates give the planner freedom
+-- to push them to the earliest scan.
+explain (analyze, buffers)
+select r.name, r.date,
+       d.surname as winner
+  from f1db.races   r
+  join f1db.results res
+    on res.raceid        = r.raceid
+   and res.positionorder = 1
+  join f1db.drivers d
+    on d.driverid        = res.driverid
+ where r.year = 2017;</code></pre>
+          <p class="cp-query-caption">Race names, dates, and 2017 winners with all predicates placed inline in the join.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cp-part tier-core" id="module-5">
+  <div class="wrapper">
+    <div class="cp-part-head">
+      <span class="cp-part-badge">Module 05</span>
+      <h2>Common Anti-Patterns</h2>
+      <p class="cp-part-meta">Core · 3 topics</p>
+      <p class="cp-part-desc">Leading-wildcard LIKE, implicit type coercion, function-wrapped indexed columns, and NOT IN with nullable columns — each prevents index use in ways that are easy to miss in code review.</p>
+    </div>
+    <div class="cp-part-body">
+      <div class="cp-chapters">
+        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">Non-sargable predicates</span><span class="cp-ch-topics">A function-wrapped column forces a seq scan; an expression index restores it.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">OFFSET pagination vs keyset pagination</span><span class="cp-ch-topics">OFFSET gets more expensive with depth; keyset pagination is always constant cost.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">SELECT * and row width impact</span><span class="cp-ch-topics">Selecting unused columns widens the plan, increasing sort, hash, and network costs.</span></div></div>
+      </div>
+      <div class="cp-showcase">
+        <figure class="cp-diagram">
+          <img src="/img/diagrams/fig-btree-page-layout.svg" alt="B-tree and non-sargable predicates">
+          <figcaption>A function on an indexed column (WHERE lower(name) = ...) forces a full Seq Scan — a functional index on lower(name) restores index access without changing the query.</figcaption>
+        </figure>
+        <div class="cp-query-card">
+          <div class="cp-query-label">Module 05 · Keyset pagination</div>
+          <pre><code>-- Keyset: seek straight to the last key seen.
+-- The B-tree descends once and reads exactly
+-- one page of rows — page 5000 costs the
+-- same as page 1.
+explain (analyze, buffers)
+select geonameid, name
+  from geoname.geoname
+ where geonameid &gt; 10150618
+ order by geonameid
+ limit 20;</code></pre>
+          <p class="cp-query-caption">Twenty geoname rows starting after a known geonameid boundary, ordered by geonameid.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cp-part tier-core" id="module-6">
+  <div class="wrapper">
+    <div class="cp-part-head">
+      <span class="cp-part-badge">Module 06</span>
+      <h2>Indexing for Performance</h2>
+      <p class="cp-part-meta">Core · 7 topics</p>
+      <p class="cp-part-desc">Partial indexes, covering indexes, expression indexes, and multi-column index column order. Index-only scans eliminate heap access entirely — when they're possible and when the visibility map blocks them.</p>
+    </div>
+    <div class="cp-part-body">
+      <div class="cp-chapters">
+        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">Index types: B-tree, Hash, GiST, GIN, BRIN</span><span class="cp-ch-topics">B-tree handles ranges and sorting; GiST geometry; GIN arrays; BRIN sequential data.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">Selectivity and index choice</span><span class="cp-ch-topics">A highly selective predicate favors an index scan over a sequential scan.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">Composite indexes and column order</span><span class="cp-ch-topics">A composite index requires its leading column in WHERE to be usable.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">Partial indexes</span><span class="cp-ch-topics">A partial index targets a row subset via WHERE clause, reducing its size.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">05</span><div><span class="cp-ch-title">Covering indexes with INCLUDE clause</span><span class="cp-ch-topics">INCLUDE adds columns to leaf pages so the heap is never fetched.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">06</span><div><span class="cp-ch-title">Index-only scans and the visibility map</span><span class="cp-ch-topics">Index-only scans skip the heap for pages the visibility map marks all-visible.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">07</span><div><span class="cp-ch-title">GiST kNN scan and GIN array containment</span><span class="cp-ch-topics">GiST enables ordered kNN traversal; GIN enables array containment via posting-list intersection.</span></div></div>
+      </div>
+      <div class="cp-showcase">
+        <figure class="cp-diagram">
+          <img src="/img/diagrams/fig-index-types.svg" alt="Index types">
+          <figcaption>Partial, covering, and expression indexes extend B-tree beyond the basics — the right index can eliminate table access entirely</figcaption>
+        </figure>
+        <div class="cp-query-card">
+          <div class="cp-query-label">Module 06 · Partial index targeting</div>
+          <pre><code>-- This query scans all results to find
+-- race winners — a partial index on
+-- positionorder = 1 would eliminate it.
+--
+-- CREATE INDEX ON f1db.results (raceid)
+-- WHERE positionorder = 1;
+explain (analyze, buffers)
+select res.raceid,
+       res.driverid,
+       res.constructorid
+  from f1db.results res
+ where res.positionorder = 1
+ order by res.raceid;</code></pre>
+          <p class="cp-query-caption">Raceid, driverid, and constructorid for every race winner, ordered by raceid.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cp-part tier-advanced" id="module-7">
+  <div class="wrapper">
+    <div class="cp-part-head">
+      <span class="cp-part-badge">Module 07 · Advanced</span>
+      <h2>Advanced Optimization Patterns</h2>
+      <p class="cp-part-meta">Advanced · 3 topics</p>
+      <p class="cp-part-desc">Parallel query configuration, partition pruning, and BRIN for sequential data. This module covers when to reach for pg_hint_plan and when to fix the statistics instead.</p>
+    </div>
+    <div class="cp-part-body">
+      <div class="cp-chapters">
+        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">Tables and views inventory (pg_class)</span><span class="cp-ch-topics">pg_class exposes each relation's physical size in pages, guiding materialization decisions.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">Materialized CTEs (WITH … AS MATERIALIZED)</span><span class="cp-ch-topics">AS MATERIALIZED caches the CTE result once for multiple outer query references.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">Query decomposition with named CTEs</span><span class="cp-ch-topics">Named CTEs break complex queries into readable stages without creating optimization fences.</span></div></div>
+      </div>
+      <div class="cp-showcase">
+        <figure class="cp-diagram">
+          <img src="/img/diagrams/fig-node-types.svg" alt="Parallel plan nodes: Gather and Gather Merge">
+          <figcaption>Gather and Gather Merge nodes mark the boundary between serial and parallel execution — partition pruning eliminates sub-plans at planning time, Gather collects parallel worker results.</figcaption>
+        </figure>
+        <div class="cp-query-card">
+          <div class="cp-query-label">Module 07 · Career statistics profiling</div>
+          <pre><code>explain (analyze, buffers)
+select d.surname,
+       d.nationality,
+       count(distinct r.circuitid)  as circuits,
+       count(*) filter(
+         where res.positionorder=1) as wins,
+       sum(res.points)              as career_pts,
+       min(r.year)                  as first_year,
+       max(r.year)                  as last_year
+  from f1db.drivers      d
+  join f1db.results      res
+    on res.driverid  = d.driverid
+  join f1db.races        r
+    on r.raceid      = res.raceid
+  join f1db.circuits     c
+    on c.circuitid   = r.circuitid
+ group by d.driverid, d.surname,
+          d.nationality
+ order by career_pts desc
+ limit 20;</code></pre>
+          <p class="cp-query-caption">Top 20 drivers ranked by career points, with win count, circuits visited, and active years.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cp-part tier-architect" id="module-8">
+  <div class="wrapper">
+    <div class="cp-part-head">
+      <span class="cp-part-badge">Module 08 · Architect</span>
+      <h2>Systematic Optimization Workflow</h2>
+      <p class="cp-part-meta">Architect · 8 topics</p>
+      <p class="cp-part-desc">Observe → Diagnose → Fix → Verify: a repeatable cycle for closing the feedback loop on query performance. Performance SLAs, regression guards, and continuous monitoring with pg_stat_statements.</p>
+    </div>
+    <div class="cp-part-body">
+      <div class="cp-chapters">
+        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">Step 1 — Observe: pg_stat_statements, pg_stat_user_tables</span><span class="cp-ch-topics">pg_stat_statements sorted by total_exec_time gives the optimization backlog in priority order.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">Step 2 — Diagnose: plan signals (filter removal, spill, batches, estimate divergence)</span><span class="cp-ch-topics">Filter rows, spills, and estimate divergence each identify a specific plan problem.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">Step 3 — Fix: ANALYZE, index creation, query rewrite, work_mem, VACUUM</span><span class="cp-ch-topics">Change one thing at a time: ANALYZE, index, query rewrite, or work_mem.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">Step 4 — Verify: plan comparison, pg_stat_statements confirmation</span><span class="cp-ch-topics">After each fix, compare node type, actual timing, and buffer read count.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">05</span><div><span class="cp-ch-title">Partitioning and partition pruning</span><span class="cp-ch-topics">Partition pruning skips non-matching segments when the predicate matches the partition key.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">06</span><div><span class="cp-ch-title">Parallel query: Gather, Gather Merge</span><span class="cp-ch-topics">Gather nodes split large scans across workers; Gather Merge preserves sort order.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">07</span><div><span class="cp-ch-title">Performance budgets, query SLAs, caching ladder</span><span class="cp-ch-topics">Performance budgets allocate latency across layers; SLAs and monitoring catch regressions early.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">08</span><div><span class="cp-ch-title">When not to optimize</span><span class="cp-ch-topics">Amdahl's law limits the gain; stop optimizing once the SLA is satisfied.</span></div></div>
+      </div>
+      <div class="cp-showcase">
+        <figure class="cp-diagram">
+          <img src="/img/diagrams/fig-optimization-workflow.svg" alt="Optimization workflow">
+          <figcaption>Observe → Diagnose → Fix → Verify: one targeted change per cycle, confirmed before moving on to the next query</figcaption>
+        </figure>
+        <div class="cp-query-card">
+          <div class="cp-query-label">Module 08 · Partition inventory</div>
+          <pre><code>select parent.relname  as parent_table,
+       child.relname   as partition_name,
+       pg_size_pretty(
+         pg_relation_size(child.oid)
+       )               as partition_size
+  from pg_inherits
+  join pg_class parent
+    on parent.oid = pg_inherits.inhparent
+  join pg_class child
+    on child.oid  = pg_inherits.inhrelid
+  join pg_namespace n
+    on n.oid      = parent.relnamespace
+ where n.nspname = 'f1db'
+ order by parent.relname, child.relname;</code></pre>
+          <p class="cp-query-caption">Every f1db partition's name and physical size, grouped by parent table.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</div><!-- .cp-modules -->
+
+<section class="cp-cta">
+  <h2>All 6 courses. One package.</h2>
+  <p>Core, Advanced, and Architect tiers — 48 modules across 6 PostgreSQL courses.</p>
+  <div class="cp-cta-btns">
+    <a href="https://sales.theartofpostgresql.com/the-art-of-postgresql-courses/" class="button button_purple button_large">Get All 6 Courses</a>
+    <a href="/course/contents/" class="button button_purple button_medium" style="background:transparent;border-color:rgba(255,255,255,0.35);color:rgba(255,255,255,0.8);">Browse All 6 Courses</a>
+  </div>
+</section>
+
+{{ partial "footer.html" . }}
+</body>
+</html>

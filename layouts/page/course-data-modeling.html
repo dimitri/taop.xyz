@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Course 3 — Data Modeling for Performance | The Art of PostgreSQL</title>
+  <meta name="description" content="8-module curriculum: relational model foundations through JSONB document patterns. chinook and f1db datasets.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <meta property="og:url" content="https://theartofpostgresql.com/course/data-modeling/" />
+  <meta property="og:title" content="Course 3 — Data Modeling for Performance" />
+  <meta property="og:description" content="Schema design from relational foundations through constraints, indexes, and safe schema evolution." />
+  <link href="/favicon.ico" rel="icon" type="image/x-icon">
+  <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/syntax.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="/js/custom.js"></script>
+  {{ partial "course/toc-styles.html" . }}
+</head>
+<body class="page course-page">
+{{ partial "header.html" . }}
+
+<nav class="cp-course-nav" aria-label="Course navigation">
+  <div class="cp-course-nav-inner">
+    <a href="/course/aggregation/">← Reliable Aggregation</a>
+    <span class="cp-course-nav-center">Course 3 of 6</span>
+    <a href="/course/advanced-joins/">Advanced JOIN Techniques →</a>
+  </div>
+</nav>
+
+<section class="cp-hero">
+  <p class="cp-hero-eyebrow">Course 3 of 6 · chinook &amp; f1db datasets</p>
+  <h1>Data Modeling for Performance</h1>
+  <p class="cp-hero-sub">Schema design from relational foundations through constraints, indexes, and safe schema evolution.</p>
+  <div class="cp-stats-bar">
+    <div class="cp-stat"><span class="cp-stat-n">8</span><span class="cp-stat-l">Modules</span></div>
+    <div class="cp-stat"><span class="cp-stat-n">6</span><span class="cp-stat-l">Core</span></div>
+    <div class="cp-stat"><span class="cp-stat-n">1</span><span class="cp-stat-l">Advanced</span></div>
+    <div class="cp-stat"><span class="cp-stat-n">1</span><span class="cp-stat-l">Architect</span></div>
+  </div>
+</section>
+
+
+<nav class="cp-part-nav" aria-label="Module index">
+  <div class="cp-part-nav-inner">
+    <h2 class="cp-part-nav-title">Module Overview</h2>
+    <table class="cp-part-table">
+      <thead><tr><th class="col-part">Module</th><th class="col-title">Title</th><th class="col-hook">Focus</th></tr></thead>
+      <tbody>
+        <tr><td class="col-part"><a href="#module-1">Mod 01</a><span class="cp-tier-pill core">Core</span></td><td class="col-title"><a href="#module-1">The Relational Model</a></td><td class="col-hook">Normal forms, anomalies, and constraint inventory</td></tr>
+        <tr><td class="col-part"><a href="#module-2">Mod 02</a><span class="cp-tier-pill core">Core</span></td><td class="col-title"><a href="#module-2">Primary Keys and Constraints</a></td><td class="col-hook">PKs, UUIDs, generated columns, exclusion constraints</td></tr>
+        <tr><td class="col-part"><a href="#module-3">Mod 03</a><span class="cp-tier-pill core">Core</span></td><td class="col-title"><a href="#module-3">Relationships at Scale</a></td><td class="col-hook">Hierarchy chains, junction tables, FK actions</td></tr>
+        <tr><td class="col-part"><a href="#module-4">Mod 04</a><span class="cp-tier-pill core">Core</span></td><td class="col-title"><a href="#module-4">Index Design and Access Patterns</a></td><td class="col-hook">B-tree, GiST, GIN, partial, covering, expression indexes</td></tr>
+        <tr><td class="col-part"><a href="#module-5">Mod 05</a><span class="cp-tier-pill core">Core</span></td><td class="col-title"><a href="#module-5">Modeling for Analytics</a></td><td class="col-hook">Star join, denormalization, and MV dependency chains</td></tr>
+        <tr><td class="col-part"><a href="#module-6">Mod 06</a><span class="cp-tier-pill core">Core</span></td><td class="col-title"><a href="#module-6">Evolving Schemas Safely</a></td><td class="col-hook">NOT VALID, CREATE INDEX CONCURRENTLY, role hierarchy</td></tr>
+        <tr><td class="col-part"><a href="#module-7">Mod 07</a><span class="cp-tier-pill advanced">Advanced</span></td><td class="col-title"><a href="#module-7">Advanced Modeling Trade-offs</a></td><td class="col-hook">EAV traps, JSONB, trigrams, and temporal ranges</td></tr>
+        <tr><td class="col-part"><a href="#module-8">Mod 08</a><span class="cp-tier-pill architect">Architect</span></td><td class="col-title"><a href="#module-8">Data Architecture</a></td><td class="col-hook">JSONB operators, GIN index, audit trail, path language</td></tr>
+      </tbody>
+    </table>
+  </div>
+</nav>
+
+<div class="cp-modules">
+
+<section class="cp-part tier-core" id="module-1">
+  <div class="wrapper">
+    <div class="cp-part-head">
+      <span class="cp-part-badge">Module 01</span>
+      <h2>The Relational Model</h2>
+      <p class="cp-part-meta">Core · 5 topics</p>
+      <p class="cp-part-desc">Normal forms eliminate update, insertion, and deletion anomalies by storing each fact in exactly one place. This module connects relational theory to real PostgreSQL schema decisions using the Chinook and F1 datasets.</p>
+    </div>
+    <div class="cp-part-body">
+      <div class="cp-chapters">
+        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">Normal forms and the three database anomalies</span><span class="cp-ch-topics">Redundant storage of facts causes update, insertion, and deletion anomalies.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">First through fifth normal forms</span><span class="cp-ch-topics">Each normal form from 1NF through BCNF eliminates one class of redundancy.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">Contrasting schemas: chinook (enforced FKs) vs f1db (no FKs)</span><span class="cp-ch-topics">Chinook declares FK constraints on every relationship; f1db declares none.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">Constraint inventory via pg_constraint</span><span class="cp-ch-topics">Querying pg_constraint reveals which schemas declare FK constraints and which do not.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">05</span><div><span class="cp-ch-title">Foreign key enforcement trade-offs</span><span class="cp-ch-topics">A missing FK allows referentially invalid rows to land without error.</span></div></div>
+      </div>
+      <div class="cp-showcase">
+        <figure class="cp-diagram">
+          <img src="/img/diagrams/fig-normal-forms.svg" alt="Normal forms">
+          <figcaption>Each normal form removes a specific class of anomaly — 1NF through BCNF narrows what facts a table is allowed to express</figcaption>
+        </figure>
+        <div class="cp-query-card">
+          <div class="cp-query-label">Module 01 · Insertion anomaly</div>
+          <pre><code>begin;
+
+-- f1db has no FK constraints: invalid
+-- foreign keys insert silently.
+-- This is an insertion anomaly.
+insert into f1db.results
+  (resultid, raceid, driverid,
+   constructorid, number,
+   grid, positionorder,
+   points, laps, statusid)
+values
+  (999999, 99999, 99999,
+   99999, 0, 0, 0, 0, 0, 1);
+
+select resultid, raceid, driverid
+  from f1db.results
+ where resultid = 999999;
+
+rollback;</code></pre>
+          <p class="cp-query-caption">An INSERT with nonexistent foreign key values succeeds silently in f1db, which has no FK constraints.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cp-part tier-core" id="module-2">
+  <div class="wrapper">
+    <div class="cp-part-head">
+      <span class="cp-part-badge">Module 02</span>
+      <h2>Primary Keys and Constraints</h2>
+      <p class="cp-part-meta">Core · 6 topics</p>
+      <p class="cp-part-desc">Natural vs surrogate keys, UUID generation strategies, GENERATED AS IDENTITY, and CHECK constraints. The right primary key choice affects join performance, index size, and schema evolution for decades.</p>
+    </div>
+    <div class="cp-part-body">
+      <div class="cp-chapters">
+        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">Natural vs surrogate primary keys</span><span class="cp-ch-topics">Natural keys enforce domain uniqueness; surrogate keys keep joins compact.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">UUID generation with gen_random_uuid() and uuidv7()</span><span class="cp-ch-topics">gen_random_uuid() produces random v4 UUIDs; uuidv7() adds monotonic timestamp ordering.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">Check constraints</span><span class="cp-ch-topics">A CHECK constraint validates a column expression on every insert and update.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">Generated stored columns (GENERATED ALWAYS AS STORED)</span><span class="cp-ch-topics">A generated column is computed from other columns and persisted automatically.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">05</span><div><span class="cp-ch-title">NOT NULL migration pattern</span><span class="cp-ch-topics">Backfill NULLs before adding NOT NULL to avoid failing on existing rows.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">06</span><div><span class="cp-ch-title">Exclusion constraints with btree_gist</span><span class="cp-ch-topics">btree_gist enables exclusion constraints mixing equality and range-overlap operators.</span></div></div>
+      </div>
+      <div class="cp-showcase">
+        <figure class="cp-diagram">
+          <img src="/img/diagrams/fig-btree-page-layout.svg" alt="B-tree page layout for primary keys">
+          <figcaption>Random UUIDs scatter inserts across the B-tree; sequential UUIDs (uuidv7) or GENERATED AS IDENTITY concentrate writes at the rightmost leaf page.</figcaption>
+        </figure>
+        <div class="cp-query-card">
+          <div class="cp-query-label">Module 02 · Exclusion constraint</div>
+          <pre><code>begin;
+
+-- Confirm existing contracts:
+select driver_name, team, valid
+  from lab.driver_contracts
+ order by driver_name, lower(valid);
+
+-- Attempt an overlapping contract.
+-- The exclusion constraint rejects it.
+\set ON_ERROR_STOP off
+insert into lab.driver_contracts
+  (driver_name, team, valid)
+values
+  ('Hamilton', 'RedBull',
+   '[2020-01-01, 2026-01-01)');
+
+rollback;</code></pre>
+          <p class="cp-query-caption">An overlapping driver contract insert is rejected by a tsrange exclusion constraint.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cp-part tier-core" id="module-3">
+  <div class="wrapper">
+    <div class="cp-part-head">
+      <span class="cp-part-badge">Module 03</span>
+      <h2>Relationships at Scale</h2>
+      <p class="cp-part-meta">Core · 5 topics</p>
+      <p class="cp-part-desc">Foreign key ON DELETE and ON UPDATE actions encode referential integrity rules directly in the schema. Junction tables, self-referential FKs, and deferrable constraints handle the edge cases.</p>
+    </div>
+    <div class="cp-part-body">
+      <div class="cp-chapters">
+        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">Hierarchy chains and fan-out</span><span class="cp-ch-topics">Joining before aggregating multiplies row counts; aggregate at the leaf level first.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">Junction tables</span><span class="cp-ch-topics">A composite-PK junction table pairs two entities and prevents duplicate associations.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">Self-referential relationships and recursive CTEs</span><span class="cp-ch-topics">A self-referential FK encodes a tree; a recursive CTE traverses it.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">Nullable foreign keys</span><span class="cp-ch-topics">A NULL FK silently excludes the row from INNER JOINs.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">05</span><div><span class="cp-ch-title">Foreign key actions: CASCADE, SET NULL, RESTRICT</span><span class="cp-ch-topics">CASCADE deletes children, SET NULL nullifies the FK, RESTRICT blocks the delete.</span></div></div>
+      </div>
+      <div class="cp-showcase">
+        <figure class="cp-diagram">
+          <img src="/img/diagrams/fig-fk-actions-erd.svg" alt="Foreign key actions ERD">
+          <figcaption>ON DELETE and ON UPDATE actions encode referential integrity rules directly in the schema — no application code required</figcaption>
+        </figure>
+        <div class="cp-query-card">
+          <div class="cp-query-label">Module 03 · Junction table query</div>
+          <pre><code>select case
+         when length(t.name) &lt; 54
+         then t.name
+         else substring(t.name from 1 for 54)
+              || '...'
+       end                    as track,
+       ar.name                as artist,
+       count(pt.playlist_id)  as playlists
+  from chinook.playlist_track pt
+       join chinook.track  t  using(track_id)
+       join chinook.album  al using(album_id)
+       join chinook.artist ar using(artist_id)
+ group by t.track_id, t.name, ar.name
+ order by playlists desc
+ limit 5;</code></pre>
+          <p class="cp-query-caption">Top 5 Chinook tracks by playlist count, with artist name.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cp-part tier-core" id="module-4">
+  <div class="wrapper">
+    <div class="cp-part-head">
+      <span class="cp-part-badge">Module 04</span>
+      <h2>Index Design and Access Patterns</h2>
+      <p class="cp-part-meta">Core · 6 topics</p>
+      <p class="cp-part-desc">B-tree, GiST, GIN, BRIN, partial, and covering indexes each suit specific access patterns. Composite index column order and operator class selection determine whether a query hits the index at all.</p>
+    </div>
+    <div class="cp-part-body">
+      <div class="cp-chapters">
+        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">Index types: B-tree, GiST, GIN, SP-GiST, BRIN, Hash, RUM, Bloom</span><span class="cp-ch-topics">B-tree handles ranges; GIN handles containment; BRIN handles append-only time series.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">Fillfactor and HOT updates</span><span class="cp-ch-topics">Heap fillfactor controls HOT update eligibility when only non-indexed columns are modified.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">Unique constraints and partial unique indexes</span><span class="cp-ch-topics">A partial index enforces UNIQUE only on rows satisfying the WHERE predicate.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">Composite indexes, partial indexes, covering indexes (INCLUDE)</span><span class="cp-ch-topics">The INCLUDE clause stores extra columns in leaf pages, enabling index-only scans.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">05</span><div><span class="cp-ch-title">Functional / expression indexes</span><span class="cp-ch-topics">Expression indexes store precomputed values and eliminate function calls on every read.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">06</span><div><span class="cp-ch-title">Index column options: ASC/DESC, NULLS FIRST/LAST, operator classes</span><span class="cp-ch-topics">Index sort direction must match ORDER BY to skip the sort step.</span></div></div>
+      </div>
+      <div class="cp-showcase">
+        <figure class="cp-diagram">
+          <img src="/img/diagrams/fig-index-types.svg" alt="Index types">
+          <figcaption>B-tree, GiST, GIN, BRIN, and HASH each suit a different access pattern — choosing wrong is expensive to fix later</figcaption>
+        </figure>
+        <div class="cp-query-card">
+          <div class="cp-query-label">Module 04 · Partial index</div>
+          <pre><code>begin;
+
+-- A partial index covers only US invoices —
+-- smaller and faster for US-only queries.
+create index chinook_invoice_usa_idx
+    on chinook.invoice (customer_id)
+ where billing_country = 'USA';
+
+explain (analyze, buffers)
+  select i.invoice_id, i.total
+    from chinook.invoice i
+   where i.billing_country = 'USA'
+     and i.customer_id = 17;
+
+rollback;</code></pre>
+          <p class="cp-query-caption">A partial index covers only the subset of rows a query targets, making it smaller and faster than a full index.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cp-part tier-core" id="module-5">
+  <div class="wrapper">
+    <div class="cp-part-head">
+      <span class="cp-part-badge">Module 05</span>
+      <h2>Modeling for Analytics</h2>
+      <p class="cp-part-meta">Core · 5 topics</p>
+      <p class="cp-part-desc">Star schemas, JSONB for semi-structured data, and range types for temporal coverage. This module shows when to denormalize deliberately and how to document the trade-off in the schema itself.</p>
+    </div>
+    <div class="cp-part-body">
+      <div class="cp-chapters">
+        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">The star join</span><span class="cp-ch-topics">Fact and dimension tables form a star schema optimized for analytical aggregations.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">Intentional denormalisation for historical accuracy</span><span class="cp-ch-topics">Deliberate denormalization preserves historical values that a live FK join would overwrite.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">Materialized view vs live query</span><span class="cp-ch-topics">A materialized view caches a query result, trading freshness for read speed.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">Three-level MV dependency chain with concurrent refresh</span><span class="cp-ch-topics">Three chained materialized views refreshed concurrently propagate aggregations without blocking readers.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">05</span><div><span class="cp-ch-title">Arrays to reduce row count (array_agg)</span><span class="cp-ch-topics">array_agg collapses per-group rows into one array, reducing the result count.</span></div></div>
+      </div>
+      <div class="cp-showcase">
+        <figure class="cp-diagram">
+          <img src="/img/diagrams/fig-f1db-results-erd.svg" alt="Star schema: fact table with dimension tables">
+          <figcaption>A star schema puts the fact table at the center, dimension tables at the edges — aggregation speed comes from pre-joining along dimension foreign keys.</figcaption>
+        </figure>
+        <div class="cp-query-card">
+          <div class="cp-query-label">Module 05 · Star join revenue</div>
+          <pre><code>select g.name            as genre,
+       c.country,
+       date_trunc(
+         'year', i.invoice_date
+       )::date             as year,
+       count(distinct i.invoice_id)
+                           as invoices,
+       sum(il.unit_price
+           * il.quantity)
+         ::numeric(10,2)   as revenue
+  from chinook.invoice_line il
+       join chinook.invoice  i using(invoice_id)
+       join chinook.customer c using(customer_id)
+       join chinook.track    t using(track_id)
+       join chinook.genre    g using(genre_id)
+ group by g.name, c.country,
+          date_trunc('year', i.invoice_date)
+ order by revenue desc
+ limit 15;</code></pre>
+          <p class="cp-query-caption">A star join across one fact table and four dimension tables produces a multi-dimensional revenue breakdown in one query.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cp-part tier-core" id="module-6">
+  <div class="wrapper">
+    <div class="cp-part-head">
+      <span class="cp-part-badge">Module 06</span>
+      <h2>Evolving Schemas Safely</h2>
+      <p class="cp-part-meta">Core · 6 topics</p>
+      <p class="cp-part-desc">Adding NOT NULL columns to large tables, renaming constraints without downtime, and building indexes CONCURRENTLY. The three-step pattern for zero-downtime constraint changes in production.</p>
+    </div>
+    <div class="cp-part-body">
+      <div class="cp-chapters">
+        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">Adding a column without a table rewrite (PostgreSQL 11+)</span><span class="cp-ch-topics">PostgreSQL 11 adds columns with non-volatile defaults without rewriting the heap.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">Adding constraints safely</span><span class="cp-ch-topics">NOT VALID skips historical row checks; VALIDATE CONSTRAINT fills the gap later.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">Building indexes without downtime</span><span class="cp-ch-topics">CREATE INDEX CONCURRENTLY builds the index live without blocking reads or writes.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">Production role hierarchy</span><span class="cp-ch-topics">Three-role hierarchy separates admin, schema owner, and application credentials by least privilege.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">05</span><div><span class="cp-ch-title">Three-step pattern: add column → backfill → enforce NOT NULL</span><span class="cp-ch-topics">The three-step migration adds the column nullable, backfills, then enforces NOT NULL.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">06</span><div><span class="cp-ch-title">Rolling back schema deployments</span><span class="cp-ch-topics">Deploying schema changes before code lets each step roll back independently.</span></div></div>
+      </div>
+      <div class="cp-showcase">
+        <figure class="cp-diagram">
+          <img src="/img/diagrams/fig-io-patterns.svg" alt="I/O patterns for safe schema changes">
+          <figcaption>CREATE INDEX CONCURRENTLY and NOT VALID + VALIDATE CONSTRAINT each avoid a full table lock — background work replaces a single blocking scan.</figcaption>
+        </figure>
+        <div class="cp-query-card">
+          <div class="cp-query-label">Module 06 · NOT VALID constraint</div>
+          <pre><code>begin;
+
+-- NOT VALID: skip scanning existing rows.
+-- New inserts/updates are checked immediately.
+alter table chinook.track
+  add constraint track_ms_positive
+  check (milliseconds &gt; 0)
+  not valid;
+
+-- Second pass: validate existing rows
+-- with a weaker lock (safe on large tables).
+alter table chinook.track
+  validate constraint track_ms_positive;
+
+-- Verify new rows are now rejected:
+do $$
+begin
+  insert into chinook.track
+    (track_id, name, media_type_id,
+     milliseconds, unit_price)
+  values (99999, 'Silent', 1, -1, 0.99);
+exception
+  when check_violation then
+    raise notice 'Caught: %', sqlerrm;
+end;
+$$;
+
+rollback;</code></pre>
+          <p class="cp-query-caption">NOT VALID + VALIDATE CONSTRAINT adds a check constraint on a live table in two phases, each holding a weaker lock.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cp-part tier-advanced" id="module-7">
+  <div class="wrapper">
+    <div class="cp-part-head">
+      <span class="cp-part-badge">Module 07 · Advanced</span>
+      <h2>Advanced Modeling Trade-offs</h2>
+      <p class="cp-part-meta">Advanced · 4 topics</p>
+      <p class="cp-part-desc">EAV vs JSONB vs typed columns — when each wins and what you give up. Exclusion constraints for temporal non-overlap, trigram indexes for fuzzy search, and audit trail patterns.</p>
+    </div>
+    <div class="cp-part-body">
+      <div class="cp-chapters">
+        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">The EAV anti-pattern and JSONB as a replacement</span><span class="cp-ch-topics">EAV attributes-as-rows makes joins expensive; JSONB stores them in a single column.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">Normalising free-text fields: trigram similarity and many-to-many schema</span><span class="cp-ch-topics">Trigram similarity clusters variant composer spellings into a canonical many-to-many schema.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">Modeling band membership with tstzrange exclusion constraints</span><span class="cp-ch-topics">tstzrange exclusion constraints prevent overlapping membership windows even under concurrent writes.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">Multirange variant (tstzmultirange) for multiple stint windows</span><span class="cp-ch-topics">tstzmultirange stores multiple non-overlapping periods in one column, simplifying range queries.</span></div></div>
+      </div>
+      <div class="cp-showcase">
+        <figure class="cp-diagram">
+          <img src="/img/diagrams/fig-eav-antipattern.svg" alt="EAV anti-pattern vs JSONB">
+          <figcaption>The EAV anti-pattern stores every attribute as a row — JSONB flattens the same flexibility into a single typed column, enabling indexes and operators that EAV cannot support.</figcaption>
+        </figure>
+        <div class="cp-query-card">
+          <div class="cp-query-label">Module 07 · Trigram similarity</div>
+          <pre><code>with known(artist) as (
+  values ('Brian May'),
+         ('Freddie Mercury'),
+         ('Jimi Hendrix'),
+         ('J.C. Fogerty')
+)
+select k.artist          as known_artist,
+       v.spelling        as found_spelling,
+       round(
+         similarity(k.artist, v.spelling)
+           ::numeric, 2
+       )                 as sim,
+       v.tracks
+  from known k
+       cross join lateral (
+         select t.composer::text as spelling,
+                count(*)         as tracks
+           from chinook.track t
+          where t.composer is not null
+            and similarity(
+                  k.artist,
+                  t.composer::text
+                ) &gt; 0.7
+          group by t.composer
+       ) v
+ order by k.artist, sim desc;</code></pre>
+          <p class="cp-query-caption">CROSS JOIN LATERAL + pg_trgm surfaces multiple free-text spellings of the same artist, revealing the cost of an uncontrolled text field.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cp-part tier-architect" id="module-8">
+  <div class="wrapper">
+    <div class="cp-part-head">
+      <span class="cp-part-badge">Module 08 · Architect</span>
+      <h2>Data Architecture</h2>
+      <p class="cp-part-meta">Architect · 7 topics</p>
+      <p class="cp-part-desc">Schema design as a systems concern — separation of concerns between schemas, multi-tenant patterns, audit log strategies, and how schema choices cascade into application architecture and scaling decisions.</p>
+    </div>
+    <div class="cp-part-body">
+      <div class="cp-chapters">
+        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">JSONB document model vs relational model</span><span class="cp-ch-topics">JSONB bridges document and relational models by storing objects with SQL-accessible structure.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">Querying JSONB: -&gt;, -&gt;&gt;, #&gt;, path operators, @?, @@</span><span class="cp-ch-topics">Arrow operators extract values; path operators and @? query nested JSONB fields.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">Containment with GIN index (@&gt;)</span><span class="cp-ch-topics">GIN on JSONB accelerates @&gt; containment checks without scanning every row.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">JSONB as an audit trail (to_jsonb + trigger)</span><span class="cp-ch-topics">Triggers and to_jsonb snapshot row state into an append-only JSONB audit log.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">05</span><div><span class="cp-ch-title">Building and decomposing JSONB (jsonb_build_object, jsonb_agg)</span><span class="cp-ch-topics">jsonb_build_object constructs JSONB from scalars; jsonb_agg aggregates rows into a JSONB array.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">06</span><div><span class="cp-ch-title">SQL/JSON path language (PostgreSQL 12+)</span><span class="cp-ch-topics">SQL/JSON path expressions navigate nested JSONB documents with a compact standard syntax.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">07</span><div><span class="cp-ch-title">Expression index on extracted JSONB fields</span><span class="cp-ch-topics">Indexing a JSONB -&gt;&gt; expression makes field lookups as fast as columns.</span></div></div>
+      </div>
+      <div class="cp-showcase">
+        <figure class="cp-diagram">
+          <img src="/img/diagrams/fig-document-vs-relational.svg" alt="Document model vs relational model">
+          <figcaption>A document model stores the full object in one row; the relational model normalizes it across tables — JSONB bridges both with relational operators on the document.</figcaption>
+        </figure>
+        <div class="cp-query-card">
+          <div class="cp-query-label">Module 08 · Materialized view + refresh</div>
+          <pre><code>begin;
+
+create materialized view
+  tweet.message_counters as
+  select messageid,
+         count(*) filter(
+           where action = 'rt')
+         - count(*) filter(
+           where action = 'de-rt') as rts,
+         count(*) filter(
+           where action = 'fav')
+         - count(*) filter(
+           where action = 'de-fav') as favs
+    from tweet.activity
+   group by messageid;
+
+-- Required for REFRESH CONCURRENTLY:
+create unique index on
+  tweet.message_counters(messageid);
+
+-- Concurrent refresh keeps view readable
+-- while old rows are replaced:
+refresh materialized view concurrently
+  tweet.message_counters;
+
+rollback;</code></pre>
+          <p class="cp-query-caption">A materialized view over an event-sourced activity table with REFRESH CONCURRENTLY demonstrates the full cache-management lifecycle.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</div><!-- .cp-modules -->
+
+<section class="cp-cta">
+  <h2>All 6 courses. One package.</h2>
+  <p>Core, Advanced, and Architect tiers — 48 modules across 6 PostgreSQL courses.</p>
+  <div class="cp-cta-btns">
+    <a href="https://sales.theartofpostgresql.com/the-art-of-postgresql-courses/" class="button button_purple button_large">Get All 6 Courses</a>
+    <a href="/course/contents/" class="button button_purple button_medium" style="background:transparent;border-color:rgba(255,255,255,0.35);color:rgba(255,255,255,0.8);">Browse All 6 Courses</a>
+  </div>
+</section>
+
+{{ partial "footer.html" . }}
+</body>
+</html>

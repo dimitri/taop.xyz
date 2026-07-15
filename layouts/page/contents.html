@@ -548,6 +548,74 @@
       border-color: #4a9cbf;
     }
 
+    /* ── Free chapter capture ── */
+    .cp-freechapter {
+      background: #f5f2fa;
+      padding: 72px 0;
+      text-align: center;
+      border-top: 1px solid #e4dded;
+    }
+    .cp-freechapter .wrapper {
+      max-width: 580px;
+    }
+    .cp-freechapter h2 {
+      font: 300 1.85rem/1.2 'Lato', sans-serif;
+      color: #372649;
+      margin: 0 0 16px;
+    }
+    .cp-freechapter p {
+      font: 300 1rem/1.65 'Lato', sans-serif;
+      color: #5a4a70;
+      margin: 0 0 28px;
+    }
+    /* Override ConvertKit form colours to match the light section */
+    .cp-freechapter .formkit-input {
+      background: #fff !important;
+      color: #372649 !important;
+      border-color: #c5b8d5 !important;
+    }
+    .cp-freechapter .formkit-input::placeholder {
+      color: #9e8fb0 !important;
+    }
+    .cp-freechapter .formkit-submit,
+    .cp-freechapter .formkit-submit:visited {
+      background: #372649 !important;
+      border-color: #372649 !important;
+      color: #fff !important;
+    }
+    .cp-freechapter .formkit-submit:hover {
+      background: #60b2d3 !important;
+      border-color: #60b2d3 !important;
+    }
+
+    /* ── Course callout ── */
+    .cp-course-callout {
+      background: #1c3f5c;
+      padding: 80px 0;
+      text-align: center;
+    }
+    .cp-course-callout h2 {
+      font: 300 1.85rem/1.2 'Lato', sans-serif;
+      color: #fff;
+      margin: 0 0 16px;
+    }
+    .cp-course-callout p {
+      font: 300 1rem/1.65 'Lato', sans-serif;
+      color: rgba(255,255,255,0.75);
+      max-width: 560px;
+      margin: 0 auto 32px;
+    }
+    .cp-course-callout .button.button_purple,
+    .cp-course-callout .button.button_purple:visited {
+      background: #60b2d3;
+      border-color: #60b2d3;
+      color: #fff;
+    }
+    .cp-course-callout .button.button_purple:hover {
+      background: #4a9cbf;
+      border-color: #4a9cbf;
+    }
+
     /* ── Responsive ── */
     @media (max-width: 960px) {
       .cp-part-body {
@@ -1618,6 +1686,24 @@ SELECT id, title, artist,
         Fair price available
       </a>
     </div>
+  </div>
+</section>
+
+<!-- ── Course callout ── -->
+<section class="cp-course-callout">
+  <div class="wrapper">
+    <h2>Ready to go beyond reading?</h2>
+    <p>The book is the reference. The Course is the structured path — six hands-on courses, 48 modules, weekly progress, and direct input into the curriculum. Now in early access at 50% off.</p>
+    <a href="https://sales.theartofpostgresql.com/the-art-of-postgresql-courses/?coupon=EARLY50" class="button button_purple button_large">Claim Early Access — 50% Off</a>
+  </div>
+</section>
+
+<!-- ── Free chapter capture ── -->
+<section class="cp-freechapter">
+  <div class="wrapper">
+    <h2>Not ready yet? Get a free chapter.</h2>
+    <p>Enter your email and receive a free chapter of The Art of PostgreSQL. No spam. Unsubscribe anytime.</p>
+    <script async data-uid="c1452ad801" src="https://f.convertkit.com/c1452ad801/ad53e74e51.js"></script>
   </div>
 </section>
 
