@@ -1,6 +1,6 @@
 +++
 title = "Course 3 — Data Modeling for Performance"
-layout = "course-toc"
+layout = "course-data-modeling"
 type = "page"
 course_num = 3
 course_title = "Data Modeling for Performance"

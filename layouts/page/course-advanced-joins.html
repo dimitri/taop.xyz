@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Course 4 — Advanced JOIN Techniques | The Art of PostgreSQL</title>
+  <meta name="description" content="8-module curriculum: join fundamentals through architecture-level schema design. f1db, chinook, tweet, and geoname datasets.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <meta property="og:url" content="https://theartofpostgresql.com/course/advanced-joins/" />
+  <meta property="og:title" content="Course 4 — Advanced JOIN Techniques" />
+  <meta property="og:description" content="SQL as relational algebra — all join types, LATERAL, semi/anti-joins, and recursive CTEs." />
+  <link href="/favicon.ico" rel="icon" type="image/x-icon">
+  <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/syntax.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="/js/custom.js"></script>
+  {{ partial "course/toc-styles.html" . }}
+</head>
+<body class="page course-page">
+{{ partial "header.html" . }}
+
+<nav class="cp-course-nav" aria-label="Course navigation">
+  <div class="cp-course-nav-inner">
+    <a href="/course/data-modeling/">← Data Modeling for Performance</a>
+    <span class="cp-course-nav-center">Course 4 of 6</span>
+    <a href="/course/query-optimization/">Query Optimization →</a>
+  </div>
+</nav>
+
+<section class="cp-hero">
+  <p class="cp-hero-eyebrow">Course 4 of 6 · f1db, chinook, tweet, geoname</p>
+  <h1>Advanced JOIN Techniques</h1>
+  <p class="cp-hero-sub">SQL as relational algebra — all join types, LATERAL, semi/anti-joins, and recursive CTEs.</p>
+  <div class="cp-stats-bar">
+    <div class="cp-stat"><span class="cp-stat-n">8</span><span class="cp-stat-l">Modules</span></div>
+    <div class="cp-stat"><span class="cp-stat-n">6</span><span class="cp-stat-l">Core</span></div>
+    <div class="cp-stat"><span class="cp-stat-n">1</span><span class="cp-stat-l">Advanced</span></div>
+    <div class="cp-stat"><span class="cp-stat-n">1</span><span class="cp-stat-l">Architect</span></div>
+  </div>
+</section>
+
+<nav class="cp-part-nav" aria-label="Module index">
+  <div class="cp-part-nav-inner">
+    <table class="cp-part-table">
+      <thead><tr><th class="col-part">Module</th><th class="col-title">Title</th><th class="col-hook">Focus</th></tr></thead>
+      <tbody>
+        <tr><td class="col-part"><a href="#module-1">Mod 01</a></td><td class="col-title"><a href="#module-1">JOIN Fundamentals</a></td><td class="col-hook">INNER, OUTER, CROSS joins and three-valued logic <span class="cp-tier-pill core">Core</span></td></tr>
+        <tr><td class="col-part"><a href="#module-2">Mod 02</a></td><td class="col-title"><a href="#module-2">Multi-Table JOIN Strategies</a></td><td class="col-hook">Star-from-center, self-join, and WITH RECURSIVE <span class="cp-tier-pill core">Core</span></td></tr>
+        <tr><td class="col-part"><a href="#module-3">Mod 03</a></td><td class="col-title"><a href="#module-3">JOIN Pitfalls</a></td><td class="col-hook">Amplification, COUNT DISTINCT, and aggregate-first fix <span class="cp-tier-pill core">Core</span></td></tr>
+        <tr><td class="col-part"><a href="#module-4">Mod 04</a></td><td class="col-title"><a href="#module-4">LATERAL JOINs</a></td><td class="col-hook">LATERAL as a correlated per-row loop with LIMIT <span class="cp-tier-pill core">Core</span></td></tr>
+        <tr><td class="col-part"><a href="#module-5">Mod 05</a></td><td class="col-title"><a href="#module-5">Aggregation and Window Functions with JOINs</a></td><td class="col-hook">FILTER, running totals, and cumulative race points <span class="cp-tier-pill core">Core</span></td></tr>
+        <tr><td class="col-part"><a href="#module-6">Mod 06</a></td><td class="col-title"><a href="#module-6">Complex Query Composition</a></td><td class="col-hook">EXISTS, NOT EXISTS, UNION, EXCEPT, DISTINCT ON <span class="cp-tier-pill core">Core</span></td></tr>
+        <tr><td class="col-part"><a href="#module-7">Mod 07</a></td><td class="col-title"><a href="#module-7">JOIN Performance</a></td><td class="col-hook">Hash Join, Nested Loop, Merge Join in execution plans <span class="cp-tier-pill advanced">Advanced</span></td></tr>
+        <tr><td class="col-part"><a href="#module-8">Mod 08</a></td><td class="col-title"><a href="#module-8">Architecture: Designing Join-Heavy Systems</a></td><td class="col-hook">Pre-aggregation, denormalization, and access patterns <span class="cp-tier-pill architect">Architect</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+</nav>
+
+<div class="cp-modules">
+
+<section class="cp-part tier-core" id="module-1">
+  <div class="wrapper">
+    <div class="cp-part-head">
+      <span class="cp-part-badge">Module 01</span>
+      <h2>JOIN Fundamentals</h2>
+      <p class="cp-part-meta">Core · 4 topics</p>
+    </div>
+    <div class="cp-part-body">
+      <div class="cp-chapters">
+        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">INNER JOIN</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">USING clause</span><span class="cp-ch-topics">why to avoid NATURAL JOIN</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">LEFT JOIN, RIGHT JOIN, FULL OUTER JOIN, CROSS JOIN</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">NULL behavior in joins</span><span class="cp-ch-topics">three-valued logic, IS DISTINCT FROM</span></div></div>
+      </div>
+      <div class="cp-showcase">
+        <div class="cp-query-card">
+          <div class="cp-query-label">Module 01 · Three-table join</div>
+          <pre><code>select r.year,
+       r.name         as race,
+       d.surname      as driver,
+       c.name         as constructor,
+       res.positionorder as pos,
+       res.points
+  from f1db.results  res
+  join f1db.races    r
+    on r.raceid       = res.raceid
+  join f1db.drivers  d
+    on d.driverid     = res.driverid
+  join f1db.constructors c
+    on c.constructorid = res.constructorid
+ where r.year = 2017
+   and res.positionorder &lt;= 3
+ order by r.date, res.positionorder
+ limit 12;</code></pre>
+          <p class="cp-query-caption">The results fact table carries all foreign keys — joining three dimensions simultaneously yields a readable race podium report.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cp-part tier-core" id="module-2">
+  <div class="wrapper">
+    <div class="cp-part-head">
+      <span class="cp-part-badge">Module 02</span>
+      <h2>Multi-Table JOIN Strategies</h2>
+      <p class="cp-part-meta">Core · 4 topics</p>
+    </div>
+    <div class="cp-part-body">
+      <div class="cp-chapters">
+        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">Progressive enrichment</span><span class="cp-ch-topics">star-from-the-center pattern</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">Composite FK joins</span><span class="cp-ch-topics">multi-column ON condition</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">Self-JOIN and the window-function alternative</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">Recursive reach with WITH RECURSIVE, SEARCH, and CYCLE (PostgreSQL 14)</span></div></div>
+      </div>
+      <div class="cp-showcase">
+        <div class="cp-query-card">
+          <div class="cp-query-label">Module 02 · Self-JOIN consecutive races</div>
+          <pre><code>select r.year,
+       prev.round  as prev_round,
+       regexp_replace(prev.name,
+         ' Grand Prix$', '') as prev_gp,
+       r.round     as curr_round,
+       regexp_replace(r.name,
+         ' Grand Prix$', '') as curr_gp,
+       r.date - prev.date   as days_gap
+  from f1db.races r
+  join f1db.races prev
+    on prev.year  = r.year
+   and prev.round = r.round - 1
+ where r.year = 2017
+ order by r.round;</code></pre>
+          <p class="cp-query-caption">Joining races to itself on consecutive rounds computes the calendar gap between each pair of successive races.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cp-part tier-core" id="module-3">
+  <div class="wrapper">
+    <div class="cp-part-head">
+      <span class="cp-part-badge">Module 03</span>
+      <h2>JOIN Pitfalls</h2>
+      <p class="cp-part-meta">Core · 3 topics</p>
+    </div>
+    <div class="cp-part-body">
+      <div class="cp-chapters">
+        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">Non-equality joins</span><span class="cp-ch-topics">range and inequality conditions</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">JOIN amplification</span><span class="cp-ch-topics">the cause</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">The COUNT(DISTINCT) fix and the aggregate-first fix</span></div></div>
+      </div>
+      <div class="cp-showcase">
+        <div class="cp-query-card">
+          <div class="cp-query-label">Module 03 · JOIN amplification</div>
+          <pre><code>-- Amplified (wrong): counts result rows,
+-- not distinct constructors, because the
+-- 1:N join multiplies each constructor
+-- by all its result rows.
+select c.name          as constructor,
+       count(*)        as result_rows
+  from f1db.constructors c
+  join f1db.results res
+    on res.constructorid = c.constructorid
+ group by c.constructorid, c.name
+ order by result_rows desc
+ limit 5;</code></pre>
+          <p class="cp-query-caption">A one-to-many join inflates COUNT(*) to count result rows — the aggregate-first pattern or COUNT(DISTINCT) is the fix.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cp-part tier-core" id="module-4">
+  <div class="wrapper">
+    <div class="cp-part-head">
+      <span class="cp-part-badge">Module 04</span>
+      <h2>LATERAL JOINs</h2>
+      <p class="cp-part-meta">Core · 7 topics</p>
+    </div>
+    <div class="cp-part-body">
+      <div class="cp-chapters">
+        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">LATERAL as a manual loop</span><span class="cp-ch-topics">think Python's for-in</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">Top-N per group with LATERAL</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">Reading a LATERAL execution plan</span><span class="cp-ch-topics">Nested Loop + loops counter</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">LATERAL over geographic data: top-N cities per country</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">05</span><div><span class="cp-ch-title">LATERAL with distance operator: kNN geographic search (GiST &lt;-&gt;)</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">06</span><div><span class="cp-ch-title">LATERAL for social graph</span><span class="cp-ch-topics">top tweet per user</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">07</span><div><span class="cp-ch-title">Hashtag co-occurrence via array unnesting and self-join</span></div></div>
+      </div>
+      <div class="cp-showcase">
+        <div class="cp-query-card">
+          <div class="cp-query-label">Module 04 · LATERAL Top-N per driver</div>
+          <pre><code>select d.surname       as driver,
+       top3.race,
+       top3.pos,
+       top3.points
+  from f1db.drivers d
+  join lateral (
+    select r.name  as race,
+           res.positionorder as pos,
+           res.points
+      from f1db.results res
+      join f1db.races   r
+        on r.raceid = res.raceid
+     where res.driverid = d.driverid
+       and r.year       = 2017
+       and res.points   &gt; 0
+     order by res.points desc
+     limit 3
+  ) top3 on true
+ where d.surname in (
+   'Hamilton','Vettel','Bottas'
+ )
+ order by d.surname, top3.points desc;</code></pre>
+          <p class="cp-query-caption">JOIN LATERAL with a correlated LIMIT 3 retrieves the top-3 scoring races per driver — no window function or outer query needed.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cp-part tier-core" id="module-5">
+  <div class="wrapper">
+    <div class="cp-part-head">
+      <span class="cp-part-badge">Module 05</span>
+      <h2>Aggregation and Window Functions with JOINs</h2>
+      <p class="cp-part-meta">Core · 3 topics</p>
+    </div>
+    <div class="cp-part-body">
+      <div class="cp-chapters">
+        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">GROUP BY after JOIN</span><span class="cp-ch-topics">fact-table aggregation</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">Filtered aggregates with FILTER clause</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">Window functions over joined data</span><span class="cp-ch-topics">cumulative points by race</span></div></div>
+      </div>
+      <div class="cp-showcase">
+        <div class="cp-query-card">
+          <div class="cp-query-label">Module 05 · Cumulative championship points</div>
+          <pre><code>select d.surname              as driver,
+       r.round,
+       left(r.name, 14)       as race,
+       res.points,
+       sum(res.points) over (
+         partition by d.driverid
+         order by r.date
+         rows between unbounded preceding
+                  and current row
+       )                      as cum_pts
+  from f1db.results res
+  join f1db.drivers d
+    on d.driverid = res.driverid
+  join f1db.races   r
+    on r.raceid   = res.raceid
+ where r.year = 2017
+   and d.surname in ('Hamilton', 'Vettel')
+ order by d.surname, r.date;</code></pre>
+          <p class="cp-query-caption">A running SUM window function applied directly over joined race data builds a cumulative championship standings view.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cp-part tier-core" id="module-6">
+  <div class="wrapper">
+    <div class="cp-part-head">
+      <span class="cp-part-badge">Module 06</span>
+      <h2>Complex Query Composition</h2>
+      <p class="cp-part-meta">Core · 7 topics</p>
+    </div>
+    <div class="cp-part-body">
+      <div class="cp-chapters">
+        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">CTEs for readability and multi-step logic</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">Subqueries in join position</span><span class="cp-ch-topics">derived tables, aggregate-before-join</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">Semi-JOIN: EXISTS</span><span class="cp-ch-topics">stop-early semantics, Semi Join plan node</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">Anti-JOIN: NOT EXISTS</span><span class="cp-ch-topics">Anti Join plan node</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">05</span><div><span class="cp-ch-title">The NOT IN null trap</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">06</span><div><span class="cp-ch-title">Set operators: UNION, INTERSECT, EXCEPT</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">07</span><div><span class="cp-ch-title">DISTINCT ON</span><span class="cp-ch-topics">first row per group</span></div></div>
+      </div>
+      <div class="cp-showcase">
+        <div class="cp-query-card">
+          <div class="cp-query-label">Module 06 · Anti-JOIN NOT EXISTS</div>
+          <pre><code>select forename, surname,
+       constructors.name    as constructor,
+       count(*)             as races,
+       count(distinct status) as reasons
+  from f1db.drivers
+       join f1db.results      using(driverid)
+       join f1db.races        using(raceid)
+       join f1db.status       using(statusid)
+       join f1db.constructors using(constructorid)
+ where date &gt;= date '1978-01-01'
+   and date &lt;  date '1978-01-01'
+                + interval '1 year'
+   and not exists (
+     select 1
+       from f1db.results r
+      where position is not null
+        and r.driverid = drivers.driverid
+   )
+ group by constructors.name, driverid
+ order by count(*) desc limit 10;</code></pre>
+          <p class="cp-query-caption">NOT EXISTS finds every 1978 driver who started races but never reached the finish line — an Anti Join in the execution plan.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cp-part tier-advanced" id="module-7">
+  <div class="wrapper">
+    <div class="cp-part-head">
+      <span class="cp-part-badge">Module 07 · Advanced</span>
+      <h2>JOIN Performance</h2>
+      <p class="cp-part-meta">Advanced · 5 topics</p>
+    </div>
+    <div class="cp-part-body">
+      <div class="cp-chapters">
+        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">Three join algorithms: Nested Loop, Hash Join, Merge Join</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">Reading execution plans with EXPLAIN (ANALYZE, BUFFERS)</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">Hash Join: Batches &gt; 1 means spill to disk</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">Index impact on join performance</span><span class="cp-ch-topics">before/after baseline</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">05</span><div><span class="cp-ch-title">Join order and planner limits (join_collapse_limit, geqo_threshold)</span></div></div>
+      </div>
+      <div class="cp-showcase">
+        <div class="cp-query-card">
+          <div class="cp-query-label">Module 07 · EXPLAIN Hash Join</div>
+          <pre><code>explain (analyze, buffers)
+select d.nationality,
+       count(distinct d.driverid)  as drivers,
+       sum(res.points)             as total_points
+  from f1db.results res
+  join f1db.drivers d
+    on d.driverid = res.driverid
+ group by d.nationality
+ order by total_points desc;</code></pre>
+          <p class="cp-query-caption">EXPLAIN (ANALYZE, BUFFERS) on a full-table equi-join exposes the Hash Join node and its build/probe cost structure.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cp-part tier-architect" id="module-8">
+  <div class="wrapper">
+    <div class="cp-part-head">
+      <span class="cp-part-badge">Module 08 · Architect</span>
+      <h2>Architecture: Designing Join-Heavy Systems</h2>
+      <p class="cp-part-meta">Architect · 5 topics</p>
+    </div>
+    <div class="cp-part-body">
+      <div class="cp-chapters">
+        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">Materialized views</span><span class="cp-ch-topics">pre-compute vs on-demand, staleness trade-off</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">Confident queries: chinook (enforced FKs) vs f1db (no FKs)</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">Denormalization strategy</span><span class="cp-ch-topics">when to eliminate a join</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">Access patterns drive schema design</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">05</span><div><span class="cp-ch-title">Course synthesis: CTEs + aggregation-before-join + window functions</span></div></div>
+      </div>
+      <div class="cp-showcase">
+        <div class="cp-query-card">
+          <div class="cp-query-label">Module 08 · Normalized vs pre-aggregated</div>
+          <pre><code>-- Normalized: re-computed on every request
+select c.name                           as constructor,
+       count(distinct res.driverid)     as drivers,
+       count(distinct res.raceid)       as races,
+       count(*) filter(
+         where res.positionorder = 1)   as wins,
+       sum(res.points)                  as total_points
+  from f1db.constructors c
+  join f1db.results res
+    on res.constructorid = c.constructorid
+ group by c.constructorid, c.name
+ order by total_points desc
+ limit 10;</code></pre>
+          <p class="cp-query-caption">This normalized four-table join must re-execute on every request — motivating a pre-aggregated summary table for high-traffic dashboards.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</div><!-- .cp-modules -->
+
+<section class="cp-cta">
+  <h2>All 6 courses. One package.</h2>
+  <p>Core, Advanced, and Architect tiers — 48 modules across 6 PostgreSQL courses.</p>
+  <div class="cp-cta-btns">
+    <a href="https://sales.theartofpostgresql.com/the-art-of-postgresql-courses/" class="button button_purple button_large">Get All 6 Courses</a>
+  </div>
+</section>
+
+{{ partial "footer.html" . }}
+</body>
+</html>

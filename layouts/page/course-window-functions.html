@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Course 1 — Master Window Functions | The Art of PostgreSQL</title>
+  <meta name="description" content="8-module curriculum: OVER-clause foundations through materialized-view ELT patterns. f1db Formula One dataset throughout.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <meta property="og:url" content="https://theartofpostgresql.com/course/window-functions/" />
+  <meta property="og:title" content="Course 1 — Master Window Functions" />
+  <meta property="og:description" content="Write analytical SQL without collapsing rows or resorting to application-side processing." />
+  <link href="/favicon.ico" rel="icon" type="image/x-icon">
+  <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/syntax.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="/js/custom.js"></script>
+  {{ partial "course/toc-styles.html" . }}
+</head>
+<body class="page course-page">
+{{ partial "header.html" . }}
+
+<nav class="cp-course-nav" aria-label="Course navigation">
+  <div class="cp-course-nav-inner">
+    <a href="/course/contents/">← All 6 Courses</a>
+    <span class="cp-course-nav-center">Course 1 of 6</span>
+    <a href="/course/aggregation/">Reliable Aggregation →</a>
+  </div>
+</nav>
+
+<section class="cp-hero">
+  <p class="cp-hero-eyebrow">Course 1 of 6 · f1db dataset</p>
+  <h1>Master Window Functions</h1>
+  <p class="cp-hero-sub">Write analytical SQL without collapsing rows or resorting to application-side processing.</p>
+  <div class="cp-stats-bar">
+    <div class="cp-stat"><span class="cp-stat-n">8</span><span class="cp-stat-l">Modules</span></div>
+    <div class="cp-stat"><span class="cp-stat-n">6</span><span class="cp-stat-l">Core</span></div>
+    <div class="cp-stat"><span class="cp-stat-n">1</span><span class="cp-stat-l">Advanced</span></div>
+    <div class="cp-stat"><span class="cp-stat-n">1</span><span class="cp-stat-l">Architect</span></div>
+  </div>
+</section>
+
+<nav class="cp-part-nav" aria-label="Module index">
+  <div class="cp-part-nav-inner">
+    <table class="cp-part-table">
+      <thead><tr><th class="col-part">Module</th><th class="col-title">Title</th><th class="col-hook">Focus</th></tr></thead>
+      <tbody>
+        <tr><td class="col-part"><a href="#module-1">Mod 01</a></td><td class="col-title"><a href="#module-1">Foundations of Window Functions</a></td><td class="col-hook">The OVER clause and how windows differ from GROUP BY <span class="cp-tier-pill core">Core</span></td></tr>
+        <tr><td class="col-part"><a href="#module-2">Mod 02</a></td><td class="col-title"><a href="#module-2">Ranking &amp; Row Navigation</a></td><td class="col-hook">ROW_NUMBER, RANK, DENSE_RANK, NTILE, LEAD, LAG <span class="cp-tier-pill core">Core</span></td></tr>
+        <tr><td class="col-part"><a href="#module-3">Mod 03</a></td><td class="col-title"><a href="#module-3">Running &amp; Moving Aggregates</a></td><td class="col-hook">Running totals, moving averages, and implicit frames <span class="cp-tier-pill core">Core</span></td></tr>
+        <tr><td class="col-part"><a href="#module-4">Mod 04</a></td><td class="col-title"><a href="#module-4">Frame Semantics Deep Dive</a></td><td class="col-hook">ROWS, RANGE, GROUPS frames and the EXCLUDE option <span class="cp-tier-pill core">Core</span></td></tr>
+        <tr><td class="col-part"><a href="#module-5">Mod 05</a></td><td class="col-title"><a href="#module-5">Advanced Analytical Patterns</a></td><td class="col-hook">Gaps &amp; islands, sessionization, cohorts, percentiles <span class="cp-tier-pill core">Core</span></td></tr>
+        <tr><td class="col-part"><a href="#module-6">Mod 06</a></td><td class="col-title"><a href="#module-6">Performance &amp; Query Design</a></td><td class="col-hook">WindowAgg plans, sorting cost, and anti-patterns <span class="cp-tier-pill core">Core</span></td></tr>
+        <tr><td class="col-part"><a href="#module-7">Mod 07</a></td><td class="col-title"><a href="#module-7">Composing Complex Queries</a></td><td class="col-hook">CTEs, subquery filters, LATERAL, and chained passes <span class="cp-tier-pill advanced">Advanced</span></td></tr>
+        <tr><td class="col-part"><a href="#module-8">Mod 08</a></td><td class="col-title"><a href="#module-8">Designing Analytical Workloads</a></td><td class="col-hook">Materialized views, ELT patterns, and OLAP trade-offs <span class="cp-tier-pill architect">Architect</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+</nav>
+
+<div class="cp-modules">
+
+<section class="cp-part tier-core" id="module-1">
+  <div class="wrapper">
+    <div class="cp-part-head">
+      <span class="cp-part-badge">Module 01</span>
+      <h2>Foundations of Window Functions</h2>
+      <p class="cp-part-meta">Core · 5 topics</p>
+    </div>
+    <div class="cp-part-body">
+      <div class="cp-chapters">
+        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">OVER clause</span><span class="cp-ch-topics">turns aggregates into window functions</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">ORDER BY within a window</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">PARTITION BY</span><span class="cp-ch-topics">independent groups per window</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">Difference with GROUP BY</span><span class="cp-ch-topics">window keeps all rows, GROUP BY collapses them</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">05</span><div><span class="cp-ch-title">Row vs window context</span></div></div>
+      </div>
+      <div class="cp-showcase">
+        <div class="cp-query-card">
+          <div class="cp-query-label">Module 01 · LAG for time gap</div>
+          <pre><code>select surname, position,
+       milliseconds * interval '1ms'
+         as racetime,
+       interval '1ms' *
+       ( milliseconds
+         - lag(milliseconds, 1)
+           over(order by position)
+       ) as diff
+  from results
+       join drivers using(driverid)
+ where raceid = 890
+ order by position limit 5;</code></pre>
+          <p class="cp-query-caption">LAG computes each finisher's gap to the car ahead — no self-join needed.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cp-part tier-core" id="module-2">
+  <div class="wrapper">
+    <div class="cp-part-head">
+      <span class="cp-part-badge">Module 02</span>
+      <h2>Ranking &amp; Row Navigation</h2>
+      <p class="cp-part-meta">Core · 4 topics</p>
+    </div>
+    <div class="cp-part-body">
+      <div class="cp-chapters">
+        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">ROW_NUMBER</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">RANK &amp; DENSE_RANK</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">NTILE</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">LEAD &amp; LAG</span></div></div>
+      </div>
+      <div class="cp-showcase">
+        <div class="cp-query-card">
+          <div class="cp-query-label">Module 02 · RANK vs DENSE_RANK</div>
+          <pre><code>select surname, laps,
+       rank() over(
+         order by laps desc, milliseconds
+       ) as rnk,
+       dense_rank() over(
+         order by laps desc, milliseconds
+       ) as dense,
+       milliseconds * interval '1ms'
+         as racetime
+  from results
+       join drivers using(driverid)
+ where raceid = 890
+ order by rnk;</code></pre>
+          <p class="cp-query-caption">RANK gaps after ties; DENSE_RANK never skips a number.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cp-part tier-core" id="module-3">
+  <div class="wrapper">
+    <div class="cp-part-head">
+      <span class="cp-part-badge">Module 03</span>
+      <h2>Running &amp; Moving Aggregates</h2>
+      <p class="cp-part-meta">Core · 3 topics</p>
+    </div>
+    <div class="cp-part-body">
+      <div class="cp-chapters">
+        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">SUM() OVER</span><span class="cp-ch-topics">running totals</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">Moving averages</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">Frame clauses: ROWS vs RANGE</span></div></div>
+      </div>
+      <div class="cp-showcase">
+        <div class="cp-query-card">
+          <div class="cp-query-label">Module 03 · Running total</div>
+          <pre><code>select x,
+       sum(x) over()
+         as total,
+       sum(x) over(order by x)
+         as running_total,
+       array_agg(x) over(order by x)
+         as running_set
+  from generate_series(1, 5) as t(x);</code></pre>
+          <p class="cp-query-caption">Without ORDER BY the frame spans the whole partition; with ORDER BY it grows row by row.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cp-part tier-core" id="module-4">
+  <div class="wrapper">
+    <div class="cp-part-head">
+      <span class="cp-part-badge">Module 04</span>
+      <h2>Frame Semantics Deep Dive</h2>
+      <p class="cp-part-meta">Core · 5 topics</p>
+    </div>
+    <div class="cp-part-body">
+      <div class="cp-chapters">
+        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">UNBOUNDED PRECEDING &amp; FOLLOWING</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">CURRENT ROW</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">Frame definitions</span><span class="cp-ch-topics">ROWS, RANGE, GROUPS</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">Frame edge cases with duplicate values</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">05</span><div><span class="cp-ch-title">EXCLUDE clause</span></div></div>
+      </div>
+      <div class="cp-showcase">
+        <div class="cp-query-card">
+          <div class="cp-query-label">Module 04 · ROWS vs RANGE</div>
+          <pre><code>select x,
+       array_agg(x) over w1
+         as rows_frame,
+       array_agg(x) over w2
+         as range_frame
+  from (select x*x
+          from generate_series(1,10)
+               as gs(x)
+       ) t(x)
+window
+  w1 as (order by x
+         rows  between 1 preceding
+                   and 2 following),
+  w2 as (order by x
+         range between 10 preceding
+                   and 20 following);</code></pre>
+          <p class="cp-query-caption">array_agg makes visible exactly which rows each frame mode includes per peer group.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cp-part tier-core" id="module-5">
+  <div class="wrapper">
+    <div class="cp-part-head">
+      <span class="cp-part-badge">Module 05</span>
+      <h2>Advanced Analytical Patterns</h2>
+      <p class="cp-part-meta">Core · 4 topics</p>
+    </div>
+    <div class="cp-part-body">
+      <div class="cp-chapters">
+        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">Gaps &amp; islands</span><span class="cp-ch-topics">counter reset detection</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">Cohort analysis with FIRST_VALUE()</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">Sessionization</span><span class="cp-ch-topics">pit-stop stint detection</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">Percentiles: PERCENT_RANK, CUME_DIST, NTILE</span></div></div>
+      </div>
+      <div class="cp-showcase">
+        <div class="cp-query-card">
+          <div class="cp-query-label">Module 05 · Sessionization</div>
+          <pre><code>with lap_flags as (
+  select driverid, lap, milliseconds,
+         case
+           when milliseconds
+                &gt; median_ms * 1.2
+           then 1 else 0
+         end as is_pit
+    from laptimes
+         join lap_stats using(driverid)
+   where raceid = 890
+),
+stints as (
+  select driverid, lap, is_pit,
+         sum(is_pit) over(
+           partition by driverid
+           order by lap
+         ) as stint
+    from lap_flags
+)
+select surname, stint,
+       min(lap) as from_lap,
+       max(lap) as to_lap,
+       round(avg(milliseconds))
+         * interval '1ms' as avg_lap
+  from stints
+       join results  using(driverid)
+       join drivers  using(driverid)
+ where is_pit = 0
+ group by driverid, surname, stint;</code></pre>
+          <p class="cp-query-caption">A running SUM of outlier flags turns the ever-growing sum into a stint number — no loops needed.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cp-part tier-core" id="module-6">
+  <div class="wrapper">
+    <div class="cp-part-head">
+      <span class="cp-part-badge">Module 06</span>
+      <h2>Performance &amp; Query Design</h2>
+      <p class="cp-part-meta">Core · 4 topics</p>
+    </div>
+    <div class="cp-part-body">
+      <div class="cp-chapters">
+        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">Execution plans and the WindowAgg node</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">Sorting costs and spec sharing</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">Index considerations for window ORDER BY</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">Anti-patterns: filtering on window output vs source columns</span></div></div>
+      </div>
+      <div class="cp-showcase">
+        <div class="cp-query-card">
+          <div class="cp-query-label">Module 06 · EXPLAIN window query</div>
+          <pre><code>explain
+select surname, laps,
+       row_number()
+         over(order by milliseconds)
+         as position,
+       milliseconds * interval '1ms'
+         as racetime
+  from results
+       join drivers using(driverid)
+ where raceid = 890;</code></pre>
+          <p class="cp-query-caption">Every window query produces a Sort node feeding a WindowAgg node — the cost of ordering is always paid.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cp-part tier-advanced" id="module-7">
+  <div class="wrapper">
+    <div class="cp-part-head">
+      <span class="cp-part-badge">Module 07 · Advanced</span>
+      <h2>Composing Complex Queries</h2>
+      <p class="cp-part-meta">Advanced · 5 topics</p>
+    </div>
+    <div class="cp-part-body">
+      <div class="cp-chapters">
+        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">CTEs for multi-pass computations</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">Subquery filter pattern</span><span class="cp-ch-topics">filtering window results</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">LATERAL joins with window functions</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">Chained window passes</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">05</span><div><span class="cp-ch-title">Query refactoring from correlated subqueries</span></div></div>
+      </div>
+      <div class="cp-showcase">
+        <div class="cp-query-card">
+          <div class="cp-query-label">Module 07 · Multi-pass CTE standings</div>
+          <pre><code>with season_points as (
+  select r.year, res.driverid,
+         sum(res.points) as points
+    from f1db.results res
+    join f1db.races   r using(raceid)
+   group by r.year, res.driverid
+),
+season_ranks as (
+  select year, driverid, points,
+         rank() over(
+           partition by year
+           order by points desc
+         ) as season_rank
+    from season_points
+)
+select d.surname,
+       count(*) filter(
+         where season_rank = 1
+       ) as titles,
+       count(*) as top3_seasons
+  from season_ranks
+  join f1db.drivers d using(driverid)
+ where season_rank &lt;= 3
+ group by d.driverid, d.surname
+ order by titles desc limit 10;</code></pre>
+          <p class="cp-query-caption">Two CTEs — aggregate then rank — feed a FILTER aggregate that counts championship titles in one pass.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cp-part tier-architect" id="module-8">
+  <div class="wrapper">
+    <div class="cp-part-head">
+      <span class="cp-part-badge">Module 08 · Architect</span>
+      <h2>Designing Analytical Workloads</h2>
+      <p class="cp-part-meta">Architect · 5 topics</p>
+    </div>
+    <div class="cp-part-body">
+      <div class="cp-chapters">
+        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">Materialized views for pre-computed standings</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">Incremental computation</span><span class="cp-ch-topics">rolling metrics</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">ETL/ELT patterns: deduplication, surrogate keys, pre-computation</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">Trade-offs with OLAP systems (Redshift, BigQuery, DuckDB)</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">05</span><div><span class="cp-ch-title">Data architecture patterns</span><span class="cp-ch-topics">raw / integrated / presentation layers</span></div></div>
+      </div>
+      <div class="cp-showcase">
+        <div class="cp-query-card">
+          <div class="cp-query-label">Module 08 · ELT cumulative standings</div>
+          <pre><code>with running as (
+  select r.year, r.round,
+         res.driverid,
+         d.surname        as driver,
+         res.points       as race_points,
+         sum(res.points) over(
+           partition by r.year,
+                        res.driverid
+           order by r.round
+           rows unbounded preceding
+         )                as cum_points
+    from f1db.results  res
+    join f1db.races    r using(raceid)
+    join f1db.drivers  d using(driverid)
+   where r.year = 2017
+)
+select year, round, driver,
+       race_points, cum_points,
+       rank() over(
+         partition by year, round
+         order by cum_points desc
+       ) as standing
+  from running
+ order by round, standing limit 15;</code></pre>
+          <p class="cp-query-caption">The CTE materialises cumulative points; the outer SELECT adds a per-round rank — two window passes, one data scan.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</div><!-- .cp-modules -->
+
+<section class="cp-cta">
+  <h2>All 6 courses. One package.</h2>
+  <p>Core, Advanced, and Architect tiers — 48 modules across 6 PostgreSQL courses.</p>
+  <div class="cp-cta-btns">
+    <a href="https://sales.theartofpostgresql.com/the-art-of-postgresql-courses/" class="button button_purple button_large">Get All 6 Courses</a>
+  </div>
+</section>
+
+{{ partial "footer.html" . }}
+</body>
+</html>

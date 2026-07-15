@@ -1,6 +1,6 @@
 +++
 title = "Course 1 — Master Window Functions"
-layout = "course-toc"
+layout = "course-window-functions"
 type = "page"
 course_num = 1
 course_title = "Master Window Functions"

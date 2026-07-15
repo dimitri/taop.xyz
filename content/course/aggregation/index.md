@@ -1,6 +1,6 @@
 +++
 title = "Course 2 — Reliable Aggregation"
-layout = "course-toc"
+layout = "course-aggregation"
 type = "page"
 course_num = 2
 course_title = "Reliable Aggregation"

@@ -1,6 +1,6 @@
 +++
 title = "Course 4 — Advanced JOIN Techniques"
-layout = "course-toc"
+layout = "course-advanced-joins"
 type = "page"
 course_num = 4
 course_title = "Advanced JOIN Techniques"

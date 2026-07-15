@@ -1,6 +1,6 @@
 +++
 title = "Course 5 — Query Optimization Fundamentals"
-layout = "course-toc"
+layout = "course-query-optimization"
 type = "page"
 course_num = 5
 course_title = "Query Optimization Fundamentals"

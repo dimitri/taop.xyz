@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Course 6 — Read Query Plans | The Art of PostgreSQL</title>
+  <meta name="description" content="8-module curriculum: EXPLAIN anatomy through full observability workflow. f1db and chinook datasets.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <meta property="og:url" content="https://theartofpostgresql.com/course/read-query-plans/" />
+  <meta property="og:title" content="Course 6 — Read Query Plans" />
+  <meta property="og:description" content="Fluent EXPLAIN reading — every node type, its performance profile, and what to do about it." />
+  <link href="/favicon.ico" rel="icon" type="image/x-icon">
+  <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/syntax.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="/js/custom.js"></script>
+  {{ partial "course/toc-styles.html" . }}
+</head>
+<body class="page course-page">
+{{ partial "header.html" . }}
+
+<nav class="cp-course-nav" aria-label="Course navigation">
+  <div class="cp-course-nav-inner">
+    <a href="/course/query-optimization/">← Query Optimization Fundamentals</a>
+    <span class="cp-course-nav-center">Course 6 of 6</span>
+    <a href="/course/contents/">All 6 Courses →</a>
+  </div>
+</nav>
+
+<section class="cp-hero">
+  <p class="cp-hero-eyebrow">Course 6 of 6 · f1db &amp; chinook datasets</p>
+  <h1>Read Query Plans</h1>
+  <p class="cp-hero-sub">Fluent EXPLAIN reading — every node type, its performance profile, and what to do about it.</p>
+  <div class="cp-stats-bar">
+    <div class="cp-stat"><span class="cp-stat-n">8</span><span class="cp-stat-l">Modules</span></div>
+    <div class="cp-stat"><span class="cp-stat-n">6</span><span class="cp-stat-l">Core</span></div>
+    <div class="cp-stat"><span class="cp-stat-n">1</span><span class="cp-stat-l">Advanced</span></div>
+    <div class="cp-stat"><span class="cp-stat-n">1</span><span class="cp-stat-l">Architect</span></div>
+  </div>
+</section>
+
+<nav class="cp-part-nav" aria-label="Module index">
+  <div class="cp-part-nav-inner">
+    <table class="cp-part-table">
+      <thead><tr><th class="col-part">Module</th><th class="col-title">Title</th><th class="col-hook">Focus</th></tr></thead>
+      <tbody>
+        <tr><td class="col-part"><a href="#module-1">Mod 01</a></td><td class="col-title"><a href="#module-1">Introduction to EXPLAIN</a></td><td class="col-hook">Cost anatomy: startup cost, total cost, rows, width <span class="cp-tier-pill core">Core</span></td></tr>
+        <tr><td class="col-part"><a href="#module-2">Mod 02</a></td><td class="col-title"><a href="#module-2">EXPLAIN ANALYZE in Practice</a></td><td class="col-hook">Actual timing, row divergence, loops, BUFFERS <span class="cp-tier-pill core">Core</span></td></tr>
+        <tr><td class="col-part"><a href="#module-3">Mod 03</a></td><td class="col-title"><a href="#module-3">Understanding Plan Node Types</a></td><td class="col-hook">Scans, Hash Join, Nested Loop, HashAggregate, Gather <span class="cp-tier-pill core">Core</span></td></tr>
+        <tr><td class="col-part"><a href="#module-4">Mod 04</a></td><td class="col-title"><a href="#module-4">Detecting Performance Issues</a></td><td class="col-hook">Misestimation, Batches &gt; 1, Rows Removed by Filter <span class="cp-tier-pill core">Core</span></td></tr>
+        <tr><td class="col-part"><a href="#module-5">Mod 05</a></td><td class="col-title"><a href="#module-5">From Plan to Optimization</a></td><td class="col-hook">Index signals, predicate pushdown, cost comparison <span class="cp-tier-pill core">Core</span></td></tr>
+        <tr><td class="col-part"><a href="#module-6">Mod 06</a></td><td class="col-title"><a href="#module-6">Advanced Plan Analysis</a></td><td class="col-hook">Bitmap, GIN, SubPlan, CTE Scan, WindowAgg nodes <span class="cp-tier-pill core">Core</span></td></tr>
+        <tr><td class="col-part"><a href="#module-7">Mod 07</a></td><td class="col-title"><a href="#module-7">Building a Diagnostic Workflow</a></td><td class="col-hook">pg_stat scans, plan comparison, FORMAT JSON <span class="cp-tier-pill advanced">Advanced</span></td></tr>
+        <tr><td class="col-part"><a href="#module-8">Mod 08</a></td><td class="col-title"><a href="#module-8">Observability and Performance Strategy</a></td><td class="col-hook">pg_stat_activity, bloat, locks, statistics, planner limits <span class="cp-tier-pill architect">Architect</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+</nav>
+
+<div class="cp-modules">
+
+<section class="cp-part tier-core" id="module-1">
+  <div class="wrapper">
+    <div class="cp-part-head">
+      <span class="cp-part-badge">Module 01</span>
+      <h2>Introduction to EXPLAIN</h2>
+      <p class="cp-part-meta">Core · 5 topics</p>
+    </div>
+    <div class="cp-part-body">
+      <div class="cp-chapters">
+        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">Basic EXPLAIN syntax</span><span class="cp-ch-topics">cost range, rows, width</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">Plan tree structure</span><span class="cp-ch-topics">indentation = parent/child, leaf = scan</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">Cost anatomy: startup vs total cost</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">Sequential Scan node and the Filter annotation</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">05</span><div><span class="cp-ch-title">EXPLAIN options: VERBOSE, SETTINGS, WAL, GENERIC_PLAN</span></div></div>
+      </div>
+      <div class="cp-showcase">
+        <div class="cp-query-card">
+          <div class="cp-query-label">Module 01 · Startup vs total cost</div>
+          <pre><code>-- startup cost = work before the first row
+-- total cost   = work to return all rows
+-- High startup signals sorting or hashing.
+explain
+select d.surname,
+       sum(res.points) as career_points
+  from f1db.drivers  d
+  join f1db.results res
+    on res.driverid = d.driverid
+ group by d.driverid, d.surname
+ order by career_points desc
+ limit 10;</code></pre>
+          <p class="cp-query-caption">Bare EXPLAIN introduces the two cost numbers at each node — a high startup cost marks sorting or hash-table build work.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cp-part tier-core" id="module-2">
+  <div class="wrapper">
+    <div class="cp-part-head">
+      <span class="cp-part-badge">Module 02</span>
+      <h2>EXPLAIN ANALYZE in Practice</h2>
+      <p class="cp-part-meta">Core · 5 topics</p>
+    </div>
+    <div class="cp-part-body">
+      <div class="cp-chapters">
+        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">Actual timing and row counts (actual time, actual rows, loops)</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">Running EXPLAIN ANALYZE safely</span><span class="cp-ch-topics">BEGIN/ROLLBACK wrapper</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">Actual vs estimated row divergence</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">Loops</span><span class="cp-ch-topics">inner-side per-loop averages vs totals</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">05</span><div><span class="cp-ch-title">BUFFERS: shared hit vs read; track_io_timing</span></div></div>
+      </div>
+      <div class="cp-showcase">
+        <div class="cp-query-card">
+          <div class="cp-query-label">Module 02 · Estimated vs actual rows</div>
+          <pre><code>-- rows=N (estimate) vs actual rows=N
+-- A large gap means stale statistics or
+-- correlated predicates.
+explain (analyze, buffers)
+select r.year,
+       r.round,
+       r.name
+  from f1db.races r
+ where r.year  = 2017
+   and r.round &lt;= 10;</code></pre>
+          <p class="cp-query-caption">EXPLAIN (ANALYZE, BUFFERS) shows estimated and actual row counts side-by-side — a large gap is the primary signal of a bad plan.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cp-part tier-core" id="module-3">
+  <div class="wrapper">
+    <div class="cp-part-head">
+      <span class="cp-part-badge">Module 03</span>
+      <h2>Understanding Plan Node Types</h2>
+      <p class="cp-part-meta">Core · 6 topics</p>
+    </div>
+    <div class="cp-part-body">
+      <div class="cp-chapters">
+        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">Scan nodes: Seq Scan, Index Scan, Index Only Scan, Bitmap Heap Scan, CTE Scan</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">GiST Index Scan: Order By vs Index Cond in kNN mode</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">Join nodes: Hash Join, Nested Loop (Memoize), Merge Join</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">Aggregation and sort: Sort, Incremental Sort, HashAggregate, WindowAgg</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">05</span><div><span class="cp-ch-title">Set operation nodes: Append (UNION ALL), Recursive Union</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">06</span><div><span class="cp-ch-title">Parallel nodes: Gather, Gather Merge</span></div></div>
+      </div>
+      <div class="cp-showcase">
+        <div class="cp-query-card">
+          <div class="cp-query-label">Module 03 · Hash Join node</div>
+          <pre><code>-- Hash Join: build a hash table from the
+-- smaller relation, probe with each row
+-- from the larger. Build cost = startup.
+explain (analyze, buffers)
+select d.nationality,
+       count(distinct d.driverid)   as drivers,
+       count(*) filter(
+         where res.positionorder=1) as wins
+  from f1db.results res
+  join f1db.drivers d
+    on d.driverid = res.driverid
+  join f1db.races   r
+    on r.raceid   = res.raceid
+ where r.year = 2017
+ group by d.nationality
+ order by wins desc;</code></pre>
+          <p class="cp-query-caption">EXPLAIN (ANALYZE, BUFFERS) on a join-aggregate exposes the Hash Join node and shows where its hash-table build startup cost appears.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cp-part tier-core" id="module-4">
+  <div class="wrapper">
+    <div class="cp-part-head">
+      <span class="cp-part-badge">Module 04</span>
+      <h2>Detecting Performance Issues</h2>
+      <p class="cp-part-meta">Core · 4 topics</p>
+    </div>
+    <div class="cp-part-body">
+      <div class="cp-chapters">
+        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">Row estimate mismatch</span><span class="cp-ch-topics">divergence propagates up the tree</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">Expensive Sort</span><span class="cp-ch-topics">startup ≈ total cost; Limit above Sort doesn't help</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">Hash Join batches</span><span class="cp-ch-topics">Batches &gt; 1 means spill to disk</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">Rows Removed by Filter</span><span class="cp-ch-topics">fetch-then-discard ratio as index signal</span></div></div>
+      </div>
+      <div class="cp-showcase">
+        <div class="cp-query-card">
+          <div class="cp-query-label">Module 04 · Row estimate mismatch</div>
+          <pre><code>-- Two correlated predicates: positionorder=1
+-- and points > 20 are not independent.
+-- The planner multiplies their selectivities
+-- and underestimates the actual row count.
+explain (analyze, buffers)
+select res.raceid,
+       res.driverid,
+       res.positionorder,
+       res.points
+  from f1db.results res
+ where res.positionorder = 1
+   and res.points &gt; 20;</code></pre>
+          <p class="cp-query-caption">A two-predicate scan with correlated columns produces a row-estimate mismatch — the canonical sign of a potential bad plan choice.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cp-part tier-core" id="module-5">
+  <div class="wrapper">
+    <div class="cp-part-head">
+      <span class="cp-part-badge">Module 05</span>
+      <h2>From Plan to Optimization</h2>
+      <p class="cp-part-meta">Core · 3 topics</p>
+    </div>
+    <div class="cp-part-body">
+      <div class="cp-chapters">
+        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">Index recommendations from Seq Scan + Filter signals</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">Join rewrite: pushing predicates into JOIN ON for earlier filtering</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">Cost-based decisions: reading planner cost numbers</span></div></div>
+      </div>
+      <div class="cp-showcase">
+        <div class="cp-query-card">
+          <div class="cp-query-label">Module 05 · Inlined predicate</div>
+          <pre><code>-- Moving the year filter into the JOIN ON
+-- clause lets the planner apply it at the
+-- earliest scan — the rewrite is free.
+explain (analyze, buffers)
+select d.surname,
+       sum(res.points) as total_points,
+       count(*) filter(
+         where res.positionorder = 1
+       ) as wins
+  from f1db.results res
+  join f1db.races   r
+    on r.raceid   = res.raceid
+   and r.year     = 2017
+  join f1db.drivers d
+    on d.driverid = res.driverid
+ group by d.driverid, d.surname
+ order by total_points desc;</code></pre>
+          <p class="cp-query-caption">Inlining the year filter into the JOIN ON clause (not a CTE) lets the planner push it to the earliest possible scan.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cp-part tier-core" id="module-6">
+  <div class="wrapper">
+    <div class="cp-part-head">
+      <span class="cp-part-badge">Module 06</span>
+      <h2>Advanced Plan Analysis</h2>
+      <p class="cp-part-meta">Core · 5 topics</p>
+    </div>
+    <div class="cp-part-body">
+      <div class="cp-chapters">
+        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">Bitmap Index Scan</span><span class="cp-ch-topics">moderate selectivity, two-phase page-order fetch</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">GIN Bitmap Heap Scan for array containment</span><span class="cp-ch-topics">posting-list intersection</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">Subplan nodes: InitPlan, SubPlan</span><span class="cp-ch-topics">correlated subqueries</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">CTE Scan node</span><span class="cp-ch-topics">materialized tuplestore, single execution</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">05</span><div><span class="cp-ch-title">Window function plans</span><span class="cp-ch-topics">WindowAgg + Sort, Incremental Sort</span></div></div>
+      </div>
+      <div class="cp-showcase">
+        <div class="cp-query-card">
+          <div class="cp-query-label">Module 06 · WindowAgg plan node</div>
+          <pre><code>-- Every window query needs a Sort node
+-- to feed the WindowAgg node.
+-- Incremental Sort can reduce this cost.
+explain (analyze, buffers)
+select r.year,
+       d.surname,
+       sum(res.points) over(
+         partition by r.year, d.driverid
+         order by r.date
+         rows between unbounded preceding
+                  and current row
+       ) as running_points
+  from f1db.results res
+  join f1db.races   r
+    on r.raceid   = res.raceid
+  join f1db.drivers d
+    on d.driverid = res.driverid
+ where r.year = 2017
+   and d.driverid in (1, 8, 20)
+ order by r.date, d.surname;</code></pre>
+          <p class="cp-query-caption">EXPLAIN (ANALYZE, BUFFERS) on a running SUM window query exposes the mandatory Sort node that feeds the WindowAgg node.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cp-part tier-advanced" id="module-7">
+  <div class="wrapper">
+    <div class="cp-part-head">
+      <span class="cp-part-badge">Module 07 · Advanced</span>
+      <h2>Building a Diagnostic Workflow</h2>
+      <p class="cp-part-meta">Advanced · 4 topics</p>
+    </div>
+    <div class="cp-part-body">
+      <div class="cp-chapters">
+        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">Diagnostic step 1: scan ratios from pg_stat_user_tables</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">Diagnostic step 2: plan comparison</span><span class="cp-ch-topics">default vs forced alternative</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">Machine-readable plans with FORMAT JSON (explain.depesz.com, pev2)</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">Repeatable benchmarking</span><span class="cp-ch-topics">cold vs warm cache, variance across runs</span></div></div>
+      </div>
+      <div class="cp-showcase">
+        <div class="cp-query-card">
+          <div class="cp-query-label">Module 07 · Baseline plan comparison</div>
+          <pre><code>-- Step 1: capture the default plan and cost.
+-- Step 2: disable one node type to force an
+-- alternative, then compare actual time.
+explain (analyze, buffers)
+select d.surname,
+       sum(res.points) as points
+  from f1db.results res
+  join f1db.drivers d
+    on d.driverid = res.driverid
+ group by d.driverid, d.surname
+ order by points desc
+ limit 10;
+
+-- Then compare:
+-- set enable_hashjoin = off;
+-- ...same query...
+-- reset enable_hashjoin;</code></pre>
+          <p class="cp-query-caption">A baseline EXPLAIN establishes the default cost before disabling one join type to force an alternative — the plan-comparison diagnostic step.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cp-part tier-architect" id="module-8">
+  <div class="wrapper">
+    <div class="cp-part-head">
+      <span class="cp-part-badge">Module 08 · Architect</span>
+      <h2>Observability and Performance Strategy</h2>
+      <p class="cp-part-meta">Architect · 6 topics</p>
+    </div>
+    <div class="cp-part-body">
+      <div class="cp-chapters">
+        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">Currently running queries: pg_stat_activity (state, wait_event, query)</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">Table bloat and VACUUM</span><span class="cp-ch-topics">n_dead_tup, autovacuum signals</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">Lock monitoring</span><span class="cp-ch-topics">blocked sessions and blocking queries</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">Statistics management: pg_stats, default_statistics_target, CREATE STATISTICS</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">05</span><div><span class="cp-ch-title">Planner limitations: join search space, independence assumption, generic plans</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">06</span><div><span class="cp-ch-title">Chinook: confident inner-join cardinality with enforced foreign keys</span></div></div>
+      </div>
+      <div class="cp-showcase">
+        <div class="cp-query-card">
+          <div class="cp-query-label">Module 08 · chinook FK-enforced plan</div>
+          <pre><code>-- chinook declares foreign keys; f1db does not.
+-- Declared FKs give the planner join-elimination
+-- opportunities it cannot use without them.
+explain (analyze, buffers)
+select ar.name                    as artist,
+       count(distinct al.album_id) as albums,
+       count(t.track_id)           as tracks,
+       round(
+         sum(t.milliseconds)
+           / 60000.0::numeric, 1
+       )                           as total_minutes
+  from chinook.artist ar
+  join chinook.album  al
+    on al.artist_id = ar.artist_id
+  join chinook.track  t
+    on t.album_id   = al.album_id
+ group by ar.artist_id, ar.name
+ order by total_minutes desc
+ limit 15;</code></pre>
+          <p class="cp-query-caption">Declared foreign keys give the planner join-elimination knowledge unavailable in a schema without constraints — compare to the same query on f1db.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</div><!-- .cp-modules -->
+
+<section class="cp-cta">
+  <h2>All 6 courses. One package.</h2>
+  <p>Core, Advanced, and Architect tiers — 48 modules across 6 PostgreSQL courses.</p>
+  <div class="cp-cta-btns">
+    <a href="https://sales.theartofpostgresql.com/the-art-of-postgresql-courses/" class="button button_purple button_large">Get All 6 Courses</a>
+  </div>
+</section>
+
+{{ partial "footer.html" . }}
+</body>
+</html>

@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Course 2 — Reliable Aggregation | The Art of PostgreSQL</title>
+  <meta name="description" content="8-module curriculum: GROUP BY semantics through incremental ELT patterns. f1db Formula One dataset throughout.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <meta property="og:url" content="https://theartofpostgresql.com/course/aggregation/" />
+  <meta property="og:title" content="Course 2 — Reliable Aggregation" />
+  <meta property="og:description" content="Avoid correctness traps, master conditional aggregates, and build reports you can trust." />
+  <link href="/favicon.ico" rel="icon" type="image/x-icon">
+  <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/syntax.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="/js/custom.js"></script>
+  {{ partial "course/toc-styles.html" . }}
+</head>
+<body class="page course-page">
+{{ partial "header.html" . }}
+
+<nav class="cp-course-nav" aria-label="Course navigation">
+  <div class="cp-course-nav-inner">
+    <a href="/course/window-functions/">← Master Window Functions</a>
+    <span class="cp-course-nav-center">Course 2 of 6</span>
+    <a href="/course/data-modeling/">Data Modeling for Performance →</a>
+  </div>
+</nav>
+
+<section class="cp-hero">
+  <p class="cp-hero-eyebrow">Course 2 of 6 · f1db dataset</p>
+  <h1>Reliable Aggregation</h1>
+  <p class="cp-hero-sub">Avoid correctness traps, master conditional aggregates, and build reports you can trust.</p>
+  <div class="cp-stats-bar">
+    <div class="cp-stat"><span class="cp-stat-n">8</span><span class="cp-stat-l">Modules</span></div>
+    <div class="cp-stat"><span class="cp-stat-n">6</span><span class="cp-stat-l">Core</span></div>
+    <div class="cp-stat"><span class="cp-stat-n">1</span><span class="cp-stat-l">Advanced</span></div>
+    <div class="cp-stat"><span class="cp-stat-n">1</span><span class="cp-stat-l">Architect</span></div>
+  </div>
+</section>
+
+<nav class="cp-part-nav" aria-label="Module index">
+  <div class="cp-part-nav-inner">
+    <table class="cp-part-table">
+      <thead><tr><th class="col-part">Module</th><th class="col-title">Title</th><th class="col-hook">Focus</th></tr></thead>
+      <tbody>
+        <tr><td class="col-part"><a href="#module-1">Mod 01</a></td><td class="col-title"><a href="#module-1">Foundations of Aggregation</a></td><td class="col-hook">GROUP BY semantics and the evaluation order <span class="cp-tier-pill core">Core</span></td></tr>
+        <tr><td class="col-part"><a href="#module-2">Mod 02</a></td><td class="col-title"><a href="#module-2">Correctness in Aggregates</a></td><td class="col-hook">FILTER, COUNT DISTINCT, HAVING, and duplicate traps <span class="cp-tier-pill core">Core</span></td></tr>
+        <tr><td class="col-part"><a href="#module-3">Mod 03</a></td><td class="col-title"><a href="#module-3">Multi-Level Aggregation Patterns</a></td><td class="col-hook">Multi-step aggregation with chained CTEs <span class="cp-tier-pill core">Core</span></td></tr>
+        <tr><td class="col-part"><a href="#module-4">Mod 04</a></td><td class="col-title"><a href="#module-4">Advanced GROUP BY Features</a></td><td class="col-hook">GROUPING SETS, ROLLUP, CUBE, and GROUPING() <span class="cp-tier-pill core">Core</span></td></tr>
+        <tr><td class="col-part"><a href="#module-5">Mod 05</a></td><td class="col-title"><a href="#module-5">Combining Aggregates with Other SQL Features</a></td><td class="col-hook">Joins, CASE inside SUM, and combined report metrics <span class="cp-tier-pill core">Core</span></td></tr>
+        <tr><td class="col-part"><a href="#module-6">Mod 06</a></td><td class="col-title"><a href="#module-6">Performance &amp; Scalability of Aggregations</a></td><td class="col-hook">HashAggregate plans and pre-aggregation strategies <span class="cp-tier-pill core">Core</span></td></tr>
+        <tr><td class="col-part"><a href="#module-7">Mod 07</a></td><td class="col-title"><a href="#module-7">Designing Reliable Reporting Queries</a></td><td class="col-hook">Percentiles, gap filling, datetime traps, and drift <span class="cp-tier-pill advanced">Advanced</span></td></tr>
+        <tr><td class="col-part"><a href="#module-8">Mod 08</a></td><td class="col-title"><a href="#module-8">Aggregation in Data Architectures</a></td><td class="col-hook">UPSERT, MERGE, distributed aggregation with Citus <span class="cp-tier-pill architect">Architect</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+</nav>
+
+<div class="cp-modules">
+
+<section class="cp-part tier-core" id="module-1">
+  <div class="wrapper">
+    <div class="cp-part-head">
+      <span class="cp-part-badge">Module 01</span>
+      <h2>Foundations of Aggregation</h2>
+      <p class="cp-part-meta">Core · 4 topics</p>
+    </div>
+    <div class="cp-part-body">
+      <div class="cp-chapters">
+        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">GROUP BY semantics and evaluation order</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">Aggregate functions: SUM, COUNT, AVG, MIN, MAX</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">NULL handling and boolean aggregates</span><span class="cp-ch-topics">bool_and, bool_or</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">Row vs group context</span></div></div>
+      </div>
+      <div class="cp-showcase">
+        <div class="cp-query-card">
+          <div class="cp-query-label">Module 01 · GROUP BY decade</div>
+          <pre><code>select extract(
+         'year' from
+         date_trunc('decade', date)
+       ) as decade,
+       count(*) as races
+  from races
+ group by decade
+ order by decade;</code></pre>
+          <p class="cp-query-caption">A computed grouping key buckets all races by decade — the canonical GROUP BY + COUNT(*) pattern.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cp-part tier-core" id="module-2">
+  <div class="wrapper">
+    <div class="cp-part-head">
+      <span class="cp-part-badge">Module 02</span>
+      <h2>Correctness in Aggregates</h2>
+      <p class="cp-part-meta">Core · 4 topics</p>
+    </div>
+    <div class="cp-part-body">
+      <div class="cp-chapters">
+        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">Duplicate rows and COUNT DISTINCT</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">WHERE vs HAVING</span><span class="cp-ch-topics">filtering before or after aggregation</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">Filtered aggregates with FILTER clause</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">DISTINCT vs GROUP BY</span></div></div>
+      </div>
+      <div class="cp-showcase">
+        <div class="cp-query-card">
+          <div class="cp-query-label">Module 02 · FILTER for accident rate</div>
+          <pre><code>select extract(year from races.date)
+         as season,
+       count(distinct raceid) as nb_races,
+       count(*) as nb_status,
+       count(*) filter(
+         where status = 'Accident'
+       ) as accidents,
+       round(100.0
+         * count(*) filter(
+             where status = 'Accident'
+           )
+         / count(*), 2) as pct
+  from results
+       join status using(statusid)
+       join races  using(raceid)
+ group by season
+ order by accidents desc
+ limit 5;</code></pre>
+          <p class="cp-query-caption">FILTER computes a conditional count and a percentage rate in one scan — no subquery needed.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cp-part tier-core" id="module-3">
+  <div class="wrapper">
+    <div class="cp-part-head">
+      <span class="cp-part-badge">Module 03</span>
+      <h2>Multi-Level Aggregation Patterns</h2>
+      <p class="cp-part-meta">Core · 3 topics</p>
+    </div>
+    <div class="cp-part-body">
+      <div class="cp-chapters">
+        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">CTEs for multi-step aggregation</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">Chaining CTEs</span><span class="cp-ch-topics">nested max/sum pattern</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">Nested aggregation with multiple CTEs and GROUPING SETS</span></div></div>
+      </div>
+      <div class="cp-showcase">
+        <div class="cp-query-card">
+          <div class="cp-query-label">Module 03 · Per-decade top scorer</div>
+          <pre><code>with decade_points as (
+  select extract('year' from
+           date_trunc('decade', races.date)
+         )::int as decade,
+         drivers.driverid,
+         drivers.surname,
+         sum(results.points) as points
+    from results
+         join races   using(raceid)
+         join drivers using(driverid)
+   group by decade,
+            drivers.driverid,
+            drivers.surname
+),
+decade_max as (
+  select decade, max(points) as top
+    from decade_points
+   group by decade
+)
+select dp.decade,
+       dp.surname as top_scorer,
+       dp.points
+  from decade_points dp
+       join decade_max dm using(decade)
+ where dp.points = dm.top
+ order by dp.decade;</code></pre>
+          <p class="cp-query-caption">Two CTEs — per-driver totals, then per-decade max — joined to name the record-holder in each decade.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cp-part tier-core" id="module-4">
+  <div class="wrapper">
+    <div class="cp-part-head">
+      <span class="cp-part-badge">Module 04</span>
+      <h2>Advanced GROUP BY Features</h2>
+      <p class="cp-part-meta">Core · 4 topics</p>
+    </div>
+    <div class="cp-part-body">
+      <div class="cp-chapters">
+        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">GROUPING SETS</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">ROLLUP</span><span class="cp-ch-topics">hierarchical subtotals</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">CUBE</span><span class="cp-ch-topics">all dimension combinations</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">GROUPING() function</span><span class="cp-ch-topics">identify synthetic NULLs</span></div></div>
+      </div>
+      <div class="cp-showcase">
+        <div class="cp-query-card">
+          <div class="cp-query-label">Module 04 · ROLLUP subtotals</div>
+          <pre><code>select drivers.surname     as driver,
+       constructors.name   as constructor,
+       sum(points)         as points
+  from results
+       join races        using(raceid)
+       join drivers      using(driverid)
+       join constructors using(constructorid)
+ where drivers.surname in ('Prost', 'Senna')
+ group by rollup(
+   drivers.surname,
+   constructors.name
+ );</code></pre>
+          <p class="cp-query-caption">ROLLUP produces per-constructor, per-driver, and grand-total rows in a single query without UNION ALL.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cp-part tier-core" id="module-5">
+  <div class="wrapper">
+    <div class="cp-part-head">
+      <span class="cp-part-badge">Module 05</span>
+      <h2>Combining Aggregates with Other SQL Features</h2>
+      <p class="cp-part-meta">Core · 4 topics</p>
+    </div>
+    <div class="cp-part-body">
+      <div class="cp-chapters">
+        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">Aggregation with joins</span><span class="cp-ch-topics">aggregate-then-join pattern</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">Conditional aggregation with CASE inside SUM</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">Window functions vs GROUP BY</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">A complete reporting query: FILTER, HAVING, COUNT DISTINCT combined</span></div></div>
+      </div>
+      <div class="cp-showcase">
+        <div class="cp-query-card">
+          <div class="cp-query-label">Module 05 · Constructor report</div>
+          <pre><code>with season_results as (
+  select constructors.constructorid,
+         constructors.name as constructor,
+         results.points,
+         results.position,
+         results.milliseconds,
+         results.raceid
+    from results
+         join races        using(raceid)
+         join constructors using(constructorid)
+   where races.year = 2017
+)
+select constructor,
+       count(*) as entries,
+       count(*) filter(
+         where position = 1) as wins,
+       count(*) filter(
+         where milliseconds is null
+           and position    is null) as dnfs,
+       sum(points) as total_points
+  from season_results
+ group by constructorid, constructor
+having count(*) &gt;= 20
+ order by total_points desc;</code></pre>
+          <p class="cp-query-caption">A CTE time-bound with multiple FILTER aggregates and a HAVING clause produces a complete constructor report in one scan.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cp-part tier-core" id="module-6">
+  <div class="wrapper">
+    <div class="cp-part-head">
+      <span class="cp-part-badge">Module 06</span>
+      <h2>Performance &amp; Scalability of Aggregations</h2>
+      <p class="cp-part-meta">Core · 4 topics</p>
+    </div>
+    <div class="cp-part-body">
+      <div class="cp-chapters">
+        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">Hash vs sort aggregation</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">Reading aggregation plans</span><span class="cp-ch-topics">HashAggregate vs GroupAggregate</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">Pre-aggregation strategies with materialized views</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">Profiling with EXPLAIN (ANALYZE, BUFFERS)</span></div></div>
+      </div>
+      <div class="cp-showcase">
+        <div class="cp-query-card">
+          <div class="cp-query-label">Module 06 · EXPLAIN HashAggregate</div>
+          <pre><code>explain
+  select extract(
+           'year' from
+           date_trunc('decade', date)
+         ) as decade,
+         count(*) as races
+    from races
+   group by decade;</code></pre>
+          <p class="cp-query-caption">A simple GROUP BY produces a HashAggregate node — no sort required because hash grouping is cheaper here.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cp-part tier-advanced" id="module-7">
+  <div class="wrapper">
+    <div class="cp-part-head">
+      <span class="cp-part-badge">Module 07 · Advanced</span>
+      <h2>Designing Reliable Reporting Queries</h2>
+      <p class="cp-part-meta">Advanced · 6 topics</p>
+    </div>
+    <div class="cp-part-body">
+      <div class="cp-chapters">
+        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">Idempotent aggregation</span><span class="cp-ch-topics">fixed time bounds</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">Ordered-set aggregates: percentile_cont, percentile_disc, mode()</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">Gap filling with generate_series</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">Datetime fence-post trap</span><span class="cp-ch-topics">BETWEEN vs half-open interval</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">05</span><div><span class="cp-ch-title">Drift detection with LAG()</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">06</span><div><span class="cp-ch-title">Bi-temporal modeling</span><span class="cp-ch-topics">valid time, transaction time, SCDs</span></div></div>
+      </div>
+      <div class="cp-showcase">
+        <div class="cp-query-card">
+          <div class="cp-query-label">Module 07 · Gap filling</div>
+          <pre><code>with seasons as (
+  select generate_series(2007, 2017)
+         as season
+),
+mclaren_wins as (
+  select races.year as season,
+         count(*)   as wins
+    from results
+         join races        using(raceid)
+         join constructors using(constructorid)
+   where constructors.name = 'McLaren'
+     and races.year between 2007 and 2017
+     and position = 1
+   group by races.year
+)
+select s.season,
+       coalesce(w.wins, 0) as wins
+  from seasons       s
+       left join mclaren_wins w
+         using(season)
+ order by s.season;</code></pre>
+          <p class="cp-query-caption">generate_series + LEFT JOIN + COALESCE guarantees one row per calendar year even when no wins exist.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cp-part tier-architect" id="module-8">
+  <div class="wrapper">
+    <div class="cp-part-head">
+      <span class="cp-part-badge">Module 08 · Architect</span>
+      <h2>Aggregation in Data Architectures</h2>
+      <p class="cp-part-meta">Architect · 5 topics</p>
+    </div>
+    <div class="cp-part-body">
+      <div class="cp-chapters">
+        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">Materialized views</span><span class="cp-ch-topics">full refresh vs CONCURRENTLY</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">Incremental aggregation with upsert (INSERT … ON CONFLICT)</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">ETL/ELT patterns and MERGE (PostgreSQL 15+)</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">OLAP vs OLTP trade-offs</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">05</span><div><span class="cp-ch-title">Distributed aggregation with Citus</span></div></div>
+      </div>
+      <div class="cp-showcase">
+        <div class="cp-query-card">
+          <div class="cp-query-label">Module 08 · Idempotent upsert</div>
+          <pre><code>insert into constructor_season_summary
+       (season, constructorid, name,
+        points, races)
+  select races.year,
+         constructors.constructorid,
+         constructors.name,
+         sum(results.points),
+         count(distinct results.raceid)
+    from results
+         join races        using(raceid)
+         join constructors using(constructorid)
+   where races.year between 2010 and 2017
+   group by races.year,
+            constructors.constructorid,
+            constructors.name
+on conflict (season, constructorid)
+   do update set
+     points = excluded.points,
+     races  = excluded.races;</code></pre>
+          <p class="cp-query-caption">INSERT … ON CONFLICT DO UPDATE makes a season-summary aggregation idempotent — safe to re-run without duplicates.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</div><!-- .cp-modules -->
+
+<section class="cp-cta">
+  <h2>All 6 courses. One package.</h2>
+  <p>Core, Advanced, and Architect tiers — 48 modules across 6 PostgreSQL courses.</p>
+  <div class="cp-cta-btns">
+    <a href="https://sales.theartofpostgresql.com/the-art-of-postgresql-courses/" class="button button_purple button_large">Get All 6 Courses</a>
+  </div>
+</section>
+
+{{ partial "footer.html" . }}
+</body>
+</html>

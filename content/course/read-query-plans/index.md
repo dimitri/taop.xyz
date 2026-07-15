@@ -1,6 +1,6 @@
 +++
 title = "Course 6 — Read Query Plans"
-layout = "course-toc"
+layout = "course-read-query-plans"
 type = "page"
 course_num = 6
 course_title = "Read Query Plans"
