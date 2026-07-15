@@ -1,9 +1,19 @@
 <style>
   /* ── Course TOC pages — reuses .cp-* visual language from book/contents ── */
-  body.course-page .header { background: #2e2241; }
+  body.course-page .header {
+    background: #2e2241 url('/images/demo/slide.jpg') center top no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+  }
 
   /* Hero */
-  .cp-hero { background: linear-gradient(150deg,#2e2241 0%,#1e1630 100%); padding:120px 0 64px; text-align:center; }
+  .cp-hero {
+    background: #2e2241 url('/images/demo/slide.jpg') center top no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    padding: 120px 0 64px;
+    text-align: center;
+  }
   .cp-hero-eyebrow { font:700 0.72rem/1 'Lato',sans-serif; color:#60b2d3; text-transform:uppercase; letter-spacing:0.12em; margin:0 0 16px; }
   .cp-hero h1 { font:300 2.6rem/1.2 'Lato',sans-serif; color:#fff; max-width:680px; margin:0 auto 16px; padding:0 24px; }
   .cp-hero .cp-hero-sub { font:300 1.05rem/1.6 'Lato',sans-serif; color:rgba(255,255,255,0.75); max-width:560px; margin:0 auto 36px; padding:0 24px; }
@@ -23,14 +33,16 @@
   /* Module nav table */
   .cp-part-nav { background:#f8f7f9; padding:32px 0 36px; border-bottom:1px solid #e4dded; }
   .cp-part-nav-inner { max-width:860px; margin:0 auto; padding:0 24px; }
+  .cp-part-nav-title { font:300 1.3rem/1.2 'Lato',sans-serif; color:#372649; margin:0 0 20px; }
   .cp-part-table { width:100%; border-collapse:collapse; }
   .cp-part-table thead tr { border-top:2px solid #67527a; border-bottom:1px solid #67527a; }
   .cp-part-table tbody tr:last-child { border-bottom:2px solid #67527a; }
   .cp-part-table tbody tr { border-bottom:1px solid #d5cde0; }
   .cp-part-table th { font:400 0.72rem/1 'Lato',sans-serif; color:#67527a; text-transform:uppercase; letter-spacing:0.08em; padding:8px 16px 8px 0; text-align:left; }
   .cp-part-table td { padding:9px 16px 9px 0; vertical-align:baseline; }
-  .cp-part-table .col-part { width:72px; white-space:nowrap; font:400 0.82rem/1 'Lato',sans-serif; color:#60b2d3; }
-  .cp-part-table .col-part a { font:inherit; color:inherit; text-decoration:none; }
+  .cp-part-table .col-part { width:80px; white-space:nowrap; font:400 0.82rem/1 'Lato',sans-serif; color:#60b2d3; vertical-align:top; padding-top:11px; }
+  .cp-part-table .col-part a { font:inherit; color:inherit; text-decoration:none; display:block; }
+  .cp-part-table .col-part .cp-tier-pill { display:block; margin-top:6px; }
   .cp-part-table .col-title { width:260px; }
   .cp-part-table .col-title a { font:700 0.92rem/1 'Lato',sans-serif; color:#372649; text-decoration:none; transition:color 0.15s; }
   .cp-part-table .col-part a:hover, .cp-part-table .col-title a:hover { color:#60b2d3; }
@@ -103,4 +115,12 @@
     .cp-cta { padding:56px 0; }
     .cp-cta h2 { font-size:1.4rem; }
   }
+
+  /* ── Module description ── */
+  .cp-part-desc { font:300 0.9rem/1.65 'Lato',sans-serif; color:#5a4a70; margin:10px auto 0; max-width:600px; text-align:left; }
+
+  /* ── Per-module diagram ── */
+  .cp-diagram { margin:0; max-width:100%; min-width:0; }
+  .cp-diagram img { width:100%; max-width:100%; height:auto; display:block; border-radius:4px; }
+  .cp-diagram figcaption { font:300 0.76rem/1.4 'Lato',sans-serif; color:#9e8fb0; text-align:center; margin-top:6px; }
 </style>

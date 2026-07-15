@@ -20,13 +20,17 @@
   <style>
     /* ── Course Contents overview page ── */
     body.course-contents-page .header {
-      background: #2e2241;
+      background: #2e2241 url('/images/demo/slide.jpg') center top no-repeat;
+      background-size: cover;
+      background-attachment: fixed;
     }
 
     /* Hero */
     .coc-hero {
-      background: linear-gradient(160deg, #2e2241 0%, #1e1630 100%);
-      padding: 100px 0 60px;
+      background: #2e2241 url('/images/demo/slide.jpg') center top no-repeat;
+      background-size: cover;
+      background-attachment: fixed;
+      padding: 120px 0 64px;
       text-align: center;
     }
     .coc-eyebrow {
@@ -179,16 +183,16 @@
       flex-direction: column;
     }
     .coc-card-header {
-      background: #f4f2f8;
+      background: #e9e4f4;
       padding: 18px 22px 16px;
-      border-bottom: 1px solid #e0dce8;
+      border-bottom: 1px solid #d8d0e8;
       display: flex;
       align-items: flex-start;
       gap: 14px;
     }
     .coc-card-num {
       font: 300 2rem/1 'Lato', sans-serif;
-      color: #d0c8dc;
+      color: #7b60a0;
       flex-shrink: 0;
       letter-spacing: -0.04em;
     }
@@ -365,13 +369,13 @@
     <div class="coc-tier-cards">
       <div class="coc-tier-card tier-core">
         <p class="coc-tier-name">Core</p>
-        <p class="coc-tier-desc">Foundations and mental models. Four modules per course building practical fluency with the subject's core SQL constructs.</p>
-        <p class="coc-tier-modules">Modules 1 – 4</p>
+        <p class="coc-tier-desc">Foundations and mental models. Six modules per course building practical fluency with the subject's core SQL constructs.</p>
+        <p class="coc-tier-modules">Modules 1 – 6</p>
       </div>
       <div class="coc-tier-card tier-advanced">
         <p class="coc-tier-name">Advanced</p>
         <p class="coc-tier-desc">Real-world patterns, performance analysis, and composing complex queries under production constraints.</p>
-        <p class="coc-tier-modules">Modules 5 – 7</p>
+        <p class="coc-tier-modules">Module 7</p>
       </div>
       <div class="coc-tier-card tier-architect">
         <p class="coc-tier-name">Architect</p>
@@ -407,12 +411,7 @@
             <li>WindowAgg plan nodes, index strategies, materialized views</li>
           </ul>
           <div class="coc-card-footer">
-            <div class="coc-card-tiers">
-              <span class="coc-badge tier-core">Core</span>
-              <span class="coc-badge tier-advanced">Advanced</span>
-              <span class="coc-badge tier-architect">Architect</span>
-            </div>
-            <a href="/course/window-functions/" class="coc-card-link">Full curriculum →</a>
+<a href="/course/window-functions/" class="coc-card-link">Full curriculum →</a>
           </div>
         </div>
       </div>
@@ -436,12 +435,7 @@
             <li>Incremental aggregation, ETL/ELT patterns, MERGE</li>
           </ul>
           <div class="coc-card-footer">
-            <div class="coc-card-tiers">
-              <span class="coc-badge tier-core">Core</span>
-              <span class="coc-badge tier-advanced">Advanced</span>
-              <span class="coc-badge tier-architect">Architect</span>
-            </div>
-            <a href="/course/aggregation/" class="coc-card-link">Full curriculum →</a>
+<a href="/course/aggregation/" class="coc-card-link">Full curriculum →</a>
           </div>
         </div>
       </div>
@@ -465,12 +459,7 @@
             <li>JSONB document model, audit trails, SQL/JSON path</li>
           </ul>
           <div class="coc-card-footer">
-            <div class="coc-card-tiers">
-              <span class="coc-badge tier-core">Core</span>
-              <span class="coc-badge tier-advanced">Advanced</span>
-              <span class="coc-badge tier-architect">Architect</span>
-            </div>
-            <a href="/course/data-modeling/" class="coc-card-link">Full curriculum →</a>
+<a href="/course/data-modeling/" class="coc-card-link">Full curriculum →</a>
           </div>
         </div>
       </div>
@@ -494,12 +483,7 @@
             <li>Hash Join, Nested Loop, Merge Join — plan reading and index impact</li>
           </ul>
           <div class="coc-card-footer">
-            <div class="coc-card-tiers">
-              <span class="coc-badge tier-core">Core</span>
-              <span class="coc-badge tier-advanced">Advanced</span>
-              <span class="coc-badge tier-architect">Architect</span>
-            </div>
-            <a href="/course/advanced-joins/" class="coc-card-link">Full curriculum →</a>
+<a href="/course/advanced-joins/" class="coc-card-link">Full curriculum →</a>
           </div>
         </div>
       </div>
@@ -523,12 +507,7 @@
             <li>Partitioning, parallel query, performance budgets, query SLAs</li>
           </ul>
           <div class="coc-card-footer">
-            <div class="coc-card-tiers">
-              <span class="coc-badge tier-core">Core</span>
-              <span class="coc-badge tier-advanced">Advanced</span>
-              <span class="coc-badge tier-architect">Architect</span>
-            </div>
-            <a href="/course/query-optimization/" class="coc-card-link">Full curriculum →</a>
+<a href="/course/query-optimization/" class="coc-card-link">Full curriculum →</a>
           </div>
         </div>
       </div>
@@ -552,12 +531,7 @@
             <li>pg_stat_activity, VACUUM signals, lock monitoring, CREATE STATISTICS</li>
           </ul>
           <div class="coc-card-footer">
-            <div class="coc-card-tiers">
-              <span class="coc-badge tier-core">Core</span>
-              <span class="coc-badge tier-advanced">Advanced</span>
-              <span class="coc-badge tier-architect">Architect</span>
-            </div>
-            <a href="/course/read-query-plans/" class="coc-card-link">Full curriculum →</a>
+<a href="/course/read-query-plans/" class="coc-card-link">Full curriculum →</a>
           </div>
         </div>
       </div>
