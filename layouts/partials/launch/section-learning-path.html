@@ -1,4 +1,20 @@
-<section class="index_system" style="background: #f8f7f9;">
+<style>
+.index_system .services_list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 340px));
+  gap: 16px 64px;
+  justify-content: center;
+}
+.index_system .services_list li {
+  flex: none;
+  max-width: none;
+  padding: 24px 0;
+}
+@media (max-width: 768px) {
+  .index_system .services_list { grid-template-columns: 1fr; max-width: 480px; margin: 0 auto; }
+}
+</style>
+<section class="index_system" style="background: white;">
   <div class="wrapper">
     <header class="heading">
       <h3>One System, One Learning Path</h3>
@@ -8,14 +24,16 @@
     <ul class="services_list">
 
       <li>
+        <p><span class="value_icon"><i class="fa-solid fa-book-open"></i></span></p>
         <h6>Book</h6>
-        <p>Foundation &amp; reference — 570 pages, 15 real-world datasets. Second Edition, Updated (2026).</p>
+        <p>Foundation &amp; reference — 590 pages, 15 real-world datasets. Second Edition, Updated (2026).</p>
         <a href="https://sales.theartofpostgresql.com/the-art-of-postgresql-book/">
           Get the Book — $89
         </a>
       </li>
 
       <li>
+        <p><span class="value_icon"><i class="fa-solid fa-flask"></i></span></p>
         <h6>Lab</h6>
         <p>Free for everyone. <code>docker compose up</code> starts PostgreSQL with all datasets and a Query UI at <code>localhost:8042</code> — no install required.</p>
         <a href="https://github.com/dimitri/TheArtOfPostgreSQL">
@@ -24,6 +42,7 @@
       </li>
 
       <li>
+        <p><span class="value_icon"><i class="fa-solid fa-graduation-cap"></i></span></p>
         <h6>Course</h6>
         <p>Structured learning across three tiers — Core, Advanced, Architect.
            Hands-on labs, exercises, and direct input on the curriculum.
@@ -34,6 +53,7 @@
       </li>
 
       <li>
+        <p><span class="value_icon"><i class="fa-solid fa-people-group"></i></span></p>
         <h6>Workshops</h6>
         <p>Live 3-hour deep dives with the author. Real datasets, real-time Q&amp;A.
            Limited seats per session.</p>
