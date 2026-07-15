@@ -147,6 +147,8 @@
   border: none !important; margin-left: 0.55rem; vertical-align: middle;
 }
 .tl-gh:hover { color: #444 !important; border: none !important; }
+.tl-toc { color: #60b2d3 !important; font-weight: 500 !important; }
+.tl-toc:hover { color: #4a9cbf !important; }
 .tl-desc { font-size: 0.875rem; color: #6b6b6b; line-height: 1.62; margin: 0; }
 .tl-desc code { font-size: 0.82em; background: #f0edf4; padding: 0.1em 0.35em; border-radius: 2px; }
 .tl-quickstart {
@@ -216,7 +218,7 @@ select distinct on (isocode) iso3, depth
             <i class="fa-solid fa-book tl-icon"></i>
             <span class="tl-date">July 2026</span>
           </div>
-          <p class="tl-title"><a href="/book/">Second Edition, Updated (2026)</a><a href="/book/updates/" class="tl-gh">What's new →</a></p>
+          <p class="tl-title"><a href="/book/">Second Edition, Updated (2026)</a><a href="/book/updates/" class="tl-gh">What's new →</a><a href="/book/contents/" class="tl-gh tl-toc">Full ToC →</a></p>
           <p class="tl-desc">Modernises the book from PostgreSQL 11 to the 17/18 landscape. Adds Chapter 51 — Vector Search with pgvector (HNSW, IVFFlat, hybrid search). Introduces 56 new TikZ figures generated from SQL, a fully integrated companion lab, and coverage of PG 12–18 features throughout (virtual generated columns, <code>RETURNING OLD/NEW</code>, <code>uuidv7()</code>, <code>NULLS NOT DISTINCT</code>, incremental sort, and more). Free update for all existing purchasers.</p>
         </div>
 

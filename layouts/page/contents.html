@@ -1,0 +1,1578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Table of Contents | The Art of PostgreSQL</title>
+  <meta name="description" content="Full table of contents for The Art of PostgreSQL: 8 parts, 53 chapters, 437 SQL queries across 15 real-world datasets. A spiral learning path from SQL fundamentals to PostgreSQL extensions.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:site" content="@tapoueh" />
+  <meta property="og:url" content="https://theartofpostgresql.com/book/contents/" />
+  <meta property="og:title" content="Table of Contents — The Art of PostgreSQL" />
+  <meta property="og:description" content="8 parts, 53 chapters, 437 SQL queries. A spiral learning path through PostgreSQL 10–18." />
+  <meta property="og:image" content="https://theartofpostgresql.com/img/TheArtOfPostgresUniversity.png" />
+  <link href="/favicon.ico" rel="icon" type="image/x-icon">
+  <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/syntax.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
+  <script src="/js/custom.js"></script>
+  <style>
+    /* ── Contents page ── */
+    body.contents-page .header {
+      background: #2e2241 url('/images/demo/slide.jpg') center top no-repeat;
+      background-size: cover;
+      background-attachment: fixed;
+    }
+
+    /* Hero */
+    .cp-hero {
+      background: #2e2241 url('/images/demo/slide.jpg') center top no-repeat;
+      background-size: cover;
+      background-attachment: fixed;
+      padding: 120px 0 64px;
+      text-align: center;
+    }
+    .cp-hero h1 {
+      font: 300 2.6rem/1.2 'Lato', sans-serif;
+      color: #fff;
+      max-width: 680px;
+      margin: 0 auto 16px;
+      padding: 0 24px;
+    }
+    .cp-hero .cp-hero-sub {
+      font: 300 1.05rem/1.6 'Lato', sans-serif;
+      color: rgba(255,255,255,0.75);
+      max-width: 560px;
+      margin: 0 auto 36px;
+      padding: 0 24px;
+    }
+    .cp-stats-bar {
+      display: flex;
+      justify-content: center;
+      gap: 0;
+      flex-wrap: wrap;
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+    .cp-stat {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 0 28px;
+      border-right: 1px solid rgba(255,255,255,0.2);
+    }
+    .cp-stat:last-child { border-right: none; }
+    .cp-stat-n {
+      font: 700 2rem/1 'Lato', sans-serif;
+      color: #60b2d3;
+      letter-spacing: -0.02em;
+    }
+    .cp-stat-l {
+      font: 300 0.78rem/1.4 'Lato', sans-serif;
+      color: rgba(255,255,255,0.65);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-top: 6px;
+      white-space: nowrap;
+    }
+
+    /* Preface / intro */
+    .cp-intro {
+      background: #fff;
+      padding: 64px 0 56px;
+    }
+    .cp-intro-inner {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+    .cp-preface-cols {
+      display: grid;
+      grid-template-columns: 1fr 260px;
+      gap: 52px;
+      align-items: start;
+      margin-bottom: 8px;
+    }
+    .cp-preface-image img {
+      width: 100%;
+      display: block;
+      border-radius: 3px;
+      box-shadow: 0 6px 28px rgba(55,38,73,0.18);
+    }
+    .cp-intro h2 {
+      font: 300 1.7rem/1.25 'Lato', sans-serif;
+      color: #372649;
+      margin: 0 0 20px;
+    }
+    .cp-intro h3 {
+      font: 700 0.8rem/1 'Lato', sans-serif;
+      color: #60b2d3;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin: 40px 0 16px;
+    }
+    .cp-intro p {
+      font: 300 1.05rem/1.75 'Lato', sans-serif;
+      color: #444;
+      margin: 0 0 16px;
+    }
+    .cp-intro p:last-child { margin-bottom: 0; }
+    .cp-quote {
+      margin: 28px 0 28px 0;
+      padding: 4px 0 4px 48px;
+      position: relative;
+    }
+    .cp-quote::before {
+      font-family: 'Font Awesome 6 Free';
+      font-weight: 900;
+      content: '\f10d';
+      font-size: 1.8rem;
+      color: #60b2d3;
+      opacity: 0.45;
+      position: absolute;
+      left: 0;
+      top: 4px;
+      line-height: 1;
+    }
+    .cp-quote p {
+      font: 300 italic 1rem/1.7 'Lato', sans-serif;
+      color: #372649;
+      margin: 0 0 10px;
+    }
+    .cp-quote cite {
+      font: 400 0.82rem/1 'Lato', sans-serif;
+      color: #67527a;
+      font-style: normal;
+    }
+    .cp-quote cite a {
+      color: #60b2d3;
+      text-decoration: none;
+    }
+    .cp-quote cite a:hover { text-decoration: underline; }
+    .cp-about-cols {
+      column-count: 2;
+      column-gap: 48px;
+      margin-bottom: 32px;
+    }
+    .cp-about-cols p {
+      break-inside: avoid;
+    }
+    .cp-quote-center {
+      width: 60%;
+      max-width: 720px;
+      margin: 28px auto;
+    }
+    .cp-spiral-steps {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      margin-top: 36px;
+      border: 1px solid #e4dded;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .cp-step {
+      padding: 22px 20px 20px;
+      border-right: 1px solid #e4dded;
+      text-align: center;
+    }
+    .cp-step:last-child { border-right: none; }
+    .cp-step-icon { font-size: 1.4rem; color: #60b2d3; margin-bottom: 10px; }
+    .cp-step-label {
+      font: 700 0.8rem/1.3 'Lato', sans-serif;
+      color: #372649;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .cp-step-desc {
+      font: 300 0.82rem/1.5 'Lato', sans-serif;
+      color: #67527a;
+      margin-top: 6px;
+    }
+
+    /* Part nav — LaTeX array style */
+    .cp-part-nav {
+      background: #f8f7f9;
+      padding: 32px 0 36px;
+      border-bottom: 1px solid #e4dded;
+    }
+    .cp-part-nav-inner {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+    .cp-part-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .cp-part-table thead tr {
+      border-top: 2px solid #67527a;
+      border-bottom: 1px solid #67527a;
+    }
+    .cp-part-table tbody tr:last-child {
+      border-bottom: 2px solid #67527a;
+    }
+    .cp-part-table tbody tr {
+      border-bottom: 1px solid #d5cde0;
+    }
+    .cp-part-table th {
+      font: 400 0.72rem/1 'Lato', sans-serif;
+      color: #67527a;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 8px 16px 8px 0;
+      text-align: left;
+    }
+    .cp-part-table td {
+      padding: 9px 16px 9px 0;
+      vertical-align: baseline;
+    }
+    .cp-part-table .col-part {
+      width: 72px;
+      white-space: nowrap;
+      font: 400 0.82rem/1 'Lato', sans-serif;
+      color: #60b2d3;
+    }
+    .cp-part-table .col-part a {
+      font: inherit;
+      color: inherit;
+      text-decoration: none;
+    }
+    .cp-part-table .col-title {
+      width: 210px;
+      white-space: nowrap;
+    }
+    .cp-part-table .col-title a {
+      font: 700 0.92rem/1 'Lato', sans-serif;
+      color: #372649;
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+    .cp-part-table .col-part a:hover,
+    .cp-part-table .col-title a:hover { color: #60b2d3; }
+    .cp-part-table .col-hook {
+      font: 300 italic 0.88rem/1.5 'Lato', sans-serif;
+      color: #67527a;
+    }
+
+    /* Part sections */
+    .cp-part {
+      padding: 72px 0 60px;
+      border-bottom: 1px solid #e4dded;
+    }
+    .cp-part:nth-child(odd) { background: #fff; }
+    .cp-part:nth-child(even) { background: #f8f7f9; }
+
+    .cp-part .wrapper {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* Part heading */
+    .cp-part-head {
+      margin-bottom: 20px;
+    }
+    .cp-part-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font: 400 0.88rem/1 'Lato', sans-serif;
+      color: #60b2d3;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      border: 1px solid #60b2d3;
+      border-radius: 3px;
+      padding: 7px 16px;
+      margin-bottom: 16px;
+    }
+    .cp-part-badge i {
+      font-size: 0.95rem;
+      opacity: 0.8;
+    }
+    .cp-part-head h2 {
+      font: 300 2rem/1.15 'Lato', sans-serif;
+      color: #372649;
+      margin: 0 0 8px;
+    }
+    .cp-part-meta {
+      font: 300 0.85rem/1 'Lato', sans-serif;
+      color: #67527a;
+    }
+    .cp-part-desc {
+      font: 300 1.02rem/1.72 'Lato', sans-serif;
+      color: #444;
+      width: 90%;
+      max-width: 660px;
+      margin: 0 auto 40px;
+      text-align: justify;
+    }
+    .cp-part-desc p { margin-bottom: 1em; }
+    .cp-part-desc p:last-child { margin-bottom: 0; }
+    .cp-part-desc ul {
+      margin: 0.25em 0 1em 1.5em;
+      list-style: disc;
+    }
+    .cp-part-desc li { margin-bottom: 0.2em; }
+
+    /* Part body: chapters + showcase */
+    .cp-part-body {
+      display: grid;
+      grid-template-columns: 1fr 400px;
+      gap: 48px;
+      align-items: start;
+    }
+
+    /* Chapter list */
+    .cp-chapters {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      text-align: left;
+    }
+    .cp-chapter {
+      display: flex;
+      gap: 14px;
+      padding: 14px 0;
+      border-bottom: 1px solid #ede8f2;
+      align-items: baseline;
+    }
+    .cp-chapter:last-child { border-bottom: none; }
+    .cp-ch-num {
+      font: 400 0.72rem/1 'Lato', sans-serif;
+      color: #60b2d3;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      flex-shrink: 0;
+      width: 42px;
+      padding-top: 3px;
+    }
+    .cp-ch-title {
+      font: 700 0.95rem/1.3 'Lato', sans-serif;
+      color: #372649;
+    }
+    .cp-ch-interview {
+      font: 400 italic 0.88rem/1.3 'Lato', sans-serif;
+      color: #9e8fb0;
+    }
+    .cp-ch-topics {
+      display: block;
+      font: 300 0.82rem/1.45 'Lato', sans-serif;
+      color: #67527a;
+      margin-top: 3px;
+    }
+    .cp-ch-yesql {
+      display: block;
+      font: 300 0.78rem/1.4 'Lato', sans-serif;
+      color: #60b2d3;
+      margin-top: 5px;
+    }
+    .cp-ch-yesql a {
+      color: #60b2d3;
+      text-decoration: none;
+    }
+    .cp-ch-yesql a:hover { text-decoration: underline; }
+
+    /* Showcase panel */
+    .cp-showcase {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      position: sticky;
+      top: 24px;
+    }
+    .cp-diagram {
+      margin: 0;
+    }
+    .cp-diagram img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 4px;
+    }
+    .cp-diagram figcaption {
+      font: 300 0.76rem/1.4 'Lato', sans-serif;
+      color: #9e8fb0;
+      text-align: center;
+      margin-top: 6px;
+    }
+
+    /* Showcase SQL card */
+    .cp-query-card {
+      background: #2a1f36;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .cp-lab-box {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      margin-top: 20px;
+      padding: 14px 16px;
+      background: rgba(96,178,211,0.08);
+      border: 1px solid rgba(96,178,211,0.35);
+      border-radius: 6px;
+    }
+    .cp-lab-box i {
+      font-size: 1.1rem;
+      color: #60b2d3;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .cp-lab-box p {
+      font: 300 0.88rem/1.5 'Lato', sans-serif;
+      color: #444;
+      margin: 0;
+    }
+    .cp-lab-box strong { font-weight: 700; color: #372649; }
+    .cp-lab-box a { color: #60b2d3; text-decoration: none; }
+    .cp-lab-box a:hover { text-decoration: underline; }
+    .cp-lab-box code { font-size: 0.82em; color: #60b2d3; }
+
+    .cp-query-label {
+      font: 400 0.72rem/1 'Lato', sans-serif;
+      color: #60b2d3;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 14px 18px 10px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .cp-query-card pre {
+      margin: 0;
+      padding: 16px 18px;
+      overflow-x: auto;
+      background: transparent;
+      border: none;
+      border-radius: 0;
+      text-align: left;
+    }
+    .cp-query-card pre code {
+      font: 400 0.75rem/1.55 'Consolas', 'Monaco', 'Courier New', monospace;
+      color: #c8b8e0;
+      background: none;
+      padding: 0;
+    }
+    .cp-query-caption {
+      font: 300 0.8rem/1.55 'Lato', sans-serif;
+      color: rgba(255,255,255,0.5);
+      padding: 10px 18px 14px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      margin: 0;
+    }
+
+    /* Final CTA */
+    .cp-cta {
+      background: #372649;
+      padding: 80px 0;
+      text-align: center;
+    }
+    .cp-cta h2 {
+      font: 300 1.9rem/1.2 'Lato', sans-serif;
+      color: #fff;
+      margin: 0 0 16px;
+    }
+    .cp-cta p {
+      font: 300 1rem/1.6 'Lato', sans-serif;
+      color: rgba(255,255,255,0.65);
+      max-width: 540px;
+      margin: 0 auto 32px;
+    }
+    .cp-cta .cp-cta-btns {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+    /* Override: button_purple blends into the #372649 CTA background; use the accent blue instead */
+    .cp-cta .button.button_purple,
+    .cp-cta .button.button_purple:visited {
+      background: #60b2d3;
+      border-color: #60b2d3;
+      color: #fff;
+    }
+    .cp-cta .button.button_purple:hover {
+      background: #4a9cbf;
+      border-color: #4a9cbf;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 960px) {
+      .cp-part-body {
+        grid-template-columns: 1fr;
+      }
+      .cp-showcase {
+        position: static;
+      }
+    }
+    @media (max-width: 640px) {
+      .cp-preface-cols {
+        grid-template-columns: 1fr;
+      }
+      .cp-preface-image { order: -1; }
+      .cp-hero { padding: 80px 0 40px; }
+      .cp-hero h1 { font-size: 1.8rem; }
+      .cp-stat { padding: 0 16px; }
+      .cp-stat-n { font-size: 1.5rem; }
+      .cp-spiral-steps { grid-template-columns: repeat(2, 1fr); }
+      .cp-step:nth-child(2) { border-right: none; }
+      .cp-step:nth-child(3) { border-top: 1px solid #e4dded; }
+      .cp-step:nth-child(4) { border-top: 1px solid #e4dded; }
+      .cp-about-cols { column-count: 1; }
+      .cp-part { padding: 48px 0 40px; }
+      .cp-cta { padding: 56px 0; }
+      .cp-cta h2 { font-size: 1.4rem; }
+    }
+  </style>
+</head>
+<body class="page contents-page">
+
+{{ partial "header.html" . }}
+
+<!-- ── Hero ── -->
+<section class="cp-hero">
+  <div class="wrapper">
+    <h1>What's in the Book</h1>
+    <p class="cp-hero-sub">
+      590 pages. 8 parts. 53 chapters. A spiral path through PostgreSQL —
+      from your first query to vector search, triggers, and custom extensions.
+    </p>
+    <div class="cp-stats-bar">
+      <div class="cp-stat"><span class="cp-stat-n">8</span><span class="cp-stat-l">Parts</span></div>
+      <div class="cp-stat"><span class="cp-stat-n">53</span><span class="cp-stat-l">Chapters</span></div>
+      <div class="cp-stat"><span class="cp-stat-n">437</span><span class="cp-stat-l">SQL&nbsp;Queries</span></div>
+      <div class="cp-stat"><span class="cp-stat-n">15</span><span class="cp-stat-l">Datasets</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Preface / intro ── -->
+<section class="cp-intro" id="preface">
+  <div class="cp-intro-inner">
+
+    <!-- Two-column: preface text left, book cover right -->
+    <div class="cp-preface-cols">
+      <div class="cp-preface-text">
+        <h2>Preface</h2>
+        <p>
+          As a developer, <em>The Art of PostgreSQL</em> is the book you need to
+          read in order to get to the next level of proficiency.
+        </p>
+        <p>
+          After all, a developer's job encompasses more than just writing code. Our
+          job is to produce results, and for that we have many tools at our disposal.
+          SQL is one of them, and this book teaches you all about it.
+        </p>
+        <p>
+          PostgreSQL is used to manage data in a centralized fashion, and SQL is
+          used to get exactly the result set needed from the application code. An
+          SQL result set is generally used to fill in-memory data structures so
+          that the application can then process the data. So, let's open this book
+          with a quote about data structures and application code:
+        </p>
+        <blockquote class="cp-quote">
+          <p>Data dominates. If you've chosen the right data structures and
+          organized things well, the algorithms will almost always be self-evident.
+          Data structures, not algorithms, are central to programming.</p>
+          <cite>— <a href="https://doc.cat-v.org/bell_labs/pikestyle" target="_blank" rel="noopener">Rob Pike</a>, Notes on Programming in C (1989)</cite>
+        </blockquote>
+      </div>
+      <div class="cp-preface-image">
+        <img src="/images/demo/slide3.jpg" alt="The Art of PostgreSQL — book cover">
+      </div>
+    </div>
+
+    <h3>About the Book</h3>
+    <div class="cp-about-cols">
+      <p>
+        This book is intended for developers working on applications that use a
+        database server. The book specifically addresses the PostgreSQL RDBMS: it
+        actually is the world's most advanced Open Source database, just like it
+        says in the tagline on the official website. By the end of this book you'll
+        know why, and you'll agree!
+      </p>
+      <p>
+        I wanted to write this book after having worked with many customers who were
+        making use of only a fraction of what SQL and PostgreSQL are capable of
+        delivering. In most cases, developers I met with didn't know what's possible
+        to achieve in SQL. As soon as they realized — or more exactly, as soon as
+        they were shown what's possible to achieve —, replacing hundreds of lines of
+        application code with a small and efficient SQL query, then in some cases
+        they would nonetheless not know how to integrate a raw SQL query in their
+        code base.
+      </p>
+      <p>
+        Integrating a SQL query and thinking about SQL as code means using the same
+        advanced tooling that we use when using other programming languages:
+        versioning, automated testing, code reviewing, and deployment. Really, this
+        is more about the developer's workflow than the SQL code itself…
+      </p>
+      <p>
+        In this book, you will learn best practices that help with integrating SQL
+        into your own workflow, and through the many examples provided, you'll see
+        all the reasons why you might be interested in doing more in SQL. Primarily,
+        it means writing fewer lines of code. As Dijkstra said, we should count
+        lines of code as lines spent, so by learning how to use SQL you will be able
+        to spend less to write the same application!
+      </p>
+    </div>
+    <blockquote class="cp-quote cp-quote-center">
+      <p>The practice is pervaded by the reassuring illusion that programs are
+      just devices like any others, the only difference admitted being that their
+      manufacture might require a new type of craftsmen, viz. programmers. From
+      there it is only a small step to measuring "programmer productivity" in terms
+      of "number of lines of code produced per month". This is a very costly
+      measuring unit because it encourages the writing of insipid code, but today
+      I am less interested in how foolish a unit it is from even a pure business
+      point of view. My point today is that, if we wish to count lines of code, we
+      should not regard them as "lines produced" but as "lines spent": the current
+      conventional wisdom is so foolish as to book that count on the wrong side of
+      the ledger.</p>
+      <cite><a href="http://www.cs.utexas.edu/users/EWD/transcriptions/EWD10xx/EWD1036.html" target="_blank" rel="noopener">On the cruelty of really teaching computing science</a>, <strong>Edsger Wybe Dijkstra</strong> (EWD1036, 1988)</cite>
+    </blockquote>
+
+    <h3>How this book is organised</h3>
+    <p>
+      Each part of <em>The Art of PostgreSQL</em> can be read on its own, or you
+      can read this book from the first to the last page in the order of the parts
+      and chapters therein. A great deal of thinking has been put into the ordering
+      of the parts, so that reading <em>The Art of PostgreSQL</em> in a linear
+      fashion should provide the best experience.
+    </p>
+    <p>
+      The skill progression throughout the book is not linear. Each time a new SQL
+      concept is introduced, it is presented with simple enough queries, in order
+      to make it possible to focus on the new notion. Then, more queries are
+      introduced to answer more interesting business questions.
+    </p>
+    <p>
+      Complexity of the queries usually advances over the course of a given part,
+      chapter after chapter. Sometimes, when a new chapter introduces a new SQL
+      concept, complexity is reset to very simple queries again. That's because for
+      most people, learning a new skill set does not happen in a linear way. Having
+      this kind of difficulty organisation also makes it easier to dive into a
+      given chapter out-of-order.
+    </p>
+    <div class="cp-spiral-steps">
+      <div class="cp-step">
+        <div class="cp-step-icon"><i class="fa-solid fa-seedling"></i></div>
+        <div class="cp-step-label">Accessible start</div>
+        <div class="cp-step-desc">Every chapter opens with something you can run immediately</div>
+      </div>
+      <div class="cp-step">
+        <div class="cp-step-icon"><i class="fa-solid fa-code"></i></div>
+        <div class="cp-step-label">Real datasets</div>
+        <div class="cp-step-desc">15 open datasets — F1, Chinook, Geonames, Last.fm, MoMA, and more</div>
+      </div>
+      <div class="cp-step">
+        <div class="cp-step-icon"><i class="fa-solid fa-layer-group"></i></div>
+        <div class="cp-step-label">Advanced techniques</div>
+        <div class="cp-step-desc">Every chapter reaches techniques most books never cover</div>
+      </div>
+      <div class="cp-step">
+        <div class="cp-step-icon"><i class="fa-solid fa-rotate"></i></div>
+        <div class="cp-step-label">Worth re-reading</div>
+        <div class="cp-step-desc">What comes later illuminates what came before</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Part nav ── -->
+<nav class="cp-part-nav">
+  <div class="cp-part-nav-inner">
+    <table class="cp-part-table">
+      <thead>
+        <tr>
+          <th class="col-part">Part</th>
+          <th class="col-title">Title</th>
+          <th class="col-hook"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-part"><a href="#preface">I</a></td>
+          <td class="col-title"><a href="#preface">Preface</a></td>
+          <td class="col-hook">The case for SQL as your most underused developer tool</td>
+        </tr>
+        <tr>
+          <td class="col-part"><a href="#part-2">II</a></td>
+          <td class="col-title"><a href="#part-2">Introduction</a></td>
+          <td class="col-hook">Twenty lines of Python versus one SQL query — the SQL wins</td>
+        </tr>
+        <tr>
+          <td class="col-part"><a href="#part-3">III</a></td>
+          <td class="col-title"><a href="#part-3">Writing SQL Queries</a></td>
+          <td class="col-hook">SQL belongs in version control, test suites, and code review</td>
+        </tr>
+        <tr>
+          <td class="col-part"><a href="#part-4">IV</a></td>
+          <td class="col-title"><a href="#part-4">SQL Toolbox</a></td>
+          <td class="col-hook">The features your ORM hides: window functions, CTEs, lateral joins</td>
+        </tr>
+        <tr>
+          <td class="col-part"><a href="#part-5">V</a></td>
+          <td class="col-title"><a href="#part-5">Data Types</a></td>
+          <td class="col-hook">When the schema enforces more correctness than your application code</td>
+        </tr>
+        <tr>
+          <td class="col-part"><a href="#part-6">VI</a></td>
+          <td class="col-title"><a href="#part-6">Data Modeling</a></td>
+          <td class="col-hook">Why this part comes last — and why that order is the insight</td>
+        </tr>
+        <tr>
+          <td class="col-part"><a href="#part-7">VII</a></td>
+          <td class="col-title"><a href="#part-7">Concurrency</a></td>
+          <td class="col-hook">What actually happens when two writers arrive at the same time</td>
+        </tr>
+        <tr>
+          <td class="col-part"><a href="#part-8">VIII</a></td>
+          <td class="col-title"><a href="#part-8">PostgreSQL Extensions</a></td>
+          <td class="col-hook">What becomes possible when the database ships with a search engine</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════════════════════
+     PART 2 — Introduction
+═══════════════════════════════════════════════ -->
+<section class="cp-part" id="part-2">
+  <div class="wrapper">
+    <div class="cp-part-head">
+      <span class="cp-part-badge"><i class="fa-solid fa-section"></i> Part 2</span>
+      <h2>Introduction</h2>
+      <div class="cp-part-meta">3 chapters &middot; 12 SQL queries</div>
+    </div>
+    <p class="cp-part-desc">
+      The introduction of this book intends to convince application developers
+      such as you, dear reader, that there's more to SQL than you might think. It
+      begins with a very simple data set and simple enough queries, that we
+      compare to their equivalent Python code. Then we expand from there with a
+      very important trick that's not well known, and a pretty advanced variation
+      of it.
+    </p>
+    <div class="cp-part-body">
+      <div class="cp-chapters">
+        <div class="cp-chapter">
+          <span class="cp-ch-num">Ch 2</span>
+          <div>
+            <span class="cp-ch-title">Structured Query Language</span>
+            <span class="cp-ch-topics">A first use case · Loading the dataset · COPY error handling (PG 17) · SQL Injection · Server-side prepared statements · Computing weekly changes</span>
+          </div>
+        </div>
+        <div class="cp-chapter">
+          <span class="cp-ch-num">Ch 3</span>
+          <div>
+            <span class="cp-ch-title">Software Architecture</span>
+            <span class="cp-ch-topics">Why PostgreSQL? · The PostgreSQL documentation · Architecture trade-offs</span>
+            <span class="cp-ch-yesql"><a href="/yesql/sql-foundations/why-postgres/">YeSQL: Why Postgres? →</a></span>
+          </div>
+        </div>
+        <div class="cp-chapter">
+          <span class="cp-ch-num">Ch 4</span>
+          <div>
+            <span class="cp-ch-title">Getting Ready to Read This Book</span>
+            <span class="cp-ch-topics">Running a query · Finding queries while reading · Using the companion lab</span>
+            <span class="cp-ch-yesql"><a href="/yesql/sql-foundations/how-to-learn-sql/">YeSQL: How to Learn SQL →</a></span>
+          </div>
+        </div>
+        <div class="cp-lab-box">
+          <i class="fa-solid fa-flask-vial"></i>
+          <p><strong>Companion Lab included</strong> — run every query in the book from your browser.<br>
+            <code>docker compose up</code> → PostgreSQL + query UI at <code>localhost:8042</code>.
+            <a href="/lab/">Learn more about the lab →</a></p>
+        </div>
+      </div>
+
+      <div class="cp-showcase">
+        <figure class="cp-diagram">
+          <img src="/img/diagrams/fig-factbook-relation.svg" alt="Factbook data model">
+          <figcaption>The factbook relation — retail sales by day</figcaption>
+        </figure>
+        <div class="cp-query-card">
+          <div class="cp-query-label">What you can write after Part 2</div>
+          <pre><code>with computed_data as (
+  select cast(date as date) as date,
+         to_char(date, 'Dy') as day,
+         coalesce(dollars, 0) as dollars,
+         lag(dollars, 1)
+           over(
+             partition by extract('isodow' from date)
+                 order by date
+           ) as last_week_dollars
+    from generate_series(
+           date :'start' - interval '1 week',
+           date :'start' + interval '1 month'
+                         - interval '1 day',
+           interval '1 day'
+         ) as calendar(date)
+         left join factbook using(date)
+)
+  select date, day,
+         to_char(coalesce(dollars, 0),
+                 'L99G999G999G999') as dollars,
+         case when dollars is not null
+               and dollars &lt;&gt; 0
+              then round(100.0
+                         * (dollars - last_week_dollars)
+                         / dollars, 2)
+          end as "WoW %"
+    from computed_data
+   where date &gt;= date :'start'
+order by date;</code></pre>
+          <p class="cp-query-caption">Generate a full month calendar from a date parameter, fill in missing days, and compute week-over-week percentage changes — entirely in SQL.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     PART 3 — Writing SQL Queries
+═══════════════════════════════════════════════ -->
+<section class="cp-part" id="part-3">
+  <div class="wrapper">
+    <div class="cp-part-head">
+      <span class="cp-part-badge"><i class="fa-solid fa-section"></i> Part 3</span>
+      <h2>Writing SQL Queries</h2>
+      <div class="cp-part-meta">6 chapters &middot; 48 SQL queries</div>
+    </div>
+    <div class="cp-part-desc">
+      <p>The third part of the book covers how to write a SQL query as an
+      application developer. We answer several important questions here:</p>
+      <ul>
+        <li>Why use SQL rather than your usual programming language?</li>
+        <li>How to integrate SQL in your application source code?</li>
+        <li>How to work at the SQL prompt, the <code>psql</code> REPL?</li>
+        <li>What's an indexing strategy and how to approach indexing?</li>
+      </ul>
+      <p>A simple Python application is introduced as a practical example
+      illustrating the different answers provided. In particular, this part
+      insists on when to use SQL to implement business logic.</p>
+    </div>
+    <div class="cp-part-body">
+      <div class="cp-chapters">
+        <div class="cp-chapter">
+          <span class="cp-ch-num">Ch 5</span>
+          <div>
+            <span class="cp-ch-title">Business Logic</span>
+            <span class="cp-ch-topics">SQL as business logic · Use cases · Correctness and efficiency · Stored procedures as data access API · Where to implement business logic</span>
+          </div>
+        </div>
+        <div class="cp-chapter">
+          <span class="cp-ch-num">Ch 6</span>
+          <div>
+            <span class="cp-ch-title">A Small Application</span>
+            <span class="cp-ch-topics">Readme-first development · Chinook database · Music catalog queries · Albums by artist · Top-N artists by genre</span>
+          </div>
+        </div>
+        <div class="cp-chapter">
+          <span class="cp-ch-num">Ch 7</span>
+          <div>
+            <span class="cp-ch-title">The SQL REPL — An Interactive Setup</span>
+            <span class="cp-ch-topics">Intro to psql · The .psqlrc setup · Transactions and psql behavior · A reporting tool · Discovering a schema · Interactive query editor</span>
+          </div>
+        </div>
+        <div class="cp-chapter">
+          <span class="cp-ch-num">Ch 8</span>
+          <div>
+            <span class="cp-ch-title">SQL is Code</span>
+            <span class="cp-ch-topics">SQL style guidelines · Comments · Unit tests · Regression tests</span>
+          </div>
+        </div>
+        <div class="cp-chapter">
+          <span class="cp-ch-num">Ch 9</span>
+          <div>
+            <span class="cp-ch-title">Indexing Strategy</span>
+            <span class="cp-ch-topics">Indexing for constraints · Indexing for queries · Cost of index maintenance · B-tree, GiST, SP-GiST, GIN, BRIN, Hash, Bloom · Partial, covering, and functional indexes · Fillfactor and HOT updates</span>
+            <span class="cp-ch-yesql"><a href="/yesql/performance/indexing-strategy/">YeSQL: Indexing Strategy</a> · <a href="/yesql/performance/reading-explain/">Reading EXPLAIN →</a></span>
+          </div>
+        </div>
+        <div class="cp-chapter">
+          <span class="cp-ch-num">Ch 10</span>
+          <div>
+            <span class="cp-ch-interview">Interview with Yohann Gabory</span>
+            <span class="cp-ch-topics">Django ORM, raw SQL, PostgreSQL-specific features</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="cp-showcase">
+        <figure class="cp-diagram">
+          <img src="/img/diagrams/fig-spgist-europe.svg" alt="SP-GiST quadtree over European castle ruins">
+          <figcaption>SP-GiST adaptive quadtree over European castle ruins — computed from actual PostGIS data using a recursive CTE that mirrors the index structure; the SQL is in the book</figcaption>
+        </figure>
+        <div class="cp-query-card">
+          <div class="cp-query-label">What you can write after Part 3</div>
+          <pre><code>-- name: list-albums-by-artist
+-- Returns album titles and total duration
+-- for a given artist, ordered alphabetically.
+  select album.title as album,
+         sum(milliseconds)
+           * interval '1 ms' as duration
+    from album
+         join artist using(artistid)
+         left join track using(albumid)
+   where artist.name = :name
+group by album
+order by album;</code></pre>
+          <p class="cp-query-caption">Named, version-controlled SQL files with parameters, style conventions, and unit tests — SQL treated as a first-class citizen alongside your application code.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     PART 4 — SQL Toolbox
+═══════════════════════════════════════════════ -->
+<section class="cp-part" id="part-4">
+  <div class="wrapper">
+    <div class="cp-part-head">
+      <span class="cp-part-badge"><i class="fa-solid fa-section"></i> Part 4</span>
+      <h2>SQL Toolbox</h2>
+      <div class="cp-part-meta">10 chapters &middot; 86 SQL queries</div>
+    </div>
+    <div class="cp-part-desc">
+      <p>The fourth part of <em>The Art of PostgreSQL</em> introduces most of
+      the SQL concepts that you need to master as an application developer. It
+      begins with the basics, because you need to build your knowledge and skill
+      set on top of those foundations.</p>
+      <p>Advanced SQL concepts are introduced with practical examples: every
+      query refers to a data model that's easy to understand, and is given in
+      the context of a "business case", or "user story".</p>
+      <p>This part covers SQL clauses and features such as ORDER BY and k-NN
+      sorts, the GROUP BY and HAVING clause and GROUPING SETS, along with
+      classic and advanced aggregates, and then window functions. This part also
+      covers the infamous NULL, and what's a relation and a join.</p>
+    </div>
+    <div class="cp-part-body">
+      <div class="cp-chapters">
+        <div class="cp-chapter">
+          <span class="cp-ch-num">Ch 11–13</span>
+          <div>
+            <span class="cp-ch-title">Foundations</span>
+            <span class="cp-ch-topics">Getting data · SQL language overview · Queries, DML, DDL, TCL, DCL</span>
+            <span class="cp-ch-yesql"><a href="/yesql/sql-foundations/what-is-a-relation/">YeSQL: What is an SQL Relation? →</a></span>
+          </div>
+        </div>
+        <div class="cp-chapter">
+          <span class="cp-ch-num">Ch 14</span>
+          <div>
+            <span class="cp-ch-title">Select, From, Where</span>
+            <span class="cp-ch-topics">Anatomy of a SELECT · Projection · Computed values and aliases · Data sources · Understanding joins · Restrictions</span>
+            <span class="cp-ch-yesql"><a href="/yesql/joins-and-relations/what-is-a-join/">YeSQL: What is an SQL JOIN? →</a></span>
+          </div>
+        </div>
+        <div class="cp-chapter">
+          <span class="cp-ch-num">Ch 15</span>
+          <div>
+            <span class="cp-ch-title">Order By, Limit, No Offset</span>
+            <span class="cp-ch-topics">Ordering · Incremental sort (PG 13) · kNN ordering and GiST indexes · Top-N sorts · Pagination without OFFSET</span>
+          </div>
+        </div>
+        <div class="cp-chapter">
+          <span class="cp-ch-num">Ch 16</span>
+          <div>
+            <span class="cp-ch-title">Group By, Having, With, Union All</span>
+            <span class="cp-ch-topics">Aggregates · GROUP BY · HAVING · Grouping Sets · GROUPING() · Ordered-set aggregates · ANY_VALUE() · FETCH FIRST WITH TIES · CTEs · Recursive CTEs · SEARCH and CYCLE · DISTINCT ON · UNION / EXCEPT</span>
+            <span class="cp-ch-yesql"><a href="/yesql/sql-foundations/group-by-semantics/">YeSQL: GROUP BY &amp; HAVING</a> · <a href="/yesql/aggregation/sql-aggregates/">Aggregates</a> · <a href="/yesql/aggregation/filter-clause/">FILTER clause</a> · <a href="/yesql/aggregation/percentiles-in-one-query/">Percentiles</a> · <a href="/yesql/joins-and-relations/with-recursive/">WITH RECURSIVE →</a></span>
+          </div>
+        </div>
+        <div class="cp-chapter">
+          <span class="cp-ch-num">Ch 17</span>
+          <div>
+            <span class="cp-ch-title">Understanding Nulls</span>
+            <span class="cp-ch-topics">Three-valued logic · NOT NULL constraints · Outer joins introducing nulls · Using NULL in applications</span>
+            <span class="cp-ch-yesql"><a href="/yesql/sql-foundations/null-in-sql/">YeSQL: NULL in SQL: Three-Valued Logic →</a></span>
+          </div>
+        </div>
+        <div class="cp-chapter">
+          <span class="cp-ch-num">Ch 18</span>
+          <div>
+            <span class="cp-ch-title">Understanding Window Functions</span>
+            <span class="cp-ch-topics">Windows and frames · ROWS, RANGE, and GROUPS · Partitioning · rank() and dense_rank() · Running totals and moving averages · Gaps and islands · Sessionization · Cohort analysis</span>
+            <span class="cp-ch-yesql"><a href="/yesql/window-functions/over-clause-mental-model/">YeSQL: OVER clause</a> · <a href="/yesql/window-functions/row-number-rank-dense-rank/">ROW_NUMBER &amp; RANK</a> · <a href="/yesql/window-functions/frame-semantics/">Frame Semantics</a> · <a href="/yesql/window-functions/running-totals/">Running Totals</a> · <a href="/yesql/window-functions/sessionization/">Sessionization →</a></span>
+          </div>
+        </div>
+        <div class="cp-chapter">
+          <span class="cp-ch-num">Ch 19</span>
+          <div>
+            <span class="cp-ch-title">Understanding Relations and Joins</span>
+            <span class="cp-ch-topics">Relations · SQL join types · JOIN amplification · LATERAL joins · Semi-joins and anti-joins</span>
+            <span class="cp-ch-yesql"><a href="/yesql/joins-and-relations/what-is-a-join/">YeSQL: What is a JOIN?</a> · <a href="/yesql/joins-and-relations/join-output-cardinality/">JOIN Cardinality</a> · <a href="/yesql/joins-and-relations/lateral-join-top-n/">LATERAL Top-N</a> · <a href="/yesql/sql-foundations/sql-and-ai-left-join/">Silent row loss</a> · <a href="/yesql/sql-foundations/sql-and-ai-count/">COUNT after JOIN →</a></span>
+          </div>
+        </div>
+        <div class="cp-chapter">
+          <span class="cp-ch-num">Ch 20</span>
+          <div>
+            <span class="cp-ch-interview">Interview with Markus Winand</span>
+            <span class="cp-ch-topics">SQL performance, standard compliance, use-the-index-luke.com</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="cp-showcase">
+        <figure class="cp-diagram">
+          <img src="/img/diagrams/fig-groupby-vs-window.svg" alt="GROUP BY vs Window Functions">
+          <figcaption>GROUP BY collapses rows; window functions keep them</figcaption>
+        </figure>
+        <div class="cp-query-card">
+          <div class="cp-query-label">What you can write after Part 4</div>
+          <pre><code>with points as (
+   select year as season, driverid,
+          constructorid,
+          sum(points) as points
+     from results join races using(raceid)
+ group by grouping sets(
+            (year, driverid),
+            (year, constructorid))
+   having sum(points) &gt; 0
+),
+tops as (
+   select season,
+          max(points) filter(where driverid is null)
+            as ctops,
+          max(points) filter(where constructorid is null)
+            as dtops
+     from points
+ group by season
+),
+champs as (
+   select tops.season,
+          d.driverid, d.points,
+          c.constructorid, c.points
+     from tops
+          join points d
+            on d.season = tops.season
+           and d.constructorid is null
+           and d.points = tops.dtops
+          join points c
+            on c.season = tops.season
+           and c.driverid is null
+           and c.points = tops.ctops
+)
+  select season,
+         format('%s %s', forename, surname)
+           as "Driver's Champion",
+         constructors.name as "Constructor"
+    from champs
+         join drivers using(driverid)
+         join constructors using(constructorid)
+order by season;</code></pre>
+          <p class="cp-query-caption">One query, all F1 world champions since 1950 — driver and constructor — using GROUPING SETS and chained CTEs.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     PART 5 — Data Types
+═══════════════════════════════════════════════ -->
+<section class="cp-part" id="part-5">
+  <div class="wrapper">
+    <div class="cp-part-head">
+      <span class="cp-part-badge"><i class="fa-solid fa-section"></i> Part 5</span>
+      <h2>Data Types</h2>
+      <div class="cp-part-meta">6 chapters &middot; 84 SQL queries</div>
+    </div>
+    <p class="cp-part-desc">
+      The fifth part of this book covers the main PostgreSQL data types you can
+      use and benefit from as an application developer. PostgreSQL is an ORDBMS:
+      Object-Relational Database Management System. As a result, data types in
+      PostgreSQL are not just the classics numbers, dates, and text. There's more
+      to it, and this part covers a lot of ground.
+    </p>
+    <div class="cp-part-body">
+      <div class="cp-chapters">
+        <div class="cp-chapter">
+          <span class="cp-ch-num">Ch 21</span>
+          <div>
+            <span class="cp-ch-title">Serialization and Deserialization</span>
+            <span class="cp-ch-topics">Data representation · Marshalling · Application-layer vs. database-layer types</span>
+          </div>
+        </div>
+        <div class="cp-chapter">
+          <span class="cp-ch-num">Ch 22</span>
+          <div>
+            <span class="cp-ch-title">Some Relational Theory</span>
+            <span class="cp-ch-topics">Attribute values · Data domains and data types · Consistency and data type behavior</span>
+            <span class="cp-ch-yesql"><a href="/yesql/sql-foundations/what-is-a-relation/">YeSQL: What is an SQL Relation? →</a></span>
+          </div>
+        </div>
+        <div class="cp-chapter">
+          <span class="cp-ch-num">Ch 23</span>
+          <div>
+            <span class="cp-ch-title">PostgreSQL Data Types</span>
+            <span class="cp-ch-topics">Boolean · Character and text · Server/client encoding · Built-in C.UTF-8 collation (PG 17) · Numbers · Sequences and serial · UUID · Date/time and time zones · Intervals · Network address types · Ranges · Multi-ranges (PG 14)</span>
+            <span class="cp-ch-yesql"><a href="/yesql/data-schema-design/range-types/">YeSQL: Range Types &amp; Temporal Constraints →</a></span>
+          </div>
+        </div>
+        <div class="cp-chapter">
+          <span class="cp-ch-num">Ch 24</span>
+          <div>
+            <span class="cp-ch-title">Denormalized Data Types</span>
+            <span class="cp-ch-topics">Arrays · Composite types · XML · JSON and JSONB · SQL/JSON path language (PG 12) · IS JSON predicate (PG 16) · SQL/JSON constructors and JSON_TABLE (PG 16–17) · Enum</span>
+            <span class="cp-ch-yesql"><a href="/yesql/data-schema-design/json-and-denormalized-types/">YeSQL: JSONB and Arrays →</a></span>
+          </div>
+        </div>
+        <div class="cp-chapter">
+          <span class="cp-ch-num">Ch 25</span>
+          <div>
+            <span class="cp-ch-title">PostgreSQL Extensions</span>
+            <span class="cp-ch-topics">Type extensions overview · Custom types and operators</span>
+          </div>
+        </div>
+        <div class="cp-chapter">
+          <span class="cp-ch-num">Ch 26</span>
+          <div>
+            <span class="cp-ch-interview">Interview with Grégoire Hubert</span>
+            <span class="cp-ch-topics">POMM project, business logic layers, relational constraints</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="cp-showcase">
+        <figure class="cp-diagram">
+          <img src="/img/diagrams/fig-range-operators.svg" alt="Range operators">
+          <figcaption>PostgreSQL range operators — containment, overlap, adjacency</figcaption>
+        </figure>
+        <div class="cp-query-card">
+          <div class="cp-query-label">What you can write after Part 5</div>
+          <pre><code>create table rates (
+  currency text,
+  validity daterange,
+  rate     numeric,
+  exclude using gist (
+    currency with =,
+    validity with &amp;&amp;
+  )
+);
+
+insert into rates(currency, validity, rate)
+     select currency,
+            daterange(date,
+              lead(date) over(
+                partition by currency
+                    order by date),
+              '[)') as validity,
+            rate
+       from raw.rates
+   order by date;</code></pre>
+          <p class="cp-query-caption">A currency rates table where overlapping validity periods are impossible — enforced by an exclusion constraint on a range type, not application code.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     PART 6 — Data Modeling
+═══════════════════════════════════════════════ -->
+<section class="cp-part" id="part-6">
+  <div class="wrapper">
+    <div class="cp-part-head">
+      <span class="cp-part-badge"><i class="fa-solid fa-section"></i> Part 6</span>
+      <h2>Data Modeling</h2>
+      <div class="cp-part-meta">8 chapters &middot; 63 SQL queries</div>
+    </div>
+    <div class="cp-part-desc">
+      <p>The sixth part of <em>The Art of PostgreSQL</em> covers the basics of
+      relational data modeling, which is the most important skill you need to
+      master as an application developer. Given a good database model, every
+      single SQL query is easy to write, things are kept logical, and data is
+      kept clean. With a bad design… well my guess is that you've seen what
+      happens with a not-great data model already, and in many cases that's the
+      root of developers' dislike for the SQL language.</p>
+      <p>This part comes late in the book for a reason: without knowledge of some
+      of the advanced SQL facilities, it's hard to anticipate that a data model
+      is going to be easy enough to work with, and developers then tend to apply
+      early optimizations to the model to try to simplify writing the code. Well,
+      most of those <em>optimizations</em> are detrimental to our ability to
+      benefit from SQL.</p>
+    </div>
+    <div class="cp-part-body">
+      <div class="cp-chapters">
+        <div class="cp-chapter">
+          <span class="cp-ch-num">Ch 27</span>
+          <div>
+            <span class="cp-ch-title">Object Relational Mapping</span>
+            <span class="cp-ch-topics">ORM capabilities and limits · When to go beyond the ORM · Raw SQL in ORM contexts</span>
+          </div>
+        </div>
+        <div class="cp-chapter">
+          <span class="cp-ch-num">Ch 28</span>
+          <div>
+            <span class="cp-ch-title">Tooling for Database Modeling</span>
+            <span class="cp-ch-topics">How to write a database model · Generating random data · Modeling example with timezones</span>
+            <span class="cp-ch-yesql"><a href="/yesql/sql-foundations/sql-and-ai-schema/">YeSQL: The Schema Decision AI Cannot Make →</a></span>
+          </div>
+        </div>
+        <div class="cp-chapter">
+          <span class="cp-ch-num">Ch 29</span>
+          <div>
+            <span class="cp-ch-title">Normalization</span>
+            <span class="cp-ch-topics">Normal forms · Update, insertion, and deletion anomalies · Modeling an address field · Primary keys · Surrogate keys · Foreign keys · NOT NULL · Check constraints and domains · NULLS NOT DISTINCT (PG 15) · Generated stored columns (PG 12) · Virtual generated columns (PG 18) · Row level security · Exclusion constraints</span>
+            <span class="cp-ch-yesql"><a href="/yesql/sql-foundations/database-anomalies/">YeSQL: The Three Database Anomalies</a> · <a href="/yesql/data-schema-design/fk-constraints-trust/">Foreign Keys &amp; Planner Trust →</a></span>
+          </div>
+        </div>
+        <div class="cp-chapter">
+          <span class="cp-ch-num">Ch 30</span>
+          <div>
+            <span class="cp-ch-title">Practical Use Case: Geonames</span>
+            <span class="cp-ch-topics">Feature classification · Countries · Administrative zoning · Geolocation data · GiST indexing</span>
+          </div>
+        </div>
+        <div class="cp-chapter">
+          <span class="cp-ch-num">Ch 31</span>
+          <div>
+            <span class="cp-ch-title">Modelization Anti-Patterns</span>
+            <span class="cp-ch-topics">Entity-Attribute-Value · Multiple values per column · UUID pitfalls</span>
+          </div>
+        </div>
+        <div class="cp-chapter">
+          <span class="cp-ch-num">Ch 32</span>
+          <div>
+            <span class="cp-ch-title">Denormalization</span>
+            <span class="cp-ch-topics">Materialized views · History tables and audit trails · Validity period as a range · Pre-computed values · Enumerated types · Sparse matrix model · Partitioning (PG 12–17 improvements)</span>
+            <span class="cp-ch-yesql"><a href="/yesql/data-schema-design/range-types/">YeSQL: Range Types &amp; Temporal Constraints →</a></span>
+          </div>
+        </div>
+        <div class="cp-chapter">
+          <span class="cp-ch-num">Ch 33</span>
+          <div>
+            <span class="cp-ch-title">Not Only SQL</span>
+            <span class="cp-ch-topics">Schemaless design with JSONB · Durability trade-offs · Scaling out</span>
+          </div>
+        </div>
+        <div class="cp-chapter">
+          <span class="cp-ch-num">Ch 34</span>
+          <div>
+            <span class="cp-ch-interview">Interview with Álvaro Hernández Tortosa</span>
+            <span class="cp-ch-topics">ToroDB, relational vs. document models, PostgreSQL as a NoSQL target</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="cp-showcase">
+        <figure class="cp-diagram">
+          <img src="/img/diagrams/fig-normal-forms.svg" alt="Normal forms diagram">
+          <figcaption>Normal forms — each level eliminates a class of anomaly</figcaption>
+        </figure>
+        <div class="cp-query-card">
+          <div class="cp-query-label">What you can write after Part 6</div>
+          <pre><code>create view v.season_points as
+  select year as season, driver,
+         constructor, points
+    from seasons
+         left join lateral (
+            select drivers.surname as driver,
+                   constructors.name as constructor,
+                   sum(points) as points
+              from results
+                   join races using(raceid)
+                   join drivers using(driverid)
+                   join constructors using(constructorid)
+             where races.year = seasons.year
+          group by grouping sets(
+                     drivers.surname,
+                     constructors.name)
+            order by drivers.surname is not null,
+                     points desc
+         ) as points on true
+order by year, driver is null, points desc;
+
+create materialized view cache.season_points as
+  select * from v.season_points;
+
+create index on cache.season_points(season);</code></pre>
+          <p class="cp-query-caption">A three-layer design: raw tables → a logical view → a materialized cache, with a LATERAL join computing grouping sets per season. Fast reads, clean separation.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     PART 7 — Data Manipulation and Concurrency Control
+═══════════════════════════════════════════════ -->
+<section class="cp-part" id="part-7">
+  <div class="wrapper">
+    <div class="cp-part-head">
+      <span class="cp-part-badge"><i class="fa-solid fa-section"></i> Part 7</span>
+      <h2>Data Manipulation and Concurrency Control</h2>
+      <div class="cp-part-meta">8 chapters &middot; 57 SQL queries</div>
+    </div>
+    <div class="cp-part-desc">
+      <p>The seventh part of this book covers DML and concurrency, the heart of
+      any live database. DML stands for "Data Manipulation Language": it's the
+      part of SQL that includes INSERT, UPDATE, and DELETE statements.</p>
+      <p>The main feature of any RDBMS is how it deals with concurrent access to
+      a single data set, in both reading and writing. This part covers isolation
+      and locking, computing and caching in SQL complete with cache invalidation
+      techniques, and more.</p>
+    </div>
+    <div class="cp-part-body">
+      <div class="cp-chapters">
+        <div class="cp-chapter">
+          <span class="cp-ch-num">Ch 35</span>
+          <div>
+            <span class="cp-ch-title">Another Small Application</span>
+            <span class="cp-ch-topics">Tweet normalization · Practical DML introduction</span>
+          </div>
+        </div>
+        <div class="cp-chapter">
+          <span class="cp-ch-num">Ch 36</span>
+          <div>
+            <span class="cp-ch-title">Insert, Update, Delete</span>
+            <span class="cp-ch-topics">INSERT INTO · INSERT INTO ... SELECT · UPDATE · DELETE · Truncate · MERGE (PG 15) · RETURNING OLD and NEW (PG 18)</span>
+          </div>
+        </div>
+        <div class="cp-chapter">
+          <span class="cp-ch-num">Ch 37</span>
+          <div>
+            <span class="cp-ch-title">Isolation and Locking</span>
+            <span class="cp-ch-topics">Transactions and isolation · SSI (Serializable Snapshot Isolation) · Concurrent updates · Modeling for concurrency · Testing concurrency behavior</span>
+          </div>
+        </div>
+        <div class="cp-chapter">
+          <span class="cp-ch-num">Ch 38</span>
+          <div>
+            <span class="cp-ch-title">Computing and Caching in SQL</span>
+            <span class="cp-ch-topics">Views · Materialized views · Cache invalidation strategies</span>
+          </div>
+        </div>
+        <div class="cp-chapter">
+          <span class="cp-ch-num">Ch 39</span>
+          <div>
+            <span class="cp-ch-title">Triggers</span>
+            <span class="cp-ch-topics">Transactional event-driven processing · Trigger and counter anti-pattern · Fixing trigger behavior</span>
+          </div>
+        </div>
+        <div class="cp-chapter">
+          <span class="cp-ch-num">Ch 40</span>
+          <div>
+            <span class="cp-ch-title">Listen and Notify</span>
+            <span class="cp-ch-topics">PostgreSQL notifications · Event publication system · Notifications and cache maintenance · Limitations · Driver support</span>
+          </div>
+        </div>
+        <div class="cp-chapter">
+          <span class="cp-ch-num">Ch 41</span>
+          <div>
+            <span class="cp-ch-title">Batch Update — MoMA Collection</span>
+            <span class="cp-ch-topics">Updating open datasets · Concurrency patterns · ON CONFLICT DO NOTHING</span>
+          </div>
+        </div>
+        <div class="cp-chapter">
+          <span class="cp-ch-num">Ch 42</span>
+          <div>
+            <span class="cp-ch-interview">Interview with Kris Jenkins</span>
+            <span class="cp-ch-topics">Functional programming, concurrency by design, YeSQL library</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="cp-showcase">
+        <figure class="cp-diagram">
+          <img src="/img/diagrams/fig-acid.svg" alt="ACID properties diagram">
+          <figcaption>ACID — the contract your database makes with your application</figcaption>
+        </figure>
+        <div class="cp-query-card">
+          <div class="cp-query-label">What you can write after Part 7</div>
+          <pre><code>merge into driver_points dp
+using (
+      select d.driverid, d.surname,
+             coalesce(sum(res.points), 0) as total
+        from drivers d
+             left join results res using(driverid)
+       group by d.driverid, d.surname
+) src
+on dp.driverid = src.driverid
+when matched then
+    update set total = src.total,
+               surname = src.surname
+when not matched by target then
+    insert (driverid, surname, total)
+    values (src.driverid, src.surname, src.total)
+when not matched by source then
+    delete;</code></pre>
+          <p class="cp-query-caption">One MERGE statement: insert new drivers, update existing totals, remove deleted rows — atomically, safe under concurrent writes.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     PART 8 — PostgreSQL Extensions
+═══════════════════════════════════════════════ -->
+<section class="cp-part" id="part-8">
+  <div class="wrapper">
+    <div class="cp-part-head">
+      <span class="cp-part-badge"><i class="fa-solid fa-section"></i> Part 8</span>
+      <h2>PostgreSQL Extensions</h2>
+      <div class="cp-part-meta">11 chapters &middot; 87 SQL queries</div>
+    </div>
+    <div class="cp-part-desc">
+      <p>The eighth part of <em>The Art of PostgreSQL</em> covers a selection of
+      very useful PostgreSQL Extensions and their impact on simplifying
+      application development when using PostgreSQL.</p>
+      <p>We cover auditing changes with <code>hstore</code>, the
+      <code>pg_trgm</code> extension to implement auto-suggestions and
+      auto-correct in your application search forms, user-defined tags and how to
+      efficiently use them in search queries, and then we use <code>ip4r</code>
+      for implementing geolocation oriented features. Finally, hyperloglog is
+      introduced to solve a classic problem with high cardinality estimates and
+      how to combine them.</p>
+    </div>
+    <div class="cp-part-body">
+      <div class="cp-chapters">
+        <div class="cp-chapter">
+          <span class="cp-ch-num">Ch 43</span>
+          <div>
+            <span class="cp-ch-title">What's a PostgreSQL Extension?</span>
+            <span class="cp-ch-topics">Inside extensions · Installing and using · Finding extensions · Authoring extensions · Noteworthy extensions: bloom, earthdistance, hstore, ltree, pg_trgm, PostGIS, ip4r, citus, pgpartman, postgres-hll, prefix, madlib, RUM</span>
+          </div>
+        </div>
+        <div class="cp-chapter">
+          <span class="cp-ch-num">Ch 44</span>
+          <div>
+            <span class="cp-ch-title">Auditing Changes with hstore</span>
+            <span class="cp-ch-topics">Introduction to hstore · Comparing hstores · Auditing changes with a trigger · Testing the audit trigger · From hstore back to a regular record</span>
+          </div>
+        </div>
+        <div class="cp-chapter">
+          <span class="cp-ch-num">Ch 45</span>
+          <div>
+            <span class="cp-ch-title">Last.fm Million Song Dataset</span>
+            <span class="cp-ch-topics">Loading a million-row music dataset · Schema design for analytics · Real-world query patterns</span>
+          </div>
+        </div>
+        <div class="cp-chapter">
+          <span class="cp-ch-num">Ch 46</span>
+          <div>
+            <span class="cp-ch-title">Using Trigrams for Typos</span>
+            <span class="cp-ch-topics">pg_trgm · Trigrams, similarity, and searches · Auto-complete and auto-correct · Trigram indexing · Reindexing after PG 18 upgrade</span>
+          </div>
+        </div>
+        <div class="cp-chapter">
+          <span class="cp-ch-num">Ch 47</span>
+          <div>
+            <span class="cp-ch-title">Denormalizing Tags with intarray</span>
+            <span class="cp-ch-topics">Advanced tag indexing · Tag searches · User-defined tags</span>
+          </div>
+        </div>
+        <div class="cp-chapter">
+          <span class="cp-ch-num">Ch 48</span>
+          <div>
+            <span class="cp-ch-title">The Most Popular Pub Names</span>
+            <span class="cp-ch-topics">Pub names database · Normalizing geospatial data · Geolocating the nearest pub (k-NN search)</span>
+          </div>
+        </div>
+        <div class="cp-chapter">
+          <span class="cp-ch-num">Ch 49</span>
+          <div>
+            <span class="cp-ch-title">How Far is the Nearest Pub?</span>
+            <span class="cp-ch-topics">earthdistance contrib · Great-circle distance · Most popular pub names by city</span>
+          </div>
+        </div>
+        <div class="cp-chapter">
+          <span class="cp-ch-num">Ch 50</span>
+          <div>
+            <span class="cp-ch-title">Geolocation with PostgreSQL</span>
+            <span class="cp-ch-topics">ip4r · Loading GeoLite data · Finding an IP address in IP ranges · Emergency pub finder</span>
+          </div>
+        </div>
+        <div class="cp-chapter">
+          <span class="cp-ch-num">Ch 51</span>
+          <div>
+            <span class="cp-ch-title">Counting Distinct Users with HyperLogLog</span>
+            <span class="cp-ch-topics">HyperLogLog fundamentals · Counting unique tweet visitors · Lossy unique count · Scheduling estimate computations · Combining unique visitor counts across time windows</span>
+          </div>
+        </div>
+        <div class="cp-chapter">
+          <span class="cp-ch-num">Ch 52</span>
+          <div>
+            <span class="cp-ch-title">Vector Search with pgvector <span style="font-size:0.75em;color:#60b2d3;font-weight:400;">New in 2026</span></span>
+            <span class="cp-ch-topics">Installing pgvector · The vector type · Distance operators (L2, cosine, inner product) · IVFFlat and HNSW indexes · Measuring recall · Hybrid search with RRF</span>
+          </div>
+        </div>
+        <div class="cp-chapter">
+          <span class="cp-ch-num">Ch 53</span>
+          <div>
+            <span class="cp-ch-interview">Interview with Craig Kerstiens</span>
+            <span class="cp-ch-topics">Extensions in the cloud, Citus, Heroku, extension ecosystem</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="cp-showcase">
+        <figure class="cp-diagram">
+          <img src="/img/diagrams/fig-pubs-knn.png" alt="k-NN pub search result map">
+          <figcaption>k-NN search result: nearest pubs from a given location</figcaption>
+        </figure>
+        <div class="cp-query-card">
+          <div class="cp-query-label">What you can write after Part 8</div>
+          <pre><code>CREATE EXTENSION IF NOT EXISTS pg_trgm;
+
+WITH
+-- Semantic: nearest neighbours by cosine distance
+vec AS (
+    SELECT id, title, artist,
+           row_number() OVER (
+             ORDER BY embedding &lt;=&gt; $1) AS rank
+      FROM track_embedding LIMIT 50
+),
+-- Lexical: trigram similarity on title
+trgm AS (
+    SELECT id, title, artist,
+           row_number() OVER (
+             ORDER BY similarity(title, $2) DESC) AS rank
+      FROM track_embedding
+     WHERE title % $2 LIMIT 50
+),
+-- Reciprocal Rank Fusion
+fused AS (
+    SELECT coalesce(v.id, t.id) AS id,
+           coalesce(v.title, t.title) AS title,
+           coalesce(v.artist, t.artist) AS artist,
+           coalesce(1.0 / (v.rank + 60), 0) +
+           coalesce(1.0 / (t.rank + 60), 0) AS score
+      FROM vec v FULL JOIN trgm t USING (id)
+)
+SELECT id, title, artist,
+       round(score::numeric, 5) AS score
+  FROM fused ORDER BY score DESC LIMIT 10;</code></pre>
+          <p class="cp-query-caption">Hybrid search: combine pgvector's cosine distance with pg_trgm's fuzzy matching via Reciprocal Rank Fusion — results that match both meaning and spelling.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CTA ── -->
+<section class="cp-cta">
+  <div class="wrapper">
+    <h2>590 pages. Every query you need.</h2>
+    <p>Available as PDF, ePub, and paperback. Free update for existing purchasers. 30-day refund guarantee.</p>
+    <div class="cp-cta-btns">
+      <a href="https://sales.theartofpostgresql.com/the-art-of-postgresql-book/" class="button button_purple button_large">
+        Get The Book
+      </a>
+      <a href="/book/fair-pricing/" class="button button_transparent button_large" style="border-color: rgba(255,255,255,0.5); color: #fff;">
+        Fair price available
+      </a>
+    </div>
+  </div>
+</section>
+
+{{ partial "footer.html" . }}
+
+</body>
+</html>
