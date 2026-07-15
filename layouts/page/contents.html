@@ -326,6 +326,8 @@
       gap: 48px;
       align-items: start;
     }
+    /* Prevent grid children from overflowing their track */
+    .cp-part-body > * { min-width: 0; }
 
     /* Chapter list */
     .cp-chapters {
@@ -333,6 +335,7 @@
       flex-direction: column;
       gap: 0;
       text-align: left;
+      min-width: 0;
     }
     .cp-chapter {
       display: flex;
@@ -340,6 +343,12 @@
       padding: 14px 0;
       border-bottom: 1px solid #ede8f2;
       align-items: baseline;
+      min-width: 0;
+    }
+    /* Allow the text column inside each chapter row to shrink and wrap */
+    .cp-chapter > div {
+      min-width: 0;
+      flex: 1;
     }
     .cp-chapter:last-child { border-bottom: none; }
     .cp-ch-num {
@@ -366,16 +375,46 @@
       margin-top: 3px;
     }
     .cp-ch-yesql {
-      display: block;
-      font: 300 0.78rem/1.4 'Lato', sans-serif;
-      color: #60b2d3;
-      margin-top: 5px;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 4px;
+      margin-top: 8px;
+      padding-top: 7px;
+      border-top: 1px solid rgba(96, 178, 211, 0.2);
+    }
+    .cp-ch-yesql::before {
+      content: 'Related reading';
+      font: 700 0.6rem/1 'Lato', sans-serif;
+      color: #9e8fb0;
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+      margin-bottom: 1px;
     }
     .cp-ch-yesql a {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font: 400 0.78rem/1 'Lato', sans-serif;
+      color: #372649;
+      text-decoration: none;
+      padding: 4px 9px;
+      background: rgba(96, 178, 211, 0.1);
+      border: 1px solid rgba(96, 178, 211, 0.3);
+      border-radius: 3px;
+      transition: background 0.15s, border-color 0.15s;
+    }
+    .cp-ch-yesql a::after {
+      content: '→';
+      font-size: 0.8em;
       color: #60b2d3;
+    }
+    .cp-ch-yesql a:hover {
+      background: rgba(96, 178, 211, 0.18);
+      border-color: rgba(96, 178, 211, 0.55);
       text-decoration: none;
     }
-    .cp-ch-yesql a:hover { text-decoration: underline; }
 
     /* Showcase panel */
     .cp-showcase {
@@ -387,9 +426,12 @@
     }
     .cp-diagram {
       margin: 0;
+      max-width: 100%;
+      min-width: 0;
     }
     .cp-diagram img {
       width: 100%;
+      max-width: 100%;
       height: auto;
       display: block;
       border-radius: 4px;
@@ -406,6 +448,8 @@
       background: #2a1f36;
       border-radius: 8px;
       overflow: hidden;
+      max-width: 100%;
+      min-width: 0;
     }
     .cp-lab-box {
       display: flex;
@@ -416,6 +460,11 @@
       background: rgba(96,178,211,0.08);
       border: 1px solid rgba(96,178,211,0.35);
       border-radius: 6px;
+      min-width: 0;
+    }
+    .cp-lab-box p {
+      min-width: 0;
+      flex: 1;
     }
     .cp-lab-box i {
       font-size: 1.1rem;
@@ -770,7 +819,7 @@
           <div>
             <span class="cp-ch-title">Software Architecture</span>
             <span class="cp-ch-topics">Why PostgreSQL? · The PostgreSQL documentation · Architecture trade-offs</span>
-            <span class="cp-ch-yesql"><a href="/yesql/sql-foundations/why-postgres/">YeSQL: Why Postgres? →</a></span>
+            <span class="cp-ch-yesql"><a href="/yesql/sql-foundations/why-postgres/">Why Postgres?</a></span>
           </div>
         </div>
         <div class="cp-chapter">
@@ -778,7 +827,7 @@
           <div>
             <span class="cp-ch-title">Getting Ready to Read This Book</span>
             <span class="cp-ch-topics">Running a query · Finding queries while reading · Using the companion lab</span>
-            <span class="cp-ch-yesql"><a href="/yesql/sql-foundations/how-to-learn-sql/">YeSQL: How to Learn SQL →</a></span>
+            <span class="cp-ch-yesql"><a href="/yesql/sql-foundations/how-to-learn-sql/">How to Learn SQL</a></span>
           </div>
         </div>
         <div class="cp-lab-box">
@@ -890,7 +939,7 @@ order by date;</code></pre>
           <div>
             <span class="cp-ch-title">Indexing Strategy</span>
             <span class="cp-ch-topics">Indexing for constraints · Indexing for queries · Cost of index maintenance · B-tree, GiST, SP-GiST, GIN, BRIN, Hash, Bloom · Partial, covering, and functional indexes · Fillfactor and HOT updates</span>
-            <span class="cp-ch-yesql"><a href="/yesql/performance/indexing-strategy/">YeSQL: Indexing Strategy</a> · <a href="/yesql/performance/reading-explain/">Reading EXPLAIN →</a></span>
+            <span class="cp-ch-yesql"><a href="/yesql/performance/indexing-strategy/">Indexing Strategy</a><a href="/yesql/performance/reading-explain/">Reading EXPLAIN</a></span>
           </div>
         </div>
         <div class="cp-chapter">
@@ -958,7 +1007,7 @@ order by album;</code></pre>
           <div>
             <span class="cp-ch-title">Foundations</span>
             <span class="cp-ch-topics">Getting data · SQL language overview · Queries, DML, DDL, TCL, DCL</span>
-            <span class="cp-ch-yesql"><a href="/yesql/sql-foundations/what-is-a-relation/">YeSQL: What is an SQL Relation? →</a></span>
+            <span class="cp-ch-yesql"><a href="/yesql/sql-foundations/what-is-a-relation/">What is an SQL Relation?</a></span>
           </div>
         </div>
         <div class="cp-chapter">
@@ -966,7 +1015,7 @@ order by album;</code></pre>
           <div>
             <span class="cp-ch-title">Select, From, Where</span>
             <span class="cp-ch-topics">Anatomy of a SELECT · Projection · Computed values and aliases · Data sources · Understanding joins · Restrictions</span>
-            <span class="cp-ch-yesql"><a href="/yesql/joins-and-relations/what-is-a-join/">YeSQL: What is an SQL JOIN? →</a></span>
+            <span class="cp-ch-yesql"><a href="/yesql/joins-and-relations/what-is-a-join/">What is an SQL JOIN?</a></span>
           </div>
         </div>
         <div class="cp-chapter">
@@ -981,7 +1030,7 @@ order by album;</code></pre>
           <div>
             <span class="cp-ch-title">Group By, Having, With, Union All</span>
             <span class="cp-ch-topics">Aggregates · GROUP BY · HAVING · Grouping Sets · GROUPING() · Ordered-set aggregates · ANY_VALUE() · FETCH FIRST WITH TIES · CTEs · Recursive CTEs · SEARCH and CYCLE · DISTINCT ON · UNION / EXCEPT</span>
-            <span class="cp-ch-yesql"><a href="/yesql/sql-foundations/group-by-semantics/">YeSQL: GROUP BY &amp; HAVING</a> · <a href="/yesql/aggregation/sql-aggregates/">Aggregates</a> · <a href="/yesql/aggregation/filter-clause/">FILTER clause</a> · <a href="/yesql/aggregation/percentiles-in-one-query/">Percentiles</a> · <a href="/yesql/joins-and-relations/with-recursive/">WITH RECURSIVE →</a></span>
+            <span class="cp-ch-yesql"><a href="/yesql/sql-foundations/group-by-semantics/">GROUP BY &amp; HAVING</a><a href="/yesql/aggregation/sql-aggregates/">Aggregates</a><a href="/yesql/aggregation/filter-clause/">FILTER clause</a><a href="/yesql/aggregation/percentiles-in-one-query/">Percentiles</a><a href="/yesql/joins-and-relations/with-recursive/">WITH RECURSIVE</a></span>
           </div>
         </div>
         <div class="cp-chapter">
@@ -989,7 +1038,7 @@ order by album;</code></pre>
           <div>
             <span class="cp-ch-title">Understanding Nulls</span>
             <span class="cp-ch-topics">Three-valued logic · NOT NULL constraints · Outer joins introducing nulls · Using NULL in applications</span>
-            <span class="cp-ch-yesql"><a href="/yesql/sql-foundations/null-in-sql/">YeSQL: NULL in SQL: Three-Valued Logic →</a></span>
+            <span class="cp-ch-yesql"><a href="/yesql/sql-foundations/null-in-sql/">NULL in SQL: Three-Valued Logic</a></span>
           </div>
         </div>
         <div class="cp-chapter">
@@ -997,7 +1046,7 @@ order by album;</code></pre>
           <div>
             <span class="cp-ch-title">Understanding Window Functions</span>
             <span class="cp-ch-topics">Windows and frames · ROWS, RANGE, and GROUPS · Partitioning · rank() and dense_rank() · Running totals and moving averages · Gaps and islands · Sessionization · Cohort analysis</span>
-            <span class="cp-ch-yesql"><a href="/yesql/window-functions/over-clause-mental-model/">YeSQL: OVER clause</a> · <a href="/yesql/window-functions/row-number-rank-dense-rank/">ROW_NUMBER &amp; RANK</a> · <a href="/yesql/window-functions/frame-semantics/">Frame Semantics</a> · <a href="/yesql/window-functions/running-totals/">Running Totals</a> · <a href="/yesql/window-functions/sessionization/">Sessionization →</a></span>
+            <span class="cp-ch-yesql"><a href="/yesql/window-functions/over-clause-mental-model/">OVER clause</a><a href="/yesql/window-functions/row-number-rank-dense-rank/">ROW_NUMBER &amp; RANK</a><a href="/yesql/window-functions/frame-semantics/">Frame Semantics</a><a href="/yesql/window-functions/running-totals/">Running Totals</a><a href="/yesql/window-functions/sessionization/">Sessionization</a></span>
           </div>
         </div>
         <div class="cp-chapter">
@@ -1005,7 +1054,7 @@ order by album;</code></pre>
           <div>
             <span class="cp-ch-title">Understanding Relations and Joins</span>
             <span class="cp-ch-topics">Relations · SQL join types · JOIN amplification · LATERAL joins · Semi-joins and anti-joins</span>
-            <span class="cp-ch-yesql"><a href="/yesql/joins-and-relations/what-is-a-join/">YeSQL: What is a JOIN?</a> · <a href="/yesql/joins-and-relations/join-output-cardinality/">JOIN Cardinality</a> · <a href="/yesql/joins-and-relations/lateral-join-top-n/">LATERAL Top-N</a> · <a href="/yesql/sql-foundations/sql-and-ai-left-join/">Silent row loss</a> · <a href="/yesql/sql-foundations/sql-and-ai-count/">COUNT after JOIN →</a></span>
+            <span class="cp-ch-yesql"><a href="/yesql/joins-and-relations/what-is-a-join/">What is a JOIN?</a><a href="/yesql/joins-and-relations/join-output-cardinality/">JOIN Cardinality</a><a href="/yesql/joins-and-relations/lateral-join-top-n/">LATERAL Top-N</a><a href="/yesql/sql-foundations/sql-and-ai-left-join/">Silent row loss</a><a href="/yesql/sql-foundations/sql-and-ai-count/">COUNT after JOIN</a></span>
           </div>
         </div>
         <div class="cp-chapter">
@@ -1103,7 +1152,7 @@ order by season;</code></pre>
           <div>
             <span class="cp-ch-title">Some Relational Theory</span>
             <span class="cp-ch-topics">Attribute values · Data domains and data types · Consistency and data type behavior</span>
-            <span class="cp-ch-yesql"><a href="/yesql/sql-foundations/what-is-a-relation/">YeSQL: What is an SQL Relation? →</a></span>
+            <span class="cp-ch-yesql"><a href="/yesql/sql-foundations/what-is-a-relation/">What is an SQL Relation?</a></span>
           </div>
         </div>
         <div class="cp-chapter">
@@ -1111,7 +1160,7 @@ order by season;</code></pre>
           <div>
             <span class="cp-ch-title">PostgreSQL Data Types</span>
             <span class="cp-ch-topics">Boolean · Character and text · Server/client encoding · Built-in C.UTF-8 collation (PG 17) · Numbers · Sequences and serial · UUID · Date/time and time zones · Intervals · Network address types · Ranges · Multi-ranges (PG 14)</span>
-            <span class="cp-ch-yesql"><a href="/yesql/data-schema-design/range-types/">YeSQL: Range Types &amp; Temporal Constraints →</a></span>
+            <span class="cp-ch-yesql"><a href="/yesql/data-schema-design/range-types/">Range Types &amp; Temporal Constraints</a></span>
           </div>
         </div>
         <div class="cp-chapter">
@@ -1119,7 +1168,7 @@ order by season;</code></pre>
           <div>
             <span class="cp-ch-title">Denormalized Data Types</span>
             <span class="cp-ch-topics">Arrays · Composite types · XML · JSON and JSONB · SQL/JSON path language (PG 12) · IS JSON predicate (PG 16) · SQL/JSON constructors and JSON_TABLE (PG 16–17) · Enum</span>
-            <span class="cp-ch-yesql"><a href="/yesql/data-schema-design/json-and-denormalized-types/">YeSQL: JSONB and Arrays →</a></span>
+            <span class="cp-ch-yesql"><a href="/yesql/data-schema-design/json-and-denormalized-types/">JSONB and Arrays</a></span>
           </div>
         </div>
         <div class="cp-chapter">
@@ -1211,7 +1260,7 @@ insert into rates(currency, validity, rate)
           <div>
             <span class="cp-ch-title">Tooling for Database Modeling</span>
             <span class="cp-ch-topics">How to write a database model · Generating random data · Modeling example with timezones</span>
-            <span class="cp-ch-yesql"><a href="/yesql/sql-foundations/sql-and-ai-schema/">YeSQL: The Schema Decision AI Cannot Make →</a></span>
+            <span class="cp-ch-yesql"><a href="/yesql/sql-foundations/sql-and-ai-schema/">The Schema Decision AI Cannot Make</a></span>
           </div>
         </div>
         <div class="cp-chapter">
@@ -1219,7 +1268,7 @@ insert into rates(currency, validity, rate)
           <div>
             <span class="cp-ch-title">Normalization</span>
             <span class="cp-ch-topics">Normal forms · Update, insertion, and deletion anomalies · Modeling an address field · Primary keys · Surrogate keys · Foreign keys · NOT NULL · Check constraints and domains · NULLS NOT DISTINCT (PG 15) · Generated stored columns (PG 12) · Virtual generated columns (PG 18) · Row level security · Exclusion constraints</span>
-            <span class="cp-ch-yesql"><a href="/yesql/sql-foundations/database-anomalies/">YeSQL: The Three Database Anomalies</a> · <a href="/yesql/data-schema-design/fk-constraints-trust/">Foreign Keys &amp; Planner Trust →</a></span>
+            <span class="cp-ch-yesql"><a href="/yesql/sql-foundations/database-anomalies/">The Three Database Anomalies</a><a href="/yesql/data-schema-design/fk-constraints-trust/">Foreign Keys &amp; Planner Trust</a></span>
           </div>
         </div>
         <div class="cp-chapter">
@@ -1241,7 +1290,7 @@ insert into rates(currency, validity, rate)
           <div>
             <span class="cp-ch-title">Denormalization</span>
             <span class="cp-ch-topics">Materialized views · History tables and audit trails · Validity period as a range · Pre-computed values · Enumerated types · Sparse matrix model · Partitioning (PG 12–17 improvements)</span>
-            <span class="cp-ch-yesql"><a href="/yesql/data-schema-design/range-types/">YeSQL: Range Types &amp; Temporal Constraints →</a></span>
+            <span class="cp-ch-yesql"><a href="/yesql/data-schema-design/range-types/">Range Types &amp; Temporal Constraints</a></span>
           </div>
         </div>
         <div class="cp-chapter">
