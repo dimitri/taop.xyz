@@ -24,7 +24,7 @@
     .bku-lede { font: 300 1.15rem/1.65 'Lato'; color: #67527a; margin: 0 0 56px; max-width: 640px; }
     .bku-toc-link { display: block; margin-top: 10px; color: #60b2d3; font-weight: 400; text-decoration: none; }
     .bku-toc-link:hover { text-decoration: underline; }
-    .bku-aside { display: flex; align-items: center; gap: 16px; font: 300 1.0rem/1.6 'Lato'; color: #67527a; margin: -36px 0 40px; max-width: 640px; }
+    .bku-aside { display: flex; align-items: center; gap: 16px; font: 300 1.4rem/1.5 'Lato'; color: #67527a; margin: 0 0 40px; max-width: 640px; }
     .bku-aside i { flex-shrink: 0; font-size: 2.9rem; color: #60b2d3; line-height: 1; }
     .bku-aside a { font-weight: 700; color: #372649; }
     .bku-free-banner { background: #372649; color: #fff; border-radius: 8px; padding: 20px 28px; margin-bottom: 56px; display: flex; align-items: center; gap: 16px; }
@@ -68,27 +68,144 @@
     .bku-screenshot img { width: 100%; height: auto; display: block; }
     @media (max-width: 600px) {
       .bku-page { padding: 48px 16px 80px; }
-      .bku-page h1 { font-size: 1.9rem; }
       .bku-free-banner { flex-direction: column; gap: 10px; }
       .bku-gallery { grid-template-columns: 1fr; }
     }
+
+    /* ── Transparent nav (matches workshop/lab/course pattern) ── */
+    body.book.book-updates .header {
+      background: transparent;
+      border-bottom-color: transparent;
+      transition: background 0.3s, border-color 0.3s;
+    }
+    body.book.book-updates .header.nav-solid {
+      background: #372649;
+      border-bottom-color: rgba(255,255,255,0.3);
+    }
+
+    /* ── Hero ── */
+    .bku-hero {
+      background: #2e2241 url('/images/demo/slide.jpg') center top no-repeat;
+      background-size: cover;
+      background-attachment: fixed;
+      padding: 120px 0 80px;
+      text-align: center;
+    }
+    .bku-hero-eyebrow {
+      font: 700 0.72rem/1 'Lato', sans-serif;
+      color: #60b2d3;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin: 0 0 18px;
+    }
+    .bku-hero h1 {
+      font: 300 2.6rem/1.2 'Lato', sans-serif;
+      color: #fff;
+      max-width: 680px;
+      margin: 0 auto 16px;
+      padding: 0 24px;
+    }
+    .bku-hero-sub {
+      font: 300 1.05rem/1.65 'Lato', sans-serif;
+      color: rgba(255,255,255,0.7);
+      max-width: 560px;
+      margin: 0 auto 44px;
+      padding: 0 24px;
+    }
+    .bku-hero-stats {
+      display: flex;
+      justify-content: center;
+      gap: 0;
+      flex-wrap: wrap;
+      max-width: 680px;
+      margin: 0 auto 48px;
+      padding: 0 24px;
+    }
+    .bku-hero-stat {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 0 28px;
+      border-right: 1px solid rgba(255,255,255,0.18);
+    }
+    .bku-hero-stat:last-child { border-right: none; }
+    .bku-hero-stat-n {
+      font: 700 2rem/1 'Lato', sans-serif;
+      color: #60b2d3;
+      letter-spacing: -0.02em;
+    }
+    .bku-hero-stat-l {
+      font: 300 0.75rem/1.4 'Lato', sans-serif;
+      color: rgba(255,255,255,0.6);
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      margin-top: 6px;
+      white-space: nowrap;
+    }
+    .bku-hero-btns {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .bku-hero .button.button_purple,
+    .bku-hero .button.button_purple:visited {
+      background: #60b2d3;
+      border-color: #60b2d3;
+      color: #fff;
+    }
+    .bku-hero .button.button_purple:hover {
+      background: #4a9cbf;
+      border-color: #4a9cbf;
+    }
+    @media (max-width: 600px) {
+      .bku-hero { padding: 80px 0 56px; }
+      .bku-hero h1 { font-size: 1.9rem; }
+      .bku-hero-stat { padding: 12px 18px; border-right: none; border-bottom: 1px solid rgba(255,255,255,0.18); }
+      .bku-hero-stat:last-child { border-bottom: none; }
+      .bku-hero-stats { flex-direction: column; margin-bottom: 36px; }
+    }
   </style>
 </head>
-<body class="book">
+<body class="book book-updates">
 
 {{ partial "header.html" . }}
 
+<section class="bku-hero">
+  <p class="bku-hero-eyebrow">The Art of PostgreSQL</p>
+  <h1>Second Edition, Updated (2026)</h1>
+  <p class="bku-hero-sub">
+    The most significant revision since first publication — PostgreSQL 12–18 coverage,
+    a new pgvector chapter, 56 new figures, and a fully integrated companion lab.
+  </p>
+  <div class="bku-hero-stats">
+    <div class="bku-hero-stat">
+      <span class="bku-hero-stat-n">56</span>
+      <span class="bku-hero-stat-l">New Figures</span>
+    </div>
+    <div class="bku-hero-stat">
+      <span class="bku-hero-stat-n">PG 18</span>
+      <span class="bku-hero-stat-l">Now Covered</span>
+    </div>
+    <div class="bku-hero-stat">
+      <span class="bku-hero-stat-n">590</span>
+      <span class="bku-hero-stat-l">Pages</span>
+    </div>
+    <div class="bku-hero-stat">
+      <span class="bku-hero-stat-n">8</span>
+      <span class="bku-hero-stat-l">Parts</span>
+    </div>
+  </div>
+  <div class="bku-hero-btns">
+    <a href="https://sales.theartofpostgresql.com/the-art-of-postgresql-book/"
+       class="button button_purple button_large">Get the Book — $89</a>
+    <a href="/book/contents/"
+       class="button button_large">Browse Table of Contents</a>
+  </div>
+</section>
+
 <div class="bku-page">
 
-  <p class="bku-eyebrow">The Art of PostgreSQL</p>
-  <h1>Second Edition, Updated (2026)</h1>
-  <p class="bku-lede">
-    The 2026 update is the most significant revision since the book's first
-    publication. It modernises the text from PostgreSQL 11 to the 17/18 landscape,
-    adds an entirely new chapter on vector search, introduces 56 new figures, and
-    ships with a fully integrated companion lab.
-    <a href="/book/contents/" class="bku-toc-link">Browse the full table of contents →</a>
-  </p>
   <p class="bku-aside">
     <span>Wondering whether SQL still matters now that AI can generate queries?</span>
     <i class="fa-solid fa-robot"></i>
@@ -268,5 +385,15 @@
 </div>
 
 {{ partial "footer.html" . }}
+<script>
+$(function() {
+  var $header = $('.header');
+  $(window).on('scroll.bku', function() {
+    $(this).scrollTop() > window.innerHeight * 0.8
+      ? $header.addClass('nav-solid')
+      : $header.removeClass('nav-solid');
+  });
+});
+</script>
 </body>
 </html>
