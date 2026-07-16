@@ -69,17 +69,19 @@
       <p class="cp-part-meta">Core · 4 topics</p>
       <p class="cp-part-desc">INNER, LEFT, RIGHT, FULL OUTER, CROSS, and NATURAL joins with exact output semantics. Venn diagrams describe which rows survive — CROSS JOIN is the foundation of relational algebra, not a special case.</p>
     </div>
+    <p class="cp-book-ref"><i class="fa-solid fa-book-open"></i> Book reference: <a href="/book/contents/#part-4">Chapter 19 — Understanding Relations and Joins</a></p>
     <div class="cp-part-body">
       <div class="cp-chapters">
-        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">INNER JOIN</span><span class="cp-ch-topics">INNER JOIN discards rows with no match on either side.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">USING clause</span><span class="cp-ch-topics">USING merges the join column once; prefer it over NATURAL JOIN.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">LEFT JOIN, RIGHT JOIN, FULL OUTER JOIN, CROSS JOIN</span><span class="cp-ch-topics">Outer joins preserve unmatched rows; CROSS JOIN produces the Cartesian product.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">NULL behavior in joins</span><span class="cp-ch-topics">NULL comparisons yield NULL, not true, so three-valued logic governs join filtering.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">INNER JOIN</span><span class="cp-ch-topics">Keep only rows that have a matching record in both tables.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">USING clause</span><span class="cp-ch-topics">Write cleaner join syntax when both tables share a column name.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">LEFT JOIN, RIGHT JOIN, FULL OUTER JOIN, CROSS JOIN</span><span class="cp-ch-topics">Choose the right join type to include or exclude unmatched rows.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">NULL behavior in joins</span><span class="cp-ch-topics">Predict how NULL values affect match results in JOIN conditions.</span></div></div>
+        <p class="cp-yesql-refs"><i class="fa-solid fa-graduation-cap"></i> Free preview: <a href="/yesql/joins-and-relations/what-is-a-join/">What is a JOIN</a> · <a href="/yesql/sql-foundations/null-in-sql/">NULL in SQL: Three-Valued Logic</a></p>
       </div>
       <div class="cp-showcase">
         <figure class="cp-diagram">
           <img src="/img/diagrams/fig-join-types.svg" alt="JOIN types">
-          <figcaption>INNER keeps matching rows, LEFT keeps all left rows, FULL OUTER keeps everything, CROSS produces every combination</figcaption>
+          <figcaption>See which rows survive each join type at a glance.</figcaption>
         </figure>
         <div class="cp-query-card">
           <div class="cp-query-label">Module 01 · Three-table join</div>
@@ -115,17 +117,19 @@
       <p class="cp-part-meta">Core · 4 topics</p>
       <p class="cp-part-desc">Self-joins traverse hierarchies and compare rows within the same table. Non-equality joins match ranges. WITH RECURSIVE extends the pattern to arbitrary-depth graphs using SEARCH and CYCLE clauses.</p>
     </div>
+    <p class="cp-book-ref"><i class="fa-solid fa-book-open"></i> Book reference: <a href="/book/contents/#part-4">Chapter 19 — Understanding Relations and Joins</a></p>
     <div class="cp-part-body">
       <div class="cp-chapters">
-        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">Progressive enrichment</span><span class="cp-ch-topics">Join from the fact table outward, adding one dimension at a time.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">Composite FK joins</span><span class="cp-ch-topics">Omitting one component of a composite FK silently produces a Cartesian product.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">Self-JOIN and the window-function alternative</span><span class="cp-ch-topics">Self-JOIN aliases the same table twice to compare adjacent or related rows.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">Recursive reach with WITH RECURSIVE, SEARCH, and CYCLE (PostgreSQL 14)</span><span class="cp-ch-topics">WITH RECURSIVE walks a graph to any depth; CYCLE prevents infinite loops.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">Progressive enrichment</span><span class="cp-ch-topics">Build multi-table queries incrementally without losing track of the data shape.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">Composite FK joins</span><span class="cp-ch-topics">Avoid accidental row explosions when joining on composite keys.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">Self-JOIN and the window-function alternative</span><span class="cp-ch-topics">Compare or link rows within the same table.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">Recursive reach with WITH RECURSIVE, SEARCH, and CYCLE (PostgreSQL 14)</span><span class="cp-ch-topics">Traverse hierarchies and graphs to any depth safely.</span></div></div>
+        <p class="cp-yesql-refs"><i class="fa-solid fa-graduation-cap"></i> Free preview: <a href="/yesql/joins-and-relations/what-is-a-join/">What is a JOIN</a> · <a href="/yesql/joins-and-relations/with-recursive/">WITH RECURSIVE</a></p>
       </div>
       <div class="cp-showcase">
         <figure class="cp-diagram">
           <img src="/img/diagrams/fig-f1db-erd.svg" alt="Multi-table ERD for progressive enrichment">
-          <figcaption>Progressive enrichment starts from a central fact table and adds dimension columns one join at a time — the ERD shows which tables connect and how.</figcaption>
+          <figcaption>See how a central fact table connects to its surrounding dimension tables.</figcaption>
         </figure>
         <div class="cp-query-card">
           <div class="cp-query-label">Module 02 · Self-JOIN consecutive races</div>
@@ -158,16 +162,18 @@
       <p class="cp-part-meta">Core · 3 topics</p>
       <p class="cp-part-desc">Fan-out amplification happens silently when a join key is not unique on both sides. EXISTS and NOT EXISTS avoid double-counting; the NOT IN null trap is one of SQL's most common bugs.</p>
     </div>
+    <p class="cp-book-ref"><i class="fa-solid fa-book-open"></i> Book reference: <a href="/book/contents/#part-4">Chapter 19 — Understanding Relations and Joins</a></p>
     <div class="cp-part-body">
       <div class="cp-chapters">
-        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">Non-equality joins</span><span class="cp-ch-topics">A join condition can use any boolean expression, not only equality.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">JOIN amplification</span><span class="cp-ch-topics">A one-to-many join multiplies rows, inflating every downstream aggregate.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">The COUNT(DISTINCT) fix and the aggregate-first fix</span><span class="cp-ch-topics">Use COUNT(DISTINCT) or aggregate before joining to collapse fan-out inflation.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">Non-equality joins</span><span class="cp-ch-topics">Join tables on ranges, inequalities, or any condition — not just equality.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">JOIN amplification</span><span class="cp-ch-topics">Spot when a join silently inflates your aggregate results.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">The COUNT(DISTINCT) fix and the aggregate-first fix</span><span class="cp-ch-topics">Fix inflated aggregates caused by one-to-many join fan-out.</span></div></div>
+        <p class="cp-yesql-refs"><i class="fa-solid fa-graduation-cap"></i> Free preview: <a href="/yesql/joins-and-relations/join-output-cardinality/">JOIN Amplification &amp; Cardinality</a></p>
       </div>
       <div class="cp-showcase">
         <figure class="cp-diagram">
           <img src="/img/diagrams/fig-join-amplification.svg" alt="JOIN amplification">
-          <figcaption>Joining on a non-unique key silently multiplies rows — fan-out amplification is the most common JOIN correctness bug</figcaption>
+          <figcaption>See how a non-unique join key silently multiplies rows.</figcaption>
         </figure>
         <div class="cp-query-card">
           <div class="cp-query-label">Module 03 · JOIN amplification</div>
@@ -198,20 +204,22 @@ select c.name          as constructor,
       <p class="cp-part-meta">Core · 7 topics</p>
       <p class="cp-part-desc">LATERAL allows the right-hand subquery to reference columns from the left row. This enables top-N per group, kNN geographic search, and row-by-row correlated computation that a plain JOIN cannot express.</p>
     </div>
+    <p class="cp-book-ref"><i class="fa-solid fa-book-open"></i> Book reference: <a href="/book/contents/#part-4">Chapter 19 — Understanding Relations and Joins</a></p>
     <div class="cp-part-body">
       <div class="cp-chapters">
-        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">LATERAL as a manual loop</span><span class="cp-ch-topics">LATERAL re-evaluates its subquery for each outer row with outer columns available.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">Top-N per group with LATERAL</span><span class="cp-ch-topics">LATERAL with LIMIT fetches top-N related rows independently for each outer row.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">Reading a LATERAL execution plan</span><span class="cp-ch-topics">EXPLAIN shows LATERAL as a Nested Loop re-run once per outer row.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">LATERAL over geographic data: top-N cities per country</span><span class="cp-ch-topics">LATERAL fetches the top-N most-populous cities for each country in one pass.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">05</span><div><span class="cp-ch-title">LATERAL with distance operator: kNN geographic search (GiST &lt;-&gt;)</span><span class="cp-ch-topics">LATERAL passes the outer row's location to a GiST nearest-neighbor lookup.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">06</span><div><span class="cp-ch-title">LATERAL for social graph</span><span class="cp-ch-topics">LATERAL stops scanning each user's messages after finding the most-retweeted one.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">07</span><div><span class="cp-ch-title">Hashtag co-occurrence via array unnesting and self-join</span><span class="cp-ch-topics">Self-joining the unnested hashtag array produces all co-occurring pairs per tweet.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">LATERAL as a manual loop</span><span class="cp-ch-topics">Write per-row subqueries that reference the current row's values.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">Top-N per group with LATERAL</span><span class="cp-ch-topics">Retrieve the top N related rows for every row in the outer query.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">Reading a LATERAL execution plan</span><span class="cp-ch-topics">Read execution plans to understand how LATERAL queries are executed.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">LATERAL over geographic data: top-N cities per country</span><span class="cp-ch-topics">Retrieve top-N results per group from geographic data efficiently.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">05</span><div><span class="cp-ch-title">LATERAL with distance operator: kNN geographic search (GiST &lt;-&gt;)</span><span class="cp-ch-topics">Find the nearest geographic points to each location in a dataset.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">06</span><div><span class="cp-ch-title">LATERAL for social graph</span><span class="cp-ch-topics">Efficiently find the top post per user without scanning all rows.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">07</span><div><span class="cp-ch-title">Hashtag co-occurrence via array unnesting and self-join</span><span class="cp-ch-topics">Discover which topics appear together most often across posts.</span></div></div>
+        <p class="cp-yesql-refs"><i class="fa-solid fa-graduation-cap"></i> Free preview: <a href="/yesql/joins-and-relations/lateral-join-top-n/">LATERAL: Top-N Per Group</a></p>
       </div>
       <div class="cp-showcase">
         <figure class="cp-diagram">
           <img src="/img/diagrams/fig-lateral-flow.svg" alt="LATERAL join flow">
-          <figcaption>LATERAL references left-row columns in the right-hand subquery — enabling top-N per group in a single scan</figcaption>
+          <figcaption>Understand how LATERAL feeds each outer row into the inner subquery.</figcaption>
         </figure>
         <div class="cp-query-card">
           <div class="cp-query-label">Module 04 · LATERAL Top-N per driver</div>
@@ -252,16 +260,18 @@ select c.name          as constructor,
       <p class="cp-part-meta">Core · 3 topics</p>
       <p class="cp-part-desc">Combining GROUP BY and window functions with JOINs requires careful ordering. FILTER and CASE inside aggregates often eliminate the need for a second join pass.</p>
     </div>
+    <p class="cp-book-ref"><i class="fa-solid fa-book-open"></i> Book reference: <a href="/book/contents/#part-4">Chapter 19 — Understanding Relations and Joins</a></p>
     <div class="cp-part-body">
       <div class="cp-chapters">
-        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">GROUP BY after JOIN</span><span class="cp-ch-topics">Aggregate after joining only when each joined row represents exactly one event.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">Filtered aggregates with FILTER clause</span><span class="cp-ch-topics">FILTER clause applies a per-aggregate condition in a single table scan.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">Window functions over joined data</span><span class="cp-ch-topics">Window functions run after joins, operating over the fully enriched joined relation.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">GROUP BY after JOIN</span><span class="cp-ch-topics">Know when it is safe to aggregate after joining, and when it is not.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">Filtered aggregates with FILTER clause</span><span class="cp-ch-topics">Compute multiple conditional totals in a single pass over the data.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">Window functions over joined data</span><span class="cp-ch-topics">Apply running totals and rankings over joined, multi-table result sets.</span></div></div>
+        <p class="cp-yesql-refs"><i class="fa-solid fa-graduation-cap"></i> Free preview: <a href="/yesql/joins-and-relations/join-output-cardinality/">JOIN Amplification &amp; Cardinality</a></p>
       </div>
       <div class="cp-showcase">
         <figure class="cp-diagram">
           <img src="/img/diagrams/fig-count-join-explosion.svg" alt="Join amplification before aggregation">
-          <figcaption>Joining before aggregating can inflate row counts — aggregate-then-join or FILTER after the fact prevents double-counting without losing required columns.</figcaption>
+          <figcaption>See why aggregation order relative to joins affects your totals.</figcaption>
         </figure>
         <div class="cp-query-card">
           <div class="cp-query-label">Module 05 · Cumulative championship points</div>
@@ -298,20 +308,22 @@ select c.name          as constructor,
       <p class="cp-part-meta">Core · 7 topics</p>
       <p class="cp-part-desc">WITH (CTEs), nested subqueries, and LATERAL chain together into readable multi-step computations. The MATERIALIZED option controls whether PostgreSQL treats a CTE as a fence or inlines it as a subquery.</p>
     </div>
+    <p class="cp-book-ref"><i class="fa-solid fa-book-open"></i> Book reference: <a href="/book/contents/#part-4">Chapter 19 — Understanding Relations and Joins</a></p>
     <div class="cp-part-body">
       <div class="cp-chapters">
-        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">CTEs for readability and multi-step logic</span><span class="cp-ch-topics">WITH clauses name intermediate relations, turning complex queries into sequential readable steps.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">Subqueries in join position</span><span class="cp-ch-topics">A subquery in FROM pre-aggregates before joining, preventing fan-out amplification.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">Semi-JOIN: EXISTS</span><span class="cp-ch-topics">EXISTS stops at the first match, preventing fan-out duplication of outer rows.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">Anti-JOIN: NOT EXISTS</span><span class="cp-ch-topics">NOT EXISTS keeps rows that have no match on the inner side.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">05</span><div><span class="cp-ch-title">The NOT IN null trap</span><span class="cp-ch-topics">NOT IN silently returns zero rows when the subquery contains any NULL.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">06</span><div><span class="cp-ch-title">Set operators: UNION, INTERSECT, EXCEPT</span><span class="cp-ch-topics">UNION, INTERSECT, and EXCEPT combine same-schema relations vertically, deduplicating by default.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">07</span><div><span class="cp-ch-title">DISTINCT ON</span><span class="cp-ch-topics">DISTINCT ON picks one row per group; ORDER BY selects which row.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">CTEs for readability and multi-step logic</span><span class="cp-ch-topics">Break a complex query into named, readable steps.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">Subqueries in join position</span><span class="cp-ch-topics">Pre-aggregate data before joining to prevent row count inflation.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">Semi-JOIN: EXISTS</span><span class="cp-ch-topics">Filter rows based on whether a related record exists anywhere.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">Anti-JOIN: NOT EXISTS</span><span class="cp-ch-topics">Find rows that have no matching record in another table.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">05</span><div><span class="cp-ch-title">The NOT IN null trap</span><span class="cp-ch-topics">Avoid a silent bug that can wipe out all results in a filter.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">06</span><div><span class="cp-ch-title">Set operators: UNION, INTERSECT, EXCEPT</span><span class="cp-ch-topics">Combine, overlap, or subtract result sets from multiple queries.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">07</span><div><span class="cp-ch-title">DISTINCT ON</span><span class="cp-ch-topics">Pick exactly one row per group based on a defined sort order.</span></div></div>
+        <p class="cp-yesql-refs"><i class="fa-solid fa-graduation-cap"></i> Free preview: <a href="/yesql/joins-and-relations/what-is-a-join/">What is a JOIN</a> · <a href="/yesql/sql-foundations/null-in-sql/">NULL in SQL: Three-Valued Logic</a></p>
       </div>
       <div class="cp-showcase">
         <figure class="cp-diagram">
           <img src="/img/diagrams/fig-cte-pipeline.svg" alt="CTE pipeline for query composition">
-          <figcaption>CTEs decompose a complex query into named steps — EXISTS and NOT EXISTS express semi-joins and anti-joins more explicitly than IN/NOT IN and avoid the NOT IN null trap.</figcaption>
+          <figcaption>See how CTEs chain query steps and how EXISTS avoids the NOT IN trap.</figcaption>
         </figure>
         <div class="cp-query-card">
           <div class="cp-query-label">Module 06 · Anti-JOIN NOT EXISTS</div>
@@ -350,18 +362,20 @@ select c.name          as constructor,
       <p class="cp-part-meta">Advanced · 5 topics</p>
       <p class="cp-part-desc">Hash Join, Nested Loop, and Merge Join — how the planner chooses and what to do when the estimate is wrong. Index-nested-loop for selective predicates, parallel hash for large equi-joins.</p>
     </div>
+    <p class="cp-book-ref"><i class="fa-solid fa-book-open"></i> Book reference: <a href="/book/contents/#part-4">Chapter 19 — Understanding Relations and Joins</a></p>
     <div class="cp-part-body">
       <div class="cp-chapters">
-        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">Three join algorithms: Nested Loop, Hash Join, Merge Join</span><span class="cp-ch-topics">Each join algorithm suits different table sizes, sort orders, and index availability.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">Reading execution plans with EXPLAIN (ANALYZE, BUFFERS)</span><span class="cp-ch-topics">EXPLAIN (ANALYZE, BUFFERS) shows actual rows, chosen algorithm, and buffer statistics.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">Hash Join: Batches &gt; 1 means spill to disk</span><span class="cp-ch-topics">Hash Join builds a hash table; Batches &gt; 1 signals work_mem overflow.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">Index impact on join performance</span><span class="cp-ch-topics">Indexes on join columns replace sequential inner scans with index lookups.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">05</span><div><span class="cp-ch-title">Join order and planner limits (join_collapse_limit, geqo_threshold)</span><span class="cp-ch-topics">Past join_collapse_limit the planner keeps your join order; past geqo_threshold uses GEQO.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">Three join algorithms: Nested Loop, Hash Join, Merge Join</span><span class="cp-ch-topics">Recognize which join algorithm PostgreSQL will choose for a given query.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">Reading execution plans with EXPLAIN (ANALYZE, BUFFERS)</span><span class="cp-ch-topics">Read query execution plans to diagnose join performance issues.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">Hash Join: Batches &gt; 1 means spill to disk</span><span class="cp-ch-topics">Identify when a Hash Join is spilling to disk and how to fix it.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">Index impact on join performance</span><span class="cp-ch-topics">Understand how indexes change which join algorithm PostgreSQL picks.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">05</span><div><span class="cp-ch-title">Join order and planner limits (join_collapse_limit, geqo_threshold)</span><span class="cp-ch-topics">Control how PostgreSQL explores join orderings in complex queries.</span></div></div>
+        <p class="cp-yesql-refs"><i class="fa-solid fa-graduation-cap"></i> Free preview: <a href="/yesql/joins-and-relations/join-output-cardinality/">JOIN Amplification &amp; Cardinality</a></p>
       </div>
       <div class="cp-showcase">
         <figure class="cp-diagram">
           <img src="/img/diagrams/fig-join-operators.svg" alt="Join operator internals">
-          <figcaption>Hash Join, Nested Loop, and Merge Join each have a different cost shape — the planner chooses based on table size and selectivity estimates</figcaption>
+          <figcaption>Compare the cost shape of each join algorithm at a glance.</figcaption>
         </figure>
         <div class="cp-query-card">
           <div class="cp-query-label">Module 07 · EXPLAIN Hash Join</div>
@@ -389,18 +403,19 @@ select d.nationality,
       <p class="cp-part-meta">Architect · 5 topics</p>
       <p class="cp-part-desc">Normalization vs pre-joined denormalized tables for read-heavy workloads. Foreign data wrappers for cross-schema JOINs, join planning for partitioned tables, and when to move joins out of the database.</p>
     </div>
+    <p class="cp-book-ref"><i class="fa-solid fa-book-open"></i> Book reference: <a href="/book/contents/#part-4">Chapter 19 — Understanding Relations and Joins</a></p>
     <div class="cp-part-body">
       <div class="cp-chapters">
-        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">Materialized views</span><span class="cp-ch-topics">Materialized views precompute and store join results to speed repeated reads.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">Confident queries: chinook (enforced FKs) vs f1db (no FKs)</span><span class="cp-ch-topics">Enforced FKs give the planner join-success guarantees; absent FKs force conservative plans.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">Denormalization strategy</span><span class="cp-ch-topics">Collapse a join by storing its result directly in the reading table.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">Access patterns drive schema design</span><span class="cp-ch-topics">Hot queries should drive index and materialization decisions, not schema purity.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">05</span><div><span class="cp-ch-title">Course synthesis: CTEs + aggregation-before-join + window functions</span><span class="cp-ch-topics">Pre-aggregate in CTEs, join the summaries, and rank with a window function.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">Materialized views</span><span class="cp-ch-topics">Cache expensive join results to serve repeated reads without recomputation.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">Confident queries: chinook (enforced FKs) vs f1db (no FKs)</span><span class="cp-ch-topics">Understand how foreign key declarations affect query planning.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">Denormalization strategy</span><span class="cp-ch-topics">Eliminate a join by embedding its data directly in the querying table.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">Access patterns drive schema design</span><span class="cp-ch-topics">Let your most critical queries guide schema and indexing decisions.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">05</span><div><span class="cp-ch-title">Course synthesis: CTEs + aggregation-before-join + window functions</span><span class="cp-ch-topics">Combine CTEs, aggregation, and window functions into a complete solution.</span></div></div>
       </div>
       <div class="cp-showcase">
         <figure class="cp-diagram">
           <img src="/img/diagrams/fig-chinook-erd.svg" alt="Chinook ERD: fully-declared foreign keys">
-          <figcaption>Chinook's fully-declared foreign keys give the planner join-elimination opportunities — schema design decisions about normalization cascade directly into execution plan quality.</figcaption>
+          <figcaption>See how declared foreign keys open up planner optimizations.</figcaption>
         </figure>
         <div class="cp-query-card">
           <div class="cp-query-label">Module 08 · Normalized vs pre-aggregated</div>

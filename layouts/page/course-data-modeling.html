@@ -70,18 +70,20 @@
       <p class="cp-part-meta">Core · 5 topics</p>
       <p class="cp-part-desc">Normal forms eliminate update, insertion, and deletion anomalies by storing each fact in exactly one place. This module connects relational theory to real PostgreSQL schema decisions using the Chinook and F1 datasets.</p>
     </div>
+    <p class="cp-book-ref"><i class="fa-solid fa-book-open"></i> Book reference: <a href="/book/contents/#part-6">Chapter 29 — Normalization</a></p>
     <div class="cp-part-body">
       <div class="cp-chapters">
-        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">Normal forms and the three database anomalies</span><span class="cp-ch-topics">Redundant storage of facts causes update, insertion, and deletion anomalies.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">First through fifth normal forms</span><span class="cp-ch-topics">Each normal form from 1NF through BCNF eliminates one class of redundancy.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">Contrasting schemas: chinook (enforced FKs) vs f1db (no FKs)</span><span class="cp-ch-topics">Chinook declares FK constraints on every relationship; f1db declares none.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">Constraint inventory via pg_constraint</span><span class="cp-ch-topics">Querying pg_constraint reveals which schemas declare FK constraints and which do not.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">05</span><div><span class="cp-ch-title">Foreign key enforcement trade-offs</span><span class="cp-ch-topics">A missing FK allows referentially invalid rows to land without error.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">Normal forms and the three database anomalies</span><span class="cp-ch-topics">Identify the three anomalies that redundant data storage creates.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">First through fifth normal forms</span><span class="cp-ch-topics">Apply each normal form to eliminate a specific class of redundancy.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">Contrasting schemas: chinook (enforced FKs) vs f1db (no FKs)</span><span class="cp-ch-topics">Compare how two real datasets differ in their use of foreign key constraints.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">Constraint inventory via pg_constraint</span><span class="cp-ch-topics">Audit a live database schema to see which constraints are declared.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">05</span><div><span class="cp-ch-title">Foreign key enforcement trade-offs</span><span class="cp-ch-topics">Predict the data integrity risks of omitting foreign key constraints.</span></div></div>
+        <p class="cp-yesql-refs"><i class="fa-solid fa-graduation-cap"></i> Free preview: <a href="/yesql/sql-foundations/database-anomalies/">The Three Database Anomalies</a></p>
       </div>
       <div class="cp-showcase">
         <figure class="cp-diagram">
           <img src="/img/diagrams/fig-normal-forms.svg" alt="Normal forms">
-          <figcaption>Each normal form removes a specific class of anomaly — 1NF through BCNF narrows what facts a table is allowed to express</figcaption>
+          <figcaption>Understand how each normal form systematically narrows redundancy.</figcaption>
         </figure>
         <div class="cp-query-card">
           <div class="cp-query-label">Module 01 · Insertion anomaly</div>
@@ -119,19 +121,21 @@ rollback;</code></pre>
       <p class="cp-part-meta">Core · 6 topics</p>
       <p class="cp-part-desc">Natural vs surrogate keys, UUID generation strategies, GENERATED AS IDENTITY, and CHECK constraints. The right primary key choice affects join performance, index size, and schema evolution for decades.</p>
     </div>
+    <p class="cp-book-ref"><i class="fa-solid fa-book-open"></i> Book reference: <a href="/book/contents/#part-6">Chapter 29 — Normalization</a></p>
     <div class="cp-part-body">
       <div class="cp-chapters">
-        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">Natural vs surrogate primary keys</span><span class="cp-ch-topics">Natural keys enforce domain uniqueness; surrogate keys keep joins compact.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">UUID generation with gen_random_uuid() and uuidv7()</span><span class="cp-ch-topics">gen_random_uuid() produces random v4 UUIDs; uuidv7() adds monotonic timestamp ordering.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">Check constraints</span><span class="cp-ch-topics">A CHECK constraint validates a column expression on every insert and update.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">Generated stored columns (GENERATED ALWAYS AS STORED)</span><span class="cp-ch-topics">A generated column is computed from other columns and persisted automatically.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">05</span><div><span class="cp-ch-title">NOT NULL migration pattern</span><span class="cp-ch-topics">Backfill NULLs before adding NOT NULL to avoid failing on existing rows.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">06</span><div><span class="cp-ch-title">Exclusion constraints with btree_gist</span><span class="cp-ch-topics">btree_gist enables exclusion constraints mixing equality and range-overlap operators.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">Natural vs surrogate primary keys</span><span class="cp-ch-topics">Choose between natural and surrogate keys for a table's primary key.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">UUID generation with gen_random_uuid() and uuidv7()</span><span class="cp-ch-topics">Select the right UUID generation strategy for your workload.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">Check constraints</span><span class="cp-ch-topics">Enforce column-level business rules with declarative check constraints.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">Generated stored columns (GENERATED ALWAYS AS STORED)</span><span class="cp-ch-topics">Add computed columns that stay in sync with their source data automatically.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">05</span><div><span class="cp-ch-title">NOT NULL migration pattern</span><span class="cp-ch-topics">Safely add a NOT NULL column to a live table without breaking existing rows.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">06</span><div><span class="cp-ch-title">Exclusion constraints with btree_gist</span><span class="cp-ch-topics">Prevent overlapping bookings or contracts at the database level.</span></div></div>
+        <p class="cp-yesql-refs"><i class="fa-solid fa-graduation-cap"></i> Free preview: <a href="/yesql/data-schema-design/fk-constraints-trust/">Foreign Keys &amp; Planner Trust</a> · <a href="/yesql/data-schema-design/range-types/">Range Types &amp; Temporal Constraints</a></p>
       </div>
       <div class="cp-showcase">
         <figure class="cp-diagram">
           <img src="/img/diagrams/fig-btree-page-layout.svg" alt="B-tree page layout for primary keys">
-          <figcaption>Random UUIDs scatter inserts across the B-tree; sequential UUIDs (uuidv7) or GENERATED AS IDENTITY concentrate writes at the rightmost leaf page.</figcaption>
+          <figcaption>See how key choice affects B-tree write patterns and index bloat.</figcaption>
         </figure>
         <div class="cp-query-card">
           <div class="cp-query-label">Module 02 · Exclusion constraint</div>
@@ -167,18 +171,20 @@ rollback;</code></pre>
       <p class="cp-part-meta">Core · 5 topics</p>
       <p class="cp-part-desc">Foreign key ON DELETE and ON UPDATE actions encode referential integrity rules directly in the schema. Junction tables, self-referential FKs, and deferrable constraints handle the edge cases.</p>
     </div>
+    <p class="cp-book-ref"><i class="fa-solid fa-book-open"></i> Book reference: <a href="/book/contents/#part-6">Chapter 29 — Normalization</a></p>
     <div class="cp-part-body">
       <div class="cp-chapters">
-        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">Hierarchy chains and fan-out</span><span class="cp-ch-topics">Joining before aggregating multiplies row counts; aggregate at the leaf level first.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">Junction tables</span><span class="cp-ch-topics">A composite-PK junction table pairs two entities and prevents duplicate associations.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">Self-referential relationships and recursive CTEs</span><span class="cp-ch-topics">A self-referential FK encodes a tree; a recursive CTE traverses it.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">Nullable foreign keys</span><span class="cp-ch-topics">A NULL FK silently excludes the row from INNER JOINs.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">05</span><div><span class="cp-ch-title">Foreign key actions: CASCADE, SET NULL, RESTRICT</span><span class="cp-ch-topics">CASCADE deletes children, SET NULL nullifies the FK, RESTRICT blocks the delete.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">Hierarchy chains and fan-out</span><span class="cp-ch-topics">Avoid inflated counts by aggregating before joining across relationships.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">Junction tables</span><span class="cp-ch-topics">Model many-to-many relationships without creating duplicate associations.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">Self-referential relationships and recursive CTEs</span><span class="cp-ch-topics">Traverse hierarchical data stored as a self-referential table structure.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">Nullable foreign keys</span><span class="cp-ch-topics">Predict which rows disappear from joins when foreign keys are nullable.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">05</span><div><span class="cp-ch-title">Foreign key actions: CASCADE, SET NULL, RESTRICT</span><span class="cp-ch-topics">Choose the right referential action for each parent-child relationship.</span></div></div>
+        <p class="cp-yesql-refs"><i class="fa-solid fa-graduation-cap"></i> Free preview: <a href="/yesql/data-schema-design/fk-constraints-trust/">Foreign Keys &amp; Planner Trust</a></p>
       </div>
       <div class="cp-showcase">
         <figure class="cp-diagram">
           <img src="/img/diagrams/fig-fk-actions-erd.svg" alt="Foreign key actions ERD">
-          <figcaption>ON DELETE and ON UPDATE actions encode referential integrity rules directly in the schema — no application code required</figcaption>
+          <figcaption>Understand how schema-level actions replace application-level integrity code.</figcaption>
         </figure>
         <div class="cp-query-card">
           <div class="cp-query-label">Module 03 · Junction table query</div>
@@ -212,19 +218,21 @@ rollback;</code></pre>
       <p class="cp-part-meta">Core · 6 topics</p>
       <p class="cp-part-desc">B-tree, GiST, GIN, BRIN, partial, and covering indexes each suit specific access patterns. Composite index column order and operator class selection determine whether a query hits the index at all.</p>
     </div>
+    <p class="cp-book-ref"><i class="fa-solid fa-book-open"></i> Book reference: <a href="/book/contents/#part-6">Chapter 29 — Normalization</a></p>
     <div class="cp-part-body">
       <div class="cp-chapters">
-        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">Index types: B-tree, GiST, GIN, SP-GiST, BRIN, Hash, RUM, Bloom</span><span class="cp-ch-topics">B-tree handles ranges; GIN handles containment; BRIN handles append-only time series.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">Fillfactor and HOT updates</span><span class="cp-ch-topics">Heap fillfactor controls HOT update eligibility when only non-indexed columns are modified.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">Unique constraints and partial unique indexes</span><span class="cp-ch-topics">A partial index enforces UNIQUE only on rows satisfying the WHERE predicate.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">Composite indexes, partial indexes, covering indexes (INCLUDE)</span><span class="cp-ch-topics">The INCLUDE clause stores extra columns in leaf pages, enabling index-only scans.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">05</span><div><span class="cp-ch-title">Functional / expression indexes</span><span class="cp-ch-topics">Expression indexes store precomputed values and eliminate function calls on every read.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">06</span><div><span class="cp-ch-title">Index column options: ASC/DESC, NULLS FIRST/LAST, operator classes</span><span class="cp-ch-topics">Index sort direction must match ORDER BY to skip the sort step.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">Index types: B-tree, GiST, GIN, SP-GiST, BRIN, Hash, RUM, Bloom</span><span class="cp-ch-topics">Select the right index type for each query's access pattern.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">Fillfactor and HOT updates</span><span class="cp-ch-topics">Reduce index bloat by tuning fillfactor for frequently updated tables.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">Unique constraints and partial unique indexes</span><span class="cp-ch-topics">Enforce conditional uniqueness on a filtered subset of rows.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">Composite indexes, partial indexes, covering indexes (INCLUDE)</span><span class="cp-ch-topics">Design covering indexes that serve queries entirely from the index.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">05</span><div><span class="cp-ch-title">Functional / expression indexes</span><span class="cp-ch-topics">Speed up function-based filters without rewriting the application query.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">06</span><div><span class="cp-ch-title">Index column options: ASC/DESC, NULLS FIRST/LAST, operator classes</span><span class="cp-ch-topics">Align index sort options so the planner eliminates the sort step.</span></div></div>
+        <p class="cp-yesql-refs"><i class="fa-solid fa-graduation-cap"></i> Free preview: <a href="/yesql/data-schema-design/fk-constraints-trust/">Foreign Keys &amp; Planner Trust</a></p>
       </div>
       <div class="cp-showcase">
         <figure class="cp-diagram">
           <img src="/img/diagrams/fig-index-types.svg" alt="Index types">
-          <figcaption>B-tree, GiST, GIN, BRIN, and HASH each suit a different access pattern — choosing wrong is expensive to fix later</figcaption>
+          <figcaption>Match each index type to the queries it was designed to accelerate.</figcaption>
         </figure>
         <div class="cp-query-card">
           <div class="cp-query-label">Module 04 · Partial index</div>
@@ -258,18 +266,20 @@ rollback;</code></pre>
       <p class="cp-part-meta">Core · 5 topics</p>
       <p class="cp-part-desc">Star schemas, JSONB for semi-structured data, and range types for temporal coverage. This module shows when to denormalize deliberately and how to document the trade-off in the schema itself.</p>
     </div>
+    <p class="cp-book-ref"><i class="fa-solid fa-book-open"></i> Book reference: <a href="/book/contents/#part-6">Chapter 32 — Denormalization</a></p>
     <div class="cp-part-body">
       <div class="cp-chapters">
-        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">The star join</span><span class="cp-ch-topics">Fact and dimension tables form a star schema optimized for analytical aggregations.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">Intentional denormalisation for historical accuracy</span><span class="cp-ch-topics">Deliberate denormalization preserves historical values that a live FK join would overwrite.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">Materialized view vs live query</span><span class="cp-ch-topics">A materialized view caches a query result, trading freshness for read speed.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">Three-level MV dependency chain with concurrent refresh</span><span class="cp-ch-topics">Three chained materialized views refreshed concurrently propagate aggregations without blocking readers.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">05</span><div><span class="cp-ch-title">Arrays to reduce row count (array_agg)</span><span class="cp-ch-topics">array_agg collapses per-group rows into one array, reducing the result count.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">The star join</span><span class="cp-ch-topics">Design a star schema that accelerates multi-dimensional analytical queries.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">Intentional denormalisation for historical accuracy</span><span class="cp-ch-topics">Decide when to denormalize deliberately to preserve historical values over time.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">Materialized view vs live query</span><span class="cp-ch-topics">Choose between a live query and a materialized view based on freshness needs.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">Three-level MV dependency chain with concurrent refresh</span><span class="cp-ch-topics">Build a multi-level refresh pipeline that never blocks concurrent reads.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">05</span><div><span class="cp-ch-title">Arrays to reduce row count (array_agg)</span><span class="cp-ch-topics">Collapse per-group rows into arrays to simplify downstream processing.</span></div></div>
+        <p class="cp-yesql-refs"><i class="fa-solid fa-graduation-cap"></i> Free preview: <a href="/yesql/data-schema-design/json-and-denormalized-types/">JSONB, Arrays &amp; Ranges</a></p>
       </div>
       <div class="cp-showcase">
         <figure class="cp-diagram">
           <img src="/img/diagrams/fig-f1db-results-erd.svg" alt="Star schema: fact table with dimension tables">
-          <figcaption>A star schema puts the fact table at the center, dimension tables at the edges — aggregation speed comes from pre-joining along dimension foreign keys.</figcaption>
+          <figcaption>See how a star schema organizes fact and dimension tables for fast aggregation.</figcaption>
         </figure>
         <div class="cp-query-card">
           <div class="cp-query-label">Module 05 · Star join revenue</div>
@@ -307,19 +317,20 @@ rollback;</code></pre>
       <p class="cp-part-meta">Core · 6 topics</p>
       <p class="cp-part-desc">Adding NOT NULL columns to large tables, renaming constraints without downtime, and building indexes CONCURRENTLY. The three-step pattern for zero-downtime constraint changes in production.</p>
     </div>
+    <p class="cp-book-ref"><i class="fa-solid fa-book-open"></i> Book reference: <a href="/book/contents/#part-6">Chapter 29 — Normalization</a></p>
     <div class="cp-part-body">
       <div class="cp-chapters">
-        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">Adding a column without a table rewrite (PostgreSQL 11+)</span><span class="cp-ch-topics">PostgreSQL 11 adds columns with non-volatile defaults without rewriting the heap.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">Adding constraints safely</span><span class="cp-ch-topics">NOT VALID skips historical row checks; VALIDATE CONSTRAINT fills the gap later.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">Building indexes without downtime</span><span class="cp-ch-topics">CREATE INDEX CONCURRENTLY builds the index live without blocking reads or writes.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">Production role hierarchy</span><span class="cp-ch-topics">Three-role hierarchy separates admin, schema owner, and application credentials by least privilege.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">05</span><div><span class="cp-ch-title">Three-step pattern: add column → backfill → enforce NOT NULL</span><span class="cp-ch-topics">The three-step migration adds the column nullable, backfills, then enforces NOT NULL.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">06</span><div><span class="cp-ch-title">Rolling back schema deployments</span><span class="cp-ch-topics">Deploying schema changes before code lets each step roll back independently.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">Adding a column without a table rewrite (PostgreSQL 11+)</span><span class="cp-ch-topics">Add columns with defaults to large tables without triggering a table rewrite.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">Adding constraints safely</span><span class="cp-ch-topics">Add a constraint to a live table without locking out concurrent writes.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">Building indexes without downtime</span><span class="cp-ch-topics">Build a new index on a production table without taking it offline.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">Production role hierarchy</span><span class="cp-ch-topics">Design a role hierarchy that limits each credential to its minimum needed access.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">05</span><div><span class="cp-ch-title">Three-step pattern: add column → backfill → enforce NOT NULL</span><span class="cp-ch-topics">Execute a zero-downtime NOT NULL migration across add, backfill, and enforce steps.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">06</span><div><span class="cp-ch-title">Rolling back schema deployments</span><span class="cp-ch-topics">Structure schema deployments so each step can be rolled back independently.</span></div></div>
       </div>
       <div class="cp-showcase">
         <figure class="cp-diagram">
           <img src="/img/diagrams/fig-io-patterns.svg" alt="I/O patterns for safe schema changes">
-          <figcaption>CREATE INDEX CONCURRENTLY and NOT VALID + VALIDATE CONSTRAINT each avoid a full table lock — background work replaces a single blocking scan.</figcaption>
+          <figcaption>See how background builds replace single blocking scans for indexes and constraints.</figcaption>
         </figure>
         <div class="cp-query-card">
           <div class="cp-query-label">Module 06 · NOT VALID constraint</div>
@@ -366,17 +377,19 @@ rollback;</code></pre>
       <p class="cp-part-meta">Advanced · 4 topics</p>
       <p class="cp-part-desc">EAV vs JSONB vs typed columns — when each wins and what you give up. Exclusion constraints for temporal non-overlap, trigram indexes for fuzzy search, and audit trail patterns.</p>
     </div>
+    <p class="cp-book-ref"><i class="fa-solid fa-book-open"></i> Book reference: <a href="/book/contents/#part-6">Chapter 32 — Denormalization</a></p>
     <div class="cp-part-body">
       <div class="cp-chapters">
-        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">The EAV anti-pattern and JSONB as a replacement</span><span class="cp-ch-topics">EAV attributes-as-rows makes joins expensive; JSONB stores them in a single column.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">Normalising free-text fields: trigram similarity and many-to-many schema</span><span class="cp-ch-topics">Trigram similarity clusters variant composer spellings into a canonical many-to-many schema.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">Modeling band membership with tstzrange exclusion constraints</span><span class="cp-ch-topics">tstzrange exclusion constraints prevent overlapping membership windows even under concurrent writes.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">Multirange variant (tstzmultirange) for multiple stint windows</span><span class="cp-ch-topics">tstzmultirange stores multiple non-overlapping periods in one column, simplifying range queries.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">The EAV anti-pattern and JSONB as a replacement</span><span class="cp-ch-topics">Recognise when the EAV pattern creates performance and maintainability problems.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">Normalising free-text fields: trigram similarity and many-to-many schema</span><span class="cp-ch-topics">Normalise free-text fields by clustering similar spellings into a canonical form.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">Modeling band membership with tstzrange exclusion constraints</span><span class="cp-ch-topics">Model non-overlapping time periods and enforce them at the database level.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">Multirange variant (tstzmultirange) for multiple stint windows</span><span class="cp-ch-topics">Represent multiple time periods per entity in a single queryable column.</span></div></div>
+        <p class="cp-yesql-refs"><i class="fa-solid fa-graduation-cap"></i> Free preview: <a href="/yesql/data-schema-design/json-and-denormalized-types/">JSONB, Arrays &amp; Ranges</a> · <a href="/yesql/data-schema-design/range-types/">Range Types &amp; Temporal Constraints</a></p>
       </div>
       <div class="cp-showcase">
         <figure class="cp-diagram">
           <img src="/img/diagrams/fig-eav-antipattern.svg" alt="EAV anti-pattern vs JSONB">
-          <figcaption>The EAV anti-pattern stores every attribute as a row — JSONB flattens the same flexibility into a single typed column, enabling indexes and operators that EAV cannot support.</figcaption>
+          <figcaption>Compare EAV and JSONB approaches for storing flexible attribute sets.</figcaption>
         </figure>
         <div class="cp-query-card">
           <div class="cp-query-label">Module 07 · Trigram similarity</div>
@@ -421,20 +434,22 @@ select k.artist          as known_artist,
       <p class="cp-part-meta">Architect · 7 topics</p>
       <p class="cp-part-desc">Schema design as a systems concern — separation of concerns between schemas, multi-tenant patterns, audit log strategies, and how schema choices cascade into application architecture and scaling decisions.</p>
     </div>
+    <p class="cp-book-ref"><i class="fa-solid fa-book-open"></i> Book reference: <a href="/book/contents/#part-6">Chapter 32 — Denormalization</a></p>
     <div class="cp-part-body">
       <div class="cp-chapters">
-        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">JSONB document model vs relational model</span><span class="cp-ch-topics">JSONB bridges document and relational models by storing objects with SQL-accessible structure.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">Querying JSONB: -&gt;, -&gt;&gt;, #&gt;, path operators, @?, @@</span><span class="cp-ch-topics">Arrow operators extract values; path operators and @? query nested JSONB fields.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">Containment with GIN index (@&gt;)</span><span class="cp-ch-topics">GIN on JSONB accelerates @&gt; containment checks without scanning every row.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">JSONB as an audit trail (to_jsonb + trigger)</span><span class="cp-ch-topics">Triggers and to_jsonb snapshot row state into an append-only JSONB audit log.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">05</span><div><span class="cp-ch-title">Building and decomposing JSONB (jsonb_build_object, jsonb_agg)</span><span class="cp-ch-topics">jsonb_build_object constructs JSONB from scalars; jsonb_agg aggregates rows into a JSONB array.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">06</span><div><span class="cp-ch-title">SQL/JSON path language (PostgreSQL 12+)</span><span class="cp-ch-topics">SQL/JSON path expressions navigate nested JSONB documents with a compact standard syntax.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">07</span><div><span class="cp-ch-title">Expression index on extracted JSONB fields</span><span class="cp-ch-topics">Indexing a JSONB -&gt;&gt; expression makes field lookups as fast as columns.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">JSONB document model vs relational model</span><span class="cp-ch-topics">Decide when a document model fits better than a fully normalised relational schema.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">Querying JSONB: -&gt;, -&gt;&gt;, #&gt;, path operators, @?, @@</span><span class="cp-ch-topics">Query deeply nested JSONB documents using PostgreSQL path operators.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">Containment with GIN index (@&gt;)</span><span class="cp-ch-topics">Index JSONB columns so containment queries run without full-table scans.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">JSONB as an audit trail (to_jsonb + trigger)</span><span class="cp-ch-topics">Build an append-only audit trail that captures full row snapshots automatically.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">05</span><div><span class="cp-ch-title">Building and decomposing JSONB (jsonb_build_object, jsonb_agg)</span><span class="cp-ch-topics">Construct and aggregate JSONB documents directly from relational query results.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">06</span><div><span class="cp-ch-title">SQL/JSON path language (PostgreSQL 12+)</span><span class="cp-ch-topics">Navigate nested JSONB documents using standard SQL/JSON path expressions.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">07</span><div><span class="cp-ch-title">Expression index on extracted JSONB fields</span><span class="cp-ch-topics">Make specific JSONB field lookups as fast as querying a regular column.</span></div></div>
+        <p class="cp-yesql-refs"><i class="fa-solid fa-graduation-cap"></i> Free preview: <a href="/yesql/data-schema-design/json-and-denormalized-types/">JSONB, Arrays &amp; Ranges</a></p>
       </div>
       <div class="cp-showcase">
         <figure class="cp-diagram">
           <img src="/img/diagrams/fig-document-vs-relational.svg" alt="Document model vs relational model">
-          <figcaption>A document model stores the full object in one row; the relational model normalizes it across tables — JSONB bridges both with relational operators on the document.</figcaption>
+          <figcaption>Understand the trade-off between document storage and relational normalisation.</figcaption>
         </figure>
         <div class="cp-query-card">
           <div class="cp-query-label">Module 08 · Materialized view + refresh</div>

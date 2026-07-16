@@ -69,17 +69,19 @@
       <p class="cp-part-meta">Core · 4 topics</p>
       <p class="cp-part-desc">GROUP BY collapses rows into groups and the evaluation order — WHERE → GROUP BY → HAVING → SELECT — determines which clauses can reference aggregate results. This module builds that mental model against F1 race data.</p>
     </div>
+    <p class="cp-book-ref"><i class="fa-solid fa-book-open"></i> Book reference: <a href="/book/contents/#part-4">Chapter 16 — Group By, Having, With, Union All</a></p>
     <div class="cp-part-body">
       <div class="cp-chapters">
-        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">GROUP BY semantics and evaluation order</span><span class="cp-ch-topics">GROUP BY collapses rows into groups keyed by the specified columns.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">Aggregate functions: SUM, COUNT, AVG, MIN, MAX</span><span class="cp-ch-topics">Aggregate functions reduce every group of rows to a single computed value.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">NULL handling and boolean aggregates</span><span class="cp-ch-topics">SUM ignores NULLs; COUNT(*) includes them; bool_and and bool_or aggregate boolean conditions.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">Row vs group context</span><span class="cp-ch-topics">Every non-aggregate SELECT column must appear in the GROUP BY clause.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">GROUP BY semantics and evaluation order</span><span class="cp-ch-topics">Understand how GROUP BY organizes query results into distinct groups.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">Aggregate functions: SUM, COUNT, AVG, MIN, MAX</span><span class="cp-ch-topics">Apply COUNT, SUM, AVG, MIN, and MAX to summarize data within groups.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">NULL handling and boolean aggregates</span><span class="cp-ch-topics">Spot how NULL values silently change aggregate totals and boolean results.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">Row vs group context</span><span class="cp-ch-topics">Know which columns must be listed in GROUP BY and why.</span></div></div>
+        <p class="cp-yesql-refs"><i class="fa-solid fa-graduation-cap"></i> Free preview: <a href="/yesql/sql-foundations/group-by-semantics/">GROUP BY and HAVING</a> · <a href="/yesql/aggregation/sql-aggregates/">Common Aggregate Functions</a></p>
       </div>
       <div class="cp-showcase">
         <figure class="cp-diagram">
           <img src="/img/diagrams/fig-select-order.svg" alt="SQL clause evaluation order">
-          <figcaption>SQL clauses evaluate in a fixed order — WHERE filters rows before GROUP BY forms groups, HAVING filters groups after aggregation</figcaption>
+          <figcaption>How the SQL evaluation order determines which clauses can reference aggregate results.</figcaption>
         </figure>
         <div class="cp-query-card">
           <div class="cp-query-label">Module 01 · GROUP BY decade</div>
@@ -106,17 +108,19 @@
       <p class="cp-part-meta">Core · 4 topics</p>
       <p class="cp-part-desc">COUNT(col) excludes NULLs while COUNT(*) does not. COUNT DISTINCT carries hidden performance costs. This module traces every correctness trap with working examples on real datasets.</p>
     </div>
+    <p class="cp-book-ref"><i class="fa-solid fa-book-open"></i> Book reference: <a href="/book/contents/#part-4">Chapter 16 — Group By, Having, With, Union All</a></p>
     <div class="cp-part-body">
       <div class="cp-chapters">
-        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">Duplicate rows and COUNT DISTINCT</span><span class="cp-ch-topics">Joining before aggregating inflates counts; COUNT DISTINCT removes duplicates within each group.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">WHERE vs HAVING</span><span class="cp-ch-topics">HAVING filters groups after aggregation, where WHERE cannot reference aggregate results.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">Filtered aggregates with FILTER clause</span><span class="cp-ch-topics">FILTER computes conditional counts and sums in one scan without CASE expressions.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">DISTINCT vs GROUP BY</span><span class="cp-ch-topics">SELECT DISTINCT and GROUP BY deduplicate identically; GROUP BY also supports aggregates.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">Duplicate rows and COUNT DISTINCT</span><span class="cp-ch-topics">Avoid inflated counts caused by joining before aggregating.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">WHERE vs HAVING</span><span class="cp-ch-topics">Choose the right filter clause for conditions before or after grouping.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">Filtered aggregates with FILTER clause</span><span class="cp-ch-topics">Compute multiple conditional aggregates in a single pass over the data.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">DISTINCT vs GROUP BY</span><span class="cp-ch-topics">Know when to reach for DISTINCT versus GROUP BY to remove duplicates.</span></div></div>
+        <p class="cp-yesql-refs"><i class="fa-solid fa-graduation-cap"></i> Free preview: <a href="/yesql/sql-foundations/group-by-semantics/">GROUP BY and HAVING</a> · <a href="/yesql/aggregation/sql-aggregates/">Common Aggregate Functions</a> · <a href="/yesql/aggregation/filter-clause/">The FILTER Clause</a></p>
       </div>
       <div class="cp-showcase">
         <figure class="cp-diagram">
           <img src="/img/diagrams/fig-select-order.svg" alt="SQL evaluation order">
-          <figcaption>WHERE filters rows before grouping; HAVING filters groups after aggregation — the SQL evaluation order determines which clause can reference aggregate results.</figcaption>
+          <figcaption>Where each filter clause sits in evaluation and what values it can see.</figcaption>
         </figure>
         <div class="cp-query-card">
           <div class="cp-query-label">Module 02 · FILTER for accident rate</div>
@@ -153,16 +157,18 @@
       <p class="cp-part-meta">Core · 3 topics</p>
       <p class="cp-part-desc">Window functions combined with GROUP BY enable multi-level summaries without running the query twice. Nested subqueries let you aggregate over aggregates cleanly.</p>
     </div>
+    <p class="cp-book-ref"><i class="fa-solid fa-book-open"></i> Book reference: <a href="/book/contents/#part-4">Chapter 16 — Group By, Having, With, Union All</a></p>
     <div class="cp-part-body">
       <div class="cp-chapters">
-        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">CTEs for multi-step aggregation</span><span class="cp-ch-topics">A CTE names intermediate results so subsequent query steps can reference them.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">Chaining CTEs</span><span class="cp-ch-topics">Chained CTEs work around PostgreSQL's prohibition on nested aggregates like max(sum(…)).</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">Nested aggregation with multiple CTEs and GROUPING SETS</span><span class="cp-ch-topics">Multiple CTEs chain aggregation steps that would require illegal nested aggregate calls.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">CTEs for multi-step aggregation</span><span class="cp-ch-topics">Structure complex queries by naming and reusing intermediate aggregation results.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">Chaining CTEs</span><span class="cp-ch-topics">Aggregate over aggregated values by chaining query steps together.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">Nested aggregation with multiple CTEs and GROUPING SETS</span><span class="cp-ch-topics">Build multi-level summaries without repeating expensive table scans.</span></div></div>
+        <p class="cp-yesql-refs"><i class="fa-solid fa-graduation-cap"></i> Free preview: <a href="/yesql/aggregation/sql-aggregates/">Common Aggregate Functions</a></p>
       </div>
       <div class="cp-showcase">
         <figure class="cp-diagram">
           <img src="/img/diagrams/fig-cte-pipeline.svg" alt="CTE pipeline for multi-step aggregation">
-          <figcaption>A chain of CTEs lets you aggregate at multiple levels in one readable query — each step builds on the previous one's grouped result.</figcaption>
+          <figcaption>How chained CTEs pass aggregated results between steps in a single query.</figcaption>
         </figure>
         <div class="cp-query-card">
           <div class="cp-query-label">Module 03 · Per-decade top scorer</div>
@@ -207,17 +213,18 @@ select dp.decade,
       <p class="cp-part-meta">Core · 4 topics</p>
       <p class="cp-part-desc">GROUPING SETS computes multiple GROUP BY combinations in one scan. ROLLUP adds hierarchical subtotals; CUBE adds all cross-tabulations. GROUPING() distinguishes a NULL result from a missing row.</p>
     </div>
+    <p class="cp-book-ref"><i class="fa-solid fa-book-open"></i> Book reference: <a href="/book/contents/#part-4">Chapter 16 — Group By, Having, With, Union All</a></p>
     <div class="cp-part-body">
       <div class="cp-chapters">
-        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">GROUPING SETS</span><span class="cp-ch-topics">GROUPING SETS produces multiple grouping combinations from a single table scan.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">ROLLUP</span><span class="cp-ch-topics">ROLLUP generates subtotals for each column prefix, down to the grand total.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">CUBE</span><span class="cp-ch-topics">CUBE generates subtotals for every possible subset of the listed columns.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">GROUPING() function</span><span class="cp-ch-topics">GROUPING() flags synthetic NULLs produced by ROLLUP or CUBE subtotal rows.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">GROUPING SETS</span><span class="cp-ch-topics">Generate several grouping combinations in one query without repeating the scan.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">ROLLUP</span><span class="cp-ch-topics">Add hierarchical subtotals and a grand total alongside detail rows.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">CUBE</span><span class="cp-ch-topics">Cross-tabulate totals across all combinations of grouping columns at once.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">GROUPING() function</span><span class="cp-ch-topics">Distinguish subtotal rows from genuine NULL values in aggregation results.</span></div></div>
       </div>
       <div class="cp-showcase">
         <figure class="cp-diagram">
           <img src="/img/diagrams/fig-grouping-sets-lattice.svg" alt="Grouping sets lattice">
-          <figcaption>CUBE computes all subsets; ROLLUP follows the hierarchical chain; GROUPING SETS lets you pick exactly which combinations to compute</figcaption>
+          <figcaption>How GROUPING SETS, ROLLUP, and CUBE differ in the combinations they produce.</figcaption>
         </figure>
         <div class="cp-query-card">
           <div class="cp-query-label">Module 04 · ROLLUP subtotals</div>
@@ -248,17 +255,19 @@ select dp.decade,
       <p class="cp-part-meta">Core · 4 topics</p>
       <p class="cp-part-desc">The FILTER clause computes conditional counts and sums in a single pass — far faster than multiple CASE expressions. Ordered-set aggregates (percentile_cont, mode) extend what GROUP BY can express.</p>
     </div>
+    <p class="cp-book-ref"><i class="fa-solid fa-book-open"></i> Book reference: <a href="/book/contents/#part-4">Chapter 16 — Group By, Having, With, Union All</a></p>
     <div class="cp-part-body">
       <div class="cp-chapters">
-        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">Aggregation with joins</span><span class="cp-ch-topics">Aggregating before joining prevents the join from amplifying the counts being computed.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">Conditional aggregation with CASE inside SUM</span><span class="cp-ch-topics">A CASE inside SUM routes rows into separate buckets in one scan.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">Window functions vs GROUP BY</span><span class="cp-ch-topics">GROUP BY collapses rows; window functions add aggregates without collapsing the result.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">A complete reporting query: FILTER, HAVING, COUNT DISTINCT combined</span><span class="cp-ch-topics">CTE scope, FILTER, HAVING, and COUNT DISTINCT combine into one constructor report.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">Aggregation with joins</span><span class="cp-ch-topics">Prevent inflated counts by aggregating before joining instead of after.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">Conditional aggregation with CASE inside SUM</span><span class="cp-ch-topics">Split totals into multiple conditional categories within a single query.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">Window functions vs GROUP BY</span><span class="cp-ch-topics">Decide when a window function is a better fit than GROUP BY.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">A complete reporting query: FILTER, HAVING, COUNT DISTINCT combined</span><span class="cp-ch-topics">Combine multiple aggregation techniques into one complete, accurate report.</span></div></div>
+        <p class="cp-yesql-refs"><i class="fa-solid fa-graduation-cap"></i> Free preview: <a href="/yesql/aggregation/sql-aggregates/">Common Aggregate Functions</a> · <a href="/yesql/aggregation/filter-clause/">The FILTER Clause</a></p>
       </div>
       <div class="cp-showcase">
         <figure class="cp-diagram">
           <img src="/img/diagrams/fig-aggregate-filter.svg" alt="FILTER clause">
-          <figcaption>FILTER runs multiple conditional aggregates in a single pass without CASE expressions or subqueries</figcaption>
+          <figcaption>How conditional aggregation computes multiple bucket totals in one pass.</figcaption>
         </figure>
         <div class="cp-query-card">
           <div class="cp-query-label">Module 05 · Constructor report</div>
@@ -301,17 +310,18 @@ having count(*) &gt;= 20
       <p class="cp-part-meta">Core · 4 topics</p>
       <p class="cp-part-desc">HashAgg vs SortedAgg, spill to disk, and partial aggregation in parallel plans. This module explains when to pre-aggregate into a materialized view versus aggregating live at query time.</p>
     </div>
+    <p class="cp-book-ref"><i class="fa-solid fa-book-open"></i> Book reference: <a href="/book/contents/#part-4">Chapter 16 — Group By, Having, With, Union All</a></p>
     <div class="cp-part-body">
       <div class="cp-chapters">
-        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">Hash vs sort aggregation</span><span class="cp-ch-topics">Hash aggregation builds an in-memory table; sort aggregation requires sorted input rows.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">Reading aggregation plans</span><span class="cp-ch-topics">HashAggregate uses a hash table; GroupAggregate processes pre-sorted rows group by group.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">Pre-aggregation strategies with materialized views</span><span class="cp-ch-topics">A materialized view shifts repeated aggregation cost to one-time refresh time.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">Profiling with EXPLAIN (ANALYZE, BUFFERS)</span><span class="cp-ch-topics">EXPLAIN ANALYZE reports actual timings and actual rows to reveal planner misfires.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">Hash vs sort aggregation</span><span class="cp-ch-topics">Predict which aggregation strategy PostgreSQL will choose for a given query.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">Reading aggregation plans</span><span class="cp-ch-topics">Read an EXPLAIN plan to identify which aggregation node your query uses.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">Pre-aggregation strategies with materialized views</span><span class="cp-ch-topics">Decide when pre-aggregating into a stored view pays off over live aggregation.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">Profiling with EXPLAIN (ANALYZE, BUFFERS)</span><span class="cp-ch-topics">Profile a slow aggregation query to locate and fix the bottleneck.</span></div></div>
       </div>
       <div class="cp-showcase">
         <figure class="cp-diagram">
           <img src="/img/diagrams/fig-node-types.svg" alt="Aggregation plan node types">
-          <figcaption>Hash aggregation builds a hash table in memory; when it spills to disk (Batches &gt; 1), performance drops sharply — EXPLAIN reveals which strategy was chosen.</figcaption>
+          <figcaption>When and why aggregation spills to disk, and how to see it in EXPLAIN.</figcaption>
         </figure>
         <div class="cp-query-card">
           <div class="cp-query-label">Module 06 · EXPLAIN HashAggregate</div>
@@ -338,19 +348,21 @@ having count(*) &gt;= 20
       <p class="cp-part-meta">Advanced · 6 topics</p>
       <p class="cp-part-desc">Reliable reporting queries stay correct as data grows — no implicit column dependencies, no unstable GROUP BY expressions, behavior verified with realistic data volumes before going to production.</p>
     </div>
+    <p class="cp-book-ref"><i class="fa-solid fa-book-open"></i> Book reference: <a href="/book/contents/#part-4">Chapter 16 — Group By, Having, With, Union All</a></p>
     <div class="cp-part-body">
       <div class="cp-chapters">
-        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">Idempotent aggregation</span><span class="cp-ch-topics">A WHERE clause with constant time bounds makes a reporting query idempotent.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">Ordered-set aggregates: percentile_cont, percentile_disc, mode()</span><span class="cp-ch-topics">percentile_cont interpolates the exact quantile; percentile_disc picks the nearest actual data value.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">Gap filling with generate_series</span><span class="cp-ch-topics">A LEFT JOIN to generate_series fills gaps so every period row appears.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">Datetime fence-post trap</span><span class="cp-ch-topics">Date literals in BETWEEN are cast to midnight, dropping later events silently.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">05</span><div><span class="cp-ch-title">Drift detection with LAG()</span><span class="cp-ch-topics">LAG() makes the previous period's value available to flag unexpected metric shifts.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">06</span><div><span class="cp-ch-title">Bi-temporal modeling</span><span class="cp-ch-topics">Valid time tracks real-world truth; transaction time tracks database knowledge.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">Idempotent aggregation</span><span class="cp-ch-topics">Write reporting queries that remain correct no matter how many times they run.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">Ordered-set aggregates: percentile_cont, percentile_disc, mode()</span><span class="cp-ch-topics">Compute median, percentile, and mode summaries over grouped data.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">Gap filling with generate_series</span><span class="cp-ch-topics">Ensure every time period appears in a report even when source rows are missing.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">Datetime fence-post trap</span><span class="cp-ch-topics">Avoid accidentally dropping events at the boundary of a date-range filter.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">05</span><div><span class="cp-ch-title">Drift detection with LAG()</span><span class="cp-ch-topics">Detect unexpected changes in a metric by comparing each period to the previous one.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">06</span><div><span class="cp-ch-title">Bi-temporal modeling</span><span class="cp-ch-topics">Model data with two independent timelines: when it was true and when it was stored.</span></div></div>
+        <p class="cp-yesql-refs"><i class="fa-solid fa-graduation-cap"></i> Free preview: <a href="/yesql/aggregation/percentiles-in-one-query/">Percentiles &amp; Ordered-Set Aggregates</a></p>
       </div>
       <div class="cp-showcase">
         <figure class="cp-diagram">
           <img src="/img/diagrams/fig-range-band-timeline.svg" alt="Time bands for gap filling">
-          <figcaption>Bi-temporal queries and gap filling both reason over time bands — generate_series anchors the timeline so missing periods surface as NULLs rather than disappearing.</figcaption>
+          <figcaption>How time bands surface missing periods and bi-temporal record boundaries.</figcaption>
         </figure>
         <div class="cp-query-card">
           <div class="cp-query-label">Module 07 · Gap filling</div>
@@ -390,18 +402,19 @@ select s.season,
       <p class="cp-part-meta">Architect · 5 topics</p>
       <p class="cp-part-desc">MERGE, upsert patterns, and incremental aggregation maintain summary tables at scale. Trade-offs between query-time aggregation, periodic rollups, and streaming pre-aggregation.</p>
     </div>
+    <p class="cp-book-ref"><i class="fa-solid fa-book-open"></i> Book reference: <a href="/book/contents/#part-4">Chapter 16 — Group By, Having, With, Union All</a></p>
     <div class="cp-part-body">
       <div class="cp-chapters">
-        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">Materialized views</span><span class="cp-ch-topics">REFRESH MATERIALIZED VIEW updates the stored snapshot; CONCURRENTLY avoids locking concurrent readers.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">Incremental aggregation with upsert (INSERT … ON CONFLICT)</span><span class="cp-ch-topics">Upsert keeps the summary table current by overwriting stale rows without duplicates.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">ETL/ELT patterns and MERGE (PostgreSQL 15+)</span><span class="cp-ch-topics">MERGE handles all three DML operations atomically where ON CONFLICT only upserts.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">OLAP vs OLTP trade-offs</span><span class="cp-ch-topics">OLTP serves selective row lookups; OLAP scans wide ranges to aggregate results.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">05</span><div><span class="cp-ch-title">Distributed aggregation with Citus</span><span class="cp-ch-topics">Citus distributes tables across worker shards for horizontal scaling inside PostgreSQL.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">Materialized views</span><span class="cp-ch-topics">Refresh pre-computed summaries without blocking concurrent read queries.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">Incremental aggregation with upsert (INSERT … ON CONFLICT)</span><span class="cp-ch-topics">Keep a summary table current by safely overwriting stale rows on reload.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">ETL/ELT patterns and MERGE (PostgreSQL 15+)</span><span class="cp-ch-topics">Apply inserts, updates, and deletes atomically in a single data-load statement.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">OLAP vs OLTP trade-offs</span><span class="cp-ch-topics">Choose the right database design based on your query's selectivity pattern.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">05</span><div><span class="cp-ch-title">Distributed aggregation with Citus</span><span class="cp-ch-topics">Scale aggregation to more data than fits on one server, staying within PostgreSQL.</span></div></div>
       </div>
       <div class="cp-showcase">
         <figure class="cp-diagram">
           <img src="/img/diagrams/fig-citus-arch.svg" alt="Citus distributed architecture: coordinator, workers, shards">
-          <figcaption>Citus routes SQL from a coordinator to worker shards in parallel — distributed tables are sharded by key, reference tables are replicated to every worker.</figcaption>
+          <figcaption>How a distributed query splits aggregation work across coordinator and worker nodes.</figcaption>
         </figure>
         <div class="cp-query-card">
           <div class="cp-query-label">Module 08 · Idempotent upsert</div>

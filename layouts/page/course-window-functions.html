@@ -69,18 +69,20 @@
       <p class="cp-part-meta">Core · 5 topics</p>
       <p class="cp-part-desc">Window functions compute a value for each row using a set of related rows, without collapsing them. The OVER clause turns any aggregate into a window function; PARTITION BY divides the window into independent groups.</p>
     </div>
+    <p class="cp-book-ref"><i class="fa-solid fa-book-open"></i> Book reference: <a href="/book/contents/#part-4">Chapter 18 — Understanding Window Functions</a></p>
     <div class="cp-part-body">
       <div class="cp-chapters">
-        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">OVER clause</span><span class="cp-ch-topics">The OVER clause defines a window of rows over which an aggregate is computed without collapsing the result set.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">ORDER BY within a window</span><span class="cp-ch-topics">ORDER BY defines the row sequence within each partition for ordering-dependent functions like LAG or running totals.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">PARTITION BY</span><span class="cp-ch-topics">PARTITION BY divides rows into independent groups and applies the window function separately within each.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">Difference with GROUP BY</span><span class="cp-ch-topics">GROUP BY collapses rows to one per group; window functions add computed columns while preserving every row.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">05</span><div><span class="cp-ch-title">Row vs window context</span><span class="cp-ch-topics">A window context lets each row access values from other rows in its partition, unlike isolated row-level SQL expressions.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">OVER clause</span><span class="cp-ch-topics">Write aggregate expressions that return a value per row instead of per group.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">ORDER BY within a window</span><span class="cp-ch-topics">Control the row sequence inside a window for order-sensitive calculations.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">PARTITION BY</span><span class="cp-ch-topics">Split a dataset into independent groups for per-group window calculations.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">Difference with GROUP BY</span><span class="cp-ch-topics">Choose the right tool when you need group context without losing individual rows.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">05</span><div><span class="cp-ch-title">Row vs window context</span><span class="cp-ch-topics">Access values from neighboring rows in the same group without a self-join.</span></div></div>
+        <p class="cp-yesql-refs"><i class="fa-solid fa-graduation-cap"></i> Free preview: <a href="/yesql/window-functions/over-clause-mental-model/">The OVER Clause</a></p>
       </div>
       <div class="cp-showcase">
         <figure class="cp-diagram">
           <img src="/img/diagrams/fig-groupby-vs-window.svg" alt="GROUP BY vs Window Functions">
-          <figcaption>GROUP BY collapses rows into groups; PARTITION BY adds a computed column while keeping every row</figcaption>
+          <figcaption>Understand when to keep all rows versus collapse them into a single group result.</figcaption>
         </figure>
         <div class="cp-query-card">
           <div class="cp-query-label">Module 01 · LAG for time gap</div>
@@ -111,17 +113,19 @@
       <p class="cp-part-meta">Core · 4 topics</p>
       <p class="cp-part-desc">ROW_NUMBER, RANK, and DENSE_RANK assign positions within an ordered partition — differing only in how they handle ties. LEAD and LAG navigate to adjacent rows without a self-join.</p>
     </div>
+    <p class="cp-book-ref"><i class="fa-solid fa-book-open"></i> Book reference: <a href="/book/contents/#part-4">Chapter 18 — Understanding Window Functions</a></p>
     <div class="cp-part-body">
       <div class="cp-chapters">
-        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">ROW_NUMBER</span><span class="cp-ch-topics">ROW_NUMBER assigns a unique sequential integer to each row within its partition with no ties.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">RANK &amp; DENSE_RANK</span><span class="cp-ch-topics">RANK leaves gaps after tied values; DENSE_RANK preserves ties while keeping the sequence continuous.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">NTILE</span><span class="cp-ch-topics">NTILE distributes rows into a fixed number of equal-sized buckets based on their ordering.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">LEAD &amp; LAG</span><span class="cp-ch-topics">LAG and LEAD access the previous or next row's value within a partition without a self-join.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">ROW_NUMBER</span><span class="cp-ch-topics">Assign a unique sequential position to each row within a group.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">RANK &amp; DENSE_RANK</span><span class="cp-ch-topics">Handle tied values with gapped or continuous rank sequences.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">NTILE</span><span class="cp-ch-topics">Divide ordered rows into equal-sized buckets for percentile-style grouping.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">LEAD &amp; LAG</span><span class="cp-ch-topics">Compare each row to its predecessor or successor without a self-join.</span></div></div>
+        <p class="cp-yesql-refs"><i class="fa-solid fa-graduation-cap"></i> Free preview: <a href="/yesql/window-functions/row-number-rank-dense-rank/">ROW_NUMBER, RANK, DENSE_RANK</a></p>
       </div>
       <div class="cp-showcase">
         <figure class="cp-diagram">
           <img src="/img/diagrams/fig-window-frame.svg" alt="Window partition and order structure">
-          <figcaption>Every ranking function sees a sorted partition — PARTITION BY divides rows into groups, ORDER BY determines rank position within each.</figcaption>
+          <figcaption>See how ordering and grouping together determine each row's rank position.</figcaption>
         </figure>
         <div class="cp-query-card">
           <div class="cp-query-label">Module 02 · RANK vs DENSE_RANK</div>
@@ -153,16 +157,18 @@
       <p class="cp-part-meta">Core · 3 topics</p>
       <p class="cp-part-desc">SUM() OVER(ORDER BY) produces a running total; add a ROWS N PRECEDING frame and it becomes a moving window. The default frame changes when ORDER BY is present.</p>
     </div>
+    <p class="cp-book-ref"><i class="fa-solid fa-book-open"></i> Book reference: <a href="/book/contents/#part-4">Chapter 18 — Understanding Window Functions</a></p>
     <div class="cp-part-body">
       <div class="cp-chapters">
-        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">SUM() OVER</span><span class="cp-ch-topics">SUM() OVER with ORDER BY produces a running total that accumulates row by row through the partition.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">Moving averages</span><span class="cp-ch-topics">A moving average aggregates a fixed-width sliding band of rows, smoothing fluctuations across the ordered dataset.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">Frame clauses: ROWS vs RANGE</span><span class="cp-ch-topics">ROWS counts physical positions; RANGE includes all rows whose ordering value falls within the specified interval.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">SUM() OVER</span><span class="cp-ch-topics">Build a cumulative total that grows row by row through an ordered dataset.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">Moving averages</span><span class="cp-ch-topics">Smooth noisy time-series data with a sliding fixed-width aggregate.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">Frame clauses: ROWS vs RANGE</span><span class="cp-ch-topics">Choose the right aggregation boundary for physical positions versus value ranges.</span></div></div>
+        <p class="cp-yesql-refs"><i class="fa-solid fa-graduation-cap"></i> Free preview: <a href="/yesql/window-functions/running-totals/">Running Totals &amp; Moving Averages</a></p>
       </div>
       <div class="cp-showcase">
         <figure class="cp-diagram">
           <img src="/img/diagrams/fig-range-band-timeline.svg" alt="Moving window on a timeline">
-          <figcaption>A moving average is a window that slides along the timeline — each position aggregates a fixed-width band of preceding rows.</figcaption>
+          <figcaption>See how a sliding window covers a fixed band of rows at each position.</figcaption>
         </figure>
         <div class="cp-query-card">
           <div class="cp-query-label">Module 03 · Running total</div>
@@ -189,18 +195,20 @@
       <p class="cp-part-meta">Core · 5 topics</p>
       <p class="cp-part-desc">ROWS, RANGE, and GROUPS each define which rows enter the frame relative to the current row. Subtle differences emerge with duplicate values, and EXCLUDE lets you remove specific rows from the frame.</p>
     </div>
+    <p class="cp-book-ref"><i class="fa-solid fa-book-open"></i> Book reference: <a href="/book/contents/#part-4">Chapter 18 — Understanding Window Functions</a></p>
     <div class="cp-part-body">
       <div class="cp-chapters">
-        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">UNBOUNDED PRECEDING &amp; FOLLOWING</span><span class="cp-ch-topics">UNBOUNDED PRECEDING and FOLLOWING extend the frame to the first or last row of the partition.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">CURRENT ROW</span><span class="cp-ch-topics">CURRENT ROW anchors the frame to the row being evaluated, setting one boundary of the window at the current position.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">Frame definitions</span><span class="cp-ch-topics">Frame definitions combine ROWS, RANGE, or GROUPS mode with boundary keywords to control which rows each computation sees.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">Frame edge cases with duplicate values</span><span class="cp-ch-topics">Duplicate ordering values cause ROWS and RANGE frames to diverge, since ROWS counts positions while RANGE groups peers.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">05</span><div><span class="cp-ch-title">EXCLUDE clause</span><span class="cp-ch-topics">EXCLUDE removes the current row, its peer group, or just the ties from the frame for everyone-but-me aggregates.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">UNBOUNDED PRECEDING &amp; FOLLOWING</span><span class="cp-ch-topics">Extend a frame to the very first or last row of a partition.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">CURRENT ROW</span><span class="cp-ch-topics">Anchor one frame boundary at the row currently being evaluated.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">Frame definitions</span><span class="cp-ch-topics">Combine frame mode and boundaries to control exactly which rows a function sees.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">Frame edge cases with duplicate values</span><span class="cp-ch-topics">Anticipate how duplicate ordering values affect which rows enter the frame.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">05</span><div><span class="cp-ch-title">EXCLUDE clause</span><span class="cp-ch-topics">Exclude specific rows from the frame for self-excluding aggregates.</span></div></div>
+        <p class="cp-yesql-refs"><i class="fa-solid fa-graduation-cap"></i> Free preview: <a href="/yesql/window-functions/frame-semantics/">Frame Semantics</a></p>
       </div>
       <div class="cp-showcase">
         <figure class="cp-diagram">
           <img src="/img/diagrams/fig-window-frame-spec.svg" alt="Window frame specification">
-          <figcaption>Frame boundaries define exactly which rows each function sees relative to the current row</figcaption>
+          <figcaption>Understand which rows fall inside a frame relative to the current position.</figcaption>
         </figure>
         <div class="cp-query-card">
           <div class="cp-query-label">Module 04 · ROWS vs RANGE</div>
@@ -235,17 +243,19 @@ window
       <p class="cp-part-meta">Core · 4 topics</p>
       <p class="cp-part-desc">Sessionization, gaps &amp; islands, and cohort analysis are classic time-series patterns. Window functions solve them in pure SQL using the running-SUM trick — no procedural loops.</p>
     </div>
+    <p class="cp-book-ref"><i class="fa-solid fa-book-open"></i> Book reference: <a href="/book/contents/#part-4">Chapter 18 — Understanding Window Functions</a></p>
     <div class="cp-part-body">
       <div class="cp-chapters">
-        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">Gaps &amp; islands</span><span class="cp-ch-topics">Gaps and islands patterns detect contiguous sequences or breaks by comparing each row to its predecessor with LAG.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">Cohort analysis with FIRST_VALUE()</span><span class="cp-ch-topics">FIRST_VALUE anchors each cohort to its debut measurement, enabling retention and lifecycle metrics across periods.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">Sessionization</span><span class="cp-ch-topics">Sessionization assigns group identifiers by summing outlier flags with a running SUM, turning gap detection into session numbers.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">Percentiles: PERCENT_RANK, CUME_DIST, NTILE</span><span class="cp-ch-topics">PERCENT_RANK, CUME_DIST, and NTILE express each row's position within its partition as a fraction or bucket number.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">Gaps &amp; islands</span><span class="cp-ch-topics">Detect contiguous sequences and breaks in ordered event data.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">Cohort analysis with FIRST_VALUE()</span><span class="cp-ch-topics">Anchor each cohort to its first measurement for retention and lifecycle analysis.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">Sessionization</span><span class="cp-ch-topics">Group consecutive events into sessions using only pure SQL aggregation.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">Percentiles: PERCENT_RANK, CUME_DIST, NTILE</span><span class="cp-ch-topics">Express each row's relative standing as a percentile or bucket within its group.</span></div></div>
+        <p class="cp-yesql-refs"><i class="fa-solid fa-graduation-cap"></i> Free preview: <a href="/yesql/window-functions/sessionization/">Sessionization</a></p>
       </div>
       <div class="cp-showcase">
         <figure class="cp-diagram">
           <img src="/img/diagrams/fig-multirange-career.svg" alt="Session gaps on a timeline">
-          <figcaption>Sessionization groups consecutive events by detecting gaps — the running-SUM trick turns an outlier flag into a session number without procedural loops.</figcaption>
+          <figcaption>See how consecutive events are grouped into sessions by detecting time gaps.</figcaption>
         </figure>
         <div class="cp-query-card">
           <div class="cp-query-label">Module 05 · Sessionization</div>
@@ -293,17 +303,19 @@ select surname, stint,
       <p class="cp-part-meta">Core · 4 topics</p>
       <p class="cp-part-desc">Every window query sorts its data and produces a WindowAgg node in EXPLAIN. This module covers sorting cost, spec sharing across multiple windows, and anti-patterns that force unwanted re-scans.</p>
     </div>
+    <p class="cp-book-ref"><i class="fa-solid fa-book-open"></i> Book reference: <a href="/book/contents/#part-4">Chapter 18 — Understanding Window Functions</a></p>
     <div class="cp-part-body">
       <div class="cp-chapters">
-        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">Execution plans and the WindowAgg node</span><span class="cp-ch-topics">The WindowAgg plan node appears directly above the Sort that satisfies the window's ORDER BY in every EXPLAIN output.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">Sorting costs and spec sharing</span><span class="cp-ch-topics">Identical window specifications share one Sort and one WindowAgg node, so multiple functions add no extra sorting cost.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">Index considerations for window ORDER BY</span><span class="cp-ch-topics">An index matching the window's PARTITION BY and ORDER BY columns lets PostgreSQL skip the sort step entirely.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">Anti-patterns: filtering on window output vs source columns</span><span class="cp-ch-topics">Filtering on a window's output forces a full table scan; filtering on source columns lets the optimizer push predicates earlier.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">Execution plans and the WindowAgg node</span><span class="cp-ch-topics">Read an execution plan to identify where window sorting cost is paid.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">Sorting costs and spec sharing</span><span class="cp-ch-topics">Write multiple window functions that share one sort pass for free.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">Index considerations for window ORDER BY</span><span class="cp-ch-topics">Use index design to eliminate the sort step from window queries.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">Anti-patterns: filtering on window output vs source columns</span><span class="cp-ch-topics">Filter on source columns instead of window output to enable early predicate pushdown.</span></div></div>
+        <p class="cp-yesql-refs"><i class="fa-solid fa-graduation-cap"></i> Free preview: <a href="/yesql/performance/reading-explain/">Reading EXPLAIN</a></p>
       </div>
       <div class="cp-showcase">
         <figure class="cp-diagram">
           <img src="/img/diagrams/fig-explain-anatomy.svg" alt="EXPLAIN output anatomy">
-          <figcaption>Every window query produces a Sort node feeding a WindowAgg node — sorting cost is always paid and shows up as a high startup cost.</figcaption>
+          <figcaption>Recognize the Sort and WindowAgg nodes that every window query produces.</figcaption>
         </figure>
         <div class="cp-query-card">
           <div class="cp-query-label">Module 06 · EXPLAIN window query</div>
@@ -332,18 +344,20 @@ select surname, laps,
       <p class="cp-part-meta">Advanced · 5 topics</p>
       <p class="cp-part-desc">When a window result must be filtered or joined, wrap it in a CTE or subquery — window functions cannot appear in WHERE or HAVING. Multi-pass patterns with chained CTEs and LATERAL are covered here.</p>
     </div>
+    <p class="cp-book-ref"><i class="fa-solid fa-book-open"></i> Book reference: <a href="/book/contents/#part-4">Chapter 18 — Understanding Window Functions</a></p>
     <div class="cp-part-body">
       <div class="cp-chapters">
-        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">CTEs for multi-pass computations</span><span class="cp-ch-topics">CTEs isolate each window pass into a named step, making multi-stage analytical queries readable and independently testable.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">Subquery filter pattern</span><span class="cp-ch-topics">Window results cannot be filtered in the same SELECT that computes them; wrap the window in a subquery and filter outside.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">LATERAL joins with window functions</span><span class="cp-ch-topics">LATERAL lets a subquery containing a window function reference columns from the outer query row by row.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">Chained window passes</span><span class="cp-ch-topics">Chained CTEs materialize each window pass so the next step can apply its own window over the previous result.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">05</span><div><span class="cp-ch-title">Query refactoring from correlated subqueries</span><span class="cp-ch-topics">Replacing correlated subqueries with window functions aggregates the dataset once instead of re-executing per outer row.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">CTEs for multi-pass computations</span><span class="cp-ch-topics">Break complex multi-stage queries into readable, independently testable named steps.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">Subquery filter pattern</span><span class="cp-ch-topics">Filter on a window's computed result by wrapping it in an outer query.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">LATERAL joins with window functions</span><span class="cp-ch-topics">Combine a per-row subquery with a window function for row-aware lookups.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">Chained window passes</span><span class="cp-ch-topics">Layer window calculations so each pass can build on the previous result.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">05</span><div><span class="cp-ch-title">Query refactoring from correlated subqueries</span><span class="cp-ch-topics">Replace slow correlated subqueries with a single window scan of the dataset.</span></div></div>
+        <p class="cp-yesql-refs"><i class="fa-solid fa-graduation-cap"></i> Free preview: <a href="/yesql/joins-and-relations/lateral-join-top-n/">LATERAL: Top-N Per Group</a></p>
       </div>
       <div class="cp-showcase">
         <figure class="cp-diagram">
           <img src="/img/diagrams/fig-cte-pipeline.svg" alt="CTE pipeline">
-          <figcaption>CTEs chain window passes so each step builds on the previous result without re-scanning the table</figcaption>
+          <figcaption>See how chained named steps build analytical results without re-scanning data.</figcaption>
         </figure>
         <div class="cp-query-card">
           <div class="cp-query-label">Module 07 · Multi-pass CTE standings</div>
@@ -387,18 +401,19 @@ select d.surname,
       <p class="cp-part-meta">Architect · 5 topics</p>
       <p class="cp-part-desc">Materialized views cache expensive window computations and support incremental refresh for rolling metrics. This module covers ELT patterns and trade-offs when moving work to columnar OLAP systems.</p>
     </div>
+    <p class="cp-book-ref"><i class="fa-solid fa-book-open"></i> Book reference: <a href="/book/contents/#part-4">Chapter 18 — Understanding Window Functions</a></p>
     <div class="cp-part-body">
       <div class="cp-chapters">
-        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">Materialized views for pre-computed standings</span><span class="cp-ch-topics">Materialized views store the window computation result physically so repeated reads pay a table scan, not a re-sort.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">Incremental computation</span><span class="cp-ch-topics">Incremental updates append only new rows and recompute rolling window metrics over the already-summarized data.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">ETL/ELT patterns: deduplication, surrogate keys, pre-computation</span><span class="cp-ch-topics">ELT uses ROW_NUMBER for deduplication and SUM OVER for pre-computed running totals as part of the load step.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">Trade-offs with OLAP systems (Redshift, BigQuery, DuckDB)</span><span class="cp-ch-topics">At hundreds of millions of rows the sort cost in PostgreSQL becomes prohibitive and columnar engines gain a structural advantage.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">05</span><div><span class="cp-ch-title">Data architecture patterns</span><span class="cp-ch-topics">Three-layer ELT architecture separates raw staging from integrated window-function output and presentation-layer materialized views.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">Materialized views for pre-computed standings</span><span class="cp-ch-topics">Store expensive window results physically so repeated queries pay no re-sort cost.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">Incremental computation</span><span class="cp-ch-topics">Update rolling metrics incrementally without reprocessing the entire dataset.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">ETL/ELT patterns: deduplication, surrogate keys, pre-computation</span><span class="cp-ch-topics">Deduplicate and pre-aggregate data as part of the data loading pipeline.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">Trade-offs with OLAP systems (Redshift, BigQuery, DuckDB)</span><span class="cp-ch-topics">Decide when to keep analytics in PostgreSQL versus move to a columnar engine.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">05</span><div><span class="cp-ch-title">Data architecture patterns</span><span class="cp-ch-topics">Design a layered data architecture that separates staging from presentation.</span></div></div>
       </div>
       <div class="cp-showcase">
         <figure class="cp-diagram">
           <img src="/img/diagrams/fig-data-access-service.svg" alt="Data architecture layers">
-          <figcaption>Three-layer ELT architecture: raw → integrated → presentation; materialized views cache expensive window computations at the integration layer.</figcaption>
+          <figcaption>See how raw, integrated, and presentation layers structure an analytical pipeline.</figcaption>
         </figure>
         <div class="cp-query-card">
           <div class="cp-query-label">Module 08 · ELT cumulative standings</div>
