@@ -70,17 +70,19 @@
       <p class="cp-part-meta">Core · 4 topics</p>
       <p class="cp-part-desc">The planner generates a plan tree from statistics and cost estimates. This module covers pg_stats, row-count estimates, join ordering, and how cost model parameters shape planning decisions.</p>
     </div>
+    <p class="cp-book-ref"><i class="fa-solid fa-book-open"></i> Book reference: <a href="/book/contents/#part-3">Chapter 9 — Indexing Strategy</a></p>
     <div class="cp-part-body">
       <div class="cp-chapters">
-        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">Cost model settings (seq_page_cost, random_page_cost)</span><span class="cp-ch-topics">seq_page_cost and random_page_cost calibrate I/O cost weights for every plan decision.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">Table statistics</span><span class="cp-ch-topics">pg_stats exposes MCVs, histograms, and null fraction used for row-count estimates.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">Row estimates from EXPLAIN</span><span class="cp-ch-topics">EXPLAIN rows=N shows the planner's estimate, derived from column statistics before execution.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">Query lifecycle statistics with pg_stat_statements</span><span class="cp-ch-topics">pg_stat_statements accumulates call counts and total execution time per normalized query shape.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">Cost model settings (seq_page_cost, random_page_cost)</span><span class="cp-ch-topics">Tune cost model settings to match your server's actual storage performance.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">Table statistics</span><span class="cp-ch-topics">Understand how PostgreSQL estimates row counts before a query runs.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">Row estimates from EXPLAIN</span><span class="cp-ch-topics">Spot row-count estimates in query plans and trace them back to statistics.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">Query lifecycle statistics with pg_stat_statements</span><span class="cp-ch-topics">Find which queries consume the most cumulative time in your database.</span></div></div>
+        <p class="cp-yesql-refs"><i class="fa-solid fa-graduation-cap"></i> Free preview: <a href="/yesql/performance/reading-explain/">Reading EXPLAIN</a></p>
       </div>
       <div class="cp-showcase">
         <figure class="cp-diagram">
           <img src="/img/diagrams/fig-query-pipeline.svg" alt="Query execution pipeline">
-          <figcaption>A query travels from parse tree through rewriter and planner to executor — statistics and cost estimates drive every planning decision</figcaption>
+          <figcaption>Trace the path a query takes from parsing to execution.</figcaption>
         </figure>
         <div class="cp-query-card">
           <div class="cp-query-label">Module 01 · Cost model parameters</div>
@@ -114,17 +116,19 @@
       <p class="cp-part-meta">Core · 4 topics</p>
       <p class="cp-part-desc">EXPLAIN reveals startup cost, total cost, estimated rows, and row width for every node. FORMAT JSON and the indentation model are covered alongside how to read a multi-node plan tree.</p>
     </div>
+    <p class="cp-book-ref"><i class="fa-solid fa-book-open"></i> Book reference: <a href="/book/contents/#part-3">Chapter 9 — Indexing Strategy</a></p>
     <div class="cp-part-body">
       <div class="cp-chapters">
-        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">Basic EXPLAIN</span><span class="cp-ch-topics">EXPLAIN shows cost, estimated rows, and row width for every plan node.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">EXPLAIN ANALYZE</span><span class="cp-ch-topics">ANALYZE adds actual row counts and timing alongside the planner's estimates.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">BUFFERS</span><span class="cp-ch-topics">BUFFERS adds cache hit and disk read counts at every plan node.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">Plan node types: Seq Scan, Index Scan, Hash Join, Nested Loop, Merge Join</span><span class="cp-ch-topics">Each plan node type has a characteristic cost and scaling profile.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">Basic EXPLAIN</span><span class="cp-ch-topics">Read cost and row estimates for every step of a query plan.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">EXPLAIN ANALYZE</span><span class="cp-ch-topics">Compare estimated vs. actual rows to catch planner misestimates.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">BUFFERS</span><span class="cp-ch-topics">Identify which plan nodes generate the most disk I/O.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">Plan node types: Seq Scan, Index Scan, Hash Join, Nested Loop, Merge Join</span><span class="cp-ch-topics">Recognize scan and join node types and predict how they scale.</span></div></div>
+        <p class="cp-yesql-refs"><i class="fa-solid fa-graduation-cap"></i> Free preview: <a href="/yesql/performance/reading-explain/">Reading EXPLAIN</a></p>
       </div>
       <div class="cp-showcase">
         <figure class="cp-diagram">
           <img src="/img/diagrams/fig-explain-anatomy.svg" alt="EXPLAIN anatomy">
-          <figcaption>Every EXPLAIN node reports startup cost, total cost, estimated rows, and row width — four numbers that tell the optimizer's story</figcaption>
+          <figcaption>Read the four key numbers at every plan node.</figcaption>
         </figure>
         <div class="cp-query-card">
           <div class="cp-query-label">Module 02 · EXPLAIN ANALYZE join</div>
@@ -154,17 +158,19 @@ select r.name    as race,
       <p class="cp-part-meta">Core · 4 topics</p>
       <p class="cp-part-desc">pg_stat_statements ranks queries by cumulative total time — the right starting point for any optimization session. EXPLAIN ANALYZE adds actual rows and timing; BUFFERS shows cache hits vs disk reads.</p>
     </div>
+    <p class="cp-book-ref"><i class="fa-solid fa-book-open"></i> Book reference: <a href="/book/contents/#part-3">Chapter 9 — Indexing Strategy</a></p>
     <div class="cp-part-body">
       <div class="cp-chapters">
-        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">Sequential scan cost on large tables</span><span class="cp-ch-topics">A sequential scan reads every table page; pg_class.relpages determines its base cost.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">Misestimation from correlated columns</span><span class="cp-ch-topics">Correlated columns mislead row estimates; CREATE STATISTICS fixes them by recording dependency.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">Sort cost</span><span class="cp-ch-topics">An unindexed sort materializes all matching rows before the first result returns.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">Join selectivity and predicate ordering</span><span class="cp-ch-topics">Applying the most selective filter first shrinks the join's intermediate row count.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">Sequential scan cost on large tables</span><span class="cp-ch-topics">Estimate the cost of a full table scan before running any query.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">Misestimation from correlated columns</span><span class="cp-ch-topics">Fix row-count misestimates caused by columns that are not statistically independent.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">Sort cost</span><span class="cp-ch-topics">Spot when an unindexed sort is blocking early result delivery.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">Join selectivity and predicate ordering</span><span class="cp-ch-topics">Order join predicates to minimize the number of intermediate rows processed.</span></div></div>
+        <p class="cp-yesql-refs"><i class="fa-solid fa-graduation-cap"></i> Free preview: <a href="/yesql/performance/reading-explain/">Reading EXPLAIN</a></p>
       </div>
       <div class="cp-showcase">
         <figure class="cp-diagram">
           <img src="/img/diagrams/fig-explain-startup-cost.svg" alt="Estimated vs actual row counts">
-          <figcaption>EXPLAIN ANALYZE shows estimated vs actual row counts — a large divergence signals stale statistics or correlated predicates that the planner's independence assumption misses.</figcaption>
+          <figcaption>Spot estimate divergence and trace it to a statistics problem.</figcaption>
         </figure>
         <div class="cp-query-card">
           <div class="cp-query-label">Module 03 · Correlated column misestimate</div>
@@ -193,17 +199,19 @@ select name, population
       <p class="cp-part-meta">Core · 4 topics</p>
       <p class="cp-part-desc">Predicate pushdown, CTE fences, and subquery flattening change what the planner can see. Restructuring a query to remove barriers often yields more improvement than any index change.</p>
     </div>
+    <p class="cp-book-ref"><i class="fa-solid fa-book-open"></i> Book reference: <a href="/book/contents/#part-3">Chapter 9 — Indexing Strategy</a></p>
     <div class="cp-part-body">
       <div class="cp-chapters">
-        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">Predicate pushdown</span><span class="cp-ch-topics">Inline predicates let the planner filter rows at the earliest scan node.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">EXISTS vs IN for subqueries</span><span class="cp-ch-topics">EXISTS stops at the first match; IN materializes all matches before proceeding.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">CTE optimization fences</span><span class="cp-ch-topics">MATERIALIZED forces a separate execution step; inlined CTEs are optimized as subqueries.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">Removing unnecessary work: DISTINCT, COUNT semantics</span><span class="cp-ch-topics">Eliminating unneeded DISTINCT and misused COUNT semantics removes hidden deduplication passes.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">Predicate pushdown</span><span class="cp-ch-topics">Rewrite queries so filters are applied as early as possible.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">EXISTS vs IN for subqueries</span><span class="cp-ch-topics">Choose the right subquery form to avoid unnecessary row materialization.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">CTE optimization fences</span><span class="cp-ch-topics">Control whether a CTE is a planning barrier or a transparent subquery.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">Removing unnecessary work: DISTINCT, COUNT semantics</span><span class="cp-ch-topics">Remove hidden deduplication work that adds overhead without changing results.</span></div></div>
+        <p class="cp-yesql-refs"><i class="fa-solid fa-graduation-cap"></i> Free preview: <a href="/yesql/performance/query-rewriting/">Query Rewriting &amp; Anti-Patterns</a></p>
       </div>
       <div class="cp-showcase">
         <figure class="cp-diagram">
           <img src="/img/diagrams/fig-plan-tree.svg" alt="Plan tree showing predicate pushdown">
-          <figcaption>Predicate pushdown moves filter conditions as close to the data source as possible — the plan tree shows whether filters are applied at the scan node or wastefully at a higher level.</figcaption>
+          <figcaption>See where filters land in the plan tree.</figcaption>
         </figure>
         <div class="cp-query-card">
           <div class="cp-query-label">Module 04 · Predicate pushdown</div>
@@ -234,16 +242,18 @@ select r.name, r.date,
       <p class="cp-part-meta">Core · 3 topics</p>
       <p class="cp-part-desc">Leading-wildcard LIKE, implicit type coercion, function-wrapped indexed columns, and NOT IN with nullable columns — each prevents index use in ways that are easy to miss in code review.</p>
     </div>
+    <p class="cp-book-ref"><i class="fa-solid fa-book-open"></i> Book reference: <a href="/book/contents/#part-3">Chapter 9 — Indexing Strategy</a></p>
     <div class="cp-part-body">
       <div class="cp-chapters">
-        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">Non-sargable predicates</span><span class="cp-ch-topics">A function-wrapped column forces a seq scan; an expression index restores it.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">OFFSET pagination vs keyset pagination</span><span class="cp-ch-topics">OFFSET gets more expensive with depth; keyset pagination is always constant cost.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">SELECT * and row width impact</span><span class="cp-ch-topics">Selecting unused columns widens the plan, increasing sort, hash, and network costs.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">Non-sargable predicates</span><span class="cp-ch-topics">Spot predicates that silently defeat index use and know how to fix them.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">OFFSET pagination vs keyset pagination</span><span class="cp-ch-topics">Implement pagination that stays fast regardless of which page you request.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">SELECT * and row width impact</span><span class="cp-ch-topics">Limit column selection to what queries actually need.</span></div></div>
+        <p class="cp-yesql-refs"><i class="fa-solid fa-graduation-cap"></i> Free preview: <a href="/yesql/performance/query-rewriting/">Query Rewriting &amp; Anti-Patterns</a></p>
       </div>
       <div class="cp-showcase">
         <figure class="cp-diagram">
           <img src="/img/diagrams/fig-btree-page-layout.svg" alt="B-tree and non-sargable predicates">
-          <figcaption>A function on an indexed column (WHERE lower(name) = ...) forces a full Seq Scan — a functional index on lower(name) restores index access without changing the query.</figcaption>
+          <figcaption>See how a predicate form can defeat index access.</figcaption>
         </figure>
         <div class="cp-query-card">
           <div class="cp-query-label">Module 05 · Keyset pagination</div>
@@ -272,20 +282,22 @@ select geonameid, name
       <p class="cp-part-meta">Core · 7 topics</p>
       <p class="cp-part-desc">Partial indexes, covering indexes, expression indexes, and multi-column index column order. Index-only scans eliminate heap access entirely — when they're possible and when the visibility map blocks them.</p>
     </div>
+    <p class="cp-book-ref"><i class="fa-solid fa-book-open"></i> Book reference: <a href="/book/contents/#part-3">Chapter 9 — Indexing Strategy</a></p>
     <div class="cp-part-body">
       <div class="cp-chapters">
-        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">Index types: B-tree, Hash, GiST, GIN, BRIN</span><span class="cp-ch-topics">B-tree handles ranges and sorting; GiST geometry; GIN arrays; BRIN sequential data.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">Selectivity and index choice</span><span class="cp-ch-topics">A highly selective predicate favors an index scan over a sequential scan.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">Composite indexes and column order</span><span class="cp-ch-topics">A composite index requires its leading column in WHERE to be usable.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">Partial indexes</span><span class="cp-ch-topics">A partial index targets a row subset via WHERE clause, reducing its size.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">05</span><div><span class="cp-ch-title">Covering indexes with INCLUDE clause</span><span class="cp-ch-topics">INCLUDE adds columns to leaf pages so the heap is never fetched.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">06</span><div><span class="cp-ch-title">Index-only scans and the visibility map</span><span class="cp-ch-topics">Index-only scans skip the heap for pages the visibility map marks all-visible.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">07</span><div><span class="cp-ch-title">GiST kNN scan and GIN array containment</span><span class="cp-ch-topics">GiST enables ordered kNN traversal; GIN enables array containment via posting-list intersection.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">Index types: B-tree, Hash, GiST, GIN, BRIN</span><span class="cp-ch-topics">Choose the right index type for your data shape and access pattern.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">Selectivity and index choice</span><span class="cp-ch-topics">Predict when the planner will choose an index over a full table scan.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">Composite indexes and column order</span><span class="cp-ch-topics">Design multi-column indexes that your queries can actually use.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">Partial indexes</span><span class="cp-ch-topics">Create indexes that cover only the rows your queries actually filter on.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">05</span><div><span class="cp-ch-title">Covering indexes with INCLUDE clause</span><span class="cp-ch-topics">Build covering indexes that satisfy queries without touching the table.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">06</span><div><span class="cp-ch-title">Index-only scans and the visibility map</span><span class="cp-ch-topics">Understand when a query can be answered entirely from the index.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">07</span><div><span class="cp-ch-title">GiST kNN scan and GIN array containment</span><span class="cp-ch-topics">Index geometric distances and array membership for specialized query patterns.</span></div></div>
+        <p class="cp-yesql-refs"><i class="fa-solid fa-graduation-cap"></i> Free preview: <a href="/yesql/performance/indexing-strategy/">Indexing Strategy</a></p>
       </div>
       <div class="cp-showcase">
         <figure class="cp-diagram">
           <img src="/img/diagrams/fig-index-types.svg" alt="Index types">
-          <figcaption>Partial, covering, and expression indexes extend B-tree beyond the basics — the right index can eliminate table access entirely</figcaption>
+          <figcaption>Match the index variant to the query it needs to serve.</figcaption>
         </figure>
         <div class="cp-query-card">
           <div class="cp-query-label">Module 06 · Partial index targeting</div>
@@ -317,16 +329,18 @@ select res.raceid,
       <p class="cp-part-meta">Advanced · 3 topics</p>
       <p class="cp-part-desc">Parallel query configuration, partition pruning, and BRIN for sequential data. This module covers when to reach for pg_hint_plan and when to fix the statistics instead.</p>
     </div>
+    <p class="cp-book-ref"><i class="fa-solid fa-book-open"></i> Book reference: <a href="/book/contents/#part-3">Chapter 9 — Indexing Strategy</a></p>
     <div class="cp-part-body">
       <div class="cp-chapters">
-        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">Tables and views inventory (pg_class)</span><span class="cp-ch-topics">pg_class exposes each relation's physical size in pages, guiding materialization decisions.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">Materialized CTEs (WITH … AS MATERIALIZED)</span><span class="cp-ch-topics">AS MATERIALIZED caches the CTE result once for multiple outer query references.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">Query decomposition with named CTEs</span><span class="cp-ch-topics">Named CTEs break complex queries into readable stages without creating optimization fences.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">Tables and views inventory (pg_class)</span><span class="cp-ch-topics">Inspect relation sizes to guide caching and materialization decisions.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">Materialized CTEs (WITH … AS MATERIALIZED)</span><span class="cp-ch-topics">Cache an intermediate result when the same data is needed multiple times.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">Query decomposition with named CTEs</span><span class="cp-ch-topics">Decompose complex queries into readable stages without blocking the optimizer.</span></div></div>
+        <p class="cp-yesql-refs"><i class="fa-solid fa-graduation-cap"></i> Free preview: <a href="/yesql/performance/query-rewriting/">Query Rewriting &amp; Anti-Patterns</a></p>
       </div>
       <div class="cp-showcase">
         <figure class="cp-diagram">
           <img src="/img/diagrams/fig-node-types.svg" alt="Parallel plan nodes: Gather and Gather Merge">
-          <figcaption>Gather and Gather Merge nodes mark the boundary between serial and parallel execution — partition pruning eliminates sub-plans at planning time, Gather collects parallel worker results.</figcaption>
+          <figcaption>Identify parallel and partition-aware nodes in a plan tree.</figcaption>
         </figure>
         <div class="cp-query-card">
           <div class="cp-query-label">Module 07 · Career statistics profiling</div>
@@ -365,21 +379,23 @@ select d.surname,
       <p class="cp-part-meta">Architect · 8 topics</p>
       <p class="cp-part-desc">Observe → Diagnose → Fix → Verify: a repeatable cycle for closing the feedback loop on query performance. Performance SLAs, regression guards, and continuous monitoring with pg_stat_statements.</p>
     </div>
+    <p class="cp-book-ref"><i class="fa-solid fa-book-open"></i> Book reference: <a href="/book/contents/#part-3">Chapter 9 — Indexing Strategy</a></p>
     <div class="cp-part-body">
       <div class="cp-chapters">
-        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">Step 1 — Observe: pg_stat_statements, pg_stat_user_tables</span><span class="cp-ch-topics">pg_stat_statements sorted by total_exec_time gives the optimization backlog in priority order.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">Step 2 — Diagnose: plan signals (filter removal, spill, batches, estimate divergence)</span><span class="cp-ch-topics">Filter rows, spills, and estimate divergence each identify a specific plan problem.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">Step 3 — Fix: ANALYZE, index creation, query rewrite, work_mem, VACUUM</span><span class="cp-ch-topics">Change one thing at a time: ANALYZE, index, query rewrite, or work_mem.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">Step 4 — Verify: plan comparison, pg_stat_statements confirmation</span><span class="cp-ch-topics">After each fix, compare node type, actual timing, and buffer read count.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">05</span><div><span class="cp-ch-title">Partitioning and partition pruning</span><span class="cp-ch-topics">Partition pruning skips non-matching segments when the predicate matches the partition key.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">06</span><div><span class="cp-ch-title">Parallel query: Gather, Gather Merge</span><span class="cp-ch-topics">Gather nodes split large scans across workers; Gather Merge preserves sort order.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">07</span><div><span class="cp-ch-title">Performance budgets, query SLAs, caching ladder</span><span class="cp-ch-topics">Performance budgets allocate latency across layers; SLAs and monitoring catch regressions early.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">08</span><div><span class="cp-ch-title">When not to optimize</span><span class="cp-ch-topics">Amdahl's law limits the gain; stop optimizing once the SLA is satisfied.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">Step 1 — Observe: pg_stat_statements, pg_stat_user_tables</span><span class="cp-ch-topics">Build a prioritized list of queries to optimize from real runtime data.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">Step 2 — Diagnose: plan signals (filter removal, spill, batches, estimate divergence)</span><span class="cp-ch-topics">Read plan warning signals and link each one to a specific root cause.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">Step 3 — Fix: ANALYZE, index creation, query rewrite, work_mem, VACUUM</span><span class="cp-ch-topics">Apply one targeted fix at a time and measure its effect before continuing.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">Step 4 — Verify: plan comparison, pg_stat_statements confirmation</span><span class="cp-ch-topics">Confirm each optimization actually improved the plan before moving on.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">05</span><div><span class="cp-ch-title">Partitioning and partition pruning</span><span class="cp-ch-topics">Leverage table partitioning to skip irrelevant data at planning time.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">06</span><div><span class="cp-ch-title">Parallel query: Gather, Gather Merge</span><span class="cp-ch-topics">Enable parallel execution for large scans and understand how results are merged.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">07</span><div><span class="cp-ch-title">Performance budgets, query SLAs, caching ladder</span><span class="cp-ch-topics">Set performance targets per query and detect regressions before they reach users.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">08</span><div><span class="cp-ch-title">When not to optimize</span><span class="cp-ch-topics">Know when a query is good enough and when to stop optimizing.</span></div></div>
+        <p class="cp-yesql-refs"><i class="fa-solid fa-graduation-cap"></i> Free preview: <a href="/yesql/performance/reading-explain/">Reading EXPLAIN</a> · <a href="/yesql/performance/query-rewriting/">Query Rewriting &amp; Anti-Patterns</a> · <a href="/yesql/performance/indexing-strategy/">Indexing Strategy</a></p>
       </div>
       <div class="cp-showcase">
         <figure class="cp-diagram">
           <img src="/img/diagrams/fig-optimization-workflow.svg" alt="Optimization workflow">
-          <figcaption>Observe → Diagnose → Fix → Verify: one targeted change per cycle, confirmed before moving on to the next query</figcaption>
+          <figcaption>Follow each step of a repeatable optimization cycle.</figcaption>
         </figure>
         <div class="cp-query-card">
           <div class="cp-query-label">Module 08 · Partition inventory</div>
