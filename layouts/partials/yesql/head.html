@@ -3,6 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<title>{{ with .Title }}{{ . }} · {{ end }}The Art of PostgreSQL</title>
+	<link rel="canonical" href="{{ .Permalink }}">
 	<meta name="description" content="{{ with .Description }}{{ . }}{{ else }}{{ with .Params.summary }}{{ . }}{{ else }}Practical PostgreSQL for developers, one concept at a time.{{ end }}{{ end }}">
 
 	<meta name="twitter:card" content="summary" />
