@@ -27,6 +27,15 @@
   /* #60b2d3 accent blue        #f9f9f9 page bg                */
 
   body.app-page { background: #f9f9f9; }
+  body.app-page .header {
+    background: transparent;
+    border-bottom-color: transparent;
+    transition: background 0.3s, border-color 0.3s;
+  }
+  body.app-page .header.nav-solid {
+    background: #372649;
+    border-bottom-color: rgba(255,255,255,0.3);
+  }
 
   /* ── Hero ───────────────────────────────────────────────── */
   .app-hero-wrap {
