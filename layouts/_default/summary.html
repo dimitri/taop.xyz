@@ -1,0 +1,9 @@
+<div class="post">
+ <header>
+  <p>{{ .Date.Format "2006-01-02" }}</p>
+  <h4><a href="{{ .Permalink }}">{{ .Title }}</a></h4>
+ </header>
+ {{ .Summary }}
+</div>
+
+<hr style="font-size: 2em; margin-bottom: 2em; border-top: 3px double;"/>
