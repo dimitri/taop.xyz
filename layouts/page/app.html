@@ -1,0 +1,488 @@
+{{ partial "yesql/head.html" . }}
+{{ partial "header.html" . }}
+
+<style>
+/* ── App page ─────────────────────────────────────────── */
+body.page.app-page { background: #f8f6fc; }
+
+.app-hero {
+  background: linear-gradient(145deg, #2e2241 0%, #1c1434 100%);
+  color: #fff;
+  padding: 100px 20px 80px;
+  text-align: center;
+}
+.app-hero .eyebrow {
+  display: inline-block;
+  background: rgba(124,85,180,.35);
+  color: #c8aef5;
+  font: 700 11px/1 'Lato', sans-serif;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  border-radius: 4px;
+  padding: 5px 12px;
+  margin-bottom: 24px;
+}
+.app-hero h1 {
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  font-weight: 900;
+  margin: 0 auto 20px;
+  max-width: 780px;
+  line-height: 1.1;
+}
+.app-hero .hero-sub {
+  font-size: 1.15rem;
+  color: #c8aef5;
+  max-width: 580px;
+  margin: 0 auto 40px;
+  line-height: 1.6;
+}
+.app-hero-ctas { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+.app-hero-ctas a {
+  display: inline-block;
+  padding: 14px 28px;
+  border-radius: 7px;
+  font-weight: 700;
+  font-size: 1rem;
+  text-decoration: none;
+  transition: opacity .15s;
+}
+.app-hero-ctas a:hover { opacity: .85; }
+.cta-primary { background: #7c55b4; color: #fff; }
+.cta-secondary { background: rgba(255,255,255,.1); color: #fff; border: 1.5px solid rgba(255,255,255,.3); }
+
+/* ── Feature tiles ────────────────────────────────────── */
+.app-features {
+  max-width: 1060px;
+  margin: 0 auto;
+  padding: 72px 20px 64px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 28px;
+}
+.feat-card {
+  background: #fff;
+  border-radius: 10px;
+  padding: 32px 28px;
+  box-shadow: 0 2px 16px rgba(46,34,65,.08);
+}
+.feat-card .feat-icon {
+  font-size: 1.6rem;
+  color: #7c55b4;
+  margin-bottom: 14px;
+}
+.feat-card h3 {
+  font-size: 1.1rem;
+  color: #2e2241;
+  margin: 0 0 10px;
+}
+.feat-card p {
+  font-size: .92rem;
+  color: #6b6480;
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* ── How PGLite works ─────────────────────────────────── */
+.pglite-section {
+  background: #fff;
+  padding: 72px 20px;
+  border-top: 1px solid #ede8f5;
+  border-bottom: 1px solid #ede8f5;
+}
+.pglite-inner {
+  max-width: 820px;
+  margin: 0 auto;
+}
+.pglite-inner .section-eyebrow {
+  font: 700 11px/1 'Lato', sans-serif;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: #9e8fb0;
+  margin-bottom: 14px;
+}
+.pglite-inner h2 {
+  font-size: 1.9rem;
+  color: #2e2241;
+  margin: 0 0 16px;
+}
+.pglite-inner .pglite-lead {
+  font-size: 1.05rem;
+  color: #4a3d65;
+  line-height: 1.7;
+  margin: 0 0 40px;
+}
+.pglite-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+}
+@media (max-width: 640px) { .pglite-grid { grid-template-columns: 1fr; } }
+.pglite-how {
+  background: #f3effe;
+  border-radius: 8px;
+  padding: 24px 22px;
+}
+.pglite-how h4 { font-size: .95rem; color: #2e2241; margin: 0 0 10px; }
+.pglite-how ol { margin: 0; padding-left: 20px; }
+.pglite-how ol li { font-size: .9rem; color: #4a3d65; margin-bottom: 6px; line-height: 1.5; }
+.pglite-note {
+  background: #fff9f0;
+  border-left: 3px solid #e8a000;
+  border-radius: 0 8px 8px 0;
+  padding: 16px 18px;
+  font-size: .87rem;
+  color: #5c4a1a;
+  margin-top: 12px;
+  line-height: 1.55;
+}
+.pglite-tech { font-size: .9rem; color: #6b6480; }
+.pglite-tech ul { margin: 0; padding-left: 18px; }
+.pglite-tech ul li { margin-bottom: 5px; line-height: 1.5; }
+.pglite-tech a { color: #7c55b4; }
+
+/* ── Comparison table ─────────────────────────────────── */
+.compare-section {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 72px 20px;
+}
+.compare-section .section-eyebrow {
+  font: 700 11px/1 'Lato', sans-serif;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: #9e8fb0;
+  margin-bottom: 14px;
+}
+.compare-section h2 {
+  font-size: 1.9rem;
+  color: #2e2241;
+  margin: 0 0 10px;
+}
+.compare-section .compare-sub {
+  font-size: .98rem;
+  color: #6b6480;
+  margin: 0 0 36px;
+}
+.compare-table-wrap { overflow-x: auto; }
+.compare-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: .88rem;
+}
+.compare-table th {
+  background: #2e2241;
+  color: #fff;
+  padding: 12px 16px;
+  font-weight: 700;
+  text-align: left;
+  white-space: nowrap;
+}
+.compare-table th:first-child { border-radius: 8px 0 0 0; }
+.compare-table th:last-child { border-radius: 0 8px 0 0; }
+.compare-table th.taop-col { background: #7c55b4; }
+.compare-table td {
+  padding: 11px 16px;
+  border-bottom: 1px solid #ede8f5;
+  color: #4a3d65;
+  vertical-align: middle;
+}
+.compare-table td:first-child { font-weight: 600; color: #2e2241; }
+.compare-table tr:last-child td { border-bottom: none; }
+.compare-table tr:nth-child(even) td { background: #faf8fd; }
+.compare-table td.taop-col { background: #f5f0ff; font-weight: 600; color: #2e2241; }
+.compare-table tr:nth-child(even) td.taop-col { background: #ede8f5; }
+.tick { color: #22a06b; font-weight: 700; }
+.cross { color: #c9372c; }
+.partial { color: #bf8700; }
+
+/* ── Tiers / access ───────────────────────────────────── */
+.access-section {
+  background: #2e2241;
+  color: #fff;
+  padding: 64px 20px;
+  text-align: center;
+}
+.access-section h2 {
+  font-size: 1.8rem;
+  margin: 0 0 12px;
+}
+.access-section p {
+  color: #c8aef5;
+  margin: 0 0 40px;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+.access-tiers {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+  max-width: 780px;
+  margin: 0 auto 40px;
+}
+.tier-card {
+  background: rgba(255,255,255,.07);
+  border: 1px solid rgba(255,255,255,.13);
+  border-radius: 10px;
+  padding: 28px 24px;
+  min-width: 200px;
+  text-align: left;
+  flex: 1;
+}
+.tier-card .tier-label {
+  font: 700 10px/1 'Lato', sans-serif;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: #9e8fb0;
+  margin-bottom: 8px;
+}
+.tier-card h4 { font-size: 1.05rem; margin: 0 0 10px; color: #fff; }
+.tier-card ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: .85rem;
+  color: #c8aef5;
+}
+.tier-card ul li { margin-bottom: 5px; }
+.tier-card ul li::before { content: '→ '; color: #7c55b4; }
+.tier-card.featured { border-color: #7c55b4; background: rgba(124,85,180,.18); }
+.access-ctas { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+.access-ctas a {
+  padding: 13px 26px;
+  border-radius: 7px;
+  font-weight: 700;
+  text-decoration: none;
+  font-size: .98rem;
+}
+.btn-white { background: #fff; color: #2e2241; }
+.btn-outline { background: transparent; color: #fff; border: 1.5px solid rgba(255,255,255,.35); }
+</style>
+
+<!-- Hero -->
+<section class="app-hero">
+  <div class="eyebrow">New in 2026</div>
+  <h1>The book and courses,<br>now with a live SQL environment</h1>
+  <p class="hero-sub">Every chapter and every module now comes with an interactive companion app. Run the book's queries in your browser, track your progress, and pick up exactly where you left off.</p>
+  <div class="app-hero-ctas">
+    <a href="https://sales.theartofpostgresql.com/the-art-of-postgresql-book/" class="cta-primary">Get the Book — $89</a>
+    <a href="/login/" class="cta-secondary">Sign in to your account</a>
+  </div>
+</section>
+
+<!-- Features -->
+<div class="app-features">
+  <div class="feat-card">
+    <div class="feat-icon"><i class="fa-solid fa-book-open-reader"></i></div>
+    <h3>Book reader, online</h3>
+    <p>The full 590-page book rendered as clean, navigable web pages. Bookmark chapters, track what you've read, pick up on any device.</p>
+  </div>
+  <div class="feat-card">
+    <div class="feat-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+    <h3>All 6 courses, integrated</h3>
+    <p>The complete 48-module curriculum — Window Functions through Reading Query Plans — with progress tracking and handout PDFs per module.</p>
+  </div>
+  <div class="feat-card">
+    <div class="feat-icon"><i class="fa-solid fa-terminal"></i></div>
+    <h3>SQL in the browser</h3>
+    <p>On desktop, a real PostgreSQL engine runs directly in your browser via PGLite. No install, no Docker, no cloud account. The datasets load once, then queries run instantly.</p>
+  </div>
+  <div class="feat-card">
+    <div class="feat-icon"><i class="fa-solid fa-chart-bar"></i></div>
+    <h3>Visual EXPLAIN diagrams</h3>
+    <p>EXPLAIN output rendered as interactive plan trees — not raw text. Spot the expensive nodes, compare plans before and after optimization.</p>
+  </div>
+  <div class="feat-card">
+    <div class="feat-icon"><i class="fa-solid fa-lock-open"></i></div>
+    <h3>No password to remember</h3>
+    <p>Magic-link sign-in: enter your email, click the link, you're in. One account across the book, courses, and free lessons. Works on any browser.</p>
+  </div>
+  <div class="feat-card">
+    <div class="feat-icon"><i class="fa-solid fa-infinity"></i></div>
+    <h3>Yours forever</h3>
+    <p>Buy once, access forever. Edition updates (like the 2026 Second Edition) are free for all previous purchasers — your account gets them automatically.</p>
+  </div>
+</div>
+
+<!-- PGLite section -->
+<section class="pglite-section">
+  <div class="pglite-inner">
+    <div class="section-eyebrow">How it works</div>
+    <h2>PostgreSQL in your browser, courtesy of PGLite</h2>
+    <p class="pglite-lead">The interactive SQL runner is powered by <a href="https://pglite.dev" rel="noopener">PGLite</a> — a WebAssembly build of PostgreSQL that runs entirely inside your browser tab. There is no server, no cloud connection, no data leaving your machine.</p>
+
+    <div class="pglite-grid">
+      <div>
+        <div class="pglite-how">
+          <h4>What happens when you open a lesson</h4>
+          <ol>
+            <li>PGLite (~12 MB WASM) loads in a Web Worker</li>
+            <li>The lesson's dataset (f1db, Chinook, or Pagila) loads from a compressed file</li>
+            <li>A real <code>psql</code>-compatible PostgreSQL instance is live — all queries run against it</li>
+            <li>Results appear in a table below each query card</li>
+          </ol>
+        </div>
+        <div class="pglite-note">
+          Desktop only. The WASM module and datasets are heavy enough that mobile is a bad experience — on phones, the lesson shows the static queries and links you to the app.
+        </div>
+      </div>
+      <div class="pglite-tech">
+        <p><strong>What PGLite actually is</strong></p>
+        <ul>
+          <li>A real PostgreSQL 16 build compiled to WASM by <a href="https://electric-sql.com" rel="noopener">ElectricSQL</a></li>
+          <li>Runs in a dedicated Web Worker — never blocks the page</li>
+          <li>Supports the full SQL dialect: window functions, CTEs, range types, EXPLAIN, everything</li>
+          <li>Dataset is a compressed SQL dump, loaded and executed once on first open</li>
+          <li>Queries and results persist in IndexedDB between page reloads</li>
+        </ul>
+        <p style="margin-top:16px"><strong>What it does not support</strong></p>
+        <ul>
+          <li>Extensions requiring OS-level libraries (PostGIS, pgvector, pg_trgm)</li>
+          <li>Network access or replication</li>
+          <li>Very large datasets — the f1db is kept under 10 MB compressed</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Comparison table -->
+<section class="compare-section">
+  <div class="section-eyebrow">How it compares</div>
+  <h2>Interactive SQL learning: the landscape</h2>
+  <p class="compare-sub">Several platforms let you write SQL in a browser. Here is how they differ from the TAOP app's approach.</p>
+
+  <div class="compare-table-wrap">
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th>Feature</th>
+          <th class="taop-col">TAOP app</th>
+          <th>Codecademy</th>
+          <th>pgexercises.com</th>
+          <th>SQLPad / DB-Fiddle</th>
+          <th>Neon Playground</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Real PostgreSQL</td>
+          <td class="taop-col"><span class="tick">✓</span> PG 16 via PGLite</td>
+          <td><span class="partial">~</span> SQLite subset</td>
+          <td><span class="tick">✓</span> Real server</td>
+          <td><span class="tick">✓</span> Real server</td>
+          <td><span class="tick">✓</span> Real server</td>
+        </tr>
+        <tr>
+          <td>Runs offline</td>
+          <td class="taop-col"><span class="tick">✓</span> WASM, local</td>
+          <td><span class="cross">✗</span></td>
+          <td><span class="cross">✗</span></td>
+          <td><span class="cross">✗</span></td>
+          <td><span class="cross">✗</span></td>
+        </tr>
+        <tr>
+          <td>Your data stays local</td>
+          <td class="taop-col"><span class="tick">✓</span> Never leaves browser</td>
+          <td><span class="cross">✗</span></td>
+          <td><span class="cross">✗</span></td>
+          <td><span class="cross">✗</span></td>
+          <td><span class="cross">✗</span></td>
+        </tr>
+        <tr>
+          <td>EXPLAIN diagrams</td>
+          <td class="taop-col"><span class="tick">✓</span> Interactive plan tree</td>
+          <td><span class="cross">✗</span></td>
+          <td><span class="cross">✗</span></td>
+          <td><span class="partial">~</span> Text only</td>
+          <td><span class="partial">~</span> Text only</td>
+        </tr>
+        <tr>
+          <td>Paired with a book</td>
+          <td class="taop-col"><span class="tick">✓</span> 590-page text integrated</td>
+          <td><span class="partial">~</span> Short tutorials</td>
+          <td><span class="cross">✗</span></td>
+          <td><span class="cross">✗</span></td>
+          <td><span class="cross">✗</span></td>
+        </tr>
+        <tr>
+          <td>Structured course curriculum</td>
+          <td class="taop-col"><span class="tick">✓</span> 6 courses, 48 modules</td>
+          <td><span class="tick">✓</span></td>
+          <td><span class="partial">~</span> Exercises only</td>
+          <td><span class="cross">✗</span></td>
+          <td><span class="cross">✗</span></td>
+        </tr>
+        <tr>
+          <td>Real production datasets</td>
+          <td class="taop-col"><span class="tick">✓</span> f1db, Chinook, Pagila…</td>
+          <td><span class="partial">~</span> Toy data</td>
+          <td><span class="tick">✓</span> club dataset</td>
+          <td><span class="cross">✗</span> Bring your own</td>
+          <td><span class="cross">✗</span> Bring your own</td>
+        </tr>
+        <tr>
+          <td>Progress tracking</td>
+          <td class="taop-col"><span class="tick">✓</span></td>
+          <td><span class="tick">✓</span></td>
+          <td><span class="cross">✗</span></td>
+          <td><span class="cross">✗</span></td>
+          <td><span class="cross">✗</span></td>
+        </tr>
+        <tr>
+          <td>One-time purchase</td>
+          <td class="taop-col"><span class="tick">✓</span> Buy once, yours forever</td>
+          <td><span class="cross">✗</span> Monthly subscription</td>
+          <td><span class="tick">✓</span> Free</td>
+          <td><span class="tick">✓</span> Free</td>
+          <td><span class="tick">✓</span> Free tier</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- Access tiers / CTA -->
+<section class="access-section">
+  <h2>Choose your entry point</h2>
+  <p>Every tier gives you access to the app. The free sample is a good place to start.</p>
+
+  <div class="access-tiers">
+    <div class="tier-card">
+      <div class="tier-label">Free</div>
+      <h4>Sample</h4>
+      <ul>
+        <li>Curated book chapters</li>
+        <li>Free YeSQL lessons</li>
+        <li>PGLite on desktop</li>
+      </ul>
+    </div>
+    <div class="tier-card featured">
+      <div class="tier-label">$89 one-time</div>
+      <h4>Book</h4>
+      <ul>
+        <li>Full 590-page book online</li>
+        <li>PDF + ePub downloads</li>
+        <li>All future edition updates</li>
+        <li>PGLite on every chapter</li>
+      </ul>
+    </div>
+    <div class="tier-card">
+      <div class="tier-label">Courses add-on</div>
+      <h4>Book + Courses</h4>
+      <ul>
+        <li>Everything in Book</li>
+        <li>6 courses, 48 modules</li>
+        <li>Handout PDFs per module</li>
+        <li>Progress tracking</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="access-ctas">
+    <a href="https://sales.theartofpostgresql.com/the-art-of-postgresql-book/" class="btn-white">Get the Book — $89</a>
+    <a href="/login/" class="btn-outline">Sign in to existing account</a>
+  </div>
+</section>
+
+{{ partial "footer.html" . }}

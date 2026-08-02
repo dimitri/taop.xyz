@@ -1,0 +1,12 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "hugo-dev",
+      "runtimeExecutable": "hugo",
+      "runtimeArgs": ["server", "--bind", "0.0.0.0"],
+      "port": 1313,
+      "autoPort": false
+    }
+  ]
+}
