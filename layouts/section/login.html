@@ -3,137 +3,87 @@
 
 <style>
   .login-page {
-    min-height: 60vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 80px 20px 60px;
-  }
-  .login-card {
-    background: #fff;
-    border-radius: 10px;
-    box-shadow: 0 4px 32px rgba(46,34,65,.12);
-    padding: 48px 40px 40px;
-    max-width: 420px;
-    width: 100%;
+    padding: 120px 20px 56px;
     text-align: center;
   }
-  .login-card .login-icon {
-    font-size: 2.2rem;
-    color: #7c55b4;
-    margin-bottom: 20px;
+  .login-page h1 {
+    margin-bottom: 28px;
   }
-  .login-card h1 {
-    font-size: 1.55rem;
+  .login-form-wrap {
+    max-width: 380px;
+    margin: 0 auto;
+  }
+  .login-form-wrap input[type="email"] {
     color: #2e2241;
-    margin: 0 0 10px;
-  }
-  .login-card .login-subtitle {
-    font-size: .97rem;
-    color: #6b6480;
-    margin: 0 0 32px;
-    line-height: 1.6;
-  }
-  .login-form {
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-    text-align: left;
-  }
-  .login-form label {
-    font-size: .85rem;
-    font-weight: 700;
-    color: #2e2241;
-    letter-spacing: .04em;
-    text-transform: uppercase;
-    margin-bottom: 2px;
-    display: block;
-  }
-  .login-form input[type="email"] {
+    background: #fff;
+    border: 1.5px solid #c9bedd;
+    border-radius: 4px;
+    height: 46px;
+    font-size: 15px;
+    padding: 0 14px;
     width: 100%;
-    padding: 12px 14px;
-    border: 1.5px solid #d1c9e0;
-    border-radius: 6px;
-    font-size: 1rem;
-    color: #2e2241;
-    outline: none;
-    transition: border-color .15s;
     box-sizing: border-box;
+    margin-bottom: 12px;
+    display: block;
+    transition: border-color .15s;
   }
-  .login-form input[type="email"]:focus {
-    border-color: #7c55b4;
+  .login-form-wrap input[type="email"]::placeholder {
+    color: #b0a4c0;
+    text-transform: none;
+    letter-spacing: 0;
+    opacity: 1;
   }
-  .login-form .login-submit {
-    background: #7c55b4;
-    color: #fff;
-    border: none;
-    border-radius: 6px;
-    padding: 14px;
-    font-size: 1rem;
-    font-weight: 700;
-    cursor: pointer;
-    transition: background .15s;
-    margin-top: 4px;
+  .login-form-wrap input[type="email"]:focus {
+    border-color: #67527a;
+  }
+  .login-form-wrap .button {
     width: 100%;
-  }
-  .login-form .login-submit:hover {
-    background: #5d3d8c;
   }
   .login-note {
-    margin-top: 22px;
+    margin-top: 14px;
     font-size: .85rem;
-    color: #9e8fb0;
-    line-height: 1.6;
-  }
-  .login-note a {
-    color: #7c55b4;
-    text-decoration: none;
-  }
-  .login-note a:hover {
-    text-decoration: underline;
+    color: #896da1;
+    line-height: 1.5;
   }
   .login-divider {
     border: none;
-    border-top: 1px solid #ede8f5;
-    margin: 28px 0;
+    border-top: 1px solid #e4dced;
+    margin: 22px 0;
+    max-width: 380px;
+    margin-left: auto;
+    margin-right: auto;
   }
   .login-new-user {
     font-size: .9rem;
-    color: #6b6480;
+    color: #67527a;
   }
   .login-new-user a {
-    color: #7c55b4;
+    color: #372649;
     font-weight: 700;
-    text-decoration: none;
   }
   .login-new-user a:hover {
-    text-decoration: underline;
+    color: #60b2d3;
   }
 </style>
 
 <div class="login-page">
-  <div class="login-card">
-    <div class="login-icon"><i class="fa-solid fa-arrow-right-to-bracket"></i></div>
-    <h1>Sign in</h1>
-    <p class="login-subtitle">Enter your email address and we'll send you a one-time sign-in link. No password to remember.</p>
+  <i class="fa-solid fa-envelope-open-text" style="font-size:2rem;color:#896da1;margin-bottom:14px;display:block;"></i>
+  <h1>Sign in</h1>
 
-    <form class="login-form" method="get" action="https://api.theartofpostgresql.com/login">
-      <div>
-        <label for="login-email">Email address</label>
-        <input type="email" id="login-email" name="email" required placeholder="you@example.com" autocomplete="email">
-      </div>
-      <button type="submit" class="login-submit">Send me a sign-in link</button>
+  <div class="login-form-wrap">
+    <form method="get" action="https://api.theartofpostgresql.com/login">
+      <input type="email" name="email" required placeholder="your@email.com" autocomplete="email">
+      <button type="submit" class="button button_purple button_large">Send me a sign-in link</button>
     </form>
 
-    <p class="login-note">We'll send a magic link to your inbox. Click it and you're in — works on any device, any browser.</p>
+    <p class="login-note">We'll send a magic link — click it and you're in, no password needed.</p>
 
     <hr class="login-divider">
 
     <p class="login-new-user">
-      Don't have an account yet?
+      Don't have an account?
       <a href="https://sales.theartofpostgresql.com/the-art-of-postgresql-book/">Get the Book</a> or
-      <a href="/yesql/">start with free lessons</a>.
+      <a href="/yesql/">try free lessons</a>.
     </p>
   </div>
 </div>
