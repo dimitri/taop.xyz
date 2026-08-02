@@ -1,0 +1,188 @@
+{{ partial "head.html" . }}
+{{ partial "header.html" . }}
+
+<style>
+  .welcome-page {
+    padding: 110px 20px 72px;
+    text-align: center;
+  }
+  .welcome-page .welcome-icon {
+    font-size: 2.6rem;
+    color: #7c55b4;
+    margin-bottom: 16px;
+    display: block;
+  }
+  .welcome-page h1 {
+    margin-bottom: 8px;
+  }
+  .welcome-lede {
+    font-size: 1.15rem;
+    color: #67527a;
+    margin: 0 auto 48px;
+    max-width: 480px;
+    line-height: 1.6;
+  }
+
+  /* Steps */
+  .welcome-steps {
+    display: flex;
+    justify-content: center;
+    gap: 0;
+    max-width: 680px;
+    margin: 0 auto 52px;
+    position: relative;
+  }
+  .welcome-steps::before {
+    content: '';
+    position: absolute;
+    top: 28px;
+    left: calc(16.66% + 28px);
+    right: calc(16.66% + 28px);
+    height: 2px;
+    background: #e4dced;
+    z-index: 0;
+  }
+  .welcome-step {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    position: relative;
+    z-index: 1;
+    padding: 0 12px;
+  }
+  .welcome-step-num {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: #372649;
+    color: #fff;
+    font: 700 20px 'Lato', sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .welcome-step-num.active {
+    background: #7c55b4;
+    box-shadow: 0 0 0 4px #e4dced;
+  }
+  .welcome-step-label {
+    font-size: .88rem;
+    color: #67527a;
+    line-height: 1.4;
+    max-width: 140px;
+  }
+  .welcome-step-label strong {
+    display: block;
+    color: #372649;
+    font-size: .95rem;
+    margin-bottom: 3px;
+  }
+
+  /* Inbox card */
+  .welcome-inbox {
+    max-width: 460px;
+    margin: 0 auto 44px;
+    background: #fff;
+    border: 1.5px solid #e4dced;
+    border-radius: 8px;
+    padding: 28px 32px;
+    text-align: left;
+  }
+  .welcome-inbox-from {
+    font-size: .8rem;
+    color: #9e8fb0;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    margin-bottom: 6px;
+  }
+  .welcome-inbox-subject {
+    font: 700 1rem 'Lato', sans-serif;
+    color: #2e2241;
+    margin-bottom: 4px;
+  }
+  .welcome-inbox-preview {
+    font-size: .88rem;
+    color: #67527a;
+    line-height: 1.5;
+  }
+  .welcome-inbox-preview .magic-cta {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 8px 20px;
+    background: #372649;
+    color: #fff;
+    border-radius: 20px;
+    font-size: .82rem;
+    font-family: 'Lato', sans-serif;
+    letter-spacing: .05em;
+    text-transform: uppercase;
+    pointer-events: none;
+  }
+
+  /* Help line */
+  .welcome-help {
+    font-size: .88rem;
+    color: #896da1;
+    line-height: 1.7;
+  }
+  .welcome-help a {
+    color: #372649;
+    font-weight: 700;
+  }
+  .welcome-help a:hover {
+    color: #60b2d3;
+  }
+
+  @media (max-width: 560px) {
+    .welcome-steps {
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
+    }
+    .welcome-steps::before { display: none; }
+    .welcome-step { flex-direction: row; text-align: left; padding: 0; }
+    .welcome-step-label { max-width: none; }
+  }
+</style>
+
+<div class="welcome-page">
+  <i class="fa-solid fa-envelope-open-text welcome-icon"></i>
+  <h1>Check your inbox</h1>
+  <p class="welcome-lede">Your purchase is confirmed. We've sent a sign-in link to the email address you used at checkout.</p>
+
+  <div class="welcome-steps">
+    <div class="welcome-step">
+      <div class="welcome-step-num">1</div>
+      <div class="welcome-step-label"><strong>Open the email</strong>From dim@tapoueh.org — check spam if you don't see it within a minute.</div>
+    </div>
+    <div class="welcome-step">
+      <div class="welcome-step-num active">2</div>
+      <div class="welcome-step-label"><strong>Click the magic link</strong>One click signs you in — no password, works on any device.</div>
+    </div>
+    <div class="welcome-step">
+      <div class="welcome-step-num">3</div>
+      <div class="welcome-step-label"><strong>Start reading</strong>Your book and courses are waiting in the companion app.</div>
+    </div>
+  </div>
+
+  <div class="welcome-inbox">
+    <div class="welcome-inbox-from">From: dim@tapoueh.org</div>
+    <div class="welcome-inbox-subject">Sign in to The Art of PostgreSQL</div>
+    <div class="welcome-inbox-preview">
+      Here's your one-time sign-in link. Click it to access your book and courses — it expires in 24 hours.
+      <br>
+      <span class="magic-cta">Sign in →</span>
+    </div>
+  </div>
+
+  <p class="welcome-help">
+    No email after a few minutes? Check your spam folder, or
+    <a href="/login/">request a new link</a> with the same address.<br>
+    Questions? Email <a href="mailto:dim@tapoueh.org">dim@tapoueh.org</a>.
+  </p>
+</div>
+
+{{ partial "footer.html" . }}
