@@ -354,7 +354,14 @@
         explainBtn.disabled = true;
         status.textContent = 'Explaining…';
         try {
-          const result = await _db.query('explain (analyze, buffers) ' + code.textContent.trim());
+          const sql = code.textContent.trim();
+          // Some lessons' own example query already *is* an EXPLAIN
+          // (teaching EXPLAIN itself, e.g. json-and-denormalized-types.md)
+          // — don't wrap an explain around an explain, Postgres rejects
+          // that as a syntax error. Run it as written; only prepend our
+          // own explain (analyze, buffers) for a plain query.
+          const query = /^explain\b/i.test(sql) ? sql : 'explain (analyze, buffers) ' + sql;
+          const result = await _db.query(query);
           const planText = result.rows.map((row) => Object.values(row)[0]).join('\n');
           status.textContent = '';
           const { parseExplainText, renderDiagram, initDiagramZoom } = window.taopExplainVisualizer;
