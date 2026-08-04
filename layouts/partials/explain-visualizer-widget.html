@@ -1,0 +1,77 @@
+<style>
+  .explain-visualizer { max-width: 900px; margin: 32px auto 0; }
+  .explain-visualizer-label { display: block; font-size: .88rem; color: #67527a; margin-bottom: 8px; }
+  .explain-visualizer-label code { background: #f0edf5; padding: 1px 5px; border-radius: 3px; font-size: .92em; }
+  .explain-visualizer-input {
+    width: 100%; box-sizing: border-box; font-family: 'JetBrains Mono', monospace; font-size: 12.5px;
+    line-height: 1.6; padding: 14px; border: 1px solid #e4dced; border-radius: 6px; resize: vertical;
+    background: #fff; color: #372649;
+  }
+  .explain-visualizer-input:focus { outline: none; border-color: #60b2d3; box-shadow: 0 0 0 3px rgba(96,178,211,.2); }
+  .explain-visualizer-actions { display: flex; align-items: center; gap: 14px; margin: 14px 0; }
+  .explain-visualizer-hint { font-size: .82rem; color: #896da1; }
+  .explain-visualizer-error { color: #c9372c; font-size: .9rem; }
+  .explain-visualizer-output:empty { display: none; }
+  .explain-diagram { background: #fff; border: 1px solid #e4dced; border-radius: 6px; padding: 14px; }
+  .explain-diagram-header {
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px;
+    padding: 0 0 10px 0; color: #896da1; font-family: 'Lato', sans-serif; font-size: 12px;
+  }
+  .explain-diagram-zoom-controls { display: flex; align-items: center; gap: 6px; }
+  .explain-diagram-zoom-controls button {
+    width: 24px; height: 24px; line-height: 1; border: 1px solid #e4dced; background: #f8f7f9;
+    color: #372649; border-radius: 4px; cursor: pointer; font-size: 14px; font-family: 'Lato', sans-serif;
+  }
+  .explain-diagram-zoom-controls button:hover { background: #f0edf5; border-color: #60b2d3; }
+  .explain-diagram-zoom-controls .explain-diagram-zoom-reset { width: auto; padding: 0 8px; font-size: 11px; }
+  .explain-diagram-zoom-hint { font-size: 11px; color: #b3a3cf; }
+  .explain-diagram-canvas {
+    height: 480px; overflow: hidden; position: relative; border: 1px solid #f0edf5; border-radius: 4px;
+    background: #fff; cursor: grab;
+  }
+  .explain-diagram-canvas.explain-diagram-dragging { cursor: grabbing; }
+  .explain-diagram-canvas svg { position: absolute; top: 0; left: 0; }
+
+  /* Fullscreen — same "one shared overlay, move the content in and out"
+     pattern as app.taop.xyz's figure-zoom.js for book/course figures. */
+  .explain-diagram-fullscreen-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 2000;
+    background: rgba(20,14,26,.92);
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .explain-diagram-fullscreen-overlay.explain-diagram-fullscreen-open { display: flex; }
+  .explain-diagram-fullscreen-stage {
+    width: 100%; flex: 1; display: flex; align-items: center; justify-content: center; overflow: hidden;
+  }
+  .explain-diagram-fullscreen-stage .explain-diagram-canvas {
+    width: 92vw; height: 82vh; border: none;
+  }
+  .explain-diagram-fullscreen-close {
+    position: absolute; top: 18px; right: 24px; width: 40px; height: 40px; border-radius: 50%;
+    border: none; background: rgba(255,255,255,.12); color: #fff; font-size: 24px; line-height: 1; cursor: pointer;
+  }
+  .explain-diagram-fullscreen-close:hover { background: rgba(255,255,255,.25); }
+  .explain-diagram-fullscreen-hint {
+    color: rgba(255,255,255,.6); font: 300 12.5px 'Lato', sans-serif; padding: 14px 0 20px 0; margin: 0;
+  }
+</style>
+
+<div class="explain-visualizer">
+  <label class="explain-visualizer-label" for="explain-visualizer-input">Paste the output of <code>EXPLAIN</code> or <code>EXPLAIN ANALYZE</code> (text format, not <code>FORMAT JSON</code>):</label>
+  <textarea class="explain-visualizer-input" id="explain-visualizer-input" rows="10" spellcheck="false" placeholder="EXPLAIN ANALYZE SELECT ...
+
+ Limit  (cost=2983.51..2983.56 rows=20 width=31) (actual time=6.723..6.725 rows=20 loops=1)
+   ->  Sort  (cost=2983.51..2985.61 rows=840 width=31) (actual time=6.722..6.723 rows=20 loops=1)
+         ..."></textarea>
+  <div class="explain-visualizer-actions">
+    <button type="button" class="button button_purple explain-visualizer-run">Visualize Plan</button>
+    <span class="explain-visualizer-hint">or press ⌘/Ctrl + Enter</span>
+  </div>
+  <div class="explain-visualizer-output"></div>
+</div>
+<script src="/js/explain-visualizer.js"></script>
