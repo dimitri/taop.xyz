@@ -31,6 +31,34 @@
   }
   .explain-diagram-canvas.explain-diagram-dragging { cursor: grabbing; }
   .explain-diagram-canvas svg { position: absolute; top: 0; left: 0; }
+
+  /* Fullscreen — same "one shared overlay, move the content in and out"
+     pattern as app.taop.xyz's figure-zoom.js for book/course figures. */
+  .explain-diagram-fullscreen-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 2000;
+    background: rgba(20,14,26,.92);
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .explain-diagram-fullscreen-overlay.explain-diagram-fullscreen-open { display: flex; }
+  .explain-diagram-fullscreen-stage {
+    width: 100%; flex: 1; display: flex; align-items: center; justify-content: center; overflow: hidden;
+  }
+  .explain-diagram-fullscreen-stage .explain-diagram-canvas {
+    width: 92vw; height: 82vh; border: none;
+  }
+  .explain-diagram-fullscreen-close {
+    position: absolute; top: 18px; right: 24px; width: 40px; height: 40px; border-radius: 50%;
+    border: none; background: rgba(255,255,255,.12); color: #fff; font-size: 24px; line-height: 1; cursor: pointer;
+  }
+  .explain-diagram-fullscreen-close:hover { background: rgba(255,255,255,.25); }
+  .explain-diagram-fullscreen-hint {
+    color: rgba(255,255,255,.6); font: 300 12.5px 'Lato', sans-serif; padding: 14px 0 20px 0; margin: 0;
+  }
 </style>
 
 <div class="explain-visualizer">

@@ -466,6 +466,7 @@
         '<button type="button" class="explain-diagram-zoom-out" title="Zoom out">&minus;</button>' +
         '<button type="button" class="explain-diagram-zoom-reset" title="Reset zoom">Reset</button>' +
         '<button type="button" class="explain-diagram-zoom-in" title="Zoom in">+</button>' +
+        '<button type="button" class="explain-diagram-fullscreen" title="Full screen">&#9974;</button>' +
         '<span class="explain-diagram-zoom-hint">scroll or pinch to zoom, drag to pan, hover a node for details</span>' +
       '</span>' +
       '</div>';
@@ -475,7 +476,9 @@
   // ── Zoom/pan: plain mouse-wheel zooms (centered on the cursor), no
   //    Ctrl/Cmd modifier required, since the canvas is a bounded box, not
   //    the page itself — drag pans, dblclick resets. Also exposes +/-/
-  //    reset buttons for touch/trackpad users without wheel support. ──
+  //    reset/fullscreen buttons for touch/trackpad users without wheel
+  //    support. Fullscreen reuses this same zoom/pan state instead of a
+  //    separate implementation — see openFullscreen below. ──
   function initDiagramZoom(root) {
     var canvas = root.querySelector('.explain-diagram-canvas');
     var svg = canvas && canvas.querySelector('svg');
@@ -503,15 +506,18 @@
       apply();
     }
 
-    // Fit-to-width on first render so the whole plan is visible without
-    // any interaction first, instead of opening at native (often
-    // wider-than-the-box) size.
-    var canvasWidth = canvas.clientWidth || 860;
-    var fitScale = Math.min(1, (canvasWidth - 24) / vbWidth);
-    scale = clamp(fitScale, MIN_SCALE, MAX_SCALE);
-    tx = Math.max(12, (canvasWidth - vbWidth * scale) / 2);
-    ty = 12;
-    apply();
+    // Fit-to-width — called on first render, on Reset/dblclick, and again
+    // whenever the canvas itself is resized (entering/leaving fullscreen),
+    // so the whole plan is always visible without any interaction first
+    // instead of opening at native (often wider-than-the-box) size.
+    function fitToWidth() {
+      var canvasWidth = canvas.clientWidth || 860;
+      scale = clamp(Math.min(1, (canvasWidth - 24) / vbWidth), MIN_SCALE, MAX_SCALE);
+      tx = Math.max(12, (canvasWidth - vbWidth * scale) / 2);
+      ty = 12;
+      apply();
+    }
+    fitToWidth();
 
     canvas.addEventListener('wheel', function (e) {
       e.preventDefault();
@@ -538,24 +544,61 @@
       canvas.classList.remove('explain-diagram-dragging');
     });
 
-    canvas.addEventListener('dblclick', function () {
-      scale = clamp(fitScale, MIN_SCALE, MAX_SCALE);
-      tx = Math.max(12, (canvas.clientWidth - vbWidth * scale) / 2);
-      ty = 12;
-      apply();
-    });
-
+    canvas.addEventListener('dblclick', fitToWidth);
     root.querySelector('.explain-diagram-zoom-in').addEventListener('click', function () {
       zoomAt(canvas.clientWidth / 2, canvas.clientHeight / 2, 1.3);
     });
     root.querySelector('.explain-diagram-zoom-out').addEventListener('click', function () {
       zoomAt(canvas.clientWidth / 2, canvas.clientHeight / 2, 1 / 1.3);
     });
-    root.querySelector('.explain-diagram-zoom-reset').addEventListener('click', function () {
-      scale = clamp(fitScale, MIN_SCALE, MAX_SCALE);
-      tx = Math.max(12, (canvas.clientWidth - vbWidth * scale) / 2);
-      ty = 12;
-      apply();
+    root.querySelector('.explain-diagram-zoom-reset').addEventListener('click', fitToWidth);
+
+    // ── Fullscreen — moves the live canvas node (with all the listeners
+    //    above still attached) into a shared full-viewport overlay, the
+    //    same "one overlay, move the content in and out" pattern
+    //    app.taop.xyz's figure-zoom.js uses for book/course figures. ──
+    var placeholder = document.createComment('explain-diagram-canvas-slot');
+    canvas.parentNode.insertBefore(placeholder, canvas);
+    var overlay = null;
+    var isFullscreen = false;
+
+    function ensureOverlay() {
+      if (overlay) return overlay;
+      overlay = document.createElement('div');
+      overlay.className = 'explain-diagram-fullscreen-overlay';
+      overlay.innerHTML =
+        '<button type="button" class="explain-diagram-fullscreen-close" aria-label="Close">&times;</button>' +
+        '<div class="explain-diagram-fullscreen-stage"></div>' +
+        '<p class="explain-diagram-fullscreen-hint">Scroll to zoom &middot; drag to pan &middot; Esc to close</p>';
+      document.body.appendChild(overlay);
+      overlay.addEventListener('click', function (e) {
+        if (e.target === overlay || e.target.classList.contains('explain-diagram-fullscreen-close')) closeFullscreen();
+      });
+      return overlay;
+    }
+
+    function openFullscreen() {
+      ensureOverlay().querySelector('.explain-diagram-fullscreen-stage').appendChild(canvas);
+      overlay.classList.add('explain-diagram-fullscreen-open');
+      document.body.style.overflow = 'hidden';
+      isFullscreen = true;
+      fitToWidth();
+    }
+
+    function closeFullscreen() {
+      if (!isFullscreen) return;
+      placeholder.parentNode.insertBefore(canvas, placeholder);
+      overlay.classList.remove('explain-diagram-fullscreen-open');
+      document.body.style.overflow = '';
+      isFullscreen = false;
+      fitToWidth();
+    }
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && isFullscreen) closeFullscreen();
+    });
+    root.querySelector('.explain-diagram-fullscreen').addEventListener('click', function () {
+      if (isFullscreen) closeFullscreen(); else openFullscreen();
     });
   }
 
