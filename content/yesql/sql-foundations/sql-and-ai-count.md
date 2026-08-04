@@ -4,6 +4,7 @@ weight = 80
 summary = "After a JOIN, COUNT(*) counts the rows in the intermediate result — which is not the same as counting the distinct entities you care about. The wrong number is plausible, which makes it dangerous."
 tags = ["SQL", "COUNT", "JOIN", "AI", "Aggregation", "Common Mistakes"]
 lab_datasets = "f1db"
+pglite = true
 +++
 
 Ask an AI to count how many distinct races each nationality's drivers have participated in across F1 history, and there is a good chance it will write this:

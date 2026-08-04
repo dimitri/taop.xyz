@@ -6,6 +6,7 @@ tags = ["PostgreSQL", "Architecture", "Concurrency"]
 book_chapter = "Chapter 3, Software Architecture"
 aliases = ["/blog/2019-09-why-postgres/"]
 lab_datasets = "f1db, chinook"
+pglite = true
 +++
 
 The following concepts are important to keep in mind when working with PostgreSQL:

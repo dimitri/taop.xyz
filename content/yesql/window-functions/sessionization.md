@@ -6,6 +6,7 @@ tags = ["window functions", "sessionization", "gaps and islands", "SQL", "analyt
 course_title = "Master Window Functions"
 course_url = "/course/"
 lab_datasets = "f1db"
+pglite = true
 +++
 
 A session is a group of consecutive events that belong together. Web

@@ -11,6 +11,7 @@ cta_body = "LATERAL is chapter four. The course covers all LATERAL patterns — 
 cta_url = "/course/"
 cta_label = "Explore the Course"
 lab_datasets = "f1db"
+pglite = true
 +++
 
 Top-N per group is one of the most commonly asked SQL questions. Given a list

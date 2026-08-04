@@ -4,6 +4,7 @@ weight = 60
 summary = "NULL is not zero, not an empty string, not false. It means unknown — and that single word explains every surprising thing SQL does with it, from WHERE conditions that silently drop rows to comparisons that never return true."
 tags = ["SQL", "NULL", "Three-Valued Logic", "Fundamentals"]
 lab_datasets = "f1db"
+pglite = true
 +++
 
 ### Three-valued logic

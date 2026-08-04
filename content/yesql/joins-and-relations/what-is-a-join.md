@@ -6,6 +6,7 @@ tags = ["SQL", "JOIN", "Relation", "Composition"]
 book_chapter = "Chapter 19, Understanding Relations and Joins"
 aliases = ["/blog/2019-09-sql-joins/"]
 lab_datasets = "chinook"
+pglite = true
 +++
 
 It took me quite some time before I could reason efficiently about SQL JOINs —

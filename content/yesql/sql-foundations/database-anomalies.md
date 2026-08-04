@@ -4,6 +4,7 @@ weight = 50
 summary = "Storing the same fact in more than one place is the root cause of three predictable failures. Understanding update, insertion, and deletion anomalies is what makes normalization feel obvious rather than arbitrary."
 tags = ["SQL", "Data Modeling", "Normalization", "Schema Design", "Fundamentals"]
 lab_datasets = "f1db"
+pglite = true
 +++
 
 Storing the same fact in more than one place is the root cause of a class of predictable failures. Wikipedia's article on Database Normalization defines the three anomalies as:

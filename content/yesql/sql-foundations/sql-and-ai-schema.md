@@ -4,6 +4,7 @@ weight = 90
 summary = "AI tools default to TEXT columns and application logic because they do not know what your database can express. Knowing PostgreSQL's range types, exclusion constraints, and generated columns changes what you ask for — and what you get."
 tags = ["SQL", "Schema Design", "Range Types", "Exclusion Constraints", "AI", "PostgreSQL"]
 lab_datasets = "f1db"
+pglite = true
 +++
 
 The most consequential SQL decisions happen before a single query is written.

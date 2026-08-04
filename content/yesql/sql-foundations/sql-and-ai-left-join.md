@@ -4,6 +4,7 @@ weight = 70
 summary = "The most common AI SQL mistake: a LEFT JOIN paired with a WHERE clause that filters on the right-side table, silently turning an outer join into an inner join and dropping the rows you asked for."
 tags = ["SQL", "JOIN", "LEFT JOIN", "AI", "Common Mistakes"]
 lab_datasets = "f1db"
+pglite = true
 +++
 
 Ask an AI to *"show me all constructors and their 2017 points, including those with zero points"* and you will very likely get a query like this:

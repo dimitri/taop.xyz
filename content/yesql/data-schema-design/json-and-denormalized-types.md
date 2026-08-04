@@ -5,6 +5,7 @@ summary = "PostgreSQL's JSONB and array types let you store semi-structured data
 tags = ["JSON", "JSONB", "array", "Data Types", "denormalization", "GIN"]
 book_chapter = "Chapter 24, Denormalized Data Types"
 lab_datasets = "chinook"
+pglite = true
 +++
 
 PostgreSQL is a relational database, but it does not force you to normalize

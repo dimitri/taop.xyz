@@ -6,6 +6,7 @@ tags = ["SQL", "Aggregate", "GROUP BY"]
 book_chapter = "Chapter 15, Group By, Having, With, Union All"
 aliases = ["/blog/2019-09-sql-aggregates/"]
 lab_datasets = "f1db"
+pglite = true
 +++
 
 Earlier we looked at [what an SQL relation is](/yesql/sql-foundations/what-is-a-relation/)
