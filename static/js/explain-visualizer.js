@@ -353,15 +353,16 @@
     return plan;
   }
 
-  // ── Rendering (adapted from app.taop.xyz's sample-interactive.js —
-  //    same visual language, but reads costStart/costEnd/rowsActual/
-  //    children off the tree parseExplainText produces, not raw JSON) ──
+  // ── Rendering — light theme matching the book's own TikZ plan-tree
+  //    figures (fig-plan-tree.svg: pale fills, dark text/borders, one hue
+  //    per node family), not app.taop.xyz's dark-panel sample-interactive.js
+  //    this was originally adapted from. ──
   var STYLE_COLORS = {
-    scan: { stroke: '#e06c75', fill: '#3a2a2c' },
-    jnode: { stroke: '#e5a95e', fill: '#3a3126' },
-    agg: { stroke: '#61afef', fill: '#25303a' },
-    build: { stroke: '#e5c07b', fill: '#3a3626' },
-    ctrl: { stroke: '#8b95a1', fill: '#2c2f36' },
+    scan: { stroke: '#2f9e8f', fill: '#e3f5f1', text: '#1c5f56' },
+    jnode: { stroke: '#8a63d2', fill: '#efe9fb', text: '#4a2f85' },
+    agg: { stroke: '#3ba0c9', fill: '#e6f4fa', text: '#1f5a76' },
+    build: { stroke: '#c99a2e', fill: '#faf3df', text: '#7a5c14' },
+    ctrl: { stroke: '#896da1', fill: '#f3eef8', text: '#372649' },
   };
 
   function escapeHtml(text) {
@@ -412,7 +413,7 @@
     var vbWidth = maxX - minX + 40;
     var vbHeight = maxY + 40;
 
-    var svg = '<svg viewBox="' + (minX - 20) + ' -20 ' + vbWidth + ' ' + vbHeight + '" width="100%" height="' +
+    var svg = '<svg viewBox="' + (minX - 20) + ' -20 ' + vbWidth + ' ' + vbHeight + '" width="' + vbWidth + '" height="' +
       vbHeight + '" xmlns="http://www.w3.org/2000/svg" font-family="JetBrains Mono, monospace" font-size="11">';
 
     edges.forEach(function (e) {
@@ -421,7 +422,7 @@
       var midY = (y1 + y2) / 2;
       var w = edgeWidth(e.to.node.rowsActual != null ? e.to.node.rowsActual : e.to.node.rowsEstimate);
       svg += '<path d="M ' + x2 + ' ' + y2 + ' L ' + x2 + ' ' + midY + ' L ' + x1 + ' ' + midY + ' L ' + x1 + ' ' + y1 +
-        '" fill="none" stroke="#5c6370" stroke-width="' + w + '" />';
+        '" fill="none" stroke="#c3b8d9" stroke-width="' + w + '" />';
     });
 
     nodes.forEach(function (laidNode) {
@@ -436,18 +437,18 @@
       svg += '<g><title>' + escapeHtml(tooltip) + '</title>' +
         '<rect x="' + x + '" y="' + y + '" width="' + NODE_WIDTH + '" height="' + NODE_HEIGHT + '" rx="6" fill="' +
         colors.fill + '" stroke="' + colors.stroke + '" stroke-width="1.5" />' +
-        '<text x="' + (x + 8) + '" y="' + (y + 16) + '" fill="' + colors.stroke + '" font-weight="bold">' + escapeHtml(label) + '</text>';
+        '<text x="' + (x + 8) + '" y="' + (y + 16) + '" fill="' + colors.text + '" font-weight="bold">' + escapeHtml(label) + '</text>';
       if (relText) {
-        svg += '<text x="' + (x + 8) + '" y="' + (y + 32) + '" fill="#abb2bf" font-style="italic">' + escapeHtml(relText) + '</text>';
+        svg += '<text x="' + (x + 8) + '" y="' + (y + 32) + '" fill="#67527a" font-style="italic">' + escapeHtml(relText) + '</text>';
       }
       if (cost) {
-        svg += '<text x="' + (x + 8) + '" y="' + (y + 48) + '" fill="#7f848e" font-size="10">' + escapeHtml(cost) + '</text>';
+        svg += '<text x="' + (x + 8) + '" y="' + (y + 48) + '" fill="#896da1" font-size="10">' + escapeHtml(cost) + '</text>';
       }
       if (actual) {
-        svg += '<text x="' + (x + 8) + '" y="' + (y + 64) + '" fill="#e5c07b" font-size="10">' + escapeHtml(actual) + '</text>';
+        svg += '<text x="' + (x + 8) + '" y="' + (y + 64) + '" fill="#b5780a" font-size="10">' + escapeHtml(actual) + '</text>';
       }
       if (node.props && node.props.length) {
-        svg += '<text x="' + (x + 8) + '" y="' + (y + 80) + '" fill="#5c6370" font-size="9">' + escapeHtml(node.props[0]) + '</text>';
+        svg += '<text x="' + (x + 8) + '" y="' + (y + 80) + '" fill="#a89bc2" font-size="9">' + escapeHtml(node.props[0]) + '</text>';
       }
       svg += '</g>';
     });
@@ -455,13 +456,107 @@
 
     var timing = '';
     if (plan.planningTime != null || plan.executionTime != null) {
-      timing = '<div class="explain-diagram-header">' +
-        (plan.planningTime != null ? 'Planning: ' + plan.planningTime.toFixed(2) + 'ms' : '') +
+      timing = (plan.planningTime != null ? 'Planning: ' + plan.planningTime.toFixed(2) + 'ms' : '') +
         (plan.planningTime != null && plan.executionTime != null ? ' &middot; ' : '') +
-        (plan.executionTime != null ? 'Execution: ' + plan.executionTime.toFixed(2) + 'ms' : '') +
-        ' &middot; hover a node for details</div>';
+        (plan.executionTime != null ? 'Execution: ' + plan.executionTime.toFixed(2) + 'ms' : '');
     }
-    return '<div class="explain-diagram">' + timing + svg + '</div>';
+    var header = '<div class="explain-diagram-header">' +
+      '<span>' + timing + '</span>' +
+      '<span class="explain-diagram-zoom-controls">' +
+        '<button type="button" class="explain-diagram-zoom-out" title="Zoom out">&minus;</button>' +
+        '<button type="button" class="explain-diagram-zoom-reset" title="Reset zoom">Reset</button>' +
+        '<button type="button" class="explain-diagram-zoom-in" title="Zoom in">+</button>' +
+        '<span class="explain-diagram-zoom-hint">scroll or pinch to zoom, drag to pan, hover a node for details</span>' +
+      '</span>' +
+      '</div>';
+    return '<div class="explain-diagram">' + header + '<div class="explain-diagram-canvas">' + svg + '</div></div>';
+  }
+
+  // ── Zoom/pan: plain mouse-wheel zooms (centered on the cursor), no
+  //    Ctrl/Cmd modifier required, since the canvas is a bounded box, not
+  //    the page itself — drag pans, dblclick resets. Also exposes +/-/
+  //    reset buttons for touch/trackpad users without wheel support. ──
+  function initDiagramZoom(root) {
+    var canvas = root.querySelector('.explain-diagram-canvas');
+    var svg = canvas && canvas.querySelector('svg');
+    if (!canvas || !svg) return;
+
+    var MIN_SCALE = 0.2, MAX_SCALE = 6;
+    var scale = 1, tx = 0, ty = 0;
+
+    var vbWidth = parseFloat(svg.getAttribute('width'));
+    var vbHeight = parseFloat(svg.getAttribute('height'));
+    svg.style.transformOrigin = '0 0';
+
+    function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
+
+    function apply() {
+      svg.style.transform = 'translate(' + tx + 'px,' + ty + 'px) scale(' + scale + ')';
+    }
+
+    function zoomAt(offsetX, offsetY, factor) {
+      var contentX = (offsetX - tx) / scale;
+      var contentY = (offsetY - ty) / scale;
+      scale = clamp(scale * factor, MIN_SCALE, MAX_SCALE);
+      tx = offsetX - contentX * scale;
+      ty = offsetY - contentY * scale;
+      apply();
+    }
+
+    // Fit-to-width on first render so the whole plan is visible without
+    // any interaction first, instead of opening at native (often
+    // wider-than-the-box) size.
+    var canvasWidth = canvas.clientWidth || 860;
+    var fitScale = Math.min(1, (canvasWidth - 24) / vbWidth);
+    scale = clamp(fitScale, MIN_SCALE, MAX_SCALE);
+    tx = Math.max(12, (canvasWidth - vbWidth * scale) / 2);
+    ty = 12;
+    apply();
+
+    canvas.addEventListener('wheel', function (e) {
+      e.preventDefault();
+      var rect = canvas.getBoundingClientRect();
+      var factor = Math.pow(1.0015, -e.deltaY);
+      zoomAt(e.clientX - rect.left, e.clientY - rect.top, factor);
+    }, { passive: false });
+
+    var dragging = false, dragStartX = 0, dragStartY = 0, startTx = 0, startTy = 0;
+    canvas.addEventListener('mousedown', function (e) {
+      dragging = true;
+      dragStartX = e.clientX; dragStartY = e.clientY;
+      startTx = tx; startTy = ty;
+      canvas.classList.add('explain-diagram-dragging');
+    });
+    window.addEventListener('mousemove', function (e) {
+      if (!dragging) return;
+      tx = startTx + (e.clientX - dragStartX);
+      ty = startTy + (e.clientY - dragStartY);
+      apply();
+    });
+    window.addEventListener('mouseup', function () {
+      dragging = false;
+      canvas.classList.remove('explain-diagram-dragging');
+    });
+
+    canvas.addEventListener('dblclick', function () {
+      scale = clamp(fitScale, MIN_SCALE, MAX_SCALE);
+      tx = Math.max(12, (canvas.clientWidth - vbWidth * scale) / 2);
+      ty = 12;
+      apply();
+    });
+
+    root.querySelector('.explain-diagram-zoom-in').addEventListener('click', function () {
+      zoomAt(canvas.clientWidth / 2, canvas.clientHeight / 2, 1.3);
+    });
+    root.querySelector('.explain-diagram-zoom-out').addEventListener('click', function () {
+      zoomAt(canvas.clientWidth / 2, canvas.clientHeight / 2, 1 / 1.3);
+    });
+    root.querySelector('.explain-diagram-zoom-reset').addEventListener('click', function () {
+      scale = clamp(fitScale, MIN_SCALE, MAX_SCALE);
+      tx = Math.max(12, (canvas.clientWidth - vbWidth * scale) / 2);
+      ty = 12;
+      apply();
+    });
   }
 
   // ── DOM wiring (browser only — guarded so this file can also be
@@ -485,6 +580,7 @@
         try {
           var plan = parseExplainText(text);
           output.innerHTML = renderDiagram(plan);
+          initDiagramZoom(output);
         } catch (err) {
           output.innerHTML = '<p class="explain-visualizer-error">' + escapeHtml(err.message) + '</p>';
         }
