@@ -2,12 +2,21 @@
 <div class="lesson_lab_banner">
   <i class="fa-solid fa-flask"></i>
   <div class="lab_banner_body">
+    {{ if $.Params.pglite }}
+    <strong>Run it yourself</strong> — every query on this page uses the
+    <code>{{ . }}</code> dataset{{ if in . "," }}s{{ end }}. Hit <strong>Run</strong> right
+    on the query below to try it live in your browser, powered by
+    <a href="https://pglite.dev/" rel="noopener">PGlite</a> — no signup, no setup.
+    Prefer a full session? <code>psql taop</code> works too, via the free
+    <a href="https://github.com/dimitri/TheArtOfPostgreSQL" rel="noopener">Docker starter kit</a>.
+    {{ else }}
     <strong>Run it yourself</strong> — all queries on this page use the
     <code>{{ . }}</code> dataset{{ if in . "," }}s{{ end }},
     pre-loaded in the free
     <a href="/lab/">TAOP lab</a>.
     Start a session with <code>psql taop</code> and follow along.
     No setup beyond <a href="https://github.com/dimitri/TheArtOfPostgreSQL" rel="noopener">Docker</a>.
+    {{ end }}
   </div>
 </div>
 {{ end }}
