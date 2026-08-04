@@ -38,17 +38,15 @@
   .pglite-status-dot.error { background: #c9372c; }
   @keyframes pglite-pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
   .pglite-inline-label { color: #93a1a1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .pglite-inline code {
-    background: rgba(255,255,255,.08); padding: 0 4px; border-radius: 3px;
-    font-size: .95em; color: #cdd6f4;
-  }
   .pglite-load-link {
-    background: none; border: none; padding: 0; margin: 0;
-    color: #7fd4e8; font: inherit; font-weight: 700; text-decoration: underline;
-    cursor: pointer; white-space: nowrap;
+    display: inline-flex; align-items: center; height: 22px; padding: 0 10px;
+    background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.2);
+    border-radius: 4px; color: #7fd4e8;
+    font: 700 11px/1 'JetBrains Mono', 'Fira Code', monospace; letter-spacing: .01em;
+    cursor: pointer; white-space: nowrap; flex-shrink: 0;
   }
-  .pglite-load-link:hover { color: #a6e6f2; }
-  .pglite-load-link:disabled { color: #567478; text-decoration: none; cursor: default; }
+  .pglite-load-link:hover { background: rgba(255,255,255,.14); border-color: rgba(255,255,255,.35); color: #a6e6f2; }
+  .pglite-load-link:disabled { opacity: .5; cursor: default; }
   .code-copy-button {
     display: inline-flex; align-items: center; justify-content: center;
     width: 24px; height: 24px; padding: 0; border: none; border-radius: 4px;
@@ -143,7 +141,7 @@
       return '<span class="pglite-status-dot error"></span><span class="pglite-inline-label" title="' + escHtml(errorText) + '">PGlite failed to load</span>';
     }
     return '<span class="pglite-status-dot"></span>' +
-      '<button type="button" class="pglite-load-link">Load PGlite <code>' + escHtml(ds) + '</code> dataset</button>';
+      '<button type="button" class="pglite-load-link">Load PGlite database: ' + escHtml(ds) + '</button>';
   }
 
   function renderAllInlineStatus() {
