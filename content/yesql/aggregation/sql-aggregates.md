@@ -5,7 +5,8 @@ summary = "It's the reduce half of map/reduce: an aggregate computes a single re
 tags = ["SQL", "Aggregate", "GROUP BY"]
 book_chapter = "Chapter 15, Group By, Having, With, Union All"
 aliases = ["/blog/2019-09-sql-aggregates/"]
-lab_datasets = "f1db"
+lab_datasets = "chinook"
+pglite = true
 +++
 
 Earlier we looked at [what an SQL relation is](/yesql/sql-foundations/what-is-a-relation/)
@@ -24,8 +25,8 @@ Here's an example query we've used before:
   select album.title as album,
          sum(milliseconds) * interval '1 ms' as duration
     from album
-         join artist using(artistid)
-         left join track using(albumid)
+         join artist using(artist_id)
+         left join track using(album_id)
    where artist.name = 'Red Hot Chili Peppers'
 group by album
 order by album;
@@ -35,7 +36,7 @@ This builds a new relation composing `ALBUM`, `ARTIST`, and `TRACK` into rich
 objects. From that collection we want the duration of each album, and we have the
 duration of each track — so we want a `SUM` of track durations, *per album*:
 
-```sql
+```
 ┌───────────────────────┬──────────────────────────────┐
 │         album         │           duration           │
 ├───────────────────────┼──────────────────────────────┤

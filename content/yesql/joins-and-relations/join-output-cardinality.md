@@ -11,6 +11,7 @@ cta_body = "Amplification is chapter three. The course covers all JOIN types, LA
 cta_url = "/course/"
 cta_label = "Explore the Course"
 lab_datasets = "f1db"
+pglite = true
 +++
 
 Here is a question that trips up developers at every level: how many races has

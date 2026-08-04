@@ -11,6 +11,7 @@ cta_body = "Ranking is chapter two of the course. You'll also cover NTILE, LEAD/
 cta_url = "/course/"
 cta_label = "Explore the Course"
 lab_datasets = "f1db"
+pglite = true
 +++
 
 PostgreSQL gives you three ranking functions. They look similar and they all

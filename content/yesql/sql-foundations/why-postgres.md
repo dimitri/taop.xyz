@@ -5,7 +5,8 @@ summary = "PostgreSQL is not just storage — it is a concurrent data-access ser
 tags = ["PostgreSQL", "Architecture", "Concurrency"]
 book_chapter = "Chapter 3, Software Architecture"
 aliases = ["/blog/2019-09-why-postgres/"]
-lab_datasets = "f1db, chinook"
+lab_datasets = "magic"
+pglite = true
 +++
 
 The following concepts are important to keep in mind when working with PostgreSQL:

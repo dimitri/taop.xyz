@@ -12,6 +12,7 @@ cta_body = "FILTER is one piece of the correctness picture. The course covers jo
 cta_url = "/course/"
 cta_label = "Explore the Course"
 lab_datasets = "f1db"
+pglite = true
 +++
 
 Suppose you want a summary that shows, for each Formula One season, the total

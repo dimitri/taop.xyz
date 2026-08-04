@@ -1,0 +1,432 @@
+{{ if and .Params.pglite .Params.lab_datasets }}
+{{ $ds := .Params.lab_datasets }}
+{{ $url := "" }}
+{{ if or (eq $ds "f1db") (in $ds "f1db") }}{{ $url = $.Site.Params.pglite_f1db_url | default "/data/pglite/f1db.sql.gz" }}{{ end }}
+{{ if and (not $url) (or (eq $ds "chinook") (in $ds "chinook")) }}{{ $url = $.Site.Params.pglite_chinook_url | default "/data/pglite/chinook.sql.gz" }}{{ end }}
+{{ if and (not $url) (or (eq $ds "magic") (in $ds "magic")) }}{{ $url = $.Site.Params.pglite_magic_url | default "/data/pglite/magic.sql.gz" }}{{ end }}
+{{ if $url }}
+<style>
+  /* ─── Runnable SQL blocks: same shape as app.taop.xyz's .code-block —
+       header (label + PGlite load/status control + copy button), the
+       existing Chroma-highlighted <pre> untouched, an actions row
+       (Run + status), results below. Reuses that property's visual
+       language (same class names, same values) rather than inventing a
+       parallel style — see public/js/sample-interactive.js +
+       public/css/app.css there. The "load the dataset" control lives in
+       every block's own header (not a separate strip elsewhere on the
+       page) precisely so it's impossible to miss right where a reader is
+       about to hit Run — one shared PGlite connection underneath, so
+       loading it once from any header lights every block up together. ── */
+  .pglite-code-block { margin: 20px 0; border-radius: 8px; overflow: hidden; }
+  .pglite-code-block .code-block-header {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 12px; padding: 8px 16px;
+    background: #002b36; border-bottom: 1px solid rgba(255,255,255,.08);
+  }
+  .code-block-label-group { display: flex; align-items: center; gap: 12px; min-width: 0; }
+  .code-block-label {
+    font-family: 'Lato', sans-serif; font-size: 11px; font-weight: 700;
+    letter-spacing: 1px; text-transform: uppercase; color: #93a1a1;
+    flex-shrink: 0;
+  }
+  .pglite-inline { display: flex; align-items: center; gap: 6px; font: 12px 'Lato', sans-serif; min-width: 0; }
+  .pglite-status-dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: #567478; flex-shrink: 0; transition: background .3s;
+  }
+  .pglite-status-dot.ready { background: #22a06b; }
+  .pglite-status-dot.loading { background: #e8a000; animation: pglite-pulse 1s infinite; }
+  .pglite-status-dot.error { background: #c9372c; }
+  @keyframes pglite-pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+  .pglite-inline-label { color: #93a1a1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .pglite-load-link {
+    display: inline-flex; align-items: center; height: 22px; padding: 0 10px;
+    background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.2);
+    border-radius: 4px; color: #7fd4e8;
+    font: 700 11px/1 'JetBrains Mono', 'Fira Code', monospace; letter-spacing: .01em;
+    cursor: pointer; white-space: nowrap; flex-shrink: 0;
+  }
+  .pglite-load-link:hover { background: rgba(255,255,255,.14); border-color: rgba(255,255,255,.35); color: #a6e6f2; }
+  .pglite-load-link:disabled { opacity: .5; cursor: default; }
+  .code-copy-button {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 24px; height: 24px; padding: 0; border: none; border-radius: 4px;
+    background: transparent; color: #93a1a1; cursor: pointer; font-size: 12px;
+    flex-shrink: 0;
+  }
+  .code-copy-button:hover { background: rgba(255,255,255,.12); color: #fff; }
+  .code-copy-button.copied { color: #7fd99a; }
+  .code-copy-button.copy-failed { color: #e08a8a; }
+  /* Chroma already renders the <pre>/<code> — just seat it flush inside
+     the wrapper instead of the block-level margin Chroma ships with. */
+  .pglite-code-block .highlight { margin: 0; }
+  .pglite-code-block .highlight pre { margin: 0; border-radius: 0; }
+  .code-block-actions {
+    display: flex; align-items: center; gap: 10px; padding: 10px 16px;
+    background: #002b36; border-top: 1px solid rgba(255,255,255,.08);
+  }
+  .code-block-run {
+    padding: 6px 16px; background: #22a06b; color: #fff; border: none;
+    border-radius: 5px; font: 700 12px 'Lato', sans-serif; cursor: pointer;
+    transition: background .15s;
+  }
+  .code-block-run:hover:not(:disabled) { background: #1a7d54; }
+  .code-block-run:disabled { background: #2f4a4d; color: #6b8386; cursor: default; }
+  .code-block-explain {
+    padding: 6px 16px; background: transparent; color: #93a1a1; border: 1px solid #567478;
+    border-radius: 5px; font: 700 12px 'Lato', sans-serif; cursor: pointer;
+    transition: background .15s, color .15s;
+  }
+  .code-block-explain:hover:not(:disabled) { background: rgba(255,255,255,.08); color: #fff; }
+  .code-block-explain:disabled { color: #4a5f62; border-color: #35494c; cursor: default; }
+  .code-block-status { font: 12px 'Lato', sans-serif; color: #93a1a1; }
+
+  .pglite-results { border-top: 1px solid rgba(255,255,255,.08); background: #002b36; }
+  .pglite-results:empty { display: none; }
+
+  /* ─── EXPLAIN diagram — same markup/behavior as the standalone Query
+       Plan Visualizer (layouts/partials/explain-visualizer-widget.html,
+       static/js/explain-visualizer.js's exposed window.taopExplainVisualizer),
+       reused rather than reimplemented. ────────────────────────────── */
+  .explain-diagram { background: #fff; border-radius: 6px; margin: 0 16px 16px; padding: 14px; }
+  .explain-diagram-header {
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px;
+    padding: 0 0 10px 0; color: #896da1; font-family: 'Lato', sans-serif; font-size: 12px;
+  }
+  .explain-diagram-zoom-controls { display: flex; align-items: center; gap: 6px; }
+  .explain-diagram-zoom-controls button {
+    width: 24px; height: 24px; line-height: 1; border: 1px solid #e4dced; background: #f8f7f9;
+    color: #372649; border-radius: 4px; cursor: pointer; font-size: 14px; font-family: 'Lato', sans-serif;
+  }
+  .explain-diagram-zoom-controls button:hover { background: #f0edf5; border-color: #60b2d3; }
+  .explain-diagram-zoom-controls .explain-diagram-zoom-reset { width: auto; padding: 0 8px; font-size: 11px; }
+  .explain-diagram-zoom-hint { font-size: 11px; color: #b3a3cf; }
+  .explain-diagram-canvas {
+    height: 420px; overflow: hidden; position: relative; border: 1px solid #f0edf5; border-radius: 4px;
+    background: #fff; cursor: grab;
+  }
+  .explain-diagram-canvas.explain-diagram-dragging { cursor: grabbing; }
+  .explain-diagram-canvas svg { position: absolute; top: 0; left: 0; }
+
+  .explain-diagram-fullscreen-overlay {
+    display: none; position: fixed; inset: 0; z-index: 2000; background: rgba(20,14,26,.92);
+    flex-direction: column; align-items: center; justify-content: center;
+  }
+  .explain-diagram-fullscreen-overlay.explain-diagram-fullscreen-open { display: flex; }
+  .explain-diagram-fullscreen-stage {
+    width: 100%; flex: 1; display: flex; align-items: center; justify-content: center; overflow: hidden;
+  }
+  .explain-diagram-fullscreen-stage .explain-diagram-canvas { width: 92vw; height: 82vh; border: none; }
+  .explain-diagram-fullscreen-close {
+    position: absolute; top: 18px; right: 24px; width: 40px; height: 40px; border-radius: 50%;
+    border: none; background: rgba(255,255,255,.12); color: #fff; font-size: 24px; line-height: 1; cursor: pointer;
+  }
+  .explain-diagram-fullscreen-close:hover { background: rgba(255,255,255,.25); }
+  .explain-diagram-fullscreen-hint {
+    color: rgba(255,255,255,.6); font: 300 12.5px 'Lato', sans-serif; padding: 14px 0 20px 0; margin: 0;
+  }
+  .pglite-results-scroll {
+    background: #fff; border-radius: 6px; padding: 12px;
+    overflow-x: auto; margin: 0 16px 16px;
+  }
+  /* All of these are qualified with the .pglite-results-scroll ancestor
+     (two classes, specificity 0,2,x) to beat the sitewide prose-table
+     rules for markdown content tables (static/css/yesql.css's
+     .lesson_content table/.lesson_content thead th/.lesson_content
+     tbody td — one class + one-or-two elements, 0,1,1 / 0,1,2) that
+     these th/td otherwise inherit, being inside .lesson_content same as
+     any other table: width:auto instead of 100%, asymmetric
+     padding/border-bottom-only/uppercase/muted-gray text meant for a
+     light-background reading table, not this dark result block. */
+  .pglite-results-scroll .pglite-table { width: 100%; border-collapse: collapse; font-size: .82rem; }
+  .pglite-results-scroll .pglite-table thead th,
+  .pglite-results-scroll .pglite-table tbody td { border: 1px solid #ede8f5; padding: 6px 16px; text-align: left; }
+  .pglite-results-scroll .pglite-table th {
+    background: #2e2241; color: #c8aef5;
+    font-weight: 700; white-space: nowrap; font-size: .76rem; letter-spacing: .03em; text-transform: none;
+  }
+  .pglite-results-scroll .pglite-table td {
+    color: #2e2241; vertical-align: top; max-width: 320px;
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+  .pglite-table tr:nth-child(even) td { background: #faf8fd; }
+  .pglite-null { color: #9e8fb0; font-style: italic; }
+  .pglite-msg { margin: 0 16px 16px; padding: 10px 14px; border-radius: 6px; font-size: .85rem; }
+  .pglite-msg.error { color: #a4454f; background: #fff; font-family: 'JetBrains Mono', monospace; font-size: .8rem; }
+  .pglite-msg.ok { color: #22a06b; background: #fff; }
+  .pglite-row-count { padding: 6px 16px 14px; font-size: .75rem; color: #6b8386; }
+</style>
+
+<script src="/js/explain-visualizer.js"></script>
+<script type="module">
+(function () {
+  const ds = {{ $ds }};
+  const datasetUrl = {{ $url }};
+  let _db = null;
+  let state = 'idle'; // idle | loading | ready | error
+  let errorText = '';
+
+  async function decompress(response) {
+    if (typeof DecompressionStream !== 'undefined') {
+      const dstream = new DecompressionStream('gzip');
+      const stream = response.body.pipeThrough(dstream);
+      const reader = stream.getReader();
+      const chunks = [];
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        chunks.push(value);
+      }
+      const total = chunks.reduce((n, c) => n + c.length, 0);
+      const buf = new Uint8Array(total);
+      let off = 0;
+      for (const c of chunks) { buf.set(c, off); off += c.length; }
+      return new TextDecoder().decode(buf);
+    }
+    return response.text(); // fallback: assume uncompressed
+  }
+
+  function escHtml(s) {
+    return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  // ── The inline PGlite status/load control that lives in every code
+  //    block's own header — regenerated for every block whenever `state`
+  //    changes, so all of them always agree (one shared connection). ────
+  function inlineStatusHTML() {
+    if (state === 'ready') {
+      return '<span class="pglite-status-dot ready"></span><span class="pglite-inline-label">PGlite ready</span>';
+    }
+    if (state === 'loading') {
+      return '<span class="pglite-status-dot loading"></span><span class="pglite-inline-label">Loading PGlite&hellip;</span>';
+    }
+    if (state === 'error') {
+      return '<span class="pglite-status-dot error"></span><span class="pglite-inline-label" title="' + escHtml(errorText) + '">PGlite failed to load</span>';
+    }
+    return '<span class="pglite-status-dot"></span>' +
+      '<button type="button" class="pglite-load-link">Load PGlite database: ' + escHtml(ds) + '</button>';
+  }
+
+  function renderAllInlineStatus() {
+    document.querySelectorAll('.pglite-inline').forEach((el) => {
+      el.innerHTML = inlineStatusHTML();
+      const link = el.querySelector('.pglite-load-link');
+      if (link) link.addEventListener('click', loadPGlite);
+    });
+    document.querySelectorAll('.code-block-run, .code-block-explain').forEach((b) => { b.disabled = state !== 'ready'; });
+  }
+
+  function renderResults(el, result) {
+    if (!result || !result.rows || result.rows.length === 0) {
+      el.innerHTML = '<div class="pglite-msg ok">Query OK — ' + (result?.affectedRows || 0) + ' row(s) affected.</div>';
+      return;
+    }
+    const fields = result.fields || Object.keys(result.rows[0]).map(n => ({ name: n }));
+    let h = '<div class="pglite-results-scroll"><table class="pglite-table"><thead><tr>';
+    for (const f of fields) h += '<th>' + escHtml(f.name) + '</th>';
+    h += '</tr></thead><tbody>';
+    for (const row of result.rows) {
+      h += '<tr>';
+      for (const f of fields) {
+        const v = row[f.name];
+        h += v == null ? '<td><span class="pglite-null">NULL</span></td>' : '<td>' + escHtml(String(v)) + '</td>';
+      }
+      h += '</tr>';
+    }
+    h += '</tbody></table></div>';
+    h += '<div class="pglite-row-count">' + result.rows.length + ' row' + (result.rows.length !== 1 ? 's' : '') + '</div>';
+    el.innerHTML = h;
+  }
+
+  function renderError(el, msg) {
+    el.innerHTML = '<div class="pglite-msg error">' + escHtml(msg) + '</div>';
+  }
+
+  // ── Copy-to-clipboard, ported from app.taop.xyz's sample-interactive.js
+  //    so the two properties share the exact same button/behavior. ──────
+  async function copyToClipboard(text, button) {
+    let ok = true;
+    try {
+      await navigator.clipboard.writeText(text);
+    } catch (err) {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+      document.body.removeChild(ta);
+    }
+    const original = button.innerHTML;
+    button.innerHTML = ok ? '<i class="fa-solid fa-check"></i>' : '<i class="fa-solid fa-xmark"></i>';
+    button.classList.add(ok ? 'copied' : 'copy-failed');
+    button.disabled = true;
+    setTimeout(() => {
+      button.innerHTML = original;
+      button.classList.remove('copied', 'copy-failed');
+      button.disabled = false;
+    }, 1200);
+  }
+
+  // ── Wrap every pre-existing SQL code block in the lesson with a header
+  //    (label + inline PGlite status/load control + copy button) and an
+  //    actions row (Run + status) — the Chroma-rendered <pre>/<code>
+  //    itself is left untouched, just seated inside the new wrapper, so
+  //    PGlite lives *in* the block readers already see. ─────────────────
+  function wrapCodeBlocks() {
+    document.querySelectorAll('.lesson_content .highlight').forEach((highlightDiv) => {
+      const code = highlightDiv.querySelector('code.language-sql');
+      if (!code || highlightDiv.closest('.pglite-code-block')) return;
+
+      const wrapper = document.createElement('div');
+      wrapper.className = 'pglite-code-block';
+      highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+
+      const header = document.createElement('div');
+      header.className = 'code-block-header';
+      header.innerHTML =
+        '<span class="code-block-label-group">' +
+          '<span class="code-block-label">SQL</span>' +
+          '<span class="pglite-inline"></span>' +
+        '</span>';
+      const copyBtn = document.createElement('button');
+      copyBtn.type = 'button';
+      copyBtn.className = 'code-copy-button';
+      copyBtn.setAttribute('aria-label', 'Copy query');
+      copyBtn.title = 'Copy query';
+      copyBtn.innerHTML = '<i class="fa-solid fa-copy"></i>';
+      copyBtn.addEventListener('click', () => copyToClipboard(code.textContent.trim(), copyBtn));
+      header.appendChild(copyBtn);
+      wrapper.appendChild(header);
+
+      wrapper.appendChild(highlightDiv);
+
+      const actions = document.createElement('div');
+      actions.className = 'code-block-actions';
+      const runBtn = document.createElement('button');
+      runBtn.type = 'button';
+      runBtn.className = 'code-block-run';
+      runBtn.disabled = true;
+      runBtn.textContent = '▶ Run';
+      const explainBtn = document.createElement('button');
+      explainBtn.type = 'button';
+      explainBtn.className = 'code-block-explain';
+      explainBtn.disabled = true;
+      explainBtn.textContent = 'Explain';
+      const status = document.createElement('span');
+      status.className = 'code-block-status';
+      actions.appendChild(runBtn);
+      actions.appendChild(explainBtn);
+      actions.appendChild(status);
+      wrapper.appendChild(actions);
+
+      const results = document.createElement('div');
+      results.className = 'pglite-results';
+      wrapper.appendChild(results);
+
+      runBtn.addEventListener('click', async () => {
+        if (!_db) return;
+        runBtn.disabled = true;
+        status.textContent = 'Running…';
+        const t0 = performance.now();
+        try {
+          const result = await _db.query(code.textContent.trim());
+          status.textContent = Math.round(performance.now() - t0) + ' ms';
+          renderResults(results, result);
+        } catch (err) {
+          status.textContent = '';
+          renderError(results, err.message);
+        } finally {
+          runBtn.disabled = false;
+        }
+      });
+
+      // ── Explain: same visual diagram as the standalone Query Plan
+      //    Visualizer (/postgresql-query-plan-visualizer/), reusing its
+      //    own parser/renderer via window.taopExplainVisualizer
+      //    (static/js/explain-visualizer.js) instead of a second
+      //    implementation. PGlite's EXPLAIN (ANALYZE, BUFFERS) returns
+      //    the same TEXT-format plan, one line per row under a single
+      //    "QUERY PLAN" column, that visualizer already parses. ────────
+      explainBtn.addEventListener('click', async () => {
+        if (!_db || !window.taopExplainVisualizer) return;
+        explainBtn.disabled = true;
+        status.textContent = 'Explaining…';
+        try {
+          const sql = code.textContent.trim();
+          // Some lessons' own example query already *is* an EXPLAIN
+          // (teaching EXPLAIN itself, e.g. json-and-denormalized-types.md)
+          // — don't wrap an explain around an explain, Postgres rejects
+          // that as a syntax error. Run it as written; only prepend our
+          // own explain (analyze, buffers) for a plain query.
+          const query = /^explain\b/i.test(sql) ? sql : 'explain (analyze, buffers) ' + sql;
+          const result = await _db.query(query);
+          const planText = result.rows.map((row) => Object.values(row)[0]).join('\n');
+          status.textContent = '';
+          const { parseExplainText, renderDiagram, initDiagramZoom } = window.taopExplainVisualizer;
+          const plan = parseExplainText(planText);
+          results.innerHTML = renderDiagram(plan);
+          initDiagramZoom(results);
+        } catch (err) {
+          status.textContent = '';
+          renderError(results, err.message);
+        } finally {
+          explainBtn.disabled = false;
+        }
+      });
+    });
+    renderAllInlineStatus();
+  }
+
+  async function loadPGlite() {
+    if (state === 'loading' || state === 'ready') return;
+    state = 'loading';
+    renderAllInlineStatus();
+
+    try {
+      const { PGlite } = await import('https://cdn.jsdelivr.net/npm/@electric-sql/pglite/dist/index.js');
+      _db = new PGlite('idb://taop-' + ds);
+      await _db.waitReady;
+      // The dump loads tables into a schema named after the dataset (so
+      // several datasets can coexist in one PGlite build without name
+      // clashes), but every book/course query is written unqualified
+      // (`from results`, not `from f1db.results`). PGlite doesn't honor
+      // ALTER DATABASE ... SET search_path on reconnect (verified: it
+      // writes to pg_db_role_setting fine, but a fresh connection to the
+      // same persisted store still boots with search_path=public) — so
+      // this has to be a plain SET, reissued on every connection, not
+      // baked into the dump once at seed time.
+      await _db.exec('SET search_path TO ' + ds + ', public;');
+
+      const check = await _db.query(
+        "SELECT count(*) AS n FROM information_schema.tables WHERE table_schema='" + ds + "'"
+      );
+      const tableCount = parseInt(check.rows[0].n, 10);
+
+      if (tableCount === 0) {
+        const resp = await fetch(datasetUrl);
+        if (!resp.ok) throw new Error('HTTP ' + resp.status + ' fetching ' + datasetUrl);
+        const sql = await decompress(resp);
+        await _db.exec(sql);
+        // pg_dump's own boilerplate (`SELECT pg_catalog.set_config('search_path',
+        // '', false);`) resets search_path to empty as part of the dump
+        // itself — wiping out the SET above for the rest of *this* session.
+        // Reissue it once seeding is done; the reconnect path above never
+        // hits this branch, so its earlier SET is untouched there.
+        await _db.exec('SET search_path TO ' + ds + ', public;');
+      }
+
+      state = 'ready';
+    } catch (err) {
+      state = 'error';
+      errorText = err.message;
+    }
+    renderAllInlineStatus();
+  }
+
+  wrapCodeBlocks();
+})();
+</script>
+{{ end }}
+{{ end }}

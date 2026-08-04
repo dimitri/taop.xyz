@@ -4,6 +4,7 @@ weight = 40
 summary = "GROUP BY compresses many rows into one per group. Understanding the evaluation order — WHERE, then GROUP BY, then HAVING, then SELECT — is what makes aggregation queries predictable."
 tags = ["SQL", "GROUP BY", "HAVING", "Aggregation", "Fundamentals"]
 lab_datasets = "f1db"
+pglite = true
 +++
 
 Aggregation is at the core of analytics, but subtle mistakes can lead to incorrect results or misleading metrics. A query that compiles and returns results can still be silently wrong: double-counting rows after a join, losing data through premature filtering, or producing totals that shift when the underlying data changes. Getting aggregation right means understanding not just the syntax but the evaluation model.

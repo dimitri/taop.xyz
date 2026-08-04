@@ -11,6 +11,7 @@ cta_body = "This lesson covers the mental model. The course covers frame semanti
 cta_url = "/course/"
 cta_label = "Explore the Course"
 lab_datasets = "f1db"
+pglite = true
 +++
 
 Window functions let you compute an aggregate and keep the detail rows at

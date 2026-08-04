@@ -13,6 +13,7 @@
       {{ with .Params.summary }}<p class="lesson_lede">{{ . }}</p>{{ end }}
 
       {{ partial "yesql/lab-intro.html" . }}
+      {{ partial "yesql/pglite.html" . }}
 
       {{ .Content }}
 

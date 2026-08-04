@@ -6,6 +6,7 @@ tags = ["window functions", "running total", "moving average", "SUM OVER", "fram
 course_title = "Master Window Functions"
 course_url = "/course/"
 lab_datasets = "f1db"
+pglite = true
 +++
 
 `SUM(x) OVER ()` adds up all the x values and puts the total on every row.

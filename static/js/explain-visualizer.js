@@ -636,6 +636,20 @@
     });
   }
 
+  // Public API for other scripts on the same page (e.g. the PGlite
+  // "Explain" button on YeSQL lessons, yesql/pglite.html) to reuse this
+  // exact parser/renderer instead of a second implementation — the
+  // .explain-visualizer wiring above is this page's own consumer, this
+  // is everyone else's.
+  if (typeof window !== 'undefined') {
+    window.taopExplainVisualizer = {
+      parseExplainText: parseExplainText,
+      renderDiagram: renderDiagram,
+      initDiagramZoom: initDiagramZoom,
+      hasPlan: hasPlan
+    };
+  }
+
   if (typeof module !== 'undefined' && module.exports) {
     module.exports = { parseExplainText: parseExplainText, renderDiagram: renderDiagram, hasPlan: hasPlan };
   }

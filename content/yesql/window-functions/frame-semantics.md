@@ -6,6 +6,7 @@ tags = ["window functions", "frame", "ROWS", "RANGE", "GROUPS", "SQL"]
 course_title = "Master Window Functions"
 course_url = "/course/"
 lab_datasets = "f1db"
+pglite = true
 +++
 
 Every window function with an `ORDER BY` inside `OVER` operates on a *frame*
