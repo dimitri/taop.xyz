@@ -42,14 +42,10 @@ like.
 
 ## Explain Plan Visualizer
 
-To help with reading and understanding query plans, you can use the
-[PEV](https://github.com/dalibo/pev2) tool, which is Open Source and easy
-enough to integrate in a website. So that's what we did at [Explain Plan
-Visualizer](/explain-plan-visualizer/). You can paste your query and explain
-plan here and see a nice diagram with visual hints to better understand your
-query plans:
+To help with reading and understanding query plans, paste the output of
+`EXPLAIN` or `EXPLAIN ANALYZE` below (the default text format — not
+`FORMAT JSON`) and see a diagram with visual hints to better understand
+your query plan: node type, relation, cost, and — when you used
+`ANALYZE` — actual rows and timing.
 
-{{< pev >}}
-
-The PNG saving feature is experimental. It might even work on your browser
-and with your own query plan… sometimes!
+{{< explain-visualizer >}}
