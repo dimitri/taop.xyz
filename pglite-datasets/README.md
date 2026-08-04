@@ -6,6 +6,13 @@ fetches and loads into [PGlite](https://pglite.dev) (Postgres compiled to
 WebAssembly) client-side, powering the "Run it yourself" widget embedded in
 each SQL code block on PGlite-enabled YeSQL lessons.
 
+**The output is committed, not generated at build time.** `hugo`/`hugo
+--minify` just copies whatever's already under `static/data/pglite/` as-is —
+Hugo's build has no Docker step and can't run anything in this directory.
+This tooling is a dev-time helper for producing and refreshing those
+committed files, run manually and checked in like any other static asset,
+not part of the site's actual build or deploy pipeline.
+
 ## How it works
 
 This directory is a self-contained Docker build, not a script you run
