@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>PostgreSQL SQL Formatter — The Art of PostgreSQL</title>
+  <link rel="canonical" href="{{ .Permalink }}">
+  <meta name="description" content="Paste any PostgreSQL query and get it back in the hand-formatted &quot;river&quot; style used throughout The Art of PostgreSQL — free, in your browser, no signup.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:site" content="@tapoueh" />
+  <meta property="og:url" content="{{ .Permalink }}" />
+  <meta property="og:title" content="PostgreSQL SQL Formatter" />
+  <meta property="og:description" content="Paste a query and get it back in the book's river-aligned style — free, in your browser, no signup." />
+  <meta property="og:image" content="https://theartofpostgresql.com/images/hardcover-mockup.jpg" />
+  <link href="/favicon.ico" rel="icon" type="image/x-icon">
+  <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="/js/custom.js"></script>
+
+  <style>
+  body.sql-formatter-page .header {
+    background: #2e2241 url('/images/demo/slide.jpg') center top no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+  }
+
+  .sql-formatter-hero {
+    background: #2e2241 url('/images/demo/slide.jpg') center top no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    padding: 120px 24px 64px;
+    text-align: center;
+  }
+  .sql-formatter-hero-eyebrow {
+    font: 700 .72rem/1 'Lato', sans-serif;
+    color: #60b2d3;
+    text-transform: uppercase;
+    letter-spacing: .12em;
+    margin: 0 0 16px;
+  }
+  .sql-formatter-hero h1 {
+    font: 300 2.4rem/1.2 'Lato', sans-serif;
+    color: #fff;
+    max-width: 700px;
+    margin: 0 auto 14px;
+  }
+  .sql-formatter-hero p {
+    font: 300 1.05rem/1.6 'Lato', sans-serif;
+    color: rgba(255,255,255,.75);
+    max-width: 560px;
+    margin: 0 auto;
+  }
+
+  .sql-formatter-tool { background: #fff; padding: 64px 24px 88px; }
+  .sql-formatter-tool .wrapper { max-width: 1080px; }
+  </style>
+</head>
+<body class="page sql-formatter-page">
+
+{{ partial "header.html" . }}
+
+<div class="sql-formatter-hero">
+  <div class="sql-formatter-hero-eyebrow">Free Tool</div>
+  <h1>PostgreSQL SQL Formatter</h1>
+  <p>Paste a query below and get it back in the book's hand-formatted style — free, in your browser, no signup.</p>
+</div>
+
+<div class="sql-formatter-tool">
+  <div class="wrapper">
+    {{ partial "sql-formatter-widget.html" . }}
+  </div>
+</div>
+
+{{ partial "footer.html" . }}
+</body>
+</html>

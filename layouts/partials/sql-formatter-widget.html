@@ -1,0 +1,91 @@
+<style>
+  .sql-formatter { max-width: 1080px; margin: 0 auto; text-align: left; }
+  .sql-formatter-layout { display: flex; align-items: flex-start; gap: 40px; }
+  .sql-formatter-intro { flex: 0 0 240px; order: 1; padding-top: 4px; }
+  .sql-formatter-intro p { font-size: .92rem; color: #67527a; line-height: 1.65; }
+  .sql-formatter-intro code { background: #f0edf5; padding: 1px 5px; border-radius: 3px; font-size: .92em; }
+  .sql-formatter-panel { flex: 1 1 auto; min-width: 0; order: 2; }
+
+  /* ── Dark SQL editor block — same look as app.theartofpostgresql.com's
+       runnable code blocks: header + syntax-highlighted overlay editor. ── */
+  .sql-formatter-block { background: #272822; border-radius: 8px; overflow: hidden; }
+  .sql-formatter-block-header {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 12px; padding: 8px 16px; border-bottom: 1px solid rgba(255,255,255,.08);
+  }
+  .sql-formatter-block-label {
+    font: 700 11px/1 'Lato', sans-serif; letter-spacing: 1px; text-transform: uppercase;
+    color: #b8a9c9;
+  }
+  .sql-formatter-copy-button {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 26px; height: 26px; padding: 0; border: none; border-radius: 4px;
+    background: transparent; color: #b8a9c9; cursor: pointer; font-size: 12px;
+  }
+  .sql-formatter-copy-button:hover { background: rgba(255,255,255,.12); color: #fff; }
+  .sql-formatter-copy-button.copied { color: #7fd99a; }
+  .sql-formatter-copy-button.copy-failed { color: #e08a8a; }
+
+  .sql-formatter-editor-wrapper { position: relative; min-height: 220px; }
+  .sql-formatter-highlight, .sql-formatter-input {
+    position: absolute; inset: 0; margin: 0; padding: 16px;
+    border: none; background: transparent;
+    font-family: 'JetBrains Mono', 'Fira Code', monospace;
+    font-size: 13px; line-height: 1.65; white-space: pre-wrap; word-wrap: break-word;
+    overflow: auto;
+  }
+  .sql-formatter-highlight { pointer-events: none; color: #f8f8f2; }
+  .sql-formatter-input {
+    z-index: 1; width: 100%; height: 100%; resize: vertical;
+    color: transparent; caret-color: #f8f8f2; -webkit-text-fill-color: transparent;
+  }
+  .sql-formatter-input::selection { background: rgba(96,178,211,.35); }
+  .sql-formatter-input::placeholder { color: #75715e; -webkit-text-fill-color: #75715e; }
+
+  .sql-formatter-block-actions {
+    display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+    padding: 10px 16px; border-top: 1px solid rgba(255,255,255,.08);
+  }
+  .sql-formatter-block-actions button:disabled { opacity: .55; cursor: default; }
+  .sql-formatter-hint { font-size: .8rem; color: #b8a9c9; }
+  .sql-formatter-error { margin-top: 10px; color: #c9372c; font-size: .88rem; }
+  .sql-formatter-error:empty { display: none; }
+
+  .tok-keyword { color: #66d9ef; }
+  .tok-string  { color: #e6db74; }
+  .tok-comment { color: #75715e; font-style: italic; }
+  .tok-number  { color: #ae81ff; }
+
+  @media (max-width: 760px) {
+    .sql-formatter-layout { flex-direction: column; gap: 20px; }
+    .sql-formatter-intro { order: 2; flex-basis: auto; }
+    .sql-formatter-panel { order: 1; width: 100%; }
+  }
+</style>
+
+<div class="sql-formatter">
+  <div class="sql-formatter-layout">
+    <div class="sql-formatter-intro">
+      <p>Paste any PostgreSQL query — it comes back in the same hand-formatted "river" style used throughout <em>The Art of PostgreSQL</em>, powered by the open-source <code>sqlfmt</code> engine.</p>
+    </div>
+    <div class="sql-formatter-panel">
+      <div class="sql-formatter-block">
+        <div class="sql-formatter-block-header">
+          <span class="sql-formatter-block-label">SQL</span>
+          <button type="button" class="sql-formatter-copy-button" aria-label="Copy query" title="Copy query"><i class="fa-solid fa-copy"></i></button>
+        </div>
+        <div class="sql-formatter-editor-wrapper">
+          <pre class="sql-formatter-highlight"><code></code></pre>
+          <textarea class="sql-formatter-input" id="sql-formatter-input" spellcheck="false" placeholder="select a.foo, b.bar from a join b on a.id = b.a_id where a.x > 1 and b.y < 2 order by a.foo;"></textarea>
+        </div>
+        <div class="sql-formatter-block-actions">
+          <button type="button" class="button button_purple sql-formatter-run" disabled>Loading formatter&hellip;</button>
+          <span class="sql-formatter-hint">or press &#8984;/Ctrl + Enter</span>
+        </div>
+      </div>
+      <div class="sql-formatter-error"></div>
+    </div>
+  </div>
+</div>
+<script src="/wasm/sqlfmt/wasm_exec.js"></script>
+<script src="/js/sql-formatter.js"></script>
