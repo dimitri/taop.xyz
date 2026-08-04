@@ -125,18 +125,20 @@
   .explain-diagram-fullscreen-hint {
     color: rgba(255,255,255,.6); font: 300 12.5px 'Lato', sans-serif; padding: 14px 0 20px 0; margin: 0;
   }
-  .pglite-results-scroll { overflow-x: auto; margin: 0 16px 16px; border-radius: 6px; }
-  .pglite-table { width: 100%; border-collapse: collapse; font-size: .82rem; background: #fff; }
+  .pglite-results-scroll {
+    background: #fff; border-radius: 6px; padding: 12px;
+    overflow-x: auto; margin: 0 16px 16px;
+  }
+  .pglite-table { width: 100%; border-collapse: collapse; font-size: .82rem; }
+  .pglite-table th, .pglite-table td { border: 1px solid #ede8f5; padding: 6px 16px; text-align: left; }
   .pglite-table th {
-    background: #2e2241; color: #c8aef5; padding: 7px 16px; text-align: left;
+    background: #2e2241; color: #c8aef5;
     font-weight: 700; white-space: nowrap; font-size: .76rem; letter-spacing: .03em;
   }
   .pglite-table td {
-    padding: 6px 16px; border-bottom: 1px solid #ede8f5; color: #2e2241;
-    vertical-align: top; max-width: 320px; overflow: hidden;
-    text-overflow: ellipsis; white-space: nowrap;
+    color: #2e2241; vertical-align: top; max-width: 320px;
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
   }
-  .pglite-table tr:last-child td { border-bottom: none; }
   .pglite-table tr:nth-child(even) td { background: #faf8fd; }
   .pglite-null { color: #9e8fb0; font-style: italic; }
   .pglite-msg { margin: 0 16px 16px; padding: 10px 14px; border-radius: 6px; font-size: .85rem; }
