@@ -36,7 +36,7 @@ This builds a new relation composing `ALBUM`, `ARTIST`, and `TRACK` into rich
 objects. From that collection we want the duration of each album, and we have the
 duration of each track — so we want a `SUM` of track durations, *per album*:
 
-```sql
+```
 ┌───────────────────────┬──────────────────────────────┐
 │         album         │           duration           │
 ├───────────────────────┼──────────────────────────────┤

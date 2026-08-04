@@ -54,7 +54,7 @@ for each album, add the information from the matching artist.
 Next, the `LEFT JOIN` composes that with the `TRACK` collection, producing
 objects that carry the properties of `ALBUM`, `ARTIST`, *and* `TRACK`.
 
-```sql
+```
 ┌───────────────────────┬──────────────────────────────┐
 │         album         │           duration           │
 ├───────────────────────┼──────────────────────────────┤
