@@ -1,10 +1,109 @@
+<style>
+  .course_early_access { background: #f8f7f9; padding: 64px 0; }
+  .course_early_access .early_access_box {
+    max-width: 780px;
+    margin: 0 auto;
+    background: #fff;
+    border: 1px solid #e4dced;
+    border-radius: 16px;
+    padding: 48px 48px 40px;
+    box-shadow: 0 4px 28px rgba(55,38,73,0.07);
+    text-align: center;
+  }
+  .course_early_access h3 {
+    color: #372649;
+    font-size: 1.5rem;
+    font-family: Bookman, serif;
+    font-weight: 400;
+    margin: 0 0 36px;
+    line-height: 1.3;
+  }
+  .early_cols {
+    display: flex;
+    align-items: stretch;
+    margin-bottom: 28px;
+    text-align: left;
+  }
+  .early_col { flex: 1; padding: 0 32px; }
+  .early_col:first-child { padding-left: 0; }
+  .early_col:last-child  { padding-right: 0; }
+  .early_col_divider { width: 1px; background: #e4dced; flex-shrink: 0; }
+  .early_col h4 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    font-variant: small-caps;
+    letter-spacing: .04em;
+    text-align: center;
+    margin: 0 0 14px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #e4dced;
+    color: #372649;
+  }
+  .early_col_course h4 { color: #1d7ea8; border-bottom-color: #1d7ea8; }
+  .early_col ul { list-style: none; padding: 0; margin: 0; }
+  .early_col ul li {
+    padding: 7px 0 7px 20px;
+    position: relative;
+    font-size: .88rem;
+    color: #67527a;
+    line-height: 1.5;
+  }
+  .early_col_book  ul li::before { content: "→"; position: absolute; left: 0; color: #c9bedd; }
+  .early_col_course ul li::before { content: "✓"; position: absolute; left: 0; color: #60b2d3; font-weight: 700; }
+  .early_example {
+    background: #f0f7ff;
+    border-left: 3px solid #60b2d3;
+    border-radius: 0 6px 6px 0;
+    padding: 13px 18px;
+    font-size: .86rem;
+    color: #2e4a65;
+    line-height: 1.6;
+    text-align: left;
+    margin-bottom: 32px;
+  }
+  .early_example strong { color: #1c3a55; }
+  @media (max-width: 620px) {
+    .early_access_box { padding: 32px 20px 28px; }
+    .early_cols { flex-direction: column; gap: 24px; }
+    .early_col { padding: 0; }
+    .early_col_divider { display: none; }
+  }
+</style>
+
 <div class="course_early_access">
   <div class="wrapper">
     <div class="early_access_box">
-      <h3>Start learning today</h3>
-      <p>Three tiers — Core, Advanced, Architect — each building on the previous one.</p>
-      <a href="https://sales.theartofpostgresql.com/the-art-of-postgresql-courses/"
-         class="button button_purple">Join the Course</a>
+
+      <h3>The book teaches what.<br>The course teaches how.</h3>
+
+      <div class="early_cols">
+        <div class="early_col early_col_book">
+          <h4><i class="fa-solid fa-book-open" style="margin-right:6px;"></i>The Book</h4>
+          <ul>
+            <li>Explains every concept in depth, with the why behind it</li>
+            <li>590 pages of reference you'll return to for years</li>
+            <li>Best when you already know what to look for</li>
+          </ul>
+        </div>
+        <div class="early_col_divider"></div>
+        <div class="early_col early_col_course">
+          <h4><i class="fa-solid fa-graduation-cap" style="margin-right:6px;"></i>The Course</h4>
+          <ul>
+            <li>Pragmatic deep dive into one concept per course — from foundations to daily practice</li>
+            <li>Exercises on real datasets that build muscle memory, not just understanding</li>
+            <li>Structured to take you from <em>I know about this</em> to <em>I reach for it without thinking</em></li>
+          </ul>
+        </div>
+      </div>
+
+      <p class="early_example">
+        <strong>Example:</strong> the book has a full chapter on window functions — what they are, how the frame works, when to use them.
+        The <em>Master Window Functions</em> course takes that same ground and builds it into guided exercises on NYSE trading volume,
+        music charts, and sports data, until <code>OVER (PARTITION BY … ORDER BY …)</code> feels as natural as a GROUP BY.
+      </p>
+
+      <a href="#curriculum" class="button button_purple button_large">See All Six Courses</a>
+
     </div>
   </div>
 </div>
