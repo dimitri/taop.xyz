@@ -129,16 +129,23 @@
     background: #fff; border-radius: 6px; padding: 12px;
     overflow-x: auto; margin: 0 16px 16px;
   }
-  /* Two classes (0,2,0) to beat the sitewide .lesson_content table rule
-     (0,1,1 — class + element), which otherwise wins on specificity and
-     overrides width:100% with its own width:auto for prose tables. */
+  /* All of these are qualified with the .pglite-results-scroll ancestor
+     (two classes, specificity 0,2,x) to beat the sitewide prose-table
+     rules for markdown content tables (static/css/yesql.css's
+     .lesson_content table/.lesson_content thead th/.lesson_content
+     tbody td — one class + one-or-two elements, 0,1,1 / 0,1,2) that
+     these th/td otherwise inherit, being inside .lesson_content same as
+     any other table: width:auto instead of 100%, asymmetric
+     padding/border-bottom-only/uppercase/muted-gray text meant for a
+     light-background reading table, not this dark result block. */
   .pglite-results-scroll .pglite-table { width: 100%; border-collapse: collapse; font-size: .82rem; }
-  .pglite-table th, .pglite-table td { border: 1px solid #ede8f5; padding: 6px 16px; text-align: left; }
-  .pglite-table th {
+  .pglite-results-scroll .pglite-table thead th,
+  .pglite-results-scroll .pglite-table tbody td { border: 1px solid #ede8f5; padding: 6px 16px; text-align: left; }
+  .pglite-results-scroll .pglite-table th {
     background: #2e2241; color: #c8aef5;
-    font-weight: 700; white-space: nowrap; font-size: .76rem; letter-spacing: .03em;
+    font-weight: 700; white-space: nowrap; font-size: .76rem; letter-spacing: .03em; text-transform: none;
   }
-  .pglite-table td {
+  .pglite-results-scroll .pglite-table td {
     color: #2e2241; vertical-align: top; max-width: 320px;
     overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
   }
