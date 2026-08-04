@@ -285,9 +285,19 @@
       const { PGlite } = await import('https://cdn.jsdelivr.net/npm/@electric-sql/pglite/dist/index.js');
       _db = new PGlite('idb://taop-' + ds);
       await _db.waitReady;
+      // The dump loads tables into a schema named after the dataset (so
+      // several datasets can coexist in one PGlite build without name
+      // clashes), but every book/course query is written unqualified
+      // (`from results`, not `from f1db.results`). PGlite doesn't honor
+      // ALTER DATABASE ... SET search_path on reconnect (verified: it
+      // writes to pg_db_role_setting fine, but a fresh connection to the
+      // same persisted store still boots with search_path=public) — so
+      // this has to be a plain SET, reissued on every connection, not
+      // baked into the dump once at seed time.
+      await _db.exec('SET search_path TO ' + ds + ', public;');
 
       const check = await _db.query(
-        "SELECT count(*) AS n FROM information_schema.tables WHERE table_schema='public'"
+        "SELECT count(*) AS n FROM information_schema.tables WHERE table_schema='" + ds + "'"
       );
       const tableCount = parseInt(check.rows[0].n, 10);
 
@@ -296,6 +306,12 @@
         if (!resp.ok) throw new Error('HTTP ' + resp.status + ' fetching ' + datasetUrl);
         const sql = await decompress(resp);
         await _db.exec(sql);
+        // pg_dump's own boilerplate (`SELECT pg_catalog.set_config('search_path',
+        // '', false);`) resets search_path to empty as part of the dump
+        // itself — wiping out the SET above for the rest of *this* session.
+        // Reissue it once seeding is done; the reconnect path above never
+        // hits this branch, so its earlier SET is untouched there.
+        await _db.exec('SET search_path TO ' + ds + ', public;');
       }
 
       state = 'ready';

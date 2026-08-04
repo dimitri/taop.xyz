@@ -39,8 +39,8 @@ Here's an example, taken from the book:
   select album.title as album,
          sum(milliseconds) * interval '1 ms' as duration
     from album
-         join artist using(artistid)
-         left join track using(albumid)
+         join artist using(artist_id)
+         left join track using(album_id)
    where artist.name = 'Red Hot Chili Peppers'
 group by album
 order by album;
@@ -48,7 +48,7 @@ order by album;
 
 In this query we build a new relation composing objects from `ALBUM` with
 objects from `ARTIST`: the result has the properties of both, enriching each
-album with the artist sharing the same `artistid`. That `JOIN` is all it means:
+album with the artist sharing the same `artist_id`. That `JOIN` is all it means:
 for each album, add the information from the matching artist.
 
 Next, the `LEFT JOIN` composes that with the `TRACK` collection, producing
