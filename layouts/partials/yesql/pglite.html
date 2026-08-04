@@ -5,355 +5,311 @@
 {{ if and (not $url) (or (eq $ds "chinook") (in $ds "chinook")) }}{{ $url = $.Site.Params.pglite_chinook_url | default "/data/pglite/chinook.sql.gz" }}{{ end }}
 {{ if $url }}
 <style>
-  @media (max-width: 1023px) { .pglite-zone { display: none !important; } }
-
-  .pglite-zone {
-    margin: 28px 0 8px;
-    border: 1.5px solid #d1c9e0;
-    border-radius: 8px;
-    overflow: hidden;
-    font-family: 'Lato', sans-serif;
+  /* ─── Runnable SQL blocks: same shape as app.taop.xyz's .code-block —
+       header (label + PGlite load/status control + copy button), the
+       existing Chroma-highlighted <pre> untouched, an actions row
+       (Run + status), results below. Reuses that property's visual
+       language (same class names, same values) rather than inventing a
+       parallel style — see public/js/sample-interactive.js +
+       public/css/app.css there. The "load the dataset" control lives in
+       every block's own header (not a separate strip elsewhere on the
+       page) precisely so it's impossible to miss right where a reader is
+       about to hit Run — one shared PGlite connection underneath, so
+       loading it once from any header lights every block up together. ── */
+  .pglite-code-block { margin: 20px 0; border-radius: 8px; overflow: hidden; }
+  .pglite-code-block .code-block-header {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 12px; padding: 8px 16px;
+    background: #002b36; border-bottom: 1px solid rgba(255,255,255,.08);
   }
-  .pglite-bar {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 10px 16px;
-    background: #f3effe;
-    border-bottom: 1.5px solid #d1c9e0;
-  }
-  .pglite-bar-label {
-    font-size: .8rem;
-    font-weight: 700;
-    color: #2e2241;
-    letter-spacing: .04em;
-    text-transform: uppercase;
-    flex: 1;
-  }
-  .pglite-bar-label code {
-    font-weight: 400;
-    background: rgba(124,85,180,.12);
-    padding: 1px 6px;
-    border-radius: 3px;
-    font-size: .78rem;
-    color: #5d3d8c;
-    text-transform: none;
-    letter-spacing: 0;
-  }
-  .pglite-status-dot {
-    width: 8px; height: 8px;
-    border-radius: 50%;
-    background: #d1c9e0;
+  .code-block-label-group { display: flex; align-items: center; gap: 12px; min-width: 0; }
+  .code-block-label {
+    font-family: 'Lato', sans-serif; font-size: 11px; font-weight: 700;
+    letter-spacing: 1px; text-transform: uppercase; color: #93a1a1;
     flex-shrink: 0;
-    transition: background .3s;
+  }
+  .pglite-inline { display: flex; align-items: center; gap: 6px; font: 12px 'Lato', sans-serif; min-width: 0; }
+  .pglite-status-dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: #567478; flex-shrink: 0; transition: background .3s;
   }
   .pglite-status-dot.ready { background: #22a06b; }
   .pglite-status-dot.loading { background: #e8a000; animation: pglite-pulse 1s infinite; }
   .pglite-status-dot.error { background: #c9372c; }
   @keyframes pglite-pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
-
-  .pglite-status-text { font-size: .78rem; color: #6b6480; }
-  .pglite-load-btn {
-    padding: 5px 14px;
-    background: #7c55b4;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    font-size: .8rem;
-    font-weight: 700;
-    cursor: pointer;
+  .pglite-inline-label { color: #93a1a1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .pglite-inline code {
+    background: rgba(255,255,255,.08); padding: 0 4px; border-radius: 3px;
+    font-size: .95em; color: #cdd6f4;
+  }
+  .pglite-load-link {
+    background: none; border: none; padding: 0; margin: 0;
+    color: #7fd4e8; font: inherit; font-weight: 700; text-decoration: underline;
+    cursor: pointer; white-space: nowrap;
+  }
+  .pglite-load-link:hover { color: #a6e6f2; }
+  .pglite-load-link:disabled { color: #567478; text-decoration: none; cursor: default; }
+  .code-copy-button {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 24px; height: 24px; padding: 0; border: none; border-radius: 4px;
+    background: transparent; color: #93a1a1; cursor: pointer; font-size: 12px;
+    flex-shrink: 0;
+  }
+  .code-copy-button:hover { background: rgba(255,255,255,.12); color: #fff; }
+  .code-copy-button.copied { color: #7fd99a; }
+  .code-copy-button.copy-failed { color: #e08a8a; }
+  /* Chroma already renders the <pre>/<code> — just seat it flush inside
+     the wrapper instead of the block-level margin Chroma ships with. */
+  .pglite-code-block .highlight { margin: 0; }
+  .pglite-code-block .highlight pre { margin: 0; border-radius: 0; }
+  .code-block-actions {
+    display: flex; align-items: center; gap: 10px; padding: 10px 16px;
+    background: #002b36; border-top: 1px solid rgba(255,255,255,.08);
+  }
+  .code-block-run {
+    padding: 6px 16px; background: #22a06b; color: #fff; border: none;
+    border-radius: 5px; font: 700 12px 'Lato', sans-serif; cursor: pointer;
     transition: background .15s;
   }
-  .pglite-load-btn:hover { background: #5d3d8c; }
-  .pglite-load-btn:disabled { background: #b0a0c8; cursor: default; }
+  .code-block-run:hover:not(:disabled) { background: #1a7d54; }
+  .code-block-run:disabled { background: #2f4a4d; color: #6b8386; cursor: default; }
+  .code-block-status { font: 12px 'Lato', sans-serif; color: #93a1a1; }
 
-  .pglite-editor {
-    background: #1e1e2e;
-    padding: 14px 16px 10px;
-  }
-  .pglite-editor-label {
-    font-size: .72rem;
-    color: #6b6480;
-    letter-spacing: .06em;
-    text-transform: uppercase;
-    margin-bottom: 6px;
-  }
-  .pglite-textarea {
-    width: 100%;
-    min-height: 80px;
-    background: #13131f;
-    color: #cdd6f4;
-    border: 1px solid #313244;
-    border-radius: 5px;
-    padding: 10px 12px;
-    font: 13px/1.5 'Menlo', 'Monaco', 'Consolas', monospace;
-    resize: vertical;
-    box-sizing: border-box;
-    outline: none;
-  }
-  .pglite-textarea:focus { border-color: #7c55b4; }
-  .pglite-run-row {
-    display: flex;
-    gap: 8px;
-    margin-top: 8px;
-    align-items: center;
-  }
-  .pglite-run-btn {
-    padding: 6px 18px;
-    background: #22a06b;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    font-size: .82rem;
-    font-weight: 700;
-    cursor: pointer;
-    transition: background .15s;
-  }
-  .pglite-run-btn:hover { background: #1a7d54; }
-  .pglite-run-btn:disabled { background: #6b9e87; cursor: default; }
-  .pglite-clear-btn {
-    padding: 6px 14px;
-    background: transparent;
-    color: #6b6480;
-    border: 1px solid #313244;
-    border-radius: 5px;
-    font-size: .82rem;
-    cursor: pointer;
-  }
-  .pglite-clear-btn:hover { color: #fff; border-color: #6b6480; }
-  .pglite-query-time { font-size: .75rem; color: #6b6480; margin-left: auto; }
-
-  .pglite-results { border-top: 1.5px solid #d1c9e0; }
-  .pglite-results-scroll { overflow-x: auto; }
-  .pglite-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: .82rem;
-  }
+  .pglite-results { border-top: 1px solid rgba(255,255,255,.08); background: #002b36; }
+  .pglite-results:empty { display: none; }
+  .pglite-results-scroll { overflow-x: auto; margin: 0 16px 16px; border-radius: 6px; }
+  .pglite-table { width: 100%; border-collapse: collapse; font-size: .82rem; background: #fff; }
   .pglite-table th {
-    background: #2e2241;
-    color: #c8aef5;
-    padding: 7px 12px;
-    text-align: left;
-    font-weight: 700;
-    white-space: nowrap;
-    font-size: .76rem;
-    letter-spacing: .03em;
+    background: #2e2241; color: #c8aef5; padding: 7px 12px; text-align: left;
+    font-weight: 700; white-space: nowrap; font-size: .76rem; letter-spacing: .03em;
   }
   .pglite-table td {
-    padding: 6px 12px;
-    border-bottom: 1px solid #ede8f5;
-    color: #2e2241;
-    vertical-align: top;
-    max-width: 320px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    padding: 6px 12px; border-bottom: 1px solid #ede8f5; color: #2e2241;
+    vertical-align: top; max-width: 320px; overflow: hidden;
+    text-overflow: ellipsis; white-space: nowrap;
   }
   .pglite-table tr:last-child td { border-bottom: none; }
   .pglite-table tr:nth-child(even) td { background: #faf8fd; }
   .pglite-null { color: #9e8fb0; font-style: italic; }
-  .pglite-msg { padding: 12px 16px; font-size: .85rem; }
-  .pglite-msg.error { color: #c9372c; background: #fff5f4; }
-  .pglite-msg.ok { color: #22a06b; }
-  .pglite-row-count { padding: 6px 12px; font-size: .75rem; color: #9e8fb0; border-top: 1px solid #ede8f5; }
-
-  /* Run buttons on existing code blocks */
-  .pglite-block-btn {
-    display: none;
-    margin-top: -4px;
-    margin-bottom: 14px;
-    padding: 4px 14px;
-    background: transparent;
-    color: #7c55b4;
-    border: 1px solid #c4b2e0;
-    border-top: none;
-    border-radius: 0 0 5px 5px;
-    font-size: .78rem;
-    font-weight: 700;
-    cursor: pointer;
-    transition: background .12s, color .12s;
-    width: 100%;
-    text-align: left;
-  }
-  .pglite-block-btn:hover { background: #f3effe; color: #5d3d8c; }
-  .pglite-ready .pglite-block-btn { display: block; }
+  .pglite-msg { margin: 0 16px 16px; padding: 10px 14px; border-radius: 6px; font-size: .85rem; }
+  .pglite-msg.error { color: #a4454f; background: #fff; font-family: 'JetBrains Mono', monospace; font-size: .8rem; }
+  .pglite-msg.ok { color: #22a06b; background: #fff; }
+  .pglite-row-count { padding: 6px 16px 14px; font-size: .75rem; color: #6b8386; }
 </style>
 
-<div class="pglite-zone" id="pglite-zone-{{ .File.ContentBaseName }}"
-     data-ds="{{ $ds }}" data-url="{{ $url }}">
-  <div class="pglite-bar">
-    <span class="pglite-status-dot" id="pglite-dot"></span>
-    <span class="pglite-bar-label">SQL Runner &middot; <code>{{ $ds }}</code></span>
-    <span class="pglite-status-text" id="pglite-status-text">Not loaded</span>
-    <button class="pglite-load-btn" id="pglite-load-btn" onclick="taopPGliteInit(this)">Load dataset</button>
-  </div>
-
-  <div class="pglite-editor">
-    <div class="pglite-editor-label">Query editor</div>
-    <textarea class="pglite-textarea" id="pglite-sql" placeholder="Load the dataset, then type any SQL here…" spellcheck="false"></textarea>
-    <div class="pglite-run-row">
-      <button class="pglite-run-btn" id="pglite-run-btn" disabled onclick="taopPGliteRun()">&#9654; Run</button>
-      <button class="pglite-clear-btn" onclick="document.getElementById('pglite-sql').value='';document.getElementById('pglite-results').innerHTML=''">Clear</button>
-      <span class="pglite-query-time" id="pglite-time"></span>
-    </div>
-  </div>
-
-  <div class="pglite-results" id="pglite-results"></div>
-</div>
-
 <script type="module">
-let _db = null;
+(function () {
+  const ds = {{ $ds }};
+  const datasetUrl = {{ $url }};
+  let _db = null;
+  let state = 'idle'; // idle | loading | ready | error
+  let errorText = '';
 
-async function decompress(response) {
-  if (typeof DecompressionStream !== 'undefined') {
-    const ds = new DecompressionStream('gzip');
-    const stream = response.body.pipeThrough(ds);
-    const reader = stream.getReader();
-    const chunks = [];
-    while (true) {
-      const { done, value } = await reader.read();
-      if (done) break;
-      chunks.push(value);
-    }
-    const total = chunks.reduce((n, c) => n + c.length, 0);
-    const buf = new Uint8Array(total);
-    let off = 0;
-    for (const c of chunks) { buf.set(c, off); off += c.length; }
-    return new TextDecoder().decode(buf);
-  }
-  // Fallback: assume uncompressed
-  return response.text();
-}
-
-function setStatus(state, text) {
-  const dot = document.getElementById('pglite-dot');
-  const msg = document.getElementById('pglite-status-text');
-  if (dot) { dot.className = 'pglite-status-dot ' + state; }
-  if (msg) msg.textContent = text;
-}
-
-function renderResults(result) {
-  const el = document.getElementById('pglite-results');
-  if (!el) return;
-  if (!result || !result.rows || result.rows.length === 0) {
-    el.innerHTML = '<div class="pglite-msg ok">Query OK — ' + (result?.affectedRows || 0) + ' row(s) affected.</div>';
-    return;
-  }
-  const fields = result.fields || Object.keys(result.rows[0]).map(n => ({ name: n }));
-  let h = '<div class="pglite-results-scroll"><table class="pglite-table"><thead><tr>';
-  for (const f of fields) h += '<th>' + escHtml(f.name) + '</th>';
-  h += '</tr></thead><tbody>';
-  for (const row of result.rows) {
-    h += '<tr>';
-    for (const f of fields) {
-      const v = row[f.name];
-      h += v == null
-        ? '<td><span class="pglite-null">NULL</span></td>'
-        : '<td>' + escHtml(String(v)) + '</td>';
-    }
-    h += '</tr>';
-  }
-  h += '</tbody></table></div>';
-  h += '<div class="pglite-row-count">' + result.rows.length + ' row' + (result.rows.length !== 1 ? 's' : '') + '</div>';
-  el.innerHTML = h;
-}
-
-function renderError(msg) {
-  const el = document.getElementById('pglite-results');
-  if (el) el.innerHTML = '<div class="pglite-msg error"><strong>Error:</strong> ' + escHtml(msg) + '</div>';
-}
-
-function escHtml(s) {
-  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
-
-function addBlockButtons() {
-  document.querySelectorAll('.lesson_content pre').forEach(pre => {
-    const code = pre.querySelector('code.language-sql');
-    if (!code) return;
-    const btn = document.createElement('button');
-    btn.className = 'pglite-block-btn';
-    btn.textContent = '▶  Load into editor';
-    btn.addEventListener('click', () => {
-      const editor = document.getElementById('pglite-sql');
-      if (editor) {
-        editor.value = code.textContent.trim();
-        editor.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  async function decompress(response) {
+    if (typeof DecompressionStream !== 'undefined') {
+      const dstream = new DecompressionStream('gzip');
+      const stream = response.body.pipeThrough(dstream);
+      const reader = stream.getReader();
+      const chunks = [];
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        chunks.push(value);
       }
-    });
-    pre.insertAdjacentElement('afterend', btn);
-  });
-  document.getElementById('pglite-zone-{{ .File.ContentBaseName }}')?.classList.add('pglite-ready');
-}
-
-window.taopPGliteInit = async function(btn) {
-  const zone = document.getElementById('pglite-zone-{{ .File.ContentBaseName }}');
-  const datasetUrl = zone?.dataset.url;
-  if (!datasetUrl) return;
-
-  btn.disabled = true;
-  setStatus('loading', 'Loading PGlite…');
-
-  try {
-    const { PGlite } = await import('https://cdn.jsdelivr.net/npm/@electric-sql/pglite/dist/index.js');
-    setStatus('loading', 'Starting PostgreSQL…');
-    _db = new PGlite('idb://taop-{{ $ds }}');
-    await _db.waitReady;
-
-    // Check if already seeded
-    const check = await _db.query(
-      "SELECT count(*) AS n FROM information_schema.tables WHERE table_schema='public'"
-    );
-    const tableCount = parseInt(check.rows[0].n, 10);
-
-    if (tableCount === 0) {
-      setStatus('loading', 'Fetching dataset…');
-      const resp = await fetch(datasetUrl);
-      if (!resp.ok) throw new Error('HTTP ' + resp.status + ' fetching ' + datasetUrl);
-      setStatus('loading', 'Seeding database…');
-      const sql = await decompress(resp);
-      await _db.exec(sql);
+      const total = chunks.reduce((n, c) => n + c.length, 0);
+      const buf = new Uint8Array(total);
+      let off = 0;
+      for (const c of chunks) { buf.set(c, off); off += c.length; }
+      return new TextDecoder().decode(buf);
     }
-
-    setStatus('ready', 'Ready');
-    btn.style.display = 'none';
-    document.getElementById('pglite-run-btn').disabled = false;
-    addBlockButtons();
-  } catch (err) {
-    setStatus('error', 'Error');
-    renderError(err.message);
-    btn.disabled = false;
+    return response.text(); // fallback: assume uncompressed
   }
-};
 
-window.taopPGliteRun = async function() {
-  if (!_db) return;
-  const sql = document.getElementById('pglite-sql').value.trim();
-  if (!sql) return;
-  const timeEl = document.getElementById('pglite-time');
-  const runBtn = document.getElementById('pglite-run-btn');
-  runBtn.disabled = true;
-  const t0 = performance.now();
-  try {
-    const result = await _db.query(sql);
-    const ms = Math.round(performance.now() - t0);
-    if (timeEl) timeEl.textContent = ms + ' ms';
-    renderResults(result);
-  } catch (err) {
-    renderError(err.message);
-  } finally {
-    runBtn.disabled = false;
+  function escHtml(s) {
+    return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
   }
-};
 
-// Ctrl/Cmd+Enter to run
-document.getElementById('pglite-sql')?.addEventListener('keydown', e => {
-  if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
-    e.preventDefault();
-    window.taopPGliteRun();
+  // ── The inline PGlite status/load control that lives in every code
+  //    block's own header — regenerated for every block whenever `state`
+  //    changes, so all of them always agree (one shared connection). ────
+  function inlineStatusHTML() {
+    if (state === 'ready') {
+      return '<span class="pglite-status-dot ready"></span><span class="pglite-inline-label">PGlite ready</span>';
+    }
+    if (state === 'loading') {
+      return '<span class="pglite-status-dot loading"></span><span class="pglite-inline-label">Loading PGlite&hellip;</span>';
+    }
+    if (state === 'error') {
+      return '<span class="pglite-status-dot error"></span><span class="pglite-inline-label" title="' + escHtml(errorText) + '">PGlite failed to load</span>';
+    }
+    return '<span class="pglite-status-dot"></span>' +
+      '<button type="button" class="pglite-load-link">Load PGlite <code>' + escHtml(ds) + '</code> dataset</button>';
   }
-});
+
+  function renderAllInlineStatus() {
+    document.querySelectorAll('.pglite-inline').forEach((el) => {
+      el.innerHTML = inlineStatusHTML();
+      const link = el.querySelector('.pglite-load-link');
+      if (link) link.addEventListener('click', loadPGlite);
+    });
+    document.querySelectorAll('.code-block-run').forEach((b) => { b.disabled = state !== 'ready'; });
+  }
+
+  function renderResults(el, result) {
+    if (!result || !result.rows || result.rows.length === 0) {
+      el.innerHTML = '<div class="pglite-msg ok">Query OK — ' + (result?.affectedRows || 0) + ' row(s) affected.</div>';
+      return;
+    }
+    const fields = result.fields || Object.keys(result.rows[0]).map(n => ({ name: n }));
+    let h = '<div class="pglite-results-scroll"><table class="pglite-table"><thead><tr>';
+    for (const f of fields) h += '<th>' + escHtml(f.name) + '</th>';
+    h += '</tr></thead><tbody>';
+    for (const row of result.rows) {
+      h += '<tr>';
+      for (const f of fields) {
+        const v = row[f.name];
+        h += v == null ? '<td><span class="pglite-null">NULL</span></td>' : '<td>' + escHtml(String(v)) + '</td>';
+      }
+      h += '</tr>';
+    }
+    h += '</tbody></table></div>';
+    h += '<div class="pglite-row-count">' + result.rows.length + ' row' + (result.rows.length !== 1 ? 's' : '') + '</div>';
+    el.innerHTML = h;
+  }
+
+  function renderError(el, msg) {
+    el.innerHTML = '<div class="pglite-msg error">' + escHtml(msg) + '</div>';
+  }
+
+  // ── Copy-to-clipboard, ported from app.taop.xyz's sample-interactive.js
+  //    so the two properties share the exact same button/behavior. ──────
+  async function copyToClipboard(text, button) {
+    let ok = true;
+    try {
+      await navigator.clipboard.writeText(text);
+    } catch (err) {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+      document.body.removeChild(ta);
+    }
+    const original = button.innerHTML;
+    button.innerHTML = ok ? '<i class="fa-solid fa-check"></i>' : '<i class="fa-solid fa-xmark"></i>';
+    button.classList.add(ok ? 'copied' : 'copy-failed');
+    button.disabled = true;
+    setTimeout(() => {
+      button.innerHTML = original;
+      button.classList.remove('copied', 'copy-failed');
+      button.disabled = false;
+    }, 1200);
+  }
+
+  // ── Wrap every pre-existing SQL code block in the lesson with a header
+  //    (label + inline PGlite status/load control + copy button) and an
+  //    actions row (Run + status) — the Chroma-rendered <pre>/<code>
+  //    itself is left untouched, just seated inside the new wrapper, so
+  //    PGlite lives *in* the block readers already see. ─────────────────
+  function wrapCodeBlocks() {
+    document.querySelectorAll('.lesson_content .highlight').forEach((highlightDiv) => {
+      const code = highlightDiv.querySelector('code.language-sql');
+      if (!code || highlightDiv.closest('.pglite-code-block')) return;
+
+      const wrapper = document.createElement('div');
+      wrapper.className = 'pglite-code-block';
+      highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+
+      const header = document.createElement('div');
+      header.className = 'code-block-header';
+      header.innerHTML =
+        '<span class="code-block-label-group">' +
+          '<span class="code-block-label">SQL</span>' +
+          '<span class="pglite-inline"></span>' +
+        '</span>';
+      const copyBtn = document.createElement('button');
+      copyBtn.type = 'button';
+      copyBtn.className = 'code-copy-button';
+      copyBtn.setAttribute('aria-label', 'Copy query');
+      copyBtn.title = 'Copy query';
+      copyBtn.innerHTML = '<i class="fa-solid fa-copy"></i>';
+      copyBtn.addEventListener('click', () => copyToClipboard(code.textContent.trim(), copyBtn));
+      header.appendChild(copyBtn);
+      wrapper.appendChild(header);
+
+      wrapper.appendChild(highlightDiv);
+
+      const actions = document.createElement('div');
+      actions.className = 'code-block-actions';
+      const runBtn = document.createElement('button');
+      runBtn.type = 'button';
+      runBtn.className = 'code-block-run';
+      runBtn.disabled = true;
+      runBtn.textContent = '▶ Run';
+      const status = document.createElement('span');
+      status.className = 'code-block-status';
+      actions.appendChild(runBtn);
+      actions.appendChild(status);
+      wrapper.appendChild(actions);
+
+      const results = document.createElement('div');
+      results.className = 'pglite-results';
+      wrapper.appendChild(results);
+
+      runBtn.addEventListener('click', async () => {
+        if (!_db) return;
+        runBtn.disabled = true;
+        status.textContent = 'Running…';
+        const t0 = performance.now();
+        try {
+          const result = await _db.query(code.textContent.trim());
+          status.textContent = Math.round(performance.now() - t0) + ' ms';
+          renderResults(results, result);
+        } catch (err) {
+          status.textContent = '';
+          renderError(results, err.message);
+        } finally {
+          runBtn.disabled = false;
+        }
+      });
+    });
+    renderAllInlineStatus();
+  }
+
+  async function loadPGlite() {
+    if (state === 'loading' || state === 'ready') return;
+    state = 'loading';
+    renderAllInlineStatus();
+
+    try {
+      const { PGlite } = await import('https://cdn.jsdelivr.net/npm/@electric-sql/pglite/dist/index.js');
+      _db = new PGlite('idb://taop-' + ds);
+      await _db.waitReady;
+
+      const check = await _db.query(
+        "SELECT count(*) AS n FROM information_schema.tables WHERE table_schema='public'"
+      );
+      const tableCount = parseInt(check.rows[0].n, 10);
+
+      if (tableCount === 0) {
+        const resp = await fetch(datasetUrl);
+        if (!resp.ok) throw new Error('HTTP ' + resp.status + ' fetching ' + datasetUrl);
+        const sql = await decompress(resp);
+        await _db.exec(sql);
+      }
+
+      state = 'ready';
+    } catch (err) {
+      state = 'error';
+      errorText = err.message;
+    }
+    renderAllInlineStatus();
+  }
+
+  wrapCodeBlocks();
+})();
 </script>
 {{ end }}
 {{ end }}
