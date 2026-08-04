@@ -4,7 +4,7 @@ weight = 40
 summary = "PostgreSQL's JSONB and array types let you store semi-structured data without leaving the relational model — and without sacrificing indexability or query power."
 tags = ["JSON", "JSONB", "array", "Data Types", "denormalization", "GIN"]
 book_chapter = "Chapter 24, Denormalized Data Types"
-lab_datasets = "chinook"
+lab_datasets = "magic"
 pglite = true
 +++
 

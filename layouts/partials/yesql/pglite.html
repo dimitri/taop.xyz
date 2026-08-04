@@ -3,6 +3,7 @@
 {{ $url := "" }}
 {{ if or (eq $ds "f1db") (in $ds "f1db") }}{{ $url = $.Site.Params.pglite_f1db_url | default "/data/pglite/f1db.sql.gz" }}{{ end }}
 {{ if and (not $url) (or (eq $ds "chinook") (in $ds "chinook")) }}{{ $url = $.Site.Params.pglite_chinook_url | default "/data/pglite/chinook.sql.gz" }}{{ end }}
+{{ if and (not $url) (or (eq $ds "magic") (in $ds "magic")) }}{{ $url = $.Site.Params.pglite_magic_url | default "/data/pglite/magic.sql.gz" }}{{ end }}
 {{ if $url }}
 <style>
   /* ─── Runnable SQL blocks: same shape as app.taop.xyz's .code-block —
