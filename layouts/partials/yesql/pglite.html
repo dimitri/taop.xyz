@@ -72,10 +72,59 @@
   }
   .code-block-run:hover:not(:disabled) { background: #1a7d54; }
   .code-block-run:disabled { background: #2f4a4d; color: #6b8386; cursor: default; }
+  .code-block-explain {
+    padding: 6px 16px; background: transparent; color: #93a1a1; border: 1px solid #567478;
+    border-radius: 5px; font: 700 12px 'Lato', sans-serif; cursor: pointer;
+    transition: background .15s, color .15s;
+  }
+  .code-block-explain:hover:not(:disabled) { background: rgba(255,255,255,.08); color: #fff; }
+  .code-block-explain:disabled { color: #4a5f62; border-color: #35494c; cursor: default; }
   .code-block-status { font: 12px 'Lato', sans-serif; color: #93a1a1; }
 
   .pglite-results { border-top: 1px solid rgba(255,255,255,.08); background: #002b36; }
   .pglite-results:empty { display: none; }
+
+  /* ─── EXPLAIN diagram — same markup/behavior as the standalone Query
+       Plan Visualizer (layouts/partials/explain-visualizer-widget.html,
+       static/js/explain-visualizer.js's exposed window.taopExplainVisualizer),
+       reused rather than reimplemented. ────────────────────────────── */
+  .explain-diagram { background: #fff; border-radius: 6px; margin: 0 16px 16px; padding: 14px; }
+  .explain-diagram-header {
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px;
+    padding: 0 0 10px 0; color: #896da1; font-family: 'Lato', sans-serif; font-size: 12px;
+  }
+  .explain-diagram-zoom-controls { display: flex; align-items: center; gap: 6px; }
+  .explain-diagram-zoom-controls button {
+    width: 24px; height: 24px; line-height: 1; border: 1px solid #e4dced; background: #f8f7f9;
+    color: #372649; border-radius: 4px; cursor: pointer; font-size: 14px; font-family: 'Lato', sans-serif;
+  }
+  .explain-diagram-zoom-controls button:hover { background: #f0edf5; border-color: #60b2d3; }
+  .explain-diagram-zoom-controls .explain-diagram-zoom-reset { width: auto; padding: 0 8px; font-size: 11px; }
+  .explain-diagram-zoom-hint { font-size: 11px; color: #b3a3cf; }
+  .explain-diagram-canvas {
+    height: 420px; overflow: hidden; position: relative; border: 1px solid #f0edf5; border-radius: 4px;
+    background: #fff; cursor: grab;
+  }
+  .explain-diagram-canvas.explain-diagram-dragging { cursor: grabbing; }
+  .explain-diagram-canvas svg { position: absolute; top: 0; left: 0; }
+
+  .explain-diagram-fullscreen-overlay {
+    display: none; position: fixed; inset: 0; z-index: 2000; background: rgba(20,14,26,.92);
+    flex-direction: column; align-items: center; justify-content: center;
+  }
+  .explain-diagram-fullscreen-overlay.explain-diagram-fullscreen-open { display: flex; }
+  .explain-diagram-fullscreen-stage {
+    width: 100%; flex: 1; display: flex; align-items: center; justify-content: center; overflow: hidden;
+  }
+  .explain-diagram-fullscreen-stage .explain-diagram-canvas { width: 92vw; height: 82vh; border: none; }
+  .explain-diagram-fullscreen-close {
+    position: absolute; top: 18px; right: 24px; width: 40px; height: 40px; border-radius: 50%;
+    border: none; background: rgba(255,255,255,.12); color: #fff; font-size: 24px; line-height: 1; cursor: pointer;
+  }
+  .explain-diagram-fullscreen-close:hover { background: rgba(255,255,255,.25); }
+  .explain-diagram-fullscreen-hint {
+    color: rgba(255,255,255,.6); font: 300 12.5px 'Lato', sans-serif; padding: 14px 0 20px 0; margin: 0;
+  }
   .pglite-results-scroll { overflow-x: auto; margin: 0 16px 16px; border-radius: 6px; }
   .pglite-table { width: 100%; border-collapse: collapse; font-size: .82rem; background: #fff; }
   .pglite-table th {
@@ -96,6 +145,7 @@
   .pglite-row-count { padding: 6px 16px 14px; font-size: .75rem; color: #6b8386; }
 </style>
 
+<script src="/js/explain-visualizer.js"></script>
 <script type="module">
 (function () {
   const ds = {{ $ds }};
@@ -151,7 +201,7 @@
       const link = el.querySelector('.pglite-load-link');
       if (link) link.addEventListener('click', loadPGlite);
     });
-    document.querySelectorAll('.code-block-run').forEach((b) => { b.disabled = state !== 'ready'; });
+    document.querySelectorAll('.code-block-run, .code-block-explain').forEach((b) => { b.disabled = state !== 'ready'; });
   }
 
   function renderResults(el, result) {
@@ -247,9 +297,15 @@
       runBtn.className = 'code-block-run';
       runBtn.disabled = true;
       runBtn.textContent = '▶ Run';
+      const explainBtn = document.createElement('button');
+      explainBtn.type = 'button';
+      explainBtn.className = 'code-block-explain';
+      explainBtn.disabled = true;
+      explainBtn.textContent = 'Explain';
       const status = document.createElement('span');
       status.className = 'code-block-status';
       actions.appendChild(runBtn);
+      actions.appendChild(explainBtn);
       actions.appendChild(status);
       wrapper.appendChild(actions);
 
@@ -271,6 +327,33 @@
           renderError(results, err.message);
         } finally {
           runBtn.disabled = false;
+        }
+      });
+
+      // ── Explain: same visual diagram as the standalone Query Plan
+      //    Visualizer (/postgresql-query-plan-visualizer/), reusing its
+      //    own parser/renderer via window.taopExplainVisualizer
+      //    (static/js/explain-visualizer.js) instead of a second
+      //    implementation. PGlite's EXPLAIN (ANALYZE, BUFFERS) returns
+      //    the same TEXT-format plan, one line per row under a single
+      //    "QUERY PLAN" column, that visualizer already parses. ────────
+      explainBtn.addEventListener('click', async () => {
+        if (!_db || !window.taopExplainVisualizer) return;
+        explainBtn.disabled = true;
+        status.textContent = 'Explaining…';
+        try {
+          const result = await _db.query('explain (analyze, buffers) ' + code.textContent.trim());
+          const planText = result.rows.map((row) => Object.values(row)[0]).join('\n');
+          status.textContent = '';
+          const { parseExplainText, renderDiagram, initDiagramZoom } = window.taopExplainVisualizer;
+          const plan = parseExplainText(planText);
+          results.innerHTML = renderDiagram(plan);
+          initDiagramZoom(results);
+        } catch (err) {
+          status.textContent = '';
+          renderError(results, err.message);
+        } finally {
+          explainBtn.disabled = false;
         }
       });
     });
