@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>PostgreSQL Query Plan Visualizer — The Art of PostgreSQL</title>
+  <link rel="canonical" href="{{ .Permalink }}">
+  <meta name="description" content="Paste the output of EXPLAIN or EXPLAIN ANALYZE and see your query plan as a diagram — free, in your browser, no signup.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:site" content="@tapoueh" />
+  <meta property="og:url" content="{{ .Permalink }}" />
+  <meta property="og:title" content="PostgreSQL Query Plan Visualizer" />
+  <meta property="og:description" content="Paste an EXPLAIN plan and see it visualized as a diagram — free, in your browser, no signup." />
+  <meta property="og:image" content="https://theartofpostgresql.com/images/hardcover-mockup.jpg" />
+  <link href="/favicon.ico" rel="icon" type="image/x-icon">
+  <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="/js/custom.js"></script>
+
+  <style>
+  body.explain-viz-page .header {
+    background: #2e2241 url('/images/demo/slide.jpg') center top no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+  }
+
+  .explain-viz-hero {
+    background: #2e2241 url('/images/demo/slide.jpg') center top no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    padding: 120px 24px 64px;
+    text-align: center;
+  }
+  .explain-viz-hero-eyebrow {
+    font: 700 .72rem/1 'Lato', sans-serif;
+    color: #60b2d3;
+    text-transform: uppercase;
+    letter-spacing: .12em;
+    margin: 0 0 16px;
+  }
+  .explain-viz-hero h1 {
+    font: 300 2.4rem/1.2 'Lato', sans-serif;
+    color: #fff;
+    max-width: 700px;
+    margin: 0 auto 14px;
+  }
+  .explain-viz-hero p {
+    font: 300 1.05rem/1.6 'Lato', sans-serif;
+    color: rgba(255,255,255,.75);
+    max-width: 560px;
+    margin: 0 auto;
+  }
+
+  .explain-viz-intro { background: #fff; padding: 56px 24px 8px; }
+  .explain-viz-intro .wrapper { max-width: 900px; }
+  .explain-viz-intro > .wrapper > p {
+    font-size: 1rem;
+    color: #67527a;
+    line-height: 1.7;
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto 40px;
+  }
+
+  .explain-viz-figure { text-align: center; margin: 0 0 8px; }
+  .explain-viz-figure img { max-width: 100%; height: auto; }
+  .explain-viz-figure figcaption {
+    font-size: .85rem;
+    color: #896da1;
+    margin-top: 10px;
+  }
+
+  .explain-viz-tool { background: #fff; padding: 40px 24px 88px; }
+  .explain-viz-tool .wrapper { max-width: 900px; }
+  </style>
+</head>
+<body class="page explain-viz-page">
+
+{{ partial "header.html" . }}
+
+<div class="explain-viz-hero">
+  <div class="explain-viz-hero-eyebrow">Free Tool</div>
+  <h1>PostgreSQL Query Plan Visualizer</h1>
+  <p>Paste an EXPLAIN plan below and see it as a diagram — free, in your browser, no signup.</p>
+</div>
+
+<div class="explain-viz-intro">
+  <div class="wrapper">
+    <p>
+      Every query passes through the parser, rewriter, and planner before
+      the executor runs the chosen plan — <code>EXPLAIN</code> shows you
+      that plan directly.
+    </p>
+    <figure class="explain-viz-figure">
+      <img src="/img/diagrams/fig-query-pipeline.svg" alt="Query execution pipeline: Parser, Rewriter, Planner (Optimizer), Executor">
+      <figcaption>The planner uses table statistics (<code>pg_stats</code>) to choose the plan EXPLAIN shows you.</figcaption>
+    </figure>
+  </div>
+</div>
+
+<div class="explain-viz-tool">
+  <div class="wrapper">
+    {{ partial "explain-visualizer-widget.html" . }}
+  </div>
+</div>
+
+{{ partial "footer.html" . }}
+</body>
+</html>
