@@ -2,25 +2,38 @@
 {{ partial "header.html" . }}
 
 <style>
-  .welcome-page {
-    padding: 110px 20px 72px;
+  /* ── Transparent nav on dark hero, same pattern as /login/ and /app/ ── */
+  body.welcome-page .header { background: transparent; border-bottom-color: transparent; transition: background .3s, border-color .3s; }
+  body.welcome-page .header.nav-solid { background: #372649; border-bottom-color: rgba(255,255,255,.3); }
+
+  /* ── Half hero (shorter than /login/'s — this page is a one-glance
+       confirmation, not a form) ────────────────────────────────────── */
+  .welcome-hero {
+    background: url('/images/demo/slide.jpg') center/cover no-repeat;
+    padding: 130px 24px 64px;
     text-align: center;
   }
-  .welcome-page .welcome-icon {
+  .welcome-hero .welcome-icon {
     font-size: 2.6rem;
-    color: #372649;
+    color: #fff;
     margin-bottom: 16px;
     display: block;
   }
-  .welcome-page h1 {
+  .welcome-hero h1 {
+    color: #fff;
     margin-bottom: 8px;
   }
   .welcome-lede {
     font-size: 1.15rem;
-    color: #67527a;
-    margin: 0 auto 48px;
+    color: rgba(255,255,255,.75);
+    margin: 0 auto;
     max-width: 480px;
     line-height: 1.6;
+  }
+
+  .welcome-page-body {
+    padding: 56px 20px 72px;
+    text-align: center;
   }
 
   /* Steps */
@@ -107,11 +120,13 @@
   }
 </style>
 
-<div class="welcome-page">
+<div class="welcome-hero">
   <i class="fa-solid fa-envelope-open-text welcome-icon"></i>
   <h1>Check your inbox</h1>
   <p class="welcome-lede">Your purchase is confirmed. We've sent a sign-in link to the email address you used at checkout — click it to access the book, courses, and all downloads (PDF, ePub, slides, SQL files).</p>
+</div>
 
+<div class="welcome-page-body">
   <div class="welcome-steps">
     <div class="welcome-step">
       <div class="welcome-step-num">1</div>
@@ -133,5 +148,19 @@
     Questions? Email <a href="mailto:dim@tapoueh.org">dim@tapoueh.org</a>.
   </p>
 </div>
+
+<script>
+(function() {
+  document.body.classList.add('welcome-page');
+
+  var $header = $('.header');
+  var hero = document.querySelector('.welcome-hero');
+  var threshold = hero ? hero.offsetHeight - 80 : window.innerHeight * 0.5;
+  $(window).on('scroll.welcomehero', function() {
+    if ($(this).scrollTop() > threshold) { $header.addClass('nav-solid'); }
+    else { $header.removeClass('nav-solid'); }
+  });
+})();
+</script>
 
 {{ partial "footer.html" . }}
