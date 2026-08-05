@@ -1,0 +1,250 @@
+{{ partial "head.html" . }}
+{{ partial "header.html" . }}
+
+<style>
+  /* ── Transparent nav on dark hero ───────────────────────── */
+  body.login-page .header { background: transparent; border-bottom-color: transparent; transition: background .3s, border-color .3s; }
+  body.login-page .header.nav-solid { background: #372649; border-bottom-color: rgba(255,255,255,.3); }
+
+  /* ── Hero ────────────────────────────────────────────────── */
+  .login-hero {
+    background: url('/images/demo/slide.jpg') center/cover no-repeat;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 120px 24px 80px;
+  }
+
+  .login-eyebrow {
+    font-size: .72rem;
+    font-weight: 700;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: #60b2d3;
+    margin: 0 0 18px;
+  }
+  .login-hero h1 {
+    font-family: Bookman, serif;
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 400;
+    color: #fff;
+    margin: 0 0 16px;
+    line-height: 1.1;
+  }
+  .login-tagline {
+    font-size: 1.05rem;
+    color: rgba(255,255,255,.6);
+    margin: 0 0 40px;
+    font-weight: 300;
+  }
+
+  /* ── Form ────────────────────────────────────────────────── */
+  .login-form-wrap { width: 100%; max-width: 480px; }
+  .login-email-label {
+    display: block;
+    font-size: .68rem;
+    font-weight: 700;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    color: #60b2d3;
+    margin-bottom: 10px;
+    text-align: left;
+  }
+  .login-form-wrap input[type="email"] {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    height: 52px;
+    padding: 0 16px;
+    font-size: 16px;
+    color: #2e2241;
+    background: #fff;
+    border: none;
+    border-radius: 8px;
+    margin-bottom: 14px;
+    outline: none;
+    transition: box-shadow .15s;
+  }
+  .login-form-wrap input[type="email"]::placeholder { color: #b0a4c0; text-transform: none; letter-spacing: 0; }
+  .login-form-wrap input[type="email"]:focus { box-shadow: 0 0 0 3px rgba(96,178,211,.4); }
+  .login-submit {
+    display: block;
+    width: 100%;
+    height: 52px;
+    background: #372649;
+    color: #fff;
+    border: none;
+    border-radius: 50px;
+    font-size: .78rem;
+    font-weight: 700;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background .15s;
+  }
+  .login-submit:hover:not(:disabled) { background: #4a3666; }
+  .login-submit:disabled { opacity: .6; cursor: default; }
+
+  /* ── Below-fold explanation ──────────────────────────────── */
+  .login-why {
+    background: #f8f7f9;
+    padding: 72px 24px 80px;
+    text-align: center;
+  }
+  .login-why-heading {
+    max-width: 640px;
+    margin: 0 auto 40px;
+    text-align: center;
+  }
+  .login-why h2 {
+    font-family: Bookman, serif;
+    font-size: 26px;
+    font-weight: 300;
+    color: #372649;
+    margin: 0 0 12px;
+  }
+  .login-why .login-why-sub {
+    font-size: 20px;
+    font-weight: 300;
+    color: #896da1;
+    margin: 0 0 12px;
+    text-align: center;
+  }
+  .login-why-heading p {
+    max-width: none;
+    margin: 0;
+    font-size: 15px;
+    line-height: 24px;
+    color: #67527a;
+    text-align: center;
+  }
+  .login-why-heading p a {
+    color: #372649;
+    font-weight: 700;
+    text-decoration: underline;
+  }
+  .login-why-heading p a:hover { color: #60b2d3; }
+  .login-samples {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+    max-width: 1140px;
+    margin: 0 auto;
+    text-align: left;
+  }
+  .login-sample-card {
+    background: #fff;
+    border: 1px solid #e5e3e7;
+    border-radius: 8px;
+    padding: 28px;
+    text-align: center;
+  }
+  .login-sample-card i {
+    font-size: 28px;
+    color: #60b2d3;
+    margin-bottom: 12px;
+    display: inline-block;
+  }
+  .login-sample-card h3 {
+    font-family: Bookman, serif;
+    font-size: 22px;
+    font-weight: 500;
+    color: #372649;
+    margin: 0 0 10px;
+  }
+  .login-sample-card p {
+    font-size: 16px;
+    font-weight: 400;
+    color: #67527a;
+    line-height: 1.5;
+    margin: 0 0 16px;
+  }
+  .login-sample-card .sample-free {
+    font-size: 14px;
+    color: #896da1;
+    line-height: 1.5;
+    margin: 0;
+  }
+  .login-sample-card .sample-detail {
+    font-size: 13px;
+    color: #896da1;
+    line-height: 1.5;
+    margin: 12px 0 0;
+    border-top: 1px solid #e5e3e7;
+    padding-top: 12px;
+  }
+</style>
+
+<div class="login-hero">
+  <p class="login-eyebrow">Member Access</p>
+  <h1>The Art of PostgreSQL</h1>
+  <p class="login-tagline">Log in or create your access.</p>
+
+  <div class="login-form-wrap">
+    <form method="get" action="{{ if hugo.IsServer }}http://api.taop.localhost:8081{{ else }}https://api.theartofpostgresql.com{{ end }}/login">
+      <label class="login-email-label" for="login-email">Email address</label>
+      <input type="email" id="login-email" name="email" required placeholder="you@example.com" autocomplete="email">
+      <button type="submit" class="login-submit">Send my sign-in link</button>
+    </form>
+  </div>
+</div>
+
+<div class="login-why">
+  <div class="login-why-heading">
+    <h2>Why we ask for your email</h2>
+    <p class="login-why-sub">No spam. No password. No card.</p>
+    <p>Your email unlocks <a href="/app/">the app itself</a> &mdash; the same reading and course platform paying members use, with your free sample already waiting inside. It&rsquo;s a one-time sign-in link, not a password: nothing to remember, nothing to leak, nothing we&rsquo;ll ever sell or spam. The sample stays free for as long as you want it, no card required.</p>
+  </div>
+
+  <div class="login-samples">
+    <div class="login-sample-card">
+      <i class="fa-solid fa-book-open"></i>
+      <h3>The Book</h3>
+      <p>590 pages, 53 chapters &mdash; a spiral path through PostgreSQL, from your first query to vector search and custom extensions.</p>
+      <p class="sample-free"><strong>Free sample:</strong> the Preface plus hand-picked chapters across every part.</p>
+      <p class="sample-detail">Same reading experience as the full book &mdash; same layout, same runnable query blocks &mdash; just a limited set of chapters unlocked. You get the full Preface and the complete table of contents, so you can see exactly what the book covers before deciding: a definitive preview, not a teaser.</p>
+    </div>
+    <div class="login-sample-card">
+      <i class="fa-solid fa-graduation-cap"></i>
+      <h3>The Courses</h3>
+      <p>6 courses, 48 modules &mdash; Course Companions, slides, and hands-on exercises on real datasets, Core through Architect tier.</p>
+      <p class="sample-free"><strong>Free sample:</strong> hand-picked modules from each course.</p>
+      <p class="sample-detail">Same platform as the paid courses &mdash; same slides, same Course Companions &mdash; with the first module of every course open to read. Exercises and quizzes are part of the paid course, not the preview: enough to judge the teaching, not to finish the course for free.</p>
+    </div>
+  </div>
+</div>
+
+{{ partial "index/system.html" . }}
+
+<script>
+(function() {
+  document.body.classList.add('login-page');
+
+  var form = document.querySelector('.login-form-wrap form');
+  var btn  = form.querySelector('button[type="submit"]');
+
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    btn.disabled = true;
+    btn.textContent = 'Sending…';
+
+    var params = new URLSearchParams(new FormData(form));
+    var url = form.action + '?' + params.toString();
+
+    fetch(url, { mode: 'no-cors' })
+      .then(function()  { window.location.href = '/welcome/'; })
+      .catch(function() { window.location.href = '/welcome/'; });
+  });
+
+  var $header = $('.header');
+  var threshold = window.innerHeight * 0.8;
+  $(window).on('scroll.loginhero', function() {
+    if ($(this).scrollTop() > threshold) { $header.addClass('nav-solid'); }
+    else { $header.removeClass('nav-solid'); }
+  });
+})();
+</script>
+
+{{ partial "footer.html" . }}

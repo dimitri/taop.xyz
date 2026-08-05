@@ -172,7 +172,7 @@
   <header class="upd-header">
     <p class="upd-dateline">The Art of PostgreSQL &middot; 2011&ndash;2026</p>
     <h1>What's new</h1>
-    <p class="upd-lede">Book editions, lessons, lab, and open-source tools — a full record of the project from first publication to today.</p>
+    <p class="upd-lede">Book editions, lessons, app, and open-source tools — a full record of the project from first publication to today.</p>
   </header>
 
   <section class="upd-wip">
@@ -220,7 +220,7 @@ select distinct on (isocode) iso3, depth
             <span class="tl-date">July 2026</span>
           </div>
           <p class="tl-title"><a href="/book/">Second Edition, Updated (2026)</a><a href="/book/updates/" class="tl-gh">What's new →</a><a href="/book/contents/" class="tl-gh tl-toc">Full ToC →</a></p>
-          <p class="tl-desc">Modernises the book from PostgreSQL 11 to the 17/18 landscape. Adds Chapter 51 — Vector Search with pgvector (HNSW, IVFFlat, hybrid search). Introduces 56 new TikZ figures generated from SQL, a fully integrated companion lab, and coverage of PG 12–18 features throughout (virtual generated columns, <code>RETURNING OLD/NEW</code>, <code>uuidv7()</code>, <code>NULLS NOT DISTINCT</code>, incremental sort, and more). Free update for all existing purchasers.</p>
+          <p class="tl-desc">Modernises the book from PostgreSQL 11 to the 17/18 landscape. Adds Chapter 51 — Vector Search with pgvector (HNSW, IVFFlat, hybrid search). Introduces 56 new TikZ figures generated from SQL, a companion learning app with PGLite SQL runner, and coverage of PG 12–18 features throughout (virtual generated columns, <code>RETURNING OLD/NEW</code>, <code>uuidv7()</code>, <code>NULLS NOT DISTINCT</code>, incremental sort, and more). Free update for all existing purchasers.</p>
         </div>
 
         <div class="tl-entry">
@@ -232,15 +232,26 @@ select distinct on (isocode) iso3, depth
           <p class="tl-desc">Six categories covering SQL foundations, window functions, aggregation, joins, performance, and schema design. Every lesson is free; no account required.</p>
         </div>
 
-        <div class="tl-entry lab">
+        <div class="tl-entry">
+          <div class="tl-meta">
+            <i class="fa-solid fa-arrow-right-to-bracket tl-icon"></i>
+            <span class="tl-date">August 2026</span>
+          </div>
+          <p class="tl-title">
+            <a href="https://app.theartofpostgresql.com/" rel="noopener">Companion app — book reader, courses, PGLite SQL runner</a><a href="/page/app/" class="tl-gh">Learn more →</a>
+          </p>
+          <p class="tl-desc">A custom learning platform replaces ThriveCart Learn+: read the full book online, follow all 6 courses with progress tracking, and run every SQL example live in the browser via PGLite (a WebAssembly build of PostgreSQL 16 — no install, no Docker, no cloud account). Magic-link sign-in. Free for all existing purchasers — sign in with your purchase email.</p>
+        </div>
+
+        <div class="tl-entry">
           <div class="tl-meta">
             <i class="fa-solid fa-flask tl-icon"></i>
             <span class="tl-date">June 2026</span>
           </div>
           <p class="tl-title">
-            <a href="/lab/">The Art of PostgreSQL Lab</a><a href="https://github.com/dimitri/TheArtOfPostgreSQL" target="_blank" rel="noopener" class="tl-gh"><i class="fa-brands fa-github"></i> GitHub</a>
+            <a href="https://github.com/dimitri/TheArtOfPostgreSQL" target="_blank" rel="noopener">Docker Starter Kit</a><a href="https://github.com/dimitri/TheArtOfPostgreSQL" target="_blank" rel="noopener" class="tl-gh"><i class="fa-brands fa-github"></i> GitHub</a>
           </p>
-          <p class="tl-desc">Interactive SQL practice environment with real PostgreSQL datasets and exercises aligned with the book chapters. Book readers can explore every dataset used in the text hands-on. The starter-kit runs without the book — a self-contained Docker environment with the same datasets, usable by anyone.</p>
+          <p class="tl-desc">Self-contained Docker environment with all book datasets pre-loaded and a query UI at <code>localhost:8042</code>. Runs without an account — every SQL query from the book is there, ready to run, edit, and experiment with.</p>
           <pre class="tl-quickstart">git clone https://github.com/dimitri/TheArtOfPostgreSQL
 cd TheArtOfPostgreSQL
 docker compose up -d</pre>

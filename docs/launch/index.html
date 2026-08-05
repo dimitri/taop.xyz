@@ -1,17 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
     <meta charset="utf-8">
-    <title>The Art of PostgreSQL — The Complete PostgreSQL Learning System</title>
-    <meta name="description" content="The book, the course, the lab — everything you need to go from writing SQL to thinking in SQL. One coherent learning path, built by a PostgreSQL Major Contributor.">
+    <title>The Art of PostgreSQL — Second Edition, Updated (2026)</title>
+    <link rel="canonical" href="http://localhost:1313/launch/">
+    <meta name="description" content="The 2026 edition is here. Now covering PostgreSQL 10–18, with a new chapter on pgvector, 56 new figures, and an integrated companion lab. Free update for existing purchasers.">
     <meta name="robots" content="noindex, nofollow">
 
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="@tapoueh" />
     <meta name="twitter:creator" content="@tapoueh" />
-    <meta property="og:url" content="https://theartofpostgresql.com/launch/" />
-    <meta property="og:title" content="The Art of PostgreSQL — The Complete Learning System" />
-    <meta property="og:description" content="The book, the course, the lab — everything you need to go from writing SQL to thinking in SQL." />
+    <meta property="og:url" content="http://localhost:1313/launch/" />
+    <meta property="og:title" content="The Art of PostgreSQL — Second Edition, Updated (2026)" />
+    <meta property="og:description" content="Now covering PostgreSQL 10–18. Free update for existing purchasers. New to the book? Available today." />
     <meta property="og:image" content="https://theartofpostgresql.com/img/TheArtOfPostgresUniversity.png" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
@@ -42,11 +43,11 @@
 	<li class="divider"></li>
 	<li><a href="/workshop/"><i class="fa-solid fa-microphone"></i><span class="nav-text">WORKSHOP</span></a></li>
 	<li class="divider"></li>
-	<li><a href="/lab/"><i class="fa-solid fa-flask"></i><span class="nav-text">LAB</span></a></li>
+	<li><a href="/login/"><i class="fa-solid fa-arrow-right-to-bracket"></i><span class="nav-text">LOGIN</span></a></li>
 	<li class="divider"></li>
 	<li><a class="logo" href="/">The Art of PostgreSQL</a></li>
 	<li class="divider"></li>
-	<li><a href="/blog/"><i class="fa-solid fa-pen-to-square"></i><span class="nav-text">BLOG</span></a></li>
+	<li><a href="/yesql/"><i class="fa-solid fa-pen-to-square"></i><span class="nav-text">YESQL</span></a></li>
       </ul>
     </nav>
     <div class="sticky-cta-wrapper">
@@ -61,27 +62,76 @@
 
 
 
-<section class="index_hero">
+<section class="course_hero">
   <div class="wrapper">
-    <h1>SQL is a programming language.<br>Start treating it like one.</h1>
-
+    <h1>The Second Edition, Updated (2026) is here.</h1>
     <p class="hero_subtitle">
-      The book, the course, the lab — everything you need to go from writing SQL
-      to thinking in SQL. One coherent learning path, built by a PostgreSQL Major Contributor.
+      Now extended through PostgreSQL 18 — with a new chapter on pgvector,
+      56 new figures, and a fully integrated companion lab.
     </p>
-
+    <p class="hero_subtitle" style="margin-top: 0; font-size: 1.1rem; opacity: 0.85;">
+      The update is free for all existing purchasers.
+      New to the book? It's available today.
+    </p>
     <div class="hero_cta">
-      <a href="https://theartofpostgresql.com/course/" class="button button_purple button_large">
-        Explore the Course
-      </a>
       <a href="https://sales.theartofpostgresql.com/the-art-of-postgresql-book/" class="button button_purple button_large">
-        Start with the Book — $89
+        Get the 2026 Edition — $89
+      </a>
+      <a href="https://members.theartofpostgresql.com/courses/the-art-of-postgresql/" class="button button_transparent button_large" style="border-color: rgba(255,255,255,0.65); color: #fff;">
+        I already own it — get my update
       </a>
     </div>
-
   </div>
 </section>
-<section class="index_system" style="background: #f8f7f9;">
+
+
+<section class="book_hero" style="background: #f8f7f9;">
+  <div class="wrapper">
+    <header class="heading">
+      <h3>What's new in the 2026 edition</h3>
+      <p class="lightpurple">The most significant revision since first publication</p>
+    </header>
+    <ul class="services_list">
+      <li>
+        <p><span class="value_icon"><i class="fa-solid fa-layer-group"></i></span></p>
+        <p><strong>PostgreSQL 12–18 Coverage</strong></p>
+        <p>Full coverage of every major PostgreSQL release from 12 to 18 — partitioning improvements, logical replication, generated columns, <code>MERGE</code>, <code>JSON_TABLE</code>, <code>uuidv7()</code>, and more, applied to real-world scenarios throughout the book.</p>
+      </li>
+      <li>
+        <p><span class="value_icon"><i class="fa-solid fa-brain"></i></span></p>
+        <p><strong>New chapter: vector search with pgvector</strong></p>
+        <p>A complete new chapter on building semantic search, storing embeddings, and running AI-augmented queries — directly inside PostgreSQL, using the same SQL you already know.</p>
+      </li>
+      <li>
+        <p><span class="value_icon"><i class="fa-solid fa-flask"></i></span></p>
+        <p><strong>56 new figures + integrated lab</strong></p>
+        <p>56 new diagrams illustrating query plans, data models, and execution internals, plus an integrated companion lab: <code>docker compose up</code> starts PostgreSQL with all datasets and a query UI at <code>localhost:8042</code> — no install required.</p>
+      </li>
+    </ul>
+    <div class="section_cta">
+      <a href="/book/updates/" class="button button_outline">See the full changelog →</a>
+    </div>
+  </div>
+</section>
+
+
+<style>
+.index_system .services_list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 340px));
+  gap: 16px 64px;
+  justify-content: center;
+}
+.index_system .services_list li {
+  flex: none;
+  max-width: none;
+  padding: 24px 0;
+}
+@media (max-width: 768px) {
+  .index_system .services_list { grid-template-columns: 1fr; max-width: 480px; margin: 0 auto; }
+}
+</style>
+<section class="index_system" style="background: white;">
   <div class="wrapper">
     <header class="heading">
       <h3>One System, One Learning Path</h3>
@@ -91,23 +141,25 @@
     <ul class="services_list">
 
       <li>
+        <p><span class="value_icon"><i class="fa-solid fa-book-open"></i></span></p>
         <h6>Book</h6>
-        <p>Foundation &amp; reference — 468 pages, 334 SQL queries, 15 real-world datasets.</p>
+        <p>Foundation &amp; reference — 590 pages, 15 real-world datasets. Second Edition, Updated (2026).</p>
         <a href="https://sales.theartofpostgresql.com/the-art-of-postgresql-book/">
           Get the Book — $89
         </a>
       </li>
 
       <li>
+        <p><span class="value_icon"><i class="fa-solid fa-flask"></i></span></p>
         <h6>Lab</h6>
-        <p>Free for everyone. Practice every query from the book on real data.
-           One click via GitHub Codespaces — no setup required.</p>
+        <p>Free for everyone. <code>docker compose up</code> starts PostgreSQL with all datasets and a Query UI at <code>localhost:8042</code> — no install required.</p>
         <a href="https://github.com/dimitri/TheArtOfPostgreSQL">
           Open the Lab — Free
         </a>
       </li>
 
       <li>
+        <p><span class="value_icon"><i class="fa-solid fa-graduation-cap"></i></span></p>
         <h6>Course</h6>
         <p>Structured learning across three tiers — Core, Advanced, Architect.
            Hands-on labs, exercises, and direct input on the curriculum.
@@ -118,6 +170,7 @@
       </li>
 
       <li>
+        <p><span class="value_icon"><i class="fa-solid fa-people-group"></i></span></p>
         <h6>Workshops</h6>
         <p>Live 3-hour deep dives with the author. Real datasets, real-time Q&amp;A.
            Limited seats per session.</p>
@@ -134,7 +187,7 @@
 </section>
 
 
-<section class="book_hero">
+<section class="book_hero" style="background: #f8f7f9;">
   <div class="wrapper">
     <header class="heading">
       <h3>Start with the Book</h3>
@@ -151,9 +204,9 @@
             <sup>$</sup>89
           </div>
           <p>
-            The complete book with practical SQL techniques, real-world examples,
-            and datasets to follow along and experiment. Build solid foundations,
-            then continue with the Course and Workshop to deepen your expertise.
+            590 pages covering PostgreSQL 10–18. Practical SQL techniques, 15 real-world datasets,
+            and the new pgvector chapter — all in one PDF and ePub you keep forever,
+            with all future updates included.
           </p>
           <div class="book_cta">
             <div class="money-back-guarantee">
@@ -176,8 +229,8 @@
             <sup>$</sup>129
           </div>
           <p>
-            A physical copy to read, annotate, and keep at hand while you work.
-            Includes the full digital edition — same content, different format.
+            649 pages in print — the same complete content, formatted for the page.
+            Includes the full digital edition (PDF + ePub) at no extra cost.
           </p>
           <div class="book_cta">
             <div class="money-back-guarantee">
@@ -199,51 +252,6 @@
       <p style="margin-top: 1em;">
         Pay what reflects your local economy.
       </p>
-    </div>
-
-  </div>
-</section>
-
-
-<section class="book_hero" style="background: #f8f7f9;">
-  <div class="wrapper">
-    <header class="heading">
-      <h3>The Lab is Free for Everyone</h3>
-      <p class="lightpurple">Practice on real data. No setup required.</p>
-    </header>
-
-    <div class="hero_description" style="max-width: 800px; margin: 0 auto 30px auto;">
-      <p>
-        Every query from the book runs against real-world datasets — NYSE trading volume,
-        music charts, geolocation records, MoMA collection, and more.
-        One click via GitHub Codespaces opens a full PostgreSQL environment
-        in your browser with all data preloaded.
-      </p>
-    </div>
-
-    <ul class="services_list">
-      <li>
-        <p><span class="value_icon"><i class="fa-solid fa-database"></i></span></p>
-        <p><strong>15 real-world datasets</strong></p>
-      </li>
-      <li>
-        <p><span class="value_icon"><i class="fa-solid fa-code"></i></span></p>
-        <p><strong>334 SQL queries indexed by chapter</strong></p>
-      </li>
-      <li>
-        <p><span class="value_icon"><i class="fa-solid fa-box-open"></i></span></p>
-        <p><strong>Docker + GitHub Codespaces — one click to start</strong></p>
-      </li>
-      <li>
-        <p><span class="value_icon"><i class="fa-brands fa-github"></i></span></p>
-        <p><strong>No account required beyond GitHub</strong></p>
-      </li>
-    </ul>
-
-    <div class="section_cta">
-      <a href="https://github.com/dimitri/TheArtOfPostgreSQL" class="button button_outline button_large">
-        Open the Lab — Free
-      </a>
     </div>
 
   </div>
@@ -296,12 +304,9 @@
       </li>
 
     </ul>
-      Now in early access — first 100 subscribers get 50% off.
-    </p>
-
     <div class="section_cta">
-      <a href="https://sales.theartofpostgresql.com/the-art-of-postgresql-courses/?coupon=EARLY50" class="button button_purple button_large">
-        Claim Early Access — 50% Off
+      <a href="https://sales.theartofpostgresql.com/the-art-of-postgresql-courses/" class="button button_purple button_large">
+        View the Course
       </a>
     </div>
 
@@ -309,108 +314,54 @@
 </section>
 
 
-<section class="index_workshops">
+<section class="book_hero" style="background: #f8f7f9;">
   <div class="wrapper">
     <header class="heading">
       <h3>Live Workshop — Limited Seats</h3>
-      <p class="lightpurple">A 3-hour live deep dive with real-time Q&amp;A</p>
+      <p class="lightpurple">Deep-dive sessions with the author</p>
     </header>
-
-    <p class="hero_description" style="max-width: 800px; margin: 0 auto 30px auto; text-align: center;">
-      Each workshop covers one advanced topic in depth — with real datasets,
-      working queries, and direct access to the author.
-      Sessions are capped at 60 seats.
+    <p class="hero_description" style="max-width: 700px; margin: 0 auto 30px auto; text-align: center;">
+      More workshops coming soon — sign up to be notified first.
     </p>
-
-    <ul class="services_list" style="max-width: 600px; margin: 0 auto;">
-
-      <li>
-        <h5>Reliable Aggregations</h5>
-        <p class="workshop-meta">July 2nd, 2026 · 3 hours · 60 seats</p>
-        <p>
-          Master GROUP BY, GROUPING SETS, ROLLUP, CUBE, HAVING,
-          and advanced aggregate functions on real business datasets.
-        </p>
-        <a href="https://theartofpostgresql.com/workshop/" class="button button_purple button_large">
-          Reserve Your Seat
-        </a>
-      </li>
-
-    </ul>
-
-    <p class="hero_description" style="max-width: 800px; margin: 30px auto 0 auto; text-align: center; font-size: 15px;">
-      More workshops announced as they're scheduled.
-      Buy the book or course to be notified first.
-    </p>
-
+    <div class="section_cta">
+      <a href="https://theartofpostgresql.com/workshop/" class="button button_outline button_large">
+        See Upcoming Workshops
+      </a>
+    </div>
   </div>
 </section>
 
-
-<section class="book_hero">
-  <div class="wrapper">
-    <header class="heading">
-      <h3>About the author</h3>
-    </header>
-
-    <p style="max-width: 800px; margin: 0 auto 20px auto; color: #896da1; font-size: 16px; line-height: 1.7;">
-      Hi! My name is Dimitri Fontaine and I have been using and contributing to
-      Open Source Software for the best part of the last Twenty years.
-      I am a PostgreSQL Major Contributor — I wrote <code>CREATE EXTENSION</code>
-      and Event Triggers, among other things.
-    </p>
-
-    <p style="max-width: 800px; margin: 0 auto 20px auto; color: #896da1; font-size: 16px; line-height: 1.7;">
-      I've been writing code almost daily for a very long time, both professionally
-      and in my own time. I've been a database architect and a DBA on-call.
-      As a developer I enjoy using SQL. As a teacher, I enjoy showing developers
-      what SQL can do that they didn't know was possible.
-    </p>
-
-    <p style="max-width: 800px; margin: 0 auto 30px auto; color: #896da1; font-size: 16px; line-height: 1.7;">
-      Twenty years of writing at
-      <a href="https://tapoueh.org" target="_blank" rel="noopener">tapoueh.org</a>.
-    </p>
-  </div>
-</section>
-
-
-<section class="book_social_proof">
+<div class="book_social_proof">
   <div class="wrapper">
     <header class="heading">
       <h3>Trusted by developers</h3>
       <p class="lightpurple">Used in real systems</p>
     </header>
-
+    
     <div class="quote_slider">
       <div class="quote-nav quote-prev"><i class="fa-solid fa-chevron-left"></i></div>
       <ul>
         <li class="active">
           <blockquote>
-            <p>"This book is on a higher level than generic software books.
-            It explains the how's and why's of using Postgres's many features.
-            It is an excellent companion to the official Postgres documentation."</p>
+            <p>"This book is on a higher level than generic software books. It explains the how's and why's of using Postgres's many feature. It is an excellent companion to the official Postgres documentation."</p>
             <cite>Bruce Momjian, PostgreSQL core team</cite>
           </blockquote>
         </li>
         <li>
           <blockquote>
-            <p>"At last the definitive Postgres book for app developers is out,
-            and from the amazing @tapoueh no less. Go get it!"</p>
+            <p>"At last the definitive Postgres book for app developers is out, and from the amazing @tapoueh no less. Go get it!"</p>
             <cite>Peter van Hardenberg</cite>
           </blockquote>
         </li>
         <li>
           <blockquote>
-            <p>"Full edition of Mastering PostgreSQL is BRILLIANT!
-            Not just best PG resource ever but best tech-learning package I've ever seen!"</p>
+            <p>"Full edition of The Art of PostgreSQL is BRILLIANT! Not just best PG resource ever but best tech-learning package I've ever seen!"</p>
             <cite>Derek Sivers</cite>
           </blockquote>
         </li>
         <li>
           <blockquote>
-            <p>"Thanks for your fantastic book. It's helped me immensely in my current job.
-            Technical books can often be a bore and hard to digest, but this was a pleasure to read."</p>
+            <p>"Thanks for your fantastic book. It's helped me immensely in my current job. Technical books can often be a bore and hard to digest, but The Art of PostgreSQL was a pleasure to read."</p>
             <cite>Ben Davies</cite>
           </blockquote>
         </li>
@@ -418,9 +369,12 @@
       <div class="quote-nav quote-next"><i class="fa-solid fa-chevron-right"></i></div>
       <div class="quote-dots"></div>
     </div>
-
+    
+    <div class="section_cta">
+      <a href="https://sales.theartofpostgresql.com/" class="button button_purple">Get the Book</a>
+    </div>
   </div>
-</section>
+</div>
 
 
 <section class="book_hero">
@@ -432,30 +386,32 @@
     <ul class="faq_list">
       <li>
         <div class="faq_item">
-          <h6>Is the book still relevant if it was written for PostgreSQL 11?</h6>
-          <p>Yes. The core skills — window functions, CTEs, aggregates, indexing, data modeling,
-          concurrency — apply directly to every modern PostgreSQL release. SQL doesn't expire.
-          A new edition covering the latest PostgreSQL features is in preparation and will be
-          available free of charge to everyone who purchases today.</p>
+          <h6>I bought a previous edition. Do I get the 2026 update?</h6>
+          <p>Yes — the update is free for all existing purchasers. Log into your
+          <a href="https://members.theartofpostgresql.com/courses/the-art-of-postgresql/" target="_blank" rel="noopener">ThriveCart account</a>,
+          open the lesson for The Art of PostgreSQL, and download the updated PDF and ePub files directly from there.
+          If you have trouble finding your account, email <a href="mailto:dim@tapoueh.org">dim@tapoueh.org</a>
+          with your original order email.</p>
         </div>
       </li>
 
       <li>
         <div class="faq_item">
-          <h6>What skill level do I need to start?</h6>
-          <p>You should be comfortable with basic SQL — SELECT, JOIN, WHERE.
-          The book takes you from there. The course and workshops assume
-          you've read the book or have equivalent experience.</p>
+          <h6>What's new in the 2026 edition?</h6>
+          <p>New coverage from PostgreSQL 12 through 18, a new chapter on vector search with pgvector,
+          56 new figures illustrating query plans and data models, and an integrated companion lab
+          (<code>docker compose up</code> → PostgreSQL + query UI at <code>localhost:8042</code>).
+          See the <a href="/book/updates/">full changelog</a> for the complete list.</p>
         </div>
       </li>
 
       <li>
         <div class="faq_item">
-          <h6>What's the difference between the book and the course?</h6>
-          <p>The book is the complete reference — 468 pages, 334 queries, 15 datasets.
-          The course is structured learning across three tiers with video, exercises,
-          and progressive challenges. Most developers start with the book and continue
-          with the course. The lab is free for both.</p>
+          <h6>Is the book still relevant now that AI writes queries?</h6>
+          <p>Yes — and for precisely that reason. AI-generated SQL breaks in ways that are hard
+          to catch without understanding what the query actually does. The book gives you the mental
+          model to read, evaluate, and fix what AI produces.
+          <a href="/sql-and-ai/">More on that here.</a></p>
         </div>
       </li>
 
@@ -476,9 +432,10 @@
 
       <li>
         <div class="faq_item">
-          <h6>Any other questions?</h6>
-          <p>Contact me by <a href="mailto:dim@tapoueh.org">email</a> and just ask.
-          I will do my best to answer you.</p>
+          <h6>What topics does the book cover exactly?</h6>
+          <p>8 parts, 53 chapters, 437 SQL queries across 15 real-world datasets — from SQL fundamentals to
+          window functions, recursive CTEs, data modeling, ACID concurrency, and PostgreSQL extensions including
+          the new pgvector chapter. See the <a href="/book/contents/">full table of contents</a> with showcase queries for each part.</p>
         </div>
       </li>
     </ul>
@@ -490,26 +447,25 @@
 <section class="book_final_cta">
   <div class="wrapper">
     <header class="heading">
-      <h3>Ready to write SQL that replaces Python?</h3>
+      <h3>Start reading today.</h3>
     </header>
 
     <p class="final_text">
-      Start with the free chapter. Or go straight to the course.
-      Either way, the lab is free and waiting.
+      590 pages. 15 real-world datasets. PostgreSQL 10–18.
+      Free for existing purchasers — available now for everyone else.
     </p>
 
     <div class="section_cta">
-      <a href="https://sales.theartofpostgresql.com/the-art-of-postgresql-courses/?coupon=EARLY50" class="button button_purple button_large">
-        Claim Early Access — 50% Off
+      <a href="https://sales.theartofpostgresql.com/the-art-of-postgresql-book/" class="button button_purple button_large">
+        Get the 2026 Edition — $89
       </a>
-      <a href="https://sales.theartofpostgresql.com/the-art-of-postgresql-book/" class="button button_outline button_large">
-        Start with the Book — $89
+      <a href="https://theartofpostgresql.com/course/" class="button button_outline button_large">
+        Continue with the Course
       </a>
     </div>
 
-    <p class="final_text" style="margin-top: 10px;">
-      Not ready yet?
-      <a href="https://theartofpostgresql.com/#free-chapter">Get a free chapter first.</a>
+    <p class="final_text" style="margin-top: 14px;">
+      Not ready yet? <a href="https://theartofpostgresql.com/#free-chapter">Get a free chapter first.</a>
     </p>
 
   </div>
@@ -526,31 +482,39 @@
 	        <p>I have been writing code almost daily for a very long time now, both in a professional capacity and on my leisure time. I&rsquo;ve also been a database architect and a DBA on-call. As a developer I enjoy using SQL. As a database architect, I like teaching advanced SQL techniques to my colleagues.</p>
 	        <ul>
 	            <li><a target="_blank" href="mailto:dim@tapoueh.org">email</a></li>
-	            <li><a target="_blank" href="https://twitter.com/tapoueh">twitter</a></li>
-	            <li><a target="_blank" href="https://github.com/dimitri">github</a></li>
+	            <li><a target="_blank" href="https://github.com/dimitri/TheArtOfPostgreSQL">github</a></li>
 	            <li><a target="_blank" href="https://www.reddit.com/user/theartofpostgresql">reddit</a></li>
 	        </ul>
     	</div>
-	    <div class="faq_block">
-            <h6>FAQ</h6>
-	        <dl>
-	           <dt>What if the book isn&rsquo;t what I expected it would be?</dt>
-	           <dd>The Art of PostgreSQL is a book that teaches SQL to application developers. If it's not of any value to you, then just say so and I'll refund you, no questions asked.</dd>
-	           <dt>I bought the book, and I'm confused. What now?</dt>
-	           <dd>
-                     The content of the book is available as a PDF, ePub and
-	             MOBI file, and you can also download the SQL queries.
-	             The content is available over
-	             at <a href="https://members.theartofpostgresql.com/courses/the-art-of-postgresql/"
-	             target="_">https://members.theartofpostgresql.com/courses/the-art-of-postgresql/</a>
-	             from your student dashboard.
-                   </dd>
-	           <dt>Is there any DRM?</dt>
-	           <dd>No. There isn't even watermarking on the PDF. You own what you buy. The sources of data selected for the book are all available with Open Data types of licenses, and the book itself is copyright Dimitri Fontaine. All rights reserved.</dd>
-	           <dt>Any other questions?</dt>
-	           <dd>Contact me by <a href="mailto:dim@tapoueh.org">email</a> and just ask! I will do my best to answer you.</dd>
-	        </dl>
-     	    </div>
+	    <div class="footer_right_col">
+	      <div class="faq_block">
+	          <h6>FAQ</h6>
+	          <dl>
+	             <dt>What if the book isn&rsquo;t what I expected it would be?</dt>
+	             <dd>The Art of PostgreSQL is a book that teaches SQL to application developers. If it's not of any value to you, then just say so and I'll refund you, no questions asked.</dd>
+	             <dt>I bought the book, and I'm confused. What now?</dt>
+	             <dd>Go to <a href="https://app.theartofpostgresql.com/" rel="noopener">app.theartofpostgresql.com</a>, enter the email address you used to purchase, and click the sign-in link that arrives in your inbox. Your book and any courses you bought are waiting there. No password required.</dd>
+	             <dt>I bought a previous edition. Do I get the 2026 update?</dt>
+             <dd>Yes — the update is free for all existing purchasers. Sign in at <a href="https://app.theartofpostgresql.com/" rel="noopener">app.theartofpostgresql.com</a> with your purchase email and the updated PDF, ePub, and online reading experience are there automatically. Questions? Email <a href="mailto:dim@tapoueh.org">dim@tapoueh.org</a>.</dd>
+             <dt>What does the book cover, and what do the courses cover?</dt>
+             <dd>The <a href="/book/contents/">book table of contents</a> lists all 9 parts and 57 chapters — from SQL foundations through advanced query patterns and data architecture. The <a href="/course/contents/">course curriculum</a> covers 6 courses and 48 modules across Core, Advanced, and Architect tiers, with hands-on SQL labs on real datasets.</dd>
+             <dt>Is SQL still relevant now that AI writes queries?</dt>
+             <dd>Yes — <a href="/sql-and-ai/">here is why understanding SQL matters more than ever</a>, even when AI generates the code.</dd>
+             <dt>Is there any DRM?</dt>
+	             <dd>No. There isn't even watermarking on the PDF. You own what you buy. The sources of data selected for the book are all available with Open Data types of licenses, and the book itself is copyright Dimitri Fontaine. All rights reserved.</dd>
+	             <dt>Any other questions?</dt>
+	             <dd>Contact me by <a href="mailto:dim@tapoueh.org">email</a> and just ask! I will do my best to answer you.</dd>
+	          </dl>
+	      </div>
+	      <div class="whatsnew_block">
+	          <h6>What's new</h6>
+	          <ul>
+	            <li><a href="/updates/#yesql">June 2026 — YeSQL hub, 24 free lessons</a></li>
+	            <li><a href="/updates/#book">Aug 2019 — The Art of PostgreSQL</a></li>
+	            <li><a href="/updates/">→ View all updates</a></li>
+	          </ul>
+	      </div>
+	    </div>
 	</div>
 </footer>
 
