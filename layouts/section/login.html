@@ -222,21 +222,20 @@
 (function() {
   document.body.classList.add('login-page');
 
-  var form = document.querySelector('.login-form-wrap form');
-  var btn  = form.querySelector('button[type="submit"]');
-
-  form.addEventListener('submit', function(e) {
-    e.preventDefault();
-    btn.disabled = true;
-    btn.textContent = 'Sending…';
-
-    var params = new URLSearchParams(new FormData(form));
-    var url = form.action + '?' + params.toString();
-
-    fetch(url, { mode: 'no-cors' })
-      .then(function()  { window.location.href = '/welcome/'; })
-      .catch(function() { window.location.href = '/welcome/'; });
-  });
+  // Deliberately a plain, unintercepted form GET to .../login?email=... —
+  // that's cmd/admin's real, dynamically-rendered login page (see
+  // app.taop.xyz/internal/handlers/auth.go's Login handler), which
+  // pre-fills the email from the query param and embeds a fresh CSRF
+  // token + hidden "next" field in its own <form method="post"
+  // action=".../auth/magic-link">. A static Hugo page built at deploy
+  // time can never embed that per-request token itself, so the previous
+  // version of this script tried to fetch(..., {mode:"no-cors"}) the
+  // wrong endpoint (GET /login, which only ever *renders* the page, never
+  // sends anything) directly, then redirected to a fake "Check your
+  // inbox" screen regardless of what actually happened — no magic link
+  // was ever sent. One extra click on the real page (which already has a
+  // prominent "Send my sign-in link" button of its own) is the actual
+  // fix, not a fetch dance this page structurally can't complete.
 
   var $header = $('.header');
   var threshold = window.innerHeight * 0.8;
