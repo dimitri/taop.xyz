@@ -1,0 +1,23 @@
+# Config for https://github.com/lycheeverse/lychee
+#
+# CI runs this offline (internal links only, no network flakiness):
+#   hugo --minify --gc --baseURL "https://theartofpostgresql.com/"
+#   lychee --offline --root-dir docs docs/
+#
+# For a full pass that also checks external links (occasionally, locally):
+#   lychee --root-dir docs docs/
+
+# Don't check email addresses (none of the mailto: links on this site are
+# meant to be "reachable" in any checkable sense).
+include_mail = false
+
+# Treat redirects as fine — the site relies on Hugo `aliases` front matter
+# for old /blog/... URLs, which show up here as 301/302 chains.
+max_redirects = 10
+
+# Skip link-local/loopback ranges — defensive, in case a stray dev-server
+# URL ever slips into committed content again.
+exclude_all_private = true
+
+cache = true
+max_cache_age = "1d"
