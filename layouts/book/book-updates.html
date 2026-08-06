@@ -4,13 +4,13 @@
   <meta charset="utf-8">
   <title>Second Edition, Updated (2026) | The Art of PostgreSQL</title>
   <link rel="canonical" href="{{ .Permalink }}">
-  <meta name="description" content="The 2026 update adds a pgvector chapter, 56 new figures, full PostgreSQL 12–18 coverage, and a companion learning app with PGLite. Free for all existing purchasers.">
+  <meta name="description" content="The 2026 update adds a pgvector chapter, 56 new figures, full PostgreSQL 12–18 coverage, and a companion learning app with live SQL. Free for all existing purchasers.">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:site" content="@tapoueh" />
   <meta property="og:url" content="https://theartofpostgresql.com/book/updates/" />
   <meta property="og:title" content="Second Edition, Updated (2026)" />
-  <meta property="og:description" content="pgvector chapter, 56 new figures, PG 12–18 coverage, companion app with PGLite. Free for all existing purchasers." />
+  <meta property="og:description" content="pgvector chapter, 56 new figures, PG 12–18 coverage, companion app with live SQL. Free for all existing purchasers." />
   <link href="/favicon.ico" rel="icon" type="image/x-icon">
   <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -177,7 +177,7 @@
   <h1>Second Edition, Updated (2026)</h1>
   <p class="bku-hero-sub">
     The most significant revision since first publication — PostgreSQL 12–18 coverage,
-    a new pgvector chapter, 56 new figures, and a companion learning app with PGLite.
+    a new pgvector chapter, 56 new figures, and a companion learning app with live SQL.
   </p>
   <div class="bku-hero-stats">
     <div class="bku-hero-stat">
@@ -321,7 +321,7 @@
     </div>
 
     <div class="bku-change">
-      <div class="bku-change-icon"><i class="fa-solid fa-arrow-right-to-bracket"></i></div>
+      <div class="bku-change-icon"><i class="fa-solid fa-user"></i></div>
       <div class="bku-change-body">
         <h3>Companion Learning App</h3>
         <p>
@@ -332,15 +332,37 @@
         <ul>
           <li><strong>Book reader online</strong> — the full 590-page book as navigable web pages, with progress tracking and bookmarks</li>
           <li><strong>All 6 courses</strong> — 48 modules from Window Functions to Reading Query Plans, with handout PDFs per module</li>
-          <li><strong>PGLite SQL runner</strong> — a real PostgreSQL 16 instance running in your browser via WebAssembly; f1db, Chinook, and other datasets pre-loaded; no install, no Docker, no cloud account (desktop only)</li>
+          <li><strong>Live SQL, no setup</strong> — every lesson connects live to a real PostgreSQL 17 database, full schema and dataset; no install, no Docker, no account to set up</li>
           <li><strong>Interactive EXPLAIN diagrams</strong> — plan trees rendered visually, not as raw text</li>
         </ul>
         <p>
           Magic-link sign-in: enter your email, click the link in your inbox, you're in. No password to manage.
-          <a href="/page/app/">Learn more about the app →</a>
+          <a href="/app/">Learn more about the app →</a>
         </p>
         <div class="bku-screenshot">
-          <img src="/img/query-ui-explain.png" alt="The companion app showing a SQL query and its EXPLAIN plan side by side" loading="lazy">
+          <img src="/img/app-dashboard.png" alt="The companion app dashboard showing the book overview and table of contents" loading="lazy">
+        </div>
+      </div>
+    </div>
+
+    <div class="bku-change">
+      <div class="bku-change-icon"><i class="fa-solid fa-flask"></i></div>
+      <div class="bku-change-body">
+        <h3>Fully Integrated Companion Lab</h3>
+        <p>
+          Prefer to run everything locally? The lab is a first-class part of the book too.
+          One command starts a complete PostgreSQL environment with all datasets pre-seeded:
+        </p>
+        <p><code>docker compose up -d</code></p>
+        <p>
+          Datasets include F1db, MoMA, Geonames, Last.fm, Wikidata castle ruins, London OSM,
+          and more — every dataset used in the book. Open <code>localhost:8042</code> to reach
+          an interactive query pane organised by book chapter — every SQL query from the book
+          is there, ready to run, edit, and experiment with. No account required beyond Docker.
+          <a href="/lab/">Learn more about the lab →</a>
+        </p>
+        <div class="bku-screenshot">
+          <img src="/img/query-ui-explain.png" alt="The lab's query UI showing a SQL query and its EXPLAIN plan side by side" loading="lazy">
         </div>
       </div>
     </div>
