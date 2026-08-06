@@ -4,7 +4,7 @@ weight = 3
 icon = "fa-solid fa-sigma"
 summary = "GROUP BY correctness, GROUPING SETS, ROLLUP, CUBE, FILTER, and the multi-level CTE patterns that make complex reporting reliable."
 course_title = "Reliable Aggregation"
-course_url = "/course/reliable-aggregation/"
+course_url = "/course/aggregation/"
 +++
 
 Aggregation is where most SQL bugs live — join amplification, missing NULLs,
