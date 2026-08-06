@@ -3,7 +3,7 @@ title = "What is an SQL Relation?"
 weight = 20
 summary = "A table is a relation with storage. Every SQL query you write defines a new relation, assembled on the fly from relations that already exist."
 tags = ["SQL", "Relation", "Theory", "Fundamentals"]
-aliases = ["/blog/2019-09-sql-relations/"]
+aliases = ["/blog/2019-09-sql-relations/", "/blog/2019-09-the-r-in-orm/"]
 lab_datasets = "f1db"
 +++
 

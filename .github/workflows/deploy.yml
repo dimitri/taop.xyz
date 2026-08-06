@@ -31,6 +31,11 @@ jobs:
           extended: true
       - name: Build
         run: hugo --minify --gc --baseURL "https://theartofpostgresql.com/"
+      - name: Check internal links
+        uses: lycheeverse/lychee-action@v2
+        with:
+          args: --offline --no-progress --root-dir docs docs/
+          fail: true
       - uses: actions/upload-pages-artifact@v5
         with:
           path: ./docs

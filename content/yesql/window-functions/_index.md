@@ -4,7 +4,7 @@ weight = 2
 icon = "fa-solid fa-layer-group"
 summary = "OVER, PARTITION BY, frame semantics, and the analytical patterns — rankings, running totals, gaps & islands — that replace application-side loops."
 course_title = "Master Window Functions"
-course_url = "/course/master-window-functions/"
+course_url = "/course/window-functions/"
 +++
 
 Window functions are the most underused tool in SQL. Unlike aggregates, they
