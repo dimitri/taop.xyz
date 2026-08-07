@@ -664,7 +664,9 @@ body.course .welcome_slider ul li {
   justify-content: center;
 }
 .price_list.price_list-pair > li {
+  flex: 0 1 380px;
   max-width: 380px;
+  margin: 0 12px 25px;
 }
 .price_list > li > div {
   background: #fff;
@@ -4567,13 +4569,15 @@ body.newsletter .index_hero .hero_cta .button.button_outline:hover {
   body {
     padding-bottom: 60px;
   }
-  /* The masterclass page sells its own CTA below the fold — the
-     sitewide "Get the Book" sticky bar competes with it, so drop it
-     here specifically rather than sitewide. */
-  body.masterclass .sticky-cta-wrapper {
+  /* The masterclass and course pages each sell their own CTA below
+     the fold — the sitewide "Get the Book" sticky bar competes with
+     it, so drop it here specifically rather than sitewide. */
+  body.masterclass .sticky-cta-wrapper,
+  body.course .sticky-cta-wrapper {
     display: none;
   }
-  body.masterclass {
+  body.masterclass,
+  body.course {
     padding-bottom: 0;
   }
 }
