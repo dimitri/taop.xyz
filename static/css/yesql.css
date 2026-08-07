@@ -394,66 +394,6 @@ body.yesql { background: var(--yesql-bg); padding-top: 96px; }
   border: 0;
 }
 
-/* --- Lesson email capture bar --- */
-.lesson_email_capture {
-  display: flex;
-  align-items: center;
-  gap: 24px;
-  background: #f3f0f7;
-  border-left: 4px solid var(--yesql-lightpurple);
-  border-radius: 0 10px 10px 0;
-  padding: 20px 24px;
-  margin: 40px 0 0;
-}
-.email_capture_copy { flex: 1; min-width: 0; }
-.email_capture_copy strong {
-  display: block;
-  color: var(--yesql-purple);
-  font-size: 1rem;
-  font-weight: 700;
-  margin-bottom: 4px;
-}
-.email_capture_copy p { margin: 0; color: var(--yesql-muted); font-size: .9rem; line-height: 1.5; }
-.email_capture_form { display: flex; gap: 8px; flex-shrink: 0; }
-.email_capture_form input[type="email"] {
-  border: 1px solid var(--yesql-line);
-  border-radius: 20px;
-  padding: 7px 14px;
-  font-size: .9rem;
-  color: var(--yesql-ink);
-  background: #fff;
-  outline: none;
-  width: 200px;
-}
-.email_capture_form input[type="email"]:focus {
-  border-color: var(--yesql-lightpurple);
-  box-shadow: 0 0 0 3px rgba(139, 111, 176, 0.15);
-}
-.email_capture_form button[type="submit"] {
-  background: var(--yesql-lightpurple);
-  color: #fff;
-  border: none;
-  border-radius: 20px;
-  padding: 7px 18px;
-  font-size: .9rem;
-  font-weight: 700;
-  cursor: pointer;
-  white-space: nowrap;
-  transition: background .15s ease;
-}
-.email_capture_form button[type="submit"]:disabled { opacity: .6; cursor: default; }
-.email_capture_form button[type="submit"]:not(:disabled):hover { background: var(--yesql-purple); }
-.email_capture_success,
-.email_capture_error { margin: 0; font-size: .9rem; }
-.email_capture_success { color: var(--yesql-purple); font-weight: 700; }
-.email_capture_error { color: #c0392b; }
-.email_capture_error a { color: inherit; }
-@media (max-width: 700px) {
-  .lesson_email_capture { flex-direction: column; align-items: flex-start; }
-  .email_capture_form { flex-direction: column; width: 100%; }
-  .email_capture_form input[type="email"] { width: 100%; box-sizing: border-box; }
-}
-
 /* --- Lesson diagrams --- */
 .lesson_content img {
   display: block;
