@@ -1,195 +1,97 @@
+<style>
+  .mc_price_options {
+    display: flex;
+    gap: 12px;
+    margin: 8px 0 6px;
+  }
+  .mc_price_option {
+    flex: 1;
+    background: #f5f2fa;
+    border-radius: 8px;
+    padding: 14px 10px 16px;
+    text-align: center;
+  }
+  .mc_price_option-best {
+    background: #eaf5fa;
+    border: 1px solid #60b2d3;
+  }
+  .mc_price_option_badge {
+    display: inline-block;
+    font: 700 11px 'Lato';
+    letter-spacing: .05em;
+    text-transform: uppercase;
+    color: #fff;
+    background: #60b2d3;
+    border-radius: 3px;
+    padding: 2px 8px;
+    margin-bottom: 8px;
+  }
+  .mc_price_option_label {
+    display: block;
+    font-size: 13px;
+    color: #67527a;
+    margin-bottom: 4px;
+  }
+  .mc_price_option_value {
+    display: block;
+    font: 700 28px 'Lato';
+    color: #372649;
+  }
+  .price_list.price_list-single {
+    justify-content: center;
+  }
+  .price_list.price_list-single > li {
+    max-width: 480px;
+    flex-basis: 480px;
+  }
+</style>
+
 <div class="packages_block">
   <div class="wrapper">
     <header class="heading">
       <h3>Masterclass Pricing</h3>
       <p class="lightpurple">
-        Pick a single session or the full curriculum. Every session is
-        a focused 3-hour live webinar with practical instruction, demonstrations,
-        and live Q&A — plus the recording to keep.
+        One live format, two ways to join — choose at checkout.
       </p>
     </header>
 
-    {{ partial "masterclass/workflow-note.html" . }}
-
-    <ul class="price_list price_list-pair">
+    <ul class="price_list price_list-single">
       <li>
         <div>
-          <div class="paperback">PICK ONE</div>
-          <h5>Live Masterclass Session</h5>
-          <div class="price">
-            <sup>€</sup>299
+          <div class="best">LIVE MASTERCLASS</div>
+          <h5>Join a Session, or the Full Curriculum</h5>
+
+          <div class="mc_price_options">
+            <div class="mc_price_option">
+              <span class="mc_price_option_label">1 Session</span>
+              <span class="mc_price_option_value">€299</span>
+            </div>
+            <div class="mc_price_option mc_price_option-best">
+              <span class="mc_price_option_badge">Save €299</span>
+              <span class="mc_price_option_label">Full Curriculum</span>
+              <span class="mc_price_option_value">€1,495</span>
+            </div>
           </div>
-          <p class="workshop-subtitle">One topic, one live session</p>
+
+          <p class="tier-subtitle">Pick your plan at checkout</p>
           <p>
-            Choose any one of the six Masterclass topics below — a focused
-            3-hour live webinar with practical instruction, demonstrations,
-            and live Q&amp;A, plus the recording to rewatch anytime.
+            Choose any one of the six Masterclass topics, or take the complete
+            curriculum from foundations to mastery — equivalent to five
+            sessions, the sixth is on us.
           </p>
-          <p class="workshop-meta">
-            <table class="workshop-details">
-              <tr><th>Duration</th><td>3h with Q&amp;A</td></tr>
-              <tr><th>Format</th><td>Live webinar + recording</td></tr>
-              <tr><th>Includes</th><td>Digital edition of the book</td></tr>
-            </table>
-          </p>
-          <a class="button button_purple" href="https://sales.theartofpostgresql.com/masterclass-live-session/">PURCHASE</a>
+
+          <table class="price_features_table">
+            <tr><td class="icon"><i class="fa-solid fa-clock"></i></td><td>3h live webinar with Q&amp;A, per session</td></tr>
+            <tr><td class="icon"><i class="fa-solid fa-video"></i></td><td>Recording included, yours to keep</td></tr>
+            <tr><td class="icon"><i class="fa-solid fa-calendar-check"></i></td><td>Register for your dates from your dashboard, after checkout</td></tr>
+            <tr><td class="icon"><i class="fa-solid fa-book"></i></td><td>Digital edition of the book included</td></tr>
+          </table>
+
+          <div class="price_cta">
+            <a class="button button_purple button_large" href="https://sales.theartofpostgresql.com/the-art-of-postgresql-masterclass/">PURCHASE</a>
+          </div>
         </div>
       </li>
-      <li class="bestvalue">
-        <div>
-          <div class="best">BEST VALUE — SAVE €299</div>
-          <h5>Masterclass Curriculum</h5>
-          <div class="price">
-            <sup>€</sup>1,495
-          </div>
-          <p class="workshop-subtitle">All 6 sessions, one cohesive curriculum</p>
-          <p>
-            The complete curriculum, foundations to mastery: Reliable
-            Aggregations, Master Window Functions, Schema for Performance,
-            Advanced Join Patterns, Optimize SQL Performance, and Read Query
-            Plans. Six live sessions — equivalent to five, the sixth is on us.
-          </p>
-          <p class="workshop-meta">
-            <table class="workshop-details">
-              <tr><th>Duration</th><td>6 × 3h with Q&amp;A</td></tr>
-              <tr><th>Format</th><td>Live webinar + recording</td></tr>
-              <tr><th>Includes</th><td>Digital edition of the book</td></tr>
-            </table>
-          </p>
-          <a class="button button_purple" href="https://sales.theartofpostgresql.com/masterclass-curriculum/">PURCHASE</a>
-        </div>
-      </li>
-    </ul>
-
-    <ul class="descriptions_list">
-
-      <li>
-        <h6>Proven Techniques From the Field</h6>
-        <p>
-          The content is drawn from years of real-world PostgreSQL
-          consulting, operations, and performance tuning. Instead of
-          theoretical SQL, you'll learn the methods professionals use in
-          production systems.
-        </p>
-      </li>
-
-      <li>
-        <h6>Register on Your Own Schedule</h6>
-        <p>
-          No need to commit to a date at checkout. Once you've purchased,
-          sign in to your dashboard and register for whichever available
-          date works best for you, session by session — and reschedule if
-          your plans change.
-        </p>
-      </li>
-
-      <li>
-        <h6>The Complete Book Included</h6>
-        <p>
-          Registration includes the <strong>digital edition</strong>
-          of <strong>The Art of PostgreSQL</strong> (Second Edition, Updated 2026) &mdash; a comprehensive
-          reference you can continue to use long after the masterclass ends.
-        </p>
-      </li>
-
-      <li>
-        <h6>High Value, Practical Expertise</h6>
-        <p>
-          Each session delivers focused expertise that would normally
-          require days of trial and error to acquire. Participants leave
-          with practical SQL patterns, performance techniques, and a deeper
-          understanding of how PostgreSQL really works.
-        </p>
-      </li>
-
-      <li>
-        <h6>Master Window Functions</h6>
-        <p>
-          Learn how to express complex analytical queries—ranking, moving
-          averages, cohort analysis—using PostgreSQL window functions. This
-          session turns what often feels like “advanced SQL magic” into
-          clear, repeatable techniques you can apply immediately.
-        </p>
-      </li>
-
-      <li>
-        <h6>Advanced JOIN Techniques</h6>
-        <p>
-          Go beyond basic joins and learn patterns that simplify complex
-          data retrieval. From lateral joins to efficient multi-table
-          strategies, you’ll gain tools that dramatically improve both query
-          clarity and performance.
-        </p>
-      </li>
-
-      <li>
-        <h6>Practical Aggregation Patterns</h6>
-        <p>
-          Transform raw data into meaningful insights with robust
-          aggregation techniques. This session focuses on practical
-          reporting queries, reliable GROUP BY patterns, and ways to avoid
-          common performance traps.
-        </p>
-      </li>
-
-      <li>
-        <h6>Data Modeling for Performance</h6>
-        <p>
-          Good performance starts with good schema design. Learn how to
-          model data structures that align with query workloads, reducing
-          complexity and ensuring PostgreSQL can scale efficiently with your
-          application.
-        </p>
-      </li>
-
-      <li>
-        <h6>Introduction to EXPLAIN Plans</h6>
-        <p>
-          Understand what PostgreSQL actually does when executing your
-          queries. This session teaches you how to read EXPLAIN and EXPLAIN
-          ANALYZE output so you can diagnose slow queries with confidence.
-        </p>
-      </li>
-
-      <li>
-        <h6>Query Optimization Fundamentals</h6>
-        <p>
-          Discover practical methods to rewrite inefficient SQL into fast,
-          production-ready queries. You’ll learn a systematic approach to
-          identifying bottlenecks and improving performance without
-          guesswork.
-        </p>
-      </li>
-
-      <li>
-        <h6>Hands-On Learning in Focused Sessions</h6>
-        <p>
-          Each masterclass is delivered as a concentrated <strong>3-hour online
-          session</strong> designed for maximum signal and minimal time
-          commitment. Expect practical demonstrations, clear explanations,
-          and techniques you can apply immediately.
-        </p>
-      </li>
-
-      <li>
-        <h6>Live Q&A With the Instructor</h6>
-        <p>
-          Every session includes time for live questions, allowing
-          participants to clarify concepts and connect the material to their
-          own real-world database challenges.
-        </p>
-      </li>
-
-      <li>
-        <h6>Learn From a Recognized PostgreSQL Expert</h6>
-        <p>
-          Sessions are led by the author of <strong>The Art of
-          PostgreSQL</strong>, a well-known PostgreSQL practitioner and
-          <strong>international conference speaker</strong> who has taught
-          these techniques to developers and teams worldwide.
-        </p>
-      </li>
-
     </ul>
   </div>
 </div>

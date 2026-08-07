@@ -1,0 +1,90 @@
+<style>
+  .masterclass_how { background: #f8f7f9; padding: 64px 0; }
+  .masterclass_how .how_box {
+    max-width: 900px;
+    margin: 0 auto;
+    background: #fff;
+    border: 1px solid #e4dced;
+    border-radius: 16px;
+    padding: 48px;
+    box-shadow: 0 4px 28px rgba(55,38,73,0.07);
+    text-align: center;
+  }
+  .masterclass_how h3 {
+    color: #372649;
+    font-size: 1.5rem;
+    font-family: Bookman, serif;
+    font-weight: 400;
+    margin: 0 0 40px;
+    line-height: 1.3;
+  }
+  .how_steps {
+    display: flex;
+    align-items: flex-start;
+    gap: 32px;
+    text-align: left;
+  }
+  .how_step { flex: 1; }
+  .how_step_num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #60b2d3;
+    color: #fff;
+    font: 700 15px 'Lato';
+    margin-bottom: 14px;
+  }
+  .how_step h4 {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: #372649;
+    margin: 0 0 8px;
+  }
+  .how_step p {
+    font-size: .9rem;
+    color: #67527a;
+    line-height: 1.6;
+    margin: 0;
+  }
+  @media (max-width: 720px) {
+    .masterclass_how .how_box { padding: 32px 24px; }
+    .how_steps { flex-direction: column; gap: 28px; }
+  }
+</style>
+
+<div class="masterclass_how">
+  <div class="wrapper">
+    <div class="how_box">
+      <h3>Buy now. Pick your dates later.</h3>
+      <div class="how_steps">
+        <div class="how_step">
+          <span class="how_step_num">1</span>
+          <h4>Choose your plan</h4>
+          <p>
+            One live session on any topic, or the full 6-session curriculum —
+            select either at checkout.
+          </p>
+        </div>
+        <div class="how_step">
+          <span class="how_step_num">2</span>
+          <h4>Register in your dashboard</h4>
+          <p>
+            Sign in after checkout and register for whichever available date
+            works for you, topic by topic.
+          </p>
+        </div>
+        <div class="how_step">
+          <span class="how_step_num">3</span>
+          <h4>Attend live, keep the recording</h4>
+          <p>
+            Join the 3-hour live session with real-time Q&amp;A — the
+            recording is yours to rewatch anytime after.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
