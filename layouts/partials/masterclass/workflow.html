@@ -20,22 +20,30 @@
   }
   .how_steps {
     display: flex;
-    align-items: flex-start;
-    gap: 32px;
-    text-align: left;
+    align-items: stretch;
+    text-align: center;
   }
-  .how_step { flex: 1; }
+  .how_step {
+    flex: 1;
+    padding: 0 28px;
+  }
+  .how_step_divider {
+    width: 1px;
+    background: #e4dced;
+    flex-shrink: 0;
+  }
   .how_step_num {
-    display: inline-flex;
+    display: flex;
     align-items: center;
     justify-content: center;
-    width: 32px;
-    height: 32px;
+    width: 36px;
+    height: 36px;
+    margin: 0 auto 16px;
     border-radius: 50%;
     background: #60b2d3;
+    box-shadow: 0 0 0 5px rgba(96,178,211,0.15);
     color: #fff;
-    font: 700 15px 'Lato';
-    margin-bottom: 14px;
+    font: 700 16px 'Lato';
   }
   .how_step h4 {
     font-size: 1.05rem;
@@ -52,6 +60,8 @@
   @media (max-width: 720px) {
     .masterclass_how .how_box { padding: 32px 24px; }
     .how_steps { flex-direction: column; gap: 28px; }
+    .how_step { padding: 0; }
+    .how_step_divider { display: none; }
   }
 </style>
 
@@ -68,6 +78,7 @@
             select either at checkout.
           </p>
         </div>
+        <div class="how_step_divider"></div>
         <div class="how_step">
           <span class="how_step_num">2</span>
           <h4>Register in your dashboard</h4>
@@ -76,6 +87,7 @@
             works for you, topic by topic.
           </p>
         </div>
+        <div class="how_step_divider"></div>
         <div class="how_step">
           <span class="how_step_num">3</span>
           <h4>Attend live, keep the recording</h4>
