@@ -1110,6 +1110,21 @@ body.course .welcome_slider ul li {
 .subscribe_block form {
   display: flex;
 }
+.subscribe_block form input[type="email"] {
+  flex: 1;
+  min-width: 0;
+  min-height: 40px;
+  padding: 5px 16px;
+  font: 400 15px 'Lato';
+  color: #2e2241;
+  background: #fff;
+  border: none;
+  outline: none;
+  box-sizing: border-box;
+}
+.subscribe_block form input[type="email"]::placeholder {
+  color: #a89bc0;
+}
 .subscribe_block form button,
 .subscribe_block form button:visited {
   white-space: nowrap;

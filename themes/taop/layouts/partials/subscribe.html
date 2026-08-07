@@ -1,9 +1,11 @@
 <!-- subscribe_block -->
 <div id="subscribe" class="subscribe_block">
     <div class="wrapper">
-     <p>Not convinced yet? Get a FREE chapter including the full Table of Contents!</p>
-     <script async data-uid="c1452ad801" src="https://f.convertkit.com/c1452ad801/ad53e74e51.js"></script>
-     
+     <p>Not convinced yet? Create a free account and connect to the app's dashboard — sample chapters, sample course modules, and the interactive book reader, free.</p>
+     <form method="get" action="{{ if hugo.IsServer }}http://api.taop.localhost:8081{{ else }}https://api.theartofpostgresql.com{{ end }}/login">
+       <input type="email" name="email" required placeholder="you@example.com" autocomplete="email">
+       <button type="submit">Get Free Access</button>
+     </form>
     </div>
 </div>
 <!-- /subscribe_block -->

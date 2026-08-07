@@ -569,24 +569,52 @@
       color: #5a4a70;
       margin: 0 0 28px;
     }
-    /* Override ConvertKit form colours to match the light section */
-    .cp-freechapter .formkit-input {
-      background: #fff !important;
-      color: #372649 !important;
-      border-color: #c5b8d5 !important;
+    .cp-freechapter form {
+      display: flex;
+      gap: 10px;
+      max-width: 420px;
+      margin: 0 auto;
     }
-    .cp-freechapter .formkit-input::placeholder {
-      color: #9e8fb0 !important;
+    .cp-freechapter form input[type="email"] {
+      flex: 1;
+      min-width: 0;
+      min-height: 44px;
+      padding: 0 16px;
+      font: 400 15px 'Lato', sans-serif;
+      color: #372649;
+      background: #fff;
+      border: 1px solid #c5b8d5;
+      border-radius: 6px;
+      outline: none;
+      box-sizing: border-box;
     }
-    .cp-freechapter .formkit-submit,
-    .cp-freechapter .formkit-submit:visited {
-      background: #372649 !important;
-      border-color: #372649 !important;
-      color: #fff !important;
+    .cp-freechapter form input[type="email"]::placeholder {
+      color: #9e8fb0;
     }
-    .cp-freechapter .formkit-submit:hover {
-      background: #60b2d3 !important;
-      border-color: #60b2d3 !important;
+    .cp-freechapter form input[type="email"]:focus {
+      border-color: #60b2d3;
+      box-shadow: 0 0 0 3px rgba(96,178,211,0.2);
+    }
+    .cp-freechapter form button {
+      white-space: nowrap;
+      min-height: 44px;
+      padding: 0 22px;
+      font: 700 13.5px 'Lato', sans-serif;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: #fff;
+      background: #372649;
+      border: 1px solid #372649;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background linear 0.2s, border-color linear 0.2s;
+    }
+    .cp-freechapter form button:hover {
+      background: #60b2d3;
+      border-color: #60b2d3;
+    }
+    @media (max-width: 480px) {
+      .cp-freechapter form { flex-direction: column; }
     }
 
     /* ── Course callout ── */
@@ -1702,9 +1730,12 @@ SELECT id, title, artist,
 <!-- ── Free chapter capture ── -->
 <section class="cp-freechapter">
   <div class="wrapper">
-    <h2>Not ready yet? Get a free chapter.</h2>
-    <p>Enter your email and receive a free chapter of The Art of PostgreSQL. No spam. Unsubscribe anytime.</p>
-    <script async data-uid="c1452ad801" src="https://f.convertkit.com/c1452ad801/ad53e74e51.js"></script>
+    <h2>Not ready yet? Get free access.</h2>
+    <p>Create a free account and connect to the app's dashboard — sample chapters, sample course modules, and the interactive book reader, free.</p>
+    <form method="get" action="{{ if hugo.IsServer }}http://api.taop.localhost:8081{{ else }}https://api.theartofpostgresql.com{{ end }}/login">
+      <input type="email" name="email" required placeholder="you@example.com" autocomplete="email">
+      <button type="submit">Get Free Access</button>
+    </form>
   </div>
 </section>
 

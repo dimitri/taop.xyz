@@ -8,11 +8,11 @@
     <div class="mo-grid">
       <div class="mo-card">
         <div class="mo-card-body">
-          <div class="mo-top">
-            <span class="mo-num">01</span>
+          <div class="mo-title-row">
+            <span class="mo-num-box">01</span>
+            <h3 class="mo-title">Reliable Aggregations</h3>
             <span class="mo-icon"><i class="fa-solid fa-chart-pie"></i></span>
           </div>
-          <h3>Reliable Aggregations</h3>
           <p>Build reliable reports with correct, fast GROUP BY queries. Master GROUPING SETS, ROLLUP, CUBE, HAVING, and advanced aggregate functions on real business datasets — turning raw data into meaningful insights while avoiding the traps that make reports slow or wrong.</p>
         </div>
         <div class="mo-bottom mo-bottom-core">
@@ -22,11 +22,11 @@
       </div>
       <div class="mo-card">
         <div class="mo-card-body">
-          <div class="mo-top">
-            <span class="mo-num">02</span>
+          <div class="mo-title-row">
+            <span class="mo-num-box">02</span>
+            <h3 class="mo-title">Master Window Functions</h3>
             <span class="mo-icon"><i class="fa-solid fa-chart-line"></i></span>
           </div>
-          <h3>Master Window Functions</h3>
           <p>Write advanced analytical queries with window functions — ranking, moving averages, and cohort analysis, directly in SQL. What often feels like "advanced SQL magic" becomes a clear, repeatable technique, eliminating complex post-processing logic in your application code.</p>
         </div>
         <div class="mo-bottom mo-bottom-core">
@@ -36,11 +36,11 @@
       </div>
       <div class="mo-card">
         <div class="mo-card-body">
-          <div class="mo-top">
-            <span class="mo-num">03</span>
+          <div class="mo-title-row">
+            <span class="mo-num-box">03</span>
+            <h3 class="mo-title">Read Query Plans</h3>
             <span class="mo-icon"><i class="fa-solid fa-diagram-project"></i></span>
           </div>
-          <h3>Read Query Plans</h3>
           <p>Stop guessing why queries are slow. Learn to read EXPLAIN and EXPLAIN ANALYZE output like a performance engineer — understanding exactly what PostgreSQL does when executing your queries, so you can diagnose issues with confidence.</p>
         </div>
         <div class="mo-bottom mo-bottom-advanced">
@@ -50,11 +50,11 @@
       </div>
       <div class="mo-card">
         <div class="mo-card-body">
-          <div class="mo-top">
-            <span class="mo-num">04</span>
+          <div class="mo-title-row">
+            <span class="mo-num-box">04</span>
+            <h3 class="mo-title">Advanced JOIN Patterns</h3>
             <span class="mo-icon"><i class="fa-solid fa-code-branch"></i></span>
           </div>
-          <h3>Advanced JOIN Patterns</h3>
           <p>Simplify complex queries and reduce technical debt with production-grade JOIN strategies. Go beyond basic joins — lateral joins, set operations, and efficient multi-table strategies that dramatically improve both query clarity and performance.</p>
         </div>
         <div class="mo-bottom mo-bottom-advanced">
@@ -64,11 +64,11 @@
       </div>
       <div class="mo-card">
         <div class="mo-card-body">
-          <div class="mo-top">
-            <span class="mo-num">05</span>
+          <div class="mo-title-row">
+            <span class="mo-num-box">05</span>
+            <h3 class="mo-title">Schema for Performance</h3>
             <span class="mo-icon"><i class="fa-solid fa-sitemap"></i></span>
           </div>
-          <h3>Schema for Performance</h3>
           <p>Design schemas that prevent performance issues before they happen — a high-leverage, long-term investment. Learn to model data structures that align with real query workloads, reducing complexity and letting PostgreSQL scale efficiently with your application.</p>
         </div>
         <div class="mo-bottom mo-bottom-advanced">
@@ -78,11 +78,11 @@
       </div>
       <div class="mo-card">
         <div class="mo-card-body">
-          <div class="mo-top">
-            <span class="mo-num">06</span>
+          <div class="mo-title-row">
+            <span class="mo-num-box">06</span>
+            <h3 class="mo-title">Optimize SQL Performance</h3>
             <span class="mo-icon"><i class="fa-solid fa-gauge-high"></i></span>
           </div>
-          <h3>Optimize SQL Performance</h3>
           <p>Systematically turn slow production queries into fast, scalable SQL. Learn a repeatable method for identifying bottlenecks and rewriting inefficient queries — expert-level techniques, without the guesswork.</p>
         </div>
         <div class="mo-bottom mo-bottom-architect">
@@ -133,26 +133,42 @@
   flex: 1;
   padding: 24px 24px 20px;
 }
-.mo-top {
+.mo-title-row {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 10px;
+  align-items: flex-start;
+  gap: 4px;
+  margin-bottom: 14px;
 }
-.mo-num {
-  font: 700 0.72rem/1 'Lato', sans-serif;
+.mo-num-box {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  margin-top: 3px;
+  border-radius: 4px;
+  background: #f5f2fa;
   color: #9e8fb0;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+  font: 700 0.66rem/1 'Lato', sans-serif;
+  letter-spacing: 0.02em;
 }
 .mo-icon {
-  font-size: 1.15rem;
+  flex: 0 0 auto;
+  width: 22px;
+  margin-top: 3px;
+  text-align: center;
+  font-size: 1rem;
   color: #60b2d3;
 }
-.mo-card h3 {
-  font: 400 1rem/1.25 'Lato', sans-serif;
+.mo-title {
+  flex: 1;
+  width: 90%;
+  text-align: center;
+  font: 700 1.3rem/1.3 'Lato', sans-serif;
+  font-variant: small-caps;
   color: #372649;
-  margin: 0 0 10px;
+  margin: 0;
 }
 .mo-card p {
   font: 300 0.875rem/1.6 'Lato', sans-serif;
