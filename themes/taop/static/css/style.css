@@ -659,14 +659,17 @@ body.course .welcome_slider ul li {
 .price_list > li:first-child:nth-last-child(n + 4) {
   max-width: 25%;
 }
-/* Two-card layout (e.g. masterclass pricing: single session vs curriculum) */
+/* Two-card layout (e.g. masterclass pricing: single session vs curriculum).
+   !important because several other breakpoints redeclare max-width/margin
+   on the bare .price_list > li selector, and this needs to win regardless
+   of viewport width. */
 .price_list.price_list-pair {
-  justify-content: center;
+  justify-content: center !important;
 }
 .price_list.price_list-pair > li {
-  flex: 0 1 380px;
-  max-width: 380px;
-  margin: 0 12px 25px;
+  flex: 0 1 380px !important;
+  max-width: 380px !important;
+  margin: 0 12px 25px !important;
 }
 .price_list > li > div {
   background: #fff;
