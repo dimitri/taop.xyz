@@ -4567,6 +4567,15 @@ body.newsletter .index_hero .hero_cta .button.button_outline:hover {
   body {
     padding-bottom: 60px;
   }
+  /* The masterclass page sells its own CTA below the fold — the
+     sitewide "Get the Book" sticky bar competes with it, so drop it
+     here specifically rather than sitewide. */
+  body.masterclass .sticky-cta-wrapper {
+    display: none;
+  }
+  body.masterclass {
+    padding-bottom: 0;
+  }
 }
 
 /* Money Back Guarantee */

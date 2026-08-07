@@ -30,12 +30,14 @@
           </p>
           <table class="price_features_table">
             <tr><td class="icon"><i class="fa-solid fa-chalkboard-user"></i></td><td>Live 3h session taught by Dimitri Fontaine</td></tr>
+            <tr><td class="icon"><i class="fa-solid fa-users"></i></td><td>Seats are limited per session — see each topic below</td></tr>
             <tr><td class="icon"><i class="fa-solid fa-video"></i></td><td>Recording included, yours to keep</td></tr>
             <tr><td class="icon"><i class="fa-solid fa-calendar-check"></i></td><td>Register for your date from your dashboard, after checkout</td></tr>
             <tr><td class="icon"><i class="fa-solid fa-book"></i></td><td>Digital edition of the book included</td></tr>
           </table>
           <div class="price_cta">
-            <a class="button button_purple" href="https://sales.theartofpostgresql.com/the-art-of-postgresql-masterclass/">Get a Session — €299</a>
+            {{ partial "money-back-guarantee.html" . }}
+            <a class="button button_purple" href="https://sales.theartofpostgresql.com/the-art-of-postgresql-masterclass/">RESERVE MY SPOT</a>
           </div>
         </div>
       </li>
@@ -59,12 +61,14 @@
           </p>
           <table class="price_features_table">
             <tr><td class="icon"><i class="fa-solid fa-chalkboard-user"></i></td><td>6 × live 3h sessions taught by Dimitri Fontaine</td></tr>
+            <tr><td class="icon"><i class="fa-solid fa-calendar"></i></td><td>Runs once per quarter — all 6 sessions as one cohort</td></tr>
             <tr><td class="icon"><i class="fa-solid fa-video"></i></td><td>Recordings included, yours to keep</td></tr>
             <tr><td class="icon"><i class="fa-solid fa-calendar-check"></i></td><td>Register for your dates from your dashboard, after checkout</td></tr>
             <tr><td class="icon"><i class="fa-solid fa-book"></i></td><td>Digital edition of the book included</td></tr>
           </table>
           <div class="price_cta">
-            <a class="button button_purple" href="https://sales.theartofpostgresql.com/the-art-of-postgresql-masterclass/">Get the Curriculum — €1,495</a>
+            {{ partial "money-back-guarantee.html" . }}
+            <a class="button button_purple" href="https://sales.theartofpostgresql.com/the-art-of-postgresql-masterclass/">RESERVE MY SPOT</a>
           </div>
         </div>
       </li>
