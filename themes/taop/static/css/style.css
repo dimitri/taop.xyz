@@ -310,21 +310,21 @@ body.index .header,
 body.book .header {
   background: #372649;
 }
-body.workshop .header,
+body.masterclass .header,
 body.lab .header,
 body.course .header {
   background: transparent;
   border-bottom-color: transparent;
   transition: background 0.3s, border-color 0.3s;
 }
-body.workshop .header.nav-solid,
+body.masterclass .header.nav-solid,
 body.lab .header.nav-solid,
 body.course .header.nav-solid {
   background: #372649;
   border-bottom-color: rgba(255,255,255,0.3);
 }
 body.index .welcome_slider ul li,
-body.workshop .welcome_slider ul li,
+body.masterclass .welcome_slider ul li,
 body.lab .welcome_slider ul li,
 body.course .welcome_slider ul li {
   padding-top: 20px;
@@ -658,6 +658,13 @@ body.course .welcome_slider ul li {
 }
 .price_list > li:first-child:nth-last-child(n + 4) {
   max-width: 25%;
+}
+/* Two-card layout (e.g. masterclass pricing: single session vs curriculum) */
+.price_list.price_list-pair {
+  justify-content: center;
+}
+.price_list.price_list-pair > li {
+  max-width: 380px;
 }
 .price_list > li > div {
   background: #fff;
