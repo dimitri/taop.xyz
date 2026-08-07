@@ -310,21 +310,21 @@ body.index .header,
 body.book .header {
   background: #372649;
 }
-body.workshop .header,
+body.masterclass .header,
 body.lab .header,
 body.course .header {
   background: transparent;
   border-bottom-color: transparent;
   transition: background 0.3s, border-color 0.3s;
 }
-body.workshop .header.nav-solid,
+body.masterclass .header.nav-solid,
 body.lab .header.nav-solid,
 body.course .header.nav-solid {
   background: #372649;
   border-bottom-color: rgba(255,255,255,0.3);
 }
 body.index .welcome_slider ul li,
-body.workshop .welcome_slider ul li,
+body.masterclass .welcome_slider ul li,
 body.lab .welcome_slider ul li,
 body.course .welcome_slider ul li {
   padding-top: 20px;
@@ -658,6 +658,18 @@ body.course .welcome_slider ul li {
 }
 .price_list > li:first-child:nth-last-child(n + 4) {
   max-width: 25%;
+}
+/* Two-card layout (e.g. masterclass pricing: single session vs curriculum).
+   !important because several other breakpoints redeclare max-width/margin
+   on the bare .price_list > li selector, and this needs to win regardless
+   of viewport width. */
+.price_list.price_list-pair {
+  justify-content: center !important;
+}
+.price_list.price_list-pair > li {
+  flex: 0 1 380px !important;
+  max-width: 380px !important;
+  margin: 0 12px 25px !important;
 }
 .price_list > li > div {
   background: #fff;
@@ -1097,6 +1109,21 @@ body.course .welcome_slider ul li {
 }
 .subscribe_block form {
   display: flex;
+}
+.subscribe_block form input[type="email"] {
+  flex: 1;
+  min-width: 0;
+  min-height: 40px;
+  padding: 5px 16px;
+  font: 400 15px 'Lato';
+  color: #2e2241;
+  background: #fff;
+  border: none;
+  outline: none;
+  box-sizing: border-box;
+}
+.subscribe_block form input[type="email"]::placeholder {
+  color: #a89bc0;
 }
 .subscribe_block form button,
 .subscribe_block form button:visited {
@@ -4559,6 +4586,17 @@ body.newsletter .index_hero .hero_cta .button.button_outline:hover {
   }
   body {
     padding-bottom: 60px;
+  }
+  /* The masterclass and course pages each sell their own CTA below
+     the fold — the sitewide "Get the Book" sticky bar competes with
+     it, so drop it here specifically rather than sitewide. */
+  body.masterclass .sticky-cta-wrapper,
+  body.course .sticky-cta-wrapper {
+    display: none;
+  }
+  body.masterclass,
+  body.course {
+    padding-bottom: 0;
   }
 }
 

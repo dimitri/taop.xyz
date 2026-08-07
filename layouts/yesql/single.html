@@ -17,17 +17,6 @@
 
       {{ .Content }}
 
-      {{ partial "yesql/email-capture.html" . }}
-
-
-      {{ with .Params.course_title }}
-      <aside class="lesson_course_attr">
-        <i class="fa-solid fa-graduation-cap"></i>
-        <p>This lesson is a preview from the <b>{{ . }}</b> course.
-        <a href="{{ $.Param "course_url" }}">See the full curriculum →</a></p>
-      </aside>
-      {{ end }}
-
       <footer class="lesson_footer">
         {{ with .Params.tags }}
         <p class="tags">{{ range . }}<a href="{{ "tags/" | absURL }}{{ . | urlize }}">#{{ . }}</a> {{ end }}</p>
@@ -73,4 +62,5 @@
   "url" (.Param "cta_url" | default "https://sales.theartofpostgresql.com/the-art-of-postgresql-book/")
   "label" (.Param "cta_label" | default "Get the Book — $89")) }}
 
+{{ partial "subscribe.html" . }}
 {{ partial "footer.html" . }}

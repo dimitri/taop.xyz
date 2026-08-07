@@ -47,19 +47,19 @@
 
     <div class="co-tiers">
       <div class="co-tier co-tier-core">
-        <span class="co-tier-name">Core</span>
+        <span class="co-tier-name co-tier-tag-core">Core</span>
         <span class="co-tier-count">36 modules</span>
         <span class="co-tier-desc">SQL foundations, no prerequisites</span>
         <a href="https://sales.theartofpostgresql.com/the-art-of-postgresql-courses/" class="co-tier-cta">Buy Core</a>
       </div>
       <div class="co-tier co-tier-advanced">
-        <span class="co-tier-name">Advanced <span class="co-tier-popular">Most Popular</span></span>
+        <span class="co-tier-name co-tier-tag-advanced">Advanced <span class="co-tier-popular">Most Popular</span></span>
         <span class="co-tier-count">42 modules</span>
         <span class="co-tier-desc">Performance, plan analysis, and query rewriting techniques and methodology</span>
         <a href="https://sales.theartofpostgresql.com/the-art-of-postgresql-courses/" class="co-tier-cta">Buy Advanced</a>
       </div>
       <div class="co-tier co-tier-architect">
-        <span class="co-tier-name">Architect</span>
+        <span class="co-tier-name co-tier-tag-architect">Architect</span>
         <span class="co-tier-count">48 modules</span>
         <span class="co-tier-desc">Schema evolution, data architecture, and system-level trade-offs</span>
         <a href="https://sales.theartofpostgresql.com/the-art-of-postgresql-courses/" class="co-tier-cta">Buy Architect</a>
@@ -175,19 +175,27 @@
   border-color: #60b2d3;
 }
 .co-tier-name {
-  font: 700 0.95rem/1 'Lato', sans-serif;
-  color: #372649;
-  display: flex;
+  align-self: flex-start;
+  display: inline-flex;
   align-items: center;
   gap: 8px;
+  padding: 3px 10px;
+  border-radius: 3px;
+  font: 700 0.68rem/1.4 'Lato', sans-serif;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
   margin-bottom: 2px;
 }
+.co-tier-tag-core { background: #ccc9d0; }
+.co-tier-tag-advanced { background: #60b2d3; }
+.co-tier-tag-architect { background: #372649; }
 .co-tier-popular {
   font: 700 0.58rem/1 'Lato', sans-serif;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  color: #fff;
-  background: #60b2d3;
+  color: #60b2d3;
+  background: #fff;
   border-radius: 2px;
   padding: 2px 6px;
 }

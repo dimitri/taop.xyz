@@ -1,20 +1,19 @@
 <div id="subscribe" class="newsletter_subscribe_block">
   <div class="wrapper">
     <header class="heading">
-      <h3>Not ready to commit?<br />Start with the free chapter.</h3>
+      <h3>Not ready to commit?<br />Get free access instead.</h3>
     </header>
     <p class="hero_description" style="max-width: 800px; margin: 0 auto 30px auto; text-align: center;">
-      The free chapter walks through the exact NYSE trading volume example from the workshop —
-      60 lines of Python replaced by a single SQL query, step by step.
-      It's the best preview of both the book and what the workshop covers live.
+      Create a free account and connect to the app's dashboard — the exact NYSE
+      trading volume example from the Window Functions masterclass session, sample
+      chapters, sample course modules, and the interactive book reader. No credit
+      card required.
     </p>
     <center>
-      <script async data-uid="c1452ad801" src="https://f.convertkit.com/c1452ad801/ad53e74e51.js"></script>
+      <form method="get" action="{{ if hugo.IsServer }}http://api.taop.localhost:8081{{ else }}https://api.theartofpostgresql.com{{ end }}/login" style="display: inline-flex; gap: 10px;">
+        <input type="email" name="email" required placeholder="you@example.com" autocomplete="email" style="min-width: 260px; min-height: 44px; padding: 0 16px; font: 400 15px 'Lato', sans-serif; color: #372649; background: #fff; border: 1px solid #c5b8d5; border-radius: 6px; outline: none; box-sizing: border-box;">
+        <button type="submit" style="white-space: nowrap; min-height: 44px; padding: 0 22px; font: 700 13.5px 'Lato', sans-serif; letter-spacing: 1px; text-transform: uppercase; color: #fff; background: #372649; border: 1px solid #372649; border-radius: 6px; cursor: pointer;">Get Free Access</button>
+      </form>
     </center>
-    <p style="text-align: center; margin-top: 24px; color: #67527a; font-size: .9rem;">
-      Or <a href="/app/" style="color: #372649; font-weight: 700;">try the companion app</a> —
-      free access to sample chapters and lessons, with a live SQL runner on every page.
-      No credit card required.
-    </p>
   </div>
 </div>
