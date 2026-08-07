@@ -317,22 +317,6 @@ body.yesql { background: var(--yesql-bg); padding-top: 96px; }
 .category_course_promo .button { flex-shrink: 0; white-space: nowrap; }
 @media (max-width: 600px) { .category_course_promo { flex-direction: column; align-items: flex-start; } }
 
-/* --- Course attribution on lesson pages --- */
-.lesson_course_attr {
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  border-left: 4px solid var(--yesql-lightpurple);
-  background: linear-gradient(90deg, #f3f0f7 0%, #fff 100%);
-  padding: 14px 18px;
-  border-radius: 0 10px 10px 0;
-  margin: 18px 0 0;
-}
-.lesson_course_attr > i { color: var(--yesql-lightpurple); margin-top: 2px; flex-shrink: 0; }
-.lesson_course_attr p { margin: 0; color: var(--yesql-muted); font-size: .95rem; }
-.lesson_course_attr a { color: var(--yesql-lightpurple); font-weight: 700; text-decoration: none; }
-.lesson_course_attr a:hover { text-decoration: underline; }
-
 /* --- Lab intro banner (inline, before lesson content) --- */
 .lesson_lab_banner {
   display: flex;
