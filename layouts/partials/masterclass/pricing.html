@@ -1,94 +1,70 @@
-<style>
-  .mc_price_options {
-    display: flex;
-    gap: 12px;
-    margin: 8px 0 6px;
-  }
-  .mc_price_option {
-    flex: 1;
-    background: #f5f2fa;
-    border-radius: 8px;
-    padding: 14px 10px 16px;
-    text-align: center;
-  }
-  .mc_price_option-best {
-    background: #eaf5fa;
-    border: 1px solid #60b2d3;
-  }
-  .mc_price_option_badge {
-    display: inline-block;
-    font: 700 11px 'Lato';
-    letter-spacing: .05em;
-    text-transform: uppercase;
-    color: #fff;
-    background: #60b2d3;
-    border-radius: 3px;
-    padding: 2px 8px;
-    margin-bottom: 8px;
-  }
-  .mc_price_option_label {
-    display: block;
-    font-size: 13px;
-    color: #67527a;
-    margin-bottom: 4px;
-  }
-  .mc_price_option_value {
-    display: block;
-    font: 700 28px 'Lato';
-    color: #372649;
-  }
-  .price_list.price_list-single {
-    justify-content: center;
-  }
-  .price_list.price_list-single > li {
-    max-width: 480px;
-    flex-basis: 480px;
-  }
-</style>
-
 <div class="packages_block">
   <div class="wrapper">
     <header class="heading">
       <h3>Masterclass Pricing</h3>
       <p class="lightpurple">
-        One live format, two ways to join — choose at checkout.
+        Pick a single session or the full curriculum. Every session is a
+        focused 3-hour live webinar taught live by Dimitri Fontaine, author
+        of The Art of PostgreSQL.
       </p>
     </header>
 
-    <ul class="price_list price_list-single">
+    <ul class="price_list price_list-pair">
       <li>
         <div>
-          <div class="best">LIVE MASTERCLASS</div>
-          <h5>Join a Session, or the Full Curriculum</h5>
-
-          <div class="mc_price_options">
-            <div class="mc_price_option">
-              <span class="mc_price_option_label">1 Session</span>
-              <span class="mc_price_option_value">€299</span>
-            </div>
-            <div class="mc_price_option mc_price_option-best">
-              <span class="mc_price_option_badge">Save €299</span>
-              <span class="mc_price_option_label">Full Curriculum</span>
-              <span class="mc_price_option_value">€1,495</span>
-            </div>
+          <div class="paperback">PICK ONE</div>
+          <h5>Live Masterclass Session</h5>
+          <div class="price">
+            <sup>€</sup>299
           </div>
-
-          <p class="tier-subtitle">Pick your plan at checkout</p>
+          <p class="tier-subtitle">One topic, one live session</p>
           <p>
-            Choose any one of the six Masterclass topics, or take the complete
-            curriculum from foundations to mastery — equivalent to five
-            sessions, the sixth is on us.
+            Choose any one of the six Masterclass topics — a focused 3-hour
+            live webinar with practical instruction, demonstrations, and
+            live Q&amp;A.
           </p>
-
+          <p>
+            Taught live by Dimitri Fontaine, a PostgreSQL Major Contributor
+            and the author of The Art of PostgreSQL — not a recording, not a
+            teaching assistant.
+          </p>
           <table class="price_features_table">
-            <tr><td class="icon"><i class="fa-solid fa-clock"></i></td><td>3h live webinar with Q&amp;A, per session</td></tr>
+            <tr><td class="icon"><i class="fa-solid fa-chalkboard-user"></i></td><td>Live 3h session taught by Dimitri Fontaine</td></tr>
             <tr><td class="icon"><i class="fa-solid fa-video"></i></td><td>Recording included, yours to keep</td></tr>
+            <tr><td class="icon"><i class="fa-solid fa-calendar-check"></i></td><td>Register for your date from your dashboard, after checkout</td></tr>
+            <tr><td class="icon"><i class="fa-solid fa-book"></i></td><td>Digital edition of the book included</td></tr>
+          </table>
+          <div class="price_cta">
+            <a class="button button_purple" href="https://sales.theartofpostgresql.com/the-art-of-postgresql-masterclass/">Get a Session — €299</a>
+          </div>
+        </div>
+      </li>
+      <li class="bestvalue">
+        <div>
+          <div class="best">BEST VALUE — SAVE €299</div>
+          <h5>Masterclass Curriculum</h5>
+          <div class="price">
+            <sup>€</sup>1,495
+          </div>
+          <p class="tier-subtitle">All 6 sessions, one cohesive curriculum</p>
+          <p>
+            The complete curriculum, Core to Architect: Reliable
+            Aggregations, Master Window Functions, Read Query Plans,
+            Advanced Join Patterns, Schema for Performance, and Optimize
+            SQL Performance.
+          </p>
+          <p>
+            Six live sessions, all taught by Dimitri Fontaine — equivalent
+            to five sessions' worth, the sixth is on us.
+          </p>
+          <table class="price_features_table">
+            <tr><td class="icon"><i class="fa-solid fa-chalkboard-user"></i></td><td>6 × live 3h sessions taught by Dimitri Fontaine</td></tr>
+            <tr><td class="icon"><i class="fa-solid fa-video"></i></td><td>Recordings included, yours to keep</td></tr>
             <tr><td class="icon"><i class="fa-solid fa-calendar-check"></i></td><td>Register for your dates from your dashboard, after checkout</td></tr>
             <tr><td class="icon"><i class="fa-solid fa-book"></i></td><td>Digital edition of the book included</td></tr>
           </table>
-
           <div class="price_cta">
-            <a class="button button_purple button_large" href="https://sales.theartofpostgresql.com/the-art-of-postgresql-masterclass/">PURCHASE</a>
+            <a class="button button_purple" href="https://sales.theartofpostgresql.com/the-art-of-postgresql-masterclass/">Get the Curriculum — €1,495</a>
           </div>
         </div>
       </li>
