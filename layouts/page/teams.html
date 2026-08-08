@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>The Art of PostgreSQL for Teams</title>
+	<link rel="canonical" href="{{ .Permalink }}">
+	<meta name="description" content="License the Architect course for your team — 5 seats included, add more anytime, optionally add the Masterclass Curriculum. One dashboard to manage your whole team, no passwords.">
+
+	<meta name="twitter:card" content="summary" />
+	<meta name="twitter:site" content="@tapoueh" />
+	<meta name="twitter:creator" content="@tapoueh" />
+	<meta property="og:url" content="{{ .Permalink }}" />
+	<meta property="og:title" content="The Art of PostgreSQL for Teams" />
+	<meta property="og:description" content="One annual package: 5 Architect course seats included, add more anytime, optional Masterclass Curriculum add-on. One dashboard, no passwords." />
+	<meta property="og:image" content="https://theartofpostgresql.com/images/hardcover-mockup.jpg" />
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+
+	<link href="/favicon.ico" rel="icon" type="image/x-icon">
+
+	<link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+	<link rel="stylesheet" href="/css/style.css">
+	<style>
+	  body.teams .header { background: transparent; border-bottom-color: transparent; transition: background 0.3s, border-color 0.3s; }
+	  body.teams .header.nav-solid { background: #372649; border-bottom-color: rgba(255,255,255,0.3); }
+
+	  /* ── Hero (bespoke — everything below this reuses shared site styles) ── */
+	  .teams-hero-wrap {
+	    position: relative;
+	    min-height: 90vh;
+	    overflow: hidden;
+	    background: #181224;
+	  }
+	  .teams-hero-wrap > img {
+	    position: absolute;
+	    inset: 0;
+	    width: 100%;
+	    height: 100%;
+	    object-fit: cover;
+	    object-position: center;
+	    z-index: 0;
+	  }
+	  .teams-hero-ghost {
+	    position: absolute;
+	    right: -40px;
+	    top: 50%;
+	    transform: translateY(-50%);
+	    font-size: 440px;
+	    opacity: 0.07;
+	    color: #fff;
+	    line-height: 1;
+	    pointer-events: none;
+	    z-index: 1;
+	  }
+	  .teams-hero-content {
+	    position: relative;
+	    z-index: 2;
+	    min-height: 90vh;
+	    max-width: 720px;
+	    margin: 0 auto;
+	    padding: 0 24px;
+	    display: flex;
+	    flex-flow: column nowrap;
+	    justify-content: center;
+	    align-items: center;
+	    text-align: center;
+	  }
+	  .teams-hero-eyebrow {
+	    font: 700 11px/1 'Lato', sans-serif;
+	    letter-spacing: .14em;
+	    text-transform: uppercase;
+	    color: #60b2d3;
+	    margin-bottom: 22px;
+	  }
+	  .teams-hero-content h1 {
+	    color: #fff;
+	    font: 300 2.9rem/1.15 'Lato', sans-serif;
+	    margin: 0 0 24px;
+	    padding: 0;
+	  }
+	  .teams-hero-content p {
+	    color: rgba(255,255,255,.65);
+	    font-size: 1.1rem;
+	    line-height: 1.65;
+	    max-width: 560px;
+	    margin: 0 0 44px;
+	    padding: 0;
+	  }
+	  .teams-hero-ctas {
+	    display: flex;
+	    gap: 20px;
+	    flex-wrap: wrap;
+	    justify-content: center;
+	  }
+	  @media (max-width: 540px) {
+	    .teams-hero-content h1 { font-size: 2rem; }
+	    .teams-hero-ctas { flex-direction: column; width: 100%; }
+	    .teams-hero-ctas .button { text-align: center; }
+	  }
+
+	  /* ── same nowrap-on-desktop treatment index/system.html already uses ── */
+	  @media (min-width: 769px) {
+	    .system_flow { flex-wrap: nowrap; gap: 8px; }
+	    .system_item { padding: 12px 8px; min-width: 0; }
+	    .system_icon { font-size: 30px; }
+	    .system_arrow { font-size: 16px; }
+	    .system_item h6 { font-size: 14px; }
+	    .system_item p { font-size: 12px; }
+	  }
+
+	  /* ── single package card: "Custom" replaces the usual big digit price ── */
+	  .price_list.price_list-single { justify-content: center; }
+	  .price_list.price_list-single > li { max-width: 480px; flex-basis: 480px; }
+	  .teams-price-custom {
+	    font: 700 2.2rem/1 'Lato', sans-serif;
+	    color: #372649;
+	  }
+	</style>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="/js/custom.js"></script>
+</head>
+<body class="teams">
+
+{{ partial "header.html" . }}
+
+<!-- Hero -->
+<div class="teams-hero-wrap">
+  <img src="/images/demo/slide.jpg" alt="">
+  <i class="fa-solid fa-users teams-hero-ghost"></i>
+  <div class="teams-hero-content">
+    <div class="teams-hero-eyebrow">For Teams</div>
+    <h1>The Art of PostgreSQL, licensed for your whole team</h1>
+    <p>One annual package: 5 seats of the Architect course included, add more teammates anytime, and optionally add the Masterclass Curriculum. One dashboard, one invite email per teammate, no passwords.</p>
+    <div class="teams-hero-ctas">
+      <a href="#pricing" class="button button_large">See Team Pricing</a>
+      <a href="mailto:dim@tapoueh.org?subject=Team%20license%20inquiry" class="button button_large"
+         style="background:transparent;border-color:rgba(255,255,255,.4);color:rgba(255,255,255,.85);"
+         onmouseover="this.style.background='rgba(255,255,255,.1)';this.style.borderColor='rgba(255,255,255,.7)';this.style.color='#fff'"
+         onmouseout="this.style.background='transparent';this.style.borderColor='rgba(255,255,255,.4)';this.style.color='rgba(255,255,255,.85)'">Talk to Us</a>
+    </div>
+  </div>
+</div>
+
+<!-- How it works -->
+<div class="teams_onboarding">
+  <div class="wrapper">
+    <header class="heading">
+      <h3>Add your team in four steps</h3>
+      <p class="lightpurple">No procurement call, no admin training — it's an email list, not a new tool to learn.</p>
+    </header>
+
+    <div class="system_flow">
+      <div class="system_item">
+        <span class="system_icon"><i class="fa-solid fa-credit-card"></i></span>
+        <h6>Buy</h6>
+        <p>Annual, 5 Architect seats included</p>
+      </div>
+      <span class="system_arrow"><i class="fa-solid fa-arrow-right"></i></span>
+      <div class="system_item">
+        <span class="system_icon"><i class="fa-solid fa-users"></i></span>
+        <h6>Add your team</h6>
+        <p>A form, or upload a CSV</p>
+      </div>
+      <span class="system_arrow"><i class="fa-solid fa-arrow-right"></i></span>
+      <div class="system_item">
+        <span class="system_icon"><i class="fa-solid fa-envelope"></i></span>
+        <h6>Assign &amp; invite</h6>
+        <p>One-time sign-in link each</p>
+      </div>
+      <span class="system_arrow"><i class="fa-solid fa-arrow-right"></i></span>
+      <div class="system_item">
+        <span class="system_icon"><i class="fa-solid fa-trophy"></i></span>
+        <h6>Track progress</h6>
+        <p>Team leaderboard, Core → Architect</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Pricing -->
+<div id="pricing" class="packages_block">
+  <div class="wrapper">
+    <header class="heading">
+      <h3>Team Pricing</h3>
+      <p class="lightpurple">
+        One annual package for your team, with seats and add-ons you
+        control from the dashboard.
+      </p>
+    </header>
+
+    <ul class="price_list price_list-single">
+      <li class="bestvalue">
+        <div>
+          <div class="best">TEAM PACKAGE</div>
+          <h5>Architect Course — Team</h5>
+          <div class="price teams-price-custom">Custom</div>
+          <p class="tier-subtitle">5 seats included, annual, add more anytime</p>
+          <p>
+            The full Architect course for your team — the same
+            system-design depth (schemas, partitioning, scale) as the
+            individual Architect tier, licensed for 5 teammates to start.
+          </p>
+          <table class="price_features_table">
+            <tr><td class="icon"><i class="fa-solid fa-users"></i></td><td>5 Architect course seats included, annual</td></tr>
+            <tr><td class="icon"><i class="fa-solid fa-user-plus"></i></td><td>Add more seats anytime, same per-seat rate</td></tr>
+            <tr><td class="icon"><i class="fa-solid fa-chalkboard-user"></i></td><td>Optional add-on: Masterclass Curriculum seats, any quantity</td></tr>
+            <tr><td class="icon"><i class="fa-solid fa-video"></i></td><td>Optional add-on: 3h Office Hours video call with Dimitri Fontaine</td></tr>
+            <tr><td class="icon"><i class="fa-solid fa-book"></i></td><td>The Art of PostgreSQL book included for every seat</td></tr>
+            <tr><td class="icon"><i class="fa-solid fa-gauge"></i></td><td>Team dashboard: manage members, seats, and progress</td></tr>
+          </table>
+          <div class="price_cta">
+            {{ partial "money-back-guarantee.html" . }}
+            <a class="button button_purple" href="mailto:dim@tapoueh.org?subject=Team%20license%20inquiry">Talk to Us</a>
+          </div>
+        </div>
+      </li>
+    </ul>
+
+    <header class="heading">
+      <p class="lightpurple">
+        Pricing depends on your team size and add-ons — we quote it
+        directly rather than publish a flat rate.
+        <a href="mailto:dim@tapoueh.org?subject=Team%20license%20inquiry" style="color:#fff;font-weight:700;text-decoration:underline;">Talk to us <i class="fa-solid fa-arrow-right" style="font-size:.75em;"></i></a>
+      </p>
+    </header>
+  </div>
+</div>
+
+<!-- Dashboard features -->
+<div class="book_core_value">
+  <div class="wrapper">
+    <header class="heading">
+      <h3>One Dashboard for the Whole Team</h3>
+      <p class="lightpurple">Built for whoever owns the purchase, not for IT</p>
+    </header>
+
+    <ul class="value_list">
+      <li>
+        <div class="value_item">
+          <span class="value_icon"><i class="fa-solid fa-file-csv"></i></span>
+          <h6>Add Members Your Way</h6>
+          <p>Fill a form or upload a CSV. Teams default to your department name, and you can create as many as you need.</p>
+        </div>
+      </li>
+      <li>
+        <div class="value_item">
+          <span class="value_icon"><i class="fa-solid fa-user-check"></i></span>
+          <h6>Assign &amp; Reassign Seats</h6>
+          <p>Architect course and optional Masterclass Curriculum seats, assigned at creation or anytime later from your dashboard.</p>
+        </div>
+      </li>
+      <li>
+        <div class="value_item">
+          <span class="value_icon"><i class="fa-solid fa-envelope-open-text"></i></span>
+          <h6>Magic-Link Invites</h6>
+          <p>One-time sign-in link per teammate, no passwords — the invite email carries your name, company, and team.</p>
+        </div>
+      </li>
+      <li>
+        <div class="value_item">
+          <span class="value_icon"><i class="fa-solid fa-trophy"></i></span>
+          <h6>Team Progress &amp; Leaderboard</h6>
+          <p>See chapters read and points earned across the team, Core through Architect, with a team leaderboard.</p>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<!-- FAQ -->
+<div class="course_faq">
+  <div class="wrapper">
+    <header class="heading">
+      <h3>Frequently Asked Questions</h3>
+    </header>
+
+    <ul class="faq_list">
+      <li>
+        <div class="faq_item">
+          <h6>How many seats are included?</h6>
+          <p>The base annual package includes 5 Architect course seats. Add more teammates anytime from your dashboard, at the same per-seat rate.</p>
+        </div>
+      </li>
+      <li>
+        <div class="faq_item">
+          <h6>Can we add the Masterclass Curriculum too?</h6>
+          <p>Yes — it's an optional add-on with its own seat count, assignable from your dashboard alongside your course seats.</p>
+        </div>
+      </li>
+      <li>
+        <div class="faq_item">
+          <h6>What happens to a seat when someone leaves the company?</h6>
+          <p>If they never logged in, you can fix the assignment and hand that seat to someone else. Once a teammate has actually accessed their content, their access becomes personal — they can even register their own email to keep it — so that specific seat isn't reassignable, but you can always add more.</p>
+        </div>
+      </li>
+      <li>
+        <div class="faq_item">
+          <h6>How does renewal work?</h6>
+          <p>The package runs for one year. A renewal option appears in your team dashboard starting a month before it expires — no surprises, no auto-charges.</p>
+        </div>
+      </li>
+      <li>
+        <div class="faq_item">
+          <h6>Can we get time with the author?</h6>
+          <p>Yes — Office Hours is an optional add-on: a 3-hour video call with Dimitri Fontaine for your team to ask about PostgreSQL, your own queries, or architecture decisions.</p>
+        </div>
+      </li>
+      <li>
+        <div class="faq_item">
+          <h6>We already have an Enterprise Edition book license from the First Edition — does this still work?</h6>
+          <p>Yes. Legacy Enterprise Edition licenses (book only, up to 15 members) work with the same team dashboard — manage your members there, and add course or Masterclass seats as an upgrade whenever you're ready. <a href="/login/">Sign in</a> or <a href="mailto:dim@tapoueh.org?subject=Enterprise%20Edition%20migration">get in touch</a> if you need a hand migrating.</p>
+        </div>
+      </li>
+      <li>
+        <div class="faq_item">
+          <h6>What's your refund policy?</h6>
+          <p>Same as our other products: a full, no-questions-asked refund, even after you've started assigning seats.</p>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<!-- Final CTA -->
+<div class="course_final_cta">
+  <div class="wrapper">
+    <header class="heading">
+      <h3>Ready to License Your Team?</h3>
+      <p class="lightpurple">Tell us your team size and we'll get you set up.</p>
+    </header>
+    <div class="cta_buttons">
+      <a href="mailto:dim@tapoueh.org?subject=Team%20license%20inquiry" class="button button_purple button_large">Talk to Us</a>
+    </div>
+  </div>
+</div>
+
+{{ partial "subscribe.html" . }}
+{{ partial "footer.html" . }}
+
+<script>
+(function() {
+  var $header = $('.header');
+  var threshold = window.innerHeight * 0.7;
+  $(window).on('scroll.teamshero', function() {
+    if ($(this).scrollTop() > threshold) {
+      $header.addClass('nav-solid');
+    } else {
+      $header.removeClass('nav-solid');
+    }
+  });
+})();
+</script>
+</body>
+</html>
