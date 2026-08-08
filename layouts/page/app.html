@@ -188,6 +188,61 @@
     border-bottom: 1px solid #ede8f5;
   }
   .live-db-inner { max-width: 820px; margin: 0 auto; }
+  .live-db-cta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 32px;
+    padding: 24px;
+    background: #fff;
+    border: 1px solid #ede8f5;
+    border-radius: 8px;
+  }
+  .live-db-cta p {
+    margin: 0;
+    font: 700 .95rem/1.4 'Lato', sans-serif;
+    color: #372649;
+    flex: 1 1 220px;
+  }
+  .live-db-cta form {
+    display: flex;
+    gap: 10px;
+    flex: 1 1 320px;
+  }
+  .live-db-cta input[type="email"] {
+    flex: 1;
+    min-width: 0;
+    height: 46px;
+    padding: 0 14px;
+    font-size: .95rem;
+    color: #372649;
+    background: #f8f7f9;
+    border: 1px solid #ede8f5;
+    border-radius: 6px;
+    outline: none;
+  }
+  .live-db-cta input[type="email"]:focus { box-shadow: 0 0 0 3px rgba(96,178,211,.35); }
+  .live-db-cta input[type="email"]::placeholder { color: #896da1; }
+  .live-db-cta button {
+    flex: 0 0 auto;
+    height: 46px;
+    padding: 0 20px;
+    background: #372649;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font: 700 .82rem/1 'Lato', sans-serif;
+    letter-spacing: .03em;
+    cursor: pointer;
+    transition: background .15s;
+    white-space: nowrap;
+  }
+  .live-db-cta button:hover { background: #60b2d3; }
+  @media (max-width: 560px) {
+    .live-db-cta form { flex-direction: column; }
+    .live-db-cta button { width: 100%; }
+  }
 
   /* ── Docker lab section ──────────────────────────────────── */
   .docker-section {
@@ -330,6 +385,7 @@
     border-bottom: 1px solid #ede8f5;
   }
   .team-app-inner { max-width: 780px; margin: 0 auto; }
+  .team-app-cta { text-align: center; }
   .team-app-list {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -460,7 +516,9 @@
       <div class="team-app-item"><i class="fa-solid fa-trophy"></i><span>Team leaderboard</span></div>
     </div>
 
-    <a href="/teams/" class="button button_purple button_large">See Team Pricing</a>
+    <div class="team-app-cta">
+      <a href="/teams/" class="button button_purple button_large">See Team Pricing</a>
+    </div>
   </div>
 </section>
 
@@ -470,6 +528,14 @@
     <div class="section-eyebrow"><i class="fa-solid fa-database"></i> How it works</div>
     <h2 class="section-title">SQL runs live — no install, nothing to configure</h2>
     <p class="section-sub">Every lesson connects to a real PostgreSQL 17 database we run and maintain — full schema, full dataset, every extension the book uses. It's a shared, read-only connection: query freely, explore the plans, nothing to break.</p>
+
+    <div class="live-db-cta">
+      <p>Try it yourself, create a free account now</p>
+      <form method="get" action="{{ if hugo.IsServer }}http://api.taop.localhost:8081{{ else }}https://api.theartofpostgresql.com{{ end }}/login">
+        <input type="email" name="email" required placeholder="you@example.com" autocomplete="email" aria-label="Email address">
+        <button type="submit">Get Started</button>
+      </form>
+    </div>
   </div>
 </section>
 
