@@ -138,13 +138,20 @@
   }
 
   /* ── Feature tiles ──────────────────────────────────────── */
+  .app-features-section {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 72px 20px 0;
+    text-align: center;
+  }
   .app-features {
     max-width: 1060px;
     margin: 0 auto;
-    padding: 72px 20px 64px;
+    padding: 0 20px 64px;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
     gap: 24px;
+    text-align: left;
   }
   .feat-card {
     background: #fff;
@@ -370,7 +377,12 @@
 </div>
 
 <!-- Features -->
-<div class="app-features">
+<section class="app-features-section">
+  <div class="section-eyebrow"><i class="fa-solid fa-star"></i> Everything in one place</div>
+  <h2 class="section-title">One App for the Book, the Courses, and Live SQL</h2>
+  <p class="section-sub">Read, practice, and track your progress without juggling separate tools, accounts, or installs.</p>
+
+  <div class="app-features">
   <div class="feat-card">
     <div class="feat-icon"><i class="fa-solid fa-book-open-reader"></i></div>
     <h3>Book reader, online — and offline</h3>
@@ -401,7 +413,35 @@
     <h3>The book is yours forever</h3>
     <p>Buy once, keep it forever. Edition updates — like the 2026 Second Edition — are free for all previous purchasers. Courses are a yearly subscription, with new content added regularly.</p>
   </div>
-</div>
+  </div>
+</section>
+
+<!-- Dashboard: exercises, quizzes, leaderboard -->
+<section class="dashboard-section">
+  <div class="dashboard-inner">
+    <div class="section-eyebrow"><i class="fa-solid fa-chart-line"></i> Track your progress</div>
+    <h2 class="section-title">Your dashboard: chapters, exercises, and quizzes</h2>
+    <p class="section-sub">Every chapter and module comes with hands-on exercises and short quizzes to check what actually stuck — not just a progress bar. Your dashboard tracks what you've read, what you've solved, and what's left.</p>
+
+    <div class="dash-features">
+      <div class="dash-feature">
+        <i class="fa-solid fa-flask"></i>
+        <h4>Hands-on exercises</h4>
+        <p>Real SQL problems tied to the chapter or module you just read — run your own query against the same live database and compare it to the reference solution.</p>
+      </div>
+      <div class="dash-feature">
+        <i class="fa-solid fa-list-check"></i>
+        <h4>Short quizzes</h4>
+        <p>A handful of questions per chapter or module to check what stuck — not graded homework, just a quick gut check.</p>
+      </div>
+      <div class="dash-feature">
+        <i class="fa-solid fa-trophy"></i>
+        <h4>Leaderboard (optional)</h4>
+        <p>Points from exercises and quizzes, if you want to track them — opt-in, visible only if you choose to show it.</p>
+      </div>
+    </div>
+  </div>
+</section>
 
 <!-- Live database section -->
 <section class="live-db-section">
@@ -543,33 +583,6 @@
         </tr>
       </tbody>
     </table>
-  </div>
-</section>
-
-<!-- Dashboard: exercises, quizzes, leaderboard -->
-<section class="dashboard-section">
-  <div class="dashboard-inner">
-    <div class="section-eyebrow"><i class="fa-solid fa-chart-line"></i> Track your progress</div>
-    <h2 class="section-title">Your dashboard: chapters, exercises, and quizzes</h2>
-    <p class="section-sub">Every chapter and module comes with hands-on exercises and short quizzes to check what actually stuck — not just a progress bar. Your dashboard tracks what you've read, what you've solved, and what's left.</p>
-
-    <div class="dash-features">
-      <div class="dash-feature">
-        <i class="fa-solid fa-flask"></i>
-        <h4>Hands-on exercises</h4>
-        <p>Real SQL problems tied to the chapter or module you just read — run your own query against the same live database and compare it to the reference solution.</p>
-      </div>
-      <div class="dash-feature">
-        <i class="fa-solid fa-list-check"></i>
-        <h4>Short quizzes</h4>
-        <p>A handful of questions per chapter or module to check what stuck — not graded homework, just a quick gut check.</p>
-      </div>
-      <div class="dash-feature">
-        <i class="fa-solid fa-trophy"></i>
-        <h4>Leaderboard (optional)</h4>
-        <p>Points from exercises and quizzes, if you want to track them — opt-in, visible only if you choose to show it.</p>
-      </div>
-    </div>
   </div>
 </section>
 
