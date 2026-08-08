@@ -118,6 +118,58 @@
 	  .price_list.price_list-single { justify-content: center; }
 	  .price_list.price_list-single > li { max-width: 480px; flex-basis: 480px; }
 
+	  /* ── Masterclass Curriculum section ── */
+	  .teams_masterclass {
+	    background: #fff;
+	    padding: 80px 0;
+	    text-align: center;
+	  }
+	  .teams_masterclass .section_icons { color: #60b2d3; }
+	  .teams_masterclass_intro {
+	    max-width: 680px;
+	    margin: 0 auto 36px;
+	    color: #5a4a70;
+	    font: 300 1rem/1.65 'Lato', sans-serif;
+	  }
+	  .teams-mc-topics {
+	    display: grid;
+	    grid-template-columns: repeat(3, 1fr);
+	    gap: 16px;
+	    max-width: 780px;
+	    margin: 0 auto 32px;
+	  }
+	  .teams-mc-topic {
+	    display: flex;
+	    flex-direction: column;
+	    align-items: center;
+	    gap: 10px;
+	    padding: 22px 16px;
+	    background: #f5f2fa;
+	    border-radius: 8px;
+	  }
+	  .teams-mc-topic i {
+	    font-size: 1.3rem;
+	    color: #60b2d3;
+	  }
+	  .teams-mc-topic span {
+	    font: 400 0.88rem/1.3 'Lato', sans-serif;
+	    color: #372649;
+	  }
+	  .teams_masterclass_cta {
+	    color: #5a4a70;
+	    font: 300 1rem/1.6 'Lato', sans-serif;
+	  }
+	  .teams_masterclass_cta a {
+	    color: #372649;
+	    font-weight: 700;
+	  }
+	  @media (max-width: 640px) {
+	    .teams-mc-topics { grid-template-columns: repeat(2, 1fr); }
+	  }
+	  @media (max-width: 420px) {
+	    .teams-mc-topics { grid-template-columns: 1fr; }
+	  }
+
 	  /* ── 6 dashboard-feature items read better as 2 rows of 3 than 4+2 ── */
 	  body.teams .book_core_value .value_list {
 	    grid-template-columns: repeat(3, 1fr);
@@ -236,20 +288,40 @@
       </li>
     </ul>
 
+  </div>
+</div>
+
+<!-- Masterclass Curriculum -->
+<div class="teams_masterclass">
+  <div class="wrapper">
+    <div class="section_icons">
+      <span class="system_icon"><i class="fa-solid fa-chalkboard-user"></i></span>
+    </div>
     <header class="heading">
-      <p class="lightpurple">
-        The Masterclass Curriculum isn't a single session — it's the
-        full six-session series, live, covering the topics that come
-        up on every team: aggregation and reporting, window functions,
-        reading query plans, advanced joins, schema design, and query
-        optimization. Attending as a team, together, is where it earns
-        its price — a shared cohort experience and a common vocabulary
-        to bring back to your codebase, not six people who happened to
-        watch the same recordings alone. Add it for any teammate at
-        $1,495/seat, at checkout or later from your dashboard —
-        <a href="/masterclass/" style="color:#372649;font-weight:700;">see the full curriculum →</a>
-      </p>
+      <h3>The Masterclass Curriculum, As a Team</h3>
+      <p class="lightpurple">Six live sessions, together — not six people watching alone</p>
     </header>
+    <p class="teams_masterclass_intro">
+      The Masterclass Curriculum isn't a single session — it's the
+      full six-session series, live, covering the topics that come up
+      on every team. Attending together is where it earns its price —
+      a shared cohort experience and a common vocabulary to bring back
+      to your codebase.
+    </p>
+
+    <div class="teams-mc-topics">
+      <div class="teams-mc-topic"><i class="fa-solid fa-chart-pie"></i><span>Reliable Aggregations</span></div>
+      <div class="teams-mc-topic"><i class="fa-solid fa-chart-line"></i><span>Master Window Functions</span></div>
+      <div class="teams-mc-topic"><i class="fa-solid fa-diagram-project"></i><span>Read Query Plans</span></div>
+      <div class="teams-mc-topic"><i class="fa-solid fa-code-branch"></i><span>Advanced JOIN Patterns</span></div>
+      <div class="teams-mc-topic"><i class="fa-solid fa-sitemap"></i><span>Schema for Performance</span></div>
+      <div class="teams-mc-topic"><i class="fa-solid fa-gauge-high"></i><span>Optimize SQL Performance</span></div>
+    </div>
+
+    <p class="teams_masterclass_cta">
+      $1,495/seat, at checkout or later from your dashboard —
+      <a href="/masterclass/">see the full curriculum →</a>
+    </p>
   </div>
 </div>
 
