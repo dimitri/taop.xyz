@@ -28,7 +28,7 @@
 	  /* ── Hero (bespoke — everything below this reuses shared site styles) ── */
 	  .teams-hero-wrap {
 	    position: relative;
-	    min-height: 90vh;
+	    min-height: 100vh;
 	    overflow: hidden;
 	    background: #181224;
 	  }
@@ -56,7 +56,7 @@
 	  .teams-hero-content {
 	    position: relative;
 	    z-index: 2;
-	    min-height: 90vh;
+	    min-height: 100vh;
 	    max-width: 720px;
 	    margin: 0 auto;
 	    padding: 0 24px;
@@ -99,6 +99,11 @@
 	    .teams-hero-ctas .button { text-align: center; }
 	  }
 
+	  .teams_onboarding {
+	    padding: 80px 0;
+	    background: #fff;
+	  }
+
 	  /* ── same nowrap-on-desktop treatment index/system.html already uses ── */
 	  @media (min-width: 769px) {
 	    .system_flow { flex-wrap: nowrap; gap: 8px; }
@@ -109,12 +114,19 @@
 	    .system_item p { font-size: 12px; }
 	  }
 
-	  /* ── single package card: "Custom" replaces the usual big digit price ── */
+	  /* ── single package card ── */
 	  .price_list.price_list-single { justify-content: center; }
 	  .price_list.price_list-single > li { max-width: 480px; flex-basis: 480px; }
-	  .teams-price-custom {
-	    font: 700 2.2rem/1 'Lato', sans-serif;
-	    color: #372649;
+
+	  /* ── 6 dashboard-feature items read better as 2 rows of 3 than 4+2 ── */
+	  body.teams .book_core_value .value_list {
+	    grid-template-columns: repeat(3, 1fr);
+	  }
+	  @media (max-width: 900px) {
+	    body.teams .book_core_value .value_list { grid-template-columns: repeat(2, 1fr); }
+	  }
+	  @media (max-width: 560px) {
+	    body.teams .book_core_value .value_list { grid-template-columns: 1fr; }
 	  }
 	</style>
 
@@ -132,13 +144,13 @@
   <div class="teams-hero-content">
     <div class="teams-hero-eyebrow">For Teams</div>
     <h1>The Art of PostgreSQL, licensed for your whole team</h1>
-    <p>One annual package: 5 seats of the Architect course included, add more teammates anytime, and optionally add the Masterclass Curriculum. One dashboard, one invite email per teammate, no passwords.</p>
+    <p>One annual package: 5 seats of the Architect course included, add more teammates anytime, and optionally add the Masterclass Curriculum. One Enterprise dashboard, one invite email per teammate, no passwords.</p>
     <div class="teams-hero-ctas">
-      <a href="#pricing" class="button button_large">See Team Pricing</a>
-      <a href="mailto:dim@tapoueh.org?subject=Team%20license%20inquiry" class="button button_large"
+      <a href="https://sales.theartofpostgresql.com/the-art-of-postgresql-team/" class="button button_large">Get Started — $1,995</a>
+      <a href="#pricing" class="button button_large"
          style="background:transparent;border-color:rgba(255,255,255,.4);color:rgba(255,255,255,.85);"
          onmouseover="this.style.background='rgba(255,255,255,.1)';this.style.borderColor='rgba(255,255,255,.7)';this.style.color='#fff'"
-         onmouseout="this.style.background='transparent';this.style.borderColor='rgba(255,255,255,.4)';this.style.color='rgba(255,255,255,.85)'">Talk to Us</a>
+         onmouseout="this.style.background='transparent';this.style.borderColor='rgba(255,255,255,.4)';this.style.color='rgba(255,255,255,.85)'">See What's Included</a>
     </div>
   </div>
 </div>
@@ -148,20 +160,20 @@
   <div class="wrapper">
     <header class="heading">
       <h3>Add your team in four steps</h3>
-      <p class="lightpurple">No procurement call, no admin training — it's an email list, not a new tool to learn.</p>
+      <p class="lightpurple">No procurement call, no admin training — it's an Enterprise dashboard in the app, on top of the regular student dashboard, not a new tool to learn.</p>
     </header>
 
     <div class="system_flow">
       <div class="system_item">
         <span class="system_icon"><i class="fa-solid fa-credit-card"></i></span>
         <h6>Buy</h6>
-        <p>Annual, 5 Architect seats included</p>
+        <p>Self-serve checkout, 5 Architect seats included</p>
       </div>
       <span class="system_arrow"><i class="fa-solid fa-arrow-right"></i></span>
       <div class="system_item">
         <span class="system_icon"><i class="fa-solid fa-users"></i></span>
         <h6>Add your team</h6>
-        <p>A form, or upload a CSV</p>
+        <p>From the Enterprise dashboard: a form, or upload a CSV</p>
       </div>
       <span class="system_arrow"><i class="fa-solid fa-arrow-right"></i></span>
       <div class="system_item">
@@ -195,24 +207,28 @@
         <div>
           <div class="best">TEAM PACKAGE</div>
           <h5>Architect Course — Team</h5>
-          <div class="price teams-price-custom">Custom</div>
-          <p class="tier-subtitle">5 seats included, annual, add more anytime</p>
+          <div class="price"><sup>$</sup>1,995</div>
+          <p class="paid_yearly">per year, 5 seats included</p>
+          <p class="tier-subtitle">$399/seat — a discount over the $449/seat individual price</p>
           <p>
             The full Architect course for your team — the same
             system-design depth (schemas, partitioning, scale) as the
-            individual Architect tier, licensed for 5 teammates to start.
+            individual Architect tier, licensed for 5 teammates to
+            start. Buying as a team saves $250 over 5 individual
+            Architect seats, and every seat after that stays at the
+            same $399/seat rate — no volume tiers to negotiate.
           </p>
           <table class="price_features_table">
             <tr><td class="icon"><i class="fa-solid fa-users"></i></td><td>5 Architect course seats included, annual</td></tr>
-            <tr><td class="icon"><i class="fa-solid fa-user-plus"></i></td><td>Add more seats anytime, same per-seat rate</td></tr>
-            <tr><td class="icon"><i class="fa-solid fa-chalkboard-user"></i></td><td>Optional add-on: Masterclass Curriculum seats, any quantity</td></tr>
+            <tr><td class="icon"><i class="fa-solid fa-user-plus"></i></td><td>Additional seats: $399/seat/year, same flat rate</td></tr>
+            <tr><td class="icon"><i class="fa-solid fa-chalkboard-user"></i></td><td>Optional add-on: Masterclass Curriculum, $1,495/seat</td></tr>
             <tr><td class="icon"><i class="fa-solid fa-video"></i></td><td>Optional add-on: 3h Office Hours video call with Dimitri Fontaine</td></tr>
             <tr><td class="icon"><i class="fa-solid fa-book"></i></td><td>The Art of PostgreSQL book included for every seat</td></tr>
-            <tr><td class="icon"><i class="fa-solid fa-gauge"></i></td><td>Team dashboard: manage members, seats, and progress</td></tr>
+            <tr><td class="icon"><i class="fa-solid fa-gauge"></i></td><td>Enterprise dashboard: manage members, seats, and progress</td></tr>
           </table>
           <div class="price_cta">
             {{ partial "money-back-guarantee.html" . }}
-            <a class="button button_purple" href="mailto:dim@tapoueh.org?subject=Team%20license%20inquiry">Talk to Us</a>
+            <a class="button button_purple" href="https://sales.theartofpostgresql.com/the-art-of-postgresql-team/">Get Started — $1,995</a>
           </div>
         </div>
       </li>
@@ -220,9 +236,12 @@
 
     <header class="heading">
       <p class="lightpurple">
-        Pricing depends on your team size and add-ons — we quote it
-        directly rather than publish a flat rate.
-        <a href="mailto:dim@tapoueh.org?subject=Team%20license%20inquiry" style="color:#fff;font-weight:700;text-decoration:underline;">Talk to us <i class="fa-solid fa-arrow-right" style="font-size:.75em;"></i></a>
+        Attending the Masterclass Curriculum as a team, live, together?
+        That's where it earns its price — a shared cohort experience,
+        the same six live sessions, the same real-time Q&amp;A, and a
+        common vocabulary to bring back to your codebase. Add it for
+        any teammate at $1,495/seat, at checkout or later from your
+        dashboard.
       </p>
     </header>
   </div>
@@ -232,16 +251,23 @@
 <div class="book_core_value">
   <div class="wrapper">
     <header class="heading">
-      <h3>One Dashboard for the Whole Team</h3>
-      <p class="lightpurple">Built for whoever owns the purchase, not for IT</p>
+      <h3>One Enterprise Dashboard for the Whole Team</h3>
+      <p class="lightpurple">Built into the app, layered on top of your own student dashboard — not a separate tool to log into</p>
     </header>
 
     <ul class="value_list">
       <li>
         <div class="value_item">
+          <span class="value_icon"><i class="fa-solid fa-sitemap"></i></span>
+          <h6>Create &amp; Manage Teams</h6>
+          <p>Teams default to your department name, and you can create as many as you need — organize seats the way your company actually works.</p>
+        </div>
+      </li>
+      <li>
+        <div class="value_item">
           <span class="value_icon"><i class="fa-solid fa-file-csv"></i></span>
           <h6>Add Members Your Way</h6>
-          <p>Fill a form or upload a CSV. Teams default to your department name, and you can create as many as you need.</p>
+          <p>Fill a form or upload a CSV to add a whole team at once.</p>
         </div>
       </li>
       <li>
@@ -260,9 +286,16 @@
       </li>
       <li>
         <div class="value_item">
+          <span class="value_icon"><i class="fa-solid fa-chart-line"></i></span>
+          <h6>Per-Member Progress</h6>
+          <p>See exactly where each teammate stands — chapters read, points earned, Core through Architect.</p>
+        </div>
+      </li>
+      <li>
+        <div class="value_item">
           <span class="value_icon"><i class="fa-solid fa-trophy"></i></span>
-          <h6>Team Progress &amp; Leaderboard</h6>
-          <p>See chapters read and points earned across the team, Core through Architect, with a team leaderboard.</p>
+          <h6>Team Leaderboard</h6>
+          <p>Aggregate scores by team or department, and see individual standings side by side.</p>
         </div>
       </li>
     </ul>
@@ -279,14 +312,14 @@
     <ul class="faq_list">
       <li>
         <div class="faq_item">
-          <h6>How many seats are included?</h6>
-          <p>The base annual package includes 5 Architect course seats. Add more teammates anytime from your dashboard, at the same per-seat rate.</p>
+          <h6>How many seats are included, and what does it cost?</h6>
+          <p>The $1,995/year package includes 5 Architect course seats — $399/seat, a discount over the $449/seat individual price. Add more teammates anytime at the same $399/seat flat rate, no volume tiers to negotiate.</p>
         </div>
       </li>
       <li>
         <div class="faq_item">
           <h6>Can we add the Masterclass Curriculum too?</h6>
-          <p>Yes — it's an optional add-on with its own seat count, assignable from your dashboard alongside your course seats.</p>
+          <p>Yes — $1,495/seat, at checkout or later from your dashboard. It's especially good value as a team: everyone attends the same live sessions together, as a cohort, and comes back with a shared vocabulary for the codebase.</p>
         </div>
       </li>
       <li>
@@ -328,10 +361,10 @@
   <div class="wrapper">
     <header class="heading">
       <h3>Ready to License Your Team?</h3>
-      <p class="lightpurple">Tell us your team size and we'll get you set up.</p>
+      <p class="lightpurple">5 Architect seats included, add more anytime — set up your team today.</p>
     </header>
     <div class="cta_buttons">
-      <a href="mailto:dim@tapoueh.org?subject=Team%20license%20inquiry" class="button button_purple button_large">Talk to Us</a>
+      <a href="https://sales.theartofpostgresql.com/the-art-of-postgresql-team/" class="button button_purple button_large">Get Started — $1,995</a>
     </div>
   </div>
 </div>
