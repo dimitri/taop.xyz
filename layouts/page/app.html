@@ -148,7 +148,7 @@
     margin: 0 auto;
     padding: 0 20px 64px;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    grid-template-columns: repeat(3, 1fr);
     gap: 24px;
     text-align: left;
   }
@@ -175,6 +175,9 @@
     margin: 0;
     padding: 0;
     line-height: 1.6;
+  }
+  @media (max-width: 760px) {
+    .app-features { grid-template-columns: 1fr; }
   }
 
   /* ── Live database section ──────────────────────────────── */
