@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>The Art of PostgreSQL for Teams</title>
+	<link rel="canonical" href="{{ .Permalink }}">
+	<meta name="description" content="The Architect course for your whole team, under one purchase — buy exactly as many seats as your team needs, optionally add the Masterclass Curriculum. One dashboard, no passwords.">
+
+	<meta name="twitter:card" content="summary" />
+	<meta name="twitter:site" content="@tapoueh" />
+	<meta name="twitter:creator" content="@tapoueh" />
+	<meta property="og:url" content="{{ .Permalink }}" />
+	<meta property="og:title" content="The Art of PostgreSQL for Teams" />
+	<meta property="og:description" content="PostgreSQL expertise for your whole team — the book, the course, and hands-on practice, under one purchase. Optional Masterclass Curriculum add-on. One dashboard, no passwords." />
+	<meta property="og:image" content="https://theartofpostgresql.com/images/hardcover-mockup.jpg" />
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+
+	<link href="/favicon.ico" rel="icon" type="image/x-icon">
+
+	<link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+	<link rel="stylesheet" href="/css/style.css">
+	<style>
+	  body.teams .header { background: transparent; border-bottom-color: transparent; transition: background 0.3s, border-color 0.3s; }
+	  body.teams .header.nav-solid { background: #372649; border-bottom-color: rgba(255,255,255,0.3); }
+
+	  /* ── Hero (bespoke — everything below this reuses shared site styles) ── */
+	  .teams-hero-wrap {
+	    position: relative;
+	    min-height: 100vh;
+	    overflow: hidden;
+	    background: #181224;
+	  }
+	  .teams-hero-wrap > img {
+	    position: absolute;
+	    inset: 0;
+	    width: 100%;
+	    height: 100%;
+	    object-fit: cover;
+	    object-position: center;
+	    z-index: 0;
+	  }
+	  .teams-hero-ghost {
+	    position: absolute;
+	    right: -40px;
+	    top: 50%;
+	    transform: translateY(-50%);
+	    font-size: 440px;
+	    opacity: 0.07;
+	    color: #fff;
+	    line-height: 1;
+	    pointer-events: none;
+	    z-index: 1;
+	  }
+	  .teams-hero-content {
+	    position: relative;
+	    z-index: 2;
+	    min-height: 100vh;
+	    max-width: 720px;
+	    margin: 0 auto;
+	    padding: 0 24px;
+	    display: flex;
+	    flex-flow: column nowrap;
+	    justify-content: center;
+	    align-items: center;
+	    text-align: center;
+	  }
+	  .teams-hero-eyebrow {
+	    font: 700 11px/1 'Lato', sans-serif;
+	    letter-spacing: .14em;
+	    text-transform: uppercase;
+	    color: #60b2d3;
+	    margin-bottom: 22px;
+	  }
+	  .teams-hero-content h1 {
+	    color: #fff;
+	    font: 300 2.9rem/1.15 'Lato', sans-serif;
+	    margin: 0 0 24px;
+	    padding: 0;
+	  }
+	  .teams-hero-content p {
+	    color: rgba(255,255,255,.65);
+	    font-size: 1.1rem;
+	    line-height: 1.65;
+	    max-width: 560px;
+	    margin: 0 0 44px;
+	    padding: 0;
+	  }
+	  .teams-hero-ctas {
+	    display: flex;
+	    gap: 20px;
+	    flex-wrap: wrap;
+	    justify-content: center;
+	  }
+	  @media (max-width: 540px) {
+	    .teams-hero-content h1 { font-size: 2rem; }
+	    .teams-hero-ctas { flex-direction: column; width: 100%; }
+	    .teams-hero-ctas .button { text-align: center; }
+	  }
+
+	  .teams_onboarding {
+	    padding: 80px 0;
+	    background: #fff;
+	  }
+
+	  /* ── same nowrap-on-desktop treatment index/system.html already uses ── */
+	  @media (min-width: 769px) {
+	    .system_flow { flex-wrap: nowrap; gap: 8px; }
+	    .system_item { padding: 12px 8px; min-width: 0; }
+	    .system_icon { font-size: 30px; }
+	    .system_arrow { font-size: 16px; }
+	    .system_item h6 { font-size: 14px; }
+	    .system_item p { font-size: 12px; }
+	  }
+
+	  /* ── single package card ── */
+	  .price_list.price_list-single { justify-content: center; }
+	  .price_list.price_list-single > li { max-width: 480px; flex-basis: 480px; }
+
+	  /* ── Masterclass Curriculum section ── */
+	  .teams_masterclass {
+	    background: #fff;
+	    padding: 80px 0;
+	    text-align: center;
+	  }
+	  .teams_masterclass .section_icons { color: #60b2d3; }
+	  .teams_masterclass_intro {
+	    max-width: 680px;
+	    margin: 0 auto 36px;
+	    color: #5a4a70;
+	    font: 300 1rem/1.65 'Lato', sans-serif;
+	  }
+	  .teams-mc-topics {
+	    display: grid;
+	    grid-template-columns: repeat(3, 1fr);
+	    gap: 16px;
+	    max-width: 780px;
+	    margin: 0 auto 32px;
+	  }
+	  .teams-mc-topic {
+	    display: flex;
+	    flex-direction: column;
+	    align-items: center;
+	    gap: 10px;
+	    padding: 22px 16px;
+	    background: #f5f2fa;
+	    border-radius: 8px;
+	  }
+	  .teams-mc-topic i {
+	    font-size: 1.3rem;
+	    color: #60b2d3;
+	  }
+	  .teams-mc-topic span {
+	    font: 400 0.88rem/1.3 'Lato', sans-serif;
+	    color: #372649;
+	  }
+	  .teams_masterclass_cta {
+	    color: #5a4a70;
+	    font: 300 1rem/1.6 'Lato', sans-serif;
+	  }
+	  .teams_masterclass_cta a {
+	    color: #372649;
+	    font-weight: 700;
+	  }
+	  @media (max-width: 640px) {
+	    .teams-mc-topics { grid-template-columns: repeat(2, 1fr); }
+	  }
+	  @media (max-width: 420px) {
+	    .teams-mc-topics { grid-template-columns: 1fr; }
+	  }
+
+	  /* ── 6 dashboard-feature items read better as 2 rows of 3 than 4+2 ── */
+	  body.teams .book_core_value .value_list {
+	    grid-template-columns: repeat(3, 1fr);
+	  }
+	  @media (max-width: 900px) {
+	    body.teams .book_core_value .value_list { grid-template-columns: repeat(2, 1fr); }
+	  }
+	  @media (max-width: 560px) {
+	    body.teams .book_core_value .value_list { grid-template-columns: 1fr; }
+	  }
+	</style>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="/js/custom.js"></script>
+</head>
+<body class="teams">
+
+{{ partial "header.html" . }}
+
+<!-- Hero -->
+<div class="teams-hero-wrap">
+  <img src="/images/demo/slide.jpg" alt="">
+  <i class="fa-solid fa-users teams-hero-ghost"></i>
+  <div class="teams-hero-content">
+    <div class="teams-hero-eyebrow">For Teams</div>
+    <h1>PostgreSQL Expertise <br />For Your Whole Team</h1>
+    <p>Your whole team gets the same book, course, and hands-on practice, under one purchase — one invite email each, and nothing to install or remember.</p>
+    <div class="teams-hero-ctas">
+      <a href="https://sales.theartofpostgresql.com/the-art-of-postgresql-team/" class="button button_large">Get Started — $1,995</a>
+      <a href="#pricing" class="button button_large"
+         style="background:transparent;border-color:rgba(255,255,255,.4);color:rgba(255,255,255,.85);"
+         onmouseover="this.style.background='rgba(255,255,255,.1)';this.style.borderColor='rgba(255,255,255,.7)';this.style.color='#fff'"
+         onmouseout="this.style.background='transparent';this.style.borderColor='rgba(255,255,255,.4)';this.style.color='rgba(255,255,255,.85)'">See What's Included</a>
+    </div>
+  </div>
+</div>
+
+<!-- How it works -->
+<div class="teams_onboarding">
+  <div class="wrapper">
+    <header class="heading">
+      <h3>Add your team in four steps</h3>
+      <p class="lightpurple">No procurement call, no admin training — it's an Enterprise dashboard already built into the app, on top of your regular student dashboard.</p>
+    </header>
+
+    <div class="system_flow">
+      <div class="system_item">
+        <span class="system_icon"><i class="fa-solid fa-credit-card"></i></span>
+        <h6>Buy</h6>
+        <p>Self-serve checkout,<br />5 Architect seats included</p>
+      </div>
+      <span class="system_arrow"><i class="fa-solid fa-arrow-right"></i></span>
+      <div class="system_item">
+        <span class="system_icon"><i class="fa-solid fa-users"></i></span>
+        <h6>Add your team</h6>
+        <p>From the Enterprise dashboard:<br />a form, or upload a CSV</p>
+      </div>
+      <span class="system_arrow"><i class="fa-solid fa-arrow-right"></i></span>
+      <div class="system_item">
+        <span class="system_icon"><i class="fa-solid fa-envelope"></i></span>
+        <h6>Assign &amp; invite</h6>
+        <p>One-time sign-in link<br />each</p>
+      </div>
+      <span class="system_arrow"><i class="fa-solid fa-arrow-right"></i></span>
+      <div class="system_item">
+        <span class="system_icon"><i class="fa-solid fa-trophy"></i></span>
+        <h6>Track progress</h6>
+        <p>Team leaderboard,<br />Core → Architect</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Pricing -->
+<div id="pricing" class="packages_block">
+  <div class="wrapper">
+    <header class="heading">
+      <h3>Team Pricing</h3>
+      <p class="lightpurple">
+        One annual package for your team, with seats and add-ons you
+        control from the dashboard.
+      </p>
+    </header>
+
+    <ul class="price_list price_list-single">
+      <li class="bestvalue">
+        <div>
+          <div class="best">TEAM PACKAGE</div>
+          <h5>Architect Course — Team</h5>
+          <div class="price"><sup>$</sup>1,995</div>
+          <p class="paid_yearly">per year, 5 seats included</p>
+          <p class="tier-subtitle">$399/seat — a discount over the $449/seat individual price</p>
+          <p>
+            The full Architect course for your team — the same
+            system-design depth (schemas, partitioning, scale) as the
+            individual Architect tier. Five seats is simply where the
+            team package starts — a minimum to open the deal, not a
+            recommended team size — so buy exactly as many as your
+            team actually needs. Those first 5 already save you $250
+            over the individual price, and every seat after that stays
+            at the same $399/seat rate — no volume tiers to negotiate.
+          </p>
+          <table class="price_features_table">
+            <tr><td class="icon"><i class="fa-solid fa-users"></i></td><td>5 Architect course seats included, annual</td></tr>
+            <tr><td class="icon"><i class="fa-solid fa-user-plus"></i></td><td>Additional seats: $399/seat/year, same flat rate</td></tr>
+            <tr><td class="icon"><i class="fa-solid fa-chalkboard-user"></i></td><td>Optional add-on: Masterclass Curriculum (6 live sessions), $1,495 per team member — add as many as you want, now or later</td></tr>
+            <tr><td class="icon"><i class="fa-solid fa-video"></i></td><td>Optional add-on: 3h Office Hours video call with Dimitri Fontaine</td></tr>
+            <tr><td class="icon"><i class="fa-solid fa-book"></i></td><td>The Art of PostgreSQL book included for every seat</td></tr>
+            <tr><td class="icon"><i class="fa-solid fa-gauge"></i></td><td>Enterprise dashboard: manage members, seats, and progress</td></tr>
+          </table>
+          <div class="price_cta">
+            {{ partial "money-back-guarantee.html" . }}
+            <a class="button button_purple" href="https://sales.theartofpostgresql.com/the-art-of-postgresql-team/">Get Started — $1,995</a>
+          </div>
+        </div>
+      </li>
+    </ul>
+
+  </div>
+</div>
+
+<!-- Masterclass Curriculum -->
+<div class="teams_masterclass">
+  <div class="wrapper">
+    <div class="section_icons">
+      <span class="system_icon"><i class="fa-solid fa-chalkboard-user"></i></span>
+    </div>
+    <header class="heading">
+      <h3>The Masterclass Curriculum, As a Team</h3>
+      <p class="lightpurple">Six live sessions, together — not six people watching alone</p>
+    </header>
+    <p class="teams_masterclass_intro">
+      The Masterclass Curriculum isn't a single session — it's the
+      full six-session series, live, covering the topics that come up
+      on every team. Attending together is where it earns its price —
+      a shared cohort experience and a common vocabulary to bring back
+      to your codebase.
+    </p>
+
+    <div class="teams-mc-topics">
+      <div class="teams-mc-topic"><i class="fa-solid fa-chart-pie"></i><span>Reliable Aggregations</span></div>
+      <div class="teams-mc-topic"><i class="fa-solid fa-chart-line"></i><span>Master Window Functions</span></div>
+      <div class="teams-mc-topic"><i class="fa-solid fa-diagram-project"></i><span>Read Query Plans</span></div>
+      <div class="teams-mc-topic"><i class="fa-solid fa-code-branch"></i><span>Advanced JOIN Patterns</span></div>
+      <div class="teams-mc-topic"><i class="fa-solid fa-sitemap"></i><span>Schema for Performance</span></div>
+      <div class="teams-mc-topic"><i class="fa-solid fa-gauge-high"></i><span>Optimize SQL Performance</span></div>
+    </div>
+
+    <p class="teams_masterclass_cta">
+      $1,495 per team member — add as many as you want, now or later
+      from your dashboard —
+      <a href="/masterclass/">see the full curriculum →</a>
+    </p>
+  </div>
+</div>
+
+<!-- Dashboard features -->
+<div class="book_core_value">
+  <div class="wrapper">
+    <header class="heading">
+      <h3>One Enterprise Dashboard for the Whole Team</h3>
+      <p class="lightpurple">Built into the app, layered on top of your own student dashboard</p>
+    </header>
+
+    <ul class="value_list">
+      <li>
+        <div class="value_item">
+          <span class="value_icon"><i class="fa-solid fa-sitemap"></i></span>
+          <h6>Create &amp; Manage Teams</h6>
+          <p>Teams default to your department name, and you can create as many as you need — organize seats the way your company actually works.</p>
+        </div>
+      </li>
+      <li>
+        <div class="value_item">
+          <span class="value_icon"><i class="fa-solid fa-file-csv"></i></span>
+          <h6>Add Members Your Way</h6>
+          <p>Fill a form or upload a CSV to add a whole team at once.</p>
+        </div>
+      </li>
+      <li>
+        <div class="value_item">
+          <span class="value_icon"><i class="fa-solid fa-user-check"></i></span>
+          <h6>Assign &amp; Reassign Seats</h6>
+          <p>Architect course seats, plus optional Masterclass Curriculum access for as many team members as you want — assigned at creation or anytime later from your dashboard.</p>
+        </div>
+      </li>
+      <li>
+        <div class="value_item">
+          <span class="value_icon"><i class="fa-solid fa-envelope-open-text"></i></span>
+          <h6>Magic-Link Invites</h6>
+          <p>One-time sign-in link per teammate, no passwords — the invite email carries your name, company, and team.</p>
+        </div>
+      </li>
+      <li>
+        <div class="value_item">
+          <span class="value_icon"><i class="fa-solid fa-chart-line"></i></span>
+          <h6>Per-Member Progress</h6>
+          <p>See exactly where each teammate stands — chapters read, points earned, Core through Architect.</p>
+        </div>
+      </li>
+      <li>
+        <div class="value_item">
+          <span class="value_icon"><i class="fa-solid fa-trophy"></i></span>
+          <h6>Team Leaderboard</h6>
+          <p>Aggregate scores by team or department, and see individual standings side by side.</p>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<!-- FAQ -->
+<div class="course_faq">
+  <div class="wrapper">
+    <header class="heading">
+      <h3>Frequently Asked Questions</h3>
+    </header>
+
+    <ul class="faq_list">
+      <li>
+        <div class="faq_item">
+          <h6>How many seats are included, and what does it cost?</h6>
+          <p>The $1,995/year package includes 5 Architect course seats — $399/seat, a discount over the $449/seat individual price. Add more teammates anytime at the same $399/seat flat rate, no volume tiers to negotiate.</p>
+        </div>
+      </li>
+      <li>
+        <div class="faq_item">
+          <h6>Can we add the Masterclass Curriculum too?</h6>
+          <p>Yes — $1,495 per team member, at checkout or later from your dashboard. Add it for everyone or just a few — it doesn't have to be the whole team. It's especially good value as a group: whoever attends goes through the same six live sessions together, as a cohort, and comes back with a shared vocabulary for the codebase.</p>
+        </div>
+      </li>
+      <li>
+        <div class="faq_item">
+          <h6>What happens to a seat when someone leaves the company?</h6>
+          <p>Nothing — it's theirs to keep. The Art of PostgreSQL licenses are lifetime: once a teammate has logged in, that access is personally theirs, even after they leave your company. We'd rather invest in people than in seats. Before their first login, you can still fix a typo or hand the seat to someone else; after that, it's set, and you're always free to add a new seat for their replacement.</p>
+        </div>
+      </li>
+      <li>
+        <div class="faq_item">
+          <h6>How does renewal work?</h6>
+          <p>The package runs for one year. A renewal option appears in your team dashboard starting a month before it expires — no surprises, no auto-charges.</p>
+        </div>
+      </li>
+      <li>
+        <div class="faq_item">
+          <h6>Can we get time with the author?</h6>
+          <p>Yes — Office Hours is an optional add-on: a 3-hour video call with Dimitri Fontaine for your team to ask about PostgreSQL, your own queries, or architecture decisions.</p>
+        </div>
+      </li>
+      <li>
+        <div class="faq_item">
+          <h6>We already have an Enterprise Edition book license from the First Edition — does this still work?</h6>
+          <p>Yes. Legacy Enterprise Edition licenses (book only, up to 15 members) work with the same team dashboard — manage your members there, and add course or Masterclass seats as an upgrade whenever you're ready. <a href="/login/">Sign in</a> or <a href="mailto:dim@tapoueh.org?subject=Enterprise%20Edition%20migration">get in touch</a> if you need a hand migrating.</p>
+        </div>
+      </li>
+      <li>
+        <div class="faq_item">
+          <h6>What's your refund policy?</h6>
+          <p>Same as our other products: a full, no-questions-asked refund, even after you've started assigning seats.</p>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<!-- Final CTA -->
+<div class="course_final_cta">
+  <div class="wrapper">
+    <header class="heading">
+      <h3>Ready to License Your Team?</h3>
+      <p class="lightpurple">5 Architect seats included, add more anytime — set up your team today.</p>
+    </header>
+    <div class="cta_buttons">
+      <a href="https://sales.theartofpostgresql.com/the-art-of-postgresql-team/" class="button button_purple button_large">Get Started — $1,995</a>
+    </div>
+  </div>
+</div>
+
+{{ partial "subscribe.html" . }}
+{{ partial "footer.html" . }}
+
+<script>
+(function() {
+  var $header = $('.header');
+  var threshold = window.innerHeight * 0.7;
+  $(window).on('scroll.teamshero', function() {
+    if ($(this).scrollTop() > threshold) {
+      $header.addClass('nav-solid');
+    } else {
+      $header.removeClass('nav-solid');
+    }
+  });
+})();
+</script>
+</body>
+</html>

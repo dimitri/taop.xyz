@@ -4012,6 +4012,21 @@ body.newsletter .index_hero .hero_cta .button.button_outline:hover {
 .index_workshops .workshop_desc {
   color: rgba(255,255,255,0.9);
 }
+.index_teams {
+  background: #f8f7f9;
+}
+.index_teams .heading h3 {
+  color: #372649;
+}
+.index_teams .lightpurple {
+  color: #67527a;
+}
+.index_teams .workshop_desc {
+  color: #67527a;
+}
+.index_teams .section_icons {
+  color: #60b2d3;
+}
 .index_courses .tier_preview {
   list-style: none;
   padding: 0;
@@ -4059,10 +4074,20 @@ body.newsletter .index_hero .hero_cta .button.button_outline:hover {
   background: #60b2d3;
   border-color: #372649;
 }
-.index_workshops .button.button_purple:hover, 
+.index_workshops .button.button_purple:hover,
 .index_workshops .section_cta .button.button_purple:hover {
   background: #372649;
   border-color: #60b2d3;
+}
+.index_teams .button.button_purple,
+.index_teams .section_cta .button.button_purple {
+  background: #372649;
+  border-color: #60b2d3;
+}
+.index_teams .button.button_purple:hover,
+.index_teams .section_cta .button.button_purple:hover {
+  background: #60b2d3;
+  border-color: #372649;
 }
 
 .index_ecosystem {
