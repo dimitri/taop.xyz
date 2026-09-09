@@ -2,12 +2,12 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Course 6 — Read Query Plans | The Art of PostgreSQL</title>
+  <title>Course 5 — Read Query Plans | The Art of PostgreSQL</title>
    <link rel="canonical" href="{{ .Permalink }}">
   <meta name="description" content="8-module curriculum: EXPLAIN anatomy through full observability workflow. f1db and chinook datasets.">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
   <meta property="og:url" content="https://theartofpostgresql.com/course/read-query-plans/" />
-  <meta property="og:title" content="Course 6 — Read Query Plans" />
+  <meta property="og:title" content="Course 5 — Read Query Plans" />
   <meta property="og:description" content="Fluent EXPLAIN reading — every node type, its performance profile, and what to do about it." />
   <link href="/favicon.ico" rel="icon" type="image/x-icon">
   <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900" rel="stylesheet">
@@ -23,20 +23,20 @@
 
 <nav class="cp-course-nav" aria-label="Course navigation">
   <div class="cp-course-nav-inner">
-    <a href="/course/query-optimization/">← Query Optimization Fundamentals</a>
-    <span class="cp-course-nav-center">Course 6 of 6</span>
-    <a href="/course/contents/">All 6 Courses →</a>
+    <a href="/course/advanced-joins/">← Advanced JOIN Techniques</a>
+    <span class="cp-course-nav-center">Course 5 of 6</span>
+    <a href="/course/query-optimization/">Query Optimization Fundamentals →</a>
   </div>
 </nav>
 
 <section class="cp-hero">
-  <p class="cp-hero-eyebrow">Course 6 of 6 · f1db &amp; chinook datasets</p>
+  <p class="cp-hero-eyebrow">Course 5 of 6 · f1db &amp; chinook datasets</p>
   <h1>Read Query Plans</h1>
   <p class="cp-hero-sub">Fluent EXPLAIN reading — every node type, its performance profile, and what to do about it.</p>
   <div class="cp-stats-bar">
     <div class="cp-stat"><span class="cp-stat-n">8</span><span class="cp-stat-l">Modules</span></div>
-    <div class="cp-stat"><span class="cp-stat-n">6</span><span class="cp-stat-l">Core</span></div>
-    <div class="cp-stat"><span class="cp-stat-n">1</span><span class="cp-stat-l">Advanced</span></div>
+    <div class="cp-stat"><span class="cp-stat-n">3</span><span class="cp-stat-l">Core</span></div>
+    <div class="cp-stat"><span class="cp-stat-n">4</span><span class="cp-stat-l">Advanced</span></div>
     <div class="cp-stat"><span class="cp-stat-n">1</span><span class="cp-stat-l">Architect</span></div>
   </div>
 </section>
@@ -50,10 +50,10 @@
       <tbody>
         <tr><td class="col-part"><a href="#module-1">Mod 01</a><span class="cp-tier-pill core">Core</span></td><td class="col-title"><a href="#module-1">Introduction to EXPLAIN</a></td><td class="col-hook">Cost anatomy: startup cost, total cost, rows, width</td></tr>
         <tr><td class="col-part"><a href="#module-2">Mod 02</a><span class="cp-tier-pill core">Core</span></td><td class="col-title"><a href="#module-2">EXPLAIN ANALYZE in Practice</a></td><td class="col-hook">Actual timing, row divergence, loops, BUFFERS</td></tr>
-        <tr><td class="col-part"><a href="#module-3">Mod 03</a><span class="cp-tier-pill core">Core</span></td><td class="col-title"><a href="#module-3">Understanding Plan Node Types</a></td><td class="col-hook">Scans, Hash Join, Nested Loop, HashAggregate, Gather</td></tr>
-        <tr><td class="col-part"><a href="#module-4">Mod 04</a><span class="cp-tier-pill core">Core</span></td><td class="col-title"><a href="#module-4">Detecting Performance Issues</a></td><td class="col-hook">Misestimation, Batches &gt; 1, Rows Removed by Filter</td></tr>
-        <tr><td class="col-part"><a href="#module-5">Mod 05</a><span class="cp-tier-pill core">Core</span></td><td class="col-title"><a href="#module-5">From Plan to Optimization</a></td><td class="col-hook">Index signals, predicate pushdown, cost comparison</td></tr>
-        <tr><td class="col-part"><a href="#module-6">Mod 06</a><span class="cp-tier-pill core">Core</span></td><td class="col-title"><a href="#module-6">Advanced Plan Analysis</a></td><td class="col-hook">Bitmap, GIN, SubPlan, CTE Scan, WindowAgg nodes</td></tr>
+        <tr><td class="col-part"><a href="#module-3">Mod 03</a><span class="cp-tier-pill core">Core</span></td><td class="col-title"><a href="#module-3">Plan Node Types: Scans and Joins</a></td><td class="col-hook">Seq/Index/Bitmap scans, Hash/Nested Loop/Merge joins</td></tr>
+        <tr><td class="col-part"><a href="#module-4">Mod 04</a><span class="cp-tier-pill advanced">Advanced</span></td><td class="col-title"><a href="#module-4">Plan Node Types: Aggregation and Parallel Execution</a></td><td class="col-hook">Sort, HashAggregate, WindowAgg, Gather, JIT</td></tr>
+        <tr><td class="col-part"><a href="#module-5">Mod 05</a><span class="cp-tier-pill advanced">Advanced</span></td><td class="col-title"><a href="#module-5">Statistics and the Planner</a></td><td class="col-hook">MCV list, histogram, default_statistics_target</td></tr>
+        <tr><td class="col-part"><a href="#module-6">Mod 06</a><span class="cp-tier-pill advanced">Advanced</span></td><td class="col-title"><a href="#module-6">Detecting Performance Issues</a></td><td class="col-hook">Misestimation, Batches &gt; 1, Rows Removed by Filter</td></tr>
         <tr><td class="col-part"><a href="#module-7">Mod 07</a><span class="cp-tier-pill advanced">Advanced</span></td><td class="col-title"><a href="#module-7">Building a Diagnostic Workflow</a></td><td class="col-hook">pg_stat scans, plan comparison, FORMAT JSON</td></tr>
         <tr><td class="col-part"><a href="#module-8">Mod 08</a><span class="cp-tier-pill architect">Architect</span></td><td class="col-title"><a href="#module-8">Observability and Performance Strategy</a></td><td class="col-hook">pg_stat_activity, bloat, locks, statistics, planner limits</td></tr>
       </tbody>
@@ -153,25 +153,21 @@ select r.year,
   <div class="wrapper">
     <div class="cp-part-head">
       <span class="cp-part-badge">Module 03</span>
-      <h2>Understanding Plan Node Types</h2>
-      <p class="cp-part-meta">Core · 6 topics</p>
-      <p class="cp-part-desc">Sequential Scan, Index Scan, Index Only Scan, Bitmap Heap Scan, Hash Join, Merge Join, Nested Loop, Hash Aggregate, and Sort — what each node does, when it appears, and what its cost shape looks like.</p>
+      <h2>Plan Node Types: Scans and Joins</h2>
+      <p class="cp-part-meta">Core · 2 topics</p>
+      <p class="cp-part-desc">The executor processes a tree of plan nodes, each producing tuples for its parent until the root node drives the whole thing. This module covers the scan and join nodes that fetch and combine rows.</p>
     </div>
     <p class="cp-book-ref"><i class="fa-solid fa-book-open"></i> Book reference: <a href="/book/contents/#part-3">Chapter 9 — Indexing Strategy</a></p>
     <div class="cp-part-body">
       <div class="cp-chapters">
-        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">Scan nodes: Seq Scan, Index Scan, Index Only Scan, Bitmap Heap Scan, CTE Scan</span><span class="cp-ch-topics">Recognize each scan node type and when it appears.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">GiST Index Scan: Order By vs Index Cond in kNN mode</span><span class="cp-ch-topics">Read GiST index scan plans for nearest-neighbor queries.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">Join nodes: Hash Join, Nested Loop (Memoize), Merge Join</span><span class="cp-ch-topics">Identify which join algorithm appears and why the planner chose it.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">Aggregation and sort: Sort, Incremental Sort, HashAggregate, WindowAgg</span><span class="cp-ch-topics">Distinguish Sort from Incremental Sort and understand the cost difference.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">05</span><div><span class="cp-ch-title">Set operation nodes: Append (UNION ALL), Recursive Union</span><span class="cp-ch-topics">Read plans for UNION ALL queries and recursive CTEs.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">06</span><div><span class="cp-ch-title">Parallel nodes: Gather, Gather Merge</span><span class="cp-ch-topics">Understand parallel plan structure and locate worker sub-plans.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">Scan nodes: Seq Scan, Index Scan, Index Only Scan, Bitmap Index/Heap Scan, BitmapAnd/BitmapOr, Function Scan, GiST kNN Scan</span><span class="cp-ch-topics">Recognize each scan node type and when the planner picks it.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">Join nodes: Hash Join, Nested Loop (with Memoize), Merge Join, Semi Joins, Anti Joins</span><span class="cp-ch-topics">Identify which join algorithm appears and why the planner chose it over the others.</span></div></div>
         <p class="cp-yesql-refs"><i class="fa-solid fa-graduation-cap"></i> Free preview: <a href="/yesql/performance/reading-explain/">Reading EXPLAIN</a></p>
       </div>
       <div class="cp-showcase">
         <figure class="cp-diagram">
-          <img src="/img/diagrams/fig-node-types.svg" alt="Plan node types">
-          <figcaption>Match each node type to its typical cost shape.</figcaption>
+          <img src="/img/diagrams/fig-scan-join-glance.svg" alt="Scan and join nodes at a glance">
+          <figcaption>Match each scan and join node to when the planner picks it.</figcaption>
         </figure>
         <div class="cp-query-card">
           <div class="cp-query-label">Module 03 · Hash Join node</div>
@@ -198,121 +194,29 @@ select d.nationality,
   </div>
 </section>
 
-<section class="cp-part tier-core" id="module-4">
+<section class="cp-part tier-advanced" id="module-4">
   <div class="wrapper">
     <div class="cp-part-head">
-      <span class="cp-part-badge">Module 04</span>
-      <h2>Detecting Performance Issues</h2>
-      <p class="cp-part-meta">Core · 4 topics</p>
-      <p class="cp-part-desc">Batches &gt; 1 on a HashJoin means the hash table spilled to disk. Sort Method: external merge means the sort did too. Rows × loops mismatches point to bad estimates compounding through the tree.</p>
+      <span class="cp-part-badge">Module 04 · Advanced</span>
+      <h2>Plan Node Types: Aggregation and Parallel Execution</h2>
+      <p class="cp-part-meta">Advanced · 3 topics</p>
+      <p class="cp-part-desc">After scans and joins fetch and combine rows, this module covers what happens next: grouping, ordering, combining results from sub-plans, and running parts of the plan across multiple workers.</p>
     </div>
     <p class="cp-book-ref"><i class="fa-solid fa-book-open"></i> Book reference: <a href="/book/contents/#part-3">Chapter 9 — Indexing Strategy</a></p>
     <div class="cp-part-body">
       <div class="cp-chapters">
-        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">Row estimate mismatch</span><span class="cp-ch-topics">Trace how a single bad estimate degrades the entire plan.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">Expensive Sort</span><span class="cp-ch-topics">Recognize when a Sort node is the plan's bottleneck.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">Hash Join batches</span><span class="cp-ch-topics">Detect when a Hash Join spills to disk and why.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">Rows Removed by Filter</span><span class="cp-ch-topics">Use filter row counts to identify missing index candidates.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">Aggregation and sort nodes: Sort, Incremental Sort, HashAggregate, GroupAggregate, WindowAgg</span><span class="cp-ch-topics">Distinguish Sort from Incremental Sort and pick the aggregate node that matches your query.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">Set operations, subplans, and utility nodes: Append/MergeAppend, partition pruning, Recursive Union, InitPlan/SubPlan, CTE Scan, Limit, Materialize</span><span class="cp-ch-topics">Read plans for UNION ALL, recursive CTEs, correlated subqueries, and partitioned tables.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">Parallel nodes: Gather, Gather Merge, Partial/Finalize Aggregate, and JIT compilation markers</span><span class="cp-ch-topics">Understand parallel plan structure and locate the worker sub-plans it coordinates.</span></div></div>
         <p class="cp-yesql-refs"><i class="fa-solid fa-graduation-cap"></i> Free preview: <a href="/yesql/performance/reading-explain/">Reading EXPLAIN</a></p>
       </div>
       <div class="cp-showcase">
         <figure class="cp-diagram">
-          <img src="/img/diagrams/fig-plan-tree.svg" alt="Plan tree structure">
-          <figcaption>Follow execution order from leaf nodes up to the root.</figcaption>
+          <img src="/img/diagrams/fig-plan-tree-join.svg" alt="Aggregation and parallel plan nodes">
+          <figcaption>Locate Gather nodes and the worker sub-plans they coordinate.</figcaption>
         </figure>
         <div class="cp-query-card">
-          <div class="cp-query-label">Module 04 · Row estimate mismatch</div>
-          <pre><code>-- Two correlated predicates: positionorder=1
--- and points > 20 are not independent.
--- The planner multiplies their selectivities
--- and underestimates the actual row count.
-explain (analyze, buffers)
-select res.raceid,
-       res.driverid,
-       res.positionorder,
-       res.points
-  from f1db.results res
- where res.positionorder = 1
-   and res.points &gt; 20;</code></pre>
-          <p class="cp-query-caption">Results rows where finishing position is first and points scored exceed 20.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="cp-part tier-core" id="module-5">
-  <div class="wrapper">
-    <div class="cp-part-head">
-      <span class="cp-part-badge">Module 05</span>
-      <h2>From Plan to Optimization</h2>
-      <p class="cp-part-meta">Core · 3 topics</p>
-      <p class="cp-part-desc">A structured plan-reading session: find the most expensive node, check its estimate vs actual, identify the root cause (missing index, stale statistics, type mismatch), apply the targeted fix.</p>
-    </div>
-    <p class="cp-book-ref"><i class="fa-solid fa-book-open"></i> Book reference: <a href="/book/contents/#part-3">Chapter 9 — Indexing Strategy</a></p>
-    <div class="cp-part-body">
-      <div class="cp-chapters">
-        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">Index recommendations from Seq Scan + Filter signals</span><span class="cp-ch-topics">Spot index opportunities from plan filter annotations.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">Join rewrite: pushing predicates into JOIN ON for earlier filtering</span><span class="cp-ch-topics">Rewrite queries to push predicates earlier and reduce plan cost.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">Cost-based decisions: reading planner cost numbers</span><span class="cp-ch-topics">Compare plan costs to understand the planner's optimization choices.</span></div></div>
-        <p class="cp-yesql-refs"><i class="fa-solid fa-graduation-cap"></i> Free preview: <a href="/yesql/performance/reading-explain/">Reading EXPLAIN</a></p>
-      </div>
-      <div class="cp-showcase">
-        <figure class="cp-diagram">
-          <img src="/img/diagrams/fig-cost-model.svg" alt="Cost model and estimate propagation">
-          <figcaption>See how estimate errors compound through the plan tree.</figcaption>
-        </figure>
-        <div class="cp-query-card">
-          <div class="cp-query-label">Module 05 · Inlined predicate</div>
-          <pre><code>-- Moving the year filter into the JOIN ON
--- clause lets the planner apply it at the
--- earliest scan — the rewrite is free.
-explain (analyze, buffers)
-select d.surname,
-       sum(res.points) as total_points,
-       count(*) filter(
-         where res.positionorder = 1
-       ) as wins
-  from f1db.results res
-  join f1db.races   r
-    on r.raceid   = res.raceid
-   and r.year     = 2017
-  join f1db.drivers d
-    on d.driverid = res.driverid
- group by d.driverid, d.surname
- order by total_points desc;</code></pre>
-          <p class="cp-query-caption">Total points and wins per driver in the 2017 season, ranked by points total.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="cp-part tier-core" id="module-6">
-  <div class="wrapper">
-    <div class="cp-part-head">
-      <span class="cp-part-badge">Module 06</span>
-      <h2>Advanced Plan Analysis</h2>
-      <p class="cp-part-meta">Core · 5 topics</p>
-      <p class="cp-part-desc">FORMAT JSON for tooling integration, EXPLAIN BUFFERS for cache analysis, and pev2 / explain.depesz.com for complex plans. Parallel gather nodes and how to read the worker sub-plans they coordinate.</p>
-    </div>
-    <p class="cp-book-ref"><i class="fa-solid fa-book-open"></i> Book reference: <a href="/book/contents/#part-3">Chapter 9 — Indexing Strategy</a></p>
-    <div class="cp-part-body">
-      <div class="cp-chapters">
-        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">Bitmap Index Scan</span><span class="cp-ch-topics">Read Bitmap Scan plans and understand when they appear.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">GIN Bitmap Heap Scan for array containment</span><span class="cp-ch-topics">Interpret GIN index plans for array containment queries.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">Subplan nodes: InitPlan, SubPlan</span><span class="cp-ch-topics">Recognize costly SubPlan nodes and know when to rewrite them.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">CTE Scan node</span><span class="cp-ch-topics">Understand how CTE Scan nodes appear in plan output.</span></div></div>
-        <div class="cp-chapter"><span class="cp-ch-num">05</span><div><span class="cp-ch-title">Window function plans</span><span class="cp-ch-topics">Read EXPLAIN plans for window queries and identify each node's role.</span></div></div>
-        <p class="cp-yesql-refs"><i class="fa-solid fa-graduation-cap"></i> Free preview: <a href="/yesql/performance/reading-explain/">Reading EXPLAIN</a></p>
-      </div>
-      <div class="cp-showcase">
-        <figure class="cp-diagram">
-          <img src="/img/diagrams/fig-plan-tree-join.svg" alt="Complex plan tree with join nodes">
-          <figcaption>Locate Memoize nodes that cache repeated inner-side lookups.</figcaption>
-        </figure>
-        <div class="cp-query-card">
-          <div class="cp-query-label">Module 06 · WindowAgg plan node</div>
+          <div class="cp-query-label">Module 04 · WindowAgg plan node</div>
           <pre><code>-- Every window query needs a Sort node
 -- to feed the WindowAgg node.
 -- Incremental Sort can reduce this cost.
@@ -334,6 +238,89 @@ select r.year,
    and d.driverid in (1, 8, 20)
  order by r.date, d.surname;</code></pre>
           <p class="cp-query-caption">Running cumulative points per driver by race date for three drivers in the 2017 season.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cp-part tier-advanced" id="module-5">
+  <div class="wrapper">
+    <div class="cp-part-head">
+      <span class="cp-part-badge">Module 05 · Advanced</span>
+      <h2>Statistics and the Planner</h2>
+      <p class="cp-part-meta">Advanced · 3 topics</p>
+      <p class="cp-part-desc">Every `rows=` figure in a plan is an estimate computed from statistics ANALYZE collected — not a measurement. This module traces row estimates back to the MCV list and histogram that produced them.</p>
+    </div>
+    <p class="cp-book-ref"><i class="fa-solid fa-book-open"></i> Book reference: <a href="/book/contents/#part-3">Chapter 9 — Indexing Strategy</a></p>
+    <div class="cp-part-body">
+      <div class="cp-chapters">
+        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">What ANALYZE collects, and reading an estimate from the MCV list or the histogram</span><span class="cp-ch-topics">Trace a row estimate back to the exact statistics row it came from.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">What default_statistics_target buys you</span><span class="cp-ch-topics">Decide when a larger statistics sample is worth the extra ANALYZE cost.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">Correlation and cost, not just row count; estimates are assumptions, not measurements</span><span class="cp-ch-topics">Recognize when the planner's independence assumption is producing a bad estimate.</span></div></div>
+        <p class="cp-yesql-refs"><i class="fa-solid fa-graduation-cap"></i> Free preview: <a href="/yesql/performance/reading-explain/">Reading EXPLAIN</a></p>
+      </div>
+      <div class="cp-showcase">
+        <figure class="cp-diagram">
+          <img src="/img/diagrams/fig-cost-model.svg" alt="Statistics and row estimates">
+          <figcaption>See how estimate errors compound through the plan tree.</figcaption>
+        </figure>
+        <div class="cp-query-card">
+          <div class="cp-query-label">Module 05 · Correlated column misestimate</div>
+          <pre><code>-- geoname.class and .feature are strongly
+-- correlated: 'PPL' always implies class 'P'.
+-- The planner multiplies selectivities as
+-- if they were independent and lands far
+-- below the actual row count.
+explain (analyze, buffers)
+select name, population
+  from geoname.geoname
+ where class   = 'P'
+   and feature = 'PPL';</code></pre>
+          <p class="cp-query-caption">EXPLAIN ANALYZE plan for geoname rows matching both class 'P' and feature 'PPL'.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cp-part tier-advanced" id="module-6">
+  <div class="wrapper">
+    <div class="cp-part-head">
+      <span class="cp-part-badge">Module 06</span>
+      <h2>Detecting Performance Issues</h2>
+      <p class="cp-part-meta">Advanced · 4 topics</p>
+      <p class="cp-part-desc">Batches &gt; 1 on a HashJoin means the hash table spilled to disk. Sort Method: external merge means the sort did too. Rows × loops mismatches point to bad estimates compounding through the tree.</p>
+    </div>
+    <p class="cp-book-ref"><i class="fa-solid fa-book-open"></i> Book reference: <a href="/book/contents/#part-3">Chapter 9 — Indexing Strategy</a></p>
+    <div class="cp-part-body">
+      <div class="cp-chapters">
+        <div class="cp-chapter"><span class="cp-ch-num">01</span><div><span class="cp-ch-title">Row estimate mismatch</span><span class="cp-ch-topics">Trace how a single bad estimate degrades the entire plan.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">02</span><div><span class="cp-ch-title">Expensive Sort</span><span class="cp-ch-topics">Recognize when a Sort node is the plan's bottleneck.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">03</span><div><span class="cp-ch-title">Hash Join batches</span><span class="cp-ch-topics">Detect when a Hash Join spills to disk and why.</span></div></div>
+        <div class="cp-chapter"><span class="cp-ch-num">04</span><div><span class="cp-ch-title">Rows Removed by Filter</span><span class="cp-ch-topics">Use filter row counts to identify missing index candidates.</span></div></div>
+        <p class="cp-yesql-refs"><i class="fa-solid fa-graduation-cap"></i> Free preview: <a href="/yesql/performance/reading-explain/">Reading EXPLAIN</a></p>
+      </div>
+      <div class="cp-showcase">
+        <figure class="cp-diagram">
+          <img src="/img/diagrams/fig-plan-tree.svg" alt="Plan tree structure">
+          <figcaption>Follow execution order from leaf nodes up to the root.</figcaption>
+        </figure>
+        <div class="cp-query-card">
+          <div class="cp-query-label">Module 06 · Row estimate mismatch</div>
+          <pre><code>-- Two correlated predicates: positionorder=1
+-- and points > 20 are not independent.
+-- The planner multiplies their selectivities
+-- and underestimates the actual row count.
+explain (analyze, buffers)
+select res.raceid,
+       res.driverid,
+       res.positionorder,
+       res.points
+  from f1db.results res
+ where res.positionorder = 1
+   and res.points &gt; 20;</code></pre>
+          <p class="cp-query-caption">Results rows where finishing position is first and points scored exceed 20.</p>
         </div>
       </div>
     </div>
