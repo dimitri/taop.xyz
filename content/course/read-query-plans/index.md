@@ -1,14 +1,16 @@
 +++
-title = "Course 6 — Read Query Plans"
+title = "Course 5 — Read Query Plans"
 layout = "course-read-query-plans"
 type = "page"
-course_num = 6
+course_num = 5
 course_title = "Read Query Plans"
 course_tagline = "Fluent EXPLAIN reading — every node type, its performance profile, and what to do about it."
 course_dataset = "f1db, chinook, geoname, public.hashtag"
 course_date = "June 2026"
-course_prev_slug = "query-optimization"
-course_prev_title = "Query Optimization Fundamentals"
+course_prev_slug = "advanced-joins"
+course_prev_title = "Advanced JOIN Techniques"
+course_next_slug = "query-optimization"
+course_next_title = "Query Optimization Fundamentals"
 
 [[modules]]
 num = 1
@@ -36,19 +38,35 @@ topics = [
 
 [[modules]]
 num = 3
-title = "Understanding Plan Node Types"
+title = "Plan Node Types: Scans and Joins"
 tier = "Core"
 topics = [
-  "Scan nodes: Seq Scan, Index Scan, Index Only Scan, Bitmap Heap Scan, CTE Scan",
-  "GiST Index Scan: Order By vs Index Cond in kNN mode",
-  "Join nodes: Hash Join, Nested Loop (Memoize), Merge Join",
-  "Aggregation and sort: Sort, Incremental Sort, HashAggregate, WindowAgg",
-  "Set operation nodes: Append (UNION ALL), Recursive Union",
-  "Parallel nodes: Gather, Gather Merge"
+  "Scan nodes: Seq Scan, Index Scan, Index Only Scan, Bitmap Index/Heap Scan, BitmapAnd/BitmapOr, Function Scan, GiST kNN Scan",
+  "Join nodes: Hash Join, Nested Loop (with Memoize), Merge Join, Semi Joins, Anti Joins"
 ]
 
 [[modules]]
 num = 4
+title = "Plan Node Types: Aggregation and Parallel Execution"
+tier = "Advanced"
+topics = [
+  "Aggregation and sort nodes: Sort, Incremental Sort, HashAggregate, GroupAggregate, WindowAgg",
+  "Set operations, subplans, and utility nodes: Append/MergeAppend, partition pruning, Recursive Union, InitPlan/SubPlan, CTE Scan, Limit, Materialize",
+  "Parallel nodes: Gather, Gather Merge, Partial/Finalize Aggregate, and JIT compilation markers"
+]
+
+[[modules]]
+num = 5
+title = "Statistics and the Planner"
+tier = "Advanced"
+topics = [
+  "What ANALYZE collects, and reading an estimate from the MCV list or the histogram",
+  "What default_statistics_target buys you",
+  "Correlation and cost, not just row count; estimates are assumptions, not measurements"
+]
+
+[[modules]]
+num = 6
 title = "Detecting Performance Issues"
 tier = "Advanced"
 topics = [
@@ -56,28 +74,6 @@ topics = [
   "Expensive Sort — startup ≈ total cost; Limit above Sort doesn't help",
   "Hash Join batches — Batches > 1 means spill to disk",
   "Rows Removed by Filter — fetch-then-discard ratio as index signal"
-]
-
-[[modules]]
-num = 5
-title = "From Plan to Optimization"
-tier = "Advanced"
-topics = [
-  "Index recommendations from Seq Scan + Filter signals",
-  "Join rewrite: pushing predicates into JOIN ON for earlier filtering",
-  "Cost-based decisions: reading planner cost numbers"
-]
-
-[[modules]]
-num = 6
-title = "Advanced Plan Analysis"
-tier = "Advanced"
-topics = [
-  "Bitmap Index Scan — moderate selectivity, two-phase page-order fetch",
-  "GIN Bitmap Heap Scan for array containment — posting-list intersection",
-  "Subplan nodes: InitPlan, SubPlan — correlated subqueries",
-  "CTE Scan node — materialized tuplestore, single execution",
-  "Window function plans — WindowAgg + Sort, Incremental Sort"
 ]
 
 [[modules]]

@@ -9,8 +9,8 @@ course_dataset = "f1db, chinook, tweet, geoname"
 course_date = "June 2026"
 course_prev_slug = "data-modeling"
 course_prev_title = "Data Modeling for Performance"
-course_next_slug = "query-optimization"
-course_next_title = "Query Optimization Fundamentals"
+course_next_slug = "read-query-plans"
+course_next_title = "Read Query Plans"
 
 [[modules]]
 num = 1

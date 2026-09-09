@@ -494,30 +494,6 @@
         <div class="coc-card-header">
           <span class="coc-card-num">05</span>
           <div class="coc-card-meta">
-            <h2 class="coc-card-title">Query Optimization Fundamentals</h2>
-            <p class="coc-card-tagline">Systematic workflow: observe, diagnose, fix, verify.</p>
-          </div>
-        </div>
-        <div class="coc-card-body">
-          <p class="coc-card-dataset"><i class="fa-solid fa-database"></i> f1db, chinook, geoname, public.hashtag</p>
-          <ul class="coc-card-topics">
-            <li>PostgreSQL cost model, pg_stats, pg_stat_statements</li>
-            <li>EXPLAIN ANALYZE — actual timing, row divergence, BUFFERS</li>
-            <li>Predicate pushdown, CTE fences, anti-patterns</li>
-            <li>All index types, composite indexes, index-only scans</li>
-            <li>Partitioning, parallel query, performance budgets, query SLAs</li>
-          </ul>
-          <div class="coc-card-footer">
-<a href="/course/query-optimization/" class="coc-card-link">Full curriculum →</a>
-          </div>
-        </div>
-      </div>
-
-      <!-- Course 6 -->
-      <div class="coc-card">
-        <div class="coc-card-header">
-          <span class="coc-card-num">06</span>
-          <div class="coc-card-meta">
             <h2 class="coc-card-title">Read Query Plans</h2>
             <p class="coc-card-tagline">Fluent EXPLAIN reading — every node type and what to do about it.</p>
           </div>
@@ -527,12 +503,37 @@
           <ul class="coc-card-topics">
             <li>Plan tree anatomy — startup vs total cost, indentation model</li>
             <li>Every node type: scans, joins, aggregates, set ops, parallel</li>
+            <li>Statistics and the planner — MCV list, histogram, correlation</li>
             <li>Detecting row misestimation, spill to disk, expensive sorts</li>
             <li>FORMAT JSON, explain.depesz.com, pev2, cold vs warm cache</li>
             <li>pg_stat_activity, VACUUM signals, lock monitoring, CREATE STATISTICS</li>
           </ul>
           <div class="coc-card-footer">
 <a href="/course/read-query-plans/" class="coc-card-link">Full curriculum →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Course 6 -->
+      <div class="coc-card">
+        <div class="coc-card-header">
+          <span class="coc-card-num">06</span>
+          <div class="coc-card-meta">
+            <h2 class="coc-card-title">Query Optimization Fundamentals</h2>
+            <p class="coc-card-tagline">Systematic workflow: find what to optimize, fix it, verify it.</p>
+          </div>
+        </div>
+        <div class="coc-card-body">
+          <p class="coc-card-dataset"><i class="fa-solid fa-database"></i> f1db, chinook, geoname, public.hashtag</p>
+          <ul class="coc-card-topics">
+            <li>Triage with pg_stat_statements — finding what to optimize</li>
+            <li>All index types, composite indexes, index-only scans</li>
+            <li>Predicate pushdown, CTE fences, anti-patterns</li>
+            <li>CREATE STATISTICS for correlated columns, configuration tuning</li>
+            <li>Partitioning, materialized views, JSON/array indexing, Citus</li>
+          </ul>
+          <div class="coc-card-footer">
+<a href="/course/query-optimization/" class="coc-card-link">Full curriculum →</a>
           </div>
         </div>
       </div>
