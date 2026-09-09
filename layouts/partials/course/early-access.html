@@ -1,108 +1,179 @@
 <style>
-  .course_early_access { background: #f8f7f9; padding: 64px 0; }
-  .course_early_access .early_access_box {
-    max-width: 780px;
-    margin: 0 auto;
-    background: #fff;
-    border: 1px solid #e4dced;
-    border-radius: 16px;
-    padding: 48px 48px 40px;
-    box-shadow: 0 4px 28px rgba(55,38,73,0.07);
-    text-align: center;
-  }
-  .course_early_access h3 {
+  /* Rebuilt. The previous version had three type registers fighting
+     (Bookman serif heading, small-caps column headers, Lato body), two
+     columns of unequal length sharing a full-height divider that framed
+     the empty space under the shorter one, and a #f0f7ff callout from a
+     blue family used nowhere else on the site.
+
+     Now: one type system (Lato, h2 at the same 300/1.9rem as every other
+     section on this page), two equal-height cards, and the course side
+     given the visual weight — it is the thing being sold. Card radius,
+     #ede8f5 borders, small-caps titles and the #60b2d3 accent all match
+     the components already used on /app/ and the six course pages. */
+  .course_early_access { background: #f8f7f9; padding: 80px 0 72px; }
+
+  .ea-head { max-width: 700px; margin: 0 auto 40px; text-align: center; }
+  .course_early_access h2 {
+    font: 300 1.9rem/1.25 'Lato', sans-serif;
     color: #372649;
-    font-size: 1.5rem;
-    font-family: Bookman, serif;
-    font-weight: 400;
-    margin: 0 0 36px;
-    line-height: 1.3;
-  }
-  .early_cols {
-    display: flex;
-    align-items: stretch;
-    margin-bottom: 28px;
-    text-align: left;
-  }
-  .early_col { flex: 1; padding: 0 32px; }
-  .early_col:first-child { padding-left: 0; }
-  .early_col:last-child  { padding-right: 0; }
-  .early_col_divider { width: 1px; background: #e4dced; flex-shrink: 0; }
-  .early_col h4 {
-    font-size: 1.1rem;
-    font-weight: 600;
-    font-variant: small-caps;
-    letter-spacing: .04em;
-    text-align: center;
     margin: 0 0 14px;
-    padding-bottom: 10px;
-    border-bottom: 2px solid #e4dced;
-    color: #372649;
+    padding: 0;
   }
-  .early_col_course h4 { color: #1d7ea8; border-bottom-color: #1d7ea8; }
-  .early_col ul { list-style: none; padding: 0; margin: 0; }
-  .early_col ul li {
-    padding: 7px 0 7px 20px;
-    position: relative;
-    font-size: .88rem;
+  .course_early_access h2 strong { font-weight: 700; }
+  .ea-head p {
+    font-size: 1rem;
+    line-height: 1.65;
     color: #67527a;
-    line-height: 1.5;
+    margin: 0;
+    padding: 0;
   }
-  .early_col_book  ul li::before { content: "→"; position: absolute; left: 0; color: #c9bedd; }
-  .early_col_course ul li::before { content: "✓"; position: absolute; left: 0; color: #60b2d3; font-weight: 700; }
-  .early_example {
-    background: #f0f7ff;
-    border-radius: 6px;
-    padding: 13px 18px;
-    font-size: .86rem;
-    color: #2e4a65;
+
+  .ea-cols {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    max-width: 900px;
+    margin: 0 auto;
+    align-items: stretch;
+  }
+  .ea-card {
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    border: 1px solid #ede8f5;
+    border-radius: 8px;
+    padding: 26px 26px 24px;
+  }
+  /* The course side wins: accent rule, lift, and a warmer ground. */
+  .ea-card.is-course {
+    border-color: #d6ecf5;
+    border-top: 3px solid #60b2d3;
+    padding-top: 24px;
+    box-shadow: 0 6px 24px rgba(55,38,73,.08);
+  }
+  .ea-card-title {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    margin: 0 0 18px;
+    padding: 0 0 14px;
+    border-bottom: 1px solid #f0ebf7;
+  }
+  .ea-card-title i { font-size: 1rem; color: #b3a5c6; }
+  .ea-card.is-course .ea-card-title i { color: #60b2d3; }
+  .ea-card-title h3 {
+    font: 700 1rem/1.2 'Lato', sans-serif;
+    font-variant: small-caps;
+    letter-spacing: .05em;
+    color: #372649;
+    margin: 0;
+    padding: 0;
+  }
+  .ea-card ul { list-style: none; margin: 0; padding: 0; }
+  .ea-card li {
+    position: relative;
+    padding: 0 0 12px 24px;
+    font-size: .9rem;
     line-height: 1.6;
-    text-align: left;
-    margin-bottom: 32px;
+    color: #67527a;
   }
-  .early_example strong { color: #1c3a55; }
-  @media (max-width: 620px) {
-    .early_access_box { padding: 32px 20px 28px; }
-    .early_cols { flex-direction: column; gap: 24px; }
-    .early_col { padding: 0; }
-    .early_col_divider { display: none; }
+  .ea-card li:last-child { padding-bottom: 0; }
+  .ea-card li::before {
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-size: .85rem;
+  }
+  .ea-card.is-book li::before { content: "\f105"; font-family: "Font Awesome 6 Free"; font-weight: 900; color: #c9bedd; left: 3px; }
+  .ea-card.is-course li::before { content: "\f00c"; font-family: "Font Awesome 6 Free"; font-weight: 900; color: #60b2d3; }
+  .ea-card li em { color: #4a3663; font-style: italic; }
+
+  /* Was a pale blue rectangle (#f0f7ff) borrowed from no palette on this
+     site. Now a purple-tinted band with a left accent, matching the
+     .cp-book-ref / .im-body family. */
+  .ea-example {
+    max-width: 900px;
+    margin: 24px auto 0;
+    background: #fff;
+    border: 1px solid #ede8f5;
+    border-left: 3px solid #896da1;
+    border-radius: 8px;
+    padding: 20px 24px;
+    font-size: .9rem;
+    line-height: 1.7;
+    color: #67527a;
+    text-align: left;
+  }
+  .ea-example strong { color: #372649; }
+  .ea-example code {
+    background: #f3eefa;
+    color: #4a3663;
+    border-radius: 3px;
+    padding: 1px 5px;
+    font-size: .85em;
+  }
+  .ea-cta { text-align: center; margin-top: 32px; }
+
+  @media (max-width: 760px) {
+    .course_early_access { padding: 60px 0 56px; }
+    .ea-cols { grid-template-columns: 1fr; gap: 16px; }
+    .course_early_access h2 { font-size: 1.55rem; }
+    .ea-example { padding: 18px 18px; }
   }
 </style>
 
 <div class="course_early_access">
   <div class="wrapper">
-    <div class="early_access_box">
 
-      <h3>The book teaches what.<br>The course teaches how.</h3>
+    <div class="ea-head">
+      <h2>The book teaches what.<br /><strong>The course teaches how.</strong></h2>
+      <p>
+        They are built from the same material by the same author. The
+        difference is what you do with it.
+      </p>
+    </div>
 
-      <div class="early_cols">
-        <div class="early_col early_col_book">
-          <h4><i class="fa-solid fa-book-open" style="margin-right:6px;"></i>The Book</h4>
-          <ul>
-            <li>Explains every concept in depth, with the why behind it</li>
-            <li>590 pages of reference you'll return to for years</li>
-            <li>Best when you already know what to look for</li>
-          </ul>
+    <div class="ea-cols">
+      <div class="ea-card is-book">
+        <div class="ea-card-title">
+          <i class="fa-solid fa-book-open"></i>
+          <h3>The Book</h3>
         </div>
-        <div class="early_col_divider"></div>
-        <div class="early_col early_col_course">
-          <h4><i class="fa-solid fa-graduation-cap" style="margin-right:6px;"></i>The Course</h4>
-          <ul>
-            <li>Pragmatic deep dive into one concept per course — from foundations to daily practice</li>
-            <li>Exercises on real datasets that build muscle memory, not just understanding</li>
-            <li>Structured to take you from <em>I know about this</em> to <em>I reach for it without thinking</em></li>
-          </ul>
-        </div>
+        <ul>
+          <li>Explains every concept in depth, with the why behind it</li>
+          <li>590 pages of reference you'll return to for years</li>
+          <li>Best when you already know what to look for</li>
+        </ul>
       </div>
 
-      <p class="early_example">
-        <strong>Example:</strong> the book has a full chapter on window functions — what they are, how the frame works, when to use them.
-        The <em>Master Window Functions</em> course takes that same ground and builds it into guided exercises on NYSE trading volume,
-        music charts, and sports data, until <code>OVER (PARTITION BY … ORDER BY …)</code> feels as natural as a GROUP BY.
-      </p>
-
-      <a href="#curriculum" class="button button_purple button_large">See All Six Courses</a>
-
+      <div class="ea-card is-course">
+        <div class="ea-card-title">
+          <i class="fa-solid fa-graduation-cap"></i>
+          <h3>The Course</h3>
+        </div>
+        <ul>
+          <li>A pragmatic deep dive into one concept per course — foundations through daily practice</li>
+          <li>Exercises on real datasets that build muscle memory, not just understanding</li>
+          <li>Takes you from <em>I know about this</em> to <em>I reach for it without thinking</em></li>
+        </ul>
+      </div>
     </div>
+
+    {{/* Corrected: course 01 teaches on f1db and its 26 exercises run on
+         chinook. The previous copy claimed "NYSE trading volume, music
+         charts, and sports data" — NYSE appears nowhere in that course. */}}
+    <p class="ea-example">
+      <strong>For example:</strong> the book has a full chapter on window
+      functions — what they are, how the frame works, when to use them. The
+      <em>Master Window Functions</em> course takes that same ground onto
+      Formula One race data, then hands you 26 exercises on the Chinook music
+      store, until <code>OVER (PARTITION BY … ORDER BY …)</code> feels as
+      natural as a <code>GROUP BY</code>.
+    </p>
+
+    <div class="ea-cta">
+      <a href="#curriculum" class="button button_purple button_large">See All Six Courses</a>
+    </div>
+
   </div>
 </div>

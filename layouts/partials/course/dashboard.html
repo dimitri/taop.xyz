@@ -1,0 +1,197 @@
+<style>
+  /* Illustrative rendering of the student dashboard — built in CSS rather
+     than shipped as a screenshot so it stays legible at any width, styles
+     from the same palette as the rest of the site, and never goes stale
+     against a UI change the way a PNG would. Progress figures are sample
+     values; the module/exercise/quiz totals are the real ones. */
+  .course_dashboard { background: #372649; padding: 80px 0 76px; }
+  .cd-head { max-width: 700px; margin: 0 auto 44px; text-align: center; }
+  .course_dashboard h2 {
+    font: 300 1.9rem/1.25 'Lato', sans-serif;
+    color: #fff;
+    margin: 0 0 14px;
+    padding: 0;
+  }
+  .cd-head p {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: rgba(255,255,255,.7);
+    margin: 0;
+    padding: 0;
+  }
+
+  .cd-panel {
+    max-width: 860px;
+    margin: 0 auto;
+    background: #2a1f36;
+    border: 1px solid rgba(255,255,255,.12);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 18px 50px rgba(0,0,0,.28);
+  }
+  .cd-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 16px 22px;
+    background: rgba(255,255,255,.04);
+    border-bottom: 1px solid rgba(255,255,255,.09);
+  }
+  .cd-bar-title {
+    font: 700 .8rem/1 'Lato', sans-serif;
+    color: #fff;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+  }
+  .cd-tier {
+    font: 700 .64rem/1 'Lato', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: .09em;
+    color: #fff;
+    background: #60b2d3;
+    border-radius: 3px;
+    padding: 5px 9px;
+  }
+  .cd-rows { padding: 6px 0; }
+  .cd-row {
+    display: grid;
+    grid-template-columns: 1fr 132px 96px;
+    align-items: center;
+    gap: 16px;
+    padding: 13px 22px;
+    border-bottom: 1px solid rgba(255,255,255,.055);
+  }
+  .cd-row:last-child { border-bottom: none; }
+  .cd-name {
+    font: 400 .88rem/1.3 'Lato', sans-serif;
+    color: rgba(255,255,255,.9);
+    min-width: 0;
+  }
+  .cd-name span {
+    display: block;
+    font-size: .72rem;
+    color: rgba(255,255,255,.4);
+    margin-top: 3px;
+  }
+  .cd-track {
+    height: 7px;
+    background: rgba(255,255,255,.11);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .cd-fill { height: 100%; background: #60b2d3; border-radius: 4px; }
+  .cd-fill.is-done { background: #22a06b; }
+  .cd-pct {
+    font: 700 .78rem/1 'Lato', sans-serif;
+    color: rgba(255,255,255,.65);
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+  }
+  .cd-foot {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    border-top: 1px solid rgba(255,255,255,.09);
+    background: rgba(255,255,255,.03);
+  }
+  .cd-metric {
+    padding: 18px 12px;
+    text-align: center;
+    border-right: 1px solid rgba(255,255,255,.07);
+  }
+  .cd-metric:last-child { border-right: none; }
+  .cd-metric b {
+    display: block;
+    font: 700 1.35rem/1 'Lato', sans-serif;
+    color: #60b2d3;
+    font-variant-numeric: tabular-nums;
+  }
+  .cd-metric span {
+    display: block;
+    margin-top: 5px;
+    font: 300 .7rem/1.3 'Lato', sans-serif;
+    color: rgba(255,255,255,.55);
+    text-transform: uppercase;
+    letter-spacing: .06em;
+  }
+  .cd-note {
+    max-width: 700px;
+    margin: 28px auto 0;
+    text-align: center;
+    font: 300 .88rem/1.65 'Lato', sans-serif;
+    color: rgba(255,255,255,.5);
+    font-style: italic;
+  }
+  @media (max-width: 680px) {
+    .cd-row { grid-template-columns: 1fr 70px; row-gap: 8px; }
+    .cd-track { grid-column: 1 / -1; }
+    .cd-foot { grid-template-columns: repeat(2, 1fr); }
+    .cd-metric:nth-child(2) { border-right: none; }
+    .cd-metric:nth-child(1), .cd-metric:nth-child(2) { border-bottom: 1px solid rgba(255,255,255,.07); }
+  }
+</style>
+
+<div class="course_dashboard">
+  <div class="wrapper">
+    <div class="cd-head">
+      <h2>One dashboard across all six courses</h2>
+      <p>
+        Your tier decides how deep each course runs. The dashboard tracks
+        every module you have read, every exercise you have solved, and every
+        quiz you have passed — so you always know what is left.
+      </p>
+    </div>
+
+    <div class="cd-panel">
+      <div class="cd-bar">
+        <span class="cd-bar-title">My progress</span>
+        <span class="cd-tier">Advanced tier</span>
+      </div>
+
+      <div class="cd-rows">
+        <div class="cd-row">
+          <div class="cd-name">Master Window Functions <span>7 of 7 modules · 24 exercises</span></div>
+          <div class="cd-track"><div class="cd-fill is-done" style="width:100%"></div></div>
+          <div class="cd-pct">100%</div>
+        </div>
+        <div class="cd-row">
+          <div class="cd-name">Reliable Aggregation <span>5 of 7 modules · 18 exercises</span></div>
+          <div class="cd-track"><div class="cd-fill" style="width:71%"></div></div>
+          <div class="cd-pct">71%</div>
+        </div>
+        <div class="cd-row">
+          <div class="cd-name">Data Modeling for Performance <span>3 of 7 modules · 11 exercises</span></div>
+          <div class="cd-track"><div class="cd-fill" style="width:43%"></div></div>
+          <div class="cd-pct">43%</div>
+        </div>
+        <div class="cd-row">
+          <div class="cd-name">Advanced JOIN Techniques <span>2 of 7 modules · 9 exercises</span></div>
+          <div class="cd-track"><div class="cd-fill" style="width:29%"></div></div>
+          <div class="cd-pct">29%</div>
+        </div>
+        <div class="cd-row">
+          <div class="cd-name">Read Query Plans <span>Not started</span></div>
+          <div class="cd-track"><div class="cd-fill" style="width:0%"></div></div>
+          <div class="cd-pct">0%</div>
+        </div>
+        <div class="cd-row">
+          <div class="cd-name">Query Optimization Fundamentals <span>Not started</span></div>
+          <div class="cd-track"><div class="cd-fill" style="width:0%"></div></div>
+          <div class="cd-pct">0%</div>
+        </div>
+      </div>
+
+      <div class="cd-foot">
+        <div class="cd-metric"><b>48</b><span>Modules</span></div>
+        <div class="cd-metric"><b>139</b><span>Exercises</span></div>
+        <div class="cd-metric"><b>332</b><span>Quiz questions</span></div>
+        <div class="cd-metric"><b>3</b><span>Tiers</span></div>
+      </div>
+    </div>
+
+    <p class="cd-note">
+      Progress shown is an example. The totals are real: 48 modules, 139
+      exercises and 332 quiz questions across the six courses.
+    </p>
+  </div>
+</div>

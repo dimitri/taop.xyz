@@ -1,0 +1,119 @@
+<style>
+  /* Course-scoped proof band. Deliberately NOT an edit of
+     book/social-proof.html, which is shared with the homepage, the book
+     page and the launch page. Reuses that partial's .quote_slider
+     markup and CSS so the component looks identical, but the heading is
+     honest about what these quotes are (they praise the book) and the
+     CTA points at the pricing block below rather than at the $89 book —
+     this page's traffic is course traffic. */
+  /* Keeps the shared component's own dark photographic background. An
+     earlier version overrode it to #f8f7f9 for background alternation —
+     but every text colour in .book_social_proof is white, tuned for that
+     photo, so the quotes, cites and dots turned invisible on light grey.
+     The component is used as designed; only the type below is added. */
+  .course_proof { padding: 76px 0 68px; }
+  .course_proof .cp-authority {
+    max-width: 760px;
+    margin: 0 auto 36px;
+    text-align: center;
+  }
+  .course_proof h2 {
+    font: 300 1.9rem/1.25 'Lato', sans-serif;
+    color: #fff;
+    margin: 0 0 14px;
+    padding: 0;
+  }
+  .course_proof .cp-authority p {
+    font-size: 1rem;
+    color: rgba(255,255,255,.78);
+    line-height: 1.7;
+    margin: 0;
+    padding: 0;
+  }
+  .course_proof .cp-authority strong { color: #fff; font-weight: 700; }
+  .course_proof .quote_slider { margin-top: 8px; }
+  .course_proof .proof_note {
+    max-width: 660px;
+    margin: 28px auto 0;
+    text-align: center;
+    font: 300 .88rem/1.65 'Lato', sans-serif;
+    color: rgba(255,255,255,.6);
+    font-style: italic;
+  }
+</style>
+
+{{/* Carries .book_social_proof as well as .course_proof on purpose: the
+     bxSlider init in custom.js is scoped to ".book_social_proof
+     .quote_slider", so without it all four quotes render stacked and the
+     section runs ~700px taller. The .course_proof rules above override
+     the background, padding and heading; everything else is inherited
+     from the shared component. */}}
+<div class="book_social_proof course_proof">
+  <div class="wrapper">
+    <div class="cp-authority">
+      <h2>Taught by a PostgreSQL Major Contributor</h2>
+      <p>
+        Dimitri Fontaine has contributed <strong>Extensions</strong> and
+        <strong>Event Triggers</strong> to PostgreSQL itself, and has spent
+        two decades as a developer, database architect, and DBA on call.
+        The courses teach the same material as the book — the difference is
+        that here you write the queries yourself.
+      </p>
+    </div>
+
+    <div class="quote_slider">
+      <div class="quote-nav quote-prev"><i class="fa-solid fa-chevron-left"></i></div>
+      <ul>
+        {{/* The first two are Masterclass attendees — live sessions on the
+             same Window Functions material as course 01, so they speak to
+             the teaching rather than only to the book. There is no
+             course-specific feedback yet; nothing here implies otherwise. */}}
+        <li class="active">
+          <blockquote>
+            <p>"This workshop is a one-stop shop for fully understanding window functions. The presentation was smooth, and Dimitri was very open to discussion and questions. We will definitely be recommending this to our fellow devs!"</p>
+            <cite>Paul-Henri Bonnement, Window Functions Masterclass</cite>
+          </blockquote>
+        </li>
+        <li>
+          <blockquote>
+            <p>"As an experienced programmer but not an experienced SQL programmer, I found I was able to follow along just fine and appreciated the straightforward examples and explanations."</p>
+            <cite>Jennifer Chandler, Window Functions Masterclass</cite>
+          </blockquote>
+        </li>
+        <li>
+          <blockquote>
+            <p>"This book is on a higher level than generic software books. It explains the how's and why's of using Postgres's many feature. It is an excellent companion to the official Postgres documentation."</p>
+            <cite>Bruce Momjian, PostgreSQL core team</cite>
+          </blockquote>
+        </li>
+        <li>
+          <blockquote>
+            <p>"At last the definitive Postgres book for app developers is out, and from the amazing @tapoueh no less. Go get it!"</p>
+            <cite>Peter van Hardenberg</cite>
+          </blockquote>
+        </li>
+        <li>
+          <blockquote>
+            <p>"Full edition of The Art of PostgreSQL is BRILLIANT! Not just best PG resource ever but best tech-learning package I've ever seen!"</p>
+            <cite>Derek Sivers</cite>
+          </blockquote>
+        </li>
+        <li>
+          <blockquote>
+            <p>"Thanks for your fantastic book. It's helped me immensely in my current job. Technical books can often be a bore and hard to digest, but The Art of PostgreSQL was a pleasure to read."</p>
+            <cite>Ben Davies</cite>
+          </blockquote>
+        </li>
+      </ul>
+      <div class="quote-nav quote-next"><i class="fa-solid fa-chevron-right"></i></div>
+      <div class="quote-dots"></div>
+    </div>
+
+    <p class="proof_note">
+      The Masterclass quotes are from live sessions on the same material;
+      the rest are readers of the book, which is included in full with every
+      course tier. The self-paced courses are new — this page will carry
+      their reviews as they arrive.
+    </p>
+  </div>
+</div>

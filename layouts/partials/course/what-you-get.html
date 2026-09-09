@@ -1,7 +1,11 @@
 <div class="what_you_get">
   <div class="wrapper">
     <header class="heading">
-      <h3>What you get when you join today</h3>
+      <h2>What you get when you join today</h2>
+      <p class="wyg-sub">
+        The courses are written, exercised and quizzed in full today. Video
+        is an addition to that material, not the thing you are waiting for.
+      </p>
     </header>
 
     <div class="three_columns">
@@ -9,21 +13,26 @@
         <div class="column_icon"><i class="fa-solid fa-clipboard-check"></i></div>
         <h4>Available now — included in your subscription</h4>
         <ul>
-          <li>Complete curriculum and module structure</li>
-          <li>All hands-on labs and SQL exercises</li>
-          <li>Quizzes and self-assessments for each module</li>
-          <li>Slide decks for all 6 courses</li>
+          <li>All 48 modules, written in full — 320 lessons</li>
+          <li>139 hands-on exercises against a live PostgreSQL 17 database</li>
+          <li>332 quiz questions, 48 quizzes — one per module</li>
+          <li>Companion PDF per course, per tier — up to 841 pages</li>
+          <li>48 slide decks — 1,746 slides</li>
           <li>The Art of PostgreSQL book — included in full</li>
         </ul>
       </div>
 
       <div class="column coming">
         <div class="column_icon"><i class="fa-solid fa-film"></i></div>
-        <h4>Rolling out through Q3 2026</h4>
+        {{/* Was "Rolling out through Q3 2026", which expires this month.
+             Also reframed: the old copy implied the written courses were a
+             placeholder until video arrived. Video is additive — the
+             exercises, quizzes, tiers and dashboard are the product. */}}
+        <h4>Q4 2026 → early 2027</h4>
         <ul>
-          <li>Video lessons for each module</li>
-          <li>Additional advanced modules</li>
-          <li>Quarterly "office hours" Q&A sessions</li>
+          <li>Video walkthrough for each module, alongside the written lesson</li>
+          <li>Additional advanced and architect modules</li>
+          <li>Quarterly "office hours" Q&amp;A sessions</li>
         </ul>
       </div>
 
@@ -39,3 +48,12 @@
     </div>
   </div>
 </div>
+
+<style>
+  .what_you_get .wyg-sub {
+    max-width: 640px;
+    margin: 12px auto 0;
+    font: 300 .95rem/1.65 'Lato', sans-serif;
+    color: #67527a;
+  }
+</style>

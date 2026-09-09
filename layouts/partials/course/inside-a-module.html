@@ -1,0 +1,210 @@
+<style>
+  /* Reuses .cp-query-card / .cp-query-label / .cp-query-caption from
+     course/toc-styles.html — the same code-card component the six course
+     pages use — so a query looks identical here and on /course/window-functions/. */
+  .inside_module { background: #f8f7f9; padding: 80px 0 72px; }
+  .inside_module .im-head {
+    max-width: 720px;
+    margin: 0 auto 44px;
+    text-align: center;
+  }
+  .inside_module h2 {
+    font: 300 1.9rem/1.2 'Lato', sans-serif;
+    color: #372649;
+    margin: 0 0 14px;
+    padding: 0;
+  }
+  .inside_module .im-sub {
+    font-size: 1rem;
+    color: #67527a;
+    line-height: 1.65;
+    margin: 0;
+    padding: 0;
+  }
+  .im-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    max-width: 1100px;
+    margin: 0 auto;
+    align-items: start;
+  }
+  .im-col { display: flex; flex-direction: column; height: 100%; }
+  .im-step {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    margin-bottom: 14px;
+  }
+  .im-step i { color: #60b2d3; font-size: 1.05rem; }
+  .im-step h3 {
+    font: 700 .95rem/1.3 'Lato', sans-serif;
+    font-variant: small-caps;
+    letter-spacing: .04em;
+    color: #372649;
+    margin: 0;
+    padding: 0;
+  }
+  .im-body {
+    flex: 1;
+    background: #fff;
+    border: 1px solid #ede8f5;
+    border-radius: 8px;
+    padding: 20px 20px 18px;
+    font-size: .875rem;
+    color: #67527a;
+    line-height: 1.6;
+  }
+  .im-body.is-code { background: none; border: none; padding: 0; }
+  .im-body p { margin: 0 0 10px; padding: 0; font-size: .875rem; line-height: 1.6; color: #67527a; }
+  .im-body p:last-child { margin-bottom: 0; }
+  .im-body code {
+    background: #ede8f5;
+    color: #4a3663;
+    border-radius: 3px;
+    padding: 1px 5px;
+    font-size: .82em;
+  }
+  .im-dataset {
+    display: inline-block;
+    font: 700 .68rem/1 'Lato', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: #896da1;
+    background: #ede8f5;
+    border-radius: 3px;
+    padding: 4px 8px;
+    margin-bottom: 12px;
+  }
+  .im-quiz { list-style: none; margin: 12px 0 0; padding: 0; }
+  .im-quiz li {
+    position: relative;
+    padding: 5px 0 5px 24px;
+    font-size: .85rem;
+    line-height: 1.5;
+  }
+  .im-quiz li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 9px;
+    width: 11px;
+    height: 11px;
+    border: 1px solid #c9bedd;
+    border-radius: 50%;
+  }
+  .im-quiz li.is-right { color: #2a7d54; font-weight: 600; }
+  .im-quiz li.is-right::before {
+    border-color: #22a06b;
+    background: #22a06b;
+    box-shadow: inset 0 0 0 2px #fff;
+  }
+  .im-foot {
+    max-width: 720px;
+    margin: 40px auto 0;
+    text-align: center;
+  }
+  .im-foot p {
+    font-size: .95rem;
+    color: #67527a;
+    line-height: 1.6;
+    margin: 0 0 20px;
+    padding: 0;
+  }
+  @media (max-width: 900px) {
+    .im-grid { grid-template-columns: 1fr; gap: 28px; max-width: 620px; }
+  }
+</style>
+
+<div class="inside_module">
+  <div class="wrapper">
+    <div class="im-head">
+      <h2>What one module actually looks like</h2>
+      <p class="im-sub">
+        Every module follows the same shape: read the technique on a real
+        dataset, solve it yourself against a live database, then check that
+        it stuck. Below is real material from <em>Master Window Functions</em>.
+      </p>
+    </div>
+
+    <div class="im-grid">
+
+      <div class="im-col">
+        <div class="im-step">
+          <i class="fa-solid fa-book-open-reader"></i>
+          <h3>Read</h3>
+        </div>
+        <div class="im-body is-code">
+          <div class="cp-query-card">
+            <div class="cp-query-label">f1db · rolling form</div>
+            <pre><code>-- A driver's "form": average points
+-- across the last five races.
+  select r.name as race,
+         r.date,
+         res.points,
+         round(
+           avg(res.points) over(
+             order by r.date
+             rows between 4 preceding
+                      and current row
+           )::numeric, 2
+         ) as form_5_races
+    from f1db.results res
+    join f1db.races r using(raceid)
+   where res.driverid = 1
+     and r.year between 2016 and 2017
+order by r.date;</code></pre>
+            <p class="cp-query-caption">Runs live in the app — no install, real data.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="im-col">
+        <div class="im-step">
+          <i class="fa-solid fa-flask"></i>
+          <h3>Practice</h3>
+        </div>
+        <div class="im-body">
+          <span class="im-dataset"><i class="fa-solid fa-database"></i> chinook</span>
+          <p><strong>Average track duration, excluding the current row.</strong></p>
+          <p>
+            For every track in the Rock And Roll genre, show the track's
+            <code>name</code> and <code>milliseconds</code> alongside the
+            average across every track in the genre — and the average
+            across every <em>other</em> track, using
+            <code>EXCLUDE CURRENT ROW</code>.
+          </p>
+          <p>
+            The “everyone but me” pattern: how does this row compare to its
+            peers, without a self-join.
+          </p>
+        </div>
+      </div>
+
+      <div class="im-col">
+        <div class="im-step">
+          <i class="fa-solid fa-list-check"></i>
+          <h3>Check</h3>
+        </div>
+        <div class="im-body">
+          <p><strong>What does <code>SUM() OVER ()</code> with no <code>ORDER BY</code> compute for every row?</strong></p>
+          <ul class="im-quiz">
+            <li class="is-right">The same grand total on every row — the frame is the whole partition</li>
+            <li>A running total that grows row by row</li>
+            <li>An error, <code>ORDER BY</code> is required</li>
+            <li>Only the current row's own value</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="im-foot">
+      <p>
+        Twenty-seven lessons in this format are free to read right now — no
+        account, no card — covering all six course topics.
+      </p>
+      <a href="/yesql/" class="button button_purple button_large">Read 27 Free Lessons</a>
+    </div>
+  </div>
+</div>

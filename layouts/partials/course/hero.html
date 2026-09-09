@@ -1,34 +1,147 @@
-<div id="course" class="welcome_slider">
-  <div style="position: relative; min-height: 100vh; overflow: hidden;">
-    <img src="/images/demo/slide.jpg" alt=""
-         style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; z-index: 0;">
-    <i class="fa-solid fa-graduation-cap"
-       style="position: absolute; right: -60px; top: 50%; transform: translateY(-50%);
-              font-size: 520px; opacity: 0.08; color: #fff; line-height: 1;
-              pointer-events: none; z-index: 1;"></i>
-    <div style="position: relative; z-index: 2; min-height: 100vh; max-width: 700px; margin: 0 auto;
-                display: flex; flex-flow: column nowrap; justify-content: center; align-items: center;
-                text-align: center; padding: 0 24px;">
-      <i class="fa-solid fa-graduation-cap"
-         style="font-size: 3.5rem; color: rgba(255,255,255,0.55); margin-bottom: 28px;"></i>
-      <h1 style="color: #fff; font-size: 3rem; font-weight: 700; margin: 0 0 20px 0; line-height: 1.1;
-                 font-family: Lato, sans-serif; letter-spacing: -0.01em;">
-        The Course That Picks Up Where the Book Leaves Off
-      </h1>
-      <p style="color: rgba(255,255,255,0.65); font-size: 1.1rem; line-height: 1.65;
-                max-width: 500px; margin: 0 0 44px 0; font-family: Lato, sans-serif; font-weight: 300;">
-        Built from years of teaching PostgreSQL to working developers.
-        Six courses, three tiers — from solid SQL foundations to
-        production-grade data system design.
-      </p>
-      <div style="display: flex; gap: 20px; flex-wrap: wrap; justify-content: center;">
-        <a href="https://sales.theartofpostgresql.com/the-art-of-postgresql-courses/"
-           class="button button_large">Join the Course</a>
-        <a href="#curriculum" class="button button_large"
-           style="background: transparent; border-color: rgba(255,255,255,0.45); color: rgba(255,255,255,0.85);"
-           onmouseover="this.style.background='rgba(255,255,255,0.1)';this.style.borderColor='rgba(255,255,255,0.7)';this.style.color='#fff'"
-           onmouseout="this.style.background='transparent';this.style.borderColor='rgba(255,255,255,0.45)';this.style.color='rgba(255,255,255,0.85)'">See What's Included</a>
-      </div>
+<style>
+  /* Course hero — same structural pattern as the /app/ page hero
+     (.app-hero-*): full-bleed photo, dark scrim, centred column, and a
+     real breakpoint. The previous version was inline-styled with no
+     media query at all, so the 3rem H1 stayed 48px on a 375px viewport
+     and ate the entire mobile fold. */
+  .course-hero-wrap {
+    position: relative;
+    min-height: 100vh;
+    overflow: hidden;
+    background: #181224;
+  }
+  .course-hero-wrap > img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    z-index: 0;
+    opacity: .55;
+  }
+  .course-hero-ghost {
+    position: absolute;
+    right: -60px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 480px;
+    opacity: .06;
+    color: #fff;
+    line-height: 1;
+    pointer-events: none;
+    z-index: 1;
+  }
+  .course-hero-content {
+    position: relative;
+    z-index: 2;
+    /* border-box, or min-height:100vh measures the content box and the
+       vertical padding is added on top of it — the hero then runs a full
+       184px past the fold and the centred content sits low. */
+    box-sizing: border-box;
+    min-height: 100vh;
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 110px 24px 56px;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+  .course-hero-content h1 {
+    color: #fff;
+    font: 300 3rem/1.12 'Lato', sans-serif;
+    margin: 0 0 20px;
+    padding: 0;
+    letter-spacing: -.01em;
+  }
+  .course-hero-content h1 strong { font-weight: 700; }
+  .course-hero-sub {
+    color: rgba(255,255,255,.7);
+    font-size: 1.1rem;
+    line-height: 1.65;
+    max-width: 560px;
+    margin: 0 0 36px;
+    padding: 0;
+  }
+  .course-hero-ctas {
+    display: flex;
+    gap: 18px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 48px;
+  }
+  .course-hero-ctas .button_ghost {
+    background: transparent;
+    border-color: rgba(255,255,255,.45);
+    color: rgba(255,255,255,.85);
+  }
+  .course-hero-ctas .button_ghost:hover {
+    background: rgba(255,255,255,.1);
+    border-color: rgba(255,255,255,.7);
+    color: #fff;
+  }
+  .course-hero-note {
+    font: 300 .84rem/1.5 'Lato', sans-serif;
+    color: rgba(255,255,255,.5);
+    margin: -32px 0 44px;
+  }
+  @media (max-width: 640px) {
+    .course-hero-content { padding: 92px 20px 44px; }
+    .course-hero-content h1 { font-size: 1.95rem; }
+    .course-hero-sub { font-size: 1rem; margin-bottom: 28px; }
+    .course-hero-ctas { flex-direction: column; width: 100%; gap: 12px; }
+    .course-hero-ctas .button { width: 100%; text-align: center; }
+    .course-hero-ghost { font-size: 300px; right: -100px; }
+  }
+</style>
+
+<div id="course" class="course-hero-wrap">
+  <img src="/images/demo/slide.jpg" alt="">
+  <i class="fa-solid fa-graduation-cap course-hero-ghost"></i>
+
+  <div class="course-hero-content">
+    <p class="cp-hero-eyebrow">Six courses · Core → Architect</p>
+
+    <h1>PostgreSQL Courses for<br /><strong>Application Developers</strong></h1>
+
+    <p class="course-hero-sub">
+      From solid SQL foundations to production-grade data system design —
+      taught through hands-on exercises on real datasets, by a PostgreSQL
+      Major Contributor.
+    </p>
+
+    <div class="course-hero-ctas">
+      <a href="#curriculum" class="button button_purple button_large">See the Curriculum</a>
+      <a href="/yesql/" class="button button_large button_ghost">Start Free — 27 Lessons</a>
+    </div>
+
+    <div class="cp-stats-bar">
+      <div class="cp-stat"><span class="cp-stat-n">6</span><span class="cp-stat-l">Courses</span></div>
+      <div class="cp-stat"><span class="cp-stat-n">48</span><span class="cp-stat-l">Modules</span></div>
+      <div class="cp-stat"><span class="cp-stat-n">139</span><span class="cp-stat-l">Exercises</span></div>
+      <div class="cp-stat"><span class="cp-stat-n">100<sup>+</sup></span><span class="cp-stat-l">Hours</span></div>
     </div>
   </div>
 </div>
+<style>
+  /* "100+" — the plus is a superscript so it doesn't compete with the digits */
+  .course-hero-wrap .cp-stat-n sup { font-size: .55em; top: -.45em; margin-left: 1px; }
+</style>
+
+{{/* custom.js only binds the transparent-nav scroll handler when
+     ".welcome_slider" is on the page — the old hero's class, which this
+     rewrite renamed. Without this the header stayed transparent past the
+     hero and its white links sat on light sections, unreadable. Same
+     pattern the /app/ page uses for its own hero. */}}
+<script>
+(function() {
+  var $header = $('.header');
+  var threshold = window.innerHeight * 0.8;
+  $(window).on('scroll.coursehero', function() {
+    if ($(this).scrollTop() > threshold) { $header.addClass('nav-solid'); }
+    else { $header.removeClass('nav-solid'); }
+  });
+})();
+</script>
