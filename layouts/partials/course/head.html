@@ -2,29 +2,141 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>The Art of PostgreSQL — Master PostgreSQL with a Practical System</title>
+	<title>PostgreSQL Courses for Application Developers | The Art of PostgreSQL</title>
 	<link rel="canonical" href="{{ .Permalink }}">
-	<meta name="description" content="Learn SQL, performance, and data modeling with real-world techniques — not theory. Master PostgreSQL with a complete, practical system.">
+	<meta name="description" content="Six PostgreSQL courses for application developers: window functions, aggregation, data modeling, joins, query plans, and optimization. 48 modules, hands-on exercises on real datasets, book included.">
 
-	<meta name="twitter:card" content="summary" />
+	<meta name="twitter:card" content="summary_large_image" />
 	<meta name="twitter:site" content="@tapoueh" />
 	<meta name="twitter:creator" content="@tapoueh" />
-	<meta property="og:url" content="https://theartofpostgresql.com/course" />
-	<meta property="og:title" content="Master PostgreSQL — Complete, Practical System" />
-	<meta property="og:description" content="Learn SQL, performance, and data modeling with real-world techniques." />
+	<meta property="og:url" content="https://theartofpostgresql.com/course/" />
+	<meta property="og:title" content="PostgreSQL Courses for Application Developers" />
+	<meta property="og:description" content="Six courses, 48 modules — from solid SQL foundations to production-grade data system design. Hands-on exercises on real datasets, by a PostgreSQL Major Contributor." />
 	<meta property="og:image" content="https://theartofpostgresql.com/img/TheArtOfPostgresCourses.png" />
-	
+
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
-	
+
 	<link href="/favicon.ico" rel="icon" type="image/x-icon">
-	
-	<link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700" rel="stylesheet"> 
+
+	<link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700" rel="stylesheet">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 	<link rel="stylesheet" href="/css/style.css">
+	{{ partial "course/toc-styles.html" . }}
 	<style>
 	  body.course .header { background: transparent; border-bottom-color: transparent; transition: background 0.3s, border-color 0.3s; }
 	  body.course .header.nav-solid { background: #372649; border-bottom-color: rgba(255,255,255,0.3); }
+
+	  /* The nav CTA is held back over the hero and revealed with the solid
+	     nav, once the hero is scrolled past.
+
+	     This page deliberately puts the curriculum before the price, so a
+	     permanently-visible "See Course Pricing" would put a price cue in
+	     the highest-attention zone before any value is legible — and it
+	     only jumps to an anchor this page already reaches three other
+	     ways. Past the hero the trade flips: the page runs ~11,000px, and
+	     from there down there is no other visible route to the pricing
+	     block.
+
+	     The mobile rule in style.css already hides this wrapper outright
+	     for body.course, on the same reasoning; this extends that call to
+	     desktop instead of leaving the two inconsistent. */
+	  body.course .sticky-cta-wrapper {
+	    opacity: 0;
+	    visibility: hidden;
+	    transition: opacity .25s ease, visibility .25s ease;
+	  }
+	  body.course .header.nav-solid .sticky-cta-wrapper {
+	    opacity: 1;
+	    visibility: visible;
+	  }
 	</style>
+
+	{{/* Course List carousel markup. Google removed standalone Course
+	     rich results in September 2025; the ItemList form is what still
+	     earns a result, and it needs at least three courses each with a
+	     name and description. Course names carry no price or promotional
+	     wording, which that markup disallows. Keep these six entries in
+	     step with the cards in course/course-overview.html. */}}
+	<script type="application/ld+json">
+	{
+	  "@context": "https://schema.org",
+	  "@type": "ItemList",
+	  "itemListElement": [
+	    {
+	      "@type": "ListItem",
+	      "position": 1,
+	      "item": {
+	        "@type": "Course",
+	        "name": "Master Window Functions",
+	        "description": "OVER, PARTITION BY, frame clauses, and sessionization — the analytical SQL patterns that replace application-side loops.",
+	        "url": "https://theartofpostgresql.com/course/window-functions/",
+	        "provider": { "@type": "Organization", "name": "The Art of PostgreSQL", "url": "https://theartofpostgresql.com/" },
+	        "inLanguage": "en"
+	      }
+	    },
+	    {
+	      "@type": "ListItem",
+	      "position": 2,
+	      "item": {
+	        "@type": "Course",
+	        "name": "Reliable Aggregation",
+	        "description": "GROUP BY semantics, GROUPING SETS, FILTER, ordered-set aggregates, and the correctness traps behind wrong reports.",
+	        "url": "https://theartofpostgresql.com/course/aggregation/",
+	        "provider": { "@type": "Organization", "name": "The Art of PostgreSQL", "url": "https://theartofpostgresql.com/" },
+	        "inLanguage": "en"
+	      }
+	    },
+	    {
+	      "@type": "ListItem",
+	      "position": 3,
+	      "item": {
+	        "@type": "Course",
+	        "name": "Data Modeling for Performance",
+	        "description": "Normal forms, primary keys, index design, schema evolution, and JSONB for semi-structured data.",
+	        "url": "https://theartofpostgresql.com/course/data-modeling/",
+	        "provider": { "@type": "Organization", "name": "The Art of PostgreSQL", "url": "https://theartofpostgresql.com/" },
+	        "inLanguage": "en"
+	      }
+	    },
+	    {
+	      "@type": "ListItem",
+	      "position": 4,
+	      "item": {
+	        "@type": "Course",
+	        "name": "Advanced JOIN Techniques",
+	        "description": "Join semantics, fan-out amplification, LATERAL, WITH RECURSIVE, and complex query composition.",
+	        "url": "https://theartofpostgresql.com/course/advanced-joins/",
+	        "provider": { "@type": "Organization", "name": "The Art of PostgreSQL", "url": "https://theartofpostgresql.com/" },
+	        "inLanguage": "en"
+	      }
+	    },
+	    {
+	      "@type": "ListItem",
+	      "position": 5,
+	      "item": {
+	        "@type": "Course",
+	        "name": "Read Query Plans",
+	        "description": "EXPLAIN anatomy, plan node types, row estimate mismatches, and a complete diagnostic workflow.",
+	        "url": "https://theartofpostgresql.com/course/read-query-plans/",
+	        "provider": { "@type": "Organization", "name": "The Art of PostgreSQL", "url": "https://theartofpostgresql.com/" },
+	        "inLanguage": "en"
+	      }
+	    },
+	    {
+	      "@type": "ListItem",
+	      "position": 6,
+	      "item": {
+	        "@type": "Course",
+	        "name": "Query Optimization Fundamentals",
+	        "description": "Finding what to optimize, indexing strategy, query rewriting, and a systematic fix-and-verify workflow.",
+	        "url": "https://theartofpostgresql.com/course/query-optimization/",
+	        "provider": { "@type": "Organization", "name": "The Art of PostgreSQL", "url": "https://theartofpostgresql.com/" },
+	        "inLanguage": "en"
+	      }
+	    }
+	  ]
+	}
+	</script>
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<script src="/js/custom.js"></script>

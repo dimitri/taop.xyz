@@ -1,11 +1,30 @@
 <div id="pricing" class="packages_block">
   <div class="wrapper">
     <header class="heading">
-      <h3>Choose Your Learning Path</h3>
+      <h2>Choose Your Learning Path</h2>
       <p class="lightpurple">
         From solid foundations to system design. Choose the level that
         matches your goals — Core, Advanced, or Architect. Each tier builds
         on the previous one, adding deeper capabilities and modules.
+      </p>
+      {{/* Anchored against our own Masterclass, not a competitor's day
+           rate: the Masterclass Curriculum covers the same six topic areas
+           live, for €1,495. Same author, same material — the courses are
+           the self-paced route to it. A verifiable internal comparison
+           beats an unverified third-party price. */}}
+      <p class="price_anchor">
+        The same six topics taught live, as the
+        <a href="/masterclass/">Masterclass Curriculum</a>, are €1,495.
+        These are the self-paced route through the same material.
+      </p>
+      {{/* Renewal terms belong at the price, not buried in the FAQ:
+           unexpected cost at checkout is the largest fixable cause of
+           abandonment. Same facts as the FAQ answer below, said here. */}}
+      <p class="price_terms">
+        Every tier is a yearly subscription that includes all six courses and
+        the book. While it's active you get every module added that year, at
+        no extra cost. Cancel any time; if it lapses you can resubscribe
+        later at the then-current price.
       </p>
     </header>
     
@@ -32,11 +51,10 @@
             can rely on.
           </p>
           <table class="price_features_table">
-            <tr><td class="icon"><i class="fa-solid fa-book-open"></i></td><td>All 6 courses: Window Functions, Aggregation, Schema Design, Advanced JOINs, Query Optimization, Read Query Plans</td></tr>
+            <tr><td class="icon"><i class="fa-solid fa-book-open"></i></td><td>All 6 courses: Window Functions, Aggregation, Schema Design, Advanced JOINs, Read Query Plans, Query Optimization</td></tr>
             <tr><td class="icon"><i class="fa-solid fa-cubes"></i></td><td>6 modules per course <br /> 36 modules total</td></tr>
             <tr><td class="icon"><i class="fa-solid fa-flask"></i></td><td>Hands-on labs and quizzes for every module</td></tr>
             <tr><td class="icon"><i class="fa-solid fa-book"></i></td><td>The Art of PostgreSQL book included</td></tr>
-            <tr><td class="icon"><i class="fa-solid fa-shield-halved"></i></td><td>Money-back guarantee — no questions asked</td></tr>
           </table>
           <div class="price_cta">
             {{ partial "money-back-guarantee.html" . }}
@@ -71,7 +89,6 @@
             <tr><td class="icon"><i class="fa-solid fa-gauge-high"></i></td><td>Performance-focused depth: query plans, optimizer behavior, advanced indexing, join strategies</td></tr>
             <tr><td class="icon"><i class="fa-solid fa-flask"></i></td><td>Hands-on labs and quizzes for every module</td></tr>
             <tr><td class="icon"><i class="fa-solid fa-book"></i></td><td>The Art of PostgreSQL book included</td></tr>
-            <tr><td class="icon"><i class="fa-solid fa-shield-halved"></i></td><td>Money-back guarantee — no questions asked</td></tr>
           </table>
 <div class="price_cta">
             {{ partial "money-back-guarantee.html" . }}
@@ -109,7 +126,6 @@
             <tr><td class="icon"><i class="fa-solid fa-diagram-project"></i></td><td>System design depth: partitioning, large-scale schemas, performance budgeting, systemic diagnostics</td></tr>
             <tr><td class="icon"><i class="fa-solid fa-flask"></i></td><td>Hands-on labs and quizzes for every module</td></tr>
             <tr><td class="icon"><i class="fa-solid fa-book"></i></td><td>The Art of PostgreSQL book included</td></tr>
-            <tr><td class="icon"><i class="fa-solid fa-shield-halved"></i></td><td>Money-back guarantee — no questions asked</td></tr>
           </table>
            <div class="price_cta">
              {{ partial "money-back-guarantee.html" . }}
@@ -120,6 +136,11 @@
     </ul>
     
     <header class="heading">
+      <p class="price_free_nudge">
+        Not ready to buy? <a href="/yesql/">Read 27 lessons free</a> — no
+        account, no card — or <a href="/login/">create a free account</a> for
+        sample chapters and course modules inside the app.
+      </p>
       <div class="cta_row">
         <a href="#curriculum" class="button button_transparent">View Full Curriculum</a>
         <a href="/teams/" class="button button_transparent" style="margin-left:15px;">Enroll Your Team</a>
@@ -127,3 +148,36 @@
     </header>
   </div>
 </div>
+
+<style>
+  .packages_block .price_anchor {
+    max-width: 640px;
+    margin: 20px auto 0;
+    font: 300 1rem/1.6 'Lato', sans-serif;
+    color: #4a3663;
+  }
+  .packages_block .price_anchor a {
+    color: #372649;
+    font-weight: 700;
+    border-bottom: 1px solid rgba(55,38,73,.3);
+  }
+  .packages_block .price_anchor a:hover { color: #60b2d3; border-bottom-color: #60b2d3; }
+  .packages_block .price_terms {
+    max-width: 680px;
+    margin: 18px auto 0;
+    font: 300 .88rem/1.65 'Lato', sans-serif;
+    color: #6b5c7d;
+  }
+  .packages_block .price_free_nudge {
+    max-width: 640px;
+    margin: 0 auto 22px;
+    font: 300 .95rem/1.6 'Lato', sans-serif;
+    color: #5a4a70;
+  }
+  .packages_block .price_free_nudge a {
+    color: #372649;
+    font-weight: 700;
+    border-bottom: 1px solid rgba(55,38,73,.3);
+  }
+  .packages_block .price_free_nudge a:hover { color: #60b2d3; border-bottom-color: #60b2d3; }
+</style>

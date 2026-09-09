@@ -1,14 +1,29 @@
+{{/* Section order is the main change here. It used to run
+     hero → book-vs-course → proof → what-you-get → PRICING → already-reader
+     → curriculum, which put $249–449 roughly 4,900px before the visitor
+     learned what the six courses cover, and made the full-width pricing
+     table a "false floor" that reads as the end of the page.
+
+     Value now comes first: what the courses are, what a module actually
+     contains, what ships today, who wrote it — then the price, with the
+     book-inclusion block directly under it to justify the number.
+
+     course/already-reader.html was dropped, not moved: its three points
+     (same author, three tiers, one app) are each made better by
+     course/early-access.html and course/value.html, and it carried a
+     fourth CTA to the same checkout. */}}
 {{ partial "course/head.html" . }}
 {{ partial "header.html" . }}
 {{ partial "course/hero.html" . }}
 {{ partial "course/early-access.html" . }}
-{{ partial "book/social-proof.html" . }}
-{{ partial "course/what-you-get.html" . }}
-{{ partial "course/pricing.html" . }}
-{{ partial "course/already-reader.html" . }}
 {{ partial "course/course-overview.html" . }}
-{{ partial "course/value.html" . }}
+{{ partial "course/inside-a-module.html" . }}
+{{ partial "course/dashboard.html" . }}
+{{ partial "course/what-you-get.html" . }}
+{{ partial "course/social-proof.html" . }}
+{{ partial "course/pricing.html" . }}
 {{ partial "course/book-inclusion.html" . }}
+{{ partial "course/value.html" . }}
 {{ partial "course/faq.html" . }}
 {{ partial "course/final-cta.html" . }}
 {{ partial "subscribe.html" . }}

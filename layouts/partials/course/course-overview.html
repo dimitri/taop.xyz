@@ -2,7 +2,7 @@
   <div class="wrapper">
     <header class="co-header">
       <h2>6 Courses. 48 Modules. One System.</h2>
-      <p class="co-sub">Master Window Functions, Reliable Aggregation, Data Modeling for Performance, Advanced JOIN Techniques, Query Optimization Fundamentals, and Read Query Plans — each course is 8 modules across Core, Advanced, and Architect tiers.</p>
+      <p class="co-sub">Master Window Functions, Reliable Aggregation, Data Modeling for Performance, Advanced JOIN Techniques, Read Query Plans, and Query Optimization Fundamentals — each course is 8 modules across Core, Advanced, and Architect tiers.</p>
       <a href="/course/contents/" class="co-browse-link">Browse the full 48-module curriculum →</a>
     </header>
 
@@ -31,39 +31,32 @@
         <p>Join semantics, fan-out amplification, LATERAL, WITH RECURSIVE, and complex query composition.</p>
         <span class="co-meta">8 modules · Core → Architect</span>
       </a>
-      <a href="/course/query-optimization/" class="co-card">
-        <span class="co-num">05</span>
-        <h3>Query Optimization Fundamentals</h3>
-        <p>How PostgreSQL executes queries, bottleneck detection, query rewriting, and indexing strategy.</p>
-        <span class="co-meta">8 modules · Core → Architect</span>
-      </a>
       <a href="/course/read-query-plans/" class="co-card">
-        <span class="co-num">06</span>
+        <span class="co-num">05</span>
         <h3>Read Query Plans</h3>
         <p>EXPLAIN anatomy, plan node types, row estimate mismatches, and a complete diagnostic workflow.</p>
         <span class="co-meta">8 modules · Core → Architect</span>
       </a>
+      <a href="/course/query-optimization/" class="co-card">
+        <span class="co-num">06</span>
+        <h3>Query Optimization Fundamentals</h3>
+        <p>Finding what to optimize, indexing strategy, query rewriting, and a systematic fix-and-verify workflow.</p>
+        <span class="co-meta">8 modules · Core → Architect</span>
+      </a>
     </div>
 
-    <div class="co-tiers">
-      <div class="co-tier co-tier-core">
-        <span class="co-tier-name co-tier-tag-core">Core</span>
-        <span class="co-tier-count">36 modules</span>
-        <span class="co-tier-desc">SQL foundations, no prerequisites</span>
-        <a href="https://sales.theartofpostgresql.com/the-art-of-postgresql-courses/" class="co-tier-cta">Buy Core</a>
-      </div>
-      <div class="co-tier co-tier-advanced">
-        <span class="co-tier-name co-tier-tag-advanced">Advanced <span class="co-tier-popular">Most Popular</span></span>
-        <span class="co-tier-count">42 modules</span>
-        <span class="co-tier-desc">Performance, plan analysis, and query rewriting techniques and methodology</span>
-        <a href="https://sales.theartofpostgresql.com/the-art-of-postgresql-courses/" class="co-tier-cta">Buy Advanced</a>
-      </div>
-      <div class="co-tier co-tier-architect">
-        <span class="co-tier-name co-tier-tag-architect">Architect</span>
-        <span class="co-tier-count">48 modules</span>
-        <span class="co-tier-desc">Schema evolution, data architecture, and system-level trade-offs</span>
-        <a href="https://sales.theartofpostgresql.com/the-art-of-postgresql-courses/" class="co-tier-cta">Buy Architect</a>
-      </div>
+    {{/* The three tiers used to be repeated here with their own Buy
+         buttons — a second pricing block, 4,000px from the real one and
+         quoting different module counts (36/42/48 against the pricing
+         table's own numbers). One pricing block now; this just explains
+         how a tier cuts across all six courses and points down to it. */}}
+    <div class="co-tiers-note">
+      <p>
+        Every course runs <strong>Core → Advanced → Architect</strong>. Your
+        tier decides how deep each of the six goes — Core covers the
+        foundations of all six, Architect opens every module in all six.
+      </p>
+      <a href="#pricing" class="co-browse-link">Compare the three tiers →</a>
     </div>
 
   </div>
@@ -71,7 +64,7 @@
 
 <style>
 .course-overview {
-  background: #f5f2fa;
+  background: #fff;
   padding: 80px 0 72px;
 }
 .co-header {
@@ -153,6 +146,20 @@
 }
 
 /* ── Tier nudge ── */
+.co-tiers-note {
+  max-width: 720px;
+  margin: 40px auto 0;
+  border-top: 1px solid #ddd6ea;
+  padding-top: 28px;
+  text-align: center;
+}
+.co-tiers-note p {
+  font: 300 0.95rem/1.65 'Lato', sans-serif;
+  color: #5a4a70;
+  margin: 0 0 14px;
+  padding: 0;
+}
+.co-tiers-note strong { color: #372649; font-weight: 700; }
 .co-tiers {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
