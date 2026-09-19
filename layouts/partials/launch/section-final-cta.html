@@ -1,3 +1,4 @@
+{{ $seg := .Params.segment }}
 <section class="book_final_cta">
   <div class="wrapper">
     <header class="heading">
@@ -10,16 +11,16 @@
     </p>
 
     <div class="section_cta">
-      <a href="https://sales.theartofpostgresql.com/the-art-of-postgresql-book/" class="button button_purple button_large">
+      <a href="{{ partial "launch/utm.html" (dict "url" "https://sales.theartofpostgresql.com/the-art-of-postgresql-book/" "seg" $seg) }}" class="button button_purple button_large">
         Get the 2026 Edition — $89
       </a>
-      <a href="https://theartofpostgresql.com/course/" class="button button_outline button_large">
+      <a href="{{ partial "launch/utm.html" (dict "url" "/course/" "seg" $seg) }}" class="button button_outline button_large">
         Continue with the Course
       </a>
     </div>
 
     <p class="final_text" style="margin-top: 14px;">
-      Not ready yet? <a href="https://theartofpostgresql.com/#free-chapter">Get a free chapter first.</a>
+      Not ready yet? <a href="#sample">Read the free sample first.</a>
     </p>
 
   </div>

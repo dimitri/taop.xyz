@@ -1,0 +1,59 @@
+{{- /* Launch-campaign landing pages: /launch/, /whats-new/, /migrate/, /oss/.
+
+       One layout for all four. Each page's front matter lists the partials
+       it is built from, in order, under `sections`, so every page is
+       assembled from the same components the rest of the site uses rather
+       than from its own copy of a layout.
+
+       Front matter read here and by the partials:
+         segment    utm_content value for every CTA on the page — see
+                    partials/launch/utm.html
+         sections   partial paths, without the .html suffix
+         nav_cta    { label, url } for the header button; the url gets the
+                    campaign parameters appended
+         ogimage    optional og:image override
+
+       All four are noindex and kept out of the sitemap: they are addressed
+       to email segments, and a public version of each offer already exists
+       on an indexable page. */ -}}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>{{ .Title }}</title>
+  <link rel="canonical" href="{{ .Permalink }}">
+  <meta name="description" content="{{ .Description }}">
+  <meta name="robots" content="noindex, nofollow">
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@tapoueh" />
+  <meta name="twitter:creator" content="@tapoueh" />
+  <meta property="og:url" content="{{ .Permalink }}" />
+  <meta property="og:title" content="{{ .Title }}" />
+  <meta property="og:description" content="{{ .Description }}" />
+  <meta property="og:image" content="{{ .Params.ogimage | default "https://theartofpostgresql.com/img/TheArtOfPostgresUniversity.png" }}" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <link href="/favicon.ico" rel="icon" type="image/x-icon">
+
+  <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/syntax.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
+  <script src="/js/custom.js"></script>
+</head>
+<body class="landing-page landing-{{ .Params.segment }}">
+
+{{ partial "header.html" . }}
+
+{{ range .Params.sections }}
+  {{ partial (printf "%s.html" .) $ }}
+{{ end }}
+
+{{ partial "footer.html" . }}
+
+</body>
+</html>

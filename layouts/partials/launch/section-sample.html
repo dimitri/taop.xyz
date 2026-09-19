@@ -1,0 +1,33 @@
+{{ $seg := .Params.segment }}
+{{/* The sample-first path for people who have not bought. Same free-access
+     form as newsletter/section-freechapter.html and page/app.html: a plain
+     GET to the app's /login, which sends the one-time sign-in link and
+     starts the sample sequence server-side. No Kit embed, no new script.
+
+     The form posts the email only — campaign parameters are not added as
+     hidden fields, because that endpoint is the app's real sign-in and
+     unknown parameters have not been verified against it. Segment
+     attribution for this page comes from the emailed link instead. */}}
+<div id="sample" class="newsletter_subscribe_block">
+  <div class="wrapper">
+    <header class="heading">
+      <h3>Read the free sample first.</h3>
+      <p class="lightpurple">The Preface plus hand-picked chapters across every part</p>
+    </header>
+    <p class="hero_description" style="max-width: 760px; margin: 0 auto 30px auto; text-align: center;">
+      Create a free account and connect to the app's dashboard — sample
+      chapters, sample course modules, and the interactive book reader.
+      One email, no password, no credit card.
+    </p>
+    <center>
+      <form method="get" action="{{ if hugo.IsServer }}http://api.taop.localhost:8081{{ else }}https://api.theartofpostgresql.com{{ end }}/login" style="display: inline-flex; gap: 10px; flex-wrap: wrap; justify-content: center;">
+        <input type="email" name="email" required placeholder="you@example.com" autocomplete="email" style="min-width: 260px; min-height: 44px; padding: 0 16px; font: 400 15px 'Lato', sans-serif; color: #372649; background: #fff; border: 1px solid #c5b8d5; border-radius: 6px; outline: none; box-sizing: border-box;">
+        <button type="submit" style="white-space: nowrap; min-height: 44px; padding: 0 22px; font: 700 13.5px 'Lato', sans-serif; letter-spacing: 1px; text-transform: uppercase; color: #fff; background: #372649; border: 1px solid #372649; border-radius: 6px; cursor: pointer;">Get Free Access</button>
+      </form>
+    </center>
+    <p style="margin-top: 22px; font-size: .95rem;">
+      Ready to read it all?
+      <a href="{{ partial "launch/utm.html" (dict "url" "https://sales.theartofpostgresql.com/the-art-of-postgresql-book/" "seg" $seg) }}" style="color: #372649; font-weight: 700; border-bottom: 1px solid rgba(55,38,73,.35);">Get the 2026 edition — $89</a>
+    </p>
+  </div>
+</div>

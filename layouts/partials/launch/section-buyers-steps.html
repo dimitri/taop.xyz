@@ -1,0 +1,37 @@
+{{ $seg := .Params.segment }}
+{{/* Reuses the .system_flow / .system_item component from
+     index/system.html — the same four-step strip /teams/ uses. */}}
+<section class="index_system" style="background: white;">
+  <div class="wrapper">
+    <header class="heading">
+      <h3>Three steps, about a minute</h3>
+      <p class="lightpurple">No new account, no password, no download code</p>
+    </header>
+
+    <div class="system_flow">
+      <div class="system_item">
+        <span class="system_icon"><i class="fa-solid fa-arrow-right-to-bracket"></i></span>
+        <h6>Open the app</h6>
+        <p>app.theartofpostgresql.com</p>
+      </div>
+      <span class="system_arrow"><i class="fa-solid fa-arrow-right"></i></span>
+      <div class="system_item">
+        <span class="system_icon"><i class="fa-solid fa-envelope"></i></span>
+        <h6>Enter your email</h6>
+        <p>The address you<br />used to purchase</p>
+      </div>
+      <span class="system_arrow"><i class="fa-solid fa-arrow-right"></i></span>
+      <div class="system_item">
+        <span class="system_icon"><i class="fa-solid fa-book-open-reader"></i></span>
+        <h6>Click the link</h6>
+        <p>Updated PDF, ePub, and the<br />online reader are already there</p>
+      </div>
+    </div>
+
+    <p class="lightpurple" style="text-align: center; margin-top: 20px;">
+      Can't find your account? Email
+      <a href="mailto:dim@tapoueh.org">dim@tapoueh.org</a> with the email address
+      from your original order.
+    </p>
+  </div>
+</section>

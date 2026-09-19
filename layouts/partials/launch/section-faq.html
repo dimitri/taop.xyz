@@ -1,3 +1,4 @@
+{{ $seg := .Params.segment }}
 <section class="book_hero">
   <div class="wrapper">
     <header class="heading">
@@ -7,11 +8,17 @@
     <ul class="faq_list">
       <li>
         <div class="faq_item">
+          {{/* Was: "log into your ThriveCart account" at
+               members.theartofpostgresql.com. That portal still answers,
+               but delivery moved to the app — the sitewide footer FAQ and
+               /book/updates/ both send buyers to app.theartofpostgresql.com
+               with their purchase email. Same answer everywhere now. */}}
           <h6>I bought a previous edition. Do I get the 2026 update?</h6>
-          <p>Yes — the update is free for all existing purchasers. Log into your
-          <a href="https://members.theartofpostgresql.com/courses/the-art-of-postgresql/" target="_blank" rel="noopener">ThriveCart account</a>,
-          open the lesson for The Art of PostgreSQL, and download the updated PDF and ePub files directly from there.
-          If you have trouble finding your account, email <a href="mailto:dim@tapoueh.org">dim@tapoueh.org</a>
+          <p>Yes — the update is free for all existing purchasers. Sign in at
+          <a href="{{ partial "launch/utm.html" (dict "url" "https://app.theartofpostgresql.com/" "seg" $seg) }}" rel="noopener">app.theartofpostgresql.com</a>
+          with the email address you used to purchase, and click the sign-in link that arrives in your inbox —
+          no password. The updated PDF, ePub, and online reading experience are there automatically.
+          If you have trouble, email <a href="mailto:dim@tapoueh.org">dim@tapoueh.org</a>
           with your original order email.</p>
         </div>
       </li>

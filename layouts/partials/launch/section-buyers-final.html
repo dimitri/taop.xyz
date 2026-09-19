@@ -1,0 +1,22 @@
+{{ $seg := .Params.segment }}
+<section class="book_final_cta">
+  <div class="wrapper">
+    <header class="heading">
+      <h3>Your update is waiting.</h3>
+    </header>
+
+    <p class="final_text">
+      590 pages. 15 real-world datasets. PostgreSQL 10–18.
+      Already paid for — sign in and it's there.
+    </p>
+
+    <div class="section_cta">
+      <a href="{{ partial "launch/utm.html" (dict "url" "https://app.theartofpostgresql.com/" "seg" $seg) }}" rel="noopener" class="button button_purple button_large">
+        Sign In and Get My Update
+      </a>
+      <a href="{{ partial "launch/utm.html" (dict "url" "/book/updates/" "seg" $seg) }}" class="button button_outline button_large">
+        See the Full Changelog
+      </a>
+    </div>
+  </div>
+</section>

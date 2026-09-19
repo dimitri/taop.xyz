@@ -1,0 +1,12 @@
+{{- /* Appends the launch-2026 campaign parameters to a URL.
+
+       Usage: {{ partial "launch/utm.html" (dict "url" "https://…" "seg" .Params.segment) }}
+
+       utm_content carries the audience segment, so ThriveCart orders and
+       Kit link clicks can be told apart per send. Parameters go before any
+       #fragment, and join with & when the URL already has a query. */ -}}
+{{- $parts := split .url "#" -}}
+{{- $base := index $parts 0 -}}
+{{- $frag := cond (gt (len $parts) 1) (printf "#%s" (index $parts 1)) "" -}}
+{{- $sep := cond (strings.Contains $base "?") "&" "?" -}}
+{{- return printf "%s%sutm_source=kit&utm_medium=email&utm_campaign=launch2026&utm_content=%s%s" $base $sep .seg $frag -}}

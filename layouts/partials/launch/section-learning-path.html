@@ -1,3 +1,4 @@
+{{ $seg := .Params.segment }}
 <style>
 .index_system .services_list {
   display: grid;
@@ -27,7 +28,7 @@
         <p><span class="value_icon"><i class="fa-solid fa-book-open"></i></span></p>
         <h6>Book</h6>
         <p>Foundation &amp; reference — 590 pages, 15 real-world datasets. Second Edition, Updated (2026).</p>
-        <a href="https://sales.theartofpostgresql.com/the-art-of-postgresql-book/">
+        <a href="{{ partial "launch/utm.html" (dict "url" "https://sales.theartofpostgresql.com/the-art-of-postgresql-book/" "seg" $seg) }}">
           Get the Book — $89
         </a>
       </li>
@@ -36,7 +37,7 @@
         <p><span class="value_icon"><i class="fa-solid fa-flask"></i></span></p>
         <h6>Lab</h6>
         <p>Free for everyone. <code>docker compose up</code> starts PostgreSQL with all datasets and a Query UI at <code>localhost:8042</code> — no install required.</p>
-        <a href="https://github.com/dimitri/TheArtOfPostgreSQL">
+        <a href="{{ partial "launch/utm.html" (dict "url" "https://github.com/dimitri/TheArtOfPostgreSQL" "seg" $seg) }}">
           Open the Lab — Free
         </a>
       </li>
@@ -47,7 +48,7 @@
         <p>Structured learning across three tiers — Core, Advanced, Architect.
            Hands-on labs, exercises, and direct input on the curriculum.
            The complete path from SQL basics to production-grade data systems.</p>
-        <a href="https://theartofpostgresql.com/course/">
+        <a href="{{ partial "launch/utm.html" (dict "url" "/course/" "seg" $seg) }}">
           Explore the Course
         </a>
       </li>
@@ -57,7 +58,7 @@
         <h6>Masterclass</h6>
         <p>Live 3-hour deep dives with the author. Real datasets, real-time Q&amp;A.
            Pick one session or the full curriculum.</p>
-        <a href="https://theartofpostgresql.com/masterclass/">
+        <a href="{{ partial "launch/utm.html" (dict "url" "/masterclass/" "seg" $seg) }}">
           See the Masterclass
         </a>
       </li>

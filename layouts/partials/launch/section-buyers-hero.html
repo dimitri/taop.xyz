@@ -1,0 +1,27 @@
+{{ $seg := .Params.segment }}
+<section class="course_hero">
+  <div class="wrapper">
+    <h1>Your 2026 update is free.</h1>
+    <p class="hero_subtitle">
+      The Second Edition, Updated (2026) — now extended through PostgreSQL 18,
+      with a new chapter on pgvector, 56 new figures, and a fully integrated
+      companion lab. Free for everyone who already owns the book.
+    </p>
+    <p class="hero_subtitle" style="margin-top: 0; font-size: 1.1rem; opacity: 0.85;">
+      Sign in with the email you bought with. No password — we send a one-time link.
+    </p>
+    {{/* Same GET-to-/login form the rest of the site uses. For an existing
+         purchaser this is the whole delivery mechanism: the app matches the
+         purchase email and the updated files are already there. */}}
+    <center>
+      <form method="get" action="{{ if hugo.IsServer }}http://api.taop.localhost:8081{{ else }}https://api.theartofpostgresql.com{{ end }}/login" style="display: inline-flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-bottom: 18px;">
+        <input type="email" name="email" required placeholder="the email you purchased with" autocomplete="email" style="min-width: 300px; min-height: 48px; padding: 0 16px; font: 400 15px 'Lato', sans-serif; color: #372649; background: #fff; border: 1px solid #c5b8d5; border-radius: 6px; outline: none; box-sizing: border-box;">
+        <button type="submit" style="white-space: nowrap; min-height: 48px; padding: 0 24px; font: 700 13.5px 'Lato', sans-serif; letter-spacing: 1px; text-transform: uppercase; color: #372649; background: #fff; border: 1px solid #fff; border-radius: 6px; cursor: pointer;">Send My Sign-In Link</button>
+      </form>
+    </center>
+    <p class="hero_subtitle" style="margin-top: 0; font-size: .95rem; opacity: 0.7;">
+      Or go straight to
+      <a href="{{ partial "launch/utm.html" (dict "url" "https://app.theartofpostgresql.com/" "seg" $seg) }}" rel="noopener" style="color: #fff; font-weight: 700; border-bottom: 1px solid rgba(255,255,255,.4);">app.theartofpostgresql.com</a>
+    </p>
+  </div>
+</section>

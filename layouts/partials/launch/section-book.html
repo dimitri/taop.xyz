@@ -1,3 +1,4 @@
+{{ $seg := .Params.segment }}
 <section class="book_hero" style="background: #f8f7f9;">
   <div class="wrapper">
     <header class="heading">
@@ -25,7 +26,7 @@
               <h4>Money-back guarantee</h4>
               <p>No-questions-asked refund</p>
             </div>
-            <a href="https://sales.theartofpostgresql.com/the-art-of-postgresql-book/" class="button button_purple button_large">
+            <a href="{{ partial "launch/utm.html" (dict "url" "https://sales.theartofpostgresql.com/the-art-of-postgresql-book/" "seg" $seg) }}" class="button button_purple button_large">
               Get the Book
             </a>
           </div>
@@ -49,7 +50,7 @@
               <h4>Money-back guarantee</h4>
               <p>No-questions-asked refund</p>
             </div>
-            <a href="https://sales.theartofpostgresql.com/the-art-of-postgresql-book-paperback/" class="button button_purple button_large">
+            <a href="{{ partial "launch/utm.html" (dict "url" "https://sales.theartofpostgresql.com/the-art-of-postgresql-book-paperback/" "seg" $seg) }}" class="button button_purple button_large">
               Get the Paperback
             </a>
           </div>
@@ -59,7 +60,7 @@
     </ul>
 
     <div style="text-align: center; margin-top: 1.5em;">
-      <a href="https://theartofpostgresql.com/book/fair-pricing/" class="button button_outline">Fair Pricing Available</a>
+      <a href="{{ partial "launch/utm.html" (dict "url" "/book/fair-pricing/" "seg" $seg) }}" class="button button_outline">Fair Pricing Available</a>
       <p style="margin-top: 1em;">
         Pay what reflects your local economy.
       </p>

@@ -22,8 +22,16 @@
          selling — it sends higher-intent course traffic to an $89
          product. Swapped for a course CTA there; every other page keeps
          the book button unchanged. */}}
+    {{/* A page can name its own button with front matter nav_cta: the
+         launch landing pages use it so existing buyers aren't offered the
+         book they already own, and so the button carries that page's
+         campaign parameters. */}}
     <div class="sticky-cta-wrapper">
-      {{ if eq .Section "course" }}
+      {{ if .Params.nav_cta }}
+        {{ $url := .Params.nav_cta.url }}
+        {{ with .Params.segment }}{{ $url = partial "launch/utm.html" (dict "url" $url "seg" .) }}{{ end }}
+        <a href="{{ $url }}" class="sticky-cta button button_purple">{{ .Params.nav_cta.label }}</a>
+      {{ else if eq .Section "course" }}
         <a href="/course/#pricing" class="sticky-cta button button_purple">See Course Pricing</a>
       {{ else }}
         <a href="https://sales.theartofpostgresql.com/the-art-of-postgresql-book/" class="sticky-cta button button_purple">Get the Book – $89</a>

@@ -1,3 +1,4 @@
+{{ $seg := .Params.segment }}
 <section class="book_hero" style="background: #f8f7f9;">
   <div class="wrapper">
     <header class="heading">
@@ -22,7 +23,7 @@
       </li>
     </ul>
     <div class="section_cta">
-      <a href="/book/updates/" class="button button_outline">See the full changelog →</a>
+      <a href="{{ partial "launch/utm.html" (dict "url" "/book/updates/" "seg" $seg) }}" class="button button_outline">See the full changelog →</a>
     </div>
   </div>
 </section>
