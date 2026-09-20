@@ -44,6 +44,55 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
   <script src="/js/custom.js"></script>
+
+  <style>
+    /* Hero background, matching /app/, /course/, /teams/ and /masterclass/:
+       images/demo/slide.jpg over #181224, dimmed. Those four are the only
+       other full-page heroes on the site, and .course_hero's flat #372649
+       was the odd one out once they were redesigned.
+
+       The .course_hero class stays on the section so its existing h1,
+       .hero_subtitle and .hero_cta rules keep applying — this only
+       replaces the background and layers the photo underneath.
+
+       Height stays padding-driven rather than the 100vh those four use:
+       these are campaign pages whose first CTA (a sign-in or sample form)
+       should be reachable without a scroll. */
+    .launch-hero {
+      position: relative;
+      overflow: hidden;
+      background: #181224;
+      padding: 150px 0 80px;
+    }
+    .launch-hero > .launch-hero-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      opacity: .55;
+      z-index: 0;
+      pointer-events: none;
+    }
+    .launch-hero > .wrapper { position: relative; z-index: 2; }
+    @media (max-width: 640px) {
+      .launch-hero { padding: 120px 0 60px; }
+    }
+
+    /* And the header runs transparent over that hero, as it does on
+       /app/, /course/ and /teams/ — a solid #372649 bar above a #181224
+       hero left a visible seam across the top of the page. */
+    body.landing-page .header {
+      background: transparent;
+      border-bottom-color: transparent;
+      transition: background .3s, border-color .3s;
+    }
+    body.landing-page .header.nav-solid {
+      background: #372649;
+      border-bottom-color: rgba(255,255,255,.3);
+    }
+  </style>
 </head>
 <body class="landing-page landing-{{ .Params.segment }}">
 
@@ -54,6 +103,33 @@
 {{ end }}
 
 {{ partial "footer.html" . }}
+
+{{/* custom.js only binds the transparent-nav handler when .welcome_slider
+     is on the page, so these pages bind their own — same approach as the
+     /app/ and /course/ heroes. The threshold is the hero's own height
+     rather than a share of the viewport, because this hero is sized by
+     its padding and content, not to 100vh. */}}
+<script>
+(function () {
+  var $header = $('.header');
+  var hero = document.querySelector('.launch-hero');
+  if (!hero) { return; }
+
+  function threshold() {
+    var bar = document.getElementById('launch-bar');
+    var barH = (bar && !bar.hidden) ? bar.offsetHeight : 0;
+    return hero.offsetHeight - $header.outerHeight() - barH;
+  }
+
+  function onScroll() {
+    if ($(window).scrollTop() > threshold()) { $header.addClass('nav-solid'); }
+    else { $header.removeClass('nav-solid'); }
+  }
+
+  $(window).on('scroll.landinghero', onScroll);
+  onScroll();
+})();
+</script>
 
 </body>
 </html>
