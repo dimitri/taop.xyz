@@ -15,9 +15,15 @@
 <div class="lf-wrap lf-{{ $theme }}">
   <form method="get" action="{{ if hugo.IsServer }}http://api.taop.localhost:8081{{ else }}https://api.theartofpostgresql.com{{ end }}/login">
     <label class="lf-label" for="{{ .id }}">{{ .label }}</label>
-    <input class="lf-input" type="email" id="{{ .id }}" name="email" required
-           placeholder="{{ .placeholder }}" autocomplete="email">
-    <button type="submit" class="lf-submit">{{ .button }}</button>
+    {{/* Field and button share one rounded container with no gap between
+         them — the button reads as the end of the input, not as a
+         separate control. The focus ring goes on the row via
+         :focus-within so the whole thing lights up as one. */}}
+    <div class="lf-row">
+      <input class="lf-input" type="email" id="{{ .id }}" name="email" required
+             placeholder="{{ .placeholder }}" autocomplete="email">
+      <button type="submit" class="lf-submit">{{ .button }}</button>
+    </div>
   </form>
   {{ with .note }}<p class="lf-note">{{ . | safeHTML }}</p>{{ end }}
 </div>
