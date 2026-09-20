@@ -80,6 +80,96 @@
       .launch-hero { padding: 120px 0 60px; }
     }
 
+    /* Sign-in / free-access form — see partials/launch/signin-form.html.
+       The ::placeholder override is load-bearing: style.css paints all
+       email placeholders #fff, which is invisible on these white fields. */
+    .lf-wrap { width: 100%; max-width: 460px; margin: 0 auto; text-align: left; }
+    .lf-label {
+      display: block;
+      font: 700 .68rem/1 'Lato', sans-serif;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+    .lf-wrap .lf-input {
+      display: block;
+      width: 100%;
+      box-sizing: border-box;
+      height: 52px;
+      padding: 0 16px;
+      font: 400 16px 'Lato', sans-serif;
+      color: #2e2241;
+      background: #fff;
+      border: 1px solid transparent;
+      border-radius: 8px;
+      margin-bottom: 14px;
+      outline: none;
+      text-align: left;
+      text-transform: none;
+      letter-spacing: normal;
+      transition: box-shadow .15s, border-color .15s;
+    }
+    .lf-wrap .lf-input::placeholder {
+      color: #b0a4c0;
+      text-transform: none;
+      letter-spacing: 0;
+      opacity: 1;
+      font-size: 15px;
+    }
+    .lf-wrap .lf-input:focus { box-shadow: 0 0 0 3px rgba(96,178,211,.4); }
+    .lf-submit {
+      display: block;
+      width: 100%;
+      height: 52px;
+      border: none;
+      border-radius: 50px;
+      font: 700 .78rem/1 'Lato', sans-serif;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background .15s;
+    }
+    .lf-note { margin: 14px 0 0; font: 300 .88rem/1.5 'Lato', sans-serif; }
+
+    .lf-dark .lf-label { color: #60b2d3; }
+    .lf-dark .lf-submit { background: #60b2d3; color: #fff; }
+    .lf-dark .lf-submit:hover { background: #4a9cbf; }
+    .lf-dark .lf-note { color: rgba(255,255,255,.65); }
+    .lf-dark .lf-note a { color: #fff; font-weight: 700; border-bottom: 1px solid rgba(255,255,255,.4); }
+
+    .lf-light .lf-label { color: #5a4a70; }
+    .lf-light .lf-input { border-color: #c5b8d5; }
+    .lf-light .lf-submit { background: #372649; color: #fff; }
+    .lf-light .lf-submit:hover { background: #4a3663; }
+    .lf-light .lf-note { color: #5a4a70; }
+    .lf-light .lf-note a { color: #372649; font-weight: 700; border-bottom: 1px solid rgba(55,38,73,.35); }
+
+    /* The four OSS projects are four, not three — .services_list is a
+       3-up flex row, which left pgextwlist orphaned on its own line. */
+    .services_list--four {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      justify-content: initial;
+      /* .services_list sets align-items:flex-start, which stops grid items
+         stretching to the row height — and then margin-top:auto on the
+         link has nothing to push against. */
+      align-items: stretch;
+    }
+    .services_list--four li {
+      flex: none;
+      padding: 0 20px 30px;
+      display: flex;
+      flex-direction: column;
+    }
+    /* Descriptions differ in length; this keeps the four links on one line. */
+    .services_list--four li > a { margin-top: auto; padding-top: 10px; }
+    @media (max-width: 1000px) {
+      .services_list--four { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 600px) {
+      .services_list--four { grid-template-columns: 1fr; }
+    }
+
     /* And the header runs transparent over that hero, as it does on
        /app/, /course/ and /teams/ — a solid #372649 bar above a #181224
        hero left a visible seam across the top of the page. */

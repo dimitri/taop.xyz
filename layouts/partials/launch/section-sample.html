@@ -19,12 +19,12 @@
       chapters, sample course modules, and the interactive book reader.
       One email, no password, no credit card.
     </p>
-    <center>
-      <form method="get" action="{{ if hugo.IsServer }}http://api.taop.localhost:8081{{ else }}https://api.theartofpostgresql.com{{ end }}/login" style="display: inline-flex; gap: 10px; flex-wrap: wrap; justify-content: center;">
-        <input type="email" name="email" required placeholder="you@example.com" autocomplete="email" style="min-width: 260px; min-height: 44px; padding: 0 16px; font: 400 15px 'Lato', sans-serif; color: #372649; background: #fff; border: 1px solid #c5b8d5; border-radius: 6px; outline: none; box-sizing: border-box;">
-        <button type="submit" style="white-space: nowrap; min-height: 44px; padding: 0 22px; font: 700 13.5px 'Lato', sans-serif; letter-spacing: 1px; text-transform: uppercase; color: #fff; background: #372649; border: 1px solid #372649; border-radius: 6px; cursor: pointer;">Get Free Access</button>
-      </form>
-    </center>
+    {{ partial "launch/signin-form.html" (dict
+         "theme" "light"
+         "id" "sample-email"
+         "label" "Email address"
+         "placeholder" "you@example.com"
+         "button" "Get Free Access") }}
     <p style="margin-top: 22px; font-size: .95rem;">
       Ready to read it all?
       <a href="{{ partial "launch/utm.html" (dict "url" "https://sales.theartofpostgresql.com/the-art-of-postgresql-book/" "seg" $seg) }}" style="color: #372649; font-weight: 700; border-bottom: 1px solid rgba(55,38,73,.35);">Get the 2026 edition — $89</a>
