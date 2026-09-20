@@ -216,6 +216,40 @@
 
 {{ partial "footer.html" . }}
 
+{{/* CTAs are built with utm_source=kit&utm_medium=email, which is right
+     for the campaign sends but wrong for anyone who arrived another way
+     — from the announcement bar, say. This rewrites the outbound source
+     and medium to match however the visitor actually got here, and
+     leaves utm_content alone, since that identifies the page's segment
+     rather than the traffic source.
+
+     First-party, no network calls, nothing stored. With JavaScript off
+     the links keep their built-in values, exactly as before.
+
+     A visit with no utm parameters at all (someone typing the URL) is
+     deliberately left as-is rather than guessed at. */}}
+<script>
+(function () {
+  if (!window.URL || !window.URLSearchParams) { return; }
+
+  var here;
+  try { here = new URLSearchParams(window.location.search); } catch (e) { return; }
+
+  var src = here.get('utm_source');
+  var med = here.get('utm_medium');
+  if (!src && !med) { return; }
+
+  var links = document.querySelectorAll('a[href*="utm_campaign=launch2026"]');
+  Array.prototype.forEach.call(links, function (a) {
+    var u;
+    try { u = new URL(a.getAttribute('href'), window.location.href); } catch (e) { return; }
+    if (src) { u.searchParams.set('utm_source', src); }
+    if (med) { u.searchParams.set('utm_medium', med); }
+    a.setAttribute('href', u.toString());
+  });
+})();
+</script>
+
 {{/* custom.js only binds the transparent-nav handler when .welcome_slider
      is on the page, so these pages bind their own — same approach as the
      /app/ and /course/ heroes. The threshold is the hero's own height

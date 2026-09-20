@@ -42,7 +42,10 @@
      JavaScript the bar simply stays hidden, which is the safe failure. */}}
 <div class="launch-bar" id="launch-bar" hidden>
   <strong>The 2026 edition is here</strong> — PostgreSQL 10–18, a new pgvector chapter, 56 new figures.
-  <a href="/launch/">See what's new →</a>
+  {{/* Carries its own source, so bar traffic isn't counted as a Kit
+       send. The landing page rewrites its own outbound CTAs to match
+       whatever brought the visitor in — see layouts/landing.html. */}}
+  <a href="/launch/?utm_source=site&amp;utm_medium=announce-bar&amp;utm_campaign=launch2026">See what's new →</a>
   <button type="button" class="launch-bar-dismiss" id="launch-bar-dismiss" aria-label="Dismiss announcement">✕</button>
 </div>
 <script>
