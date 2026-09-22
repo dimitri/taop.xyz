@@ -781,7 +781,8 @@ body.course .welcome_slider ul li {
 }
 .price_list > li > div .button {
   min-width: 175px;
-  /* position: absolute; */
+  /* position: absolute;
+ */
   bottom: 25px;
   left: calc(50% - 87px);
 }
@@ -2626,7 +2627,8 @@ body.course .welcome_slider ul li {
   background: #2e2241;
   border-color: #2e2241;
   color: #fff;
-}                                                   
+}
+                                                   
 .Course_hero .trust_signal {
   color: #dfdde1;
   font-size: 14px;
@@ -2876,7 +2878,8 @@ body.course .welcome_slider ul li {
   color: #896da1;
 }
 .course_curriculum .packages_table > li:last-child a {
-  /* color: #372649; */
+  /* color: #372649;
+ */
   font-weight: 600;
 }
 
@@ -4082,11 +4085,6 @@ body.newsletter .index_hero .hero_cta .button.button_outline:hover {
   text-align: center;
   margin-top: 20px;
 }
-/* Same spacing .hero_cta already gives paired buttons; without it two
-   buttons in a .section_cta sat flush against each other. */
-.section_cta .button + .button {
-  margin-left: 15px;
-}
 
 .index_workshops .button.button_purple, 
 .index_workshops .section_cta .button.button_purple {
@@ -4684,8 +4682,21 @@ body.newsletter .index_hero .hero_cta .button.button_outline:hover {
 .hero_cta {
   margin-top: 30px;
 }
-.hero_cta .button + .button {
-  margin-left: 15px;
+
+/* Rows of paired CTA buttons. flex + gap spaces them on both axes, so when
+   a pair wraps on a narrow screen the stacked buttons keep vertical room
+   and stay centred. The previous `.button + .button { margin-left: 15px }`
+   only spaced them sideways: stacked buttons touched, and the second one
+   sat 15px off-centre. Same pattern the /lab/ and homepage heroes already
+   use; their more specific rules still win where they apply. */
+.hero_cta,
+.section_cta,
+.cta_row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
 }
 
 /* Price CTA - center buttons */
