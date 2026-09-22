@@ -276,6 +276,18 @@ textarea::placeholder {
   background: #60b2d3;
   border-color: #60b2d3;
 }
+/* .button_purple sets its own font and min-height, and comes after
+   .button_large with the same specificity — so every purple + large button
+   on the site rendered at the small size (11px, 39px), next to outline and
+   transparent large buttons that kept 16px / 52px. Paired CTAs came out at
+   two different heights. This restores the size the class asks for. */
+.button.button_purple.button_large,
+.button.button_purple.button_large:visited {
+  font-size: 16px;
+  font-weight: 400;
+  min-height: 52px;
+  border-radius: 25px;
+}
 .button.button_transparent,
 .button.button_transparent:visited {
   border-color: #372649;
@@ -2215,7 +2227,9 @@ body.course .welcome_slider ul li {
     font-size: 21px;
     line-height: 27px;
   }
-  .button.button_large {
+  .button.button_large,
+  .button.button_purple.button_large,
+  .button.button_purple.button_large:visited {
     font-size: 13px;
     min-height: 40px;
     border-radius: 20px;
@@ -4067,6 +4081,11 @@ body.newsletter .index_hero .hero_cta .button.button_outline:hover {
 .section_cta {
   text-align: center;
   margin-top: 20px;
+}
+/* Same spacing .hero_cta already gives paired buttons; without it two
+   buttons in a .section_cta sat flush against each other. */
+.section_cta .button + .button {
+  margin-left: 15px;
 }
 
 .index_workshops .button.button_purple, 
