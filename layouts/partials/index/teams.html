@@ -20,7 +20,11 @@
     </p>
 
     <div class="section_cta">
+      {{ if .Params.segment }}
+      <a href="{{ partial "launch/utm.html" (dict "url" "/teams/" "seg" .Params.segment) }}" class="button button_purple">See Team Pricing</a>
+      {{ else }}
       <a href="/teams/" class="button button_purple">See Team Pricing</a>
+      {{ end }}
     </div>
   </div>
 </div>

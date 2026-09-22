@@ -1,0 +1,29 @@
+{{- /* Email sign-in / free-access form.
+
+       Shaped after the form on /login/ (.login-form-wrap): a labelled
+       field above a full-width submit, rather than an unlabelled box
+       beside a button — the earlier version read as an anonymous input,
+       not as something you sign in with.
+
+       It also has to override input[type='email']::placeholder, which
+       style.css sets to #fff for the dark forms elsewhere on the site.
+       On a white field that made the placeholder invisible and left the
+       control looking empty and purposeless.
+
+       Params: theme (dark|light), label, placeholder, button, note, id */ -}}
+{{ $theme := .theme | default "dark" }}
+<div class="lf-wrap lf-{{ $theme }}">
+  <form method="get" action="{{ if hugo.IsServer }}http://api.taop.localhost:8081{{ else }}https://api.theartofpostgresql.com{{ end }}/login">
+    <label class="lf-label" for="{{ .id }}">{{ .label }}</label>
+    {{/* Field and button share one rounded container with no gap between
+         them — the button reads as the end of the input, not as a
+         separate control. The focus ring goes on the row via
+         :focus-within so the whole thing lights up as one. */}}
+    <div class="lf-row">
+      <input class="lf-input" type="email" id="{{ .id }}" name="email" required
+             placeholder="{{ .placeholder }}" autocomplete="email">
+      <button type="submit" class="lf-submit">{{ .button }}</button>
+    </div>
+  </form>
+  {{ with .note }}<p class="lf-note">{{ . | safeHTML }}</p>{{ end }}
+</div>

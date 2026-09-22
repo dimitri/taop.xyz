@@ -1,0 +1,83 @@
+{{ $seg := .Params.segment }}
+{{/* Bridge page only. The Migration course has its own site at
+     mysqltopgsql.com — this page exists so the pgloader / white-paper
+     segment has somewhere to land from the campaign, and it links out
+     rather than restating the product.
+
+     Claims here come from mysqltopgsql.com itself (author of pgloader;
+     modules 1–4 free, one email, no password; the schema/data/casting
+     split). Those two sites have to stay in step. */}}
+<section class="course_hero launch-hero">
+  <img src="/images/demo/slide.jpg" alt="" class="launch-hero-bg">
+  <div class="wrapper">
+    <h1>Still on MySQL?</h1>
+    <p class="hero_subtitle">
+      The migration course is written by the author of pgloader — the tool
+      named in nearly every MySQL-to-PostgreSQL migration guide published.
+    </p>
+    <p class="hero_subtitle" style="margin-top: 0; font-size: 1.1rem; opacity: 0.85;">
+      The first four modules are free. One email, no password.
+    </p>
+    <div class="hero_cta">
+      <a href="{{ partial "launch/utm.html" (dict "url" "https://mysqltopgsql.com/#login-box" "seg" $seg) }}" rel="noopener" class="button button_purple button_large">
+        Start the Free Modules
+      </a>
+      <a href="{{ partial "launch/utm.html" (dict "url" "https://mysqltopgsql.com/course/" "seg" $seg) }}" rel="noopener" class="button button_transparent button_large" style="border-color: rgba(255,255,255,0.65); color: #fff;">
+        See the Course
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="book_hero" style="background: #f8f7f9;">
+  <div class="wrapper">
+    <header class="heading">
+      <h3>What the migration actually involves</h3>
+      <p class="lightpurple">What the tool does, and what it doesn't</p>
+    </header>
+    <ul class="services_list">
+      <li>
+        <p><span class="value_icon"><i class="fa-solid fa-wand-magic-sparkles"></i></span></p>
+        <p><strong>What pgloader automates</strong></p>
+        <p>Schema and data in one command — catalog fetch, schema translation, casting rules, parallel <code>COPY</code> then parallel index build. Re-runnable nightly for the length of the project.</p>
+      </li>
+      <li>
+        <p><span class="value_icon"><i class="fa-solid fa-screwdriver-wrench"></i></span></p>
+        <p><strong>What still needs porting</strong></p>
+        <p>Stored procedures, triggers, and views. Application SQL that assumes MySQL behaviour. The part no tool does for you — covered hands-on in the course.</p>
+      </li>
+      <li>
+        <p><span class="value_icon"><i class="fa-solid fa-unlock-keyhole"></i></span></p>
+        <p><strong>Where to start, free</strong></p>
+        <p>Why migrate, the budget, the target architecture, and pg_auto_failover are free to read, permanently. The pgloader mechanics, casting rules, and stored-procedure porting are the paid course.</p>
+      </li>
+    </ul>
+    <div class="section_cta">
+      <a href="{{ partial "launch/utm.html" (dict "url" "https://mysqltopgsql.com/course/" "seg" $seg) }}" rel="noopener" class="button button_purple button_large">
+        Get the Migration Course
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="book_hero">
+  <div class="wrapper">
+    <header class="heading">
+      <h3>Two things that pair with it</h3>
+    </header>
+    <ul class="services_list">
+      <li>
+        <p><span class="value_icon"><i class="fa-solid fa-life-ring"></i></span></p>
+        <p><strong>Running pgloader in production?</strong></p>
+        <p>Priority handling for pgloader and the other three tools, funded by the teams who depend on them.</p>
+        <a href="{{ partial "launch/utm.html" (dict "url" "/oss/" "seg" $seg) }}">Fund its maintenance →</a>
+      </li>
+      <li>
+        <p><span class="value_icon"><i class="fa-solid fa-book-open"></i></span></p>
+        <p><strong>Landed on PostgreSQL. Now use it.</strong></p>
+        <p>590 pages on the SQL and data modelling that MySQL never asked you to learn — Second Edition, Updated (2026).</p>
+        <a href="{{ partial "launch/utm.html" (dict "url" "https://sales.theartofpostgresql.com/the-art-of-postgresql-book/" "seg" $seg) }}">Get the book — $89 →</a>
+      </li>
+    </ul>
+  </div>
+</section>

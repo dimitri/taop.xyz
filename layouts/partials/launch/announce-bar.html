@@ -1,0 +1,77 @@
+<style>
+  /* .header is position:fixed;top:0, so the bar takes the top strip and
+     pushes the header down by its own height while it is shown. The height
+     is a custom property because the bar wraps to two lines on narrow
+     screens; the inline script below measures it and updates the value. */
+  .launch-bar {
+    --launch-bar-h: 44px;
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 1000;
+    background: #60b2d3;
+    color: #12202b;
+    font: 400 14px/1.4 'Lato', sans-serif;
+    padding: 11px 44px 11px 20px;
+    text-align: center;
+  }
+  .launch-bar a {
+    color: #12202b;
+    font-weight: 700;
+    border-bottom: 1px solid rgba(18,32,43,.45);
+    white-space: nowrap;
+  }
+  .launch-bar a:hover { border-bottom-color: #12202b; }
+  .launch-bar-dismiss {
+    position: absolute;
+    top: 50%; right: 10px;
+    transform: translateY(-50%);
+    width: 30px; height: 30px;
+    display: flex; align-items: center; justify-content: center;
+    background: none; border: 0; cursor: pointer;
+    color: #12202b; opacity: .6; font-size: 15px; line-height: 1;
+  }
+  .launch-bar-dismiss:hover { opacity: 1; }
+  body.has-launch-bar .header { top: var(--launch-bar-h, 44px); }
+  @media (max-width: 600px) {
+    .launch-bar { font-size: 13px; padding: 10px 40px 10px 14px; }
+  }
+</style>
+
+{{/* Rendered hidden and revealed by the script immediately below it, so a
+     visitor who has dismissed it never sees it flash on load. Without
+     JavaScript the bar simply stays hidden, which is the safe failure. */}}
+<div class="launch-bar" id="launch-bar" hidden>
+  <strong>The 2026 edition is here</strong> — PostgreSQL 10–18, a new pgvector chapter, 56 new figures.
+  {{/* Carries its own source, so bar traffic isn't counted as a Kit
+       send. The landing page rewrites its own outbound CTAs to match
+       whatever brought the visitor in — see layouts/landing.html. */}}
+  <a href="/launch/?utm_source=site&amp;utm_medium=announce-bar&amp;utm_campaign=launch2026">See what's new →</a>
+  <button type="button" class="launch-bar-dismiss" id="launch-bar-dismiss" aria-label="Dismiss announcement">✕</button>
+</div>
+<script>
+(function () {
+  var KEY = 'taop-launch2026-bar-dismissed';
+  var bar = document.getElementById('launch-bar');
+  if (!bar) { return; }
+
+  var dismissed = false;
+  try { dismissed = window.localStorage.getItem(KEY) === '1'; } catch (e) { dismissed = false; }
+  if (dismissed) { return; }
+
+  function sizeBar() {
+    document.body.style.setProperty('--launch-bar-h', bar.offsetHeight + 'px');
+    bar.style.setProperty('--launch-bar-h', bar.offsetHeight + 'px');
+  }
+
+  bar.hidden = false;
+  document.body.classList.add('has-launch-bar');
+  sizeBar();
+  window.addEventListener('resize', sizeBar);
+
+  document.getElementById('launch-bar-dismiss').addEventListener('click', function () {
+    bar.hidden = true;
+    document.body.classList.remove('has-launch-bar');
+    try { window.localStorage.setItem(KEY, '1'); } catch (e) {}
+  });
+})();
+</script>

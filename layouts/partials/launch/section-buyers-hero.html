@@ -1,0 +1,28 @@
+{{ $seg := .Params.segment }}
+<section class="course_hero launch-hero">
+  <img src="/images/demo/slide.jpg" alt="" class="launch-hero-bg">
+  <div class="wrapper">
+    <h1>Your 2026 update is free.</h1>
+    <p class="hero_subtitle">
+      The Second Edition, Updated (2026) — now extended through PostgreSQL 18,
+      with a new chapter on pgvector, 56 new figures, and a fully integrated
+      companion lab. Free for everyone who already owns the book.
+    </p>
+    <p class="hero_subtitle" style="margin-top: 0; font-size: 1.1rem; opacity: 0.85;">
+      Sign in with the email you bought with. No password — we send a one-time link.
+    </p>
+    {{/* Same GET-to-/login form the rest of the site uses. For an existing
+         purchaser this is the whole delivery mechanism: the app matches the
+         purchase email and the updated files are already there. */}}
+    {{ partial "launch/signin-form.html" (dict
+         "theme" "dark"
+         "id" "whatsnew-email"
+         "label" "Your purchase email"
+         "placeholder" "the address you bought with"
+         "button" "Send My Sign-In Link") }}
+    <p class="hero_subtitle" style="margin-top: 20px; font-size: .95rem; opacity: 0.7;">
+      Or go straight to
+      <a href="{{ partial "launch/utm.html" (dict "url" "https://app.theartofpostgresql.com/" "seg" $seg) }}" rel="noopener" style="color: #fff; font-weight: 700; border-bottom: 1px solid rgba(255,255,255,.4);">app.theartofpostgresql.com</a>
+    </p>
+  </div>
+</section>

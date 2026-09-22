@@ -1,0 +1,281 @@
+{{- /* Launch-campaign landing pages: /launch/, /whats-new/, /migrate/, /oss/.
+
+       One layout for all four. Each page's front matter lists the partials
+       it is built from, in order, under `sections`, so every page is
+       assembled from the same components the rest of the site uses rather
+       than from its own copy of a layout.
+
+       Front matter read here and by the partials:
+         segment    utm_content value for every CTA on the page — see
+                    partials/launch/utm.html
+         sections   partial paths, without the .html suffix
+         nav_cta    { label, url } for the header button; the url gets the
+                    campaign parameters appended
+         ogimage    optional og:image override
+
+       All four are noindex and kept out of the sitemap: they are addressed
+       to email segments, and a public version of each offer already exists
+       on an indexable page. */ -}}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>{{ .Title }}</title>
+  <link rel="canonical" href="{{ .Permalink }}">
+  <meta name="description" content="{{ .Description }}">
+  <meta name="robots" content="noindex, nofollow">
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@tapoueh" />
+  <meta name="twitter:creator" content="@tapoueh" />
+  <meta property="og:url" content="{{ .Permalink }}" />
+  <meta property="og:title" content="{{ .Title }}" />
+  <meta property="og:description" content="{{ .Description }}" />
+  <meta property="og:image" content="{{ .Params.ogimage | default "https://theartofpostgresql.com/img/TheArtOfPostgresUniversity.png" }}" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <link href="/favicon.ico" rel="icon" type="image/x-icon">
+
+  <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/syntax.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
+  <script src="/js/custom.js"></script>
+
+  <style>
+    /* Hero background, matching /app/, /course/, /teams/ and /masterclass/:
+       images/demo/slide.jpg over #181224, dimmed. Those four are the only
+       other full-page heroes on the site, and .course_hero's flat #372649
+       was the odd one out once they were redesigned.
+
+       The .course_hero class stays on the section so its existing h1,
+       .hero_subtitle and .hero_cta rules keep applying — this only
+       replaces the background and layers the photo underneath.
+
+       Height stays padding-driven rather than the 100vh those four use:
+       these are campaign pages whose first CTA (a sign-in or sample form)
+       should be reachable without a scroll. */
+    .launch-hero {
+      position: relative;
+      overflow: hidden;
+      background: #181224;
+      padding: 150px 0 80px;
+    }
+    .launch-hero > .launch-hero-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      opacity: .55;
+      z-index: 0;
+      pointer-events: none;
+    }
+    .launch-hero > .wrapper { position: relative; z-index: 2; }
+    @media (max-width: 640px) {
+      .launch-hero { padding: 120px 0 60px; }
+    }
+
+    /* Sign-in / free-access form — see partials/launch/signin-form.html.
+       The ::placeholder override is load-bearing: style.css paints all
+       email placeholders #fff, which is invisible on these white fields. */
+    .lf-wrap { width: 100%; max-width: 520px; margin: 0 auto; text-align: left; }
+    .lf-label {
+      display: block;
+      font: 700 .68rem/1 'Lato', sans-serif;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+    /* One control: the field and the button share a single rounded box,
+       flush against each other, and the focus ring wraps both. */
+    .lf-row {
+      display: flex;
+      align-items: stretch;
+      background: #fff;
+      border: 1px solid transparent;
+      border-radius: 8px;
+      overflow: hidden;
+      transition: box-shadow .15s, border-color .15s;
+    }
+    .lf-row:focus-within { box-shadow: 0 0 0 3px rgba(96,178,211,.4); }
+    .lf-wrap .lf-input {
+      flex: 1 1 auto;
+      min-width: 0;
+      height: 54px;
+      margin: 0;
+      padding: 0 18px;
+      font: 400 16px 'Lato', sans-serif;
+      color: #2e2241;
+      background: transparent;
+      border: none;
+      border-radius: 0;
+      outline: none;
+      text-align: left;
+      text-transform: none;
+      letter-spacing: normal;
+      box-sizing: border-box;
+    }
+    .lf-wrap .lf-input::placeholder {
+      color: #b0a4c0;
+      text-transform: none;
+      letter-spacing: 0;
+      opacity: 1;
+      font-size: 15px;
+    }
+    .lf-submit {
+      flex: 0 0 auto;
+      height: 54px;
+      padding: 0 26px;
+      border: none;
+      border-radius: 0;
+      font: 700 .74rem/1 'Lato', sans-serif;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      white-space: nowrap;
+      cursor: pointer;
+      transition: background .15s;
+    }
+    .lf-note { margin: 14px 0 0; font: 300 .88rem/1.5 'Lato', sans-serif; }
+
+    .lf-dark .lf-label { color: #60b2d3; }
+    .lf-dark .lf-submit { background: #60b2d3; color: #fff; }
+    .lf-dark .lf-submit:hover { background: #4a9cbf; }
+    .lf-dark .lf-note { color: rgba(255,255,255,.65); }
+    .lf-dark .lf-note a { color: #fff; font-weight: 700; border-bottom: 1px solid rgba(255,255,255,.4); }
+
+    .lf-light .lf-label { color: #5a4a70; }
+    .lf-light .lf-row { border-color: #c5b8d5; }
+    .lf-light .lf-submit { background: #372649; color: #fff; }
+    .lf-light .lf-submit:hover { background: #4a3663; }
+    .lf-light .lf-note { color: #5a4a70; }
+    .lf-light .lf-note a { color: #372649; font-weight: 700; border-bottom: 1px solid rgba(55,38,73,.35); }
+
+    /* Too cramped to stay on one line on a phone; the two halves keep
+       their shared rounding as a stacked pair. */
+    @media (max-width: 520px) {
+      .lf-row { flex-direction: column; background: transparent; border: none; overflow: visible; }
+      .lf-wrap .lf-input { background: #fff; border-radius: 8px; margin-bottom: 10px; }
+      .lf-light .lf-input { border: 1px solid #c5b8d5; }
+      .lf-submit { width: 100%; border-radius: 8px; }
+      .lf-row:focus-within { box-shadow: none; }
+      .lf-wrap .lf-input:focus { box-shadow: 0 0 0 3px rgba(96,178,211,.4); }
+    }
+
+    /* The four OSS projects are four, not three — .services_list is a
+       3-up flex row, which left pgextwlist orphaned on its own line. */
+    .services_list--four {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      justify-content: initial;
+      /* .services_list sets align-items:flex-start, which stops grid items
+         stretching to the row height — and then margin-top:auto on the
+         link has nothing to push against. */
+      align-items: stretch;
+    }
+    .services_list--four li {
+      flex: none;
+      padding: 0 20px 30px;
+      display: flex;
+      flex-direction: column;
+    }
+    /* Descriptions differ in length; this keeps the four links on one line. */
+    .services_list--four li > a { margin-top: auto; padding-top: 10px; }
+    @media (max-width: 1000px) {
+      .services_list--four { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 600px) {
+      .services_list--four { grid-template-columns: 1fr; }
+    }
+
+    /* And the header runs transparent over that hero, as it does on
+       /app/, /course/ and /teams/ — a solid #372649 bar above a #181224
+       hero left a visible seam across the top of the page. */
+    body.landing-page .header {
+      background: transparent;
+      border-bottom-color: transparent;
+      transition: background .3s, border-color .3s;
+    }
+    body.landing-page .header.nav-solid {
+      background: #372649;
+      border-bottom-color: rgba(255,255,255,.3);
+    }
+  </style>
+</head>
+<body class="landing-page landing-{{ .Params.segment }}">
+
+{{ partial "header.html" . }}
+
+{{ range .Params.sections }}
+  {{ partial (printf "%s.html" .) $ }}
+{{ end }}
+
+{{ partial "footer.html" . }}
+
+{{/* CTAs are built with utm_source=kit&utm_medium=email, which is right
+     for the campaign sends but wrong for anyone who arrived another way
+     — from the announcement bar, say. This rewrites the outbound source
+     and medium to match however the visitor actually got here, and
+     leaves utm_content alone, since that identifies the page's segment
+     rather than the traffic source.
+
+     First-party, no network calls, nothing stored. With JavaScript off
+     the links keep their built-in values, exactly as before.
+
+     A visit with no utm parameters at all (someone typing the URL) is
+     deliberately left as-is rather than guessed at. */}}
+<script>
+(function () {
+  if (!window.URL || !window.URLSearchParams) { return; }
+
+  var here;
+  try { here = new URLSearchParams(window.location.search); } catch (e) { return; }
+
+  var src = here.get('utm_source');
+  var med = here.get('utm_medium');
+  if (!src && !med) { return; }
+
+  var links = document.querySelectorAll('a[href*="utm_campaign=launch2026"]');
+  Array.prototype.forEach.call(links, function (a) {
+    var u;
+    try { u = new URL(a.getAttribute('href'), window.location.href); } catch (e) { return; }
+    if (src) { u.searchParams.set('utm_source', src); }
+    if (med) { u.searchParams.set('utm_medium', med); }
+    a.setAttribute('href', u.toString());
+  });
+})();
+</script>
+
+{{/* custom.js only binds the transparent-nav handler when .welcome_slider
+     is on the page, so these pages bind their own — same approach as the
+     /app/ and /course/ heroes. The threshold is the hero's own height
+     rather than a share of the viewport, because this hero is sized by
+     its padding and content, not to 100vh. */}}
+<script>
+(function () {
+  var $header = $('.header');
+  var hero = document.querySelector('.launch-hero');
+  if (!hero) { return; }
+
+  function threshold() {
+    var bar = document.getElementById('launch-bar');
+    var barH = (bar && !bar.hidden) ? bar.offsetHeight : 0;
+    return hero.offsetHeight - $header.outerHeight() - barH;
+  }
+
+  function onScroll() {
+    if ($(window).scrollTop() > threshold()) { $header.addClass('nav-solid'); }
+    else { $header.removeClass('nav-solid'); }
+  }
+
+  $(window).on('scroll.landinghero', onScroll);
+  onScroll();
+})();
+</script>
+
+</body>
+</html>

@@ -37,8 +37,15 @@
       <div class="quote-dots"></div>
     </div>
     
+    {{/* On the launch landing pages this CTA carries that page's campaign
+         parameters and points at the book product rather than the store
+         root; everywhere else it is unchanged. */}}
     <div class="section_cta">
+      {{ if .Params.segment }}
+      <a href="{{ partial "launch/utm.html" (dict "url" "https://sales.theartofpostgresql.com/the-art-of-postgresql-book/" "seg" .Params.segment) }}" class="button button_purple">Get the Book</a>
+      {{ else }}
       <a href="https://sales.theartofpostgresql.com/" class="button button_purple">Get the Book</a>
+      {{ end }}
     </div>
   </div>
 </div>

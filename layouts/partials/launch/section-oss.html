@@ -1,0 +1,96 @@
+{{ $seg := .Params.segment }}
+{{/* Bridge page. The programme, the tier ladder and its prices live on
+     oss.theartofpostgresql.com — deliberately not restated here, so there
+     is one place to change them. This page names the four projects, says
+     what a tier buys, and links out. */}}
+<section class="course_hero launch-hero">
+  <img src="/images/demo/slide.jpg" alt="" class="launch-hero-bg">
+  <div class="wrapper">
+    <h1>The PostgreSQL tools in your stack, maintained on a schedule.</h1>
+    <p class="hero_subtitle">
+      Priority handling for pgloader, pgcopydb, pg_auto_failover, and
+      pgextwlist — the four tools, one maintainer, funded by the teams who
+      run them in production.
+    </p>
+    <p class="hero_subtitle" style="margin-top: 0; font-size: 1.1rem; opacity: 0.85;">
+      A support contract, not a donation: the code stays open source and free to use.
+    </p>
+    <div class="hero_cta">
+      <a href="{{ partial "launch/utm.html" (dict "url" "https://oss.theartofpostgresql.com/#pricing" "seg" $seg) }}" rel="noopener" class="button button_purple button_large">
+        See Pricing &amp; Tiers
+      </a>
+      <a href="{{ partial "launch/utm.html" (dict "url" "https://oss.theartofpostgresql.com/roadmap/" "seg" $seg) }}" rel="noopener" class="button button_transparent button_large" style="border-color: rgba(255,255,255,0.65); color: #fff;">
+        Read the Roadmap
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="book_hero" style="background: #f8f7f9;">
+  <div class="wrapper">
+    <header class="heading">
+      <h3>Four tools, one maintainer</h3>
+      <p class="lightpurple">Migration, replication, high availability, and multi-tenant extension safety</p>
+    </header>
+    <ul class="services_list services_list--four">
+      <li>
+        <p><span class="value_icon"><i class="fa-solid fa-right-left"></i></span></p>
+        <p><strong>pgloader</strong></p>
+        <p>MySQL, SQLite and MS SQL Server → PostgreSQL migration, in one command. Maintained since 2005.</p>
+        <a href="{{ partial "launch/utm.html" (dict "url" "https://oss.theartofpostgresql.com/pgloader/" "seg" $seg) }}" rel="noopener">pgloader maintenance →</a>
+      </li>
+      <li>
+        <p><span class="value_icon"><i class="fa-solid fa-copy"></i></span></p>
+        <p><strong>pgcopydb</strong></p>
+        <p>PostgreSQL-to-PostgreSQL copies and major-version upgrades with minimal downtime.</p>
+        <a href="{{ partial "launch/utm.html" (dict "url" "https://oss.theartofpostgresql.com/pgcopydb/" "seg" $seg) }}" rel="noopener">pgcopydb maintenance →</a>
+      </li>
+      <li>
+        <p><span class="value_icon"><i class="fa-solid fa-heart-pulse"></i></span></p>
+        <p><strong>pg_auto_failover</strong></p>
+        <p>Automated high availability and failover — one monitor, N nodes, no external consensus cluster.</p>
+        <a href="{{ partial "launch/utm.html" (dict "url" "https://oss.theartofpostgresql.com/pg_auto_failover/" "seg" $seg) }}" rel="noopener">pg_auto_failover maintenance →</a>
+      </li>
+      <li>
+        <p><span class="value_icon"><i class="fa-solid fa-shield-halved"></i></span></p>
+        <p><strong>pgextwlist</strong></p>
+        <p>Safe <code>CREATE EXTENSION</code> for non-superuser tenants, through a whitelist and controlled privilege elevation.</p>
+        <a href="{{ partial "launch/utm.html" (dict "url" "https://oss.theartofpostgresql.com/pgextwlist/" "seg" $seg) }}" rel="noopener">pgextwlist maintenance →</a>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<section class="book_hero">
+  <div class="wrapper">
+    <header class="heading">
+      <h3>What a tier actually buys</h3>
+      <p class="lightpurple">Async and queue-driven — no calls, no consulting engagement</p>
+    </header>
+    <ul class="services_list">
+      <li>
+        <p><span class="value_icon"><i class="fa-solid fa-list-ol"></i></span></p>
+        <p><strong>A place in the queue</strong></p>
+        <p>Issues and PRs stay on the public GitHub repo. Your tier decides where they sort, across all four projects.</p>
+      </li>
+      <li>
+        <p><span class="value_icon"><i class="fa-solid fa-stopwatch"></i></span></p>
+        <p><strong>Triage on the clock</strong></p>
+        <p>Your tier defines the response and triage window — so you know when work starts, not just that it will.</p>
+      </li>
+      <li>
+        <p><span class="value_icon"><i class="fa-solid fa-code-branch"></i></span></p>
+        <p><strong>A fix upstream, not a fork</strong></p>
+        <p>Fixes ship in the next public release, for everyone. You stop maintaining a local patch forever.</p>
+      </li>
+    </ul>
+    <div class="section_cta">
+      <a href="{{ partial "launch/utm.html" (dict "url" "https://oss.theartofpostgresql.com/#pricing" "seg" $seg) }}" rel="noopener" class="button button_purple button_large">
+        See Pricing &amp; Tiers
+      </a>
+      <a href="{{ partial "launch/utm.html" (dict "url" "https://sales.theartofpostgresql.com/oss-sponsors/" "seg" $seg) }}" rel="noopener" class="button button_outline button_large">
+        Go to Checkout
+      </a>
+    </div>
+  </div>
+</section>

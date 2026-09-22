@@ -276,6 +276,18 @@ textarea::placeholder {
   background: #60b2d3;
   border-color: #60b2d3;
 }
+/* .button_purple sets its own font and min-height, and comes after
+   .button_large with the same specificity — so every purple + large button
+   on the site rendered at the small size (11px, 39px), next to outline and
+   transparent large buttons that kept 16px / 52px. Paired CTAs came out at
+   two different heights. This restores the size the class asks for. */
+.button.button_purple.button_large,
+.button.button_purple.button_large:visited {
+  font-size: 16px;
+  font-weight: 400;
+  min-height: 52px;
+  border-radius: 25px;
+}
 .button.button_transparent,
 .button.button_transparent:visited {
   border-color: #372649;
@@ -769,7 +781,8 @@ body.course .welcome_slider ul li {
 }
 .price_list > li > div .button {
   min-width: 175px;
-  /* position: absolute; */
+  /* position: absolute;
+ */
   bottom: 25px;
   left: calc(50% - 87px);
 }
@@ -2215,7 +2228,9 @@ body.course .welcome_slider ul li {
     font-size: 21px;
     line-height: 27px;
   }
-  .button.button_large {
+  .button.button_large,
+  .button.button_purple.button_large,
+  .button.button_purple.button_large:visited {
     font-size: 13px;
     min-height: 40px;
     border-radius: 20px;
@@ -2612,7 +2627,8 @@ body.course .welcome_slider ul li {
   background: #2e2241;
   border-color: #2e2241;
   color: #fff;
-}                                                   
+}
+                                                   
 .Course_hero .trust_signal {
   color: #dfdde1;
   font-size: 14px;
@@ -2862,7 +2878,8 @@ body.course .welcome_slider ul li {
   color: #896da1;
 }
 .course_curriculum .packages_table > li:last-child a {
-  /* color: #372649; */
+  /* color: #372649;
+ */
   font-weight: 600;
 }
 
@@ -4665,8 +4682,21 @@ body.newsletter .index_hero .hero_cta .button.button_outline:hover {
 .hero_cta {
   margin-top: 30px;
 }
-.hero_cta .button + .button {
-  margin-left: 15px;
+
+/* Rows of paired CTA buttons. flex + gap spaces them on both axes, so when
+   a pair wraps on a narrow screen the stacked buttons keep vertical room
+   and stay centred. The previous `.button + .button { margin-left: 15px }`
+   only spaced them sideways: stacked buttons touched, and the second one
+   sat 15px off-centre. Same pattern the /lab/ and homepage heroes already
+   use; their more specific rules still win where they apply. */
+.hero_cta,
+.section_cta,
+.cta_row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
 }
 
 /* Price CTA - center buttons */
