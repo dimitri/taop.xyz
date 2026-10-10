@@ -323,6 +323,19 @@
       font: 300 0.8rem/1 'Lato', sans-serif;
       color: rgba(255,255,255,0.4);
     }
+    /* The fair pricing note wraps to two lines, so it needs real
+       leading, and its link needs contrast against the dark band. */
+    .coc-cta-fair {
+      margin-top: 10px;
+      margin-bottom: 0;
+      line-height: 1.6;
+      color: rgba(255,255,255,0.55);
+    }
+    .coc-cta-fair a {
+      color: #9fd4e8;
+      border-bottom: 1px solid rgba(159,212,232,.4);
+    }
+    .coc-cta-fair a:hover { color: #fff; border-bottom-color: #fff; }
 
     @media (max-width: 700px) {
       .coc-hero h1 { font-size: 1.9rem; }
@@ -550,6 +563,11 @@
     Get All 6 Courses
   </a>
   <p class="coc-cta-note">30-day refund guarantee</p>
+  <p class="coc-cta-note coc-cta-fair">
+    Outside a high-income region?
+    <a href="/course/fair-pricing/">Fair pricing</a> offers the Architect
+    tier from $59/year.
+  </p>
 </section>
 
 {{ partial "footer.html" . }}

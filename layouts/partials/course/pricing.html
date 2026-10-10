@@ -136,6 +136,18 @@
     </ul>
     
     <header class="heading">
+      {{/* Fair pricing belongs at the price, not in the footer: a
+           visitor who has just decided $449 is out of reach is the exact
+           person it exists for, and they are looking at this paragraph.
+           It is the Architect tier at every option, so it is stated as a
+           different price for the top tier, not a cheaper tier. */}}
+      <p class="price_fair_nudge">
+        Outside a high-income region?
+        <a href="/course/fair-pricing/">Fair pricing</a> puts the
+        <strong>Architect</strong> tier at $229, $119, or a price you name
+        from $59 a year — the same 48 modules, labs and book, at a price
+        that matches your local purchasing power.
+      </p>
       <p class="price_free_nudge">
         Not ready to buy? <a href="/yesql/">Read 27 lessons free</a> — no
         account, no card — or <a href="/login/">create a free account</a> for
@@ -143,6 +155,7 @@
       </p>
       <div class="cta_row">
         <a href="#curriculum" class="button button_transparent">View Full Curriculum</a>
+        <a href="/course/fair-pricing/" class="button button_transparent">Fair Pricing</a>
         <a href="/teams/" class="button button_transparent">Enroll Your Team</a>
       </div>
     </header>
@@ -168,6 +181,18 @@
     font: 300 .88rem/1.65 'Lato', sans-serif;
     color: #6b5c7d;
   }
+  .packages_block .price_fair_nudge {
+    max-width: 640px;
+    margin: 0 auto 14px;
+    font: 300 .95rem/1.6 'Lato', sans-serif;
+    color: #5a4a70;
+  }
+  .packages_block .price_fair_nudge a {
+    color: #372649;
+    font-weight: 700;
+    border-bottom: 1px solid rgba(55,38,73,.3);
+  }
+  .packages_block .price_fair_nudge a:hover { color: #60b2d3; border-bottom-color: #60b2d3; }
   .packages_block .price_free_nudge {
     max-width: 640px;
     margin: 0 auto 22px;
