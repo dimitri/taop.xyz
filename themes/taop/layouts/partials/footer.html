@@ -37,8 +37,20 @@
 	      <div class="whatsnew_block">
 	          <h6>What's new</h6>
 	          <ul>
-	            <li><a href="/updates/#yesql">June 2026 — YeSQL hub, 24 free lessons</a></li>
-	            <li><a href="/updates/#book">Aug 2019 — The Art of PostgreSQL</a></li>
+	            {{/* The three newest project milestones, newest first. There is
+	                 no page to derive these from: the standalone /updates/
+	                 timeline was retired in 72668e6, which deleted
+	                 content/page/updates.md and aliased /updates/ to
+	                 /book/updates/. Its orphaned layout (layouts/page/updates.html)
+	                 kept collecting edits for three releases before being
+	                 deleted; see that file's git history for the full timeline.
+	                 So this list is hand-maintained — add an entry when
+	                 something notable ships, and link it to its own live page.
+	                 "View all updates" still points at /updates/, i.e. the book
+	                 changelog. */}}
+	            <li><a href="/book/updates/">July 2026 — Second Edition, Updated (2026)</a></li>
+	            <li><a href="/app/">Aug 2026 — Companion app with live SQL</a></li>
+	            <li><a href="/yesql/">June 2026 — YeSQL hub, 24 free lessons</a></li>
 	            <li><a href="/updates/">→ View all updates</a></li>
 	          </ul>
 	      </div>

@@ -4,13 +4,13 @@
   <meta charset="utf-8">
   <title>Second Edition, Updated (2026) | The Art of PostgreSQL</title>
   <link rel="canonical" href="{{ .Permalink }}">
-  <meta name="description" content="The 2026 update adds a pgvector chapter, 56 new figures, full PostgreSQL 12–18 coverage, and a companion learning app with live SQL. Free for all existing purchasers.">
+  <meta name="description" content="The 2026 update adds a pgvector chapter, 56 new figures, new material for PostgreSQL 12–18, and a companion learning app with live SQL. Free for all existing purchasers.">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:site" content="@tapoueh" />
   <meta property="og:url" content="https://theartofpostgresql.com/book/updates/" />
   <meta property="og:title" content="Second Edition, Updated (2026)" />
-  <meta property="og:description" content="pgvector chapter, 56 new figures, PG 12–18 coverage, companion app with live SQL. Free for all existing purchasers." />
+  <meta property="og:description" content="pgvector chapter, 56 new figures, new PG 12–18 material, companion app with live SQL. Free for all existing purchasers." />
   <link href="/favicon.ico" rel="icon" type="image/x-icon">
   <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -176,7 +176,7 @@
   <p class="bku-hero-eyebrow">The Art of PostgreSQL</p>
   <h1>Second Edition, Updated (2026)</h1>
   <p class="bku-hero-sub">
-    The most significant revision since first publication — PostgreSQL 12–18 coverage,
+    The most significant revision since first publication — new material for PostgreSQL 12–18,
     a new pgvector chapter, 56 new figures, and a companion learning app with live SQL.
   </p>
   <div class="bku-hero-stats">
@@ -258,17 +258,17 @@
     <div class="bku-change">
       <div class="bku-change-icon"><i class="fa-solid fa-database"></i></div>
       <div class="bku-change-body">
-        <h3>PostgreSQL 12–18 Coverage</h3>
+        <h3>New in PostgreSQL 12–18</h3>
         <p>
-          New features introduced across PostgreSQL versions 12 through 18 are
-          covered where they apply to the book's topics:
+          The book covers PostgreSQL 10 through 18. Features introduced across
+          versions 12 through 18 are new to this edition, covered where they
+          apply to the book's topics:
         </p>
         <ul class="bku-feat-list">
           <li><i class="fa-solid fa-bolt bku-feat-icon"></i><span class="bku-feat-text"><code>GENERATED ALWAYS AS (expr) STORED</code> — stored generated columns</span><span class="bku-pg">PG 12</span></li>
           <li><i class="fa-solid fa-layer-group bku-feat-icon"></i><span class="bku-feat-text"><code>MATERIALIZED</code> / <code>NOT MATERIALIZED</code> CTE hints</span><span class="bku-pg">PG 12</span></li>
           <li><i class="fa-solid fa-sort bku-feat-icon"></i><span class="bku-feat-text">Incremental sort — planner optimisation for partially-sorted input</span><span class="bku-pg">PG 13</span></li>
           <li><a href="/yesql/joins-and-relations/with-recursive/" class="bku-feat-icon" title="YeSQL lesson: WITH RECURSIVE"><i class="fa-solid fa-rotate"></i></a><span class="bku-feat-text"><code>SEARCH</code> and <code>CYCLE</code> clauses in recursive CTEs</span><span class="bku-pg">PG 14</span></li>
-          <li><a href="/yesql/window-functions/frame-semantics/" class="bku-feat-icon" title="YeSQL lesson: Frame Semantics"><i class="fa-solid fa-circle-minus"></i></a><span class="bku-feat-text"><code>EXCLUDE</code> clause in window frame specifications</span><span class="bku-pg">PG 14</span></li>
           <li><a href="/yesql/data-schema-design/json-and-denormalized-types/" class="bku-feat-icon" title="YeSQL lesson: JSONB, Arrays &amp; Ranges"><i class="fa-solid fa-code"></i></a><span class="bku-feat-text">JSONB subscript syntax <code>['key']</code></span><span class="bku-pg">PG 14</span></li>
           <li><a href="/yesql/data-schema-design/range-types/" class="bku-feat-icon" title="YeSQL lesson: Range Types"><i class="fa-solid fa-ruler-horizontal"></i></a><span class="bku-feat-text">Multi-ranges and <code>range_agg()</code></span><span class="bku-pg">PG 14</span></li>
           <li><a href="/yesql/sql-foundations/null-in-sql/" class="bku-feat-icon" title="YeSQL lesson: NULL in SQL"><i class="fa-solid fa-filter"></i></a><span class="bku-feat-text"><code>NULLS NOT DISTINCT</code> in unique constraints and indexes</span><span class="bku-pg">PG 15</span></li>
@@ -276,13 +276,12 @@
           <li><a href="/yesql/data-schema-design/json-and-denormalized-types/" class="bku-feat-icon" title="YeSQL lesson: JSONB, Arrays &amp; Ranges"><i class="fa-solid fa-table"></i></a><span class="bku-feat-text">SQL/JSON constructors and <code>JSON_TABLE</code></span><span class="bku-pg">PG 16/17</span></li>
           <li><i class="fa-solid fa-language bku-feat-icon"></i><span class="bku-feat-text">Built-in <code>C.UTF-8</code> collation</span><span class="bku-pg">PG 17</span></li>
           <li><i class="fa-solid fa-reply bku-feat-icon"></i><span class="bku-feat-text"><code>MERGE RETURNING merge_action()</code></span><span class="bku-pg">PG 17</span></li>
-          <li><i class="fa-solid fa-scissors bku-feat-icon"></i><span class="bku-feat-text">Partition <code>SPLIT PARTITION</code> / <code>MERGE PARTITIONS</code></span><span class="bku-pg">PG 17</span></li>
           <li><i class="fa-solid fa-shield-halved bku-feat-icon"></i><span class="bku-feat-text"><code>COPY … ON ERROR IGNORE</code>, <code>LOG_VERBOSITY</code>, <code>REJECT_LIMIT</code></span><span class="bku-pg">PG 17/18</span></li>
           <li><i class="fa-solid fa-wand-magic-sparkles bku-feat-icon"></i><span class="bku-feat-text"><code>GENERATED ALWAYS AS (expr) VIRTUAL</code> — virtual generated columns</span><span class="bku-pg">PG 18</span></li>
           <li><i class="fa-solid fa-fingerprint bku-feat-icon"></i><span class="bku-feat-text"><code>uuidv7()</code> — time-ordered UUID generation</span><span class="bku-pg">PG 18</span></li>
           <li><i class="fa-solid fa-right-left bku-feat-icon"></i><span class="bku-feat-text"><code>RETURNING OLD</code> / <code>RETURNING NEW</code> — before/after values in DML</span><span class="bku-pg">PG 18</span></li>
         </ul>
-        <p>The book also expands coverage of existing features across all PostgreSQL versions: B-tree, GiST, SP-GiST, GIN, BRIN, and Bloom index internals; fillfactor and HOT updates; <code>GROUPING()</code> function; Row Level Security; and <code>RANGE</code> / <code>GROUPS</code> window frame modes.</p>
+        <p>The book also expands coverage of existing features across all PostgreSQL versions: B-tree, GiST, SP-GiST, GIN, BRIN, and Bloom index internals; fillfactor and HOT updates; <code>GROUPING()</code> function; Row Level Security; and <a href="/yesql/window-functions/frame-semantics/"><code>RANGE</code> / <code>GROUPS</code> window frame modes and the <code>EXCLUDE</code> clause</a> — all three standard framing options, in PostgreSQL since 11.</p>
       </div>
     </div>
 
@@ -387,7 +386,7 @@
     <div class="bku-history">
       <div class="bku-history-item">
         <h4>Second Edition, Updated (2026) — current</h4>
-        <p>pgvector chapter, 56 new figures, PG 12–18 coverage, integrated lab. 590 pages (digital) / 649 pages (print).</p>
+        <p>pgvector chapter, 56 new figures, new PG 12–18 material, integrated lab. Covers PostgreSQL 10 through 18. 590 pages (digital) / 649 pages (print).</p>
       </div>
       <div class="bku-history-item">
         <h4>Second Edition</h4>
