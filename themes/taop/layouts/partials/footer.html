@@ -37,16 +37,17 @@
 	      <div class="whatsnew_block">
 	          <h6>What's new</h6>
 	          <ul>
-	            {{/* Hand-maintained: the three newest entries from the 2026
-	                 group of the timeline in layouts/page/updates.html, newest
-	                 first. That file is hand-written HTML, not data-driven, so
-	                 adding an entry there means adding it here too. Note it is
-	                 also currently an unused layout — no content page sets
-	                 layout = "updates", and /updates/ is an alias to
-	                 /book/updates/ (content/book/updates/index.md). Each item
-	                 therefore links to its own live destination rather than to
-	                 an /updates/#anchor: the timeline carries no id attributes,
-	                 so those anchors never resolved. */}}
+	            {{/* The three newest project milestones, newest first. There is
+	                 no page to derive these from: the standalone /updates/
+	                 timeline was retired in 72668e6, which deleted
+	                 content/page/updates.md and aliased /updates/ to
+	                 /book/updates/. Its orphaned layout (layouts/page/updates.html)
+	                 kept collecting edits for three releases before being
+	                 deleted; see that file's git history for the full timeline.
+	                 So this list is hand-maintained — add an entry when
+	                 something notable ships, and link it to its own live page.
+	                 "View all updates" still points at /updates/, i.e. the book
+	                 changelog. */}}
 	            <li><a href="/book/updates/">July 2026 — Second Edition, Updated (2026)</a></li>
 	            <li><a href="/app/">Aug 2026 — Companion app with live SQL</a></li>
 	            <li><a href="/yesql/">June 2026 — YeSQL hub, 24 free lessons</a></li>
