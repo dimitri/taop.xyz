@@ -37,8 +37,19 @@
 	      <div class="whatsnew_block">
 	          <h6>What's new</h6>
 	          <ul>
-	            <li><a href="/updates/#yesql">June 2026 — YeSQL hub, 24 free lessons</a></li>
-	            <li><a href="/updates/#book">Aug 2019 — The Art of PostgreSQL</a></li>
+	            {{/* Hand-maintained: the three newest entries from the 2026
+	                 group of the timeline in layouts/page/updates.html, newest
+	                 first. That file is hand-written HTML, not data-driven, so
+	                 adding an entry there means adding it here too. Note it is
+	                 also currently an unused layout — no content page sets
+	                 layout = "updates", and /updates/ is an alias to
+	                 /book/updates/ (content/book/updates/index.md). Each item
+	                 therefore links to its own live destination rather than to
+	                 an /updates/#anchor: the timeline carries no id attributes,
+	                 so those anchors never resolved. */}}
+	            <li><a href="/book/updates/">July 2026 — Second Edition, Updated (2026)</a></li>
+	            <li><a href="/app/">Aug 2026 — Companion app with live SQL</a></li>
+	            <li><a href="/yesql/">June 2026 — YeSQL hub, 24 free lessons</a></li>
 	            <li><a href="/updates/">→ View all updates</a></li>
 	          </ul>
 	      </div>
