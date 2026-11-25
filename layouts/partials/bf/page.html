@@ -1,0 +1,342 @@
+{{/* ████ BLACK FRIDAY 2026 — DELETE AFTER 2026-12-08 ████
+
+     Body of /black-friday/. All three states live in this one partial and
+     are chosen by script, because the site is a static build: a visitor
+     who loads the page at 23:58 on the 7th and again at 00:01 must get
+     different pages without a rebuild.
+
+     Prices are the list prices as they appear on the site today —
+     book $89 and paperback $129 (book/hero.html), courses $249/$349/$449
+     (course/pricing.html), Masterclass EUR 1,495 (masterclass/pricing.html)
+     — times 0.6. The Migration course is deliberately absent: it is not
+     sold through this site. Fair Pricing is excluded from the sale and is
+     never shown with a struck-through price. */}}
+
+{{ partial "bf/window.html" . }}
+
+<div class="bf-page" data-bf-page></div>
+
+<style>
+  /* Same treatment as .sql_list (style.css ~590): the logo-motif texture
+     over the house purple, so the band belongs to the site rather than
+     looking like a bolted-on sale banner.
+
+     The nav is position:fixed and sits on top of this hero, so texturing
+     the hero alone left it as a flat purple strip with a visible seam.
+     Both carry the same image anchored to the viewport
+     (background-attachment: fixed), which makes them render as one
+     continuous texture regardless of their own boxes. The solid #372649
+     underneath keeps the nav readable once the page is scrolled past the
+     hero. The sale bar is deliberately excluded — it is black, and reads
+     as its own band above the site. */
+  .bf-hero,
+  body.black-friday .header {
+    background-color: #372649;
+    background-image: url(/images/demo/sql_bg.jpg);
+    background-attachment: fixed;
+    background-position: center top;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+  .bf-hero {
+    color: #fff;
+    text-align: center;
+    padding: 150px 20px 60px;
+  }
+  /* iOS ignores background-attachment: fixed and falls back to scroll,
+     which would misalign the three. Pin them to a shared origin there. */
+  @media (max-width: 760px) {
+    .bf-hero,
+    body.black-friday .header {
+      background-attachment: scroll;
+      background-position: center top;
+    }
+  }
+  body.has-bf-bar .bf-hero { padding-top: 170px; }
+  .bf-hero .bf-eyebrow {
+    font-size: 12px; font-weight: 700; letter-spacing: .18em;
+    text-transform: uppercase; color: #f0b429; margin: 0 0 16px;
+  }
+  .bf-hero h1 { color: #fff; font-size: 40px; line-height: 1.15; margin: 0 0 18px; }
+  .bf-hero .bf-sub {
+    font-size: 17px; line-height: 1.6; color: #d9cfe6;
+    max-width: 620px; margin: 0 auto 26px;
+  }
+  .bf-code {
+    display: inline-flex; align-items: center; gap: 12px;
+    background: rgba(255,255,255,.07);
+    border: 1px dashed rgba(240,180,41,.55);
+    border-radius: 6px; padding: 12px 20px;
+  }
+  .bf-code span { font-size: 13px; color: #d9cfe6; }
+  .bf-code code {
+    font-size: 19px; font-weight: 700; letter-spacing: .09em; color: #f0b429;
+  }
+  .bf-deadline { font-size: 14px; color: #bdb0cd; margin: 18px 0 0; }
+
+  .bf-grid {
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 22px;
+    max-width: 940px; margin: 0 auto; padding: 56px 20px 10px;
+  }
+  .bf-card {
+    position: relative;
+    border: 1px solid #e3dcea;
+    border-radius: 8px;
+    background: #fff;
+    padding: 26px 24px 24px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 1px 2px rgba(55,38,73,.04);
+    transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+  }
+  .bf-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 24px rgba(55,38,73,.10);
+    border-color: #d3c8df;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .bf-card { transition: none; }
+    .bf-card:hover { transform: none; }
+  }
+  .bf-card h3 { margin: 0 0 4px; font-size: 21px; color: #372649; }
+  .bf-card .bf-kicker {
+    font-size: 11px; font-weight: 700; letter-spacing: .13em;
+    text-transform: uppercase; color: #a293b4; margin: 2px 0 12px;
+  }
+
+  /* ── the price panel ──────────────────────────────────────────────
+     Baymard's discount research names two failure modes: pricing that
+     blends into the surrounding elements, and a discount label sitting
+     far from the price it refers to. So the three numbers live in one
+     tinted panel, and the hierarchy is carried by size and colour —
+
+       row 1   "Usually $89"  struck, small, muted   ·  −40%
+       row 2   $53.40         large, dark            ·  Save $35.60
+
+     Two rows rather than one line also fixes the ragged wrap: "from
+     $249 / from $149" no longer has to share a baseline with a pill. */
+  .bf-price {
+    background: #f8f6fb;
+    border: 1px solid #ebe5f1;
+    border-radius: 6px;
+    padding: 13px 15px 14px;
+    margin: 0 0 18px;
+  }
+  .bf-price-was,
+  .bf-price-now {
+    display: flex; align-items: baseline;
+    justify-content: space-between; gap: 10px;
+  }
+  .bf-price-was { margin: 0 0 3px; }
+  .bf-price-was .original_price {
+    text-decoration: line-through;
+    color: #8d7fa0;
+    font-size: 14px;
+    font-variant-numeric: tabular-nums;
+  }
+  .bf-price-was .bf-was-label { color: #8d7fa0; font-size: 14px; }
+  .bf-pct {
+    color: #7a6a8d; font-size: 12px; font-weight: 700;
+    letter-spacing: .05em; white-space: nowrap;
+  }
+  .bf-price-now .discounted_price {
+    color: #372649; font-weight: 700; font-size: 36px;
+    line-height: 1.05; font-variant-numeric: tabular-nums;
+  }
+  .bf-price-now .bf-from {
+    color: #6b5c7d; font-size: 15px; font-weight: 400; margin-right: 5px;
+  }
+  .bf-save {
+    background: #e8f6ed; color: #1d6b3d; font-weight: 700;
+    font-size: 11px; letter-spacing: .06em; text-transform: uppercase;
+    padding: 4px 9px; border-radius: 3px; white-space: nowrap;
+  }
+  .bf-card p.bf-line {
+    font-size: 15px; line-height: 1.6; color: #5d5069; margin: 0 0 20px; flex: 1;
+  }
+  /* Centred, not flex-start: the four buttons have quite different label
+     widths, so left-aligning them left a ragged right edge across the
+     grid that read as accidental. */
+  .bf-card .button { align-self: center; }
+
+  /* The sale is over: same texture, drained of the amber. */
+  .bf-hero-ended { background-color: #2c2338; }
+  .bf-hero-ended .bf-eyebrow { color: #bdb0cd; }
+
+  /* Team sits on its own full-width row below the four individual
+     offers: it is a different kind of purchase (one package, five
+     seats), and giving it a row rather than a fifth card stops it
+     reading as "the expensive one" beside them. */
+  .bf-team-row { max-width: 940px; margin: 22px auto 0; padding: 0 20px; }
+  .bf-team {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 28px;
+    align-items: center;
+    border: 1px solid #d9d0e4;
+    border-radius: 8px;
+    background: #faf8fc;
+    padding: 26px 28px;
+    overflow: hidden;
+  }
+  .bf-team h3 { margin: 0 0 4px; font-size: 21px; color: #372649; }
+  .bf-team .bf-kicker {
+    font-size: 11px; font-weight: 700; letter-spacing: .13em;
+    text-transform: uppercase; color: #a293b4; margin: 0 0 10px;
+  }
+  .bf-team p.bf-line { font-size: 15px; line-height: 1.6; color: #5d5069; margin: 0; }
+  .bf-team-buy { min-width: 250px; }
+  .bf-team-buy .bf-price { background: #fff; margin-bottom: 10px; }
+  .bf-team-seat { font-size: 13px; color: #6b5c7d; margin: 0 0 14px; text-align: center; }
+  .bf-team-buy .button { display: block; text-align: center; }
+  @media (max-width: 760px) {
+    .bf-team { grid-template-columns: 1fr; gap: 18px; }
+    .bf-team-buy { min-width: 0; }
+  }
+
+  .bf-foot { max-width: 940px; margin: 0 auto; padding: 4px 20px 60px; }
+  .bf-foot p { font-size: 14px; line-height: 1.65; color: #6b5c7d; margin: 14px 0 0; }
+  .bf-foot a { color: #372649; font-weight: 700; border-bottom: 1px solid rgba(55,38,73,.3); }
+  .bf-foot a:hover { color: #60b2d3; border-bottom-color: #60b2d3; }
+
+  .bf-tax { font-size: 13px; color: #9185a0; }
+
+  .bf-state-msg { max-width: 640px; margin: 0 auto; text-align: center; padding: 56px 20px 64px; }
+  .bf-state-msg h2 { color: #372649; font-size: 28px; margin: 0 0 14px; }
+  .bf-state-msg p { font-size: 16px; line-height: 1.7; color: #5d5069; margin: 0 0 10px; }
+  .bf-links { margin-top: 24px; display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+  @media (max-width: 760px) {
+    .bf-hero { padding: 130px 20px 44px; }
+    .bf-hero h1 { font-size: 29px; }
+    .bf-grid { grid-template-columns: 1fr; padding-top: 34px; }
+  }
+</style>
+
+<script>
+(function () {
+  var BF = window.TAOP_BF;
+  var root = document.querySelector('[data-bf-page]');
+  if (!BF || !root) { return; }
+
+  function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;'); }
+
+  /* Shared by the cards and the Team row so every price on the page has
+     the same shape. `from` carries the "from $149" prefix at body size,
+     keeping the big number purely numeric. */
+  function pricePanel(o) {
+    return '<div class="bf-price">'
+      + '<div class="bf-price-was">'
+      +   '<span><span class="bf-was-label">Usually </span>'
+      +   '<span class="original_price">' + esc(o.was) + '</span></span>'
+      +   '<span class="bf-pct">−40%</span>'
+      + '</div>'
+      + '<div class="bf-price-now">'
+      +   '<span>'
+      +     (o.from ? '<span class="bf-from">' + esc(o.from) + '</span>' : '')
+      +     '<span class="discounted_price">' + esc(o.now) + '</span>'
+      +   '</span>'
+      +   (o.save ? '<span class="bf-save">' + esc(o.save) + '</span>' : '')
+      + '</div>'
+      + '</div>';
+  }
+
+  function card(o) {
+    return '<div class="bf-card">'
+      + '<p class="bf-kicker">' + esc(o.kicker) + '</p>'
+      + '<h3>' + esc(o.title) + '</h3>'
+      + pricePanel(o)
+      + '<p class="bf-line">' + o.line + '</p>'
+      + '<a href="' + BF.url(o.product, o.place) + '" class="button button_purple">' + esc(o.cta) + '</a>'
+      + '</div>';
+  }
+
+  var PRODUCTS = [
+    { kicker: 'Digital Edition', title: 'The Art of PostgreSQL',
+      was: '$89', now: '$53.40', save: 'Save $35.60',
+      line: '590 pages, 15 real-world datasets, the companion app with live SQL, and the Docker starter kit.',
+      cta: 'Get the Book', product: 'book', place: 'bf-book' },
+
+    { kicker: 'Paperback Edition', title: 'Print + digital',
+      was: '$129', now: '$77.40', save: 'Save $51.60',
+      line: 'A physical copy to annotate and keep at hand, with the full digital edition included. Shipping not included.',
+      cta: 'Get the Paperback', product: 'paperback', place: 'bf-book' },
+
+    { kicker: 'Six courses · 48 modules', title: 'The Courses',
+      was: '$249', from: 'from', now: '$149', save: 'Save up to $179.60',
+      line: 'Core $149.40, Advanced $209.40, Architect $269.40 &mdash; hands-on SQL labs on real datasets, the book included.',
+      cta: 'See the Courses', product: 'courses', place: 'bf-courses' },
+
+    { kicker: 'Six live sessions', title: 'Masterclass curriculum',
+      was: '€1,495', now: '€897', save: 'Save €598',
+      line: 'The complete six-session curriculum, live with Dimitri, recordings yours to keep.',
+      cta: 'Join the Masterclass', product: 'masterclass', place: 'bf-masterclass' }
+  ];
+
+  /* $1,995/year for 5 Architect seats — layouts/page/teams.html:262 — so
+     $1,197 with the code, and $239.40 a seat against the $399 the Teams
+     page quotes. The Teams page itself is deliberately left untouched. */
+  function teamRow() {
+    return '<div class="bf-team-row"><div class="bf-team">'
+      + '<div>'
+      +   '<p class="bf-kicker">For teams · 5 Architect seats</p>'
+      +   '<h3>The Art of PostgreSQL for Teams</h3>'
+      +   '<p class="bf-line">One annual package covering five people, with the book for every '
+      +   'seat and a dashboard to manage them. Extra seats stay at the flat rate.</p>'
+      + '</div>'
+      + '<div class="bf-team-buy">'
+      +   pricePanel({ was: '$1,995', now: '$1,197', save: 'Save $798' })
+      +   '<p class="bf-team-seat">$239.40 per seat, against $399 at the usual team rate.</p>'
+      +   '<a href="' + BF.url('team', 'bf-team') + '" class="button button_purple">Get Started</a>'
+      + '</div>'
+      + '</div></div>';
+  }
+
+  var VIEWS = {
+    live: function () {
+      return '<div class="bf-hero">'
+        +   '<p class="bf-eyebrow">Black Friday 2026</p>'
+        +   '<h1>40% off the book, the courses<br>and the Masterclass</h1>'
+        +   '<p class="bf-sub">The same PostgreSQL material, at the lowest price of the year.</p>'
+        +   '<div class="bf-code"><span>Use code</span><code>' + BF.code + '</code></div>'
+        +   '<p class="bf-deadline">Until Monday 7 December, 23:59 Paris time.</p>'
+        + '</div>'
+        + '<div class="bf-grid">' + PRODUCTS.map(card).join('') + '</div>'
+        + teamRow()
+        + '<div class="bf-foot">'
+        +   '<p>Outside a high-income region? Fair pricing — '
+        +   '<a href="/book/fair-pricing/">book</a> from $5, '
+        +   '<a href="/course/fair-pricing/">courses</a> from $59 a year — is often cheaper '
+        +   'than 40% off, on a separate checkout where the code does not apply.</p>'
+        +   '<p class="bf-tax">The code applies at checkout. Prices are shown before tax; '
+        +   'VAT is added where it applies.</p>'
+        + '</div>';
+    },
+
+    ended: function () {
+      return '<div class="bf-hero bf-hero-ended">'
+        +   '<p class="bf-eyebrow">Black Friday 2026</p>'
+        +   '<h1>This offer has ended</h1>'
+        +   '<p class="bf-sub">Thank you to everyone who picked up the book or a course.</p>'
+        + '</div>'
+        + '<div class="bf-state-msg">'
+        +   '<h2>Still available at the normal price</h2>'
+        +   '<p>And fair pricing is open all year, if the standard price does not work for you.</p>'
+        +   '<div class="bf-links">'
+        +     '<a href="/book/" class="button button_purple">The Book</a>'
+        +     '<a href="/course/" class="button button_outline">The Courses</a>'
+        +     '<a href="/masterclass/" class="button button_outline">The Masterclass</a>'
+        +   '</div>'
+        +   '<p style="margin-top:22px;font-size:14px">'
+        +     '<a href="/book/fair-pricing/" style="color:#372649;font-weight:700;border-bottom:1px solid rgba(55,38,73,.3)">Book fair pricing</a> &middot; '
+        +     '<a href="/course/fair-pricing/" style="color:#372649;font-weight:700;border-bottom:1px solid rgba(55,38,73,.3)">Course fair pricing</a>'
+        +   '</p>'
+        + '</div>';
+    }
+  };
+
+  root.innerHTML = BF.live ? VIEWS.live() : VIEWS.ended();
+})();
+</script>

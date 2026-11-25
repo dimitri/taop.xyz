@@ -1,0 +1,58 @@
+{{/* ████ BLACK FRIDAY 2026 — DELETE AFTER 2026-12-08 ████
+
+     The coupon is already live in ThriveCart, so there is no "not open
+     yet" case: the offer runs from now until it expires. That leaves one
+     boundary, the end date, and two states.
+
+     Emits one global, window.TAOP_BF:
+
+       live    true until the deadline passes
+       code    the coupon
+       url(product, place)  checkout URL with the coupon and UTMs
+
+     Decided client-side: the site is a static build on a CDN, so a
+     Hugo-side `now` would freeze at build time. Everything that depends
+     on the deadline is injected by script, so once it passes nothing is
+     left in the DOM — no flash, no reflow.
+
+     ?bf=live|ended overrides the clock for local review. It answers only
+     to localhost, so it cannot be triggered in production.
+
+     Ends Mon 2026-12-07 23:59 Europe/Paris = UTC+1 in winter. */}}
+<script>
+(function () {
+  var END = Date.UTC(2026, 11, 7, 22, 59, 59);  // 2026-12-07T22:59:59Z
+
+  var live = Date.now() <= END;
+
+  // Local-only preview override; never active on the deployed site.
+  var host = location.hostname;
+  if (host === 'localhost' || host === '127.0.0.1' || host === '[::1]') {
+    var forced = (location.search.match(/[?&]bf=(live|ended)\b/) || [])[1];
+    if (forced) { live = forced === 'live'; }
+  }
+
+  var CODE = 'BLACKFRIDAY40';
+  var PRODUCT = {
+    book:        'the-art-of-postgresql-book',
+    paperback:   'the-art-of-postgresql-book-paperback',
+    courses:     'the-art-of-postgresql-courses',
+    masterclass: 'the-art-of-postgresql-masterclass',
+    team:        'the-art-of-postgresql-team'
+  };
+
+  window.TAOP_BF = {
+    live: live,
+    code: CODE,
+    endLabel: 'December 7',
+    url: function (product, place) {
+      return 'https://sales.theartofpostgresql.com/' + PRODUCT[product] + '/'
+        + '?coupon=' + CODE
+        + '&utm_source=site&utm_medium=banner&utm_campaign=bf2026'
+        + '&utm_content=' + place;
+    }
+  };
+
+  document.documentElement.setAttribute('data-bf', live ? 'live' : 'ended');
+})();
+</script>

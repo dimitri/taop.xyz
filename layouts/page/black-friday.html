@@ -1,0 +1,32 @@
+{{/* ████ BLACK FRIDAY 2026 — DELETE AFTER 2026-12-08 ████
+     Delete alongside content/page/black-friday.md and layouts/partials/bf/. */}}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Black Friday — 40% off The Art of PostgreSQL</title>
+	<link rel="canonical" href="{{ .Permalink }}">
+	<meta name="robots" content="noindex">
+	<meta name="description" content="{{ .Params.description }}">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+	<link href="/favicon.ico" rel="icon" type="image/x-icon">
+
+	<link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+	<link rel="stylesheet" href="/css/style.css">
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="/js/custom.js"></script>
+</head>
+{{/* Not body.course / body.lab: those make the fixed header transparent and
+     depend on custom.js adding .nav-solid past a tall slider hero, which
+     this page does not have. Default solid header, as /book/fair-pricing/. */}}
+<body class="black-friday">
+
+{{ partial "header.html" . }}
+{{ partial "bf/page.html" . }}
+{{ partial "footer.html" . }}
+
+</body>
+</html>

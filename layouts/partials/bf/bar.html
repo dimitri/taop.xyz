@@ -1,0 +1,143 @@
+{{/* ████ BLACK FRIDAY 2026 — DELETE AFTER 2026-12-08 ████
+
+     Site-wide sale bar. Modelled on launch/announce-bar.html and sharing
+     its mechanics: a fixed top strip that pushes the fixed .header down by
+     its own measured height, dismissed to localStorage inside try/catch.
+
+     Two differences from the launch bar:
+
+       - the markup is built by script rather than rendered hidden, so
+         outside the sale window the bar never exists in the DOM at all;
+
+       - while it is up it hides the launch bar (homepage and /course/),
+         because both are position:fixed at top:0 and would otherwise stack
+         and double the header offset. announce-bar.html is left untouched,
+         so deleting this partial restores it automatically. */}}
+
+{{ partial "bf/window.html" . }}
+
+<style>
+  /* Loaded on every page, but matches nothing until the script inserts the
+     bar — the sale is a ~1KB stylesheet outside its window, no more. */
+  .bf-bar {
+    --bf-bar-h: 44px;
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 1000;
+    background: #000;
+    color: #f2f2f2;
+    font: 400 14px/1.4 'Lato', sans-serif;
+    text-align: center;
+  }
+  /* The whole band is the link. The dismiss button is a sibling, not a
+     child: interactive content cannot be nested inside an <a>, and a
+     button inside the link would be unreachable by keyboard. */
+  .bf-bar-link {
+    display: block;
+    color: inherit;
+    text-decoration: none;
+    padding: 11px 44px 11px 20px;
+  }
+  .bf-bar-link:hover,
+  .bf-bar-link:focus-visible { color: #fff; background: #141414; }
+  .bf-bar-link:focus-visible { outline: 2px solid #f0b429; outline-offset: -2px; }
+  .bf-bar-link:hover .bf-bar-cta { border-bottom-color: #ffd978; }
+  .bf-bar .bf-tag {
+    display: inline-block;
+    vertical-align: 1px;
+    background: #f0b429;
+    color: #231405;
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    padding: 3px 9px;
+    border-radius: 3px;
+    margin-right: 9px;
+  }
+  .bf-bar .bf-bar-cta {
+    color: #ffd978;
+    font-weight: 700;
+    border-bottom: 1px solid rgba(255,217,120,.45);
+    white-space: nowrap;
+  }
+  .bf-bar-dismiss {
+    position: absolute;
+    top: 50%; right: 10px;
+    transform: translateY(-50%);
+    width: 30px; height: 30px;
+    display: flex; align-items: center; justify-content: center;
+    background: none; border: 0; cursor: pointer;
+    color: #f2f2f2; opacity: .55; font-size: 15px; line-height: 1;
+    z-index: 1;
+  }
+  .bf-bar-dismiss:hover { opacity: 1; }
+  .bf-bar-dismiss:focus-visible { opacity: 1; outline: 2px solid #ffd978; outline-offset: 2px; }
+  body.has-bf-bar .header { top: var(--bf-bar-h, 44px); }
+
+  /* The launch bar (homepage, /course/) is also position:fixed at top:0.
+     Its own script runs after this one and would re-show itself, so the
+     suppression is done in CSS, where ordering cannot defeat it. The
+     !important on .header beats body.has-launch-bar's own top rule when
+     both classes end up on the body. */
+  body.has-bf-bar #launch-bar { display: none !important; }
+  body.has-bf-bar.has-launch-bar .header { top: var(--bf-bar-h, 44px) !important; }
+  @media (max-width: 600px) {
+    .bf-bar { font-size: 13px; }
+    .bf-bar-link { padding: 10px 38px 10px 14px; }
+    .bf-bar .bf-tag { display: block; margin: 0 0 5px; }
+  }
+</style>
+
+<script>
+(function () {
+  var BF = window.TAOP_BF;
+  if (!BF || !BF.live) { return; }
+
+  var KEY = 'taop-bf2026-bar-dismissed';
+  try {
+    if (window.localStorage.getItem(KEY) === '1') { return; }
+  } catch (e) { /* private mode / blocked storage: show the bar */ }
+
+  function build() {
+    // The launch bar occupies the same fixed strip; stand it down.
+    var launch = document.getElementById('launch-bar');
+    if (launch) {
+      launch.hidden = true;
+      document.body.classList.remove('has-launch-bar');
+    }
+
+    var bar = document.createElement('div');
+    bar.className = 'bf-bar';
+    bar.setAttribute('role', 'region');
+    bar.setAttribute('aria-label', 'Black Friday offer');
+    bar.innerHTML =
+      '<a class="bf-bar-link" href="/black-friday/">'
+      +   '<span class="bf-tag">Black Friday</span>'
+      +   '40% off the book, the courses and the Masterclass curriculum until '
+      +   BF.endLabel + '. '
+      +   '<span class="bf-bar-cta">See the offers →</span>'
+      + '</a>'
+      + '<button type="button" class="bf-bar-dismiss" aria-label="Dismiss Black Friday announcement">✕</button>';
+
+    document.body.insertBefore(bar, document.body.firstChild);
+    document.body.classList.add('has-bf-bar');
+
+    function size() {
+      document.body.style.setProperty('--bf-bar-h', bar.offsetHeight + 'px');
+      bar.style.setProperty('--bf-bar-h', bar.offsetHeight + 'px');
+    }
+    size();
+    window.addEventListener('resize', size);
+
+    bar.querySelector('.bf-bar-dismiss').addEventListener('click', function () {
+      bar.remove();
+      document.body.classList.remove('has-bf-bar');
+      try { window.localStorage.setItem(KEY, '1'); } catch (e) {}
+    });
+  }
+
+  if (document.body) { build(); }
+  else { document.addEventListener('DOMContentLoaded', build); }
+})();
+</script>

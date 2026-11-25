@@ -1,0 +1,59 @@
+{{/* ████ BLACK FRIDAY 2026 — DELETE AFTER 2026-12-08 ████
+
+     One line above the price on the existing product pages. The normal
+     price text and the default checkout links are deliberately untouched:
+     this only adds a line saying the code exists.
+
+     Call it with the page's own placement, which becomes utm_content on
+     nothing here (the notice carries no link) but keeps the markup
+     greppable:  {{ partial "bf/notice.html" (dict "place" "book") }}
+
+     Assumes bf/window.html has already run — it is included site-wide by
+     bf/bar.html from the header, so by the time any page body renders,
+     window.TAOP_BF exists. */}}
+
+<div class="bf-notice-slot" data-bf-notice hidden></div>
+
+<style>
+  .bf-notice {
+    background: #fdf6e6;
+    border: 1px solid #f0d99b;
+    border-radius: 4px;
+    color: #6b4e0c;
+    font: 400 14px/1.5 'Lato', sans-serif;
+    padding: 11px 16px;
+    margin: 0 auto 22px;
+    max-width: 470px;
+    text-align: center;
+  }
+  .bf-notice strong { color: #4d3806; }
+  .bf-notice code {
+    font-weight: 700;
+    letter-spacing: .06em;
+    background: rgba(109,78,12,.08);
+    padding: 1px 5px;
+    border-radius: 3px;
+  }
+  .bf-notice a { color: #4d3806; font-weight: 700; border-bottom: 1px solid rgba(77,56,6,.35); }
+  .bf-notice a:hover { border-bottom-color: #4d3806; }
+</style>
+
+<script>
+(function () {
+  var BF = window.TAOP_BF;
+  if (!BF || !BF.live) { return; }
+
+  var slots = document.querySelectorAll('[data-bf-notice]:not([data-bf-done])');
+  if (!slots.length) { return; }
+
+  var html = '<div class="bf-notice"><strong>Black Friday:</strong> 40% off with code '
+    + '<code>' + BF.code + '</code>, until ' + BF.endLabel + '. '
+    + '<a href="/black-friday/">See the offers</a></div>';
+
+  Array.prototype.forEach.call(slots, function (slot) {
+    slot.setAttribute('data-bf-done', '');
+    slot.innerHTML = html;
+    slot.hidden = false;
+  });
+})();
+</script>
