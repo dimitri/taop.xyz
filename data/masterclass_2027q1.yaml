@@ -1,0 +1,73 @@
+# Masterclass live session dates, Q1 2027.
+#
+# NOT part of the Black Friday sale — this block stays after the sale is
+# deleted. Source: the Demio schedule agreed for Q1 2027; buyers still pick
+# their own dates from the dashboard after checkout.
+#
+# All sessions run 17:00–20:00 Europe/Paris. The US equivalents are stored
+# per session rather than per series because the clocks diverge mid-series:
+# the US moves to DST on 2027-03-14 and Europe on 2027-03-28, so the five
+# sessions in between are an hour later for US attendees.
+#
+# The page renders only sessions still in the future, evaluated at BUILD
+# time — a rebuild is needed for a past date to drop off.
+
+timezone: "Europe/Paris"
+hours: "17:00–20:00"
+
+series:
+  - name: "January series"
+    span: "12 January – 4 February 2027"
+    sessions:
+      - date: 2027-01-12
+        weekday: "Tue"
+        topic: "Reliable Aggregations"
+        us: "11:00 ET / 08:00 PT"
+      - date: 2027-01-19
+        weekday: "Tue"
+        topic: "Master Window Functions"
+        us: "11:00 ET / 08:00 PT"
+      - date: 2027-01-21
+        weekday: "Thu"
+        topic: "Read Query Plans"
+        us: "11:00 ET / 08:00 PT"
+      - date: 2027-01-26
+        weekday: "Tue"
+        topic: "Advanced JOIN Patterns"
+        us: "11:00 ET / 08:00 PT"
+      - date: 2027-01-28
+        weekday: "Thu"
+        topic: "Schema for Performance"
+        us: "11:00 ET / 08:00 PT"
+      - date: 2027-02-04
+        weekday: "Thu"
+        topic: "Optimize SQL Performance"
+        us: "11:00 ET / 08:00 PT"
+
+  - name: "March series"
+    span: "9 March – 1 April 2027"
+    sessions:
+      - date: 2027-03-09
+        weekday: "Tue"
+        topic: "Reliable Aggregations"
+        us: "11:00 ET / 08:00 PT"
+      - date: 2027-03-16
+        weekday: "Tue"
+        topic: "Master Window Functions"
+        us: "12:00 ET / 09:00 PT"
+      - date: 2027-03-18
+        weekday: "Thu"
+        topic: "Read Query Plans"
+        us: "12:00 ET / 09:00 PT"
+      - date: 2027-03-23
+        weekday: "Tue"
+        topic: "Advanced JOIN Patterns"
+        us: "12:00 ET / 09:00 PT"
+      - date: 2027-03-25
+        weekday: "Thu"
+        topic: "Schema for Performance"
+        us: "12:00 ET / 09:00 PT"
+      - date: 2027-04-01
+        weekday: "Thu"
+        topic: "Optimize SQL Performance"
+        us: "11:00 ET / 08:00 PT"

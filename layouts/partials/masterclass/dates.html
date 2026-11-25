@@ -1,0 +1,87 @@
+{{/* Upcoming Masterclass series, from data/masterclass_2027q1.yaml.
+
+     Not part of the Black Friday sale: this block stays in place after the
+     sale partials are deleted. To change the schedule, edit the data file —
+     nothing here needs touching.
+
+     Only sessions still in the future are rendered, and a series disappears
+     once all of its sessions have passed. That is evaluated at BUILD time,
+     so a past date keeps showing until the site is rebuilt. */}}
+
+{{/* Hugo reads the YAML dates as plain strings, so each one is parsed to a
+     time before comparing — `ge` on a string vs a time silently never
+     matches, which would empty the whole block. */}}
+{{ $data := hugo.Data.masterclass_2027q1 }}
+{{ $now := now }}
+{{ $live := slice }}
+{{ range $series := $data.series }}
+  {{ $upcoming := slice }}
+  {{ range $s := $series.sessions }}
+    {{ $when := time.AsTime $s.date }}
+    {{ if ge $when $now }}
+      {{ $upcoming = $upcoming | append (merge $s (dict "when" $when)) }}
+    {{ end }}
+  {{ end }}
+  {{ with $upcoming }}
+    {{ $live = $live | append (dict "name" $series.name "span" $series.span "sessions" .) }}
+  {{ end }}
+{{ end }}
+
+{{ with $live }}
+<div class="mc-dates">
+  <h4>Upcoming series</h4>
+  <p class="mc-dates-intro">
+    All sessions run {{ $data.hours }} {{ $data.timezone | replaceRE "^Europe/" "" }} time.
+    Pick the dates that suit you from your dashboard after checkout.
+  </p>
+
+  <div class="mc-series-grid">
+  {{ range . }}
+  <div class="mc-series">
+    <p class="mc-series-name">{{ .name }} <span class="mc-series-span">{{ .span }}</span></p>
+    <ul class="mc-session-list">
+      {{ range .sessions }}
+      <li>
+        <span class="mc-date">
+          <time datetime="{{ .when.Format "2006-01-02" }}">{{ .weekday }} {{ .when.Format "2 Jan" }}</time>
+        </span>
+        <span class="mc-topic">{{ .topic }}</span>
+        <span class="mc-us">{{ .us }}</span>
+      </li>
+      {{ end }}
+    </ul>
+  </div>
+  {{ end }}
+  </div>
+</div>
+
+<style>
+  .mc-dates { margin: 44px auto 0; text-align: left; max-width: 900px; }
+  .mc-dates h4 { font-size: 19px; color: #372649; margin: 0 0 6px; text-align: center; }
+  .mc-dates-intro {
+    font-size: 14px; line-height: 1.6; color: #6b5c7d;
+    margin: 0 auto 24px; text-align: center; max-width: 560px;
+  }
+  .mc-series-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 34px; }
+  @media (max-width: 760px) { .mc-series-grid { grid-template-columns: 1fr; gap: 26px; } }
+  .mc-series-name { font-size: 14px; font-weight: 700; color: #372649; margin: 0 0 8px; }
+  .mc-series-span { font-weight: 400; color: #9185a0; margin-left: 6px; }
+  .mc-session-list { list-style: none; margin: 0; padding: 0; }
+  .mc-session-list li {
+    display: grid;
+    grid-template-columns: 86px 1fr auto;
+    gap: 10px;
+    align-items: baseline;
+    padding: 6px 0;
+    border-top: 1px solid #ece7f1;
+    font-size: 14px;
+  }
+  .mc-date { font-weight: 700; color: #372649; font-variant-numeric: tabular-nums; }
+  .mc-topic { color: #5d5069; }
+  .mc-us { color: #9185a0; font-size: 12.5px; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  @media (max-width: 600px) {
+    .mc-session-list li { grid-template-columns: 76px 1fr; }
+    .mc-us { grid-column: 2; margin-top: -4px; }
+  }
+</style>
+{{ end }}

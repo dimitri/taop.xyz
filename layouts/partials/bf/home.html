@@ -1,0 +1,90 @@
+{{/* ████ BLACK FRIDAY 2026 — DELETE AFTER 2026-12-08 ████
+
+     Homepage band, below the carousel. The site-wide bar already sits at
+     the top of every page, but it is dismissible and one line tall; this
+     is what a visitor still sees after dismissing it, and it is where the
+     code and the deadline get room to be read.
+
+     Same pattern as the sale pages that do this well: a strip at the top
+     plus one in-page block. Injected by script like everything else in
+     the sale, so once the deadline passes the homepage has no trace. */}}
+
+{{ partial "bf/window.html" . }}
+
+<div data-bf-home></div>
+
+<style>
+  .bf-home {
+    background: #372649 url(/images/demo/sql_bg.jpg) center center no-repeat;
+    background-size: cover;
+    padding: 40px 20px;
+  }
+  .bf-home-inner {
+    max-width: 940px; margin: 0 auto;
+    display: flex; align-items: center; gap: 30px;
+    justify-content: center; flex-wrap: wrap;
+  }
+  /* The "stamp": a rotated seal, but set in the house purple and amber
+     and kept small, so it reads as a mark rather than retail clip-art. */
+  .bf-seal {
+    flex: 0 0 auto;
+    width: 104px; height: 104px;
+    border-radius: 50%;
+    border: 2px dashed #f0b429;
+    color: #f0b429;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    transform: rotate(-9deg);
+    text-align: center;
+    line-height: 1;
+  }
+  .bf-seal .bf-seal-pct { font-size: 30px; font-weight: 700; letter-spacing: -.01em; }
+  .bf-seal .bf-seal-off {
+    font-size: 10px; font-weight: 700; letter-spacing: .18em;
+    text-transform: uppercase; margin-top: 5px;
+  }
+  .bf-home-text { flex: 1 1 380px; min-width: 280px; color: #fff; }
+  .bf-home-text .bf-eyebrow {
+    font-size: 11px; font-weight: 700; letter-spacing: .18em;
+    text-transform: uppercase; color: #f0b429; margin: 0 0 7px;
+  }
+  .bf-home-text h3 { color: #fff; font-size: 25px; line-height: 1.2; margin: 0 0 8px; }
+  .bf-home-text p { color: #d9cfe6; font-size: 15px; line-height: 1.6; margin: 0; }
+  .bf-home-text code {
+    color: #ffd978; font-weight: 700; letter-spacing: .07em;
+    background: rgba(255,255,255,.08); padding: 1px 6px; border-radius: 3px;
+  }
+  .bf-home-cta { flex: 0 0 auto; }
+
+  @media (max-width: 760px) {
+    .bf-home { padding: 30px 20px; }
+    .bf-home-inner { gap: 20px; }
+    .bf-seal { width: 84px; height: 84px; }
+    .bf-seal .bf-seal-pct { font-size: 24px; }
+    .bf-home-text h3 { font-size: 21px; }
+  }
+  @media (prefers-reduced-motion: reduce) { .bf-seal { transform: none; } }
+</style>
+
+<script>
+(function () {
+  var BF = window.TAOP_BF;
+  var slot = document.querySelector('[data-bf-home]');
+  if (!BF || !BF.live || !slot) { return; }
+
+  slot.innerHTML =
+    '<div class="bf-home"><div class="bf-home-inner">'
+    + '<div class="bf-seal" aria-hidden="true">'
+    +   '<span class="bf-seal-pct">40%</span><span class="bf-seal-off">Off</span>'
+    + '</div>'
+    + '<div class="bf-home-text">'
+    +   '<p class="bf-eyebrow">Black Friday 2026</p>'
+    +   '<h3>40% off the book, the courses and the Masterclass</h3>'
+    +   '<p>Use code <code>' + BF.code + '</code> at checkout, until ' + BF.endLabel + '.</p>'
+    + '</div>'
+    + '<div class="bf-home-cta">'
+    +   '<a href="/black-friday/" class="button button_purple button_large">See the offers</a>'
+    + '</div>'
+    + '</div></div>';
+})();
+</script>

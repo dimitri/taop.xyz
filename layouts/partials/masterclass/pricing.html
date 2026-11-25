@@ -9,6 +9,9 @@
       </p>
     </header>
 
+    {{/* ████ BLACK FRIDAY 2026 — DELETE THIS LINE AFTER 2026-12-08 ████ */}}
+    {{ partial "bf/notice.html" . }}
+
     <ul class="price_list price_list-pair">
       <li class="bestvalue">
         <div>
@@ -30,7 +33,7 @@
           </p>
           <table class="price_features_table">
             <tr><td class="icon"><i class="fa-solid fa-chalkboard-user"></i></td><td>6 × live 3h sessions taught by Dimitri Fontaine</td></tr>
-            <tr><td class="icon"><i class="fa-solid fa-calendar"></i></td><td>Runs once per quarter — all 6 sessions as one cohort</td></tr>
+            <tr><td class="icon"><i class="fa-solid fa-calendar"></i></td><td>Two series a year — all 6 sessions as one cohort</td></tr>
             <tr><td class="icon"><i class="fa-solid fa-video"></i></td><td>Recordings included, yours to keep</td></tr>
             <tr><td class="icon"><i class="fa-solid fa-calendar-check"></i></td><td>Register for your dates from your dashboard, after checkout</td></tr>
             <tr><td class="icon"><i class="fa-solid fa-book"></i></td><td>Digital edition of the book included</td></tr>
@@ -73,6 +76,10 @@
         </div>
       </li>
     </ul>
+
+    {{/* Full width, below the two pricing cards: inside the curriculum card
+         the session table is squeezed into ~45% and every topic wraps. */}}
+    {{ partial "masterclass/dates.html" . }}
 
     <header class="heading">
       <p class="lightpurple">
