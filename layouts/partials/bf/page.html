@@ -187,10 +187,12 @@
     text-transform: uppercase; color: #a293b4; margin: 0 0 10px;
   }
   .bf-team p.bf-line { font-size: 15px; line-height: 1.6; color: #5d5069; margin: 0; }
-  .bf-team-buy { min-width: 250px; }
-  .bf-team-buy .bf-price { background: #fff; margin-bottom: 10px; }
+  .bf-team-buy { min-width: 250px; text-align: center; }
+  .bf-team-buy .bf-price { background: #fff; margin-bottom: 10px; text-align: left; }
   .bf-team-seat { font-size: 13px; color: #6b5c7d; margin: 0 0 14px; text-align: center; }
-  .bf-team-buy .button { display: block; text-align: center; }
+  /* Auto-width, not display:block — stretched to the column it was half
+     again as wide as the card buttons and read as a different control. */
+  .bf-team-buy .button { display: inline-block; }
   @media (max-width: 760px) {
     .bf-team { grid-template-columns: 1fr; gap: 18px; }
     .bf-team-buy { min-width: 0; }
