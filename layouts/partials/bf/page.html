@@ -193,10 +193,12 @@
      under the panel and shares its left edge. Centring it left three
      different alignments stacked in one narrow column. */
   .bf-team-seat { font-size: 13px; color: #6b5c7d; margin: 0 0 16px; padding-left: 16px; }
-  /* Auto-width, not display:block — stretched to the column it was half
-     again as wide as the card buttons and read as a different control. */
+  /* inline-flex, not inline-block: the theme's .button is display:flex and
+     centres its label with align-items, so inline-block dropped that and
+     left the text riding 7px high in the pill. inline-flex keeps the
+     auto width and the centring both. */
   .bf-team-cta { text-align: center; }
-  .bf-team-buy .button { display: inline-block; }
+  .bf-team-buy .button { display: inline-flex; }
   @media (max-width: 760px) {
     .bf-team { grid-template-columns: 1fr; gap: 18px; }
     .bf-team-buy { min-width: 0; }
